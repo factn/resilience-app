@@ -1,0 +1,33 @@
+.app-footer {
+	position: fixed;
+	bottom: .5rem;
+	right: .5rem;
+	.info-btn {
+		font-size: 1em;
+	}
+	article {
+		position: absolute;
+		top: 0;
+		left: -2rem;
+		opacity: 0;
+		padding: .5rem;
+		border-radius: .5rem;
+		overflow: hidden;
+		width: 2rem;
+		max-height: 2rem;
+		background: transparent;
+		box-shadow: .25rem .5rem 1rem rgba($black, .5);
+		border: .125rem solid $blue;
+		transition: {
+			property: opacity, background, width, left;
+			duration: .2s;
+			timing-function: $cubic;
+		}
+	}
+	&.open article {
+		left: -13.5rem;
+		opacity: 1;
+		width: 13rem;
+		background: $white;
+	}
+}

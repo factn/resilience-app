@@ -1,0 +1,55 @@
+button, .btn {
+  background: $blue;
+  color: rgba($white, .9);
+  padding: .25em .5em;
+  cursor: pointer;
+  border: .125em solid $blue;
+  border-radius: .25em;
+  transition: {
+    property: color, background, border;
+    duration: .2s;
+    timing-function: $cubic;
+  }
+  a, a:visited, &:visited {
+    color: rgba($white, .9);
+  }
+  &:focus, &:hover {
+    background: $white;
+    color: $blue;
+    a, a:hover, a:focus {
+      color: $blue;
+    }
+  }
+  &:active, &.active {
+    background: $white;
+    color: $green;
+    border: .125em solid $green;
+    a, a:active {
+      color: $green;
+    }
+  }
+  &.submit-btn {
+    float: right;
+  }
+  &.circle-btn {
+    border-radius: 50%;
+  }
+}
+.btn-lite {
+  color: $blue;
+  background: rgba($black, .1);
+  padding: .25em;
+  margin: -.5em 1em .25em;
+  border-radius: 0 0 .25em .25em;
+  cursor: pointer;
+  text-align: center;
+  transition: {
+    property: color, background;
+    duration: .2s;
+    timing-function: $cubic;
+  }
+  &:hover {
+    color: $green;
+    background: transparent;
+  }
+}

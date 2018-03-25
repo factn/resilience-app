@@ -1,0 +1,58 @@
+// base colors
+$black: #000;
+$white: #fff;
+
+// color palate
+$mtg-white: #fcfdc4;
+$mtg-blue: #66c0f3;
+$mtg-black: #848484;
+$mtg-red: #f95454;
+$mtg-green: #22b66d;
+$mtg-colorless: #d3d8dc;
+$mtg-gold: #e9d6a3;
+
+$mtg-common: #231f20;
+$mtg-uncommon: #476875;
+$mtg-rare: #837040;
+$mtg-mythic: #b53226;
+
+
+$mtg-common-grad: linear-gradient(to top right,
+  $mtg-common,
+  lighten($mtg-common, 15%),
+  $mtg-common);
+$mtg-uncommon-grad: linear-gradient(to top right,
+  $mtg-uncommon,
+  lighten($mtg-uncommon, 15%),
+  $mtg-uncommon);
+$mtg-rare-grad: linear-gradient(to top right,
+  $mtg-rare,
+  lighten($mtg-rare, 15%),
+  $mtg-rare);
+$mtg-mythic-grad: linear-gradient(to top right,
+  $mtg-mythic,
+  #f4932f,
+  $mtg-mythic);
+
+
+$blue: #116fb7;
+$green: #008619;
+$yellow: #e2ff00;
+$orange: #d68200;
+$red: #c60000;
+$purple: #9000b3;
+
+// timing functions
+$cubic: cubic-bezier(.73,.2,.43,1);
+$loader-time: 2s;
+
+// breakpoints
+$phone: 20em; /* 320/16 */
+$tablet: 48em; /* 768/16 */
+$desktop: 75em; /* 1200/16 */
+
+// shadows
+$taper-shadow: .0625rem .125rem .25rem rgba($black, .5);
+
+// page size
+$page-size-max: 100;

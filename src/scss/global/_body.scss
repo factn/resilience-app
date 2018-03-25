@@ -1,0 +1,28 @@
+html {
+  -webkit-text-size-adjust: 100%;
+}
+body {
+  background: linear-gradient(lighten($black, 25%), darken($blue, 50%));
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+  margin: 0;
+  overflow-x: hidden;
+  letter-spacing: .5px;
+  font: {
+    size: 16px;
+    family: 'Open Sans', arial, sans-serif;
+    weight: 400;
+  }
+  * {
+    box-sizing: border-box;
+    font-smooth: always;
+    -webkit-font-smoothing: subpixel-antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-backface-visibility: hidden;
+    font-kerning: auto;
+    &:focus {
+      outline: none;
+    }
+  }
+}

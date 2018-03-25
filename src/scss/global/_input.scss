@@ -1,0 +1,52 @@
+input, select, textarea {
+  margin: 0;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  box-shadow: none;
+  width: 100%;
+  max-width: 100%;
+  padding: .125rem .25rem;
+  background: rgba($white, .5);
+  font-family: 'Open Sans', arial, sans-serif;
+  border: 0;
+  border-radius: .25rem;
+  transition: {
+    property: background;
+    duration: .5s;
+    timing-function: $cubic;
+  }
+  &:focus {
+    background: $white;
+  }
+  &:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 100rem $white inset;
+  }
+}
+input[type="file"] {
+  position: absolute;
+  z-index: -1;
+  top: -100vh;
+}
+input[type="search"] {
+
+}
+input[type="checkbox"], input[type="radio"] {
+  cursor: pointer;
+  width: 1rem !important;
+  height: 1rem;
+  &:hover, &:active {
+    background: $blue;
+  }
+  &:checked {
+    background: darken($blue, 10%);
+  }
+}
+textarea {
+  resize: vertical;
+  max-height: 11.5rem;
+}
+label {
+  cursor: pointer;
+  padding: 0 .25rem;
+}

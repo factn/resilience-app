@@ -1,0 +1,84 @@
+.menu-wrap {
+	flex-basis: 3rem;
+}
+.menu-toggle-btn {
+	display: block;
+	margin: 0 auto;
+	font-size: 1.25rem;
+	.menu-toggle-btn-text {
+		display: none;
+	}
+}
+.menu {
+	position: absolute;
+	top: -100vh;
+	right: 0;
+	z-index: 10;
+	width: 100%;
+	max-height: calc(100vh - 3.5rem);
+	overflow: auto;
+	opacity: 0;
+	color: rgba($white, .95);
+	background: linear-gradient(to bottom right, rgba($black, .95), rgba(lighten($black, 10%), .95));
+	font-size: .8rem;
+	padding: 1rem;
+	box-shadow: 0 0 1rem rgba($black, .5);
+  transition: {
+    property: opacity;
+    duration: .2s;
+    timing-function: $cubic;
+  }
+	&.open {
+		opacity: 1;
+		top: 3.5rem;
+	}
+}
+.menu-list {
+	@include pseudo-list;
+}
+.menu-item {
+	padding: 0 0 .5rem;
+	border-bottom: .25rem solid rgba($white, .5);
+	margin-bottom: .5rem;
+}
+.menu-item-title {
+	margin-bottom: .25rem;
+}
+.menu-choice-wrap {
+	&.checkbox-menu-choices {
+		display: grid;
+		grid-template: {
+			columns: repeat(2, 1fr);
+			rows: auto;
+		}
+	}
+	&.search-menu-choices {
+
+	}
+}
+@include breakpoint($phone) {
+	.checkbox-menu-choices {
+		grid-template-columns: repeat(3, 1fr) !important;
+	}
+}
+@include breakpoint($tablet) {
+	.menu-wrap {
+		flex-basis: 7rem;
+	}
+	.menu-toggle-btn .menu-toggle-btn-text {
+		display: inline;
+	}
+	.menu-list {
+		display: block;
+		margin: 0 auto;
+		max-width: 70em;
+	}
+	.checkbox-menu-choices {
+		grid-template-columns: repeat(4, 1fr) !important;
+	}
+}
+@include breakpoint($desktop) {
+	.checkbox-menu-choices {
+		grid-template-columns: repeat(5, 1fr) !important;
+	}
+}
