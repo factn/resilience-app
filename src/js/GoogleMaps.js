@@ -5,25 +5,45 @@ import { Map, Marker, GoogleApiWrapper } from 'google-maps-react';	// https://gi
 /*** [end of imports] ***/
 
 export class MapContainer extends Component {
-	render() {
-		let { google, zoomLevel, onMarkerClick } = this.props;
+  constructor (props) {
+    super(props);
 
-    const style = {
+    this.state = {
+      markerShown: false,
+      markerPos: {
+        lat: -41.280789, // this should eventually default to user's location or current position
+        lng: 174.775187 // this should eventually default to user's location or current position
+      }
+    };
+
+    this.mapClicked = this.mapClicked.bind(this);
+  }
+
+  mapClicked = (mapProps, map, clickEvent) => {
+    this.setState({
+      markerShown: true,
+      markerPos: clickEvent.latLng
+    });
+  }
+
+	render() {
+    let { google,
+          zoomLevel } = this.props;
+
+    let style = {
       width: '100%',
       height: 'calc(100vh - 2.5rem)'
     };
 
-    let initialCenter = {
-      lat: 40.854885,
-      lng: -88.081807
-    }
-
     return (
       <Map google={google}
-        zoom={zoomLevel}
-				style={style}
-        initialCenter={initialCenter}>
-        {/* <Marker onClick={onMarkerClick} /> */}
+          zoom={zoomLevel}
+          style={style}
+          initialCenter={this.state.markerPos}
+          onClick={this.mapClicked}>
+        {this.state.markerShown &&
+          <Marker position={this.state.markerPos} />
+        }
       </Map>
     );
   }

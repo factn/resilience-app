@@ -55,44 +55,95 @@ export default class App extends Component {
       account: {
         title: "Create Account",
         body: (
-          <form action={() => this.login()} className="login-form">
-            <div className="input-wrap">
-              <label for="un"></label>
-              <input className="login-input" type="text" id="un" />
-            </div>
-            <div className="input-wrap">
-              <label for="pw"></label>
-              <input className="login-input" type="password" id="pw" />
-            </div>
-            <div className="input-wrap">
-              <input className="btn submit-btn login-btn" type="submit" onClick={() => this.login()} />
-            </div>
-          </form>
+          <div className="donation-modal-content-wrap modal-content-wrap">
+            <form action={() => this.login()} className="login-form">
+              <div className="input-wrap">
+                <label className="input-label" for="un"></label>
+                <input className="login-input" type="text" id="un" />
+              </div>
+              <div className="input-wrap">
+                <label className="input-label" for="pw"></label>
+                <input className="login-input" type="password" id="pw" />
+              </div>
+              <div className="input-wrap">
+                <input className="btn submit-btn login-btn" type="submit" onClick={() => this.login()} />
+              </div>
+            </form>
+          </div>
         )
       },
       preferences: {
         title: "Preferences",
         body: (
-          <div className="preferences"></div>
+          <div className="preferences-modal-content-wrap modal-content-wrap">
+            <form action={() => this.updatePreferences()} className="login-form">
+              <div className="input-wrap">
+              </div>
+              <div className="input-wrap">
+                <input className="btn submit-btn preferences-btn" type="submit" onClick={() => this.updatePreferences()} />
+              </div>
+            </form>
+          </div>
         )
       },
       request: {
         title: "Help!",
         body: (
-          <div className="request"></div>
+          <div className="request-modal-content-wrap modal-content-wrap">
+            <form action={() => this.submitRequest()} className="request-form">
+              <div className="input-wrap">
+                <label className="input-label" for="help-modal-event-select">What's the event?</label>
+                <input type="text" id="help-modal-event-name" />
+              </div>
+              <div className="input-wrap">
+                <label className="input-label" for="help-modal-help-description">What do you need help with?</label>
+                <input type="text" id="help-modal-help-description" />
+              </div>
+              <div className="input-wrap">
+                <label className="input-label" for="help-modal-requester-name">What is your name?</label>
+                <input type="text" id="help-modal-requester-name" />
+              </div>
+              <div className="input-wrap">
+                <label className="input-label" for="help-modal-photo">Add a photo of what you need help with.</label>
+                <input type="file" id="help-modal-photo" />
+              </div>
+              <div className="input-wrap">
+                <label className="input-label" for="help-modal-location">Where are you?</label>
+                <input type="text" id="help-modal-location" />
+              </div>
+              <div className="input-wrap">
+                <input className="btn submit-btn request-btn" type="submit" onClick={() => this.submitRequest()} />
+              </div>
+            </form>
+          </div>
         )
       },
       donate: {
         title: "Donate",
         body: (
-          <div className="donation"></div>
+          <div className="donation-modal-content-wrap modal-content-wrap">
+            <form action={() => this.updatePreferences()} className="login-form">
+              <div className="input-wrap">
+                <label className="input-label" for="help-modal-location">Where are you?</label>
+                <input type="text" id="help-modal-location" />
+              </div>
+            </form>
+          </div>
         )
       },
       do: {
         title: "Do Work",
         body: (
-          <div className="do"></div>
-        )
+          <div className="do-modal-content-wrap modal-content-wrap">
+            <form action={() => this.updatePreferences()} className="login-form">
+              <div className="input-wrap">
+              </div>
+            </form>
+          </div>
+        ),
+        onOpen: () => {
+          console.log("Do work!");
+        }
       },
       verify: {
         title: "Verify",
@@ -101,56 +152,6 @@ export default class App extends Component {
         )
       }
     };
-    this.actions = {
-      "none": {
-        "Request": {
-          icon: "exclamation",
-          method: this.openModal("request")
-        }
-      },
-      "requestor": {
-        "Request": {
-          icon: "exclamation",
-          method: this.openModal("request")
-        }
-      },
-      "donator": {
-        "Donate": {
-          icon: "credit-card",
-          method: this.openModal("donate")
-        }
-      },
-      "doer": {
-        "Find Work": {
-          icon: "wrench",
-          method: this.openModal("do")
-        }
-      },
-      "verifier": {
-        "Verify": {
-          icon: "eye",
-          method: this.openModal("verify")
-        }
-      },
-      "admin": {
-        "Request": {
-          icon: "exclamation",
-          method: this.openModal("request")
-        },
-        "Donate": {
-          icon: "credit-card",
-          method: this.openModal("donate")
-        },
-        "Find Work": {
-          icon: "wrench",
-          method: this.openModal("do")
-        },
-        "Verify": {
-          icon: "eye",
-          method: this.openModal("verify")
-        }
-      }
-    }
 
     this.openMenu = this.openMenu.bind(this);
     this.closeMenu = this.closeMenu.bind(this);
@@ -160,6 +161,9 @@ export default class App extends Component {
 
     this.login = this.login.bind(this);
     this.logout = this.logout.bind(this);
+
+    this.updatePreferences = this.updatePreferences.bind(this);
+    this.submitRequest = this.submitRequest.bind(this);
   }
 
   openMenu = () => {
@@ -199,29 +203,37 @@ export default class App extends Component {
       currentUserRole: "none"
     });
   }
+  updatePreferences = prefs => {
+
+  }
+  submitRequest = () => {
+
+  }
 
   render() {
     return (
       <div className="app">
         {/* Modal wrapper */}
         <ModalWrap modalIsOpen={this.state.modalIsOpen}
-          closeModalFunction={this.closeModal}
-          openModalName={this.state.openModalName}
-          modalContent={this.modals[this.state.openModalName]} />
+            closeModalFunction={this.closeModal}
+            openModalName={this.state.openModalName}
+            modalContent={this.modals[this.state.openModalName]} />
 
         {/* App header */}
         <Header userFirstName={this.state.userFirstName}
-          menuIsOpen={this.state.menuIsOpen}
-          openMenuFunction={this.openMenu}
-					menuList={this.menu}
-					closeMenuFunction={this.closeMenu}
-          versionNumber={versionNumber} />
+            menuIsOpen={this.state.menuIsOpen}
+            openMenuFunction={this.openMenu}
+            menuList={this.menu}
+            closeMenuFunction={this.closeMenu}
+            versionNumber={versionNumber} />
 
         {/* App main */}
-        <Main />
+        <Main userLoggedIn={this.state.userLoggedIn} />
 
         {/* App footer */}
-        <Footer actions={this.actions[this.state.currentUserRole]} />
+        <Footer userLoggedIn={this.state.userLoggedIn}
+            openModalFunction={this.openModal}
+            logoutFunction={this.logout} />
       </div>
     );
   }

@@ -2,7 +2,10 @@
 // Module imports
 import React, { Component } from 'react';
 import Icon from '@fortawesome/react-fontawesome';
-import { faTimes } from '@fortawesome/fontawesome-free-solid';
+import faSolid from '@fortawesome/fontawesome-free-solid';
+
+// Local JS
+import Modal from './Modal';
 /*** [end of imports] ***/
 
 export default class ModalWrap extends Component {
@@ -17,17 +20,14 @@ export default class ModalWrap extends Component {
 		return (
 			<section className={clas}>
 				<button className="modal-close-btn btn-lite" onClick={() => closeModalFunction()}>
-					Close <Icon icon={faTimes} />
+					<span>Close </span>
+					<Icon icon="times" />
 				</button>
 
-				{/* {typeof modalContent !== undefined && Object.keys(modalContent).length > 0 &&
-					<article className={`${openModalName.toString().toLowerCase()}-modal modal`}>
-						<header className="modal-header">
-							<h2>{modalContent.title}</h2>
-						</header>
-						{modalContent.body}
-					</article>
-				} */}
+				{typeof modalContent !== "undefined" &&
+					<Modal name={openModalName}
+						content={modalContent} />
+				}
 			</section>
 		);
 	}
