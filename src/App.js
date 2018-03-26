@@ -10,6 +10,9 @@ import ModalWrap from './js/ModalWrap';
 import Header from './js/Header';
 import Main from './js/Main';
 import Footer from './js/Footer';
+
+// DB import
+import fakeDB from './fakedb.json';
 /*** [end of imports] ***/
 
 const versionNumber = "0.1.0";

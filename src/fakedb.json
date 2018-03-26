@@ -1,0 +1,62 @@
+{
+	"doer-ad": {
+		"scenario": {
+			"image": {
+				"url": {
+					"small": "",
+					"medium": "",
+					"large": ""
+				}
+			},
+			"description": {
+				"noun": "",
+				"verb": ""
+			},
+			"requester": {
+				"first_name": "",
+				"last_name": "",
+				"email": ""
+			}
+		}
+	},
+	"donator-ad": {
+		"scenario": {
+			"image": {
+				"url": {
+					"small": "",
+					"medium": "",
+					"large": ""
+				}
+			},
+			"description": {
+				"noun": "",
+				"verb": ""
+			},
+			"requester": {
+				"first_name": "",
+				"last_name": "",
+				"email": ""
+			}
+		}
+	},
+	"verifier-ad": {
+		"scenario": {
+			"image": {
+				"url": {
+					"small": "",
+					"medium": "",
+					"large": ""
+				}
+			},
+			"description": {
+				"noun": "",
+				"verb": ""
+			},
+			"requester": {
+				"first_name": "",
+				"last_name": "",
+				"email": ""
+			}
+		}
+	}
+}
