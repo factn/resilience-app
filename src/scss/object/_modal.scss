@@ -1,0 +1,19 @@
+.modal {
+	position: absolute;
+	top: 1rem;
+	left: 1rem;
+	width: calc(100% - 2rem);
+	height: calc(100vh - 2rem);
+	background: $menu-background;
+	box-shadow: $menu-shadow;
+	z-index: 11;
+	opacity: 0;
+  transition: {
+    property: opacity;
+    duration: .5s;
+    timing-function: $cubic;
+  }
+	&.open-modal {
+		opacity: 1;
+	}
+}

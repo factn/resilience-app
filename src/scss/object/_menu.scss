@@ -1,84 +1,90 @@
-.menu-wrap {
-	flex-basis: 3rem;
-}
-.menu-toggle-btn {
-	display: block;
-	margin: 0 auto;
-	font-size: 1.25rem;
-	.menu-toggle-btn-text {
-		display: none;
-	}
-}
 .menu {
-	position: absolute;
-	top: -100vh;
-	right: 0;
-	z-index: 10;
-	width: 100%;
-	max-height: calc(100vh - 3.5rem);
-	overflow: auto;
+	flex-basis: 2rem;
+}
+.menu-toggle-btn, .menu-close-btn {
+	font-size: 1.2rem;
+}
+.menu-close-btn {
 	opacity: 0;
-	color: rgba($white, .95);
-	background: linear-gradient(to bottom right, rgba($black, .95), rgba(lighten($black, 10%), .95));
-	font-size: .8rem;
+	position: absolute;
+	top: .5rem;
+	right: -2.5rem;
+	width: 2rem;
+	text-align: center;
+}
+.menu-drawer {
+	position: absolute;
+	top: 0;
+	left: -100vw;
+	width: calc(100% - 3rem);
+	height: 100vh;
+	background: $menu-background;
+	box-shadow: $menu-shadow;
+	z-index: 11;
+	opacity: 0;
 	padding: 1rem;
-	box-shadow: 0 0 1rem rgba($black, .5);
   transition: {
-    property: opacity;
-    duration: .2s;
+    property: opacity, left;
+    duration: .5s;
     timing-function: $cubic;
   }
-	&.open {
+	&.open-drawer {
 		opacity: 1;
-		top: 3.5rem;
+		left: 0;
+		.menu-close-btn {
+			opacity: 1;
+		}
+	}
+}
+.user-info-area {
+	width: calc(100% + 2rem);
+	height: 10vh;
+	margin: -1rem -1rem 1rem;
+	box-shadow: 0 0 1rem rgba($black, .5);
+	background: linear-gradient(to bottom right, lighten($green, 10%), $blue);
+	padding: 1rem;
+	display: inline-flex;
+	justify-content: space-between;
+	.user-icon {
+		color: $white;
+		background: rgba($black, .5);
+		width: 2rem;
+		height: 2rem;
+		padding: .25rem;
+		border-radius: 50%;
+		border: .25rem solid $white;
+	}
+	.user-name {
+		padding-top: .5rem;
+		color: $white;
+		&.not-signed-in {
+			color: rgba($white, .75);
+		}
 	}
 }
 .menu-list {
 	@include pseudo-list;
 }
 .menu-item {
-	padding: 0 0 .5rem;
-	border-bottom: .25rem solid rgba($white, .5);
-	margin-bottom: .5rem;
-}
-.menu-item-title {
-	margin-bottom: .25rem;
-}
-.menu-choice-wrap {
-	&.checkbox-menu-choices {
-		display: grid;
-		grid-template: {
-			columns: repeat(2, 1fr);
-			rows: auto;
-		}
+	.btn-lite {
+		line-height: 1.4;
+		font-size: 1.5rem;
 	}
-	&.search-menu-choices {
+}
+.subheader-content {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	padding: .5rem 1rem;
+	width: 100%;
+	color: rgba($black, .5);
+	font-size: .8rem;
+	display: inline-flex;
+	justify-content: space-between;
+	.copy {
 
 	}
-}
-@include breakpoint($phone) {
-	.checkbox-menu-choices {
-		grid-template-columns: repeat(3, 1fr) !important;
-	}
-}
-@include breakpoint($tablet) {
-	.menu-wrap {
-		flex-basis: 7rem;
-	}
-	.menu-toggle-btn .menu-toggle-btn-text {
-		display: inline;
-	}
-	.menu-list {
-		display: block;
-		margin: 0 auto;
-		max-width: 70em;
-	}
-	.checkbox-menu-choices {
-		grid-template-columns: repeat(4, 1fr) !important;
-	}
-}
-@include breakpoint($desktop) {
-	.checkbox-menu-choices {
-		grid-template-columns: repeat(5, 1fr) !important;
+	.version {
+		
 	}
 }

@@ -36,20 +36,17 @@ button, .btn {
   }
 }
 .btn-lite {
+  background: transparent;
   color: $blue;
-  background: rgba($black, .1);
-  padding: .25em;
-  margin: -.5em 1em .25em;
-  border-radius: 0 0 .25em .25em;
+  padding: 0;
   cursor: pointer;
-  text-align: center;
-  transition: {
-    property: color, background;
-    duration: .2s;
-    timing-function: $cubic;
-  }
+  border: 0;
+  border-radius: none;
   &:hover {
-    color: $green;
-    background: transparent;
+    color: $black;
+  }
+  &:active, &:focus {
+    border: 0;
+    border-radius: none;
   }
 }

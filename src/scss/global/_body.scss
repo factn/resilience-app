@@ -2,7 +2,7 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 body {
-  background: linear-gradient(lighten($black, 25%), darken($blue, 50%));
+  background: darken($white, 5%);
   width: 100%;
   min-height: 100vh;
   position: relative;
@@ -11,7 +11,7 @@ body {
   letter-spacing: .5px;
   font: {
     size: 16px;
-    family: 'Open Sans', arial, sans-serif;
+    family: 'Raleway', arial, sans-serif;
     weight: 400;
   }
   * {

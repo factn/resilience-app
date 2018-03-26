@@ -1,22 +1,13 @@
 .app-header {
-	background: $blue;
-	display: inline-flex;
+	background: $menu-background;
 	width: 100%;
 	padding: .5em 1em;
-	box-shadow: 0 0 1rem rgba($black, .5);
+	box-shadow: $menu-shadow;
+	display: inline-flex;
+	justify-content: space-between;
 }
-.header-title {
-	display: none;
-	margin: 0;
-	color: $white;
-}
-.menu {
-
-}
-@include breakpoint($tablet) {
-	.header-title {
-		display: block;
-		flex-basis: 22rem;
-		flex-grow: 1;
-	}
+.title {
+	flex-basis: calc(100% - 2rem);
+	text-align: center;
+	padding-right: 2rem;
 }
