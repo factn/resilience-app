@@ -1,2 +1,7 @@
 .app-main {
 }
+.map-wrap {
+	position: relative;
+	height: calc(100vh - 2.5rem);
+	overflow: hidden;
+}

@@ -1,7 +1,6 @@
 /*** IMPORTS ***/
 // Module imports
 import React, { Component } from 'react';
-import Icon from '@fortawesome/react-fontawesome';
 
 // Styles
 import './App.scss';
@@ -20,7 +19,7 @@ export default class App extends Component {
     super(props);
 
     this.state = {
-      mapAPIKey: "AIzaSyD9GQB7QNscXRebrSUzzNf8s5XGrzJSj0w",
+      // mapAPIKey: "AIzaSyD9GQB7QNscXRebrSUzzNf8s5XGrzJSj0w",
       menuIsOpen: false,
       modalIsOpen: false,
       openModalName: "",
@@ -37,6 +36,24 @@ export default class App extends Component {
     this.modals = {
       login: {
         title: "Login",
+        body: (
+          <form action={() => this.login()} className="login-form">
+            <div className="input-wrap">
+              <label for="un"></label>
+              <input className="login-input" type="text" id="un" />
+            </div>
+            <div className="input-wrap">
+              <label for="pw"></label>
+              <input className="login-input" type="password" id="pw" />
+            </div>
+            <div className="input-wrap">
+              <input className="btn submit-btn login-btn" type="submit" onClick={() => this.login()} />
+            </div>
+          </form>
+        )
+      },
+      account: {
+        title: "Create Account",
         body: (
           <form action={() => this.login()} className="login-form">
             <div className="input-wrap">
@@ -201,7 +218,7 @@ export default class App extends Component {
           versionNumber={versionNumber} />
 
         {/* App main */}
-        <Main apiKey={this.state.mapAPIKey} />
+        <Main />
 
         {/* App footer */}
         <Footer actions={this.actions[this.state.currentUserRole]} />

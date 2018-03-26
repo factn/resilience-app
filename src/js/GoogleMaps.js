@@ -6,14 +6,23 @@ import { Map, Marker, GoogleApiWrapper } from 'google-maps-react';	// https://gi
 
 export class MapContainer extends Component {
 	render() {
-		let { zoomLevel, onMarkerClick } = this.props;
+		let { google, zoomLevel, onMarkerClick } = this.props;
 
-		let style = {
-			height: '10rem'
-		};
+    const style = {
+      width: '100%',
+      height: 'calc(100vh - 2.5rem)'
+    };
+
+    let initialCenter = {
+      lat: 40.854885,
+      lng: -88.081807
+    }
+
     return (
-      <Map zoom={zoomLevel}
-				style={style}>
+      <Map google={google}
+        zoom={zoomLevel}
+				style={style}
+        initialCenter={initialCenter}>
         {/* <Marker onClick={onMarkerClick} /> */}
       </Map>
     );
