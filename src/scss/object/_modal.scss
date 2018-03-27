@@ -3,25 +3,36 @@
 	top: 3rem;
 	left: 1rem;
 	width: calc(100% - 2rem);
-	height: calc(100vh - 4rem);
+	max-height: calc(100vh - 4rem);
 	background: $menu-background;
 	box-shadow: $menu-shadow;
 	z-index: 11;
 	padding: 1rem;
 }
-form {
-	label {
-		&.input-label {
-			
+.modal-header {
+	margin-bottom: 1rem;
+}
+.modal-form {
+	.input-wrap {
+		margin-bottom: 1rem;
+		.input-label {
+			display: inline-flex;
+			justify-content: space-between;
+			width: 100%;
+			margin-bottom: .5rem;
+			.input-label-icon {
+				color: rgba($blue, .75);
+			}
+			.input-label-phrase {
+				color: rgba($black, .5);
+			}
 		}
-		&.select-label {
-			
+		.form-input {
+			font-size: 1.5rem;
 		}
 	}
-	input {
-		
-	}
-	select {
-		
+	.submit-btn {
+		width: 100%;
+		font-size: 1.5rem;
 	}
 }
