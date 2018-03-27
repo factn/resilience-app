@@ -8,9 +8,7 @@ import FormInput from './FormInput';
 
 export default class Modal extends Component {
 	render () {
-		let { name,
-					content,
-					inputs } = this.props;
+		let { name, content } = this.props;
 		
 		return (
 			<article className={`${name.toString().toLowerCase()}-modal modal`}>
@@ -18,13 +16,9 @@ export default class Modal extends Component {
 					<h2>{content.title}</h2>
 				</header>
 				<div className={`${name.toString().toLowerCase()}-form modal-form`}>
-					{inputs.map(_input =>
+					{content.inputs.map(_input =>
 						<FormInput formName={name}
-								inputType={_input.inputType}
-								inputID={_input.inputID}
-								labelPhrase={_input.labelPhrase}
-								labelIcon={_input.labelIcon}
-								onSubmit={_input.onSubmit}
+								inputObj={_input}
 								key={_input} />
 					)}
 				</div>
@@ -32,10 +26,3 @@ export default class Modal extends Component {
 		);
 	}
 }
-
-
-inputType
-inputID
-labelPhrase
-labelIcon
-onSubmit

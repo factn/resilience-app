@@ -29,7 +29,8 @@ export default class App extends Component {
       openModalName: "",
       userLoggedIn: false,
       userFirstName: "",
-      currentUserRole: "none"
+      currentUserRole: "none",
+      scrollEnabled: true
     };
 
     this.menu = {
@@ -54,7 +55,9 @@ export default class App extends Component {
           }, {
             inputType: "submit",
             labelPhrase: "Sign In",
-            labelIcon: "sign-in"
+            labelIcon: "sign-in-alt",
+            onSubmit: this.login,
+            onSubmitParams: "Admin"
           }
         ]
       },
@@ -99,7 +102,8 @@ export default class App extends Component {
           }, {
             inputType: "submit",
             labelPhrase: "Create Account",
-            labelIcon: "user-plus"
+            labelIcon: "user-plus",
+            onSubmit: this.createUserAccount
           }
         ]
       },
@@ -109,7 +113,8 @@ export default class App extends Component {
           {
             inputType: "submit",
             labelPhrase: "Save settings",
-            labelIcon: "cogs"
+            labelIcon: "cogs",
+            onSubmit: this.updatePreferences
           }
         ]
       },
@@ -144,7 +149,8 @@ export default class App extends Component {
           }, {
             inputType: "submit",
             labelPhrase: "Send someone",
-            labelIcon: "check"
+            labelIcon: "check",
+            onSubmit: this.submitRequest
           }
         ]
       },
@@ -159,19 +165,20 @@ export default class App extends Component {
           }, {
             inputType: "number",
             inputID: "expiration-month",
-            labelPhrase: "Expiration"
+            labelPhrase: "Expiration Month"
           }, {
             inputType: "number",
             inputID: "expiration-year",
-            labelPhrase: "Expiration"
+            labelPhrase: "Expiration Year"
           }, {
             inputType: "number",
             inputID: "cc-sec",
             labelPhrase: "Security number"
           }, {
             inputType: "submit",
-            labelPhrase: "Save settings",
-            labelIcon: "cogs"
+            labelPhrase: "Donate",
+            labelIcon: "money-bill-alt",
+            onSubmit: this.submitDonation
           }
         ]
       },
@@ -180,8 +187,9 @@ export default class App extends Component {
         inputs: [
           {
             inputType: "submit",
-            labelPhrase: "Save settings",
-            labelIcon: "cogs"
+            labelPhrase: "I'm on my way",
+            labelIcon: "thumbs-up",
+            onSubmit: this.submitDo
           }
         ]
       },
@@ -190,8 +198,9 @@ export default class App extends Component {
         inputs: [
           {
             inputType: "submit",
-            labelPhrase: "Save settings",
-            labelIcon: "cogs"
+            labelPhrase: "Verify this user",
+            labelIcon: "check",
+            onSubmit: this.submitVerification
           }
         ]
       }
@@ -208,11 +217,29 @@ export default class App extends Component {
 
     this.login = this.login.bind(this);
     this.logout = this.logout.bind(this);
+    this.createUserAccount = this.createUserAccount.bind(this);
 
     this.updatePreferences = this.updatePreferences.bind(this);
-    this.submitRequest = this.submitRequest.bind(this);
-  }
 
+    this.submitRequest = this.submitRequest.bind(this);
+    this.submitDonation = this.submitDonation.bind(this);
+    this.submitDo = this.submitDo.bind(this);
+    this.submitVerification = this.submitVerification.bind(this);
+  }
+  preventDefault = e => {
+    e = e || window.event;
+    if (e.preventDefault)
+      e.preventDefault();
+    e.returnValue = false;  
+  }
+  preventDefaultForScrollKeys = e => {
+    let keys = {37: 1, 38: 1, 39: 1, 40: 1};
+    
+    if (keys[e.keyCode]) {
+      this.preventDefault(e);
+      return false;
+    }
+  }
   openMenu = () => {
     this.setState({
       menuIsOpen: true
@@ -227,20 +254,38 @@ export default class App extends Component {
     this.setState({
       menuIsOpen: false,
       modalIsOpen: true,
-      openModalName: modalName
+      openModalName: modalName,
+      scrollEnabled: false
     });
+
+    // Disable scroll
+    if (window.addEventListener) // older FF
+        window.addEventListener('DOMMouseScroll', this.preventDefault, false);
+    window.onwheel = this.preventDefault; // modern standard
+    window.onmousewheel = document.onmousewheel = this.preventDefault; // older browsers, IE
+    window.ontouchmove  = this.preventDefault; // mobile
+    document.onkeydown  = this.preventDefaultForScrollKeys;
   }
   closeModal = () => {
     this.setState({
       modalIsOpen: false,
-      openModalName: ""
+      openModalName: "",
+      scrollEnabled: true
     });
+
+    // Enable scroll
+    if (window.removeEventListener)
+        window.removeEventListener('DOMMouseScroll', this.preventDefault, false);
+    window.onmousewheel = document.onmousewheel = null;
+    window.onwheel = null;
+    window.ontouchmove = null;
+    document.onkeydown = null;
   }
   login = _userFirstName => {
     this.setState({
       userLoggedIn: true,
-      userFirstName: _userFirstName
-      // currentUserRole: 
+      userFirstName: _userFirstName,
+      currentUserRole: "admin"
     });
     this.closeModal();
   }
@@ -251,11 +296,23 @@ export default class App extends Component {
       currentUserRole: "none"
     });
   }
+  createUserAccount = () => {
+    this.closeModal();
+  }
   updatePreferences = prefs => {
-
+    this.closeModal();
   }
   submitRequest = () => {
-
+    this.closeModal();
+  }
+  submitDonation = () => {
+    this.closeModal();
+  }
+  submitDo = () => {
+    this.closeModal();
+  }
+  submitVerification = () => {
+    this.closeModal();
   }
 
   render() {
