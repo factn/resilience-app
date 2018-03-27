@@ -4,20 +4,24 @@ import React, { Component } from 'react';
 
 // Local JS
 import GoogleMaps from './GoogleMaps';
-import AdFeed from './AdFeed';
+import Ad from './Ad';
 /*** [end of imports] ***/
 
 export default class Main extends Component {
 	render () {
-		let { userLoggedIn } = this.props;
+		let { userLoggedIn,
+					database,
+					settings } = this.props;
 
 		return (
 			<main className="app-main">
 				{userLoggedIn
 					? <section className="map-wrap">
-							<GoogleMaps zoomLevel={14} />
+							<GoogleMaps zoomLevel={settings.zoomLevel} />
 						</section>
-					: <AdFeed />
+					: <section className="ad-feed-wrap">
+							{database.map(_index => <Ad scenario={_index} key={_index} />)}
+						</section>
 				}
 			</main>
 		);

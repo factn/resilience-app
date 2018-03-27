@@ -155,6 +155,9 @@ export default class App extends Component {
         )
       }
     };
+    this.settings = {
+      zoomLevel: 14
+    };
 
     this.openMenu = this.openMenu.bind(this);
     this.closeMenu = this.closeMenu.bind(this);
@@ -231,7 +234,9 @@ export default class App extends Component {
             versionNumber={versionNumber} />
 
         {/* App main */}
-        <Main userLoggedIn={this.state.userLoggedIn} />
+        <Main userLoggedIn={this.state.userLoggedIn}
+            database={fakeDB.ads}
+            settings={this.settings} />
 
         {/* App footer */}
         <Footer userLoggedIn={this.state.userLoggedIn}
