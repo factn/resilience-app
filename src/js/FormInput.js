@@ -1,7 +1,6 @@
 /*** IMPORTS ***/
 // Module imports
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import Icon from '@fortawesome/react-fontawesome';
 import faSolid from '@fortawesome/fontawesome-free-solid';
 /*** [end of imports] ***/
@@ -15,6 +14,7 @@ export default class FormInput extends Component {
 					inputID,
 					labelPhrase,
 					labelIcon,
+					requiredField,
 					onSubmit,
 					onSubmitParams } = inputObj;
 		
@@ -43,7 +43,10 @@ export default class FormInput extends Component {
 							<Icon icon={labelIcon} className="input-label-icon" />
 						}
 					</label>
-					<input className="form-input" type={inputType} id={`${formName}_${inputID}`} />
+					<input className="form-input"
+							type={inputType}
+							id={`${formName}_${inputID}`}
+							required={requiredField}/>
 				</div>
 			);
 		} else if (inputType === "file") {
@@ -55,7 +58,10 @@ export default class FormInput extends Component {
 							<Icon icon={labelIcon} className="input-label-icon" />
 						}
 					</label>
-					<input className="form-input" type={inputType} id={`${formName}_${inputID}`} />
+					<input className="form-input"
+							type={inputType}
+							id={`${formName}_${inputID}`}
+							required={requiredField}/>
 				</div>
 			);
 		} else {
@@ -67,7 +73,10 @@ export default class FormInput extends Component {
 							<Icon icon={labelIcon} className="input-label-icon" />
 						}
 					</label>
-					<input className="form-input" type={inputType} id={`${formName}_${inputID}`} />
+					<input className="form-input"
+							type={inputType}
+							id={`${formName}_${inputID}`}
+							required={requiredField}/>
 				</div>
 			);
 		}

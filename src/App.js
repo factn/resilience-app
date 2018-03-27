@@ -1,7 +1,6 @@
 /*** IMPORTS ***/
 // Module imports
 import React, { Component } from 'react';
-import Icon from '@fortawesome/react-fontawesome';
 
 // Styles
 import './App.scss';
@@ -46,12 +45,14 @@ export default class App extends Component {
             inputType: "email",
             inputID: "email",
             labelPhrase: "Email",
-            labelIcon: "at"
+            labelIcon: "at",
+            requiredField: true
           }, {
             inputType: "password",
             inputID: "pw",
             labelPhrase: "Password",
-            labelIcon: "key"
+            labelIcon: "key",
+            requiredField: true
           }, {
             inputType: "submit",
             labelPhrase: "Sign In",
@@ -68,37 +69,44 @@ export default class App extends Component {
             inputType: "text",
             inputID: "first-name",
             labelPhrase: "First Name",
-            labelIcon: "id-card-alt"
+            labelIcon: "id-card-alt",
+            requiredField: true
           }, {
             inputType: "text",
             inputID: "last-name",
             labelPhrase: "Last Name",
-            labelIcon: "id-card-alt"
+            labelIcon: "id-card-alt",
+            requiredField: false
           }, {
             inputType: "email",
             inputID: "email",
             labelPhrase: "Email",
-            labelIcon: "at"
+            labelIcon: "at",
+            requiredField: true
           }, {
             inputType: "password",
             inputID: "pw",
             labelPhrase: "Password",
-            labelIcon: "key"
+            labelIcon: "key",
+            requiredField: true
           }, {
             inputType: "password",
             inputID: "confirm-pw",
             labelPhrase: "Password",
-            labelIcon: "key"
+            labelIcon: "key",
+            requiredField: true
           }, {
             inputType: "text",
             inputID: "location",
             labelPhrase: "Location",
-            labelIcon: "map-pin"
+            labelIcon: "map-pin",
+            requiredField: false
           }, {
             inputType: "file",
             inputID: "profile-photo",
             labelPhrase: "Photo",
-            labelIcon: "image"
+            labelIcon: "image",
+            requiredField: false
           }, {
             inputType: "submit",
             labelPhrase: "Create Account",
@@ -125,27 +133,32 @@ export default class App extends Component {
             inputType: "text",
             inputID: "event-name",
             labelPhrase: "What disaster has effected you?",
-            labelIcon: "cloud"
+            labelIcon: "cloud",
+            requiredField: false
           }, {
             inputType: "text",
             inputID: "description",
             labelPhrase: "What do you need help with?",
-            labelIcon: ""
+            labelIcon: "",
+            requiredField: true
           }, {
             inputType: "text",
             inputID: "first-name",
             labelPhrase: "What is your name?",
-            labelIcon: "user"
+            labelIcon: "user",
+            requiredField: false
           }, {
             inputType: "file",
             inputID: "photo",
             labelPhrase: "Add a photo of what you need help with.",
-            labelIcon: "image"
+            labelIcon: "image",
+            requiredField: false
           }, {
             inputType: "text",
             inputID: "location",
             labelPhrase: "Where are you?",
-            labelIcon: "map-pin"
+            labelIcon: "map-pin",
+            requiredField: true
           }, {
             inputType: "submit",
             labelPhrase: "Send someone",
@@ -161,19 +174,23 @@ export default class App extends Component {
             inputType: "number",
             inputID: "credit-card",
             labelPhrase: "Credit card number",
-            labelIcon: "credit-card-front"
+            labelIcon: "credit-card-front",
+            requiredField: true
           }, {
             inputType: "number",
             inputID: "expiration-month",
-            labelPhrase: "Expiration Month"
+            labelPhrase: "Expiration Month",
+            requiredField: true
           }, {
             inputType: "number",
             inputID: "expiration-year",
-            labelPhrase: "Expiration Year"
+            labelPhrase: "Expiration Year",
+            requiredField: true
           }, {
             inputType: "number",
             inputID: "cc-sec",
-            labelPhrase: "Security number"
+            labelPhrase: "Security number",
+            requiredField: true
           }, {
             inputType: "submit",
             labelPhrase: "Donate",
@@ -209,6 +226,7 @@ export default class App extends Component {
       zoomLevel: 14
     };
 
+    // Bindings
     this.openMenu = this.openMenu.bind(this);
     this.closeMenu = this.closeMenu.bind(this);
 
