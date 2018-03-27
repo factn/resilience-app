@@ -4,6 +4,7 @@
 	left: 1rem;
 	width: calc(100% - 2rem);
 	max-height: calc(100vh - 4rem);
+	overflow: auto;
 	background: $menu-background;
 	box-shadow: $menu-shadow;
 	z-index: 11;
@@ -36,5 +37,19 @@
 	.submit-btn {
 		width: 100%;
 		font-size: 1.5rem;
+	}
+	.radio-row-wrap {
+		display: inline-flex;
+		justify-content: space-between;
+		width: 100%;
+		.input-wrap {
+			.input-label, .form-input {
+				display: inline-block;
+			}
+			.form-input {
+				font-size: .25rem;
+				margin: -1rem .5rem 0 0;
+			}
+		}
 	}
 }

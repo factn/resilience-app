@@ -10,7 +10,8 @@ export default class FormInput extends Component {
 		let { formName,
 					inputObj } = this.props;
 		
-		let { inputType, // submit, text, email, password, file, location, number
+		let { inputType, // submit, text, email, password, file, location, number, radio-row
+					radios,
 					inputID,
 					labelPhrase,
 					labelIcon,
@@ -46,7 +47,7 @@ export default class FormInput extends Component {
 					<input className="form-input"
 							type={inputType}
 							id={`${formName}_${inputID}`}
-							required={requiredField}/>
+							required={requiredField} />
 				</div>
 			);
 		} else if (inputType === "file") {
@@ -61,10 +62,27 @@ export default class FormInput extends Component {
 					<input className="form-input"
 							type={inputType}
 							id={`${formName}_${inputID}`}
-							required={requiredField}/>
+							required={requiredField} />
 				</div>
 			);
-		} else {
+		} else if (inputType === "hr") {
+			output = <hr />;
+		} else if (inputType === "radio-row") {
+			output = (
+				<div className="radio-row-wrap">
+					{radios.map(_index =>
+						<div className="input-wrap" key={_index}>
+							<input className="form-input"
+									type="radio"
+									id={`${formName}_${_index.inputID}`} />
+							<label className="input-label" htmlFor={`${formName}_${_index.inputID}`}>
+								<span className="input-label-phrase">{_index.labelPhrase}</span>
+							</label>
+						</div>
+					)}
+				</div>
+			);
+		} else { // text, email, password, number
 			output = (
 				<div className="input-wrap">
 					<label className="input-label" htmlFor={`${formName}_${inputID}`}>
@@ -76,7 +94,7 @@ export default class FormInput extends Component {
 					<input className="form-input"
 							type={inputType}
 							id={`${formName}_${inputID}`}
-							required={requiredField}/>
+							required={requiredField} />
 				</div>
 			);
 		}

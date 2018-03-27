@@ -42,6 +42,9 @@ input[type="checkbox"], input[type="radio"] {
     background: darken($blue, 10%);
   }
 }
+input[type="radio"] {
+  border-radius: 50%;
+}
 textarea {
   resize: vertical;
   max-height: 11.5rem;

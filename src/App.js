@@ -29,7 +29,8 @@ export default class App extends Component {
       userLoggedIn: false,
       userFirstName: "",
       currentUserRole: "none",
-      scrollEnabled: true
+      scrollEnabled: true,
+      defaultDonationAmount: "$3"
     };
 
     this.menu = {
@@ -128,6 +129,7 @@ export default class App extends Component {
       },
       request: {
         title: "Help!",
+        adContent: {},
         inputs: [
           {
             inputType: "text",
@@ -169,8 +171,30 @@ export default class App extends Component {
       },
       donate: {
         title: "Donate",
+        adContent: {},
         inputs: [
           {
+            inputType: "radio-row",
+            requiredField: true,
+            radios: [{
+              inputID: "preset-amount",
+              labelPhrase: this.state.defaultDonationAmount
+            }, {
+              inputID: "remaining-amount",
+              labelPhrase: "Remainder of project"
+            }, {
+              inputID: "custom-donation-amount-radio",
+              labelPhrase: "Custom"
+            }]
+          }, {
+            inputType: "number",
+            inputID: "custom-donation-amount",
+            labelPhrase: "Donation amount",
+            labelIcon: "i-cursor",
+            requiredField: true
+          }, {
+            inputType: "hr"
+          }, {
             inputType: "number",
             inputID: "credit-card",
             labelPhrase: "Credit card number",
@@ -201,8 +225,15 @@ export default class App extends Component {
       },
       do: {
         title: "Do Work",
+        adContent: {},
         inputs: [
           {
+            inputType: "number",
+            inputID: "credit-card",
+            labelPhrase: "Credit card number",
+            labelIcon: "credit-card-front",
+            requiredField: true
+          }, {
             inputType: "submit",
             labelPhrase: "I'm on my way",
             labelIcon: "thumbs-up",
@@ -212,6 +243,7 @@ export default class App extends Component {
       },
       verify: {
         title: "Verify",
+        adContent: {},
         inputs: [
           {
             inputType: "submit",
@@ -246,12 +278,14 @@ export default class App extends Component {
   }
   preventDefault = e => {
     e = e || window.event;
+
     if (e.preventDefault)
       e.preventDefault();
+    
     e.returnValue = false;  
   }
   preventDefaultForScrollKeys = e => {
-    let keys = {37: 1, 38: 1, 39: 1, 40: 1};
+    let keys = {33: 1, 34: 1, 37: 1, 38: 1, 39: 1, 40: 1};
     
     if (keys[e.keyCode]) {
       this.preventDefault(e);
@@ -278,10 +312,11 @@ export default class App extends Component {
 
     // Disable scroll
     if (window.addEventListener) // older FF
-        window.addEventListener('DOMMouseScroll', this.preventDefault, false);
-    window.onwheel = this.preventDefault; // modern standard
-    window.onmousewheel = document.onmousewheel = this.preventDefault; // older browsers, IE
-    window.ontouchmove  = this.preventDefault; // mobile
+      window.addEventListener('DOMMouseScroll', this.preventDefault, false);
+    
+    window.onwheel = this.preventDefault;                               // modern standard
+    window.onmousewheel = document.onmousewheel = this.preventDefault;  // older browsers, IE
+    window.ontouchmove  = this.preventDefault;                          // mobile
     document.onkeydown  = this.preventDefaultForScrollKeys;
   }
   closeModal = () => {
@@ -293,7 +328,8 @@ export default class App extends Component {
 
     // Enable scroll
     if (window.removeEventListener)
-        window.removeEventListener('DOMMouseScroll', this.preventDefault, false);
+      window.removeEventListener('DOMMouseScroll', this.preventDefault, false);
+    
     window.onmousewheel = document.onmousewheel = null;
     window.onwheel = null;
     window.ontouchmove = null;
