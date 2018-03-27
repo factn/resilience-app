@@ -11,13 +11,18 @@ export default class Main extends Component {
 	render () {
 		let { userLoggedIn,
 					database,
+					openModalFunction,
 					settings } = this.props;
 
 		return (
 			<main className="app-main">
 				{userLoggedIn
 					? <section className="ad-feed-wrap">
-							{database.map(_index => <Ad scenario={_index} key={_index} />)}
+							{database.map(_index =>
+								<Ad scenario={_index}
+									key={_index}
+									openModalFunction={openModalFunction}/>
+							)}
 						</section>
 					: <section className="map-wrap">
 							<GoogleMaps zoomLevel={settings.zoomLevel} />
