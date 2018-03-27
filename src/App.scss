@@ -3,8 +3,10 @@
 @import './scss/presets/mixins';
 @import './scss/presets/keyframes';
 
-@import './scss/global/a';
 @import './scss/global/body';
+@import './scss/global/html5';
+
+@import './scss/global/a';
 @import './scss/global/button';
 @import './scss/global/divp';
 @import './scss/global/figure';
@@ -20,7 +22,6 @@
 @import './scss/layout/footer';
 @import './scss/layout/modal';
 
-@import './scss/object/card';
 @import './scss/object/menu';
 @import './scss/object/modal';
-@import './scss/object/action';
+@import './scss/object/ad';

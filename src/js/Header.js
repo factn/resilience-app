@@ -1,6 +1,6 @@
 /*** IMPORTS ***/
 // Module imports
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import Icon from '@fortawesome/react-fontawesome';
 /*** [end of imports] ***/
 
@@ -43,8 +43,8 @@ export default class Header extends Component {
 
 						<ul className="menu-list">
 							{Object.keys(menuList).map(_label =>
-								<li className="menu-item">
-									<button className="btn-lite" key={_label} onClick={menuList[_label]}>{_label}</button>
+								<li className="menu-item" key={_label}>
+									<button className="btn-lite" onClick={menuList[_label]}>{_label}</button>
 								</li>
 							)}
 						</ul>
@@ -55,7 +55,7 @@ export default class Header extends Component {
 
 						<div className="subheader-content">
 							<div className="copy">&copy; {new Date().getFullYear()}</div>
-							<div calssName="version">{versionNumber}</div>
+							<div className="version">{versionNumber}</div>
 						</div>
 					</section>
 				</nav>

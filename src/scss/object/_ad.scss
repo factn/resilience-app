@@ -1,0 +1,77 @@
+.ad-feed-wrap {
+	padding: 1rem;
+}
+.ad {
+	background: $white;
+	padding: 1rem;
+	margin-bottom: .5rem;
+	box-shadow: $taper-shadow;
+	border-radius: .5rem;
+	overflow: hidden;
+	&.do-ad {
+		.ad-header {
+			background: $red;
+		}
+		.ad-modal-btn {
+			background: $red;
+			border: .125em solid $red;
+		}
+	}
+	&.donate-ad {
+		.ad-header {
+			background: $green;
+		}
+		.ad-modal-btn {
+			background: $green;
+			border: .125em solid $green;
+		}
+	}
+	&.verify-ad {
+		.ad-header {
+			background: $purple;
+		}
+		.ad-modal-btn {
+			background: $purple;
+			border: .125em solid $purple;
+		}
+	}
+	&.request-ad {
+		.ad-header {
+			background: $blue;
+		}
+		.ad-modal-btn {
+			background: $blue;
+			border: .125em solid $blue;
+		}
+	}
+	.ad-modal-btn {
+		width: 100%;
+		&:active, &:focus {
+			color: $white;
+		}
+	}
+}
+.ad-header {
+	margin: -1rem -1rem .5rem;
+	padding: .5rem 1rem;
+	.ad-title, .ad-subtitle {
+		color: rgba($white, .95);
+	}
+	.ad-title {
+		
+	}
+	.ad-subtitle {
+		
+	}
+}
+.ad-image-wrap {
+	margin-bottom: .5rem;
+	.ad-image {
+		max-height: 25vh;
+	}
+}
+.ad-image-caption {
+	color: rgba($black, .8);
+	font-size: .8em;
+	margin-top: .5rem;
+}
