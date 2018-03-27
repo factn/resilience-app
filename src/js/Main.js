@@ -16,11 +16,11 @@ export default class Main extends Component {
 		return (
 			<main className="app-main">
 				{userLoggedIn
-					? <section className="map-wrap">
-							<GoogleMaps zoomLevel={settings.zoomLevel} />
-						</section>
-					: <section className="ad-feed-wrap">
+					? <section className="ad-feed-wrap">
 							{database.map(_index => <Ad scenario={_index} key={_index} />)}
+						</section>
+					: <section className="map-wrap">
+							<GoogleMaps zoomLevel={settings.zoomLevel} />
 						</section>
 				}
 			</main>

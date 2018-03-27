@@ -9,7 +9,7 @@ input, select, textarea {
   padding: .125rem .25rem;
   background: rgba($white, .5);
   font-family: 'Raleway', arial, sans-serif;
-  border: 0;
+  border: .125rem solid $blue;
   border-radius: .25rem;
   transition: {
     property: background;
@@ -48,5 +48,4 @@ textarea {
 }
 label {
   cursor: pointer;
-  padding: 0 .25rem;
 }
