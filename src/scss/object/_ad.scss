@@ -75,3 +75,30 @@
 	font-size: .8em;
 	margin-top: .5rem;
 }
+
+@include breakpoint($tablet) {
+	.ad-feed-wrap {
+		display: grid;
+		grid: {
+			template: {
+				columns: repeat(2, 1fr);
+				rows: auto;
+			}
+			gap: 1rem;
+		}
+	}
+	.ad {
+		margin: 0;
+	}
+}
+
+@include breakpoint($desktop) {
+	.ad-feed-wrap {
+		max-width: 90rem;
+		margin: 0 auto;
+		grid: {
+			template-columns: repeat(3, 1fr);
+			gap: 1.5rem;
+		}
+	}
+}
