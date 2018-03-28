@@ -72,7 +72,7 @@ export default class Ad extends Component {
 	}
 
 	render () {
-		let { scenario } = this.props;
+		let { scenario, openModalFunction } = this.props;
 		
 		return (
 			<article className={`ad ${scenario.request_type}-ad`}>
@@ -93,7 +93,7 @@ export default class Ad extends Component {
 						<p>{scenario.location.event}</p>
 					</figcaption>
 				</figure>
-				<button className="btn ad-modal-btn">
+				<button className="btn ad-modal-btn" onClick={() => openModalFunction(scenario.request_type)}>
 					{this.callToActionBuild(scenario.request_type)}
 				</button>
 			</article>

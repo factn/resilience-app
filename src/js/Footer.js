@@ -17,7 +17,7 @@ export default class Footer extends Component {
 					? <div className="action">
 							<span className="action-label">Log Out</span>
 							<button className="btn action-btn" onClick={() => logoutFunction()}>
-								<Icon icon="sign-out" />
+								<Icon icon="sign-out-alt" />
 							</button>
 						</div>
 					: <Fragment>

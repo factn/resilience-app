@@ -1,7 +1,34 @@
-.app-main {
-}
 .map-wrap {
 	position: relative;
-	height: calc(100vh - 2.5rem);
+	// height: calc(100vh - 2.5rem);
 	overflow: hidden;
+}
+.app-main {
+	&.logged-in {
+		.map-wrap {
+			position: absolute;
+			// top: -100vh;
+			left: 0;
+			width: 100%;
+			// height: 100vh;
+			opacity: 0;
+			z-index: 10;
+			transition: {
+				property: opacity;
+				duration: .2s;
+				timing-function: $cubic;
+			}
+		}
+		&.map-open {
+			.map-wrap {
+				// top: 2.5rem;
+				opacity: 1;
+				transition: {
+					property: opacity, top;
+					duration: .2s;
+					timing-function: $cubic;
+				}
+			}
+		}
+	}
 }

@@ -9,6 +9,10 @@
     display: inline-block;
   }
 }
+@mixin menu-back {
+	background: $menu-background;
+	box-shadow: $menu-shadow;
+}
 @mixin alternating-list {
   li {
     padding: .25rem .5rem;

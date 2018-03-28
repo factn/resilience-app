@@ -1,11 +1,11 @@
 .modal {
+	@include menu-back;
 	position: absolute;
 	top: 3rem;
 	left: 1rem;
 	width: calc(100% - 2rem);
 	max-height: calc(100vh - 4rem);
-	background: $menu-background;
-	box-shadow: $menu-shadow;
+	overflow: auto;
 	z-index: 11;
 	padding: 1rem;
 }
@@ -15,6 +15,9 @@
 .modal-form {
 	.input-wrap {
 		margin-bottom: 1rem;
+		&.disabled-input {
+			opacity: .5;
+		}
 		.input-label {
 			display: inline-flex;
 			justify-content: space-between;
@@ -22,17 +25,64 @@
 			margin-bottom: .5rem;
 			.input-label-icon {
 				color: rgba($blue, .75);
+				width: 2rem;
+				text-align: center;
 			}
 			.input-label-phrase {
 				color: rgba($black, .5);
 			}
+			&.btn-label {
+				.input-label-icon, .input-label-phrase {
+					color: rgba($white, .9);
+				}
+				&:focus, &:hover {
+					.input-label-icon, .input-label-phrase {
+						color: rgba($blue, .9);
+					}
+				}
+			}
+		}
+		button.input-label {
+			font-size: 1rem;
 		}
 		.form-input {
 			font-size: 1.5rem;
 		}
 	}
+	.input-row-label {
+		color: rgba($black, .5);
+		margin-bottom: .5rem;
+	}
+	.radio-row-wrap {
+		.radio-row-input-wrap {
+			margin-bottom: .5rem;
+		}
+		.form-input {
+			font-size: .25rem;
+			margin: -1rem .5rem 0 0;
+		}
+	}
 	.submit-btn {
 		width: 100%;
 		font-size: 1.5rem;
+		margin-bottom: .5rem;
+		&.positive-response {
+			background: $green;
+			border: .125em solid $green;
+		}
+		&.negative-response {
+			background: $red;
+			border: .125em solid $red;
+		}
+	}
+}
+.thank-you-modal-custom-content {
+	text-align: center;
+	h4 {
+		margin-bottom: 1rem;
+	}
+	.thank-you-icon {
+		color: $blue;
+		font-size: 3em;
 	}
 }

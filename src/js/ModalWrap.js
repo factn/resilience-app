@@ -13,12 +13,16 @@ export default class ModalWrap extends Component {
 		let { modalIsOpen,
 					closeModalFunction,
 					openModalName,
-					modalContent } = this.props;
-		
-		let clas = modalIsOpen ? "modal-wrap open-modal" : "modal-wrap";
+					modalContent,
+					zoomLevel,
+					openMapPicker } = this.props;
+
+		let style = modalIsOpen
+			? { top: document.documentElement.scrollTop }
+			: { top: "-100vh" };
 		
 		return (
-			<section className={clas}>
+			<section className={modalIsOpen ? "modal-wrap open-modal" : "modal-wrap"} style={style}>
 				<button className="modal-close-btn btn-lite" onClick={() => closeModalFunction()}>
 					<span>Close </span>
 					<Icon icon="times" />
@@ -26,7 +30,9 @@ export default class ModalWrap extends Component {
 
 				{typeof modalContent !== "undefined" &&
 					<Modal name={openModalName}
-						content={modalContent} />
+							content={modalContent}
+							zoomLevel={zoomLevel}
+							openMapPicker={openMapPicker} />
 				}
 			</section>
 		);
