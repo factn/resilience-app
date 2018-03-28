@@ -16,6 +16,9 @@
 .modal-form {
 	.input-wrap {
 		margin-bottom: 1rem;
+		&.disabled-input {
+			opacity: .5;
+		}
 		.input-label {
 			display: inline-flex;
 			justify-content: space-between;
@@ -34,22 +37,31 @@
 			font-size: 1.5rem;
 		}
 	}
+	.input-row-label {
+		color: rgba($black, .5);
+		margin-bottom: .5rem;
+	}
+	.radio-row-wrap {
+		.radio-row-input-wrap {
+			margin-bottom: .5rem;
+		}
+		.form-input {
+			font-size: .25rem;
+			margin: -1rem .5rem 0 0;
+		}
+	}
 	.submit-btn {
 		width: 100%;
 		font-size: 1.5rem;
 	}
-	.radio-row-wrap {
-		display: inline-flex;
-		justify-content: space-between;
-		width: 100%;
-		.input-wrap {
-			.input-label, .form-input {
-				display: inline-block;
-			}
-			.form-input {
-				font-size: .25rem;
-				margin: -1rem .5rem 0 0;
-			}
-		}
+}
+.thank-you-modal-custom-content {
+	text-align: center;
+	h4 {
+		margin-bottom: 1rem;
+	}
+	.thank-you-icon {
+		color: $blue;
+		font-size: 3em;
 	}
 }

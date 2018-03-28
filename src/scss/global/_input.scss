@@ -22,6 +22,10 @@ input, select, textarea {
   &:-webkit-autofill {
     -webkit-box-shadow: 0 0 0 100rem $white inset;
   }
+  &:disabled {
+    background: rgba($black, .25);
+    border: .125rem solid darken($blue, 10%);
+  }
 }
 input[type="file"] {
   position: absolute;

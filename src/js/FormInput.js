@@ -10,19 +10,30 @@ export default class FormInput extends Component {
 		let { formName,
 					inputObj } = this.props;
 		
-		let { inputType, // submit, text, email, password, file, location, number, radio-row
+		// Valid inputType's: "submit", "text", "email", "password", "file", "location", "number", "radio-row"
+		let { inputType,
+
+					// Radio options
 					radios,
-					inputID,
+					radioRowName,
+					onChange,
+					onChangeVal,
+
+					// Label properties
 					labelPhrase,
 					labelIcon,
+
+					// HTML tag arguments
+					inputID,
 					requiredField,
+					disabledField,
+
+					// Submit function
 					onSubmit,
 					onSubmitParams } = inputObj;
-		
-		let output;
 
 		if (inputType === "submit") {
-			output = (
+			return (
 				<button className={`btn submit-btn ${formName}-btn`}
 						type="submit"
 						onClick={() => {
@@ -36,8 +47,8 @@ export default class FormInput extends Component {
 				</button>
 			);
 		} else if (inputType === "location") {
-			output = (
-				<div className="input-wrap">
+			return (
+				<div className={disabledField ? "input-wrap disabled-input" : "input-wrap"}>
 					<label className="input-label" htmlFor={`${formName}_${inputID}`}>
 						<span className="input-label-phrase">{labelPhrase}</span>
 						{typeof labelIcon !== "undefined" &&
@@ -47,12 +58,13 @@ export default class FormInput extends Component {
 					<input className="form-input"
 							type={inputType}
 							id={`${formName}_${inputID}`}
-							required={requiredField} />
+							required={requiredField}
+							disabled={disabledField} />
 				</div>
 			);
 		} else if (inputType === "file") {
-			output = (
-				<div className="input-wrap">
+			return (
+				<div className={disabledField ? "input-wrap disabled-input" : "input-wrap"}>
 					<label className="input-label" htmlFor={`${formName}_${inputID}`}>
 						<span className="input-label-phrase">{labelPhrase}</span>
 						{typeof labelIcon !== "undefined" &&
@@ -62,29 +74,39 @@ export default class FormInput extends Component {
 					<input className="form-input"
 							type={inputType}
 							id={`${formName}_${inputID}`}
-							required={requiredField} />
+							required={requiredField}
+							disabled={disabledField} />
 				</div>
 			);
 		} else if (inputType === "hr") {
-			output = <hr />;
+			return <hr />;
 		} else if (inputType === "radio-row") {
-			output = (
+			return (
 				<div className="radio-row-wrap">
-					{radios.map(_index =>
-						<div className="input-wrap" key={_index}>
-							<input className="form-input"
-									type="radio"
-									id={`${formName}_${_index.inputID}`} />
-							<label className="input-label" htmlFor={`${formName}_${_index.inputID}`}>
-								<span className="input-label-phrase">{_index.labelPhrase}</span>
+					<div className="input-row-label">{labelPhrase}</div>
+					{radios.map((_key, i) =>
+						<div className="radio-row-input-wrap" key={i}>
+							{typeof _key.onChange !== "undefined"
+								? <input className="form-input"
+										type="radio"
+										id={`${formName}_${_key.inputID}`}
+										name={radioRowName}
+										onChange={() => _key.onChange(_key.onChangeVal)} />
+								: <input className="form-input"
+										type="radio"
+										id={`${formName}_${_key.inputID}`}
+										name={radioRowName} />
+							}
+							<label className="input-label" htmlFor={`${formName}_${_key.inputID}`}>
+								<span className="input-label-phrase">{_key.labelPhrase}</span>
 							</label>
 						</div>
 					)}
 				</div>
 			);
 		} else { // text, email, password, number
-			output = (
-				<div className="input-wrap">
+			return (
+				<div className={disabledField ? "input-wrap disabled-input" : "input-wrap"}>
 					<label className="input-label" htmlFor={`${formName}_${inputID}`}>
 						<span className="input-label-phrase">{labelPhrase}</span>
 						{typeof labelIcon !== "undefined" &&
@@ -94,11 +116,10 @@ export default class FormInput extends Component {
 					<input className="form-input"
 							type={inputType}
 							id={`${formName}_${inputID}`}
-							required={requiredField} />
+							required={requiredField}
+							disabled={disabledField} />
 				</div>
 			);
 		}
-
-		return output;
 	}
 }

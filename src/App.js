@@ -1,6 +1,8 @@
 /*** IMPORTS ***/
 // Module imports
 import React, { Component } from 'react';
+import Icon from '@fortawesome/react-fontawesome';
+import faSolid from '@fortawesome/fontawesome-free-solid';
 
 // Styles
 import './App.scss';
@@ -30,7 +32,12 @@ export default class App extends Component {
       userFirstName: "",
       currentUserRole: "none",
       scrollEnabled: true,
-      defaultDonationAmount: "$3"
+      refreshes: 0
+    };
+    this.settings = {
+      zoomLevel: 14,
+      defaultDonationAmount: "$3",
+      thankYouTimer: 2000
     };
 
     this.menu = {
@@ -176,45 +183,79 @@ export default class App extends Component {
           {
             inputType: "radio-row",
             requiredField: true,
+            labelPhrase: "Donation amount",
+            radioRowName: "donation-amount-options",
             radios: [{
               inputID: "preset-amount",
-              labelPhrase: this.state.defaultDonationAmount
+              labelPhrase: this.settings.defaultDonationAmount,
+              onChange: this.toggleCustomDonationAmount,
+              onChangeVal: false
             }, {
               inputID: "remaining-amount",
-              labelPhrase: "Remainder of project"
+              labelPhrase: "Remainder of project",
+              onChange: this.toggleCustomDonationAmount,
+              onChangeVal: false
             }, {
               inputID: "custom-donation-amount-radio",
-              labelPhrase: "Custom"
+              labelPhrase: "Custom",
+              onChange: this.toggleCustomDonationAmount,
+              onChangeVal: true
             }]
           }, {
             inputType: "number",
             inputID: "custom-donation-amount",
-            labelPhrase: "Donation amount",
+            labelPhrase: "Custom amount",
             labelIcon: "i-cursor",
-            requiredField: true
+            requiredField: false,
+            disabledField: true
           }, {
             inputType: "hr"
+          }, {
+            inputType: "radio-row",
+            labelPhrase: "Payment Method",
+            requiredField: true,
+            radioRowName: "payment-method-options",
+            radios: [{
+              inputID: "paypal",
+              labelPhrase: "PayPal",
+              onChange: this.toggleCreditCardFields,
+              onChangeVal: false
+            }, {
+              inputID: "lion-bucks",
+              labelPhrase: "Lion-Bucks",
+              onChange: this.toggleCreditCardFields,
+              onChangeVal: false
+            }, {
+              inputID: "credit-card",
+              labelPhrase: "Credit Card",
+              onChange: this.toggleCreditCardFields,
+              onChangeVal: true
+            }]
           }, {
             inputType: "number",
             inputID: "credit-card",
             labelPhrase: "Credit card number",
-            labelIcon: "credit-card-front",
-            requiredField: true
+            labelIcon: "credit-card",
+            requiredField: false,
+            disabledField: true
           }, {
             inputType: "number",
             inputID: "expiration-month",
             labelPhrase: "Expiration Month",
-            requiredField: true
+            requiredField: false,
+            disabledField: true
           }, {
             inputType: "number",
             inputID: "expiration-year",
             labelPhrase: "Expiration Year",
-            requiredField: true
+            requiredField: false,
+            disabledField: true
           }, {
             inputType: "number",
             inputID: "cc-sec",
             labelPhrase: "Security number",
-            requiredField: true
+            requiredField: false,
+            disabledField: true
           }, {
             inputType: "submit",
             labelPhrase: "Donate",
@@ -231,7 +272,7 @@ export default class App extends Component {
             inputType: "number",
             inputID: "credit-card",
             labelPhrase: "Credit card number",
-            labelIcon: "credit-card-front",
+            labelIcon: "credit-card",
             requiredField: true
           }, {
             inputType: "submit",
@@ -252,10 +293,16 @@ export default class App extends Component {
             onSubmit: this.submitVerification
           }
         ]
+      },
+      thanks: {
+        title: "Feel good about yourself",
+        customContent: (
+          <div className="modal-custom-content-wrap thank-you-modal-custom-content">
+            <h4>You just made a huge difference</h4>
+            <Icon className="thank-you-icon" icon="thumbs-up" />
+          </div>
+        )
       }
-    };
-    this.settings = {
-      zoomLevel: 14
     };
 
     // Bindings
@@ -271,11 +318,15 @@ export default class App extends Component {
 
     this.updatePreferences = this.updatePreferences.bind(this);
 
+    this.toggleCustomDonationAmount = this.toggleCustomDonationAmount.bind(this);
+    this.toggleCreditCardFields = this.toggleCreditCardFields.bind(this);
+
     this.submitRequest = this.submitRequest.bind(this);
     this.submitDonation = this.submitDonation.bind(this);
     this.submitDo = this.submitDo.bind(this);
     this.submitVerification = this.submitVerification.bind(this);
   }
+
   preventDefault = e => {
     e = e || window.event;
 
@@ -292,6 +343,7 @@ export default class App extends Component {
       return false;
     }
   }
+
   openMenu = () => {
     this.setState({
       menuIsOpen: true
@@ -302,6 +354,7 @@ export default class App extends Component {
       menuIsOpen: false
     });
   }
+
   openModal = modalName => {
     this.setState({
       menuIsOpen: false,
@@ -335,6 +388,7 @@ export default class App extends Component {
     window.ontouchmove = null;
     document.onkeydown = null;
   }
+
   login = _userFirstName => {
     this.setState({
       userLoggedIn: true,
@@ -353,14 +407,74 @@ export default class App extends Component {
   createUserAccount = () => {
     this.closeModal();
   }
+
   updatePreferences = prefs => {
     this.closeModal();
   }
+
+  toggleCustomDonationAmount = turnedOn => {
+    let { inputs } = this.modals.donate;
+
+    if (turnedOn) {
+      inputs[1].requiredField = true;
+      inputs[1].disabledField = false;
+    } else {
+      inputs[1].requiredField = false;
+      inputs[1].disabledField = true;
+    }
+
+    this.setState({
+      refreshes: this.state.refreshes + 1
+    });
+  }
+  toggleCreditCardFields = turnedOn => {
+    let { inputs } = this.modals.donate;
+
+    if (turnedOn) {
+      inputs[4].requiredField = true;
+      inputs[4].disabledField = false;
+
+      inputs[5].requiredField = true;
+      inputs[5].disabledField = false;
+
+      inputs[6].requiredField = true;
+      inputs[6].disabledField = false;
+
+      inputs[7].requiredField = true;
+      inputs[7].disabledField = false;
+
+      inputs[8].requiredField = true;
+      inputs[8].disabledField = false;
+    } else {
+      inputs[4].requiredField = false;
+      inputs[4].disabledField = true;
+      
+      inputs[5].requiredField = false;
+      inputs[5].disabledField = true;
+      
+      inputs[6].requiredField = false;
+      inputs[6].disabledField = true;
+      
+      inputs[7].requiredField = false;
+      inputs[7].disabledField = true;
+      
+      inputs[8].requiredField = false;
+      inputs[8].disabledField = true;
+    }
+
+    this.setState({
+      refreshes: this.state.refreshes + 1
+    });
+  }
+
   submitRequest = () => {
     this.closeModal();
   }
   submitDonation = () => {
-    this.closeModal();
+    this.openModal("thanks");
+    setTimeout(() => {
+      this.closeModal();
+    }, this.settings.thankYouTimer);
   }
   submitDo = () => {
     this.closeModal();

@@ -15,11 +15,17 @@ export default class Modal extends Component {
 				<header className="modal-header">
 					<h2>{content.title}</h2>
 				</header>
+				
 				{typeof content.adContent !== "undefined" &&
 					<div className="modal-adcontent-wrap"></div>
 				}
+				
+				{typeof content.customContent !== "undefined" && content.customContent}
+				
 				<div className={`${name.toString().toLowerCase()}-form modal-form`}>
-					{content.inputs.map(_input => <FormInput formName={name} inputObj={_input} key={_input} />)}
+					{typeof content.inputs !== "undefined" && content.inputs.map(_input =>
+						<FormInput formName={name} inputObj={_input} key={_input} />
+					)}
 				</div>
 			</article>
 		);
