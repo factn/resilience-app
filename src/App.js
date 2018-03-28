@@ -274,10 +274,10 @@ export default class App extends Component {
         adContent: {},
         inputs: [
           {
-            inputType: "number",
-            inputID: "credit-card",
-            labelPhrase: "Credit card number",
-            labelIcon: "credit-card",
+            inputType: "location",
+            inputID: "location",
+            labelPhrase: "Where are you now?",
+            labelIcon: "map-pin",
             requiredField: true
           }, {
             inputType: "submit",
@@ -427,6 +427,9 @@ export default class App extends Component {
   }
 
   updatePreferences = prefs => {
+    for (let _pref in prefs) {
+
+    }
     this.closeModal();
   }
 
@@ -519,6 +522,7 @@ export default class App extends Component {
         <Main userLoggedIn={this.state.userLoggedIn}
             database={fakeDB.ads}
             openModalFunction={this.openModal}
+            mapPickerIsOpen={this.state.mapPickerIsOpen}
             closeMapPicker={this.closeMapPicker}
             settings={this.settings} />
 

@@ -27,6 +27,10 @@ export class MapContainer extends Component {
 
     return this.props.closeMapPicker();
   }
+  centerMoved = (mapProps, map) => {
+    console.log("Ding!");
+    
+  }
 
 	render() {
     let { google,
@@ -43,7 +47,8 @@ export class MapContainer extends Component {
           zoom={zoomLevel}
           style={style}
           initialCenter={this.state.markerPos}
-          onClick={this.mapClicked}>
+          onClick={this.mapClicked}
+          onDragend={this.centerMoved}>
         {this.state.markerShown &&
           <Marker position={this.state.markerPos} />
         }
