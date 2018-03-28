@@ -12,7 +12,6 @@ export default class Footer extends Component {
 		
 		return (
 			<footer className="app-footer">
-
 				{userLoggedIn
 					? <div className="action">
 							<span className="action-label">Log Out</span>
@@ -20,21 +19,25 @@ export default class Footer extends Component {
 								<Icon icon="sign-out-alt" />
 							</button>
 						</div>
-					: <Fragment>
-							<div className="action">
-								<span className="action-label">Log In</span>
-								<button className="btn action-btn" onClick={() => openModalFunction("login")}>
-									<Icon icon="user" />
-								</button>
-							</div>
-							<div className="action">
-								<span className="action-label">Help!</span>
-								<button className="btn action-btn" onClick={() => openModalFunction("request")}>
-									<Icon icon="exclamation" />
-								</button>
-							</div>
-						</Fragment>
+					: <div className="action">
+							<span className="action-label">Log In</span>
+							<button className="btn action-btn" onClick={() => openModalFunction("login")}>
+								<Icon icon="user" />
+							</button>
+						</div>
 				}
+				<div className="action">
+					<span className="action-label">Settings</span>
+					<button className="btn action-btn" onClick={() => openModalFunction("preferences")}>
+						<Icon icon="cogs" />
+					</button>
+				</div>
+				<div className="action">
+					<span className="action-label">Help!</span>
+					<button className="btn action-btn" onClick={() => openModalFunction("request")}>
+						<Icon icon="exclamation" />
+					</button>
+				</div>
 			</footer>
 		);
 	}

@@ -35,24 +35,21 @@ export class MapContainer extends Component {
 	render() {
     let { google,
           zoomLevel,
-          closeMapPicker } = this.props;
-
-    let style = {
-      width: '100%',
-      height: 'calc(100vh - 2.5rem)'
-    };
+          closeMapPicker,
+          mapPickerIsOpen } = this.props;
 
     return (
-      <Map google={google}
-          zoom={zoomLevel}
-          style={style}
-          initialCenter={this.state.markerPos}
-          onClick={this.mapClicked}
-          onDragend={this.centerMoved}>
-        {this.state.markerShown &&
-          <Marker position={this.state.markerPos} />
-        }
-      </Map>
+      <section className={mapPickerIsOpen ? "map-wrap open" : "map-wrap"}>
+        <Map google={google}
+            zoom={zoomLevel}
+            initialCenter={this.state.markerPos}
+            onClick={this.mapClicked}
+            onDragend={this.centerMoved}>
+          {this.state.markerShown &&
+            <Marker position={this.state.markerPos} />
+          }
+        </Map>
+      </section>
     );
   }
 }

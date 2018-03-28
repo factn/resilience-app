@@ -1,20 +1,21 @@
 /*** IMPORTS ***/
 // Module imports
 import React, { Component } from 'react';
-import Icon from '@fortawesome/react-fontawesome';
-import faSolid from '@fortawesome/fontawesome-free-solid';
+import Icon                 from '@fortawesome/react-fontawesome';
+import faSolid              from '@fortawesome/fontawesome-free-solid';
 
 // Styles
 import './App.scss';
 
 // Local JS files
-import ModalWrap from './js/ModalWrap';
-import Header from './js/Header';
-import Main from './js/Main';
-import Footer from './js/Footer';
+import ModalWrap  from './js/ModalWrap';
+import GoogleMaps from './js/GoogleMaps';
+import Header     from './js/Header';
+import Main       from './js/Main';
+import Footer     from './js/Footer';
 
 // DB import
-import fakeDB from './fakedb.json';
+import DB from './js/Bees.js';
 /*** [end of imports] ***/
 
 const versionNumber = "0.1.0";
@@ -30,10 +31,12 @@ export default class App extends Component {
       openModalName: "",
       userLoggedIn: false,
       userFirstName: "",
-      currentUserRole: "none",
+      currentUserRole: "donator",
       scrollEnabled: true,
       refreshes: 0,
-      mapPickerIsOpen: false
+      mapPickerIsOpen: false,
+      databaseReady: false,
+      databaseLocal: {}
     };
     this.settings = {
       zoomLevel: 14,
@@ -138,9 +141,8 @@ export default class App extends Component {
           }
         ]
       },
-      request: {
+      requester: {
         title: "Help!",
-        adContent: {},
         inputs: [
           {
             inputType: "text",
@@ -180,9 +182,8 @@ export default class App extends Component {
           }
         ]
       },
-      donate: {
+      donator: {
         title: "Donate",
-        adContent: {},
         inputs: [
           {
             inputType: "radio-row",
@@ -269,9 +270,8 @@ export default class App extends Component {
           }
         ]
       },
-      do: {
+      doer: {
         title: "Do Work",
-        adContent: {},
         inputs: [
           {
             inputType: "location",
@@ -288,9 +288,8 @@ export default class App extends Component {
           }
         ]
       },
-      verify: {
+      verifier: {
         title: "Verify",
-        adContent: {},
         inputs: [
           {
             inputType: "submit",
@@ -343,6 +342,57 @@ export default class App extends Component {
     this.submitDonation = this.submitDonation.bind(this);
     this.submitDo = this.submitDo.bind(this);
     this.submitVerification = this.submitVerification.bind(this);
+
+    this.getFullDataBase();
+  }
+
+  getFullDataBase = () => {
+    console.log("Getting database");
+    
+    DB.getPosts()
+      .then(result => {
+        console.info("Database call complete:", result.body.data);
+
+        this.setState({
+          databaseReady: true,
+          databaseLocal: result.body.data
+        });
+      }).catch(error => {
+        console.error(error);
+
+        this.setState({
+          databaseReady: false,
+          databaseLocal: {}
+        });
+      });
+  }
+  getDataBaseItem = _id => {
+    DB.getPost({ id: _id }).then(result => {
+      console.log(result);
+    }).catch(error => {
+      console.error(error);
+    });
+  }
+  createDataBaseItem = obj => {
+    DB.createPost(obj).then(result => {
+      console.log(result);
+    }).catch(error => {
+      console.error(error);
+    });
+  }
+  updateDataBaseItem = (_id, obj) => {
+    DB.updatePost({ id: _id }, obj).then(result => {
+      console.log(result);
+    }).catch(error => {
+      console.error(error);
+    });
+  }
+  deleteDataBaseItem = _id => {
+    DB.destroyPost({ id: _id }).then(result => {
+      console.log(result);
+    }).catch(error => {
+      console.error(error);
+    });
   }
 
   preventDefault = e => {
@@ -394,7 +444,8 @@ export default class App extends Component {
     this.setState({
       modalIsOpen: false,
       openModalName: "",
-      scrollEnabled: true
+      scrollEnabled: true,
+      mapPickerIsOpen: false
     });
 
     // Enable scroll
@@ -470,17 +521,13 @@ export default class App extends Component {
 
   openMapPicker = () => {
     this.setState({
-      mapPickerIsOpen: true,
-      modalIsOpen: false
+      mapPickerIsOpen: true
     });
   }
   closeMapPicker = () => {
-    if (this.state.mapPickerIsOpen) {
-      this.setState({
-        mapPickerIsOpen: false,
-        modalIsOpen: true
-      });
-    }
+    this.setState({
+      mapPickerIsOpen: false
+    });
   }
 
   submitRequest = () => {
@@ -499,6 +546,12 @@ export default class App extends Component {
     this.closeModal();
   }
 
+  contextChange = newContext => {
+    this.setState({
+      currentUserRole: newContext
+    });
+  }
+
   render() {
     return (
       <div className="app">
@@ -509,20 +562,27 @@ export default class App extends Component {
             modalContent={this.modals[this.state.openModalName]}
             zoomLevel={this.settings.zoomLevel}
             openMapPicker={this.openMapPicker} />
+        
+        {/* Map picker */}
+        <GoogleMaps zoomLevel={this.settings.zoomLevel}
+            closeMapPicker={this.closeMapPicker}
+            mapPickerIsOpen={this.state.mapPickerIsOpen} />
 
         {/* App header */}
         <Header userFirstName={this.state.userFirstName}
             menuIsOpen={this.state.menuIsOpen}
+            openModalFunction={this.openModal}
             openMenuFunction={this.openMenu}
             menuList={this.menu}
             closeMenuFunction={this.closeMenu}
             versionNumber={versionNumber} />
 
         {/* App main */}
-        <Main userLoggedIn={this.state.userLoggedIn}
-            database={fakeDB.ads}
+        <Main contextChange={this.contextChange}
+            databaseReady={this.state.databaseReady}
+            database={this.state.databaseLocal}
+            userRole={this.state.currentUserRole}
             openModalFunction={this.openModal}
-            mapPickerIsOpen={this.state.mapPickerIsOpen}
             closeMapPicker={this.closeMapPicker}
             settings={this.settings} />
 

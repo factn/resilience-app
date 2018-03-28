@@ -4,98 +4,50 @@ import React, { Component } from 'react';
 /*** [end of imports] ***/
 
 export default class Ad extends Component {
-	titleBuild = (requestType, noun, verb, firstName) => {
-		let output;
-
-		switch (requestType) {
-			case "do":
-				output = <span>{`Can you ${verb} ${noun} for ${firstName}?`}</span>;
-				break;
-			
-			case "donate":
-				output = <span>{`Can you help us raise money for ${firstName}?`}</span>;
-				break;
-			
-			case "verify":
-				output = <span>{`Help us verify ${firstName}`}</span>;
-				break;
-			
-			default: // "request"
-				output = <span>Need help?</span>;
-		}
-
-		return output;
-	}
-	subtitleBuild = (requestType, progress) => {
-		let output;
-
-		switch (requestType) {
-			case "do":
-				output = <span>{`Our work is ${progress} complete`}</span>;
-				break;
-			
-			case "donate":
-				output = <span>{`${progress} funded`}</span>;
-				break;
-			
-			case "verify":
-				output = <span>{`We have ${progress} unverified users`}</span>;
-				break;
-			
-			default: // "request"
-				output = <span>Tell us what you need</span>;
-		}
-
-		return output;
-	}
+	titleBuild = (noun, verb, name) => <span>{`Can you ${verb} ${noun} for ${name}?`}</span>;
+	subtitleBuild = progress => <span>{`${progress} funded`}</span>
 	callToActionBuild = requestType => {
-		let output;
-
-		switch (requestType) {
-			case "do":
-				output = <span>Help today</span>;
-				break;
-			
-			case "donate":
-				output = <span>Donate now</span>;
-				break;
-			
-			case "verify":
-				output = <span>Verify users</span>;
-				break;
-			
-			default: // "request"
-				output = <span>Get Help</span>;
+		if (requestType === "doer") {
+			return <span>Help today</span>;
+		} else if (requestType === "donator") {
+			return <span>Donate now</span>;
+		} else if (requestType === "verifier") {
+			return <span>Verify user</span>;
+		} else if (requestType === "donator") {
+			return <span>Get Help</span>;
 		}
-
-		return output;
 	}
 
 	render () {
-		let { scenario, openModalFunction } = this.props;
+		let { scenario,
+					context, // none, admin, doer, donator, verifier, requester
+					openModalFunction } = this.props;
+
+		let { firstName,
+					progress,
+					disaster,
+					
+					doerlat,
+					doerlon,
+					donated,
+					image,
+					imagethumb,
+					noun,
+					requestorlat,
+					requestorlon,
+					verb } = scenario.attributes;
 		
 		return (
-			<article className={`ad ${scenario.request_type}-ad`}>
-				<header className="ad-header">
-					<h4 className="ad-title">
-						{this.titleBuild(scenario.request_type,
-							scenario.description.noun,
-							scenario.description.verb,
-							scenario.requester.first_name)}
-						</h4>
-					<h5 className="ad-subtitle">
-						{this.subtitleBuild(scenario.request_type, scenario.progress)}
-					</h5>
-				</header>
+			<article className={`ad ${context}-ad`}>
 				<figure className="ad-image-wrap">
-					<img src={scenario.image.url} alt={scenario.location.event} className="ad-image"/>
-					<figcaption className="ad-image-caption">
-						<p>{scenario.location.event}</p>
-					</figcaption>
+					<img src={imagethumb} alt={disaster} className="ad-image" />
 				</figure>
-				<button className="btn ad-modal-btn" onClick={() => openModalFunction(scenario.request_type)}>
-					{this.callToActionBuild(scenario.request_type)}
-				</button>
+				<header className="ad-header">
+					<h4 className="ad-title">{this.titleBuild(noun, verb, firstName)}</h4>
+					<h5 className="ad-subtitle">{this.subtitleBuild(donated)}</h5>
+				</header>
+				<p className="ad-image-caption">{disaster}</p>
+				<button className="btn ad-modal-btn" onClick={() => openModalFunction(context)}>{this.callToActionBuild(context)}</button>
 			</article>
 		);
 	}
