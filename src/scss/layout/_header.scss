@@ -1,11 +1,9 @@
 .app-header {
+	@include menu-back;
 	position: relative;
-	background: $menu-background;
 	width: 100%;
 	height: 2.5rem;
 	padding: .5em 1em;
-	box-shadow: $menu-shadow;
-	box-shadow: $menu-shadow;
 	display: inline-flex;
 	justify-content: space-between;
 	z-index: 5;

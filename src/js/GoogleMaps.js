@@ -24,11 +24,14 @@ export class MapContainer extends Component {
       markerShown: true,
       markerPos: clickEvent.latLng
     });
+
+    return this.props.closeMapPicker();
   }
 
 	render() {
     let { google,
-          zoomLevel } = this.props;
+          zoomLevel,
+          closeMapPicker } = this.props;
 
     let style = {
       width: '100%',

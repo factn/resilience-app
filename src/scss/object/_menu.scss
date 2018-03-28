@@ -13,13 +13,12 @@
 	text-align: center;
 }
 .menu-drawer {
+	@include menu-back;
 	position: absolute;
 	top: 0;
 	left: -100vw;
 	width: calc(100% - 3rem);
 	height: 100vh;
-	background: $menu-background;
-	box-shadow: $menu-shadow;
 	z-index: 11;
 	opacity: 0;
 	padding: 1rem;

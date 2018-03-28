@@ -32,7 +32,8 @@ export default class App extends Component {
       userFirstName: "",
       currentUserRole: "none",
       scrollEnabled: true,
-      refreshes: 0
+      refreshes: 0,
+      mapPickerIsOpen: false
     };
     this.settings = {
       zoomLevel: 14,
@@ -66,7 +67,8 @@ export default class App extends Component {
             labelPhrase: "Sign In",
             labelIcon: "sign-in-alt",
             onSubmit: this.login,
-            onSubmitParams: "Admin"
+            onSubmitParams: "Admin",
+            responseType: "neutral"
           }
         ]
       },
@@ -119,7 +121,8 @@ export default class App extends Component {
             inputType: "submit",
             labelPhrase: "Create Account",
             labelIcon: "user-plus",
-            onSubmit: this.createUserAccount
+            onSubmit: this.createUserAccount,
+            responseType: "neutral"
           }
         ]
       },
@@ -130,7 +133,8 @@ export default class App extends Component {
             inputType: "submit",
             labelPhrase: "Save settings",
             labelIcon: "cogs",
-            onSubmit: this.updatePreferences
+            onSubmit: this.updatePreferences,
+            responseType: "neutral"
           }
         ]
       },
@@ -148,7 +152,6 @@ export default class App extends Component {
             inputType: "text",
             inputID: "description",
             labelPhrase: "What do you need help with?",
-            labelIcon: "",
             requiredField: true
           }, {
             inputType: "text",
@@ -159,11 +162,11 @@ export default class App extends Component {
           }, {
             inputType: "file",
             inputID: "photo",
-            labelPhrase: "Add a photo of what you need help with.",
+            labelPhrase: "Show us what happened",
             labelIcon: "image",
             requiredField: false
           }, {
-            inputType: "text",
+            inputType: "location",
             inputID: "location",
             labelPhrase: "Where are you?",
             labelIcon: "map-pin",
@@ -172,7 +175,8 @@ export default class App extends Component {
             inputType: "submit",
             labelPhrase: "Send someone",
             labelIcon: "check",
-            onSubmit: this.submitRequest
+            onSubmit: this.submitRequest,
+            responseType: "neutral"
           }
         ]
       },
@@ -260,7 +264,8 @@ export default class App extends Component {
             inputType: "submit",
             labelPhrase: "Donate",
             labelIcon: "money-bill-alt",
-            onSubmit: this.submitDonation
+            onSubmit: this.submitDonation,
+            responseType: "neutral"
           }
         ]
       },
@@ -278,7 +283,8 @@ export default class App extends Component {
             inputType: "submit",
             labelPhrase: "I'm on my way",
             labelIcon: "thumbs-up",
-            onSubmit: this.submitDo
+            onSubmit: this.submitDo,
+            responseType: "neutral"
           }
         ]
       },
@@ -290,7 +296,16 @@ export default class App extends Component {
             inputType: "submit",
             labelPhrase: "Verify this user",
             labelIcon: "check",
-            onSubmit: this.submitVerification
+            onSubmit: this.submitVerification,
+            onSubmitParams: true,
+            responseType: "positive"
+          }, {
+            inputType: "submit",
+            labelPhrase: "I don't know them",
+            labelIcon: "times",
+            onSubmit: this.submitVerification,
+            onSubmitParams: false,
+            responseType: "negative"
           }
         ]
       },
@@ -320,6 +335,9 @@ export default class App extends Component {
 
     this.toggleCustomDonationAmount = this.toggleCustomDonationAmount.bind(this);
     this.toggleCreditCardFields = this.toggleCreditCardFields.bind(this);
+
+    this.openMapPicker = this.openMapPicker.bind(this);
+    this.closeMapPicker = this.closeMapPicker.bind(this);
 
     this.submitRequest = this.submitRequest.bind(this);
     this.submitDonation = this.submitDonation.bind(this);
@@ -431,40 +449,35 @@ export default class App extends Component {
     let { inputs } = this.modals.donate;
 
     if (turnedOn) {
-      inputs[4].requiredField = true;
-      inputs[4].disabledField = false;
-
-      inputs[5].requiredField = true;
-      inputs[5].disabledField = false;
-
-      inputs[6].requiredField = true;
-      inputs[6].disabledField = false;
-
-      inputs[7].requiredField = true;
-      inputs[7].disabledField = false;
-
-      inputs[8].requiredField = true;
-      inputs[8].disabledField = false;
+      for (let i = 4; i < 8; i++) {
+        inputs[i].requiredField = true;
+        inputs[i].disabledField = false;
+      }
     } else {
-      inputs[4].requiredField = false;
-      inputs[4].disabledField = true;
-      
-      inputs[5].requiredField = false;
-      inputs[5].disabledField = true;
-      
-      inputs[6].requiredField = false;
-      inputs[6].disabledField = true;
-      
-      inputs[7].requiredField = false;
-      inputs[7].disabledField = true;
-      
-      inputs[8].requiredField = false;
-      inputs[8].disabledField = true;
+      for (let i = 4; i < 8; i++) {
+        inputs[i].requiredField = false;
+        inputs[i].disabledField = true;
+      }
     }
 
     this.setState({
       refreshes: this.state.refreshes + 1
     });
+  }
+
+  openMapPicker = () => {
+    this.setState({
+      mapPickerIsOpen: true,
+      modalIsOpen: false
+    });
+  }
+  closeMapPicker = () => {
+    if (this.state.mapPickerIsOpen) {
+      this.setState({
+        mapPickerIsOpen: false,
+        modalIsOpen: true
+      });
+    }
   }
 
   submitRequest = () => {
@@ -479,7 +492,7 @@ export default class App extends Component {
   submitDo = () => {
     this.closeModal();
   }
-  submitVerification = () => {
+  submitVerification = isVerified => {
     this.closeModal();
   }
 
@@ -490,7 +503,9 @@ export default class App extends Component {
         <ModalWrap modalIsOpen={this.state.modalIsOpen}
             closeModalFunction={this.closeModal}
             openModalName={this.state.openModalName}
-            modalContent={this.modals[this.state.openModalName]} />
+            modalContent={this.modals[this.state.openModalName]}
+            zoomLevel={this.settings.zoomLevel}
+            openMapPicker={this.openMapPicker} />
 
         {/* App header */}
         <Header userFirstName={this.state.userFirstName}
@@ -504,6 +519,7 @@ export default class App extends Component {
         <Main userLoggedIn={this.state.userLoggedIn}
             database={fakeDB.ads}
             openModalFunction={this.openModal}
+            closeMapPicker={this.closeMapPicker}
             settings={this.settings} />
 
         {/* App footer */}

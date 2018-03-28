@@ -8,7 +8,10 @@ import FormInput from './FormInput';
 
 export default class Modal extends Component {
 	render () {
-		let { name, content } = this.props;
+		let { name,
+					content,
+					zoomLevel,
+					openMapPicker } = this.props;
 		
 		return (
 			<article className={`${name.toString().toLowerCase()}-modal modal`}>
@@ -24,7 +27,11 @@ export default class Modal extends Component {
 				
 				<div className={`${name.toString().toLowerCase()}-form modal-form`}>
 					{typeof content.inputs !== "undefined" && content.inputs.map(_input =>
-						<FormInput formName={name} inputObj={_input} key={_input} />
+						<FormInput formName={name}
+								inputObj={_input}
+								zoomLevel={zoomLevel}
+								openMapPicker={openMapPicker}
+								key={_input} />
 					)}
 				</div>
 			</article>

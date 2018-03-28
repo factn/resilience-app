@@ -8,6 +8,8 @@ import faSolid from '@fortawesome/fontawesome-free-solid';
 export default class FormInput extends Component {
 	render () {
 		let { formName,
+					zoomLevel,
+					openMapPicker,
 					inputObj } = this.props;
 		
 		// Valid inputType's: "submit", "text", "email", "password", "file", "location", "number", "radio-row"
@@ -16,8 +18,6 @@ export default class FormInput extends Component {
 					// Radio options
 					radios,
 					radioRowName,
-					onChange,
-					onChangeVal,
 
 					// Label properties
 					labelPhrase,
@@ -29,12 +29,13 @@ export default class FormInput extends Component {
 					disabledField,
 
 					// Submit function
+					responseType,
 					onSubmit,
 					onSubmitParams } = inputObj;
 
 		if (inputType === "submit") {
 			return (
-				<button className={`btn submit-btn ${formName}-btn`}
+				<button className={`btn submit-btn ${formName}-btn ${responseType}-response`}
 						type="submit"
 						onClick={() => {
 							if (typeof onSubmitParams !== "undefined")
@@ -49,23 +50,28 @@ export default class FormInput extends Component {
 		} else if (inputType === "location") {
 			return (
 				<div className={disabledField ? "input-wrap disabled-input" : "input-wrap"}>
-					<label className="input-label" htmlFor={`${formName}_${inputID}`}>
+					<button className="input-label btn btn-label"
+							htmlFor={`${formName}_${inputID}`}
+							onClick={() => openMapPicker()}>
 						<span className="input-label-phrase">{labelPhrase}</span>
 						{typeof labelIcon !== "undefined" &&
 							<Icon icon={labelIcon} className="input-label-icon" />
 						}
-					</label>
+					</button>
 					<input className="form-input"
-							type={inputType}
-							id={`${formName}_${inputID}`}
-							required={requiredField}
-							disabled={disabledField} />
+							type="number"
+							id={`${formName}_${inputID}_lat`}
+							hidden={true} />
+					<input className="form-input"
+							type="number"
+							id={`${formName}_${inputID}_lon`}
+							hidden={true} />
 				</div>
 			);
 		} else if (inputType === "file") {
 			return (
 				<div className={disabledField ? "input-wrap disabled-input" : "input-wrap"}>
-					<label className="input-label" htmlFor={`${formName}_${inputID}`}>
+					<label className="input-label btn btn-label" htmlFor={`${formName}_${inputID}`}>
 						<span className="input-label-phrase">{labelPhrase}</span>
 						{typeof labelIcon !== "undefined" &&
 							<Icon icon={labelIcon} className="input-label-icon" />

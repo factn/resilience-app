@@ -13,7 +13,9 @@ export default class ModalWrap extends Component {
 		let { modalIsOpen,
 					closeModalFunction,
 					openModalName,
-					modalContent } = this.props;
+					modalContent,
+					zoomLevel,
+					openMapPicker } = this.props;
 
 		let style = modalIsOpen
 			? { top: document.documentElement.scrollTop }
@@ -28,7 +30,9 @@ export default class ModalWrap extends Component {
 
 				{typeof modalContent !== "undefined" &&
 					<Modal name={openModalName}
-							content={modalContent} />
+							content={modalContent}
+							zoomLevel={zoomLevel}
+							openMapPicker={openMapPicker} />
 				}
 			</section>
 		);

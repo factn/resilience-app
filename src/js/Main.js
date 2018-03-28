@@ -12,6 +12,8 @@ export default class Main extends Component {
 		let { userLoggedIn,
 					database,
 					openModalFunction,
+					mapPickerIsOpen,
+					closeMapPicker,
 					settings } = this.props;
 
 		return (
@@ -25,7 +27,8 @@ export default class Main extends Component {
 							)}
 						</section>
 					: <section className="map-wrap">
-							<GoogleMaps zoomLevel={settings.zoomLevel} />
+							<GoogleMaps zoomLevel={settings.zoomLevel}
+									closeMapPicker={closeMapPicker} />
 						</section>
 				}
 			</main>
