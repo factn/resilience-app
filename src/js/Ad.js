@@ -18,22 +18,20 @@ export default class Ad extends Component {
 
 	render () {
 		let { scenario,
-					context, // none, admin, doer, donator, verifier, requester
+					context, // doer, donator, verifier, requester
 					openModal } = this.props;
 
-		let { // Not yet created
-					firstName,
-					progress,
+		let { // doer_firstname,
+					// doer_lastname,
+					requester_firstname,
+					// requester_lastname,
+					// funding_goal,
 					disaster,
-					
-					// Currently unused
-					doerlat,
-					doerlon,
-					requestorlat,
-					requestorlon,
-					image,
-
-					// In use
+					// doerlat,
+					// doerlon,
+					// requestorlat,
+					// requestorlon,
+					// image,
 					donated,
 					imagethumb,
 					noun,
@@ -42,7 +40,7 @@ export default class Ad extends Component {
 		return (
 			<article className={`ad ${context}-ad`}>
 				<header className="ad-header">
-					<h4 className="ad-title">{<span>{`Can you ${verb} ${noun} for ${firstName}?`}</span>}</h4>
+					<h4 className="ad-title">{<span>{`Can you ${verb} ${noun} for ${toFirstCap(requester_firstname)}?`}</span>}</h4>
 					<h5 className="ad-subtitle">{<span>{`${donated} funded`}</span>}</h5>
 				</header>
 				<figure className="ad-image-wrap">
@@ -54,3 +52,5 @@ export default class Ad extends Component {
 		);
 	}
 }
+
+const toFirstCap = str => str.charAt(0).toUpperCase() + str.slice(1);

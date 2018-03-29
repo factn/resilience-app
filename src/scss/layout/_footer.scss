@@ -20,6 +20,8 @@
 	height: 2rem;
 	padding: .25rem;
 	font-size: 1rem;
+	box-shadow: 0 0 0.25rem $black,
+		0 0 0.25rem $black;
 }
 
 @include breakpoint($tablet) {

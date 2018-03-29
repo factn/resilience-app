@@ -7,25 +7,48 @@ import {
 } from 'redux-bees';
 
 const apiEndpoints = {
-	getPosts: {
+	// Scenarios
+	getScenarios: {
 		method: get,
 		path: '/scenarios'
 	},
-	getPost: {
+	getScenario: {
 		method: get,
 		path: '/scenarios/:id'
 	},
-	createPost: {
+	createScenario: {
 		method: post,
 		path: '/scenarios'
 	},
-	updatePost: {
+	updateScenario: {
 		method: patch,
 		path: '/scenarios/:id'
 	},
-	destroyPost: {
+	destroyScenario: {
 		method: destroy,
 		path: '/scenarios/:id'
+	},
+
+	// Users
+	getUsers: {
+		method: get,
+		path: '/users'
+	},
+	getUser: {
+		method: get,
+		path: '/users/:attributes:email'
+	},
+	createUser: {
+		method: post,
+		path: '/users'
+	},
+	updateUser: {
+		method: patch,
+		path: '/users/:attributes:email'
+	},
+	destroyUser: {
+		method: destroy,
+		path: '/users/:attributes:email'
 	}
 };
 

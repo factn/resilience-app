@@ -20,16 +20,16 @@ export default class Modal extends Component {
 					<h2>{content.title}</h2>
 				</header>
 				
-				{typeof content.adContent !== "undefined" && content.adContent}
+				{content.adContent !== {} && content.adContent}
 				
 				<div className={`${name.toString().toLowerCase()}-form modal-form`}>
-					{typeof content.inputs !== "undefined" && content.inputs.map(_input =>
+					{typeof content.inputs !== "undefined" && content.inputs.map((_input, _index) =>
 						<FormInput formName={name}
 								inputObj={_input}
 								openMapPicker={openMapPicker}
 								lat={lat}
 								lon={lon}
-								key={_input} />
+								key={_index} />
 					)}
 				</div>
 			</article>

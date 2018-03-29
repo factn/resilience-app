@@ -83,6 +83,7 @@ export default class FormInput extends Component {
 					<input className="form-input"
 							type={inputType}
 							id={`${formName}_${inputID}`}
+							accept="image/*"
 							required={requiredField}
 							disabled={disabledField} />
 				</div>

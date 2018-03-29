@@ -29,6 +29,9 @@
 	background: $white;
 	padding: 1rem;
 	margin-bottom: .5rem;
+	box-shadow: $taper-shadow;
+	border-radius: .5rem;
+	overflow: hidden;
 	&.doer-ad {
 		.ad-header {
 			background: $red;

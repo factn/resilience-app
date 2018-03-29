@@ -37,7 +37,8 @@ export default class App extends Component {
       refreshes: 0,
       mapPickerIsOpen: false,
       databaseReady: false,
-      databaseLocal: {},
+      scenarioData: {},
+      userData: {},
       lastClickedLat: null,
       lastClickedLon: null
     };
@@ -351,47 +352,77 @@ export default class App extends Component {
 
   getFullDataBase = () => {
     console.log("Getting database");
-    
-    DB.getPosts()
+
+    DB.getScenarios()
       .then(result => {
         console.info("Database call complete:", result.body.data);
 
         this.setState({
           databaseReady: true,
-          databaseLocal: result.body.data
+          scenarioData: result.body.data
         });
       }).catch(error => {
         console.error(error);
 
         this.setState({
           databaseReady: false,
-          databaseLocal: {}
+          scenarioData: {}
         });
       });
   }
-  getDataBaseItem = _id => {
-    DB.getPost({ id: _id }).then(result => {
+
+  getScenario = _id => {
+    DB.getScenario({ id: _id }).then(result => {
       console.log(result);
     }).catch(error => {
       console.error(error);
     });
   }
-  createDataBaseItem = obj => {
-    DB.createPost(obj).then(result => {
+  createScenario = obj => {
+    DB.createScenario(obj).then(result => {
       console.log(result);
     }).catch(error => {
       console.error(error);
     });
   }
-  updateDataBaseItem = (_id, obj) => {
-    DB.updatePost({ id: _id }, obj).then(result => {
+  updateScenario = (_id, obj) => {
+    DB.updateScenario({ id: _id }, obj).then(result => {
       console.log(result);
     }).catch(error => {
       console.error(error);
     });
   }
-  deleteDataBaseItem = _id => {
-    DB.destroyPost({ id: _id }).then(result => {
+  deleteScenario = _id => {
+    DB.destroyScenario({ id: _id }).then(result => {
+      console.log(result);
+    }).catch(error => {
+      console.error(error);
+    });
+  }
+
+  getUser = _email => {
+    DB.getUser({ email: _email }).then(result => {
+      console.log(result);
+    }).catch(error => {
+      console.error(error);
+    });
+  }
+  createUser = obj => {
+    DB.createUser(obj).then(result => {
+      console.log(result);
+    }).catch(error => {
+      console.error(error);
+    });
+  }
+  updateUser = (_email, obj) => {
+    DB.updateUser({ email: _email }, obj).then(result => {
+      console.log(result);
+    }).catch(error => {
+      console.error(error);
+    });
+  }
+  deleteUser = _email => {
+    DB.destroyUser({ email: _email }).then(result => {
       console.log(result);
     }).catch(error => {
       console.error(error);
@@ -587,7 +618,7 @@ export default class App extends Component {
         {/* App main */}
         <Main contextChange={this.contextChange}
             databaseReady={this.state.databaseReady}
-            database={this.state.databaseLocal}
+            database={this.state.scenarioData}
             userRole={this.state.currentUserRole}
             openModal={this.openModal} />
 
