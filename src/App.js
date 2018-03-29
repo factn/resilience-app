@@ -457,8 +457,10 @@ export default class App extends Component {
     });
   }
 
-  openModal = (modalName, adModalContent = {}) => {
-    this.modals[modalName].adContent = <AdModalContent {... adModalContent} />
+  openModal = (modalName, adModalContent = null) => {
+    if (adModalContent)
+      this.modals[modalName].adContent = <AdModalContent {... adModalContent} />
+    
     this.setState({
       menuIsOpen: false,
       modalIsOpen: true,

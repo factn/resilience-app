@@ -110,7 +110,7 @@
 		cursor: inherit;
 	}
 	.funding-progress-slider {
-		border: .125rem solid $black;
+		border: 1px solid rgba($black, .5);
 		background: linear-gradient(to right, $red, $yellow, $green)
 	}
 }

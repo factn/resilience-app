@@ -13,14 +13,18 @@ export default class Modal extends Component {
 					openMapPicker,
 					lat,
 					lon, } = this.props;
+
+		let clas = typeof content.adContent !== "undefined"
+			? `${name.toString().toLowerCase()}-modal modal adcontent-modal`
+			: `${name.toString().toLowerCase()}-modal modal no-adcontent-modal`;
 		
 		return (
-			<article className={`${name.toString().toLowerCase()}-modal modal`}>
+			<article className={clas}>
 				<header className="modal-header">
 					<h2>{content.title}</h2>
 				</header>
 				
-				{content.adContent !== {} && content.adContent}
+				{typeof content.adContent !== "undefined" && content.adContent}
 				
 				<div className={`${name.toString().toLowerCase()}-form modal-form`}>
 					{typeof content.inputs !== "undefined" && content.inputs.map((_input, _index) =>
