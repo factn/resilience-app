@@ -2,14 +2,26 @@
 	background: $white;
 	position: relative;
 	width: 100%;
-	height: 2.5rem;
 	padding: .5em 1em;
 	display: inline-flex;
 	justify-content: space-between;
 	z-index: 5;
 }
 .title {
+	font-size: 1.5em;
 	flex-basis: calc(100% - 2rem);
 	text-align: center;
 	padding-right: 2rem;
+}
+
+@include breakpoint($tablet) {
+	.title {
+		font-size: 2em;
+	}
+}
+
+@include breakpoint($desktop) {
+	.title {
+		font-size: 2.5em;
+	}
 }

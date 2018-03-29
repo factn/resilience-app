@@ -104,3 +104,37 @@
 		font-size: 3em;
 	}
 }
+
+@include breakpoint($tablet) {
+	.modal {
+		display: grid;
+		grid: {
+			template: {
+				columns: 1fr 20rem;
+				rows: auto;
+				areas:
+					"header header"
+					"adcontent form";
+			}
+			gap: 1rem;
+		}
+	}
+	.modal-header {
+		grid-area: header;
+		font-size: 1.2em;
+		border-bottom: .25rem solid $blue;
+	}
+	.modal-adcontent-wrap {
+		grid-area: adcontent;
+	}
+	.modal-form {
+		grid-area: form;
+	}
+}
+
+@include breakpoint($desktop) {
+	.modal {
+		max-width: 60em;
+		left: calc(50% - 30em);
+	}
+}

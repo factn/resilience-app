@@ -68,13 +68,13 @@
 	.ad-modal-btn {
 		width: 100%;
 		font-size: 1rem;
-		&:active, &:focus {
+		&:active, &:focus, &:hover {
 			color: $white;
 		}
 	}
 }
 .ad-header {
-	margin: .5rem 0;
+	margin: -1rem -1rem 1rem;
 	padding: .5rem 1rem;
 	.ad-title, .ad-subtitle {
 		color: rgba($white, .95);
@@ -87,7 +87,7 @@
 	}
 }
 .ad-image-wrap {
-	background: darken($white, 5%);
+	background: linear-gradient(to right, $white, darken($white, 5%), $white);
 	padding: .25rem;
 	margin-bottom: .5rem;
 	.ad-image {
@@ -101,6 +101,15 @@
 }
 
 @include breakpoint($tablet) {
+	.ad-tab-header {
+		padding: 1rem;
+	}
+	.ad-tab-list {
+		width: auto;
+	}
+	.ad-tab {
+		font-size: 1.2em;
+	}
 	.ad-feed-wrap {
 		display: grid;
 		grid: {
@@ -113,6 +122,11 @@
 	}
 	.ad {
 		margin: 0;
+	}
+	.ad-image-wrap {
+		.ad-image {
+			max-height: 10rem;
+		}
 	}
 }
 

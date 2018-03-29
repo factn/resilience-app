@@ -41,7 +41,7 @@
 	margin: -1rem -1rem 1rem;
 	box-shadow: 0 0 1rem rgba($black, .5);
 	background: linear-gradient(to bottom right, lighten($green, 10%), $blue);
-	padding: 1rem;
+	padding: 2rem 1rem;
 	display: inline-flex;
 	justify-content: space-between;
 	.user-icon {
@@ -85,5 +85,15 @@
 	}
 	.version {
 		
+	}
+}
+
+@include breakpoint($tablet) {
+	.menu-drawer {
+		width: 20rem;
+	}
+	.menu-close-btn {
+		right: .5rem;
+		color: $white;
 	}
 }
