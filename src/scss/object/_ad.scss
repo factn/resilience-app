@@ -102,6 +102,18 @@
 	font-size: .8em;
 	margin-top: .5rem;
 }
+.funding-progress-wrap {
+	.funding-progress-label {
+		display: block;
+		font-size: 1.2rem;
+		margin-bottom: .5rem;
+		cursor: inherit;
+	}
+	.funding-progress-slider {
+		border: .125rem solid $black;
+		background: linear-gradient(to right, $red, $yellow, $green)
+	}
+}
 
 @include breakpoint($tablet) {
 	.ad-tab-header {
