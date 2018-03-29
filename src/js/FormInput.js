@@ -8,9 +8,10 @@ import faSolid from '@fortawesome/fontawesome-free-solid';
 export default class FormInput extends Component {
 	render () {
 		let { formName,
-					zoomLevel,
 					openMapPicker,
-					inputObj } = this.props;
+					inputObj,
+					lat,
+					lon } = this.props;
 		
 		// Valid inputType's: "submit", "text", "email", "password", "file", "location", "number", "radio-row"
 		let { inputType,
@@ -61,10 +62,12 @@ export default class FormInput extends Component {
 					<input className="form-input"
 							type="number"
 							id={`${formName}_${inputID}_lat`}
+							value={lat || 0}
 							hidden={true} />
 					<input className="form-input"
 							type="number"
 							id={`${formName}_${inputID}_lon`}
+							value={lon || 0}
 							hidden={true} />
 				</div>
 			);

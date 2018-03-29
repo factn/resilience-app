@@ -25,7 +25,7 @@ export class MapContainer extends Component {
       markerPos: clickEvent.latLng
     });
 
-    return this.props.closeMapPicker();
+    return this.props.closeMapPicker(clickEvent.latLng.lat(), clickEvent.latLng.lng());
   }
   centerMoved = (mapProps, map) => {
     console.log("Ding!");

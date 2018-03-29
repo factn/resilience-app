@@ -1,18 +1,11 @@
 @keyframes loader {
 	0% {
 		opacity: 0;
-		transform: translateX(-5rem) rotateY(-90deg);
 	}
-	33% {
-		opacity: 0;
-		transform: translateX(-5rem) rotateY(-90deg);
-	}
-	66% {
+	50% {
 		opacity: 1;
-		transform: translateX(0) rotateY(0);
 	}
 	100% {
 		opacity: 0;
-		transform: translateX(5rem) rotateY(90deg);
 	}
 }

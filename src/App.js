@@ -8,11 +8,12 @@ import faSolid              from '@fortawesome/fontawesome-free-solid';
 import './App.scss';
 
 // Local JS files
-import ModalWrap  from './js/ModalWrap';
-import GoogleMaps from './js/GoogleMaps';
-import Header     from './js/Header';
-import Main       from './js/Main';
-import Footer     from './js/Footer';
+import ModalWrap      from './js/ModalWrap';
+import AdModalContent from './js/AdModalContent';
+import GoogleMaps     from './js/GoogleMaps';
+import Header         from './js/Header';
+import Main           from './js/Main';
+import Footer         from './js/Footer';
 
 // DB import
 import DB from './js/Bees.js';
@@ -36,7 +37,9 @@ export default class App extends Component {
       refreshes: 0,
       mapPickerIsOpen: false,
       databaseReady: false,
-      databaseLocal: {}
+      databaseLocal: {},
+      lastClickedLat: null,
+      lastClickedLon: null
     };
     this.settings = {
       zoomLevel: 14,
@@ -310,7 +313,7 @@ export default class App extends Component {
       },
       thanks: {
         title: "Feel good about yourself",
-        customContent: (
+        adContent: (
           <div className="modal-custom-content-wrap thank-you-modal-custom-content">
             <h4>You just made a huge difference</h4>
             <Icon className="thank-you-icon" icon="thumbs-up" />
@@ -423,7 +426,8 @@ export default class App extends Component {
     });
   }
 
-  openModal = modalName => {
+  openModal = (modalName, adModalContent = {}) => {
+    this.modals[modalName].adContent = <AdModalContent {... adModalContent} />
     this.setState({
       menuIsOpen: false,
       modalIsOpen: true,
@@ -524,9 +528,11 @@ export default class App extends Component {
       mapPickerIsOpen: true
     });
   }
-  closeMapPicker = () => {
+  closeMapPicker = (lat, lon) => {
     this.setState({
-      mapPickerIsOpen: false
+      mapPickerIsOpen: false,
+      lastClickedLat: lat,
+      lastClickedLon: lon
     });
   }
 
@@ -560,8 +566,9 @@ export default class App extends Component {
             closeModalFunction={this.closeModal}
             openModalName={this.state.openModalName}
             modalContent={this.modals[this.state.openModalName]}
-            zoomLevel={this.settings.zoomLevel}
-            openMapPicker={this.openMapPicker} />
+            openMapPicker={this.openMapPicker}
+            lat={this.state.lastClickedLat}
+            lon={this.state.lastClickedLon} />
         
         {/* Map picker */}
         <GoogleMaps zoomLevel={this.settings.zoomLevel}
@@ -571,7 +578,7 @@ export default class App extends Component {
         {/* App header */}
         <Header userFirstName={this.state.userFirstName}
             menuIsOpen={this.state.menuIsOpen}
-            openModalFunction={this.openModal}
+            openModal={this.openModal}
             openMenuFunction={this.openMenu}
             menuList={this.menu}
             closeMenuFunction={this.closeMenu}
@@ -582,13 +589,11 @@ export default class App extends Component {
             databaseReady={this.state.databaseReady}
             database={this.state.databaseLocal}
             userRole={this.state.currentUserRole}
-            openModalFunction={this.openModal}
-            closeMapPicker={this.closeMapPicker}
-            settings={this.settings} />
+            openModal={this.openModal} />
 
         {/* App footer */}
         <Footer userLoggedIn={this.state.userLoggedIn}
-            openModalFunction={this.openModal}
+            openModal={this.openModal}
             logoutFunction={this.logout} />
       </div>
     );

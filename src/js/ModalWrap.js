@@ -14,7 +14,8 @@ export default class ModalWrap extends Component {
 					closeModalFunction,
 					openModalName,
 					modalContent,
-					zoomLevel,
+					lat,
+					lon,
 					openMapPicker } = this.props;
 
 		let style = modalIsOpen
@@ -31,8 +32,9 @@ export default class ModalWrap extends Component {
 				{typeof modalContent !== "undefined" &&
 					<Modal name={openModalName}
 							content={modalContent}
-							zoomLevel={zoomLevel}
-							openMapPicker={openMapPicker} />
+							openMapPicker={openMapPicker}
+							lat={lat}
+							lon={lon} />
 				}
 			</section>
 		);

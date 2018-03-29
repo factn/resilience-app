@@ -4,8 +4,6 @@ import React, { Component } from 'react';
 /*** [end of imports] ***/
 
 export default class Ad extends Component {
-	titleBuild = (noun, verb, name) => <span>{`Can you ${verb} ${noun} for ${name}?`}</span>;
-	subtitleBuild = progress => <span>{`${progress} funded`}</span>
 	callToActionBuild = requestType => {
 		if (requestType === "doer") {
 			return <span>Help today</span>;
@@ -21,20 +19,24 @@ export default class Ad extends Component {
 	render () {
 		let { scenario,
 					context, // none, admin, doer, donator, verifier, requester
-					openModalFunction } = this.props;
+					openModal } = this.props;
 
-		let { firstName,
+		let { // Not yet created
+					firstName,
 					progress,
 					disaster,
 					
+					// Currently unused
 					doerlat,
 					doerlon,
-					donated,
-					image,
-					imagethumb,
-					noun,
 					requestorlat,
 					requestorlon,
+					image,
+
+					// In use
+					donated,
+					imagethumb,
+					noun,
 					verb } = scenario.attributes;
 		
 		return (
@@ -43,11 +45,11 @@ export default class Ad extends Component {
 					<img src={imagethumb} alt={disaster} className="ad-image" />
 				</figure>
 				<header className="ad-header">
-					<h4 className="ad-title">{this.titleBuild(noun, verb, firstName)}</h4>
-					<h5 className="ad-subtitle">{this.subtitleBuild(donated)}</h5>
+					<h4 className="ad-title">{<span>{`Can you ${verb} ${noun} for ${firstName}?`}</span>}</h4>
+					<h5 className="ad-subtitle">{<span>{`${donated} funded`}</span>}</h5>
 				</header>
 				<p className="ad-image-caption">{disaster}</p>
-				<button className="btn ad-modal-btn" onClick={() => openModalFunction(context)}>{this.callToActionBuild(context)}</button>
+				<button className="btn ad-modal-btn" onClick={() => openModal(context, scenario.attributes)}>{this.callToActionBuild(context)}</button>
 			</article>
 		);
 	}

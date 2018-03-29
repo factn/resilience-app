@@ -14,9 +14,7 @@ export default class Main extends Component {
 					databaseReady,
 					database,
 					userRole,
-					openModalFunction,
-					closeMapPicker,
-					settings } = this.props;
+					openModal } = this.props;
 		
 		return (
 			<main className="app-main">
@@ -25,7 +23,7 @@ export default class Main extends Component {
 					? <section className="ad-feed-wrap">
 							{database.map(scenario =>
 								<Ad scenario={scenario}
-										openModalFunction={openModalFunction}
+										openModal={openModal}
 										context={userRole}
 										key={scenario.id} />
 							)}

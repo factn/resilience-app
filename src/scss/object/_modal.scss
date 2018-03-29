@@ -12,6 +12,24 @@
 .modal-header {
 	margin-bottom: 1rem;
 }
+.modal-adcontent-wrap {
+	.adcontent-header {
+		margin-bottom: .5rem;
+	}
+	.adcontent-image-wrap {
+		background: darken($white, 5%);
+		padding: .25rem;
+		margin-bottom: .5rem;
+	}
+	.adcontent-image {
+		max-height: 25vh;
+	}
+	.adcontent-image-caption {
+		color: rgba($black, .8);
+		font-size: .8em;
+		margin-top: .5rem;
+	}
+}
 .modal-form {
 	.input-wrap {
 		margin-bottom: 1rem;
