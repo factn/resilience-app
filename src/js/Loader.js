@@ -1,8 +1,7 @@
 /*** IMPORTS ***/
 // Module imports
-import React, { Component } from 'react';
-import Icon from '@fortawesome/react-fontawesome';
-// import faSolid from '@fortawesome/fontawesome-free-solid';
+import React, { Component }	from 'react';
+import Icon									from '@fortawesome/react-fontawesome';
 /*** [end of imports] ***/
 
 export default class Loader extends Component {

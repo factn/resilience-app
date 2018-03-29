@@ -1,8 +1,8 @@
 /*** IMPORTS ***/
 // Module imports
-import React, { Component } from 'react';
-import Icon from '@fortawesome/react-fontawesome';
-import faSolid from '@fortawesome/fontawesome-free-solid';
+import React, { Component }	from 'react';
+import Icon									from '@fortawesome/react-fontawesome';
+import faSolid							from '@fortawesome/fontawesome-free-solid';
 /*** [end of imports] ***/
 
 export default class FormInput extends Component {
@@ -13,7 +13,7 @@ export default class FormInput extends Component {
 					lat,
 					lon } = this.props;
 		
-		// Valid inputType's: "submit", "text", "email", "password", "file", "location", "number", "radio-row"
+		// Valid inputType's: "submit", "text", "email", "password", "file", "location", "number", "radio-row", "custom"
 		let { inputType,
 
 					// Radio options
@@ -32,16 +32,28 @@ export default class FormInput extends Component {
 					// Submit function
 					responseType,
 					onSubmit,
-					onSubmitParams } = inputObj;
+					onSubmitParams,
+				
+					// Full custom
+					customJSX } = inputObj;
 
 		if (inputType === "submit") {
 			return (
 				<button className={`btn submit-btn ${formName}-btn ${responseType}-response`}
 						type="submit"
 						onClick={() => {
-							if (typeof onSubmitParams !== "undefined")
-								return onSubmit(onSubmitParams)
-							
+							if (onSubmitParams) {
+								let obj = {};
+								for (let i in onSubmitParams) {
+									if (inputType === "radio-row")
+										obj[i] = document.getElementById(onSubmitParams[i]).checked;
+									else
+										obj[i] = document.getElementById(onSubmitParams[i]).value;
+								}
+								console.log("field values complete", obj);
+								
+								return onSubmit(obj)
+							}
 							return onSubmit()
 						}}>
 					<span className="button-label">{labelPhrase} </span>
@@ -114,6 +126,8 @@ export default class FormInput extends Component {
 					)}
 				</div>
 			);
+		} else if (inputType === "custom") {
+			return <CustomJSX content={customJSX} disabledField={disabledField} />;
 		} else { // text, email, password, number
 			return (
 				<div className={disabledField ? "input-wrap disabled-input" : "input-wrap"}>
@@ -131,5 +145,19 @@ export default class FormInput extends Component {
 				</div>
 			);
 		}
+	}
+}
+
+class CustomJSX extends Component {
+	render () {
+		let { disabledField, content } = this.props;
+
+		return (
+			<div className={disabledField
+					? "input-wrap disabled-input"
+					: "input-wrap"}>
+				{content}
+			</div>
+		)
 	}
 }

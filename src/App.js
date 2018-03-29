@@ -1,8 +1,8 @@
 /*** IMPORTS ***/
 // Module imports
-import React, { Component } from 'react';
-import Icon                 from '@fortawesome/react-fontawesome';
-import faSolid              from '@fortawesome/fontawesome-free-solid';
+import React, { Component, Fragment } from 'react';
+import Icon                           from '@fortawesome/react-fontawesome';
+import faSolid                        from '@fortawesome/fontawesome-free-solid';
 
 // Styles
 import './App.scss';
@@ -20,10 +20,19 @@ import DB from './js/Bees.js';
 /*** [end of imports] ***/
 
 const versionNumber = "0.1.0";
+const baseURL = "https://lion-uat.herokuapp.com";
 
 export default class App extends Component {
   constructor (props) {
     super(props);
+
+    this.defaultUserData = {
+      email: "",
+      firstname: "",
+      lastname: "",
+      latitude: -41.280789,
+      longitude: 174.775187
+    }
 
     this.state = {
       // mapAPIKey: "AIzaSyD9GQB7QNscXRebrSUzzNf8s5XGrzJSj0w",
@@ -31,8 +40,9 @@ export default class App extends Component {
       modalIsOpen: false,
       openModalName: "",
       userLoggedIn: false,
-      userFirstName: "",
       currentUserRole: "donator",
+      currentUserId: null,
+      currentUserData: this.defaultUserData,
       scrollEnabled: true,
       refreshes: 0,
       mapPickerIsOpen: false,
@@ -49,7 +59,9 @@ export default class App extends Component {
     };
 
     this.menu = {
+      "Sign Up": () => this.openModal("account"),
       "Log In": () => this.openModal("login"),
+      "Edit Account": () => this.openModal("editAccount"),
       "Preferences": () => this.openModal("preferences"),
       "Close": () => this.closeMenu()
     };
@@ -74,7 +86,10 @@ export default class App extends Component {
             labelPhrase: "Sign In",
             labelIcon: "sign-in-alt",
             onSubmit: this.login,
-            onSubmitParams: "Admin",
+            onSubmitParams: {
+              email: "login_email",
+              password: "login_pw"
+            },
             responseType: "neutral"
           }
         ]
@@ -86,13 +101,13 @@ export default class App extends Component {
             inputType: "text",
             inputID: "first-name",
             labelPhrase: "First Name",
-            labelIcon: "id-card-alt",
+            labelIcon: "id-card",
             requiredField: true
           }, {
             inputType: "text",
             inputID: "last-name",
             labelPhrase: "Last Name",
-            labelIcon: "id-card-alt",
+            labelIcon: "id-card",
             requiredField: false
           }, {
             inputType: "email",
@@ -113,8 +128,8 @@ export default class App extends Component {
             labelIcon: "key",
             requiredField: true
           }, {
-            inputType: "text",
-            inputID: "location",
+            inputType: "location",
+            inputID: "user-location",
             labelPhrase: "Location",
             labelIcon: "map-pin",
             requiredField: false
@@ -129,6 +144,78 @@ export default class App extends Component {
             labelPhrase: "Create Account",
             labelIcon: "user-plus",
             onSubmit: this.createUserAccount,
+            onSubmitParams: {
+              email: "account_email",
+              firstname: "account_first-name",
+              lastname: "account_last-name",
+              latitude: "account_user-location_lat",
+              longitude: "account_user-location_lon",
+              password: "account_pw",
+              password_confirmation: "account_confirm-pw"
+            },
+            responseType: "neutral"
+          }
+        ]
+      },
+      editAccount: {
+        title: "Edit Account",
+        inputs: [
+          {
+            inputType: "text",
+            inputID: "first-name",
+            labelPhrase: "First Name",
+            labelIcon: "id-card",
+            requiredField: true
+          }, {
+            inputType: "text",
+            inputID: "last-name",
+            labelPhrase: "Last Name",
+            labelIcon: "id-card",
+            requiredField: false
+          }, {
+            inputType: "email",
+            inputID: "email",
+            labelPhrase: "Email",
+            labelIcon: "at",
+            requiredField: true
+          }, {
+            inputType: "password",
+            inputID: "pw",
+            labelPhrase: "Password",
+            labelIcon: "key",
+            requiredField: true
+          }, {
+            inputType: "password",
+            inputID: "confirm-pw",
+            labelPhrase: "Password",
+            labelIcon: "key",
+            requiredField: true
+          }, {
+            inputType: "location",
+            inputID: "user-location",
+            labelPhrase: "Location",
+            labelIcon: "map-pin",
+            requiredField: false
+          }, {
+            inputType: "file",
+            inputID: "profile-photo",
+            labelPhrase: "Photo",
+            labelIcon: "image",
+            requiredField: false
+          }, {
+            inputType: "submit",
+            labelPhrase: "Update Account",
+            labelIcon: "save",
+            onSubmit: this.updateUserAccount,
+            onSubmitParams: {
+              email: "editAccount_email",
+              firstname: "editAccount_first-name",
+              lastname: "editAccount_last-name",
+              latitude: "editAccount_user-location_lat",
+              longitude: "editAccount_user-location_lon",
+              password: "editAccount_pw",
+              password_confirmation: "editAccount_confirm-pw"
+            },
             responseType: "neutral"
           }
         ]
@@ -182,6 +269,14 @@ export default class App extends Component {
             labelPhrase: "Send someone",
             labelIcon: "check",
             onSubmit: this.submitRequest,
+            onSubmitParams: {
+              event: "requester_event-name",
+              image: "requester_photo",
+              requester_firstname: "requester_first-name",
+              requesterlat: "requester_location_lat",
+              requesterlon: "requester_location_lon",
+              verb: "requester_verb"
+            },
             responseType: "neutral"
           }
         ]
@@ -205,14 +300,14 @@ export default class App extends Component {
               onChange: this.toggleCustomDonationAmount,
               onChangeVal: false
             }, {
-              inputID: "custom-donation-amount-radio",
+              inputID: "custom-amount",
               labelPhrase: "Custom",
               onChange: this.toggleCustomDonationAmount,
               onChangeVal: true
             }]
           }, {
             inputType: "number",
-            inputID: "custom-donation-amount",
+            inputID: "custom-amount-value",
             labelPhrase: "Custom amount",
             labelIcon: "i-cursor",
             requiredField: false,
@@ -227,42 +322,80 @@ export default class App extends Component {
             radios: [{
               inputID: "paypal",
               labelPhrase: "PayPal",
-              onChange: this.toggleCreditCardFields,
-              onChangeVal: false
+              onChange: this.togglePaymentTypeFields,
+              onChangeVal: 1
             }, {
               inputID: "lion-bucks",
               labelPhrase: "Lion-Bucks",
-              onChange: this.toggleCreditCardFields,
-              onChangeVal: false
+              onChange: this.togglePaymentTypeFields,
+              onChangeVal: 2
             }, {
               inputID: "credit-card",
               labelPhrase: "Credit Card",
-              onChange: this.toggleCreditCardFields,
-              onChangeVal: true
+              onChange: this.togglePaymentTypeFields,
+              onChangeVal: 3
             }]
           }, {
+            inputType: "custom",
+            toggleGroup: 1,
+            disabledField: true,
+            customJSX: (
+              <Fragment>
+                <div className="pseudo-input btn paypal-donate-btn">
+                  <a href="https://www.paypal.com/"
+                      target="_blank"
+                      rel="noopener noreferrer">
+                    <span className="input-label-phrase">Donate via Paypal </span>
+                    <Icon icon="paypal" className="input-label-icon" />
+                  </a>
+                </div>
+              </Fragment>
+            )
+          }, {
+            inputType: "custom",
+            toggleGroup: 2,
+            disabledField: true,
+            customJSX: (
+              <Fragment>
+                <label className="input-label">
+                  <span className="input-label-phrase">Ethereum wallet ID</span>
+                  <Icon icon="ethereum" className="input-label-icon" />
+                </label>
+                <div className="pseudo-input">
+                  <div className="ethereum-wallet-id-transaction-number">
+                    <span className="wallet-id" id="walletID">0x123f681646d4a755815f9cb19e1acc8565a0c2ac</span>
+                    {/* <Icon className="copy-icon" icon="copy" /> */}
+                  </div>
+                </div>
+              </Fragment>
+            )
+          }, {
             inputType: "number",
-            inputID: "credit-card",
+            inputID: "cc-number",
             labelPhrase: "Credit card number",
             labelIcon: "credit-card",
+            toggleGroup: 3,
             requiredField: false,
             disabledField: true
           }, {
             inputType: "number",
-            inputID: "expiration-month",
+            inputID: "cc-expiration-month",
             labelPhrase: "Expiration Month",
+            toggleGroup: 3,
             requiredField: false,
             disabledField: true
           }, {
             inputType: "number",
-            inputID: "expiration-year",
+            inputID: "cc-expiration-year",
             labelPhrase: "Expiration Year",
+            toggleGroup: 3,
             requiredField: false,
             disabledField: true
           }, {
             inputType: "number",
             inputID: "cc-sec",
             labelPhrase: "Security number",
+            toggleGroup: 3,
             requiredField: false,
             disabledField: true
           }, {
@@ -270,6 +403,19 @@ export default class App extends Component {
             labelPhrase: "Donate",
             labelIcon: "money-bill-alt",
             onSubmit: this.submitDonation,
+            onSubmitParams: {
+              presetAmount: "donator_preset-amount",
+              remainingAmount: "donator_remaining-amount",
+              customAmount: "donator_custom-amount",
+              customAmountValue: "donator_custom-amount-value",
+              paypal: "donator_paypal",
+              lionBucks: "donator_lion-bucks",
+              creditCard: "donator_credit-card",
+              creditCardNumber: "donator_cc-number",
+              creditCardMonth: "donator_cc-expiration-month",
+              creditCardYear: "donator_cc-expiration-year",
+              creditCardSec: "donator_cc-sec"
+            },
             responseType: "neutral"
           }
         ]
@@ -288,6 +434,10 @@ export default class App extends Component {
             labelPhrase: "I'm on my way",
             labelIcon: "thumbs-up",
             onSubmit: this.submitDo,
+            onSubmitParams: {
+              doerlat: "doer_location_lat",
+              doerlon: "doer_location_lon"
+            },
             responseType: "neutral"
           }
         ]
@@ -300,14 +450,14 @@ export default class App extends Component {
             labelPhrase: "Verify this user",
             labelIcon: "check",
             onSubmit: this.submitVerification,
-            onSubmitParams: true,
+            onSubmitParams: { userVerified: true },
             responseType: "positive"
           }, {
             inputType: "submit",
             labelPhrase: "I don't know them",
             labelIcon: "times",
             onSubmit: this.submitVerification,
-            onSubmitParams: false,
+            onSubmitParams: { userVerified: false },
             responseType: "negative"
           }
         ]
@@ -333,11 +483,12 @@ export default class App extends Component {
     this.login = this.login.bind(this);
     this.logout = this.logout.bind(this);
     this.createUserAccount = this.createUserAccount.bind(this);
+    this.updateUserAccount = this.updateUserAccount.bind(this);
 
     this.updatePreferences = this.updatePreferences.bind(this);
 
     this.toggleCustomDonationAmount = this.toggleCustomDonationAmount.bind(this);
-    this.toggleCreditCardFields = this.toggleCreditCardFields.bind(this);
+    this.togglePaymentTypeFields = this.togglePaymentTypeFields.bind(this);
 
     this.openMapPicker = this.openMapPicker.bind(this);
     this.closeMapPicker = this.closeMapPicker.bind(this);
@@ -369,65 +520,202 @@ export default class App extends Component {
           scenarioData: {}
         });
       });
+
+    DB.getUsers()
+      .then(result => {
+        console.info("Users call complete:", result.body.data);
+
+        this.getUser(1);
+      }).catch(error => {
+        console.error(error);
+      });
   }
 
   getScenario = _id => {
-    DB.getScenario({ id: _id }).then(result => {
-      console.log(result);
-    }).catch(error => {
-      console.error(error);
-    });
+    DB.getScenario({ id: _id })
+      .then(result => {
+        console.log(result);
+      }).catch(error => {
+        let errors = error.body.errors;
+
+        if (typeof errors === "object") {
+          console.error("Error getting scenario:");
+          for (let i in errors) {
+            console.error(errors[i]);
+          }
+        } else if (typeof errors === "string")
+          console.error("Error getting scenario: " + errors);
+        else
+          console.error("Error getting scenario:", errors);
+      });
   }
   createScenario = obj => {
-    DB.createScenario(obj).then(result => {
-      console.log(result);
-    }).catch(error => {
-      console.error(error);
-    });
+    DB.createScenario({
+        data: {
+          type: "scenarios",
+          attributes: obj
+        }
+      }).then(result => {
+        console.log("Scenario successfully created:", result);
+        this.getFullDataBase();
+      }).catch(error => {
+        let errors = error.body.errors;
+
+        if (typeof errors === "object") {
+          console.error("Error creating scenario:");
+          for (let i in errors) {
+            console.error(errors[i]);
+          }
+        } else if (typeof errors === "string")
+          console.error("Error creating scenario: " + errors);
+        else
+          console.error("Error creating scenario:", errors);
+      });
   }
   updateScenario = (_id, obj) => {
-    DB.updateScenario({ id: _id }, obj).then(result => {
-      console.log(result);
-    }).catch(error => {
-      console.error(error);
-    });
+    let _type = "scenarios";
+
+    DB.updateScenario({ id: _id }, {
+        data: {
+          id: _id,
+          type: _type,
+          links: this.buildLinks(_type, _id),
+          attributes: obj
+        }
+      }).then(result => {
+        console.log(result);
+        this.getFullDataBase();
+      }).catch(error => {
+        let errors = error.body.errors;
+
+        if (typeof errors === "object") {
+          console.error("Error updating scenario:");
+          for (let i in errors) {
+            console.error(errors[i]);
+          }
+        } else if (typeof errors === "string")
+          console.error("Error updating scenario: " + errors);
+        else
+          console.error("Error updating scenario:", errors);
+      });
   }
   deleteScenario = _id => {
-    DB.destroyScenario({ id: _id }).then(result => {
-      console.log(result);
-    }).catch(error => {
-      console.error(error);
-    });
+    DB.destroyScenario({ id: _id })
+      .then(result => {
+        console.log(result);
+        this.getFullDataBase();
+      }).catch(error => {
+        let errors = error.body.errors;
+
+        if (typeof errors === "object") {
+          console.error("Error deleting scenario:");
+          for (let i in errors) {
+            console.error(errors[i]);
+          }
+        } else if (typeof errors === "string")
+          console.error("Error deleting scenario: " + errors);
+        else
+          console.error("Error deleting scenario:", errors);
+      });
   }
 
-  getUser = _email => {
-    DB.getUser({ email: _email }).then(result => {
-      console.log(result);
-    }).catch(error => {
-      console.error(error);
-    });
+  getUser = _id => {
+    DB.getUser({ id: _id })
+      .then(result => {
+        console.log("Get user complete:", result.body.data.attributes);
+
+        this.setState({
+          currentUserRole: "donator",
+          currentUserId: _id,
+          currentUserData: result.body.data.attributes
+        });
+      }).catch(error => {
+        let errors = error.body.errors;
+
+        if (typeof errors === "object") {
+          console.error("Error getting user:");
+          for (let i in errors) {
+            console.error(errors[i]);
+          }
+        } else if (typeof errors === "string")
+          console.error("Error getting user: " + errors);
+        else
+          console.error("Error getting user:", errors);
+      });
   }
   createUser = obj => {
-    DB.createUser(obj).then(result => {
-      console.log(result);
-    }).catch(error => {
-      console.error(error);
-    });
+    DB.createUser({
+        data: {
+          type: "users",
+          attributes: obj
+        }
+      }).then(result => {
+        console.log("User successfully created:", result);
+        this.getFullDataBase();
+      }).catch(error => {
+        let errors = error.body.errors;
+
+        if (typeof errors === "object") {
+          console.error("Error creating user:");
+          for (let i in errors) {
+            console.error(errors[i]);
+          }
+        } else if (typeof errors === "string")
+          console.error("Error creating user: " + errors);
+        else
+          console.error("Error creating user:", errors);
+      });
   }
-  updateUser = (_email, obj) => {
-    DB.updateUser({ email: _email }, obj).then(result => {
-      console.log(result);
-    }).catch(error => {
-      console.error(error);
-    });
+  updateUser = (_id, obj) => {
+    let _type = "users";
+
+    DB.updateUser({ id: _id }, {
+        data: {
+          id: _id,
+          type: _type,
+          links: this.buildLinks(_type, _id),
+          attributes: obj
+        }
+      }).then(result => {
+        console.log(result);
+        this.getFullDataBase();
+      }).catch(error => {
+        let errors = error.body.errors;
+
+        if (typeof errors === "object") {
+          console.error("Error updating user:");
+          for (let i in errors) {
+            console.error(errors[i]);
+          }
+        } else if (typeof errors === "string")
+          console.error("Error updating user: " + errors);
+        else
+          console.error("Error updating user:", errors);
+      });
   }
-  deleteUser = _email => {
-    DB.destroyUser({ email: _email }).then(result => {
-      console.log(result);
-    }).catch(error => {
-      console.error(error);
-    });
+  deleteUser = _id => {
+    let _type = "users";
+
+    DB.destroyUser({ id: _id })
+      .then(result => {
+        console.log(result);
+        this.getFullDataBase();
+      }).catch(error => {
+        let errors = error.body.errors;
+
+        if (typeof errors === "object") {
+          console.error("Error deleting user:");
+          for (let i in errors) {
+            console.error(errors[i]);
+          }
+        } else if (typeof errors === "string")
+          console.error("Error deleting user: " + errors);
+        else
+          console.error("Error deleting user:", errors);
+      });
   }
+
+  buildLinks = (type, id) => { self: `${baseURL}/${type}/${id}` }
 
   preventDefault = e => {
     e = e || window.event;
@@ -495,22 +783,40 @@ export default class App extends Component {
     document.onkeydown = null;
   }
 
-  login = _userFirstName => {
-    this.setState({
-      userLoggedIn: true,
-      userFirstName: _userFirstName,
-      currentUserRole: "admin"
-    });
-    this.closeModal();
+  login = loginData => {
+    let { email, password } = loginData
+    // Needs verification here
+    let verified = true;
+
+    if (verified) {
+      // success
+      this.getUser(1); // This will need to be found based on email lookup and set the currentUser fields
+      this.setState({
+        userLoggedIn: true
+      });
+      this.closeModal();
+    } else {
+      // failure
+      console.error("User information denied");
+    }
   }
   logout = () => {
     this.setState({
       userLoggedIn: false,
-      userFirstName: "",
-      currentUserRole: "none"
+      currentUserData: this.defaultUserData
     });
   }
-  createUserAccount = () => {
+  createUserAccount = obj => {
+    console.log("New user submitted:", obj);
+
+    this.createUser(obj);
+    this.closeModal();
+  }
+  updateUserAccount = obj => {
+    console.log("User updated:", obj);
+
+    this.updateUser(this.state.currentUserId, obj);
+
     this.closeModal();
   }
 
@@ -522,7 +828,7 @@ export default class App extends Component {
   }
 
   toggleCustomDonationAmount = turnedOn => {
-    let { inputs } = this.modals.donate;
+    let { inputs } = this.modals.donator;
 
     if (turnedOn) {
       inputs[1].requiredField = true;
@@ -536,16 +842,14 @@ export default class App extends Component {
       refreshes: this.state.refreshes + 1
     });
   }
-  toggleCreditCardFields = turnedOn => {
-    let { inputs } = this.modals.donate;
+  togglePaymentTypeFields = turnedOn => {
+    let { inputs } = this.modals.donator;
 
-    if (turnedOn) {
-      for (let i = 4; i < 8; i++) {
+    for (let i = 4, l = inputs.length; i < l; i++) {
+      if (inputs[i].toggleGroup === turnedOn) {
         inputs[i].requiredField = true;
         inputs[i].disabledField = false;
-      }
-    } else {
-      for (let i = 4; i < 8; i++) {
+      } else {
         inputs[i].requiredField = false;
         inputs[i].disabledField = true;
       }
@@ -569,7 +873,10 @@ export default class App extends Component {
     });
   }
 
-  submitRequest = () => {
+  submitRequest = obj => {
+    console.log("New scenario submitted:", obj);
+
+    this.createScenario(obj);
     this.closeModal();
   }
   submitDonation = () => {
@@ -609,7 +916,7 @@ export default class App extends Component {
             mapPickerIsOpen={this.state.mapPickerIsOpen} />
 
         {/* App header */}
-        <Header userFirstName={this.state.userFirstName}
+        <Header userFirstName={this.state.currentUserData.firstname}
             menuIsOpen={this.state.menuIsOpen}
             openModal={this.openModal}
             openMenuFunction={this.openMenu}

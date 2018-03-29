@@ -1,7 +1,7 @@
 /*** IMPORTS ***/
 // Module imports
-import React, { Component } from 'react';
-import Icon from '@fortawesome/react-fontawesome';
+import React, { Component }	from 'react';
+import Icon									from '@fortawesome/react-fontawesome';
 /*** [end of imports] ***/
 
 export default class Header extends Component {
@@ -20,7 +20,7 @@ export default class Header extends Component {
 			userInfoArea = (
 				<div className="user-info-area">
 					<Icon className="user-icon" icon="user" />
-					<div className="user-name">{userFirstName}</div>
+					<div className="user-name">{toFirstCap(userFirstName)}</div>
 				</div>
 			)
 		} else {
@@ -61,8 +61,10 @@ export default class Header extends Component {
 					</section>
 				</nav>
 
-				<h1 className="title">{userFirstName !== "" ? `Hey there, ${userFirstName}` : "Hello!"}</h1>
+				<h1 className="title">{userFirstName !== "" ? `Hey there, ${toFirstCap(userFirstName)}` : "Hello!"}</h1>
 			</header>
 		);
 	}
 }
+
+const toFirstCap = str => str.charAt(0).toUpperCase() + str.slice(1);

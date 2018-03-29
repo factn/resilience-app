@@ -1,8 +1,8 @@
 /*** IMPORTS ***/
 // Module imports
-import React, { Component } from 'react';
-import Icon from '@fortawesome/react-fontawesome';
-import faSolid from '@fortawesome/fontawesome-free-solid';
+import React, { Component }	from 'react';
+import Icon									from '@fortawesome/react-fontawesome';
+import faSolid							from '@fortawesome/fontawesome-free-solid';
 
 // Local JS
 import Modal from './Modal';

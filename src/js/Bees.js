@@ -36,7 +36,7 @@ const apiEndpoints = {
 	},
 	getUser: {
 		method: get,
-		path: '/users/:attributes:email'
+		path: '/users/:id'
 	},
 	createUser: {
 		method: post,
@@ -44,16 +44,16 @@ const apiEndpoints = {
 	},
 	updateUser: {
 		method: patch,
-		path: '/users/:attributes:email'
+		path: '/users/:id'
 	},
 	destroyUser: {
 		method: destroy,
-		path: '/users/:attributes:email'
+		path: '/users/:id'
 	}
 };
 
 const config = {
-	baseUrl: 'https://lion-uat.herokuapp.com/'
+	baseUrl: 'https://lion-uat.herokuapp.com'
 };
 
 export default buildApi(apiEndpoints, config);

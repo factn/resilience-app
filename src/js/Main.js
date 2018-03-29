@@ -3,9 +3,9 @@
 import React, { Component } from 'react';
 
 // Local JS
-import Ad from './Ad';
-import AdHeader from './AdHeader';
-import Loader from './Loader';
+import Ad				from './Ad';
+import AdHeader	from './AdHeader';
+import Loader		from './Loader';
 /*** [end of imports] ***/
 
 export default class Main extends Component {

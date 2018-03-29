@@ -11,7 +11,7 @@ export default class Ad extends Component {
 			return <span>Donate now</span>;
 		} else if (requestType === "verifier") {
 			return <span>Verify user</span>;
-		} else if (requestType === "donator") {
+		} else if (requestType === "requester") {
 			return <span>Get Help</span>;
 		}
 	}
