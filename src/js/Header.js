@@ -9,6 +9,7 @@ export default class Header extends Component {
 		let { userFirstName,
 					menuIsOpen,
 					openMenuFunction,
+					openModal,
 					menuList,
 					closeMenuFunction,
 					versionNumber } = this.props;
@@ -26,7 +27,7 @@ export default class Header extends Component {
 			userInfoArea = (
 				<div className="user-info-area">
 					<Icon className="user-icon" icon="question" />
-					<div className="user-name not-signed-in">Please sign in</div>
+					<div className="user-name not-signed-in" onClick={() => openModal("login")}>Please sign in</div>
 				</div>
 			)
 		}

@@ -1,14 +1,35 @@
+.ad-tab-header {
+	padding: 1rem .5rem .5rem;
+	overflow-x: scroll;
+	border-bottom: 2px solid rgba($blue, .5);
+}
+.ad-tab-list {
+	@include inline-list;
+	display: inline-flex;
+	width: 30rem;
+}
+.ad-tab {
+	cursor: pointer;
+	font-weight: bold;
+	padding: .25rem .75rem;
+	transition: {
+		property: color, box-shadow;
+		duration: .2s;
+		timing-function: $cubic;
+	}
+	&.active {
+		color: $blue;
+		box-shadow: inset 0 -.125rem $blue;
+	}
+}
 .ad-feed-wrap {
-	padding: 1rem;
+	padding: 1rem 1rem 5rem;
 }
 .ad {
 	background: $white;
 	padding: 1rem;
 	margin-bottom: .5rem;
-	box-shadow: $taper-shadow;
-	border-radius: .5rem;
-	overflow: hidden;
-	&.do-ad {
+	&.doer-ad {
 		.ad-header {
 			background: $red;
 		}
@@ -17,7 +38,7 @@
 			border: .125em solid $red;
 		}
 	}
-	&.donate-ad {
+	&.donator-ad {
 		.ad-header {
 			background: $green;
 		}
@@ -26,7 +47,7 @@
 			border: .125em solid $green;
 		}
 	}
-	&.verify-ad {
+	&.verifier-ad {
 		.ad-header {
 			background: $purple;
 		}
@@ -35,7 +56,7 @@
 			border: .125em solid $purple;
 		}
 	}
-	&.request-ad {
+	&.requester-ad {
 		.ad-header {
 			background: $blue;
 		}
@@ -46,13 +67,14 @@
 	}
 	.ad-modal-btn {
 		width: 100%;
+		font-size: 1rem;
 		&:active, &:focus {
 			color: $white;
 		}
 	}
 }
 .ad-header {
-	margin: -1rem -1rem .5rem;
+	margin: .5rem 0;
 	padding: .5rem 1rem;
 	.ad-title, .ad-subtitle {
 		color: rgba($white, .95);
@@ -65,6 +87,8 @@
 	}
 }
 .ad-image-wrap {
+	background: darken($white, 5%);
+	padding: .25rem;
 	margin-bottom: .5rem;
 	.ad-image {
 		max-height: 25vh;
