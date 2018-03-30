@@ -1,7 +1,7 @@
 /*** IMPORTS ***/
 // Module imports
-import React, { Component, Fragment }	from 'react';
-import Icon														from '@fortawesome/react-fontawesome';
+import React, { Component }	from 'react';
+import Icon									from '@fortawesome/react-fontawesome';
 /*** [end of imports] ***/
 
 export default class Action extends Component {

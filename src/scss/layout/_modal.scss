@@ -23,9 +23,9 @@
 	}
 }
 .modal-close-btn {
-	font-size: 1.5rem;
 	position: absolute;
 	top: 1rem;
 	right: 1rem;
-	color: $white;
+	z-index: 12;
+	font-size: 1.5rem;
 }

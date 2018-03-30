@@ -24,17 +24,24 @@
 }
 .ad-feed-wrap {
 	padding: 1rem 1rem 5rem;
+	perspective: 1000rem;
+	overflow: hidden;
 }
 .ad {
+	position: relative;
 	background: $white;
-	padding: 1rem;
+	padding: 1rem 1rem 3rem;
 	margin-bottom: .5rem;
-	box-shadow: $taper-shadow;
-	border-radius: .5rem;
-	overflow: hidden;
+	border: 1px solid rgba($black, .5);
+	transition: {
+		duration: .2s;
+		timing-function: $cubic;
+	}
 	&.doer-ad {
 		.ad-header {
-			background: $red;
+			.ad-title, .ad-subtitle {
+				color: $red;
+			}
 		}
 		.ad-modal-btn {
 			background: $red;
@@ -43,7 +50,9 @@
 	}
 	&.donator-ad {
 		.ad-header {
-			background: $green;
+			.ad-title, .ad-subtitle {
+				color: $green;
+			}
 		}
 		.ad-modal-btn {
 			background: $green;
@@ -52,7 +61,9 @@
 	}
 	&.verifier-ad {
 		.ad-header {
-			background: $purple;
+			.ad-title, .ad-subtitle {
+				color: $purple;
+			}
 		}
 		.ad-modal-btn {
 			background: $purple;
@@ -61,7 +72,9 @@
 	}
 	&.requester-ad {
 		.ad-header {
-			background: $blue;
+			.ad-title, .ad-subtitle {
+				color: $blue;
+			}
 		}
 		.ad-modal-btn {
 			background: $blue;
@@ -69,32 +82,29 @@
 		}
 	}
 	.ad-modal-btn {
+		position: absolute;
+		bottom: 0;
+		left: 0;
 		width: 100%;
 		font-size: 1rem;
+		border-radius: 0;
 		&:active, &:focus, &:hover {
 			color: $white;
 		}
 	}
 }
 .ad-header {
-	margin: -1rem -1rem 1rem;
-	padding: .5rem 1rem;
-	.ad-title, .ad-subtitle {
-		color: rgba($white, .95);
-	}
 	.ad-title {
-		
-	}
-	.ad-subtitle {
-		
+		font-weight: bold;
 	}
 }
 .ad-image-wrap {
 	background: linear-gradient(to right, $white, darken($white, 5%), $white);
-	padding: .25rem;
-	margin-bottom: .5rem;
+	padding: .25rem .25rem .5rem;
+	border-bottom: 1px solid rgba($black, .5);
+	margin-bottom: 1rem;
 	.ad-image {
-		max-height: 25vh;
+		max-height: 40vh;
 	}
 }
 .ad-image-caption {
@@ -106,8 +116,15 @@
 	.funding-progress-label {
 		display: block;
 		font-size: 1.2rem;
-		margin-bottom: .5rem;
 		cursor: inherit;
+		&.goal-label {
+			margin-bottom: .5rem;
+		}
+		&.complete-label {
+			margin-top: .5rem;
+			font-size: 1rem;
+			color: rgba($black, .5);
+		}
 	}
 	.funding-progress-slider {
 		border: 1px solid rgba($black, .5);

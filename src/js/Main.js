@@ -14,7 +14,8 @@ export default class Main extends Component {
 					databaseReady,
 					database,
 					userRole,
-					openModal } = this.props;
+					openModal,
+					dismissAd } = this.props;
 		
 		return (
 			<main className="app-main">
@@ -24,6 +25,7 @@ export default class Main extends Component {
 							{database.map(scenario =>
 								<Ad scenario={scenario}
 										openModal={openModal}
+										dismissAd={dismissAd}
 										context={userRole}
 										key={scenario.id} />
 							)}

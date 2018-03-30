@@ -5,10 +5,10 @@ import React, { Component }								from 'react';
 import { Map, Marker, GoogleApiWrapper }	from 'google-maps-react';
 /*** [end of imports] ***/
 
-export class MiniMap extends Component {
+class MiniMap extends Component {
 	render() {
 		let { google, initialCenter } = this.props;
-
+		
 		return (
 			<section className="mini-map-wrap">
 				<Map google={google}

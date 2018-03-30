@@ -33,7 +33,7 @@ export default class AdModalContent extends Component {
 					<figcaption className="adcontent-image-caption">
 						<p>{disaster}</p>
 						<div className="funding-progress-wrap">
-							<label className="funding-progress-label">Funding goal: {donated} / ${funding_goal}</label>
+							<label className="funding-progress-label goal-label">Funding goal: {donated} / ${funding_goal}</label>
 							<input type="range"
 									className="funding-progress-slider"
 									id={`${disaster}_fundingGoal_for${toFirstCap(requester_firstname)}`}
@@ -41,6 +41,7 @@ export default class AdModalContent extends Component {
 									max={funding_goal}
 									value={donated.slice(1)}
 									disabled={true} />
+							<label className="funding-progress-label complete-label">{((parseInt(donated.slice(1)) / funding_goal) * 100).toFixed(0)}% complete</label>
 						</div>
 					</figcaption>
 				</figure>

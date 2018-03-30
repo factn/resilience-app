@@ -503,7 +503,7 @@ export default class App extends Component {
 
   getFullDataBase = () => {
     console.log("Getting database");
-
+    
     DB.getScenarios()
       .then(result => {
         console.info("Database call complete:", result.body.data);
@@ -782,6 +782,9 @@ export default class App extends Component {
     window.ontouchmove = null;
     document.onkeydown = null;
   }
+  dismissAd = () => {
+    
+  }
 
   login = loginData => {
     let { email, password } = loginData
@@ -929,7 +932,8 @@ export default class App extends Component {
             databaseReady={this.state.databaseReady}
             database={this.state.scenarioData}
             userRole={this.state.currentUserRole}
-            openModal={this.openModal} />
+            openModal={this.openModal}
+            dismissAd={this.dismissAd} />
 
         {/* App footer */}
         <Footer userLoggedIn={this.state.userLoggedIn}
