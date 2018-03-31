@@ -14,19 +14,19 @@
 }
 .modal-adcontent-wrap {
 	.adcontent-header {
-		margin-bottom: .5rem;
+		margin-bottom: 0.5rem;
 	}
 	.adcontent-image-wrap {
-		padding: .25rem;
-		margin-bottom: .5rem;
+		padding: 0.25rem;
+		margin-bottom: 0.5rem;
 	}
 	.adcontent-image {
 		max-height: 30vh;
 	}
 	.adcontent-image-caption {
-		color: rgba($black, .8);
-		font-size: .8em;
-		margin-top: .5rem;
+		color: rgba($black, 0.8);
+		font-size: 0.8em;
+		margin-top: 0.5rem;
 	}
 }
 .modal-form {
@@ -36,7 +36,7 @@
 		opacity: 1;
 		transition: {
 			property: opacity, max-height, margin-bottom;
-			duration: .5s;
+			duration: 0.5s;
 			timing-function: $cubic;
 		}
 		&.disabled-input {
@@ -49,22 +49,25 @@
 			display: inline-flex;
 			justify-content: space-between;
 			width: 100%;
-			margin-bottom: .5rem;
+			margin-bottom: 0.5rem;
 			.input-label-icon {
-				color: rgba($blue, .75);
+				color: rgba($blue, 0.75);
 				width: 2rem;
 				text-align: center;
 			}
 			.input-label-phrase {
-				color: rgba($black, .5);
+				color: rgba($black, 0.5);
 			}
 			&.btn-label {
-				.input-label-icon, .input-label-phrase {
-					color: rgba($white, .9);
+				.input-label-icon,
+				.input-label-phrase {
+					color: rgba($white, 0.9);
 				}
-				&:focus, &:hover {
-					.input-label-icon, .input-label-phrase {
-						color: rgba($blue, .9);
+				&:focus,
+				&:hover {
+					.input-label-icon,
+					.input-label-phrase {
+						color: rgba($blue, 0.9);
 					}
 				}
 			}
@@ -77,29 +80,29 @@
 		}
 	}
 	.input-row-label {
-		color: rgba($black, .5);
-		margin-bottom: .5rem;
+		color: rgba($black, 0.5);
+		margin-bottom: 0.5rem;
 	}
 	.radio-row-wrap {
 		.radio-row-input-wrap {
-			margin-bottom: .5rem;
+			margin-bottom: 0.5rem;
 		}
 		.form-input {
-			font-size: .25rem;
-			margin: -1rem .5rem 0 0;
+			font-size: 0.25rem;
+			margin: -1rem 0.5rem 0 0;
 		}
 	}
 	.submit-btn {
 		width: 100%;
 		font-size: 1.5rem;
-		margin-bottom: .5rem;
+		margin-bottom: 0.5rem;
 		&.positive-response {
 			background: $green;
-			border: .125em solid $green;
+			border: 0.125em solid $green;
 		}
 		&.negative-response {
 			background: $red;
-			border: .125em solid $red;
+			border: 0.125em solid $red;
 		}
 	}
 }
@@ -136,9 +139,9 @@
 				grid-area: form;
 				max-height: calc(100vh - 10rem);
 				overflow: auto;
-				border: .125rem solid $blue;
-				border-radius: .5rem;
-				padding: .5rem;
+				border: 0.125rem solid $blue;
+				border-radius: 0.5rem;
+				padding: 0.5rem;
 			}
 		}
 		&.no-adcontent-modal {
@@ -152,17 +155,17 @@
 	}
 	.modal-header {
 		font-size: 1.2em;
-		border-bottom: .25rem solid $blue;
+		border-bottom: 0.25rem solid $blue;
 	}
 }
 .ethereum-wallet-id-transaction-number {
-	background: rgba($white, .5);
-	padding: .125rem .25rem;
+	background: rgba($white, 0.5);
+	padding: 0.125rem 0.25rem;
 	border: 0.125rem solid $blue;
-	border-radius: .25rem;
+	border-radius: 0.25rem;
 	cursor: pointer;
 	.copy-icon {
-		color: rgba($blue, .75);
+		color: rgba($blue, 0.75);
 		width: 2rem;
 		text-align: center;
 		float: right;

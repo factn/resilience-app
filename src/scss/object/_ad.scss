@@ -1,7 +1,7 @@
 .ad-tab-header {
-	padding: 1rem .5rem .5rem;
+	padding: 1rem 0.5rem 0.5rem;
 	overflow-x: scroll;
-	border-bottom: 2px solid rgba($blue, .5);
+	border-bottom: 2px solid rgba($blue, 0.5);
 }
 .ad-tab-list {
 	@include inline-list;
@@ -11,15 +11,15 @@
 .ad-tab {
 	cursor: pointer;
 	font-weight: bold;
-	padding: .25rem .75rem;
+	padding: 0.25rem 0.75rem;
 	transition: {
 		property: color, box-shadow;
-		duration: .2s;
+		duration: 0.2s;
 		timing-function: $cubic;
 	}
 	&.active {
 		color: $blue;
-		box-shadow: inset 0 -.125rem $blue;
+		box-shadow: inset 0 -0.125rem $blue;
 	}
 }
 .ad-feed-wrap {
@@ -31,54 +31,58 @@
 	position: relative;
 	background: $white;
 	padding: 1rem 1rem 3rem;
-	margin-bottom: .5rem;
-	border: 1px solid rgba($black, .5);
+	margin-bottom: 0.5rem;
+	border: 1px solid rgba($black, 0.5);
 	transition: {
-		duration: .2s;
+		duration: 0.2s;
 		timing-function: $cubic;
 	}
 	&.doer-ad {
 		.ad-header {
-			.ad-title, .ad-subtitle {
+			.ad-title,
+			.ad-subtitle {
 				color: $red;
 			}
 		}
 		.ad-modal-btn {
 			background: $red;
-			border: .125em solid $red;
+			border: 0.125em solid $red;
 		}
 	}
 	&.donator-ad {
 		.ad-header {
-			.ad-title, .ad-subtitle {
+			.ad-title,
+			.ad-subtitle {
 				color: $green;
 			}
 		}
 		.ad-modal-btn {
 			background: $green;
-			border: .125em solid $green;
+			border: 0.125em solid $green;
 		}
 	}
 	&.verifier-ad {
 		.ad-header {
-			.ad-title, .ad-subtitle {
+			.ad-title,
+			.ad-subtitle {
 				color: $purple;
 			}
 		}
 		.ad-modal-btn {
 			background: $purple;
-			border: .125em solid $purple;
+			border: 0.125em solid $purple;
 		}
 	}
 	&.requester-ad {
 		.ad-header {
-			.ad-title, .ad-subtitle {
+			.ad-title,
+			.ad-subtitle {
 				color: $blue;
 			}
 		}
 		.ad-modal-btn {
 			background: $blue;
-			border: .125em solid $blue;
+			border: 0.125em solid $blue;
 		}
 	}
 	.ad-modal-btn {
@@ -88,7 +92,9 @@
 		width: 100%;
 		font-size: 1rem;
 		border-radius: 0;
-		&:active, &:focus, &:hover {
+		&:active,
+		&:focus,
+		&:hover {
 			color: $white;
 		}
 	}
@@ -100,17 +106,17 @@
 }
 .ad-image-wrap {
 	background: linear-gradient(to right, $white, darken($white, 5%), $white);
-	padding: .25rem .25rem .5rem;
-	border-bottom: 1px solid rgba($black, .5);
+	padding: 0.25rem 0.25rem 0.5rem;
+	border-bottom: 1px solid rgba($black, 0.5);
 	margin-bottom: 1rem;
 	.ad-image {
 		max-height: 40vh;
 	}
 }
 .ad-image-caption {
-	color: rgba($black, .8);
-	font-size: .8em;
-	margin-top: .5rem;
+	color: rgba($black, 0.8);
+	font-size: 0.8em;
+	margin-top: 0.5rem;
 }
 .funding-progress-wrap {
 	.funding-progress-label {
@@ -118,17 +124,17 @@
 		font-size: 1.2rem;
 		cursor: inherit;
 		&.goal-label {
-			margin-bottom: .5rem;
+			margin-bottom: 0.5rem;
 		}
 		&.complete-label {
-			margin-top: .5rem;
+			margin-top: 0.5rem;
 			font-size: 1rem;
-			color: rgba($black, .5);
+			color: rgba($black, 0.5);
 		}
 	}
 	.funding-progress-slider {
-		border: 1px solid rgba($black, .5);
-		background: linear-gradient(to right, $red, $yellow, $green)
+		border: 1px solid rgba($black, 0.5);
+		background: linear-gradient(to right, $red, $yellow, $green);
 	}
 }
 

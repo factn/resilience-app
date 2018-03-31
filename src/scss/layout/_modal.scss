@@ -4,20 +4,20 @@
 	left: 0;
 	width: 100%;
 	height: 100vh;
-	background: rgba($black, .5);
+	background: rgba($black, 0.5);
 	z-index: 10;
 	opacity: 0;
-  transition: {
-    property: opacity;
-    duration: .2s;
-    timing-function: $cubic;
-  }
+	transition: {
+		property: opacity;
+		duration: 0.2s;
+		timing-function: $cubic;
+	}
 	&.open-modal {
 		top: 0;
 		opacity: 1;
 		transition: {
 			property: opacity, top;
-			duration: .2s;
+			duration: 0.2s;
 			timing-function: $cubic;
 		}
 	}

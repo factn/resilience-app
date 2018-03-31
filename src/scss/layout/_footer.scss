@@ -1,27 +1,25 @@
 .app-footer {
 	position: fixed;
-	bottom: .5rem;
-	right: .5rem;
+	bottom: 0.5rem;
+	right: 0.5rem;
 }
 .action {
 	text-align: right;
-	margin-top: .5rem;
+	margin-top: 0.5rem;
 }
 .action-label {
-	margin-right: .5rem;
-	border-radius: .25rem;
+	margin-right: 0.5rem;
+	border-radius: 0.25rem;
 	color: $white;
-	text-shadow: 0 0 0.25rem $black,
-		0 0 0.25rem $black;
+	text-shadow: 0 0 0.25rem $black, 0 0 0.25rem $black;
 	font-weight: bold;
 }
 .action-btn {
 	width: 2rem;
 	height: 2rem;
-	padding: .25rem;
+	padding: 0.25rem;
 	font-size: 1rem;
-	box-shadow: 0 0 0.25rem $black,
-		0 0 0.25rem $black;
+	box-shadow: 0 0 0.25rem $black, 0 0 0.25rem $black;
 }
 
 @include breakpoint($tablet) {
