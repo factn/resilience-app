@@ -1,6 +1,7 @@
 /*** IMPORTS ***/
 // Module imports
 import React, { Component, Fragment } from "react"
+import createHistory from "history/createBrowserHistory" // https://github.com/ReactTraining/history
 import Icon from "@fortawesome/react-fontawesome"
 import faSolid from "@fortawesome/fontawesome-free-solid"
 
@@ -19,8 +20,20 @@ import Footer from "./js/Footer"
 import DB from "./js/Bees.js"
 /*** [end of imports] ***/
 
+
+// History and path:
+const history = createHistory()
+const location = history.location
+// Listen for changes
+const unlisten = history.listen((location, action) => {
+	console.log(action, location.pathname, location.state)
+})
+// Push home path
+history.push("/")
+
 const versionNumber = "0.1.0"
 const baseURL = "https://lion-uat.herokuapp.com"
+
 
 export default class App extends Component {
 	constructor(props) {
@@ -788,7 +801,7 @@ export default class App extends Component {
 		})
 	}
 
-	openModal = (modalName, adModalContent = null) => {
+	openModal = (modalName, adModalContent = null, uniquePath = "") => {
 		if (adModalContent)
 			this.modals[modalName].adContent = <AdModalContent {...adModalContent} />
 
@@ -797,6 +810,8 @@ export default class App extends Component {
 			modalIsOpen: true,
 			openModalName: modalName
 		})
+
+		history.push(`/${modalName}/${uniquePath}`)
 	}
 	closeModal = () => {
 		this.setState({
