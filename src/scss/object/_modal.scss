@@ -1,14 +1,18 @@
 .modal-close-btn {
 	position: absolute;
-	top: 1rem;
+	top: 0.5rem;
 	right: 1rem;
 	font-size: 1.5rem;
 }
 .modal {
-	padding: 3rem 1rem 1rem;
+	padding: 1rem;
 }
 .modal-header {
-	margin-bottom: 1rem;
+	background: $white;
+	text-align: center;
+	padding: 0.5em 1em;
+	margin: -1rem -1rem 1rem;
+	box-shadow: $menu-shadow;
 }
 .modal-adcontent-wrap {
 	.adcontent-header {

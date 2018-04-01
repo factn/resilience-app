@@ -11,7 +11,10 @@ export default class Ad extends Component {
 			xTransform: 0,
 			touchStartX: 0,
 			lastTouchX: 0,
-			style: { transform: `translateX(0) rotateY(0deg)` }
+			style: { transform: `translateX(0) rotateY(0deg) scale(1)` },
+			swipeActive: false,
+			threshold: 32,
+			transitionTiming: 200
 		}
 
 		this.handleTouchStart = this.handleTouchStart.bind(this)
@@ -21,7 +24,12 @@ export default class Ad extends Component {
 
 	handleTouchStart = e => {
 		this.setState({
-			touchStartX: e.targetTouches[0].clientX
+			touchStartX: e.targetTouches[0].clientX,
+			style: {
+				transform: `translateX(0) rotateY(0deg) scale(1.05)`,
+				zIndex: 10
+			},
+			swipeActive: true
 		})
 	}
 	handleTouchMove = e => {
@@ -35,33 +43,44 @@ export default class Ad extends Component {
 			lastTouchX: currentTouchX,
 			style: {
 				transform: `translateX(${xDif}px) rotateY(${90 *
-					(xDif / windowWidth)}deg)`
+					(xDif / windowWidth)}deg) scale(1.05)`
 			}
 		})
 	}
 	handleTouchEnd = e => {
-		let { touchStartX, lastTouchX } = this.state
+		let { touchStartX, lastTouchX, threshold, transitionTiming } = this.state
 
 		let { scenario, context, openModal, dismissAd } = this.props
 
-		if (touchStartX < lastTouchX) {
-			this.setState({
-				style: {
-					transform: "translateX(100%) rotateY(45deg)",
-					transitionProperty: "transform",
-					marginBottom: "-22rem" // Currently this is an approximation of the element height
-				}
-			})
-			return openModal(context, scenario.attributes)
+		let xDif = lastTouchX - touchStartX
+
+		if (Math.abs(xDif) > threshold) {
+			if (touchStartX < lastTouchX) {
+				this.setState({
+					style: {
+						transform: "translateX(100%) rotateY(45deg) scale(1)",
+						marginBottom: "-22rem" // Currently this is an approximation of the element height
+					}
+				})
+				setTimeout(() => {
+					openModal(context, scenario.attributes)
+				}, transitionTiming)
+			} else {
+				this.setState({
+					style: {
+						transform: "translateX(-100%) rotateY(-45deg) scale(1)",
+						marginBottom: "-22rem" // Currently this is an approximation of the element height
+					}
+				})
+				return dismissAd()
+			}
 		} else {
 			this.setState({
 				style: {
-					transform: "translateX(-100%) rotateY(-45deg)",
-					transitionProperty: "transform, margin",
-					marginBottom: "-22rem" // Currently this is an approximation of the element height
-				}
+					transform: `translateX(0) rotateY(0deg) scale(1)`,
+					zIndex: 10
+				} // Default
 			})
-			return dismissAd()
 		}
 	}
 
@@ -98,10 +117,14 @@ export default class Ad extends Component {
 			verb
 		} = scenario.attributes
 
+		let { style, swipeActive } = this.state
+
 		return (
 			<article
-				className={`ad ${context}-ad`}
-				style={this.state.style}
+				className={
+					swipeActive ? `ad ${context}-ad swipe-active` : `ad ${context}-ad`
+				}
+				style={style}
 				onTouchStart={e => this.handleTouchStart(e)}
 				onTouchMove={e => this.handleTouchMove(e)}
 				onTouchEnd={e => this.handleTouchEnd(e)}
@@ -122,7 +145,13 @@ export default class Ad extends Component {
 				</header>
 				<button
 					className="btn ad-modal-btn"
-					onClick={() => openModal(context, scenario.attributes)}
+					onClick={() =>
+						openModal(
+							context,
+							scenario.attributes,
+							`${verb}-${requester_firstname}-${noun}`
+						)
+					}
 				>
 					{this.callToActionBuild(context)}
 				</button>

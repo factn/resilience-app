@@ -34,8 +34,12 @@
 	margin-bottom: 0.5rem;
 	border: 1px solid rgba($black, 0.5);
 	transition: {
+		property: transform, margin;
 		duration: 0.2s;
 		timing-function: $cubic;
+	}
+	&.swipe-active {
+
 	}
 	&.doer-ad {
 		.ad-header {

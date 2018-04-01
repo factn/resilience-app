@@ -20,7 +20,6 @@ import Footer from "./js/Footer"
 import DB from "./js/Bees.js"
 /*** [end of imports] ***/
 
-
 // History and path:
 const history = createHistory()
 const location = history.location
@@ -33,7 +32,6 @@ history.push("/")
 
 const versionNumber = "0.1.0"
 const baseURL = "https://lion-uat.herokuapp.com"
-
 
 export default class App extends Component {
 	constructor(props) {
@@ -557,6 +555,7 @@ export default class App extends Component {
 		this.submitDo = this.submitDo.bind(this)
 		this.submitVerification = this.submitVerification.bind(this)
 
+		history.push(`/${this.state.currentUserRole}/`)
 		this.getFullDataBase()
 	}
 
@@ -819,8 +818,12 @@ export default class App extends Component {
 			openModalName: "",
 			mapPickerIsOpen: false
 		})
+
+		history.push("/")
 	}
-	dismissAd = () => {}
+	dismissAd = _id => {
+		this.updateScenario(_id, { dismissed: true })
+	}
 
 	login = loginData => {
 		let { email, password } = loginData
@@ -934,52 +937,55 @@ export default class App extends Component {
 		this.setState({
 			currentUserRole: newContext
 		})
+
+		history.push(`/${newContext}/`)
 	}
 
 	render() {
 		return (
 			<div className="app">
 				{/* Modal wrapper */}
-				{this.state.modalIsOpen
-					? <ModalWrap
-							closeModal={this.closeModal}
-							openModalName={this.state.openModalName}
-							modalContent={this.modals[this.state.openModalName]}
-							openMapPicker={this.openMapPicker}
-							lat={this.state.lastClickedLat}
-							lon={this.state.lastClickedLon}
+				{this.state.modalIsOpen ? (
+					<ModalWrap
+						closeModal={this.closeModal}
+						openModalName={this.state.openModalName}
+						modalContent={this.modals[this.state.openModalName]}
+						openMapPicker={this.openMapPicker}
+						lat={this.state.lastClickedLat}
+						lon={this.state.lastClickedLon}
+					/>
+				) : (
+					<Fragment>
+						{/* App header */}
+						<Header
+							userFirstName={this.state.currentUserData.firstname}
+							menuIsOpen={this.state.menuIsOpen}
+							openModal={this.openModal}
+							openMenuFunction={this.openMenu}
+							menuList={this.menu}
+							closeMenuFunction={this.closeMenu}
+							versionNumber={versionNumber}
 						/>
-					: <Fragment>
-							{/* App header */}
-							<Header
-								userFirstName={this.state.currentUserData.firstname}
-								menuIsOpen={this.state.menuIsOpen}
-								openModal={this.openModal}
-								openMenuFunction={this.openMenu}
-								menuList={this.menu}
-								closeMenuFunction={this.closeMenu}
-								versionNumber={versionNumber}
-							/>
 
-							{/* App main */}
-							<Main
-								contextChange={this.contextChange}
-								databaseReady={this.state.databaseReady}
-								database={this.state.scenarioData}
-								userRole={this.state.currentUserRole}
-								openModal={this.openModal}
-								dismissAd={this.dismissAd}
-							/>
+						{/* App main */}
+						<Main
+							contextChange={this.contextChange}
+							databaseReady={this.state.databaseReady}
+							database={this.state.scenarioData}
+							userRole={this.state.currentUserRole}
+							openModal={this.openModal}
+							dismissAd={this.dismissAd}
+						/>
 
-							{/* App footer */}
-							<Footer
-								userLoggedIn={this.state.userLoggedIn}
-								openModal={this.openModal}
-								logoutFunction={this.logout}
-							/>
-						</Fragment>
-				}
-				
+						{/* App footer */}
+						<Footer
+							userLoggedIn={this.state.userLoggedIn}
+							openModal={this.openModal}
+							logoutFunction={this.logout}
+						/>
+					</Fragment>
+				)}
+
 				{/* Map picker */}
 				<GoogleMaps
 					zoomLevel={this.settings.zoomLevel}
