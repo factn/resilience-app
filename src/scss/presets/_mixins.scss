@@ -9,11 +9,12 @@
 		display: inline-block;
 	}
 }
-@mixin menu-back {
-	background: $menu-background;
-	box-shadow: $menu-shadow;
+@mixin inline-flex-list {
+	@include pseudo-list;
+	display: inline-flex;
 }
 @mixin alternating-list {
+	@include pseudo-list;
 	li {
 		padding: 0.25rem 0.5rem;
 		&:not(:last-of-type) {
@@ -26,6 +27,10 @@
 			background: rgba($black, 0.05);
 		}
 	}
+}
+@mixin menu-back {
+	background: $menu-background;
+	box-shadow: $menu-shadow;
 }
 @mixin do-not-show {
 	position: absolute;

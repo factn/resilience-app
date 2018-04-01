@@ -17,19 +17,10 @@ import Main from "./js/Main"
 import Footer from "./js/Footer"
 
 // DB import
-import DB from "./js/Bees.js"
+import DB from "./js/DB"
 /*** [end of imports] ***/
 
-// History and path:
 const history = createHistory()
-const location = history.location
-// Listen for changes
-const unlisten = history.listen((location, action) => {
-	console.log(action, location.pathname, location.state)
-})
-// Push home path
-history.push("/")
-
 const versionNumber = "0.1.0"
 const baseURL = "https://lion-uat.herokuapp.com"
 
@@ -98,10 +89,7 @@ export default class App extends Component {
 						labelPhrase: "Sign In",
 						labelIcon: "sign-in-alt",
 						onSubmit: this.login,
-						onSubmitParams: {
-							email: "login_email",
-							password: "login_pw"
-						},
+						onSubmitParams: { email: "login_email", password: "login_pw" },
 						responseType: "neutral"
 					}
 				]
@@ -269,10 +257,30 @@ export default class App extends Component {
 						requiredField: false
 					},
 					{
-						inputType: "text",
-						inputID: "description",
+						inputType: "number",
+						inputID: "verb",
 						labelPhrase: "What do you need help with?",
 						requiredField: true
+					},
+					{
+						inputType: "number",
+						inputID: "donation-amount",
+						labelPhrase: "What is your donation goal?",
+						labelIcon: "hand-holding-usd",
+						requiredField: true
+					},
+					{
+						inputType: "text",
+						inputID: "materials-list",
+						labelPhrase: "What materials do you need?",
+						requiredField: false
+					},
+					{
+						inputType: "number",
+						inputID: "volunteers-amount",
+						labelPhrase: "How many volunteers do you need?",
+						labelIcon: "people-carry",
+						requiredField: false
 					},
 					{
 						inputType: "text",
@@ -349,9 +357,7 @@ export default class App extends Component {
 						requiredField: false,
 						disabledField: true
 					},
-					{
-						inputType: "hr"
-					},
+					{ inputType: "hr" },
 					{
 						inputType: "radio-row",
 						labelPhrase: "Payment Method",
@@ -479,6 +485,18 @@ export default class App extends Component {
 				title: "Do Work",
 				inputs: [
 					{
+						inputType: "checkbox",
+						inputID: "materials",
+						labelPhrase: "I'm bringing materials",
+						requiredField: false
+					},
+					{
+						inputType: "checkbox",
+						inputID: "volunteering",
+						labelPhrase: "I'm volunteering",
+						requiredField: false
+					},
+					{
 						inputType: "location",
 						inputID: "location",
 						labelPhrase: "Where are you now?",
@@ -555,8 +573,11 @@ export default class App extends Component {
 		this.submitDo = this.submitDo.bind(this)
 		this.submitVerification = this.submitVerification.bind(this)
 
-		history.push(`/${this.state.currentUserRole}/`)
 		this.getFullDataBase()
+	}
+
+	componentDidMount() {
+		history.push(`/${this.state.currentUserRole}/`)
 	}
 
 	getFullDataBase = () => {
@@ -764,8 +785,6 @@ export default class App extends Component {
 			})
 	}
 	deleteUser = _id => {
-		let _type = "users"
-
 		DB.destroyUser({ id: _id })
 			.then(result => {
 				console.log(result)
@@ -786,21 +805,19 @@ export default class App extends Component {
 	}
 
 	buildLinks = (type, id) => {
-		self: `${baseURL}/${type}/${id}`
+		;`${baseURL}/${type}/${id}`
 	}
 
 	openMenu = () => {
-		this.setState({
-			menuIsOpen: true
-		})
+		this.setState({ menuIsOpen: true })
 	}
 	closeMenu = () => {
-		this.setState({
-			menuIsOpen: false
-		})
+		this.setState({ menuIsOpen: false })
 	}
 
 	openModal = (modalName, adModalContent = null, uniquePath = "") => {
+		window.scrollTo(0, 0)
+
 		if (adModalContent)
 			this.modals[modalName].adContent = <AdModalContent {...adModalContent} />
 
@@ -833,9 +850,7 @@ export default class App extends Component {
 		if (verified) {
 			// success
 			this.getUser(1) // This will need to be found based on email lookup and set the currentUser fields
-			this.setState({
-				userLoggedIn: true
-			})
+			this.setState({ userLoggedIn: true })
 			this.closeModal()
 		} else {
 			// failure
@@ -902,9 +917,7 @@ export default class App extends Component {
 	}
 
 	openMapPicker = () => {
-		this.setState({
-			mapPickerIsOpen: true
-		})
+		this.setState({ mapPickerIsOpen: true })
 	}
 	closeMapPicker = (lat, lon) => {
 		this.setState({

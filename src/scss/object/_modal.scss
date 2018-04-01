@@ -1,8 +1,12 @@
 .modal-close-btn {
 	position: absolute;
-	top: 0.5rem;
-	right: 1rem;
+	top: 0;
+	left: 0;
+	padding: 0.5rem;
 	font-size: 1.5rem;
+	.modal-close-text {
+		display: none;
+	}
 }
 .modal {
 	padding: 1rem;
@@ -41,41 +45,48 @@
 			duration: 0.5s;
 			timing-function: $cubic;
 		}
+		&.checkbox-input-wrap {
+			.input-label {
+				padding-left: 0.5rem;
+			}
+		}
+		&:not(.checkbox-input-wrap) {
+			.input-label {
+				display: inline-flex;
+				justify-content: space-between;
+				width: 100%;
+				margin-bottom: 0.5rem;
+				.input-label-icon {
+					color: rgba($blue, 0.75);
+					width: 2rem;
+					text-align: center;
+				}
+			}
+		}
 		&.disabled-input {
 			max-height: 0;
 			margin-bottom: 0;
 			opacity: 0;
 			overflow: hidden;
 		}
-		.input-label {
-			display: inline-flex;
-			justify-content: space-between;
-			width: 100%;
-			margin-bottom: 0.5rem;
-			.input-label-icon {
-				color: rgba($blue, 0.75);
-				width: 2rem;
-				text-align: center;
-			}
-			.input-label-phrase {
-				color: rgba($black, 0.5);
-			}
-			&.btn-label {
-				.input-label-icon,
-				.input-label-phrase {
-					color: rgba($white, 0.9);
-				}
-				&:focus,
-				&:hover {
-					.input-label-icon,
-					.input-label-phrase {
-						color: rgba($blue, 0.9);
-					}
-				}
-			}
+		.input-label-phrase {
+			color: rgba($black, 0.5);
 		}
 		button.input-label {
 			font-size: 1rem;
+		}
+		.input-label.btn-label {
+			.input-label-icon,
+			.input-label-phrase {
+				color: rgba($white, 0.9);
+			}
+			&:focus,
+			&:hover {
+				.input-label-icon,
+				.input-label-phrase {
+					color: rgba($blue, 0.9);
+				}
+			}
 		}
 		.form-input {
 			font-size: 1.5rem;
@@ -118,15 +129,33 @@
 		font-size: 3em;
 	}
 }
+.ethereum-wallet-id-transaction-number {
+	background: rgba($white, 0.5);
+	padding: 0.125rem 0.25rem;
+	border: 0.125rem solid $blue;
+	border-radius: 0.25rem;
+	cursor: pointer;
+	.copy-icon {
+		color: rgba($blue, 0.75);
+		width: 2rem;
+		text-align: center;
+		float: right;
+	}
+}
 
 @include breakpoint($tablet) {
+	.modal-close-btn {
+		.modal-close-text {
+			display: initial;
+		}
+	}
 	.modal {
 		&.adcontent-modal {
 			display: grid;
 			grid: {
 				template: {
 					columns: 1fr 20rem;
-					rows: 4rem auto;
+					rows: auto;
 					areas: "header header" "adcontent form";
 				}
 				gap: 1rem;
@@ -137,10 +166,17 @@
 			.modal-adcontent-wrap {
 				grid-area: adcontent;
 			}
+			.adcontent-image-wrap {
+				display: inline-flex;
+				justify-content: space-between;
+				width: 100%;
+				.adcontent-image-caption {
+					padding-left: 1rem;
+					flex-grow: 5;
+				}
+			}
 			.modal-form {
 				grid-area: form;
-				max-height: calc(100vh - 10rem);
-				overflow: auto;
 				border: 0.125rem solid $blue;
 				border-radius: 0.5rem;
 				padding: 0.5rem;
@@ -157,19 +193,5 @@
 	}
 	.modal-header {
 		font-size: 1.2em;
-		border-bottom: 0.25rem solid $blue;
-	}
-}
-.ethereum-wallet-id-transaction-number {
-	background: rgba($white, 0.5);
-	padding: 0.125rem 0.25rem;
-	border: 0.125rem solid $blue;
-	border-radius: 0.25rem;
-	cursor: pointer;
-	.copy-icon {
-		color: rgba($blue, 0.75);
-		width: 2rem;
-		text-align: center;
-		float: right;
 	}
 }

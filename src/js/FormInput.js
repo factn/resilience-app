@@ -150,6 +150,30 @@ export default class FormInput extends Component {
 			)
 		} else if (inputType === "custom") {
 			return <CustomJSX content={customJSX} disabledField={disabledField} />
+		} else if (inputType === "checkbox") {
+			return (
+				<div
+					className={
+						disabledField
+							? "input-wrap checkbox-input-wrap disabled-input"
+							: "input-wrap checkbox-input-wrap"
+					}
+				>
+					<input
+						className="form-input"
+						type="checkbox"
+						id={`${formName}_${inputID}`}
+						required={requiredField}
+						disabled={disabledField}
+					/>
+					<label className="input-label" htmlFor={`${formName}_${inputID}`}>
+						<span className="input-label-phrase">{labelPhrase}</span>
+						{typeof labelIcon !== "undefined" && (
+							<Icon icon={labelIcon} className="input-label-icon" />
+						)}
+					</label>
+				</div>
+			)
 		} else {
 			// text, email, password, number
 			return (

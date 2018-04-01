@@ -14,7 +14,7 @@ export default class Ad extends Component {
 			style: { transform: `translateX(0) rotateY(0deg) scale(1)` },
 			swipeActive: false,
 			threshold: 32,
-			transitionTiming: 200
+			transitionTiming: 100
 		}
 
 		this.handleTouchStart = this.handleTouchStart.bind(this)
@@ -50,29 +50,41 @@ export default class Ad extends Component {
 	handleTouchEnd = e => {
 		let { touchStartX, lastTouchX, threshold, transitionTiming } = this.state
 
-		let { scenario, context, openModal, dismissAd } = this.props
+		let {
+			scenario,
+			context,
+			openModal,
+			dismissAd,
+			verb,
+			requester_firstname,
+			noun
+		} = this.props
 
-		let xDif = lastTouchX - touchStartX
+		let xDif = lastTouchX === 0 ? 0 : lastTouchX - touchStartX
 
 		if (Math.abs(xDif) > threshold) {
 			if (touchStartX < lastTouchX) {
 				this.setState({
 					style: {
 						transform: "translateX(100%) rotateY(45deg) scale(1)",
-						marginBottom: "-22rem" // Currently this is an approximation of the element height
+						marginBottom: "-10rem" // Currently this is an approximation of the element height
 					}
 				})
 				setTimeout(() => {
-					openModal(context, scenario.attributes)
+					openModal(
+						context,
+						scenario.attributes,
+						`${verb}-${requester_firstname}-${noun}`
+					)
 				}, transitionTiming)
 			} else {
 				this.setState({
 					style: {
 						transform: "translateX(-100%) rotateY(-45deg) scale(1)",
-						marginBottom: "-22rem" // Currently this is an approximation of the element height
+						marginBottom: "-10rem" // Currently this is an approximation of the element height
 					}
 				})
-				return dismissAd()
+				// return dismissAd(id)
 			}
 		} else {
 			this.setState({
@@ -112,7 +124,7 @@ export default class Ad extends Component {
 			// requestorlon,
 			donated,
 			image,
-			imagethumb,
+			// imagethumb,
 			noun,
 			verb
 		} = scenario.attributes

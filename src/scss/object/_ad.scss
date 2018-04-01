@@ -4,8 +4,7 @@
 	border-bottom: 2px solid rgba($blue, 0.5);
 }
 .ad-tab-list {
-	@include inline-list;
-	display: inline-flex;
+	@include inline-flex-list;
 	width: 30rem;
 }
 .ad-tab {
@@ -30,16 +29,13 @@
 .ad {
 	position: relative;
 	background: $white;
-	padding: 1rem 1rem 3rem;
 	margin-bottom: 0.5rem;
 	border: 1px solid rgba($black, 0.5);
+	overflow: hidden;
+	min-height: 10rem;
 	transition: {
 		property: transform, margin;
-		duration: 0.2s;
-		timing-function: $cubic;
-	}
-	&.swipe-active {
-
+		duration: 0.1s;
 	}
 	&.doer-ad {
 		.ad-header {
@@ -104,23 +100,29 @@
 	}
 }
 .ad-header {
+	position: relative;
+	z-index: 2;
+	padding: 1rem 1rem 2rem;
+	background: linear-gradient(
+		rgba($white, 0.9),
+		rgba($white, 0.75) 3rem,
+		transparent
+	);
 	.ad-title {
 		font-weight: bold;
 	}
 }
 .ad-image-wrap {
-	background: linear-gradient(to right, $white, darken($white, 5%), $white);
-	padding: 0.25rem 0.25rem 0.5rem;
-	border-bottom: 1px solid rgba($black, 0.5);
-	margin-bottom: 1rem;
 	.ad-image {
-		max-height: 40vh;
+		position: absolute;
+		bottom: -10rem;
+		left: 0;
+		min-width: 100%;
 	}
 }
 .ad-image-caption {
 	color: rgba($black, 0.8);
 	font-size: 0.8em;
-	margin-top: 0.5rem;
 }
 .funding-progress-wrap {
 	.funding-progress-label {
@@ -156,7 +158,7 @@
 		display: grid;
 		grid: {
 			template: {
-				columns: repeat(2, 1fr);
+				columns: repeat(3, 1fr);
 				rows: auto;
 			}
 			gap: 1rem;
@@ -165,11 +167,6 @@
 	.ad {
 		margin: 0;
 	}
-	.ad-image-wrap {
-		.ad-image {
-			max-height: 10rem;
-		}
-	}
 }
 
 @include breakpoint($desktop) {
@@ -177,7 +174,7 @@
 		max-width: 90rem;
 		margin: 0 auto;
 		grid: {
-			template-columns: repeat(3, 1fr);
+			template-columns: repeat(4, 1fr);
 			gap: 1.5rem;
 		}
 	}

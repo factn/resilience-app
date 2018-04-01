@@ -2,7 +2,6 @@
 // Module imports
 import React, { Component } from "react"
 import Icon from "@fortawesome/react-fontawesome"
-import faSolid from "@fortawesome/fontawesome-free-solid"
 
 // Local JS
 import Modal from "./Modal"
@@ -25,8 +24,8 @@ export default class ModalWrap extends Component {
 					className="modal-close-btn btn-lite"
 					onClick={() => closeModal()}
 				>
-					<span>Close </span>
-					<Icon icon="times" />
+					<Icon icon="chevron-left" />
+					<span className="modal-close-text"> Back</span>
 				</button>
 
 				{typeof modalContent !== "undefined" && (
