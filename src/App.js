@@ -43,7 +43,6 @@ export default class App extends Component {
 			currentUserRole: "donator",
 			currentUserId: null,
 			currentUserData: this.defaultUserData,
-			scrollEnabled: true,
 			refreshes: 0,
 			mapPickerIsOpen: false,
 			databaseReady: false,
@@ -778,22 +777,6 @@ export default class App extends Component {
 		self: `${baseURL}/${type}/${id}`
 	}
 
-	preventDefault = e => {
-		e = e || window.event
-
-		if (e.preventDefault) e.preventDefault()
-
-		e.returnValue = false
-	}
-	preventDefaultForScrollKeys = e => {
-		let keys = { 33: 1, 34: 1, 37: 1, 38: 1, 39: 1, 40: 1 }
-
-		if (keys[e.keyCode]) {
-			this.preventDefault(e)
-			return false
-		}
-	}
-
 	openMenu = () => {
 		this.setState({
 			menuIsOpen: true
@@ -812,36 +795,15 @@ export default class App extends Component {
 		this.setState({
 			menuIsOpen: false,
 			modalIsOpen: true,
-			openModalName: modalName,
-			scrollEnabled: false
+			openModalName: modalName
 		})
-
-		// Disable scroll
-		if (window.addEventListener)
-			// older FF
-			window.addEventListener("DOMMouseScroll", this.preventDefault, false)
-
-		window.onwheel = this.preventDefault // modern standard
-		window.onmousewheel = document.onmousewheel = this.preventDefault // older browsers, IE
-		window.ontouchmove = this.preventDefault // mobile
-		document.onkeydown = this.preventDefaultForScrollKeys
 	}
 	closeModal = () => {
 		this.setState({
 			modalIsOpen: false,
 			openModalName: "",
-			scrollEnabled: true,
 			mapPickerIsOpen: false
 		})
-
-		// Enable scroll
-		if (window.removeEventListener)
-			window.removeEventListener("DOMMouseScroll", this.preventDefault, false)
-
-		window.onmousewheel = document.onmousewheel = null
-		window.onwheel = null
-		window.ontouchmove = null
-		document.onkeydown = null
 	}
 	dismissAd = () => {}
 
@@ -963,49 +925,51 @@ export default class App extends Component {
 		return (
 			<div className="app">
 				{/* Modal wrapper */}
-				<ModalWrap
-					modalIsOpen={this.state.modalIsOpen}
-					closeModalFunction={this.closeModal}
-					openModalName={this.state.openModalName}
-					modalContent={this.modals[this.state.openModalName]}
-					openMapPicker={this.openMapPicker}
-					lat={this.state.lastClickedLat}
-					lon={this.state.lastClickedLon}
-				/>
+				{this.state.modalIsOpen
+					? <ModalWrap
+							closeModal={this.closeModal}
+							openModalName={this.state.openModalName}
+							modalContent={this.modals[this.state.openModalName]}
+							openMapPicker={this.openMapPicker}
+							lat={this.state.lastClickedLat}
+							lon={this.state.lastClickedLon}
+						/>
+					: <Fragment>
+							{/* App header */}
+							<Header
+								userFirstName={this.state.currentUserData.firstname}
+								menuIsOpen={this.state.menuIsOpen}
+								openModal={this.openModal}
+								openMenuFunction={this.openMenu}
+								menuList={this.menu}
+								closeMenuFunction={this.closeMenu}
+								versionNumber={versionNumber}
+							/>
 
+							{/* App main */}
+							<Main
+								contextChange={this.contextChange}
+								databaseReady={this.state.databaseReady}
+								database={this.state.scenarioData}
+								userRole={this.state.currentUserRole}
+								openModal={this.openModal}
+								dismissAd={this.dismissAd}
+							/>
+
+							{/* App footer */}
+							<Footer
+								userLoggedIn={this.state.userLoggedIn}
+								openModal={this.openModal}
+								logoutFunction={this.logout}
+							/>
+						</Fragment>
+				}
+				
 				{/* Map picker */}
 				<GoogleMaps
 					zoomLevel={this.settings.zoomLevel}
 					closeMapPicker={this.closeMapPicker}
 					mapPickerIsOpen={this.state.mapPickerIsOpen}
-				/>
-
-				{/* App header */}
-				<Header
-					userFirstName={this.state.currentUserData.firstname}
-					menuIsOpen={this.state.menuIsOpen}
-					openModal={this.openModal}
-					openMenuFunction={this.openMenu}
-					menuList={this.menu}
-					closeMenuFunction={this.closeMenu}
-					versionNumber={versionNumber}
-				/>
-
-				{/* App main */}
-				<Main
-					contextChange={this.contextChange}
-					databaseReady={this.state.databaseReady}
-					database={this.state.scenarioData}
-					userRole={this.state.currentUserRole}
-					openModal={this.openModal}
-					dismissAd={this.dismissAd}
-				/>
-
-				{/* App footer */}
-				<Footer
-					userLoggedIn={this.state.userLoggedIn}
-					openModal={this.openModal}
-					logoutFunction={this.logout}
 				/>
 			</div>
 		)

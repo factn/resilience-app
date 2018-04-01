@@ -11,8 +11,7 @@ import Modal from "./Modal"
 export default class ModalWrap extends Component {
 	render() {
 		let {
-			modalIsOpen,
-			closeModalFunction,
+			closeModal,
 			openModalName,
 			modalContent,
 			lat,
@@ -20,18 +19,11 @@ export default class ModalWrap extends Component {
 			openMapPicker
 		} = this.props
 
-		let style = modalIsOpen
-			? { top: document.documentElement.scrollTop }
-			: { top: "-100vh" }
-
 		return (
-			<section
-				className={modalIsOpen ? "modal-wrap open-modal" : "modal-wrap"}
-				style={style}
-			>
+			<section className="modal-wrap">
 				<button
 					className="modal-close-btn btn-lite"
-					onClick={() => closeModalFunction()}
+					onClick={() => closeModal()}
 				>
 					<span>Close </span>
 					<Icon icon="times" />
