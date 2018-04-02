@@ -22,7 +22,7 @@
 	}
 }
 .ad-feed-wrap {
-	padding: 1rem 1rem 5rem;
+	padding: 0 0 5rem;
 	perspective: 1000rem;
 	overflow: hidden;
 }
@@ -30,7 +30,6 @@
 	position: relative;
 	background: $white;
 	margin-bottom: 0.5rem;
-	border: 1px solid rgba($black, 0.5);
 	overflow: hidden;
 	min-height: 10rem;
 	transition: {
@@ -87,16 +86,26 @@
 	}
 	.ad-modal-btn {
 		position: absolute;
+		// top: 8rem;
 		bottom: 0;
 		left: 0;
 		width: 100%;
 		font-size: 1rem;
 		border-radius: 0;
+		z-index: 15;
+		// transition: {
+		// 	property: top;
+		// 	duration: 0.2s;
+		// 	timing-function: $cubic;
+		// }
 		&:active,
 		&:focus,
 		&:hover {
 			color: $white;
 		}
+		// &:hover {
+		// 	top: 0;
+		// }
 	}
 }
 .ad-header {
@@ -144,6 +153,23 @@
 	}
 }
 
+@include breakpoint($phone-down) {
+	.ad-feed-wrap {
+		display: grid;
+		padding: 1rem 1rem 5rem;
+		grid: {
+			template: {
+				columns: repeat(2, 1fr);
+				rows: auto;
+			}
+			gap: 1rem;
+		}
+	}
+	.ad {
+		border: 1px solid rgba($black, 0.5);
+	}
+}
+
 @include breakpoint($tablet) {
 	.ad-tab-header {
 		padding: 1rem;
@@ -155,14 +181,7 @@
 		font-size: 1.2em;
 	}
 	.ad-feed-wrap {
-		display: grid;
-		grid: {
-			template: {
-				columns: repeat(3, 1fr);
-				rows: auto;
-			}
-			gap: 1rem;
-		}
+		grid-template-columns: repeat(3, 1fr);
 	}
 	.ad {
 		margin: 0;

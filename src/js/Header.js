@@ -2,6 +2,9 @@
 // Module imports
 import React, { Component } from "react"
 import Icon from "@fortawesome/react-fontawesome"
+
+// Local JS
+import Profile from "./Profile"
 /*** [end of imports] ***/
 
 export default class Header extends Component {
@@ -9,10 +12,10 @@ export default class Header extends Component {
 		let {
 			userFirstName,
 			menuIsOpen,
-			openMenuFunction,
+			userData,
+			openMenu,
 			openModal,
-			menuList,
-			closeMenuFunction,
+			closeMenu,
 			versionNumber
 		} = this.props
 
@@ -44,7 +47,7 @@ export default class Header extends Component {
 				<nav className="menu">
 					<button
 						className="btn-lite menu-toggle-btn"
-						onClick={() => openMenuFunction()}
+						onClick={() => openMenu()}
 					>
 						<Icon icon="bars" />
 					</button>
@@ -54,19 +57,11 @@ export default class Header extends Component {
 					>
 						{userInfoArea}
 
-						<ul className="menu-list">
-							{Object.keys(menuList).map(_label => (
-								<li className="menu-item" key={_label}>
-									<button className="btn-lite" onClick={menuList[_label]}>
-										{_label}
-									</button>
-								</li>
-							))}
-						</ul>
+						<Profile userData={userData} />
 
 						<button
 							className="menu-close-btn btn-lite"
-							onClick={() => closeMenuFunction()}
+							onClick={() => closeMenu()}
 						>
 							<Icon icon="times" />
 						</button>

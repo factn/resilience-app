@@ -1,6 +1,26 @@
 import { buildApi, get, post, patch, destroy } from "redux-bees"
 
 const apiEndpoints = {
+	// Nouns
+	getNouns: {
+		method: get,
+		path: "/nouns"
+	},
+	createNoun: {
+		method: post,
+		path: "/nouns"
+	},
+
+	// Verbs
+	getVerbs: {
+		method: get,
+		path: "/verbs"
+	},
+	createVerb: {
+		method: post,
+		path: "/verbs"
+	},
+
 	// Scenarios
 	getScenarios: {
 		method: get,

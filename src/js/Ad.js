@@ -136,6 +136,7 @@ export default class Ad extends Component {
 				className={
 					swipeActive ? `ad ${context}-ad swipe-active` : `ad ${context}-ad`
 				}
+				id={`scenario_${scenario.id}`}
 				style={style}
 				onTouchStart={e => this.handleTouchStart(e)}
 				onTouchMove={e => this.handleTouchMove(e)}
@@ -157,13 +158,7 @@ export default class Ad extends Component {
 				</header>
 				<button
 					className="btn ad-modal-btn"
-					onClick={() =>
-						openModal(
-							context,
-							scenario.attributes,
-							`${verb}-${requester_firstname}-${noun}`
-						)
-					}
+					onClick={() => openModal(context, scenario.attributes, scenario.id)}
 				>
 					{this.callToActionBuild(context)}
 				</button>

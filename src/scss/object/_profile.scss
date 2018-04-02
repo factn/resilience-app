@@ -1,0 +1,17 @@
+.profile {
+	max-height: 80vh;
+	overflow: auto;
+}
+.profile-article {
+	&:not(:last-of-type) {
+		padding-bottom: 0.5rem;
+		border-bottom: 1px solid rgba($black, 0.5);
+		margin-bottom: 0.5rem;
+	}
+}
+.profile-article-header {
+}
+.social-shares {
+}
+.social-share-box {
+}

@@ -45,6 +45,7 @@ export default class App extends Component {
 			currentUserRole: "donator",
 			currentUserId: null,
 			currentUserData: this.defaultUserData,
+			currentScenarioId: 0,
 			refreshes: 0,
 			mapPickerIsOpen: false,
 			databaseReady: false,
@@ -57,14 +58,6 @@ export default class App extends Component {
 			zoomLevel: 14,
 			defaultDonationAmount: "$3",
 			thankYouTimer: 2000
-		}
-
-		this.menu = {
-			"Sign Up": () => this.openModal("account"),
-			"Log In": () => this.openModal("login"),
-			"Edit Account": () => this.openModal("editAccount"),
-			Preferences: () => this.openModal("preferences"),
-			Close: () => this.closeMenu()
 		}
 		this.modals = {
 			login: {
@@ -610,6 +603,22 @@ export default class App extends Component {
 			.catch(error => {
 				console.error(error)
 			})
+
+		DB.getNouns()
+			.then(result => {
+				console.info("Nouns call complete:", result.body.data)
+			})
+			.catch(error => {
+				console.error(error)
+			})
+
+		DB.getVerbs()
+			.then(result => {
+				console.info("Verbs call complete:", result.body.data)
+			})
+			.catch(error => {
+				console.error(error)
+			})
 	}
 
 	getScenario = _id => {
@@ -642,16 +651,7 @@ export default class App extends Component {
 				this.getFullDataBase()
 			})
 			.catch(error => {
-				let errors = error.body.errors
-
-				if (typeof errors === "object") {
-					console.error("Error creating scenario:")
-					for (let i in errors) {
-						console.error(errors[i])
-					}
-				} else if (typeof errors === "string")
-					console.error("Error creating scenario: " + errors)
-				else console.error("Error creating scenario:", errors)
+				console.error("Error creating scenario:", error)
 			})
 	}
 	updateScenario = (_id, obj) => {
@@ -673,16 +673,7 @@ export default class App extends Component {
 				this.getFullDataBase()
 			})
 			.catch(error => {
-				let errors = error.body.errors
-
-				if (typeof errors === "object") {
-					console.error("Error updating scenario:")
-					for (let i in errors) {
-						console.error(errors[i])
-					}
-				} else if (typeof errors === "string")
-					console.error("Error updating scenario: " + errors)
-				else console.error("Error updating scenario:", errors)
+				console.error("Error updating scenario:", error)
 			})
 	}
 	deleteScenario = _id => {
@@ -692,23 +683,14 @@ export default class App extends Component {
 				this.getFullDataBase()
 			})
 			.catch(error => {
-				let errors = error.body.errors
-
-				if (typeof errors === "object") {
-					console.error("Error deleting scenario:")
-					for (let i in errors) {
-						console.error(errors[i])
-					}
-				} else if (typeof errors === "string")
-					console.error("Error deleting scenario: " + errors)
-				else console.error("Error deleting scenario:", errors)
+				console.error("Error deleting scenario:", error)
 			})
 	}
 
 	getUser = _id => {
 		DB.getUser({ id: _id })
 			.then(result => {
-				console.log("Get user complete:", result.body.data.attributes)
+				console.log("Get user complete:", result.body.data)
 
 				this.setState({
 					currentUserRole: "donator",
@@ -717,16 +699,7 @@ export default class App extends Component {
 				})
 			})
 			.catch(error => {
-				let errors = error.body.errors
-
-				if (typeof errors === "object") {
-					console.error("Error getting user:")
-					for (let i in errors) {
-						console.error(errors[i])
-					}
-				} else if (typeof errors === "string")
-					console.error("Error getting user: " + errors)
-				else console.error("Error getting user:", errors)
+				console.error("Error getting user:", error)
 			})
 	}
 	createUser = obj => {
@@ -741,16 +714,7 @@ export default class App extends Component {
 				this.getFullDataBase()
 			})
 			.catch(error => {
-				let errors = error.body.errors
-
-				if (typeof errors === "object") {
-					console.error("Error creating user:")
-					for (let i in errors) {
-						console.error(errors[i])
-					}
-				} else if (typeof errors === "string")
-					console.error("Error creating user: " + errors)
-				else console.error("Error creating user:", errors)
+				console.error("Error creating user:", error)
 			})
 	}
 	updateUser = (_id, obj) => {
@@ -772,16 +736,7 @@ export default class App extends Component {
 				this.getFullDataBase()
 			})
 			.catch(error => {
-				let errors = error.body.errors
-
-				if (typeof errors === "object") {
-					console.error("Error updating user:")
-					for (let i in errors) {
-						console.error(errors[i])
-					}
-				} else if (typeof errors === "string")
-					console.error("Error updating user: " + errors)
-				else console.error("Error updating user:", errors)
+				console.error("Error updating user:", error)
 			})
 	}
 	deleteUser = _id => {
@@ -791,16 +746,7 @@ export default class App extends Component {
 				this.getFullDataBase()
 			})
 			.catch(error => {
-				let errors = error.body.errors
-
-				if (typeof errors === "object") {
-					console.error("Error deleting user:")
-					for (let i in errors) {
-						console.error(errors[i])
-					}
-				} else if (typeof errors === "string")
-					console.error("Error deleting user: " + errors)
-				else console.error("Error deleting user:", errors)
+				console.error("Error deleting user:", error)
 			})
 	}
 
@@ -824,7 +770,9 @@ export default class App extends Component {
 		this.setState({
 			menuIsOpen: false,
 			modalIsOpen: true,
-			openModalName: modalName
+			openModalName: modalName,
+			currentScenarioId:
+				uniquePath !== "" ? uniquePath : this.state.currentScenarioId
 		})
 
 		history.push(`/${modalName}/${uniquePath}`)
@@ -934,6 +882,8 @@ export default class App extends Component {
 		this.closeModal()
 	}
 	submitDonation = () => {
+		// donation happens here
+		this.updateScenario()
 		this.openModal("thanks")
 		setTimeout(() => {
 			this.closeModal()
@@ -973,10 +923,10 @@ export default class App extends Component {
 						<Header
 							userFirstName={this.state.currentUserData.firstname}
 							menuIsOpen={this.state.menuIsOpen}
+							userData={this.state.currentUserData}
 							openModal={this.openModal}
-							openMenuFunction={this.openMenu}
-							menuList={this.menu}
-							closeMenuFunction={this.closeMenu}
+							openMenu={this.openMenu}
+							closeMenu={this.closeMenu}
 							versionNumber={versionNumber}
 						/>
 
