@@ -5,6 +5,7 @@ import React, { Component, Fragment } from "react"
 // Local JS
 import Ad from "./Ad"
 import AdHeader from "./AdHeader"
+import AdModalContent from "./AdModalContent"
 import Loader from "./Loader"
 import FormInput from "./FormInput"
 /*** [end of imports] ***/
@@ -12,6 +13,8 @@ import FormInput from "./FormInput"
 export default class Main extends Component {
 	render() {
 		let { app } = this.props
+
+		console.log(this.props)
 
 		return (
 			<main

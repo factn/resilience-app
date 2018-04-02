@@ -42,6 +42,11 @@ export default class App extends Component {
 			databaseReady: false,
 			scenarioData: {},
 			userData: {},
+			nounData: {},
+			verbData: {},
+			donationData: {},
+			eventData: {},
+			proofData: {},
 			lastClickedLat: null,
 			lastClickedLon: null
 		}
@@ -598,6 +603,9 @@ export default class App extends Component {
 				console.info("Users call complete:", result.body.data)
 
 				this.getUser(1)
+				this.setState({
+					userData: result.body.data
+				})
 			})
 			.catch(error => {
 				console.error(error)
@@ -606,6 +614,10 @@ export default class App extends Component {
 		DB.getNouns()
 			.then(result => {
 				console.info("Nouns call complete:", result.body.data)
+
+				this.setState({
+					nounData: result.body.data
+				})
 			})
 			.catch(error => {
 				console.error(error)
@@ -614,6 +626,46 @@ export default class App extends Component {
 		DB.getVerbs()
 			.then(result => {
 				console.info("Verbs call complete:", result.body.data)
+
+				this.setState({
+					verbData: result.body.data
+				})
+			})
+			.catch(error => {
+				console.error(error)
+			})
+
+		DB.getDonations()
+			.then(result => {
+				console.info("Donations call complete:", result.body.data)
+
+				this.setState({
+					donationData: result.body.data
+				})
+			})
+			.catch(error => {
+				console.error(error)
+			})
+
+		DB.getEvents()
+			.then(result => {
+				console.info("Events call complete:", result.body.data)
+
+				this.setState({
+					eventData: result.body.data
+				})
+			})
+			.catch(error => {
+				console.error(error)
+			})
+
+		DB.getProofs()
+			.then(result => {
+				console.info("Proofs call complete:", result.body.data)
+
+				this.setState({
+					proofData: result.body.data
+				})
 			})
 			.catch(error => {
 				console.error(error)
@@ -750,7 +802,9 @@ export default class App extends Component {
 	}
 
 	buildLinks = (type, id) => {
-		;`${this.baseURL}/${type}/${id}`
+		return {
+			self: `${this.baseURL}/${type}/${id}`
+		}
 	}
 
 	openMenu = () => {

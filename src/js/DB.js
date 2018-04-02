@@ -21,6 +21,60 @@ const apiEndpoints = {
 		path: "/verbs"
 	},
 
+	// Donations
+	getDonations: {
+		method: get,
+		path: "/donations"
+	},
+	createDonation: {
+		method: post,
+		path: "/donations"
+	},
+	updateDonation: {
+		method: patch,
+		path: "/donations/:id"
+	},
+	destroyDonation: {
+		method: destroy,
+		path: "/donations/:id"
+	},
+
+	// Events
+	getEvents: {
+		method: get,
+		path: "/events"
+	},
+	createEvent: {
+		method: post,
+		path: "/events"
+	},
+	updateEvent: {
+		method: patch,
+		path: "/events/:id"
+	},
+	destroyEvent: {
+		method: destroy,
+		path: "/events/:id"
+	},
+
+	// Proofs
+	getProofs: {
+		method: get,
+		path: "/proofs"
+	},
+	createProof: {
+		method: post,
+		path: "/proofs"
+	},
+	updateProof: {
+		method: patch,
+		path: "/proofs/:id"
+	},
+	destroyProof: {
+		method: destroy,
+		path: "/proofs/:id"
+	},
+
 	// Scenarios
 	getScenarios: {
 		method: get,
