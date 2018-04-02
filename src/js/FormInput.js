@@ -3,6 +3,9 @@
 import React, { Component } from "react"
 import Icon from "@fortawesome/react-fontawesome"
 import faSolid from "@fortawesome/fontawesome-free-solid"
+
+// Local JS
+import CustomJSX from "./CustomJSX"
 /*** [end of imports] ***/
 
 export default class FormInput extends Component {
@@ -37,27 +40,33 @@ export default class FormInput extends Component {
 
 		if (inputType === "submit") {
 			return (
-				<button
-					className={`btn submit-btn ${formName}-btn ${responseType}-response`}
+				<a
+					className={`btn submit-btn ${responseType}-response`}
 					type="submit"
-					onClick={() => {
+					href={() => {
+						let link = "/"
+
 						if (onSubmitParams) {
 							let obj = {}
+
+							link += "?"
+
 							for (let i in onSubmitParams) {
 								if (inputType === "radio-row")
 									obj[i] = document.getElementById(onSubmitParams[i]).checked
 								else obj[i] = document.getElementById(onSubmitParams[i]).value
 							}
 							console.log("field values complete", obj)
-
-							return onSubmit(obj)
+							for (let i in obj) {
+								link += `&${obj}=${obj[i]}`
+							}
 						}
-						return onSubmit()
+						return link
 					}}
 				>
 					<span className="button-label">{labelPhrase} </span>
 					<Icon icon={labelIcon} className="button-icon" />
-				</button>
+				</a>
 			)
 		} else if (inputType === "location") {
 			return (
@@ -196,19 +205,5 @@ export default class FormInput extends Component {
 				</div>
 			)
 		}
-	}
-}
-
-class CustomJSX extends Component {
-	render() {
-		let { disabledField, content } = this.props
-
-		return (
-			<div
-				className={disabledField ? "input-wrap disabled-input" : "input-wrap"}
-			>
-				{content}
-			</div>
-		)
 	}
 }

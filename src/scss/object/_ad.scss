@@ -86,32 +86,23 @@
 	}
 	.ad-modal-btn {
 		position: absolute;
-		// top: 8rem;
 		bottom: 0;
 		left: 0;
 		width: 100%;
 		font-size: 1rem;
 		border-radius: 0;
 		z-index: 15;
-		// transition: {
-		// 	property: top;
-		// 	duration: 0.2s;
-		// 	timing-function: $cubic;
-		// }
 		&:active,
 		&:focus,
 		&:hover {
 			color: $white;
 		}
-		// &:hover {
-		// 	top: 0;
-		// }
 	}
 }
 .ad-header {
 	position: relative;
 	z-index: 2;
-	padding: 1rem 1rem 2rem;
+	padding: 0.5rem 1rem 2rem;
 	background: linear-gradient(
 		rgba($white, 0.9),
 		rgba($white, 0.75) 3rem,

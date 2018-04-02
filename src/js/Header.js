@@ -9,23 +9,17 @@ import Profile from "./Profile"
 
 export default class Header extends Component {
 	render() {
-		let {
-			userFirstName,
-			menuIsOpen,
-			userData,
-			openMenu,
-			openModal,
-			closeMenu,
-			versionNumber
-		} = this.props
+		let { app } = this.props
 
 		let userInfoArea
 
-		if (userFirstName !== "") {
+		if (app.state.currentUserData.firstname !== "") {
 			userInfoArea = (
 				<div className="user-info-area">
 					<Icon className="user-icon" icon="user" />
-					<div className="user-name">{toFirstCap(userFirstName)}</div>
+					<div className="user-name">
+						{toFirstCap(app.state.currentUserData.firstname)}
+					</div>
 				</div>
 			)
 		} else {
@@ -34,7 +28,7 @@ export default class Header extends Component {
 					<Icon className="user-icon" icon="question" />
 					<div
 						className="user-name not-signed-in"
-						onClick={() => openModal("login")}
+						onClick={() => app.openModal("login")}
 					>
 						Please sign in
 					</div>
@@ -47,37 +41,35 @@ export default class Header extends Component {
 				<nav className="menu">
 					<button
 						className="btn-lite menu-toggle-btn"
-						onClick={() => openMenu()}
+						onClick={() => app.openMenu()}
 					>
 						<Icon icon="bars" />
 					</button>
 
 					<section
-						className={menuIsOpen ? "menu-drawer open-drawer" : "menu-drawer"}
+						className={
+							app.state.menuIsOpen ? "menu-drawer open-drawer" : "menu-drawer"
+						}
 					>
 						{userInfoArea}
 
-						<Profile userData={userData} />
+						<Profile userData={app.state.currentUserData} />
 
 						<button
 							className="menu-close-btn btn-lite"
-							onClick={() => closeMenu()}
+							onClick={() => app.closeMenu()}
 						>
 							<Icon icon="times" />
 						</button>
 
 						<div className="subheader-content">
 							<div className="copy">&copy; {new Date().getFullYear()}</div>
-							<div className="version">{versionNumber}</div>
+							<div className="version">{app.versionNumber}</div>
 						</div>
 					</section>
 				</nav>
 
-				<h1 className="title">
-					{userFirstName !== ""
-						? `Hey there, ${toFirstCap(userFirstName)}`
-						: "Hello!"}
-				</h1>
+				<h1 className="title">{this.props.title}</h1>
 			</header>
 		)
 	}

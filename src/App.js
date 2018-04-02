@@ -1,7 +1,7 @@
 /*** IMPORTS ***/
 // Module imports
 import React, { Component, Fragment } from "react"
-import createHistory from "history/createBrowserHistory" // https://github.com/ReactTraining/history
+import { BrowserRouter as Router, Route } from "react-router-dom"
 import Icon from "@fortawesome/react-fontawesome"
 import faSolid from "@fortawesome/fontawesome-free-solid"
 
@@ -9,20 +9,12 @@ import faSolid from "@fortawesome/fontawesome-free-solid"
 import "./App.scss"
 
 // Local JS files
-import ModalWrap from "./js/ModalWrap"
+import Page from "./js/Page"
 import AdModalContent from "./js/AdModalContent"
-import GoogleMaps from "./js/GoogleMaps"
-import Header from "./js/Header"
-import Main from "./js/Main"
-import Footer from "./js/Footer"
 
 // DB import
 import DB from "./js/DB"
 /*** [end of imports] ***/
-
-const history = createHistory()
-const versionNumber = "0.1.0"
-const baseURL = "https://lion-uat.herokuapp.com"
 
 export default class App extends Component {
 	constructor(props) {
@@ -40,7 +32,6 @@ export default class App extends Component {
 			// mapAPIKey: "AIzaSyD9GQB7QNscXRebrSUzzNf8s5XGrzJSj0w",
 			menuIsOpen: false,
 			modalIsOpen: false,
-			openModalName: "",
 			userLoggedIn: false,
 			currentUserRole: "donator",
 			currentUserId: null,
@@ -59,8 +50,9 @@ export default class App extends Component {
 			defaultDonationAmount: "$3",
 			thankYouTimer: 2000
 		}
-		this.modals = {
+		this.pages = {
 			login: {
+				pageStyle: "modal",
 				title: "Login",
 				inputs: [
 					{
@@ -88,6 +80,7 @@ export default class App extends Component {
 				]
 			},
 			account: {
+				pageStyle: "modal",
 				title: "Create Account",
 				inputs: [
 					{
@@ -158,6 +151,7 @@ export default class App extends Component {
 				]
 			},
 			editAccount: {
+				pageStyle: "modal",
 				title: "Edit Account",
 				inputs: [
 					{
@@ -228,6 +222,7 @@ export default class App extends Component {
 				]
 			},
 			preferences: {
+				pageStyle: "modal",
 				title: "Preferences",
 				inputs: [
 					{
@@ -240,6 +235,7 @@ export default class App extends Component {
 				]
 			},
 			requester: {
+				pageStyle: "modal",
 				title: "Help!",
 				inputs: [
 					{
@@ -314,6 +310,7 @@ export default class App extends Component {
 				]
 			},
 			donator: {
+				pageStyle: "modal",
 				title: "Donate",
 				inputs: [
 					{
@@ -475,6 +472,7 @@ export default class App extends Component {
 				]
 			},
 			doer: {
+				pageStyle: "modal",
 				title: "Do Work",
 				inputs: [
 					{
@@ -510,6 +508,7 @@ export default class App extends Component {
 				]
 			},
 			verifier: {
+				pageStyle: "modal",
 				title: "Verify",
 				inputs: [
 					{
@@ -531,6 +530,7 @@ export default class App extends Component {
 				]
 			},
 			thanks: {
+				pageStyle: "modal",
 				title: "Feel good about yourself",
 				adContent: (
 					<div className="modal-custom-content-wrap thank-you-modal-custom-content">
@@ -540,6 +540,9 @@ export default class App extends Component {
 				)
 			}
 		}
+
+		this.versionNumber = "0.1.0"
+		this.baseURL = "https://lion-uat.herokuapp.com"
 
 		// Bindings
 		this.openMenu = this.openMenu.bind(this)
@@ -567,10 +570,6 @@ export default class App extends Component {
 		this.submitVerification = this.submitVerification.bind(this)
 
 		this.getFullDataBase()
-	}
-
-	componentDidMount() {
-		history.push(`/${this.state.currentUserRole}/`)
 	}
 
 	getFullDataBase = () => {
@@ -751,7 +750,7 @@ export default class App extends Component {
 	}
 
 	buildLinks = (type, id) => {
-		;`${baseURL}/${type}/${id}`
+		;`${this.baseURL}/${type}/${id}`
 	}
 
 	openMenu = () => {
@@ -765,7 +764,7 @@ export default class App extends Component {
 		window.scrollTo(0, 0)
 
 		if (adModalContent)
-			this.modals[modalName].adContent = <AdModalContent {...adModalContent} />
+			this.pages[modalName].adContent = <AdModalContent {...adModalContent} />
 
 		this.setState({
 			menuIsOpen: false,
@@ -774,8 +773,6 @@ export default class App extends Component {
 			currentScenarioId:
 				uniquePath !== "" ? uniquePath : this.state.currentScenarioId
 		})
-
-		history.push(`/${modalName}/${uniquePath}`)
 	}
 	closeModal = () => {
 		this.setState({
@@ -783,8 +780,6 @@ export default class App extends Component {
 			openModalName: "",
 			mapPickerIsOpen: false
 		})
-
-		history.push("/")
 	}
 	dismissAd = _id => {
 		this.updateScenario(_id, { dismissed: true })
@@ -832,7 +827,7 @@ export default class App extends Component {
 	}
 
 	toggleCustomDonationAmount = turnedOn => {
-		let { inputs } = this.modals.donator
+		let { inputs } = this.pages.donator
 
 		if (turnedOn) {
 			inputs[1].requiredField = true
@@ -847,7 +842,7 @@ export default class App extends Component {
 		})
 	}
 	togglePaymentTypeFields = turnedOn => {
-		let { inputs } = this.modals.donator
+		let { inputs } = this.pages.donator
 
 		for (let i = 4, l = inputs.length; i < l; i++) {
 			if (inputs[i].toggleGroup === turnedOn) {
@@ -900,62 +895,47 @@ export default class App extends Component {
 		this.setState({
 			currentUserRole: newContext
 		})
-
-		history.push(`/${newContext}/`)
 	}
 
 	render() {
 		return (
-			<div className="app">
-				{/* Modal wrapper */}
-				{this.state.modalIsOpen ? (
-					<ModalWrap
-						closeModal={this.closeModal}
-						openModalName={this.state.openModalName}
-						modalContent={this.modals[this.state.openModalName]}
-						openMapPicker={this.openMapPicker}
-						lat={this.state.lastClickedLat}
-						lon={this.state.lastClickedLon}
+			<Router>
+				<div className="app">
+					<Route
+						path="/login/"
+						render={() => <Page app={this} {...this.pages["login"]} />}
 					/>
-				) : (
-					<Fragment>
-						{/* App header */}
-						<Header
-							userFirstName={this.state.currentUserData.firstname}
-							menuIsOpen={this.state.menuIsOpen}
-							userData={this.state.currentUserData}
-							openModal={this.openModal}
-							openMenu={this.openMenu}
-							closeMenu={this.closeMenu}
-							versionNumber={versionNumber}
-						/>
-
-						{/* App main */}
-						<Main
-							contextChange={this.contextChange}
-							databaseReady={this.state.databaseReady}
-							database={this.state.scenarioData}
-							userRole={this.state.currentUserRole}
-							openModal={this.openModal}
-							dismissAd={this.dismissAd}
-						/>
-
-						{/* App footer */}
-						<Footer
-							userLoggedIn={this.state.userLoggedIn}
-							openModal={this.openModal}
-							logoutFunction={this.logout}
-						/>
-					</Fragment>
-				)}
-
-				{/* Map picker */}
-				<GoogleMaps
-					zoomLevel={this.settings.zoomLevel}
-					closeMapPicker={this.closeMapPicker}
-					mapPickerIsOpen={this.state.mapPickerIsOpen}
-				/>
-			</div>
+					<Route
+						path="/account/"
+						render={() => <Page app={this} {...this.pages["account"]} />}
+					/>
+					<Route
+						path="/edit-account/"
+						render={() => <Page app={this} {...this.pages["editAccount"]} />}
+					/>
+					<Route
+						path="/preferences/"
+						render={() => <Page app={this} {...this.pages["preferences"]} />}
+					/>
+					<Route
+						path="/scenario/:id/"
+						render={() => (
+							<Page
+								app={this}
+								{...this.state.scenarioData[this.state.currentScenarioId]} // this.state.scenarioData[id]
+							/>
+						)}
+					/>
+					<Route
+						path="/thanks/"
+						render={() => <Page app={this} {...this.pages["thanks"]} />}
+					/>
+					<Route path="/donator/" render={() => <Page app={this} />} />
+					<Route path="/requester/" render={() => <Page app={this} />} />
+					<Route path="/doer/" render={() => <Page app={this} />} />
+					<Route path="/verifier/" render={() => <Page app={this} />} />
+				</div>
+			</Router>
 		)
 	}
 }

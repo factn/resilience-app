@@ -8,40 +8,24 @@ import Action from "./Action"
 
 export default class Footer extends Component {
 	render() {
-		let { userLoggedIn, openModal, logoutFunction } = this.props
+		let { app } = this.props
 
 		return (
 			<footer className="app-footer">
-				{userLoggedIn ? (
-					<Action label="Log Out" func={logoutFunction} icon="sign-out-alt" />
+				{app.state.userLoggedIn ? (
+					<Fragment>
+						<Action label="Log Out" icon="sign-out-alt" />
+						<Action label="Settings" link={"/preferences/"} icon="cogs" />
+						<Action label="Help!" link={"/requestor/"} icon="exclamation" />
+					</Fragment>
 				) : (
 					<Fragment>
-						<Action
-							label="Sign Up"
-							func={openModal}
-							params={"account"}
-							icon="user-plus"
-						/>
-						<Action
-							label="Log In"
-							func={openModal}
-							params={"login"}
-							icon="user"
-						/>
+						<Action label="Sign Up" link={"/account/"} icon="user-plus" />
+						<Action label="Log In" link={"/login/"} icon="user" />
+						<Action label="Settings" link={"/preferences/"} icon="cogs" />
+						<Action label="Help!" link={"/requestor/"} icon="exclamation" />
 					</Fragment>
 				)}
-				<Action
-					label="Settings"
-					func={openModal}
-					params={"preferences"}
-					icon="cogs"
-				/>
-				<Action
-					label="Help!"
-					func={openModal}
-					params={"request"}
-					icon="exclamation"
-				/>
 			</footer>
 		)
 	}

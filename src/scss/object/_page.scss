@@ -1,24 +1,14 @@
-.modal-close-btn {
-	position: absolute;
-	top: 0;
-	left: 0;
-	padding: 0.5rem;
-	font-size: 1.5rem;
-	.modal-close-text {
-		display: none;
-	}
-}
-.modal {
+.page {
 	padding: 1rem;
 }
-.modal-header {
-	background: $white;
-	text-align: center;
-	padding: 0.5em 1em;
-	margin: -1rem -1rem 1rem;
-	box-shadow: $menu-shadow;
-}
-.modal-adcontent-wrap {
+// .page-header {
+// 	background: $white;
+// 	text-align: center;
+// 	padding: 0.5em 1em;
+// 	margin: -1rem -1rem 1rem;
+// 	box-shadow: $menu-shadow;
+// }
+.page-adcontent-wrap {
 	.adcontent-header {
 		margin-bottom: 0.5rem;
 	}
@@ -35,7 +25,7 @@
 		margin-top: 0.5rem;
 	}
 }
-.modal-form {
+.page-form {
 	.input-wrap {
 		max-height: 5rem;
 		margin-bottom: 1rem;
@@ -119,7 +109,7 @@
 		}
 	}
 }
-.thank-you-modal-custom-content {
+.thank-you-page-custom-content {
 	text-align: center;
 	h4 {
 		margin-bottom: 1rem;
@@ -144,13 +134,13 @@
 }
 
 @include breakpoint($tablet) {
-	.modal-close-btn {
-		.modal-close-text {
+	.page-close-btn {
+		.page-close-text {
 			display: initial;
 		}
 	}
-	.modal {
-		&.adcontent-modal {
+	.page {
+		&.adcontent-page {
 			display: grid;
 			grid: {
 				template: {
@@ -160,10 +150,10 @@
 				}
 				gap: 1rem;
 			}
-			.modal-header {
+			.page-header {
 				grid-area: header;
 			}
-			.modal-adcontent-wrap {
+			.page-adcontent-wrap {
 				grid-area: adcontent;
 			}
 			.adcontent-image-wrap {
@@ -175,14 +165,14 @@
 					flex-grow: 5;
 				}
 			}
-			.modal-form {
+			.page-form {
 				grid-area: form;
 				border: 0.125rem solid $blue;
 				border-radius: 0.5rem;
 				padding: 0.5rem;
 			}
 		}
-		&.no-adcontent-modal {
+		&.no-adcontent-page {
 			max-width: 30em;
 			height: auto;
 			max-height: calc(100vh - 4rem);
@@ -191,7 +181,7 @@
 			border-radius: 1rem;
 		}
 	}
-	.modal-header {
+	.page-header {
 		font-size: 1.2em;
 	}
 }

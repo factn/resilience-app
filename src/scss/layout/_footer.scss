@@ -15,11 +15,14 @@
 	font-weight: bold;
 }
 .action-btn {
+	display: inline-block;
 	width: 2rem;
 	height: 2rem;
 	padding: 0.25rem;
 	font-size: 1rem;
 	box-shadow: 0 0 0.25rem $black, 0 0 0.25rem $black;
+	vertical-align: middle;
+	text-align: center;
 }
 
 @include breakpoint($tablet) {

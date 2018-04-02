@@ -6,19 +6,14 @@ import Icon from "@fortawesome/react-fontawesome"
 
 export default class Action extends Component {
 	render() {
-		let { label, func, params, icon } = this.props
+		let { label, link, icon } = this.props
 
 		return (
 			<div className="action">
 				<span className="action-label">{label}</span>
-				<button
-					className="btn action-btn"
-					onClick={
-						typeof params !== "undefined" ? () => func(params) : () => func()
-					}
-				>
+				<a className="btn action-btn" href={link}>
 					<Icon icon={icon} />
-				</button>
+				</a>
 			</div>
 		)
 	}
