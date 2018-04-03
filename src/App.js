@@ -127,6 +127,12 @@ export default class App extends Component {
 		this.versionNumber = "0.1.0"
 		this.baseURL = "https://lion-uat.herokuapp.com"
 
+		// Bindings
+		this.submitRequest = this.submitRequest.bind(this)
+		this.submitDonation = this.submitDonation.bind(this)
+		this.submitDo = this.submitDo.bind(this)
+		this.submitVerification = this.submitVerification.bind(this)
+
 		this.getFullDataBase()
 	}
 
@@ -362,6 +368,11 @@ export default class App extends Component {
 				console.error("Error deleting user:", error)
 			})
 	}
+
+	submitRequest = () => {}
+	submitDonation = () => {}
+	submitDo = () => {}
+	submitVerification = () => {}
 
 	buildLinks = (type, id) => {
 		return {

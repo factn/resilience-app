@@ -23,7 +23,8 @@ export default class Main extends Component {
 			flows,
 			databaseReady,
 			scenarioData,
-			lastUrlSegment
+			lastUrlSegment,
+			updateScenario
 		} = this.props
 
 		if (pageStyle === "modal") {
@@ -35,6 +36,7 @@ export default class Main extends Component {
 						lastClickedLat={lastClickedLat}
 						lastClickedLon={lastClickedLon}
 						lastUrlSegment={lastUrlSegment}
+						updateScenario={updateScenario}
 					/>
 				</main>
 			)
@@ -68,6 +70,7 @@ export default class Main extends Component {
 						lastClickedLat={lastClickedLat}
 						lastClickedLon={lastClickedLon}
 						lastUrlSegment={lastUrlSegment}
+						updateScenario={updateScenario}
 					/>
 				</main>
 			)

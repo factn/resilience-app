@@ -10,7 +10,14 @@ import CustomJSX from "./CustomJSX"
 
 export default class FormInput extends Component {
 	render() {
-		let { formName, openMapPicker, inputObj, lat, lon } = this.props
+		let {
+			formName,
+			openMapPicker,
+			inputObj,
+			lat,
+			lon,
+			lastUrlSegment
+		} = this.props
 
 		// Valid inputType's: "submit", "text", "email", "password", "file", "location", "number", "radio-row", "custom"
 		let {
@@ -31,6 +38,7 @@ export default class FormInput extends Component {
 
 			// Submit function
 			responseType,
+			// onSubmit,
 			onSubmitParams,
 
 			// Full custom
@@ -39,14 +47,20 @@ export default class FormInput extends Component {
 
 		if (inputType === "submit") {
 			return (
-				<a
+				<button
 					className={`btn submit-btn ${responseType}-response`}
-					type="submit"
-					href="/donator/"
+					onClick={() => {
+						// if (typeof onSubmitParams !== "undefined")
+						// 	onSubmit(onSubmitParams)
+						// else
+						// 	onSubmit()
+
+						window.location = `/${lastUrlSegment}/`
+					}}
 				>
 					<span className="button-label">{labelPhrase} </span>
 					<Icon icon={labelIcon} className="button-icon" />
-				</a>
+				</button>
 			)
 		} else if (inputType === "location") {
 			return (
