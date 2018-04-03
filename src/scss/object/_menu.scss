@@ -1,13 +1,14 @@
 .menu {
 	flex-basis: 2rem;
 }
-.menu-toggle-btn, .menu-close-btn {
+.menu-toggle-btn,
+.menu-close-btn {
 	font-size: 1.2rem;
 }
 .menu-close-btn {
 	opacity: 0;
 	position: absolute;
-	top: .5rem;
+	top: 0.5rem;
 	right: -2.5rem;
 	width: 2rem;
 	text-align: center;
@@ -22,11 +23,11 @@
 	z-index: 11;
 	opacity: 0;
 	padding: 1rem;
-  transition: {
-    property: opacity, left;
-    duration: .5s;
-    timing-function: $cubic;
-  }
+	transition: {
+		property: opacity, left;
+		duration: 0.5s;
+		timing-function: $cubic;
+	}
 	&.open-drawer {
 		opacity: 1;
 		left: 0;
@@ -37,27 +38,27 @@
 }
 .user-info-area {
 	width: calc(100% + 2rem);
-	height: 10vh;
+	height: 5rem;
 	margin: -1rem -1rem 1rem;
-	box-shadow: 0 0 1rem rgba($black, .5);
+	box-shadow: 0 0 1rem rgba($black, 0.5);
 	background: linear-gradient(to bottom right, lighten($green, 10%), $blue);
-	padding: 1rem;
+	padding: 2rem 1rem;
 	display: inline-flex;
 	justify-content: space-between;
 	.user-icon {
 		color: $white;
-		background: rgba($black, .5);
+		background: rgba($black, 0.5);
 		width: 2rem;
 		height: 2rem;
-		padding: .25rem;
+		padding: 0.25rem;
 		border-radius: 50%;
-		border: .25rem solid $white;
+		border: 0.25rem solid $white;
 	}
 	.user-name {
-		padding-top: .5rem;
+		padding-top: 0.5rem;
 		color: $white;
 		&.not-signed-in {
-			color: rgba($white, .75);
+			color: rgba($white, 0.75);
 		}
 	}
 }
@@ -74,16 +75,24 @@
 	position: absolute;
 	bottom: 0;
 	left: 0;
-	padding: .5rem 1rem;
+	padding: 0.5rem 1rem;
 	width: 100%;
-	color: rgba($black, .5);
-	font-size: .8rem;
+	color: rgba($black, 0.5);
+	font-size: 0.8rem;
 	display: inline-flex;
 	justify-content: space-between;
 	.copy {
-
 	}
 	.version {
-		
+	}
+}
+
+@include breakpoint($tablet) {
+	.menu-drawer {
+		width: 20rem;
+	}
+	.menu-close-btn {
+		right: 0.5rem;
+		color: $white;
 	}
 }

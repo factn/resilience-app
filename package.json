@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@fortawesome/fontawesome": "^1.1.4",
+    "@fortawesome/fontawesome-free-brands": "^5.0.9",
     "@fortawesome/fontawesome-free-solid": "^5.0.8",
     "@fortawesome/react-fontawesome": "0.0.18",
     "autoprefixer": "7.1.6",
@@ -29,8 +30,10 @@
     "file-loader": "1.1.5",
     "fs-extra": "3.0.1",
     "google-maps-react": "^1.1.6",
+    "history": "^4.7.2",
     "html-webpack-plugin": "2.29.0",
     "jest": "20.0.4",
+    "npm": "^5.8.0",
     "object-assign": "4.1.1",
     "postcss-flexbugs-fixes": "3.2.0",
     "postcss-loader": "2.0.8",

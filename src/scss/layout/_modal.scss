@@ -1,31 +1,3 @@
 .modal-wrap {
-	position: absolute;
-	top: -100vh;
-	left: 0;
-	width: 100%;
-	height: 100vh;
-	background: rgba($black, .5);
-	z-index: 10;
-	opacity: 0;
-  transition: {
-    property: opacity;
-    duration: .2s;
-    timing-function: $cubic;
-  }
-	&.open-modal {
-		top: 0;
-		opacity: 1;
-		transition: {
-			property: opacity, top;
-			duration: .2s;
-			timing-function: $cubic;
-		}
-	}
-}
-.modal-close-btn {
-	font-size: 1.5rem;
-	position: absolute;
-	top: 1rem;
-	right: 1rem;
-	color: $white;
+	position: relative;
 }

@@ -1,111 +1,164 @@
 .ad-tab-header {
-	padding: 1rem .5rem .5rem;
+	padding: 1rem 0.5rem 0.5rem;
 	overflow-x: scroll;
-	border-bottom: 2px solid rgba($blue, .5);
+	border-bottom: 2px solid rgba($blue, 0.5);
 }
 .ad-tab-list {
-	@include inline-list;
-	display: inline-flex;
+	@include inline-flex-list;
 	width: 30rem;
 }
 .ad-tab {
 	cursor: pointer;
 	font-weight: bold;
-	padding: .25rem .75rem;
+	padding: 0.25rem 0.75rem;
 	transition: {
 		property: color, box-shadow;
-		duration: .2s;
+		duration: 0.2s;
 		timing-function: $cubic;
 	}
 	&.active {
 		color: $blue;
-		box-shadow: inset 0 -.125rem $blue;
+		box-shadow: inset 0 -0.125rem $blue;
 	}
 }
 .ad-feed-wrap {
 	padding: 1rem 1rem 5rem;
+	perspective: 1000rem;
+	overflow: hidden;
 }
 .ad {
+	position: relative;
 	background: $white;
-	padding: 1rem;
-	margin-bottom: .5rem;
+	margin-bottom: 0.5rem;
+	border: 1px solid rgba($black, 0.5);
+	overflow: hidden;
+	min-height: 10rem;
+	transition: {
+		property: transform, margin;
+		duration: 0.1s;
+	}
 	&.doer-ad {
 		.ad-header {
-			background: $red;
+			.ad-title,
+			.ad-subtitle {
+				color: $red;
+			}
 		}
 		.ad-modal-btn {
 			background: $red;
-			border: .125em solid $red;
+			border: 0.125em solid $red;
 		}
 	}
 	&.donator-ad {
 		.ad-header {
-			background: $green;
+			.ad-title,
+			.ad-subtitle {
+				color: $green;
+			}
 		}
 		.ad-modal-btn {
 			background: $green;
-			border: .125em solid $green;
+			border: 0.125em solid $green;
 		}
 	}
 	&.verifier-ad {
 		.ad-header {
-			background: $purple;
+			.ad-title,
+			.ad-subtitle {
+				color: $purple;
+			}
 		}
 		.ad-modal-btn {
 			background: $purple;
-			border: .125em solid $purple;
+			border: 0.125em solid $purple;
 		}
 	}
 	&.requester-ad {
 		.ad-header {
-			background: $blue;
+			.ad-title,
+			.ad-subtitle {
+				color: $blue;
+			}
 		}
 		.ad-modal-btn {
 			background: $blue;
-			border: .125em solid $blue;
+			border: 0.125em solid $blue;
 		}
 	}
 	.ad-modal-btn {
+		position: absolute;
+		bottom: 0;
+		left: 0;
 		width: 100%;
 		font-size: 1rem;
-		&:active, &:focus {
+		border-radius: 0;
+		&:active,
+		&:focus,
+		&:hover {
 			color: $white;
 		}
 	}
 }
 .ad-header {
-	margin: .5rem 0;
-	padding: .5rem 1rem;
-	.ad-title, .ad-subtitle {
-		color: rgba($white, .95);
-	}
+	position: relative;
+	z-index: 2;
+	padding: 1rem 1rem 2rem;
+	background: linear-gradient(
+		rgba($white, 0.9),
+		rgba($white, 0.75) 3rem,
+		transparent
+	);
 	.ad-title {
-		
-	}
-	.ad-subtitle {
-		
+		font-weight: bold;
 	}
 }
 .ad-image-wrap {
-	background: darken($white, 5%);
-	padding: .25rem;
-	margin-bottom: .5rem;
 	.ad-image {
-		max-height: 25vh;
+		position: absolute;
+		bottom: -10rem;
+		left: 0;
+		min-width: 100%;
 	}
 }
 .ad-image-caption {
-	color: rgba($black, .8);
-	font-size: .8em;
-	margin-top: .5rem;
+	color: rgba($black, 0.8);
+	font-size: 0.8em;
+}
+.funding-progress-wrap {
+	.funding-progress-label {
+		display: block;
+		font-size: 1.2rem;
+		cursor: inherit;
+		&.goal-label {
+			margin-bottom: 0.5rem;
+		}
+		&.complete-label {
+			margin-top: 0.5rem;
+			font-size: 1rem;
+			color: rgba($black, 0.5);
+		}
+	}
+	.funding-progress-slider {
+		border: 1px solid rgba($black, 0.5);
+		background: linear-gradient(to right, $red, $yellow, $green);
+	}
 }
 
 @include breakpoint($tablet) {
+	.ad-tab-header {
+		padding: 1rem;
+	}
+	.ad-tab-list {
+		width: auto;
+	}
+	.ad-tab {
+		font-size: 1.2em;
+	}
 	.ad-feed-wrap {
 		display: grid;
 		grid: {
 			template: {
-				columns: repeat(2, 1fr);
+				columns: repeat(3, 1fr);
 				rows: auto;
 			}
 			gap: 1rem;
@@ -121,7 +174,7 @@
 		max-width: 90rem;
 		margin: 0 auto;
 		grid: {
-			template-columns: repeat(3, 1fr);
+			template-columns: repeat(4, 1fr);
 			gap: 1.5rem;
 		}
 	}

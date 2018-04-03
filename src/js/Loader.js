@@ -1,12 +1,11 @@
 /*** IMPORTS ***/
 // Module imports
-import React, { Component } from 'react';
-import Icon from '@fortawesome/react-fontawesome';
-// import faSolid from '@fortawesome/fontawesome-free-solid';
+import React, { Component } from "react"
+import Icon from "@fortawesome/react-fontawesome"
 /*** [end of imports] ***/
 
 export default class Loader extends Component {
-	render () {
+	render() {
 		return (
 			<div className="loader-wrap">
 				<div className="loader">
@@ -15,6 +14,6 @@ export default class Loader extends Component {
 					<Icon icon="circle" className="loader-icon" />
 				</div>
 			</div>
-		);
+		)
 	}
 }

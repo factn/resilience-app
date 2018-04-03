@@ -1,96 +1,121 @@
-.modal {
-	@include menu-back;
+.modal-close-btn {
 	position: absolute;
-	top: 3rem;
-	left: 1rem;
-	width: calc(100% - 2rem);
-	max-height: calc(100vh - 4rem);
-	overflow: auto;
-	z-index: 11;
+	top: 0;
+	left: 0;
+	padding: 0.5rem;
+	font-size: 1.5rem;
+	.modal-close-text {
+		display: none;
+	}
+}
+.modal {
 	padding: 1rem;
 }
 .modal-header {
-	margin-bottom: 1rem;
+	background: $white;
+	text-align: center;
+	padding: 0.5em 1em;
+	margin: -1rem -1rem 1rem;
+	box-shadow: $menu-shadow;
 }
 .modal-adcontent-wrap {
 	.adcontent-header {
-		margin-bottom: .5rem;
+		margin-bottom: 0.5rem;
 	}
 	.adcontent-image-wrap {
-		background: darken($white, 5%);
-		padding: .25rem;
-		margin-bottom: .5rem;
+		padding: 0.25rem;
+		margin-bottom: 0.5rem;
 	}
 	.adcontent-image {
-		max-height: 25vh;
+		max-height: 30vh;
 	}
 	.adcontent-image-caption {
-		color: rgba($black, .8);
-		font-size: .8em;
-		margin-top: .5rem;
+		color: rgba($black, 0.8);
+		font-size: 0.8em;
+		margin-top: 0.5rem;
 	}
 }
 .modal-form {
 	.input-wrap {
+		max-height: 5rem;
 		margin-bottom: 1rem;
-		&.disabled-input {
-			opacity: .5;
+		opacity: 1;
+		transition: {
+			property: opacity, max-height, margin-bottom;
+			duration: 0.5s;
+			timing-function: $cubic;
 		}
-		.input-label {
-			display: inline-flex;
-			justify-content: space-between;
-			width: 100%;
-			margin-bottom: .5rem;
-			.input-label-icon {
-				color: rgba($blue, .75);
-				width: 2rem;
-				text-align: center;
+		&.checkbox-input-wrap {
+			.input-label {
+				padding-left: 0.5rem;
 			}
-			.input-label-phrase {
-				color: rgba($black, .5);
-			}
-			&.btn-label {
-				.input-label-icon, .input-label-phrase {
-					color: rgba($white, .9);
-				}
-				&:focus, &:hover {
-					.input-label-icon, .input-label-phrase {
-						color: rgba($blue, .9);
-					}
+		}
+		&:not(.checkbox-input-wrap) {
+			.input-label {
+				display: inline-flex;
+				justify-content: space-between;
+				width: 100%;
+				margin-bottom: 0.5rem;
+				.input-label-icon {
+					color: rgba($blue, 0.75);
+					width: 2rem;
+					text-align: center;
 				}
 			}
+		}
+		&.disabled-input {
+			max-height: 0;
+			margin-bottom: 0;
+			opacity: 0;
+			overflow: hidden;
+		}
+		.input-label-phrase {
+			color: rgba($black, 0.5);
 		}
 		button.input-label {
 			font-size: 1rem;
+		}
+		.input-label.btn-label {
+			.input-label-icon,
+			.input-label-phrase {
+				color: rgba($white, 0.9);
+			}
+			&:focus,
+			&:hover {
+				.input-label-icon,
+				.input-label-phrase {
+					color: rgba($blue, 0.9);
+				}
+			}
 		}
 		.form-input {
 			font-size: 1.5rem;
 		}
 	}
 	.input-row-label {
-		color: rgba($black, .5);
-		margin-bottom: .5rem;
+		color: rgba($black, 0.5);
+		margin-bottom: 0.5rem;
 	}
 	.radio-row-wrap {
 		.radio-row-input-wrap {
-			margin-bottom: .5rem;
+			margin-bottom: 0.5rem;
 		}
 		.form-input {
-			font-size: .25rem;
-			margin: -1rem .5rem 0 0;
+			font-size: 0.25rem;
+			margin: -1rem 0.5rem 0 0;
 		}
 	}
 	.submit-btn {
 		width: 100%;
 		font-size: 1.5rem;
-		margin-bottom: .5rem;
+		margin-bottom: 0.5rem;
 		&.positive-response {
 			background: $green;
-			border: .125em solid $green;
+			border: 0.125em solid $green;
 		}
 		&.negative-response {
 			background: $red;
-			border: .125em solid $red;
+			border: 0.125em solid $red;
 		}
 	}
 }
@@ -102,5 +127,71 @@
 	.thank-you-icon {
 		color: $blue;
 		font-size: 3em;
+	}
+}
+.ethereum-wallet-id-transaction-number {
+	background: rgba($white, 0.5);
+	padding: 0.125rem 0.25rem;
+	border: 0.125rem solid $blue;
+	border-radius: 0.25rem;
+	cursor: pointer;
+	.copy-icon {
+		color: rgba($blue, 0.75);
+		width: 2rem;
+		text-align: center;
+		float: right;
+	}
+}
+
+@include breakpoint($tablet) {
+	.modal-close-btn {
+		.modal-close-text {
+			display: initial;
+		}
+	}
+	.modal {
+		&.adcontent-modal {
+			display: grid;
+			grid: {
+				template: {
+					columns: 1fr 20rem;
+					rows: auto;
+					areas: "header header" "adcontent form";
+				}
+				gap: 1rem;
+			}
+			.modal-header {
+				grid-area: header;
+			}
+			.modal-adcontent-wrap {
+				grid-area: adcontent;
+			}
+			.adcontent-image-wrap {
+				display: inline-flex;
+				justify-content: space-between;
+				width: 100%;
+				.adcontent-image-caption {
+					padding-left: 1rem;
+					flex-grow: 5;
+				}
+			}
+			.modal-form {
+				grid-area: form;
+				border: 0.125rem solid $blue;
+				border-radius: 0.5rem;
+				padding: 0.5rem;
+			}
+		}
+		&.no-adcontent-modal {
+			max-width: 30em;
+			height: auto;
+			max-height: calc(100vh - 4rem);
+			top: 3rem;
+			left: calc(50% - 15em);
+			border-radius: 1rem;
+		}
+	}
+	.modal-header {
+		font-size: 1.2em;
 	}
 }

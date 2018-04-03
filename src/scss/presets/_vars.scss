@@ -4,15 +4,16 @@ $white: #fff;
 
 $blue: #0a79ce;
 $green: #04861c;
+$yellow: #fbff00;
 $red: #c60000;
 $purple: #9000b3;
 
 // menu:
 $menu-background: linear-gradient($white, darken($white, 10%));
-$menu-shadow: 0 0 1rem rgba($black, .5);
+$menu-shadow: 0 0 1rem rgba($black, 0.5);
 
 // timing functions
-$cubic: cubic-bezier(.73,.2,.43,1);
+$cubic: cubic-bezier(0.73, 0.2, 0.43, 1);
 $loader-time: 2s;
 
 // weights
@@ -27,4 +28,4 @@ $tablet: 48em; /* 768/16 */
 $desktop: 75em; /* 1200/16 */
 
 // shadows
-$taper-shadow: .0625rem .125rem .25rem rgba($black, .5);
+$taper-shadow: 0.0625rem 0.125rem 0.25rem rgba($black, 0.5);

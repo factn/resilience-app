@@ -1,58 +1,60 @@
-input, select, textarea {
-  margin: 0;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  box-shadow: none;
-  width: 100%;
-  max-width: 100%;
-  padding: .125rem .25rem;
-  background: rgba($white, .5);
-  font-family: 'Raleway', arial, sans-serif;
-  border: .125rem solid $blue;
-  border-radius: .25rem;
-  transition: {
-    property: background;
-    duration: .5s;
-    timing-function: $cubic;
-  }
-  &:focus {
-    background: $white;
-  }
-  &:-webkit-autofill {
-    -webkit-box-shadow: 0 0 0 100rem $white inset;
-  }
-  &:disabled {
-    background: rgba($black, .25);
-    border: .125rem solid darken($blue, 10%);
-  }
+input,
+select,
+textarea {
+	margin: 0;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	box-shadow: none;
+	width: 100%;
+	max-width: 100%;
+	padding: 0.125rem 0.25rem;
+	background: rgba($white, 0.5);
+	font-family: "Raleway", arial, sans-serif;
+	border: 0.125rem solid $blue;
+	border-radius: 0.25rem;
+	transition: {
+		property: background;
+		duration: 0.5s;
+		timing-function: $cubic;
+	}
+	&:focus {
+		background: $white;
+	}
+	&:-webkit-autofill {
+		-webkit-box-shadow: 0 0 0 100rem $white inset;
+	}
+	&:disabled {
+		background: rgba($black, 0.25);
+		border: 0.125rem solid darken($blue, 10%);
+	}
 }
 input[type="file"] {
-  position: absolute;
-  z-index: -1;
-  top: -100vh;
+	position: absolute;
+	z-index: -1;
+	top: -100vh;
 }
 input[type="search"] {
-
 }
-input[type="checkbox"], input[type="radio"] {
-  cursor: pointer;
-  width: 1rem !important;
-  height: 1rem;
-  &:hover, &:active {
-    background: $blue;
-  }
-  &:checked {
-    background: darken($blue, 10%);
-  }
+input[type="checkbox"],
+input[type="radio"] {
+	cursor: pointer;
+	width: 1rem !important;
+	height: 1rem;
+	&:hover,
+	&:active {
+		background: $blue;
+	}
+	&:checked {
+		background: darken($blue, 10%);
+	}
 }
 input[type="radio"] {
-  border-radius: 50%;
+	border-radius: 50%;
 }
 textarea {
-  resize: vertical;
-  max-height: 11.5rem;
+	resize: vertical;
+	max-height: 11.5rem;
 }
 label {
-  cursor: pointer;
+	cursor: pointer;
 }
