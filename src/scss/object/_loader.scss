@@ -11,9 +11,9 @@
 		animation: $loader-time $cubic loader infinite;
 	}
 	&:nth-of-type(2) {
-		animation: $loader-time $cubic 0.2s loader infinite;
+		animation: $loader-time $cubic $fast loader infinite;
 	}
 	&:nth-of-type(3) {
-		animation: $loader-time $cubic 0.4s loader infinite;
+		animation: $loader-time $cubic ($fast * 2) loader infinite;
 	}
 }

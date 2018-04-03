@@ -10,22 +10,22 @@ textarea {
 	padding: 0.125rem 0.25rem;
 	background: rgba($white, 0.5);
 	font-family: "Raleway", arial, sans-serif;
-	border: 0.125rem solid $blue;
+	border: 1px solid transparent;
 	border-radius: 0.25rem;
 	transition: {
-		property: background;
-		duration: 0.5s;
+		property: background, border-color;
+		duration: $fast;
 		timing-function: $cubic;
 	}
 	&:focus {
 		background: $white;
+		border: 1px solid $blue;
 	}
 	&:-webkit-autofill {
 		-webkit-box-shadow: 0 0 0 100rem $white inset;
 	}
 	&:disabled {
 		background: rgba($black, 0.25);
-		border: 0.125rem solid darken($blue, 10%);
 	}
 }
 input[type="file"] {
@@ -40,6 +40,7 @@ input[type="radio"] {
 	cursor: pointer;
 	width: 1rem !important;
 	height: 1rem;
+	border: 1px solid $blue;
 	&:hover,
 	&:active {
 		background: $blue;

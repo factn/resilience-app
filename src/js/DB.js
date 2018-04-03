@@ -6,6 +6,10 @@ const apiEndpoints = {
 		method: get,
 		path: "/nouns"
 	},
+	getNoun: {
+		method: get,
+		path: "/nouns/:description"
+	},
 	createNoun: {
 		method: post,
 		path: "/nouns"
@@ -16,6 +20,10 @@ const apiEndpoints = {
 		method: get,
 		path: "/verbs"
 	},
+	getVerb: {
+		method: get,
+		path: "/verbs/:description"
+	},
 	createVerb: {
 		method: post,
 		path: "/verbs"
@@ -25,6 +33,10 @@ const apiEndpoints = {
 	getDonations: {
 		method: get,
 		path: "/donations"
+	},
+	getDonation: {
+		method: get,
+		path: "/donations/:scenario"
 	},
 	createDonation: {
 		method: post,
@@ -96,6 +108,18 @@ const apiEndpoints = {
 		method: destroy,
 		path: "/scenarios/:id"
 	},
+	dismissScenario: {
+		method: patch,
+		path: "/scenarios/:id"
+	},
+	interactWithScenario: {
+		method: patch,
+		path: "/scenarios/:id"
+	},
+	addImageToScenario: {
+		method: patch,
+		path: "/scenarios/:id"
+	},
 
 	// Users
 	getUsers: {
@@ -104,7 +128,7 @@ const apiEndpoints = {
 	},
 	getUser: {
 		method: get,
-		path: "/users/:id"
+		path: "/users?filter[email]=:email"
 	},
 	createUser: {
 		method: post,

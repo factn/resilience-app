@@ -31,7 +31,6 @@ export default class FormInput extends Component {
 
 			// Submit function
 			responseType,
-			onSubmit,
 			onSubmitParams,
 
 			// Full custom
@@ -43,26 +42,7 @@ export default class FormInput extends Component {
 				<a
 					className={`btn submit-btn ${responseType}-response`}
 					type="submit"
-					href={() => {
-						let link = "/"
-
-						if (onSubmitParams) {
-							let obj = {}
-
-							link += "?"
-
-							for (let i in onSubmitParams) {
-								if (inputType === "radio-row")
-									obj[i] = document.getElementById(onSubmitParams[i]).checked
-								else obj[i] = document.getElementById(onSubmitParams[i]).value
-							}
-							console.log("field values complete", obj)
-							for (let i in obj) {
-								link += `&${obj}=${obj[i]}`
-							}
-						}
-						return link
-					}}
+					href="/donator/"
 				>
 					<span className="button-label">{labelPhrase} </span>
 					<Icon icon={labelIcon} className="button-icon" />

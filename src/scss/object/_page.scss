@@ -1,13 +1,9 @@
 .page {
 	padding: 1rem;
+	&.home-tab-page {
+		padding: 0;
+	}
 }
-// .page-header {
-// 	background: $white;
-// 	text-align: center;
-// 	padding: 0.5em 1em;
-// 	margin: -1rem -1rem 1rem;
-// 	box-shadow: $menu-shadow;
-// }
 .page-adcontent-wrap {
 	.adcontent-header {
 		margin-bottom: 0.5rem;
@@ -32,7 +28,7 @@
 		opacity: 1;
 		transition: {
 			property: opacity, max-height, margin-bottom;
-			duration: 0.5s;
+			duration: $medium;
 			timing-function: $cubic;
 		}
 		&.checkbox-input-wrap {
@@ -99,6 +95,7 @@
 		width: 100%;
 		font-size: 1.5rem;
 		margin-bottom: 0.5rem;
+		text-align: center;
 		&.positive-response {
 			background: $green;
 			border: 0.125em solid $green;
@@ -119,10 +116,14 @@
 		font-size: 3em;
 	}
 }
+.paypal-donate-btn {
+	.input-label-phrase {
+		color: rgba($white, 0.9) !important;
+	}
+}
 .ethereum-wallet-id-transaction-number {
 	background: rgba($white, 0.5);
 	padding: 0.125rem 0.25rem;
-	border: 0.125rem solid $blue;
 	border-radius: 0.25rem;
 	cursor: pointer;
 	.copy-icon {
@@ -140,6 +141,9 @@
 		}
 	}
 	.page {
+		&.home-tab-page {
+			padding: 1rem;
+		}
 		&.adcontent-page {
 			display: grid;
 			grid: {

@@ -1,5 +1,5 @@
 .menu {
-	flex-basis: 2rem;
+	position: absolute;
 }
 .menu-toggle-btn,
 .menu-close-btn {
@@ -16,21 +16,21 @@
 .menu-drawer {
 	@include menu-back;
 	position: absolute;
-	top: 0;
+	top: -0.5rem;
 	left: -100vw;
-	width: calc(100% - 3rem);
+	width: calc(100vw - 3rem);
 	height: 100vh;
 	z-index: 11;
 	opacity: 0;
 	padding: 1rem;
 	transition: {
 		property: opacity, left;
-		duration: 0.5s;
+		duration: $medium;
 		timing-function: $cubic;
 	}
 	&.open-drawer {
 		opacity: 1;
-		left: 0;
+		left: -1rem;
 		.menu-close-btn {
 			opacity: 1;
 		}

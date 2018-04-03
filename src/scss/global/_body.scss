@@ -2,7 +2,12 @@ html {
 	-webkit-text-size-adjust: 100%;
 }
 body {
-	background: darken($white, 5%);
+	background: linear-gradient(
+		to right,
+		darken($white, 7%),
+		darken($white, 3%),
+		darken($white, 7%)
+	);
 	width: 100%;
 	min-height: 100vh;
 	position: relative;
