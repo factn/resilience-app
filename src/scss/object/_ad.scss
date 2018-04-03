@@ -104,6 +104,32 @@
 			color: $white;
 		}
 	}
+	.pseudo-before,
+	.pseudo-after {
+		position: absolute;
+		top: 0;
+		width: 75%;
+		height: 15rem;
+		z-index: 3;
+		color: rgba($white, 0.5);
+		text-align: center;
+		font-size: 2.5rem;
+		padding-top: 4rem;
+		opacity: 0;
+		transition: {
+			property: opacity;
+			duration: $very-fast;
+			timing-function: $cubic;
+		}
+	}
+	.pseudo-before {
+		left: 0;
+		background: linear-gradient(to right, rgba($green, 0.5), transparent);
+	}
+	.pseudo-after {
+		right: 0;
+		background: linear-gradient(to left, rgba($red, 0.5), transparent);
+	}
 }
 .ad-header {
 	position: relative;
@@ -165,6 +191,10 @@
 	}
 	.ad {
 		border: 1px solid rgba($black, 0.5);
+		.pseudo-before,
+		.pseudo-after {
+			display: none;
+		}
 	}
 }
 
