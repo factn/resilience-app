@@ -38,7 +38,7 @@ export default class FormInput extends Component {
 
 			// Submit function
 			responseType,
-			// onSubmit,
+			onSubmit,
 			onSubmitParams,
 
 			// Full custom
@@ -50,12 +50,17 @@ export default class FormInput extends Component {
 				<button
 					className={`btn submit-btn ${responseType}-response`}
 					onClick={() => {
-						// if (typeof onSubmitParams !== "undefined")
-						// 	onSubmit(onSubmitParams)
-						// else
-						// 	onSubmit()
+						if (typeof onSubmitParams !== "undefined") {
+							let values = {}
 
-						window.location = `/${lastUrlSegment}/`
+							for (let i in onSubmitParams) {
+								values[i] = document.getElementById(onSubmitParams[i]).value
+							}
+
+							onSubmit(values)
+						} else onSubmit()
+
+						// window.location = `/${lastUrlSegment}/`
 					}}
 				>
 					<span className="button-label">{labelPhrase} </span>
@@ -69,7 +74,7 @@ export default class FormInput extends Component {
 				>
 					<button
 						className="input-label btn btn-label"
-						htmlFor={`${formName}_${inputID}`}
+						htmlFor={`${formName.toLowerCase()}_${inputID}`}
 						onClick={() => openMapPicker()}
 					>
 						<span className="input-label-phrase">{labelPhrase}</span>
@@ -100,7 +105,7 @@ export default class FormInput extends Component {
 				>
 					<label
 						className="input-label btn btn-label"
-						htmlFor={`${formName}_${inputID}`}
+						htmlFor={`${formName.toLowerCase()}_${inputID}`}
 					>
 						<span className="input-label-phrase">{labelPhrase}</span>
 						{typeof labelIcon !== "undefined" && (
@@ -110,7 +115,7 @@ export default class FormInput extends Component {
 					<input
 						className="form-input"
 						type={inputType}
-						id={`${formName}_${inputID}`}
+						id={`${formName.toLowerCase()}_${inputID}`}
 						accept="image/*"
 						required={requiredField}
 						disabled={disabledField}
@@ -165,11 +170,14 @@ export default class FormInput extends Component {
 					<input
 						className="form-input"
 						type="checkbox"
-						id={`${formName}_${inputID}`}
+						id={`${formName.toLowerCase()}_${inputID}`}
 						required={requiredField}
 						disabled={disabledField}
 					/>
-					<label className="input-label" htmlFor={`${formName}_${inputID}`}>
+					<label
+						className="input-label"
+						htmlFor={`${formName.toLowerCase()}_${inputID}`}
+					>
 						<span className="input-label-phrase">{labelPhrase}</span>
 						{typeof labelIcon !== "undefined" && (
 							<Icon icon={labelIcon} className="input-label-icon" />
@@ -183,7 +191,10 @@ export default class FormInput extends Component {
 				<div
 					className={disabledField ? "input-wrap disabled-input" : "input-wrap"}
 				>
-					<label className="input-label" htmlFor={`${formName}_${inputID}`}>
+					<label
+						className="input-label"
+						htmlFor={`${formName.toLowerCase()}_${inputID}`}
+					>
 						<span className="input-label-phrase">{labelPhrase}</span>
 						{typeof labelIcon !== "undefined" && (
 							<Icon icon={labelIcon} className="input-label-icon" />
@@ -192,7 +203,7 @@ export default class FormInput extends Component {
 					<input
 						className="form-input"
 						type={inputType}
-						id={`${formName}_${inputID}`}
+						id={`${formName.toLowerCase()}_${inputID}`}
 						required={requiredField}
 						disabled={disabledField}
 					/>
