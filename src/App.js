@@ -128,6 +128,8 @@ export default class App extends Component {
 		this.baseURL = "https://lion-uat.herokuapp.com"
 
 		// Bindings
+		this.login = this.login.bind(this)
+
 		this.submitRequest = this.submitRequest.bind(this)
 		this.submitDonation = this.submitDonation.bind(this)
 		this.submitDo = this.submitDo.bind(this)
@@ -154,8 +156,6 @@ export default class App extends Component {
 			"edit-account",
 			"preferences"
 		]
-
-		console.log(allowed.indexOf(lastUrlSegment))
 
 		if (allowed.indexOf(lastUrlSegment) === -1) return "donator"
 		else return lastUrlSegment
@@ -321,14 +321,14 @@ export default class App extends Component {
 			})
 	}
 
-	getUser = _id => {
-		DB.getUser({ id: _id })
+	getUser = _email => {
+		DB.getUser({ email: _email })
 			.then(result => {
 				console.log("Get user complete:", result.body.data)
 
 				this.setState({
 					currentUserRole: "donator",
-					currentUserId: _id,
+					currentUserId: result.body.data.attributes.id,
 					currentUserData: result.body.data.attributes
 				})
 			})
@@ -384,7 +384,30 @@ export default class App extends Component {
 			})
 	}
 
-	submitRequest = () => {}
+	login = params => {
+		// DB call
+		DB.getUser({ email: params.email })
+			.then(result => {
+				console.log("Get user complete:", result.body.data)
+				if (result.body.data) {
+					this.setState({
+						currentUserRole: "donator",
+						currentUserId: result.body.data.attributes.id,
+						currentUserData: result.body.data.attributes
+					})
+				} else {
+					console.error("User not found for email:", params.email)
+				}
+			})
+			.catch(error => {
+				console.error("Error getting user:", error)
+			})
+
+		window.location = "/"
+	}
+	submitRequest = params => {
+		this.createScenario(params)
+	}
 	submitDonation = () => {}
 	submitDo = () => {}
 	submitVerification = () => {}
@@ -420,7 +443,19 @@ export default class App extends Component {
 						<Route
 							key={key}
 							path={`/${key}`}
-							render={() => <Page app={this} {...val} />}
+							render={() => (
+								<Page
+									app={this}
+									funcs={{
+										login: this.login,
+										submitRequest: this.submitRequest,
+										submitDonation: this.submitDonation,
+										submitDo: this.submitDo,
+										submitVerification: this.submitVerification
+									}}
+									{...val}
+								/>
+							)}
 						/>
 					))}
 
@@ -429,7 +464,19 @@ export default class App extends Component {
 						<Route
 							key={key}
 							path={`/${key}`}
-							render={() => <Page app={this} {...val} />}
+							render={() => (
+								<Page
+									app={this}
+									funcs={{
+										login: this.login,
+										submitRequest: this.submitRequest,
+										submitDonation: this.submitDonation,
+										submitDo: this.submitDo,
+										submitVerification: this.submitVerification
+									}}
+									{...val}
+								/>
+							)}
 						/>
 					))}
 				</div>

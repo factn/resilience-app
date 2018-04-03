@@ -36,11 +36,9 @@ export default class Page extends Component {
 	}
 
 	render() {
-		let { app, pageStyle, title, navMenu, attributes } = this.props
+		let { app, pageStyle, title, navMenu, attributes, funcs } = this.props
 
 		let { updateScenario } = app
-
-		console.log(app.state.lastUrlSegment)
 
 		return (
 			<Fragment>
@@ -63,11 +61,16 @@ export default class Page extends Component {
 					scenarioData={app.state.scenarioData}
 					lastUrlSegment={app.state.lastUrlSegment}
 					updateScenario={updateScenario}
+					funcs={funcs}
 				/>
 				{pageStyle === "home-tab" ? (
 					<Footer userLoggedIn={app.state.userLoggedIn} />
 				) : (
-					<GoogleMaps />
+					<GoogleMaps
+						zoomLevel={14}
+						closeMapPicker={this.closeMapPicker}
+						mapPickerIsOpen={this.state.mapPickerIsOpen}
+					/>
 				)}
 			</Fragment>
 		)

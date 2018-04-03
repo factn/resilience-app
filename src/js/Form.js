@@ -35,7 +35,7 @@ export default class Form extends Component {
 						inputType: "submit",
 						labelPhrase: "Sign In",
 						labelIcon: "sign-in-alt",
-						// onSubmit: this.props.login,
+						onSubmit: this.props.funcs.login,
 						onSubmitParams: { email: "login_email", password: "login_pw" },
 						responseType: "neutral"
 					}
@@ -203,7 +203,7 @@ export default class Form extends Component {
 						requiredField: false
 					},
 					{
-						inputType: "number",
+						inputType: "text",
 						inputID: "verb",
 						labelPhrase: "What do you need help with?",
 						requiredField: true
@@ -525,7 +525,8 @@ export default class Form extends Component {
 			openMapPicker,
 			lastClickedLat,
 			lastClickedLon,
-			lastUrlSegment
+			lastUrlSegment,
+			funcs
 		} = this.props
 
 		return (
