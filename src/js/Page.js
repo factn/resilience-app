@@ -40,6 +40,8 @@ export default class Page extends Component {
 
 		let { updateScenario } = app
 
+		console.log(app.state.lastUrlSegment)
+
 		return (
 			<Fragment>
 				<Header
