@@ -3,7 +3,7 @@ a {
 	text-decoration: none;
 	transition: {
 		property: color;
-		duration: 0.5s;
+		duration: $fast;
 		timing-function: $cubic;
 	}
 	&:focus,

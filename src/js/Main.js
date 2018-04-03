@@ -5,39 +5,72 @@ import React, { Component } from "react"
 // Local JS
 import Ad from "./Ad"
 import AdHeader from "./AdHeader"
+import AdModalContent from "./AdModalContent"
 import Loader from "./Loader"
+import Form from "./Form"
 /*** [end of imports] ***/
 
 export default class Main extends Component {
 	render() {
 		let {
-			contextChange,
+			pageStyle,
+			title,
+			attributes,
+			openMapPicker,
+			lastClickedLat,
+			lastClickedLon,
+			tabs,
+			flows,
 			databaseReady,
-			database,
-			userRole,
-			openModal,
-			dismissAd
+			scenarioData,
+			lastUrlSegment
 		} = this.props
 
-		return (
-			<main className="app-main">
-				<AdHeader contextChange={contextChange} />
-				{databaseReady ? (
-					<section className="ad-feed-wrap">
-						{database.map(scenario => (
-							<Ad
-								scenario={scenario}
-								openModal={openModal}
-								dismissAd={dismissAd}
-								context={userRole}
-								key={scenario.id}
-							/>
-						))}
-					</section>
-				) : (
-					<Loader />
-				)}
-			</main>
-		)
+		if (pageStyle === "modal") {
+			return (
+				<main className="page app-main modal-page">
+					<Form
+						title={title}
+						openMapPicker={openMapPicker}
+						lastClickedLat={lastClickedLat}
+						lastClickedLon={lastClickedLon}
+						lastUrlSegment={lastUrlSegment}
+					/>
+				</main>
+			)
+		} else if (pageStyle === "home-tab") {
+			return (
+				<main className="page app-main home-tab-page">
+					<AdHeader {...tabs} />
+					{databaseReady ? (
+						<section className="ad-feed-wrap">
+							{scenarioData.map(scenario => (
+								<Ad
+									scenario={scenario}
+									lastUrlSegment={lastUrlSegment}
+									key={scenario.id}
+								/>
+							))}
+						</section>
+					) : (
+						<Loader />
+					)}
+				</main>
+			)
+		} else {
+			// Flow
+			return (
+				<main className="page app-main page-adcontent-wrap">
+					<AdModalContent {...attributes} />
+					<Form
+						title={flows[lastUrlSegment].title}
+						openMapPicker={openMapPicker}
+						lastClickedLat={lastClickedLat}
+						lastClickedLon={lastClickedLon}
+						lastUrlSegment={lastUrlSegment}
+					/>
+				</main>
+			)
+		}
 	}
 }

@@ -6,6 +6,10 @@ const apiEndpoints = {
 		method: get,
 		path: "/nouns"
 	},
+	getNoun: {
+		method: get,
+		path: "/nouns/:description"
+	},
 	createNoun: {
 		method: post,
 		path: "/nouns"
@@ -16,9 +20,71 @@ const apiEndpoints = {
 		method: get,
 		path: "/verbs"
 	},
+	getVerb: {
+		method: get,
+		path: "/verbs/:description"
+	},
 	createVerb: {
 		method: post,
 		path: "/verbs"
+	},
+
+	// Donations
+	getDonations: {
+		method: get,
+		path: "/donations"
+	},
+	getDonation: {
+		method: get,
+		path: "/donations/:scenario"
+	},
+	createDonation: {
+		method: post,
+		path: "/donations"
+	},
+	updateDonation: {
+		method: patch,
+		path: "/donations/:id"
+	},
+	destroyDonation: {
+		method: destroy,
+		path: "/donations/:id"
+	},
+
+	// Events
+	getEvents: {
+		method: get,
+		path: "/events"
+	},
+	createEvent: {
+		method: post,
+		path: "/events"
+	},
+	updateEvent: {
+		method: patch,
+		path: "/events/:id"
+	},
+	destroyEvent: {
+		method: destroy,
+		path: "/events/:id"
+	},
+
+	// Proofs
+	getProofs: {
+		method: get,
+		path: "/proofs"
+	},
+	createProof: {
+		method: post,
+		path: "/proofs"
+	},
+	updateProof: {
+		method: patch,
+		path: "/proofs/:id"
+	},
+	destroyProof: {
+		method: destroy,
+		path: "/proofs/:id"
 	},
 
 	// Scenarios
@@ -42,6 +108,18 @@ const apiEndpoints = {
 		method: destroy,
 		path: "/scenarios/:id"
 	},
+	dismissScenario: {
+		method: patch,
+		path: "/scenarios/:id"
+	},
+	interactWithScenario: {
+		method: patch,
+		path: "/scenarios/:id"
+	},
+	addImageToScenario: {
+		method: patch,
+		path: "/scenarios/:id"
+	},
 
 	// Users
 	getUsers: {
@@ -50,7 +128,7 @@ const apiEndpoints = {
 	},
 	getUser: {
 		method: get,
-		path: "/users/:id"
+		path: "/users?filter[email]=:email"
 	},
 	createUser: {
 		method: post,

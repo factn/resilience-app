@@ -3,16 +3,12 @@
 	position: relative;
 	width: 100%;
 	padding: 0.5em 1em;
-	display: inline-flex;
-	justify-content: space-between;
 	z-index: 5;
 	box-shadow: $menu-shadow;
 }
 .title {
 	font-size: 1.5em;
-	flex-basis: calc(100% - 2rem);
 	text-align: center;
-	padding-right: 2rem;
 }
 
 @include breakpoint($tablet) {

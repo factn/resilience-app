@@ -1,11 +1,10 @@
 .ad-tab-header {
 	padding: 1rem 0.5rem 0.5rem;
-	overflow-x: scroll;
 	border-bottom: 2px solid rgba($blue, 0.5);
 }
 .ad-tab-list {
 	@include inline-flex-list;
-	width: 30rem;
+	width: 100%;
 }
 .ad-tab {
 	cursor: pointer;
@@ -13,7 +12,7 @@
 	padding: 0.25rem 0.75rem;
 	transition: {
 		property: color, box-shadow;
-		duration: 0.2s;
+		duration: $fast;
 		timing-function: $cubic;
 	}
 	&.active {
@@ -31,11 +30,17 @@
 	background: $white;
 	margin-bottom: 0.5rem;
 	overflow: hidden;
-	min-height: 10rem;
+	min-height: 15rem;
 	transition: {
 		property: transform, margin;
-		duration: 0.1s;
+		duration: $very-fast;
 	}
+	// &:before {
+	// 	content: 'Dismiss';
+	// }
+	// &:after {
+	// 	content: 'Do';
+	// }
 	&.doer-ad {
 		.ad-header {
 			.ad-title,
@@ -86,32 +91,25 @@
 	}
 	.ad-modal-btn {
 		position: absolute;
-		// top: 8rem;
 		bottom: 0;
 		left: 0;
 		width: 100%;
 		font-size: 1rem;
 		border-radius: 0;
 		z-index: 15;
-		// transition: {
-		// 	property: top;
-		// 	duration: 0.2s;
-		// 	timing-function: $cubic;
-		// }
+		text-align: center;
 		&:active,
 		&:focus,
 		&:hover {
 			color: $white;
 		}
-		// &:hover {
-		// 	top: 0;
-		// }
 	}
 }
 .ad-header {
 	position: relative;
 	z-index: 2;
-	padding: 1rem 1rem 2rem;
+	padding: 0.5rem 1rem 2rem;
+	margin-top: -1px;
 	background: linear-gradient(
 		rgba($white, 0.9),
 		rgba($white, 0.75) 3rem,
@@ -124,7 +122,7 @@
 .ad-image-wrap {
 	.ad-image {
 		position: absolute;
-		bottom: -10rem;
+		top: 0;
 		left: 0;
 		min-width: 100%;
 	}

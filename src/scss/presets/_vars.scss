@@ -15,6 +15,10 @@ $menu-shadow: 0 0 1rem rgba($black, 0.5);
 // timing functions
 $cubic: cubic-bezier(0.73, 0.2, 0.43, 1);
 $loader-time: 2s;
+$very-fast: 0.1s;
+$fast: 0.2s;
+$medium: 0.5s;
+$slow: 1s;
 
 // weights
 $bold-weight: 600;

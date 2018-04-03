@@ -1,24 +1,10 @@
-.modal-close-btn {
-	position: absolute;
-	top: 0;
-	left: 0;
-	padding: 0.5rem;
-	font-size: 1.5rem;
-	.modal-close-text {
-		display: none;
+.page {
+	padding: 1rem;
+	&.home-tab-page {
+		padding: 0;
 	}
 }
-.modal {
-	padding: 1rem;
-}
-.modal-header {
-	background: $white;
-	text-align: center;
-	padding: 0.5em 1em;
-	margin: -1rem -1rem 1rem;
-	box-shadow: $menu-shadow;
-}
-.modal-adcontent-wrap {
+.page-adcontent-wrap {
 	.adcontent-header {
 		margin-bottom: 0.5rem;
 	}
@@ -35,14 +21,14 @@
 		margin-top: 0.5rem;
 	}
 }
-.modal-form {
+.page-form {
 	.input-wrap {
 		max-height: 5rem;
 		margin-bottom: 1rem;
 		opacity: 1;
 		transition: {
 			property: opacity, max-height, margin-bottom;
-			duration: 0.5s;
+			duration: $medium;
 			timing-function: $cubic;
 		}
 		&.checkbox-input-wrap {
@@ -109,6 +95,7 @@
 		width: 100%;
 		font-size: 1.5rem;
 		margin-bottom: 0.5rem;
+		text-align: center;
 		&.positive-response {
 			background: $green;
 			border: 0.125em solid $green;
@@ -119,7 +106,7 @@
 		}
 	}
 }
-.thank-you-modal-custom-content {
+.thank-you-page-custom-content {
 	text-align: center;
 	h4 {
 		margin-bottom: 1rem;
@@ -129,10 +116,14 @@
 		font-size: 3em;
 	}
 }
+.paypal-donate-btn {
+	.input-label-phrase {
+		color: rgba($white, 0.9) !important;
+	}
+}
 .ethereum-wallet-id-transaction-number {
 	background: rgba($white, 0.5);
 	padding: 0.125rem 0.25rem;
-	border: 0.125rem solid $blue;
 	border-radius: 0.25rem;
 	cursor: pointer;
 	.copy-icon {
@@ -144,13 +135,16 @@
 }
 
 @include breakpoint($tablet) {
-	.modal-close-btn {
-		.modal-close-text {
+	.page-close-btn {
+		.page-close-text {
 			display: initial;
 		}
 	}
-	.modal {
-		&.adcontent-modal {
+	.page {
+		&.home-tab-page {
+			padding: 1rem;
+		}
+		&.adcontent-page {
 			display: grid;
 			grid: {
 				template: {
@@ -160,10 +154,10 @@
 				}
 				gap: 1rem;
 			}
-			.modal-header {
+			.page-header {
 				grid-area: header;
 			}
-			.modal-adcontent-wrap {
+			.page-adcontent-wrap {
 				grid-area: adcontent;
 			}
 			.adcontent-image-wrap {
@@ -175,14 +169,14 @@
 					flex-grow: 5;
 				}
 			}
-			.modal-form {
+			.page-form {
 				grid-area: form;
 				border: 0.125rem solid $blue;
 				border-radius: 0.5rem;
 				padding: 0.5rem;
 			}
 		}
-		&.no-adcontent-modal {
+		&.no-adcontent-page {
 			max-width: 30em;
 			height: auto;
 			max-height: calc(100vh - 4rem);
@@ -191,7 +185,7 @@
 			border-radius: 1rem;
 		}
 	}
-	.modal-header {
+	.page-header {
 		font-size: 1.2em;
 	}
 }

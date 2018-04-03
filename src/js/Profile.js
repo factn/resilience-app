@@ -2,7 +2,7 @@
 // Module imports
 import React, { Component } from "react"
 import Icon from "@fortawesome/react-fontawesome"
-import brands from "@fortawesome/fontawesome-free-brands"
+import faBrands from "@fortawesome/fontawesome-free-brands"
 /*** [end of imports] ***/
 
 export default class Profile extends Component {

@@ -11,8 +11,7 @@ export default class Ad extends Component {
 			xTransform: 0,
 			touchStartX: 0,
 			lastTouchX: 0,
-			style: { transform: `translateX(0) rotateY(0deg) scale(1)` },
-			swipeActive: false,
+			style: { transform: `translateX(0) scale(1)` },
 			threshold: 32,
 			transitionTiming: 100
 		}
@@ -26,24 +25,21 @@ export default class Ad extends Component {
 		this.setState({
 			touchStartX: e.targetTouches[0].clientX,
 			style: {
-				transform: `translateX(0) rotateY(0deg) scale(1.05)`,
+				transform: `translateX(0) scale(1.05)`,
 				zIndex: 10
-			},
-			swipeActive: true
+			}
 		})
 	}
 	handleTouchMove = e => {
 		let { touchStartX } = this.state
 		let currentTouchX = e.targetTouches[0].clientX
-		let windowWidth = window.innerWidth
 		let xDif = currentTouchX - touchStartX
 
 		this.setState({
 			xTransform: xDif,
 			lastTouchX: currentTouchX,
 			style: {
-				transform: `translateX(${xDif}px) rotateY(${90 *
-					(xDif / windowWidth)}deg) scale(1.05)`
+				transform: `translateX(${xDif}px) scale(1.05)`
 			}
 		})
 	}
@@ -53,7 +49,6 @@ export default class Ad extends Component {
 		let {
 			scenario,
 			context,
-			openModal,
 			dismissAd,
 			verb,
 			requester_firstname,
@@ -66,21 +61,21 @@ export default class Ad extends Component {
 			if (touchStartX < lastTouchX) {
 				this.setState({
 					style: {
-						transform: "translateX(100%) rotateY(45deg) scale(1)",
+						transform: "translateX(100%) scale(1)",
 						marginBottom: "-10rem" // Currently this is an approximation of the element height
 					}
 				})
-				setTimeout(() => {
-					openModal(
-						context,
-						scenario.attributes,
-						`${verb}-${requester_firstname}-${noun}`
-					)
-				}, transitionTiming)
+				// setTimeout(() => {
+				// 	openModal(
+				// 		context,
+				// 		scenario.attributes,
+				// 		`${verb}-${requester_firstname}-${noun}`
+				// 	)
+				// }, transitionTiming)
 			} else {
 				this.setState({
 					style: {
-						transform: "translateX(-100%) rotateY(-45deg) scale(1)",
+						transform: "translateX(-100%) scale(1)",
 						marginBottom: "-10rem" // Currently this is an approximation of the element height
 					}
 				})
@@ -89,7 +84,7 @@ export default class Ad extends Component {
 		} else {
 			this.setState({
 				style: {
-					transform: `translateX(0) rotateY(0deg) scale(1)`,
+					transform: `translateX(0) scale(1)`,
 					zIndex: 10
 				} // Default
 			})
@@ -104,12 +99,8 @@ export default class Ad extends Component {
 	}
 
 	render() {
-		let {
-			scenario,
-			context, // doer, donator, verifier, requester
-			openModal,
-			dismissAd
-		} = this.props
+		let { style } = this.state
+		let { scenario, lastUrlSegment } = this.props
 
 		let {
 			// doer_firstname,
@@ -129,13 +120,9 @@ export default class Ad extends Component {
 			verb
 		} = scenario.attributes
 
-		let { style, swipeActive } = this.state
-
 		return (
 			<article
-				className={
-					swipeActive ? `ad ${context}-ad swipe-active` : `ad ${context}-ad`
-				}
+				className={`ad ${lastUrlSegment}-ad`}
 				id={`scenario_${scenario.id}`}
 				style={style}
 				onTouchStart={e => this.handleTouchStart(e)}
@@ -156,12 +143,12 @@ export default class Ad extends Component {
 					</h4>
 					<h5 className="ad-subtitle">{<span>{`${donated} funded`}</span>}</h5>
 				</header>
-				<button
+				<a
 					className="btn ad-modal-btn"
-					onClick={() => openModal(context, scenario.attributes, scenario.id)}
+					href={`/${scenario.id}/${lastUrlSegment}/`}
 				>
-					{this.callToActionBuild(context)}
-				</button>
+					{this.callToActionBuild(lastUrlSegment)}
+				</a>
 			</article>
 		)
 	}
