@@ -102,25 +102,25 @@ export default class App extends Component {
 				title: "Donate",
 				pageStyle: "home-tab",
 				navMenu: true,
-				path: "/donator/"
+				path: "/donator"
 			},
 			Work: {
 				title: "Work",
 				pageStyle: "home-tab",
 				navMenu: true,
-				path: "/doer/"
+				path: "/doer"
 			},
 			"Get Help": {
 				title: "Get Help",
 				pageStyle: "home-tab",
 				navMenu: true,
-				path: "/requester/"
+				path: "/requester"
 			},
 			Verify: {
 				title: "Verify",
 				pageStyle: "home-tab",
 				navMenu: true,
-				path: "/verifier/"
+				path: "/verifier"
 			}
 		}
 
@@ -143,7 +143,22 @@ export default class App extends Component {
 				? currentUrl[currentUrl.length - 1]
 				: currentUrl[currentUrl.length - 2]
 
-		return lastUrlSegment
+		let allowed = [
+			"donator",
+			"requester",
+			"verifier",
+			"doer",
+			"login",
+			"thanks",
+			"account",
+			"edit-account",
+			"preferences"
+		]
+
+		console.log(allowed.indexOf(lastUrlSegment))
+
+		if (allowed.indexOf(lastUrlSegment) === -1) return "donator"
+		else return lastUrlSegment
 	}
 
 	getFullDataBase = () => {
@@ -384,11 +399,17 @@ export default class App extends Component {
 		return (
 			<Router>
 				<div className="app">
+					{/* home */}
+					<Route
+						path="/"
+						exact
+						render={() => <Page app={this} {...this.tabs.Donate} />}
+					/>
+
 					{/* tabs */}
 					{Object.entries(this.tabs).map(([key, val]) => (
 						<Route
 							key={key}
-							exact
 							path={val.path}
 							render={() => <Page app={this} {...val} />}
 						/>
@@ -398,8 +419,7 @@ export default class App extends Component {
 					{Object.entries(this.pages).map(([key, val]) => (
 						<Route
 							key={key}
-							exact
-							path={`/${key}/`}
+							path={`/${key}`}
 							render={() => <Page app={this} {...val} />}
 						/>
 					))}

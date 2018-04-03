@@ -31,16 +31,6 @@
 	margin-bottom: 0.5rem;
 	overflow: hidden;
 	min-height: 15rem;
-	transition: {
-		property: transform, margin;
-		duration: $very-fast;
-	}
-	// &:before {
-	// 	content: 'Dismiss';
-	// }
-	// &:after {
-	// 	content: 'Do';
-	// }
 	&.doer-ad {
 		.ad-header {
 			.ad-title,
