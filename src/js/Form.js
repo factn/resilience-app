@@ -35,6 +35,7 @@ export default class Form extends Component {
 						inputType: "submit",
 						labelPhrase: "Sign In",
 						labelIcon: "sign-in-alt",
+						// onSubmit: this.props.login,
 						onSubmitParams: { email: "login_email", password: "login_pw" },
 						responseType: "neutral"
 					}
@@ -95,6 +96,7 @@ export default class Form extends Component {
 						inputType: "submit",
 						labelPhrase: "Create Account",
 						labelIcon: "user-plus",
+						// onSubmit: this.props.createAccount,
 						onSubmitParams: {
 							email: "account_email",
 							firstname: "account_first-name",
@@ -163,6 +165,7 @@ export default class Form extends Component {
 						inputType: "submit",
 						labelPhrase: "Update Account",
 						labelIcon: "save",
+						// onSubmit: this.props.editAccount,
 						onSubmitParams: {
 							email: "editAccount_email",
 							firstname: "editAccount_first-name",
@@ -183,6 +186,7 @@ export default class Form extends Component {
 						labelPhrase: "Save settings",
 						labelIcon: "cogs",
 						responseType: "neutral"
+						// onSubmit: this.props.updatePreferences,
 					}
 				]
 			},
@@ -249,6 +253,7 @@ export default class Form extends Component {
 						inputType: "submit",
 						labelPhrase: "Send someone",
 						labelIcon: "check",
+						// onSubmit: this.props.submitRequest,
 						onSubmitParams: {
 							event: "requester_event-name",
 							image: "requester_photo",
@@ -403,6 +408,7 @@ export default class Form extends Component {
 						inputType: "submit",
 						labelPhrase: "Donate",
 						labelIcon: "money-bill-alt",
+						// onSubmit: this.props.submitDonation,
 						onSubmitParams: {
 							presetAmount: "donator_preset-amount",
 							remainingAmount: "donator_remaining-amount",
@@ -445,6 +451,7 @@ export default class Form extends Component {
 						inputType: "submit",
 						labelPhrase: "I'm on my way",
 						labelIcon: "thumbs-up",
+						// onSubmit: this.props.submitDo,
 						onSubmitParams: {
 							doerlat: "doer_location_lat",
 							doerlon: "doer_location_lon"
@@ -466,6 +473,7 @@ export default class Form extends Component {
 						inputType: "submit",
 						labelPhrase: "I don't know them",
 						labelIcon: "times",
+						// onSubmit: this.props.submitVerification,
 						onSubmitParams: { userVerified: false },
 						responseType: "negative"
 					}
@@ -521,7 +529,7 @@ export default class Form extends Component {
 		} = this.props
 
 		return (
-			<form className={`${title.toString().toLowerCase()}-form page-form`}>
+			<div className={`${title.toString().toLowerCase()}-form page-form`}>
 				{this.pages[lastUrlSegment].inputs.map((_input, _index) => (
 					<FormInput
 						formName={title}
@@ -529,10 +537,11 @@ export default class Form extends Component {
 						openMapPicker={openMapPicker}
 						lat={lastClickedLat}
 						lon={lastClickedLon}
+						lastUrlSegment={lastUrlSegment}
 						key={_index}
 					/>
 				))}
-			</form>
+			</div>
 		)
 	}
 }

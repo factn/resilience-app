@@ -38,6 +38,8 @@ export default class Page extends Component {
 	render() {
 		let { app, pageStyle, title, navMenu, attributes } = this.props
 
+		let { updateScenario } = app
+
 		return (
 			<Fragment>
 				<Header
@@ -58,6 +60,7 @@ export default class Page extends Component {
 					databaseReady={app.state.databaseReady}
 					scenarioData={app.state.scenarioData}
 					lastUrlSegment={app.state.lastUrlSegment}
+					updateScenario={updateScenario}
 				/>
 				{pageStyle === "home-tab" ? (
 					<Footer userLoggedIn={app.state.userLoggedIn} />
