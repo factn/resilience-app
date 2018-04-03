@@ -66,7 +66,11 @@ export default class Page extends Component {
 				{pageStyle === "home-tab" ? (
 					<Footer userLoggedIn={app.state.userLoggedIn} />
 				) : (
-					<GoogleMaps />
+					<GoogleMaps
+						zoomLevel={14}
+						closeMapPicker={this.closeMapPicker}
+						mapPickerIsOpen={this.state.mapPickerIsOpen}
+					/>
 				)}
 			</Fragment>
 		)

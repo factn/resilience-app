@@ -447,7 +447,11 @@ export default class App extends Component {
 								<Page
 									app={this}
 									funcs={{
-										login: this.login
+										login: this.login,
+										submitRequest: this.submitRequest,
+										submitDonation: this.submitDonation,
+										submitDo: this.submitDo,
+										submitVerification: this.submitVerification
 									}}
 									{...val}
 								/>
@@ -460,7 +464,19 @@ export default class App extends Component {
 						<Route
 							key={key}
 							path={`/${key}`}
-							render={() => <Page app={this} {...val} />}
+							render={() => (
+								<Page
+									app={this}
+									funcs={{
+										login: this.login,
+										submitRequest: this.submitRequest,
+										submitDonation: this.submitDonation,
+										submitDo: this.submitDo,
+										submitVerification: this.submitVerification
+									}}
+									{...val}
+								/>
+							)}
 						/>
 					))}
 				</div>
