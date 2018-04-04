@@ -17,8 +17,8 @@ export default class AdModalContent extends Component {
 			disaster,
 			// doerlat,
 			// doerlon,
-			requestorlat,
-			requestorlon,
+			requesterlat,
+			requesterlon,
 			image,
 			donated,
 			// imagethumb,
@@ -59,7 +59,7 @@ export default class AdModalContent extends Component {
 					</figcaption>
 				</figure>
 
-				<MiniMap initialCenter={{ lat: requestorlat, lng: requestorlon }} />
+				<MiniMap initialCenter={{ lat: requesterlat, lng: requesterlon }} />
 			</div>
 		)
 	}
