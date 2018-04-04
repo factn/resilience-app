@@ -191,22 +191,57 @@ export default class Form extends Component {
 				]
 			},
 			thanks: {
-				inputs: []
+				inputs: [
+					{
+						inputType: "custom",
+						disabledField: false,
+						customJSX: (
+							<div className="modal-custom-content-wrap thank-you-modal-custom-content">
+								<h4>You just made a huge difference</h4>
+								<Icon className="thank-you-icon" icon="thumbs-up" />
+							</div>
+						)
+					},
+					{
+						inputType: "submit",
+						labelPhrase: "Do more",
+						labelIcon: "hand-point-right",
+						goToPath: "/",
+						responseType: "neutral"
+					}
+				]
 			},
 			requester: {
 				inputs: [
 					{
-						inputType: "text",
+						inputType: "scenario-id"
+					},
+					{
+						inputType: "select",
 						inputID: "event-name",
 						labelPhrase: "What disaster has effected you?",
 						labelIcon: "cloud",
+						options: this.props.eventData,
 						requiredField: false
 					},
 					{
-						inputType: "text",
-						inputID: "verb",
+						inputType: "split-input",
 						labelPhrase: "What do you need help with?",
-						requiredField: true
+						requiredField: true,
+						inputs: [
+							{
+								inputType: "select",
+								inputID: "verb",
+								options: this.props.verbData,
+								requiredField: false
+							},
+							{
+								inputType: "select",
+								inputID: "noun",
+								options: this.props.nounData,
+								requiredField: false
+							}
+						]
 					},
 					{
 						inputType: "number",
@@ -215,19 +250,19 @@ export default class Form extends Component {
 						labelIcon: "hand-holding-usd",
 						requiredField: true
 					},
-					{
-						inputType: "text",
-						inputID: "materials-list",
-						labelPhrase: "What materials do you need?",
-						requiredField: false
-					},
-					{
-						inputType: "number",
-						inputID: "volunteers-amount",
-						labelPhrase: "How many volunteers do you need?",
-						labelIcon: "people-carry",
-						requiredField: false
-					},
+					// {
+					// 	inputType: "text",
+					// 	inputID: "materials-list",
+					// 	labelPhrase: "What materials do you need?",
+					// 	requiredField: false
+					// },
+					// {
+					// 	inputType: "number",
+					// 	inputID: "volunteers-amount",
+					// 	labelPhrase: "How many volunteers do you need?",
+					// 	labelIcon: "people-carry",
+					// 	requiredField: false
+					// },
 					{
 						inputType: "text",
 						inputID: "first-name",
@@ -253,14 +288,15 @@ export default class Form extends Component {
 						inputType: "submit",
 						labelPhrase: "Send someone",
 						labelIcon: "check",
-						// onSubmit: this.props.submitRequest,
+						onSubmit: this.props.submitRequest,
 						onSubmitParams: {
 							event: "requester_event-name",
 							image: "requester_photo",
 							requester_firstname: "requester_first-name",
 							requesterlat: "requester_location_lat",
 							requesterlon: "requester_location_lon",
-							verb: "requester_verb"
+							verb: "requester_verb",
+							scenarioId: "requester_scenario-id"
 						},
 						responseType: "neutral"
 					}
@@ -268,6 +304,9 @@ export default class Form extends Component {
 			},
 			donator: {
 				inputs: [
+					{
+						inputType: "scenario-id"
+					},
 					{
 						inputType: "radio-row",
 						requiredField: true,
@@ -381,20 +420,23 @@ export default class Form extends Component {
 						disabledField: true
 					},
 					{
-						inputType: "number",
-						inputID: "cc-expiration-month",
-						labelPhrase: "Expiration Month",
+						inputType: "split-input",
+						labelPhrase: "Expiration",
 						toggleGroup: 3,
 						requiredField: false,
-						disabledField: true
-					},
-					{
-						inputType: "number",
-						inputID: "cc-expiration-year",
-						labelPhrase: "Expiration Year",
-						toggleGroup: 3,
-						requiredField: false,
-						disabledField: true
+						disabledField: true,
+						inputs: [
+							{
+								inputType: "number",
+								inputID: "cc-expiration-month",
+								labelPhrase: "Month"
+							},
+							{
+								inputType: "number",
+								inputID: "cc-expiration-year",
+								labelPhrase: "Year"
+							}
+						]
 					},
 					{
 						inputType: "number",
@@ -408,7 +450,7 @@ export default class Form extends Component {
 						inputType: "submit",
 						labelPhrase: "Donate",
 						labelIcon: "money-bill-alt",
-						// onSubmit: this.props.submitDonation,
+						onSubmit: this.props.submitDonation,
 						onSubmitParams: {
 							presetAmount: "donator_preset-amount",
 							remainingAmount: "donator_remaining-amount",
@@ -420,7 +462,8 @@ export default class Form extends Component {
 							creditCardNumber: "donator_cc-number",
 							creditCardMonth: "donator_cc-expiration-month",
 							creditCardYear: "donator_cc-expiration-year",
-							creditCardSec: "donator_cc-sec"
+							creditCardSec: "donator_cc-sec",
+							scenarioId: "donator_scenario-id"
 						},
 						responseType: "neutral"
 					}
@@ -428,6 +471,9 @@ export default class Form extends Component {
 			},
 			doer: {
 				inputs: [
+					{
+						inputType: "scenario-id"
+					},
 					{
 						inputType: "checkbox",
 						inputID: "materials",
@@ -451,10 +497,11 @@ export default class Form extends Component {
 						inputType: "submit",
 						labelPhrase: "I'm on my way",
 						labelIcon: "thumbs-up",
-						// onSubmit: this.props.submitDo,
+						onSubmit: this.props.submitDo,
 						onSubmitParams: {
 							doerlat: "doer_location_lat",
-							doerlon: "doer_location_lon"
+							doerlon: "doer_location_lon",
+							scenarioId: "doer_scenario-id"
 						},
 						responseType: "neutral"
 					}
@@ -462,6 +509,9 @@ export default class Form extends Component {
 			},
 			verifier: {
 				inputs: [
+					{
+						inputType: "scenario-id"
+					},
 					{
 						inputType: "submit",
 						labelPhrase: "Verify this user",
@@ -473,8 +523,11 @@ export default class Form extends Component {
 						inputType: "submit",
 						labelPhrase: "I don't know them",
 						labelIcon: "times",
-						// onSubmit: this.props.submitVerification,
-						onSubmitParams: { userVerified: false },
+						onSubmit: this.props.submitVerification,
+						onSubmitParams: {
+							userVerified: false,
+							scenarioId: "verifier_scenario-id"
+						},
 						responseType: "negative"
 					}
 				]
@@ -525,8 +578,12 @@ export default class Form extends Component {
 			openMapPicker,
 			lastClickedLat,
 			lastClickedLon,
-			lastUrlSegment,
-			funcs
+			lastUrlSegment
+			// eventData,
+			// nounData,
+			// verbData
+			// funcs,
+			// scenarioId
 		} = this.props
 
 		return (

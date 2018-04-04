@@ -1,6 +1,6 @@
 /*** IMPORTS ***/
 // Module imports
-import React, { Component, Fragment } from "react"
+import React, { Component } from "react"
 import { BrowserRouter as Router, Route } from "react-router-dom"
 import Icon from "@fortawesome/react-fontawesome"
 import faSolid from "@fortawesome/fontawesome-free-solid"
@@ -66,13 +66,7 @@ export default class App extends Component {
 			thanks: {
 				title: "Feel good about yourself",
 				pageStyle: "modal",
-				navMenu: false,
-				adContent: (
-					<div className="modal-custom-content-wrap thank-you-modal-custom-content">
-						<h4>You just made a huge difference</h4>
-						<Icon className="thank-you-icon" icon="thumbs-up" />
-					</div>
-				)
+				navMenu: false
 			}
 		}
 		this.flows = {
@@ -140,6 +134,7 @@ export default class App extends Component {
 
 	getUrlPiece = () => {
 		let currentUrl = window.location.href.split("/")
+
 		let lastUrlSegment =
 			currentUrl[currentUrl.length - 1] !== ""
 				? currentUrl[currentUrl.length - 1]
@@ -259,6 +254,7 @@ export default class App extends Component {
 		DB.getScenario({ id: _id })
 			.then(result => {
 				console.log(result)
+				console.log("getScenario", result)
 			})
 			.catch(error => {
 				let errors = error.body.errors
@@ -318,6 +314,64 @@ export default class App extends Component {
 			})
 			.catch(error => {
 				console.error("Error deleting scenario:", error)
+			})
+	}
+
+	getDonation = _id => {
+		DB.getDonation({ id: _id })
+			.then(result => {
+				console.log(result)
+			})
+			.catch(error => {
+				let errors = error.body.errors
+				console.error("Error getting donation:", errors)
+			})
+	}
+	createDonation = obj => {
+		DB.createDonation({
+			data: {
+				type: "donations",
+				attributes: obj
+			}
+		})
+			.then(result => {
+				console.log("Donation successfully created:", result)
+				this.getFullDataBase()
+			})
+			.catch(error => {
+				console.error("Error creating donation:", error)
+			})
+	}
+	updateDonation = (_id, obj) => {
+		let _type = "donations"
+
+		DB.updateDonation(
+			{ id: _id },
+			{
+				data: {
+					id: _id,
+					type: _type,
+					links: this.buildLinks(_type, _id),
+					attributes: obj
+				}
+			}
+		)
+			.then(result => {
+				console.log(result)
+				this.getFullDataBase()
+			})
+			.catch(error => {
+				console.error("Error updating donation:", error)
+			})
+	}
+	deleteDonation = _id => {
+		DB.destroyDonation({ id: _id })
+			.then(result => {
+				console.log(result)
+				this.getFullDataBase()
+			})
+			.catch(error => {
+				console.error("Error deleting donation:", error)
 			})
 	}
 
@@ -408,7 +462,28 @@ export default class App extends Component {
 	submitRequest = params => {
 		this.createScenario(params)
 	}
-	submitDonation = () => {}
+	submitDonation = params => {
+		let amount = 0
+
+		if (params.presetAmount) {
+			amount = 3
+		} else if (params.remainingAmount) {
+			amount = 10
+		} else if (params.customAmount) {
+			amount = params.customAmountValue
+		}
+
+		let donationObject = {
+			donator_firstname: this.state.currentUserData.firstname,
+			donator_lastname: this.state.currentUserData.lastname,
+			amount: amount,
+			scenario: params.scenarioId
+		}
+
+		this.createDonation(donationObject)
+
+		window.location = "/thanks"
+	}
 	submitDo = () => {}
 	submitVerification = () => {}
 
@@ -463,7 +538,7 @@ export default class App extends Component {
 					{Object.entries(this.state.scenarioData).map(([key, val]) => (
 						<Route
 							key={key}
-							path={`/${key}`}
+							path={`/${val.id}`}
 							render={() => (
 								<Page
 									app={this}

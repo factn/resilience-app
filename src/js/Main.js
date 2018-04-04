@@ -21,11 +21,15 @@ export default class Main extends Component {
 			lastClickedLon,
 			tabs,
 			flows,
+			eventData,
+			nounData,
+			verbData,
 			databaseReady,
 			scenarioData,
 			lastUrlSegment,
 			updateScenario,
-			funcs
+			funcs,
+			scenarioId
 		} = this.props
 
 		if (pageStyle === "modal") {
@@ -38,7 +42,9 @@ export default class Main extends Component {
 						lastClickedLon={lastClickedLon}
 						lastUrlSegment={lastUrlSegment}
 						updateScenario={updateScenario}
+						eventData={eventData}
 						funcs={funcs}
+						scenarioId={scenarioId}
 					/>
 				</main>
 			)
@@ -65,7 +71,7 @@ export default class Main extends Component {
 			// Flow
 			return (
 				<main className="page app-main page-adcontent-wrap">
-					<AdModalContent {...attributes} />
+					<AdModalContent lastUrlSegment={lastUrlSegment} {...attributes} />
 					<Form
 						title={flows[lastUrlSegment].title}
 						openMapPicker={openMapPicker}
@@ -73,7 +79,11 @@ export default class Main extends Component {
 						lastClickedLon={lastClickedLon}
 						lastUrlSegment={lastUrlSegment}
 						updateScenario={updateScenario}
+						eventData={eventData}
+						nounData={nounData}
+						verbData={verbData}
 						funcs={funcs}
+						scenarioId={scenarioId}
 					/>
 				</main>
 			)
