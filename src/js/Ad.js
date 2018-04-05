@@ -118,19 +118,8 @@ export default class Ad extends Component {
 	titleBuild = () => {
 		let { lastUrlSegment } = this.props
 		let {
-			// doer_firstname,
-			// doer_lastname,
 			requester_firstname,
-			// requester_lastname,
-			// funding_goal,
-			disaster,
-			// doerlat,
-			// doerlon,
-			// requestorlat,
-			// requestorlon,
 			donated,
-			image,
-			// imagethumb,
 			noun,
 			verb
 		} = this.props.scenario.attributes
@@ -197,7 +186,7 @@ export default class Ad extends Component {
 		let {
 			// doer_firstname,
 			// doer_lastname,
-			requester_firstname,
+			// requester_firstname,
 			// requester_lastname,
 			// funding_goal,
 			disaster,
@@ -205,11 +194,11 @@ export default class Ad extends Component {
 			// doerlon,
 			// requestorlat,
 			// requestorlon,
-			donated,
-			image,
+			// donated,
+			image
 			// imagethumb,
-			noun,
-			verb
+			// noun,
+			// verb
 		} = scenario.attributes
 
 		return (

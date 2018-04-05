@@ -14,31 +14,34 @@ export default class Main extends Component {
 	render() {
 		let {
 			pageStyle,
-			title,
 			attributes,
 			openMapPicker,
 			lastClickedLat,
 			lastClickedLon,
 			tabs,
-			flows,
+			eventData,
+			nounData,
+			verbData,
 			databaseReady,
 			scenarioData,
 			lastUrlSegment,
 			updateScenario,
-			funcs
+			funcs,
+			scenarioId
 		} = this.props
 
 		if (pageStyle === "modal") {
 			return (
 				<main className="page app-main modal-page">
 					<Form
-						title={title}
 						openMapPicker={openMapPicker}
 						lastClickedLat={lastClickedLat}
 						lastClickedLon={lastClickedLon}
 						lastUrlSegment={lastUrlSegment}
 						updateScenario={updateScenario}
+						eventData={eventData}
 						funcs={funcs}
+						scenarioId={scenarioId}
 					/>
 				</main>
 			)
@@ -65,15 +68,18 @@ export default class Main extends Component {
 			// Flow
 			return (
 				<main className="page app-main page-adcontent-wrap">
-					<AdModalContent {...attributes} />
+					<AdModalContent lastUrlSegment={lastUrlSegment} {...attributes} />
 					<Form
-						title={flows[lastUrlSegment].title}
+						lastUrlSegment={lastUrlSegment}
 						openMapPicker={openMapPicker}
 						lastClickedLat={lastClickedLat}
 						lastClickedLon={lastClickedLon}
-						lastUrlSegment={lastUrlSegment}
 						updateScenario={updateScenario}
+						eventData={eventData}
+						nounData={nounData}
+						verbData={verbData}
 						funcs={funcs}
+						scenarioId={scenarioId}
 					/>
 				</main>
 			)

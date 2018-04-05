@@ -37,6 +37,7 @@ export default class Form extends Component {
 						labelIcon: "sign-in-alt",
 						onSubmit: this.props.funcs.login,
 						onSubmitParams: { email: "login_email", password: "login_pw" },
+						goToPath: "/",
 						responseType: "neutral"
 					}
 				]
@@ -96,7 +97,7 @@ export default class Form extends Component {
 						inputType: "submit",
 						labelPhrase: "Create Account",
 						labelIcon: "user-plus",
-						// onSubmit: this.props.createAccount,
+						// onSubmit: this.props.funcs.createAccount,
 						onSubmitParams: {
 							email: "account_email",
 							firstname: "account_first-name",
@@ -165,7 +166,7 @@ export default class Form extends Component {
 						inputType: "submit",
 						labelPhrase: "Update Account",
 						labelIcon: "save",
-						// onSubmit: this.props.editAccount,
+						// onSubmit: this.props.funcs.editAccount,
 						onSubmitParams: {
 							email: "editAccount_email",
 							firstname: "editAccount_first-name",
@@ -186,47 +187,69 @@ export default class Form extends Component {
 						labelPhrase: "Save settings",
 						labelIcon: "cogs",
 						responseType: "neutral"
-						// onSubmit: this.props.updatePreferences,
+						// onSubmit: this.props.funcs.updatePreferences,
 					}
 				]
 			},
 			thanks: {
-				inputs: []
+				inputs: [
+					{
+						inputType: "custom",
+						disabledField: false,
+						customJSX: (
+							<div className="modal-custom-content-wrap thank-you-modal-custom-content">
+								<h4>You just made a huge difference</h4>
+								<Icon className="thank-you-icon" icon="thumbs-up" />
+							</div>
+						)
+					},
+					{
+						inputType: "submit",
+						labelPhrase: "Do more",
+						labelIcon: "hand-point-right",
+						goToPath: "/",
+						responseType: "neutral"
+					}
+				]
 			},
 			requester: {
 				inputs: [
 					{
-						inputType: "text",
+						inputType: "scenario-id"
+					},
+					{
+						inputType: "select",
 						inputID: "event-name",
 						labelPhrase: "What disaster has effected you?",
 						labelIcon: "cloud",
+						options: this.props.eventData,
 						requiredField: false
 					},
 					{
-						inputType: "text",
-						inputID: "verb",
+						inputType: "split-input",
 						labelPhrase: "What do you need help with?",
-						requiredField: true
+						requiredField: true,
+						inputs: [
+							{
+								inputType: "select",
+								inputID: "verb",
+								options: this.props.verbData,
+								requiredField: false
+							},
+							{
+								inputType: "select",
+								inputID: "noun",
+								options: this.props.nounData,
+								requiredField: false
+							}
+						]
 					},
 					{
 						inputType: "number",
 						inputID: "donation-amount",
 						labelPhrase: "What is your donation goal?",
-						labelIcon: "hand-holding-usd",
+						// labelIcon: "hand-holding-usd",
 						requiredField: true
-					},
-					{
-						inputType: "text",
-						inputID: "materials-list",
-						labelPhrase: "What materials do you need?",
-						requiredField: false
-					},
-					{
-						inputType: "number",
-						inputID: "volunteers-amount",
-						labelPhrase: "How many volunteers do you need?",
-						labelIcon: "people-carry",
-						requiredField: false
 					},
 					{
 						inputType: "text",
@@ -250,24 +273,39 @@ export default class Form extends Component {
 						requiredField: true
 					},
 					{
+						inputType: "text",
+						inputID: "custom-message",
+						labelPhrase: "Anything else you'd like to say?",
+						labelIcon: "i-cursor",
+						requiredField: false
+					},
+					{
 						inputType: "submit",
 						labelPhrase: "Send someone",
 						labelIcon: "check",
-						// onSubmit: this.props.submitRequest,
+						onSubmit: this.props.funcs.submitRequest,
 						onSubmitParams: {
 							event: "requester_event-name",
 							image: "requester_photo",
 							requester_firstname: "requester_first-name",
 							requesterlat: "requester_location_lat",
 							requesterlon: "requester_location_lon",
-							verb: "requester_verb"
+							noun: "requester_noun",
+							verb: "requester_verb",
+							customMessage: "requester_custom-message",
+							fundingGoal: "requester_donation-amount",
+							scenarioId: "requester_scenario-id"
 						},
+						goToPath: "/requester",
 						responseType: "neutral"
 					}
 				]
 			},
 			donator: {
 				inputs: [
+					{
+						inputType: "scenario-id"
+					},
 					{
 						inputType: "radio-row",
 						requiredField: true,
@@ -365,7 +403,7 @@ export default class Form extends Component {
 										<span className="wallet-id" id="walletID">
 											0x123f681646d4a755815f9cb19e1acc8565a0c2ac
 										</span>
-										{/* <Icon className="copy-icon" icon="copy" /> */}
+										<Icon className="copy-icon" icon="copy" />
 									</div>
 								</div>
 							</Fragment>
@@ -381,20 +419,23 @@ export default class Form extends Component {
 						disabledField: true
 					},
 					{
-						inputType: "number",
-						inputID: "cc-expiration-month",
-						labelPhrase: "Expiration Month",
+						inputType: "split-input",
+						labelPhrase: "Expiration",
 						toggleGroup: 3,
 						requiredField: false,
-						disabledField: true
-					},
-					{
-						inputType: "number",
-						inputID: "cc-expiration-year",
-						labelPhrase: "Expiration Year",
-						toggleGroup: 3,
-						requiredField: false,
-						disabledField: true
+						disabledField: true,
+						inputs: [
+							{
+								inputType: "number",
+								inputID: "cc-expiration-month",
+								labelPhrase: "Month"
+							},
+							{
+								inputType: "number",
+								inputID: "cc-expiration-year",
+								labelPhrase: "Year"
+							}
+						]
 					},
 					{
 						inputType: "number",
@@ -408,7 +449,7 @@ export default class Form extends Component {
 						inputType: "submit",
 						labelPhrase: "Donate",
 						labelIcon: "money-bill-alt",
-						// onSubmit: this.props.submitDonation,
+						onSubmit: this.props.funcs.submitDonation,
 						onSubmitParams: {
 							presetAmount: "donator_preset-amount",
 							remainingAmount: "donator_remaining-amount",
@@ -420,14 +461,19 @@ export default class Form extends Component {
 							creditCardNumber: "donator_cc-number",
 							creditCardMonth: "donator_cc-expiration-month",
 							creditCardYear: "donator_cc-expiration-year",
-							creditCardSec: "donator_cc-sec"
+							creditCardSec: "donator_cc-sec",
+							scenarioId: "donator_scenario-id"
 						},
+						goToPath: "/thanks",
 						responseType: "neutral"
 					}
 				]
 			},
 			doer: {
 				inputs: [
+					{
+						inputType: "scenario-id"
+					},
 					{
 						inputType: "checkbox",
 						inputID: "materials",
@@ -451,17 +497,22 @@ export default class Form extends Component {
 						inputType: "submit",
 						labelPhrase: "I'm on my way",
 						labelIcon: "thumbs-up",
-						// onSubmit: this.props.submitDo,
+						onSubmit: this.props.funcs.submitDo,
 						onSubmitParams: {
 							doerlat: "doer_location_lat",
-							doerlon: "doer_location_lon"
+							doerlon: "doer_location_lon",
+							scenarioId: "doer_scenario-id"
 						},
+						goToPath: "/doer",
 						responseType: "neutral"
 					}
 				]
 			},
 			verifier: {
 				inputs: [
+					{
+						inputType: "scenario-id"
+					},
 					{
 						inputType: "submit",
 						labelPhrase: "Verify this user",
@@ -473,8 +524,12 @@ export default class Form extends Component {
 						inputType: "submit",
 						labelPhrase: "I don't know them",
 						labelIcon: "times",
-						// onSubmit: this.props.submitVerification,
-						onSubmitParams: { userVerified: false },
+						onSubmit: this.props.funcs.submitVerification,
+						onSubmitParams: {
+							userVerified: false,
+							scenarioId: "verifier_scenario-id"
+						},
+						goToPath: "/verifier",
 						responseType: "negative"
 					}
 				]
@@ -490,11 +545,11 @@ export default class Form extends Component {
 		let { inputs } = this.pages.donator
 
 		if (turnedOn) {
-			inputs[1].requiredField = true
-			inputs[1].disabledField = false
+			inputs[2].requiredField = true
+			inputs[2].disabledField = false
 		} else {
-			inputs[1].requiredField = false
-			inputs[1].disabledField = true
+			inputs[2].requiredField = false
+			inputs[2].disabledField = true
 		}
 
 		this.setState({
@@ -504,7 +559,7 @@ export default class Form extends Component {
 	togglePaymentTypeFields = turnedOn => {
 		let { inputs } = this.pages.donator
 
-		for (let i = 4, l = inputs.length; i < l; i++) {
+		for (let i = 5, l = inputs.length; i < l; i++) {
 			if (inputs[i].toggleGroup === turnedOn) {
 				inputs[i].requiredField = true
 				inputs[i].disabledField = false
@@ -521,24 +576,23 @@ export default class Form extends Component {
 
 	render() {
 		let {
-			title,
 			openMapPicker,
 			lastClickedLat,
 			lastClickedLon,
 			lastUrlSegment,
-			funcs
+			scenarioId
 		} = this.props
 
 		return (
-			<div className={`${title.toString().toLowerCase()}-form page-form`}>
+			<div className={`${lastUrlSegment}-form page-form`}>
 				{this.pages[lastUrlSegment].inputs.map((_input, _index) => (
 					<FormInput
-						formName={title}
+						formName={lastUrlSegment}
 						inputObj={_input}
 						openMapPicker={openMapPicker}
 						lat={lastClickedLat}
 						lon={lastClickedLon}
-						lastUrlSegment={lastUrlSegment}
+						scenarioId={scenarioId}
 						key={_index}
 					/>
 				))}

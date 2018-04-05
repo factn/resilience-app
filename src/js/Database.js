@@ -116,10 +116,6 @@ const apiEndpoints = {
 		method: patch,
 		path: "/scenarios/:id"
 	},
-	addImageToScenario: {
-		method: patch,
-		path: "/scenarios/:id"
-	},
 
 	// Users
 	getUsers: {

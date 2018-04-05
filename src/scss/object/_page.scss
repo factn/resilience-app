@@ -91,6 +91,18 @@
 			margin: -1rem 0.5rem 0 0;
 		}
 	}
+	.split-input-wrap {
+		width: 100%;
+		display: inline-flex;
+		justify-content: space-between;
+		.input-wrap {
+			flex-grow: 1;
+			margin: 0;
+			&:not(:first-of-type) {
+				margin-left: 0.5rem;
+			}
+		}
+	}
 	.submit-btn {
 		width: 100%;
 		font-size: 1.5rem;

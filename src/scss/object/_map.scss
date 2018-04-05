@@ -1,5 +1,5 @@
 .map-wrap {
-	position: absolute;
+	position: fixed;
 	top: -100vh;
 	left: 0.5rem;
 	width: calc(100% - 1rem);
@@ -8,7 +8,7 @@
 	box-shadow: $taper-shadow;
 	overflow: hidden;
 	&.open {
-		top: calc(100vh - 10.5rem);
+		top: calc(100vh - 11rem);
 	}
 }
 .mini-map-wrap {
