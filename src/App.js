@@ -13,7 +13,8 @@ import "./App.scss"
 import Page from "./js/Page"
 
 // DB import
-import DB from "./js/DB"
+import Database from "./js/Database"
+import ImageUpload from "./js/ImageUpload"
 /*** [end of imports] ***/
 
 export default class App extends Component {
@@ -156,7 +157,7 @@ export default class App extends Component {
 	}
 
 	getFullDataBase = () => {
-		DB.getScenarios()
+		Database.getScenarios()
 			.then(result => {
 				// console.info("Database call complete:", result.body.data)
 
@@ -174,7 +175,7 @@ export default class App extends Component {
 				})
 			})
 
-		DB.getUsers()
+		Database.getUsers()
 			.then(result => {
 				// console.info("Users call complete:", result.body.data)
 
@@ -190,7 +191,7 @@ export default class App extends Component {
 				})
 			})
 
-		DB.getNouns()
+		Database.getNouns()
 			.then(result => {
 				// console.info("Nouns call complete:", result.body.data)
 
@@ -206,7 +207,7 @@ export default class App extends Component {
 				})
 			})
 
-		DB.getVerbs()
+		Database.getVerbs()
 			.then(result => {
 				// console.info("Verbs call complete:", result.body.data)
 
@@ -222,7 +223,7 @@ export default class App extends Component {
 				})
 			})
 
-		DB.getDonations()
+		Database.getDonations()
 			.then(result => {
 				// console.info("Donations call complete:", result.body.data)
 
@@ -238,7 +239,7 @@ export default class App extends Component {
 				})
 			})
 
-		DB.getEvents()
+		Database.getEvents()
 			.then(result => {
 				// console.info("Events call complete:", result.body.data)
 
@@ -254,7 +255,7 @@ export default class App extends Component {
 				})
 			})
 
-		DB.getProofs()
+		Database.getProofs()
 			.then(result => {
 				// console.info("Proofs call complete:", result.body.data)
 
@@ -274,7 +275,7 @@ export default class App extends Component {
 	login = params => {
 		let json = { email: params.email }
 
-		DB.getUser(json)
+		Database.getUser(json)
 			.then(result => {
 				console.log("Get user complete:", result.body.data)
 				if (result.body.data) {
@@ -320,7 +321,6 @@ export default class App extends Component {
 				attributes: {
 					// custom_message: params.customMessage,
 					funding_goal: params.fundingGoal,
-					// image: params.image,
 					requesterlat: params.requesterlat,
 					requesterlon: params.requesterlon
 				},
@@ -359,10 +359,32 @@ export default class App extends Component {
 			}
 		}
 
-		DB.createScenario(json)
+		Database.createScenario(json)
 			.then(result => {
 				console.log("Scenario successfully created:", result)
-				this.getFullDataBase()
+
+				let newScenarioCreated
+
+				let imageUploadJson = {
+					data: {
+						type: "scenarios",
+						id: newScenarioCreated.id,
+						attributes: {
+							image: params.image
+						},
+						relationships: newScenarioCreated.relationships
+					}
+				}
+
+				ImageUpload.addImageToScenario(imageUploadJson)
+					.then(result => {
+						console.log("Proof successfully updated:", result)
+
+						this.getFullDataBase()
+					})
+					.catch(error => {
+						console.error("Error updating proof:", error)
+					})
 			})
 			.catch(error => {
 				console.error("Error creating scenario:", error)
@@ -402,7 +424,7 @@ export default class App extends Component {
 			}
 		}
 
-		DB.createDonation(json)
+		Database.createDonation(json)
 			.then(result => {
 				console.log("Donation successfully created:", result)
 				this.getFullDataBase()
@@ -428,7 +450,7 @@ export default class App extends Component {
 			}
 		}
 
-		DB.updateScenario(json)
+		Database.updateScenario(json)
 			.then(result => {
 				console.log("Scenario successfully updated:", result)
 				this.getFullDataBase()
@@ -441,9 +463,7 @@ export default class App extends Component {
 		let json = {
 			data: {
 				type: "proofs",
-				attributes: {
-					// image: params.image
-				},
+				attributes: {},
 				relationships: {
 					scenario: {
 						data: {
@@ -455,11 +475,36 @@ export default class App extends Component {
 			}
 		}
 
-		DB.createProof(json)
+		Database.createProof(json)
 			.then(result => {
 				console.log("Proof successfully updated:", result)
 
-				this.getFullDataBase()
+				let imageUploadJson = {
+					data: {
+						type: "proofs",
+						attributes: {
+							image: params.image
+						},
+						relationships: {
+							scenario: {
+								data: {
+									type: "scenarios",
+									id: params.scenarioId
+								}
+							}
+						}
+					}
+				}
+
+				ImageUpload.addImageToScenario(imageUploadJson)
+					.then(result => {
+						console.log("Proof successfully updated:", result)
+
+						this.getFullDataBase()
+					})
+					.catch(error => {
+						console.error("Error updating proof:", error)
+					})
 			})
 			.catch(error => {
 				console.error("Error updating proof:", error)
