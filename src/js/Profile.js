@@ -13,7 +13,7 @@ export default class Profile extends Component {
 			<section className="profile">
 				<article className="profile-article">
 					<header className="profile-article-header">
-						<h4>Karma</h4>
+						<h4>Honey</h4>
 					</header>
 					<div className="social-shares">
 						<div className="facebook-social-share social-share-box">

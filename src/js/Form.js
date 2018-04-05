@@ -96,7 +96,7 @@ export default class Form extends Component {
 						inputType: "submit",
 						labelPhrase: "Create Account",
 						labelIcon: "user-plus",
-						// onSubmit: this.props.createAccount,
+						// onSubmit: this.props.funcs.createAccount,
 						onSubmitParams: {
 							email: "account_email",
 							firstname: "account_first-name",
@@ -165,7 +165,7 @@ export default class Form extends Component {
 						inputType: "submit",
 						labelPhrase: "Update Account",
 						labelIcon: "save",
-						// onSubmit: this.props.editAccount,
+						// onSubmit: this.props.funcs.editAccount,
 						onSubmitParams: {
 							email: "editAccount_email",
 							firstname: "editAccount_first-name",
@@ -186,7 +186,7 @@ export default class Form extends Component {
 						labelPhrase: "Save settings",
 						labelIcon: "cogs",
 						responseType: "neutral"
-						// onSubmit: this.props.updatePreferences,
+						// onSubmit: this.props.funcs.updatePreferences,
 					}
 				]
 			},
@@ -250,19 +250,6 @@ export default class Form extends Component {
 						labelIcon: "hand-holding-usd",
 						requiredField: true
 					},
-					// {
-					// 	inputType: "text",
-					// 	inputID: "materials-list",
-					// 	labelPhrase: "What materials do you need?",
-					// 	requiredField: false
-					// },
-					// {
-					// 	inputType: "number",
-					// 	inputID: "volunteers-amount",
-					// 	labelPhrase: "How many volunteers do you need?",
-					// 	labelIcon: "people-carry",
-					// 	requiredField: false
-					// },
 					{
 						inputType: "text",
 						inputID: "first-name",
@@ -285,19 +272,30 @@ export default class Form extends Component {
 						requiredField: true
 					},
 					{
+						inputType: "text",
+						inputID: "custom-message",
+						labelPhrase: "Anything else you'd like to say?",
+						labelIcon: "i-cursor",
+						requiredField: false
+					},
+					{
 						inputType: "submit",
 						labelPhrase: "Send someone",
 						labelIcon: "check",
-						onSubmit: this.props.submitRequest,
+						onSubmit: this.props.funcs.submitRequest,
 						onSubmitParams: {
 							event: "requester_event-name",
 							image: "requester_photo",
 							requester_firstname: "requester_first-name",
 							requesterlat: "requester_location_lat",
 							requesterlon: "requester_location_lon",
+							noun: "requester_noun",
 							verb: "requester_verb",
+							customMessage: "requester_custom-message",
+							fundingGoal: "requester_donation-amount",
 							scenarioId: "requester_scenario-id"
 						},
+						goToPath: "/requester",
 						responseType: "neutral"
 					}
 				]
@@ -404,7 +402,7 @@ export default class Form extends Component {
 										<span className="wallet-id" id="walletID">
 											0x123f681646d4a755815f9cb19e1acc8565a0c2ac
 										</span>
-										{/* <Icon className="copy-icon" icon="copy" /> */}
+										<Icon className="copy-icon" icon="copy" />
 									</div>
 								</div>
 							</Fragment>
@@ -450,7 +448,7 @@ export default class Form extends Component {
 						inputType: "submit",
 						labelPhrase: "Donate",
 						labelIcon: "money-bill-alt",
-						onSubmit: this.props.submitDonation,
+						onSubmit: this.props.funcs.submitDonation,
 						onSubmitParams: {
 							presetAmount: "donator_preset-amount",
 							remainingAmount: "donator_remaining-amount",
@@ -465,6 +463,7 @@ export default class Form extends Component {
 							creditCardSec: "donator_cc-sec",
 							scenarioId: "donator_scenario-id"
 						},
+						goToPath: "/thanks",
 						responseType: "neutral"
 					}
 				]
@@ -497,12 +496,13 @@ export default class Form extends Component {
 						inputType: "submit",
 						labelPhrase: "I'm on my way",
 						labelIcon: "thumbs-up",
-						onSubmit: this.props.submitDo,
+						onSubmit: this.props.funcs.submitDo,
 						onSubmitParams: {
 							doerlat: "doer_location_lat",
 							doerlon: "doer_location_lon",
 							scenarioId: "doer_scenario-id"
 						},
+						goToPath: "/doer",
 						responseType: "neutral"
 					}
 				]
@@ -523,11 +523,12 @@ export default class Form extends Component {
 						inputType: "submit",
 						labelPhrase: "I don't know them",
 						labelIcon: "times",
-						onSubmit: this.props.submitVerification,
+						onSubmit: this.props.funcs.submitVerification,
 						onSubmitParams: {
 							userVerified: false,
 							scenarioId: "verifier_scenario-id"
 						},
+						goToPath: "/verifier",
 						responseType: "negative"
 					}
 				]
@@ -543,11 +544,11 @@ export default class Form extends Component {
 		let { inputs } = this.pages.donator
 
 		if (turnedOn) {
-			inputs[1].requiredField = true
-			inputs[1].disabledField = false
+			inputs[2].requiredField = true
+			inputs[2].disabledField = false
 		} else {
-			inputs[1].requiredField = false
-			inputs[1].disabledField = true
+			inputs[2].requiredField = false
+			inputs[2].disabledField = true
 		}
 
 		this.setState({
@@ -557,7 +558,7 @@ export default class Form extends Component {
 	togglePaymentTypeFields = turnedOn => {
 		let { inputs } = this.pages.donator
 
-		for (let i = 4, l = inputs.length; i < l; i++) {
+		for (let i = 5, l = inputs.length; i < l; i++) {
 			if (inputs[i].toggleGroup === turnedOn) {
 				inputs[i].requiredField = true
 				inputs[i].disabledField = false
@@ -574,28 +575,23 @@ export default class Form extends Component {
 
 	render() {
 		let {
-			title,
 			openMapPicker,
 			lastClickedLat,
 			lastClickedLon,
-			lastUrlSegment
-			// eventData,
-			// nounData,
-			// verbData
-			// funcs,
-			// scenarioId
+			lastUrlSegment,
+			scenarioId
 		} = this.props
 
 		return (
-			<div className={`${title.toString().toLowerCase()}-form page-form`}>
+			<div className={`${lastUrlSegment}-form page-form`}>
 				{this.pages[lastUrlSegment].inputs.map((_input, _index) => (
 					<FormInput
-						formName={title}
+						formName={lastUrlSegment}
 						inputObj={_input}
 						openMapPicker={openMapPicker}
 						lat={lastClickedLat}
 						lon={lastClickedLon}
-						lastUrlSegment={lastUrlSegment}
+						scenarioId={scenarioId}
 						key={_index}
 					/>
 				))}

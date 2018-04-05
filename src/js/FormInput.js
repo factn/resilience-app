@@ -10,15 +10,7 @@ import CustomJSX from "./CustomJSX"
 
 export default class FormInput extends Component {
 	render() {
-		let {
-			formName,
-			openMapPicker,
-			inputObj,
-			lat,
-			lon,
-			lastUrlSegment,
-			scenarioId
-		} = this.props
+		let { formName, openMapPicker, inputObj, lat, lon, scenarioId } = this.props
 
 		/* Valid inputType's:
 		 * 	"submit", "text", "email", "password", "file",
@@ -78,7 +70,7 @@ export default class FormInput extends Component {
 							} else onSubmit()
 						}
 
-						if (typeof goToPath !== "undefined") window.location = goToPath
+						// if (typeof goToPath !== "undefined") window.location = goToPath
 					}}
 				>
 					<span className="button-label">{labelPhrase} </span>
@@ -92,7 +84,7 @@ export default class FormInput extends Component {
 				>
 					<button
 						className="input-label btn btn-label"
-						htmlFor={`${lastUrlSegment}_${inputID}`}
+						htmlFor={`${formName}_${inputID}`}
 						onClick={() => openMapPicker()}
 					>
 						<span className="input-label-phrase">{labelPhrase}</span>
@@ -103,14 +95,14 @@ export default class FormInput extends Component {
 					<input
 						className="form-input"
 						type="number"
-						id={`${lastUrlSegment}_${inputID}_lat`}
+						id={`${formName}_${inputID}_lat`}
 						value={lat || 0}
 						hidden={true}
 					/>
 					<input
 						className="form-input"
 						type="number"
-						id={`${lastUrlSegment}_${inputID}_lon`}
+						id={`${formName}_${inputID}_lon`}
 						value={lon || 0}
 						hidden={true}
 					/>
@@ -123,7 +115,7 @@ export default class FormInput extends Component {
 				>
 					<label
 						className="input-label btn btn-label"
-						htmlFor={`${lastUrlSegment}_${inputID}`}
+						htmlFor={`${formName}_${inputID}`}
 					>
 						<span className="input-label-phrase">{labelPhrase}</span>
 						{typeof labelIcon !== "undefined" && (
@@ -133,7 +125,7 @@ export default class FormInput extends Component {
 					<input
 						className="form-input"
 						type={inputType}
-						id={`${lastUrlSegment}_${inputID}`}
+						id={`${formName}_${inputID}`}
 						accept="image/*"
 						required={requiredField}
 						disabled={disabledField}
@@ -152,7 +144,7 @@ export default class FormInput extends Component {
 								<input
 									className="form-input"
 									type="radio"
-									id={`${lastUrlSegment}_${_key.inputID}`}
+									id={`${formName}_${_key.inputID}`}
 									name={radioRowName}
 									onChange={() => _key.onChange(_key.onChangeVal)}
 								/>
@@ -160,13 +152,13 @@ export default class FormInput extends Component {
 								<input
 									className="form-input"
 									type="radio"
-									id={`${lastUrlSegment}_${_key.inputID}`}
+									id={`${formName}_${_key.inputID}`}
 									name={radioRowName}
 								/>
 							)}
 							<label
 								className="input-label"
-								htmlFor={`${lastUrlSegment}_${_key.inputID}`}
+								htmlFor={`${formName}_${_key.inputID}`}
 							>
 								<span className="input-label-phrase">{_key.labelPhrase}</span>
 							</label>
@@ -188,14 +180,11 @@ export default class FormInput extends Component {
 					<input
 						className="form-input"
 						type="checkbox"
-						id={`${lastUrlSegment}_${inputID}`}
+						id={`${formName}_${inputID}`}
 						required={requiredField}
 						disabled={disabledField}
 					/>
-					<label
-						className="input-label"
-						htmlFor={`${lastUrlSegment}_${inputID}`}
-					>
+					<label className="input-label" htmlFor={`${formName}_${inputID}`}>
 						<span className="input-label-phrase">{labelPhrase}</span>
 						{typeof labelIcon !== "undefined" && (
 							<Icon icon={labelIcon} className="input-label-icon" />
@@ -209,10 +198,7 @@ export default class FormInput extends Component {
 					className={disabledField ? "input-wrap disabled-input" : "input-wrap"}
 				>
 					{labelPhrase && (
-						<label
-							className="input-label"
-							htmlFor={`${lastUrlSegment}_${inputID}`}
-						>
+						<label className="input-label" htmlFor={`${formName}_${inputID}`}>
 							<span className="input-label-phrase">{labelPhrase}</span>
 							{typeof labelIcon !== "undefined" && (
 								<Icon icon={labelIcon} className="input-label-icon" />
@@ -221,11 +207,11 @@ export default class FormInput extends Component {
 					)}
 					<select
 						className="form-input"
-						id={`${formName.toLowerCase()}_${inputID}`}
+						id={`${formName}_${inputID}`}
 						required={requiredField}
 						disabled={disabledField}
 					>
-						<option> - Select - </option>
+						<option>[Select]</option>
 						{options.map(_option => (
 							<option value={valuify(_option)} key={_option}>
 								{_option}
@@ -239,10 +225,7 @@ export default class FormInput extends Component {
 				<div
 					className={disabledField ? "input-wrap disabled-input" : "input-wrap"}
 				>
-					<label
-						className="input-label"
-						htmlFor={`${formName.toLowerCase()}_${inputID}`}
-					>
+					<label className="input-label" htmlFor={`${formName}_${inputID}`}>
 						<span className="input-label-phrase">{labelPhrase}</span>
 						{typeof labelIcon !== "undefined" && (
 							<Icon icon={labelIcon} className="input-label-icon" />
@@ -256,7 +239,6 @@ export default class FormInput extends Component {
 								openMapPicker={openMapPicker}
 								lat={lat}
 								lon={lon}
-								lastUrlSegment={lastUrlSegment}
 								key={_index}
 							/>
 						))}
@@ -269,7 +251,7 @@ export default class FormInput extends Component {
 					<input
 						className="form-input"
 						type="text"
-						id={`${lastUrlSegment}_scenario-id`}
+						id={`${formName}_scenario-id`}
 						disabled
 						value={scenarioId}
 					/>
@@ -281,10 +263,7 @@ export default class FormInput extends Component {
 				<div
 					className={disabledField ? "input-wrap disabled-input" : "input-wrap"}
 				>
-					<label
-						className="input-label"
-						htmlFor={`${formName.toLowerCase()}_${inputID}`}
-					>
+					<label className="input-label" htmlFor={`${formName}_${inputID}`}>
 						<span className="input-label-phrase">{labelPhrase}</span>
 						{typeof labelIcon !== "undefined" && (
 							<Icon icon={labelIcon} className="input-label-icon" />
@@ -293,7 +272,7 @@ export default class FormInput extends Component {
 					<input
 						className="form-input"
 						type={inputType}
-						id={`${formName.toLowerCase()}_${inputID}`}
+						id={`${formName}_${inputID}`}
 						required={requiredField}
 						disabled={disabledField}
 					/>

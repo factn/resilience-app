@@ -157,8 +157,6 @@ export default class App extends Component {
 	}
 
 	getFullDataBase = () => {
-		console.log("Getting database")
-
 		DB.getScenarios()
 			.then(result => {
 				// console.info("Database call complete:", result.body.data)
@@ -169,7 +167,7 @@ export default class App extends Component {
 				})
 			})
 			.catch(error => {
-				console.error(error)
+				console.error("Error getting scenarios:", error)
 
 				this.setState({
 					databaseReady: false,
@@ -186,7 +184,11 @@ export default class App extends Component {
 				})
 			})
 			.catch(error => {
-				console.error(error)
+				console.error("Error getting users:", error)
+
+				this.setState({
+					userData: {}
+				})
 			})
 
 		DB.getNouns()
@@ -198,7 +200,11 @@ export default class App extends Component {
 				})
 			})
 			.catch(error => {
-				console.error(error)
+				console.error("Error getting nouns:", error)
+
+				this.setState({
+					nounData: {}
+				})
 			})
 
 		DB.getVerbs()
@@ -210,7 +216,11 @@ export default class App extends Component {
 				})
 			})
 			.catch(error => {
-				console.error(error)
+				console.error("Error getting verbs:", error)
+
+				this.setState({
+					verbData: {}
+				})
 			})
 
 		DB.getDonations()
@@ -222,7 +232,11 @@ export default class App extends Component {
 				})
 			})
 			.catch(error => {
-				console.error(error)
+				console.error("Error getting donations:", error)
+
+				this.setState({
+					donationData: {}
+				})
 			})
 
 		DB.getEvents()
@@ -234,7 +248,11 @@ export default class App extends Component {
 				})
 			})
 			.catch(error => {
-				console.error(error)
+				console.error("Error getting events:", error)
+
+				this.setState({
+					eventData: {}
+				})
 			})
 
 		DB.getProofs()
@@ -246,201 +264,18 @@ export default class App extends Component {
 				})
 			})
 			.catch(error => {
-				console.error(error)
-			})
-	}
-
-	getScenario = _id => {
-		DB.getScenario({ id: _id })
-			.then(result => {
-				console.log(result)
-				console.log("getScenario", result)
-			})
-			.catch(error => {
-				let errors = error.body.errors
-
-				if (typeof errors === "object") {
-					console.error("Error getting scenario:")
-					for (let i in errors) {
-						console.error(errors[i])
-					}
-				} else if (typeof errors === "string")
-					console.error("Error getting scenario: " + errors)
-				else console.error("Error getting scenario:", errors)
-			})
-	}
-	createScenario = obj => {
-		DB.createScenario({
-			data: {
-				type: "scenarios",
-				attributes: obj
-			}
-		})
-			.then(result => {
-				console.log("Scenario successfully created:", result)
-				this.getFullDataBase()
-			})
-			.catch(error => {
-				console.error("Error creating scenario:", error)
-			})
-	}
-	updateScenario = (_id, obj) => {
-		let _type = "scenarios"
-
-		DB.updateScenario(
-			{ id: _id },
-			{
-				data: {
-					id: _id,
-					type: _type,
-					links: this.buildLinks(_type, _id),
-					attributes: obj
-				}
-			}
-		)
-			.then(result => {
-				console.log(result)
-				this.getFullDataBase()
-			})
-			.catch(error => {
-				console.error("Error updating scenario:", error)
-			})
-	}
-	deleteScenario = _id => {
-		DB.destroyScenario({ id: _id })
-			.then(result => {
-				console.log(result)
-				this.getFullDataBase()
-			})
-			.catch(error => {
-				console.error("Error deleting scenario:", error)
-			})
-	}
-
-	getDonation = _id => {
-		DB.getDonation({ id: _id })
-			.then(result => {
-				console.log(result)
-			})
-			.catch(error => {
-				let errors = error.body.errors
-				console.error("Error getting donation:", errors)
-			})
-	}
-	createDonation = obj => {
-		DB.createDonation({
-			data: {
-				type: "donations",
-				attributes: obj
-			}
-		})
-			.then(result => {
-				console.log("Donation successfully created:", result)
-				this.getFullDataBase()
-			})
-			.catch(error => {
-				console.error("Error creating donation:", error)
-			})
-	}
-	updateDonation = (_id, obj) => {
-		let _type = "donations"
-
-		DB.updateDonation(
-			{ id: _id },
-			{
-				data: {
-					id: _id,
-					type: _type,
-					links: this.buildLinks(_type, _id),
-					attributes: obj
-				}
-			}
-		)
-			.then(result => {
-				console.log(result)
-				this.getFullDataBase()
-			})
-			.catch(error => {
-				console.error("Error updating donation:", error)
-			})
-	}
-	deleteDonation = _id => {
-		DB.destroyDonation({ id: _id })
-			.then(result => {
-				console.log(result)
-				this.getFullDataBase()
-			})
-			.catch(error => {
-				console.error("Error deleting donation:", error)
-			})
-	}
-
-	getUser = _email => {
-		DB.getUser({ email: _email })
-			.then(result => {
-				console.log("Get user complete:", result.body.data)
+				console.error("Error getting proofs:", error)
 
 				this.setState({
-					currentUserRole: "donator",
-					currentUserId: result.body.data.attributes.id,
-					currentUserData: result.body.data.attributes
+					proofData: {}
 				})
-			})
-			.catch(error => {
-				console.error("Error getting user:", error)
-			})
-	}
-	createUser = obj => {
-		DB.createUser({
-			data: {
-				type: "users",
-				attributes: obj
-			}
-		})
-			.then(result => {
-				console.log("User successfully created:", result)
-				this.getFullDataBase()
-			})
-			.catch(error => {
-				console.error("Error creating user:", error)
-			})
-	}
-	updateUser = (_id, obj) => {
-		let _type = "users"
-
-		DB.updateUser(
-			{ id: _id },
-			{
-				data: {
-					id: _id,
-					type: _type,
-					links: this.buildLinks(_type, _id),
-					attributes: obj
-				}
-			}
-		)
-			.then(result => {
-				console.log(result)
-				this.getFullDataBase()
-			})
-			.catch(error => {
-				console.error("Error updating user:", error)
-			})
-	}
-	deleteUser = _id => {
-		DB.destroyUser({ id: _id })
-			.then(result => {
-				console.log(result)
-				this.getFullDataBase()
-			})
-			.catch(error => {
-				console.error("Error deleting user:", error)
 			})
 	}
 
 	login = params => {
-		// DB call
-		DB.getUser({ email: params.email })
+		let jsonParam = { email: params.email }
+
+		DB.getUser(jsonParam)
 			.then(result => {
 				console.log("Get user complete:", result.body.data)
 				if (result.body.data) {
@@ -460,7 +295,67 @@ export default class App extends Component {
 		window.location = "/"
 	}
 	submitRequest = params => {
-		this.createScenario(params)
+		let relatedEventId
+		let relatedNounId
+		let relatedVerbId
+
+		for (let i in this.state.eventData) {
+			if (params.event === this.state.eventData[i].attributes.description) {
+				relatedEventId = this.state.eventData[i].id
+			}
+		}
+		for (let i in this.state.nounData) {
+			if (params.noun === this.state.nounData[i].attributes.description) {
+				relatedNounId = this.state.nounData[i].id
+			}
+		}
+		for (let i in this.state.verbData) {
+			if (params.verb === this.state.verbData[i].attributes.description) {
+				relatedVerbId = this.state.verbData[i].id
+			}
+		}
+
+		let jsonParam = {
+			data: {
+				type: "scenarios",
+				attributes: {
+					// custom_message: params.customMessage,
+					funding_goal: params.fundingGoal,
+					// image: params.image,
+					requesterlat: params.requesterlat,
+					requesterlon: params.requesterlon
+				},
+				relationships: {
+					event: {
+						data: {
+							type: "events",
+							id: relatedEventId
+						}
+					},
+					noun: {
+						data: {
+							type: "nouns",
+							id: relatedNounId
+						}
+					},
+					verb: {
+						data: {
+							type: "verbs",
+							id: relatedVerbId
+						}
+					}
+				}
+			}
+		}
+
+		DB.createScenario(jsonParam)
+			.then(result => {
+				console.log("Scenario successfully created:", result)
+				this.getFullDataBase()
+			})
+			.catch(error => {
+				console.error("Error creating scenario:", error)
+			})
 	}
 	submitDonation = params => {
 		let amount = 0
@@ -473,16 +368,37 @@ export default class App extends Component {
 			amount = params.customAmountValue
 		}
 
-		let donationObject = {
-			donator_firstname: this.state.currentUserData.firstname,
-			donator_lastname: this.state.currentUserData.lastname,
-			amount: amount,
-			scenario: params.scenarioId
+		let jsonParam = {
+			data: {
+				type: "donations",
+				attributes: {
+					amount: amount
+				},
+				relationships: {
+					donator: {
+						data: {
+							type: "users",
+							id: 1
+						}
+					},
+					scenario: {
+						data: {
+							type: "scenarios",
+							id: params.scenarioId
+						}
+					}
+				}
+			}
 		}
 
-		this.createDonation(donationObject)
-
-		window.location = "/thanks"
+		DB.createDonation(jsonParam)
+			.then(result => {
+				console.log("Donation successfully created:", result)
+				this.getFullDataBase()
+			})
+			.catch(error => {
+				console.error("Error creating donation:", error)
+			})
 	}
 	submitDo = () => {}
 	submitVerification = () => {}

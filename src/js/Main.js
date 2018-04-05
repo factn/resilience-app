@@ -36,7 +36,6 @@ export default class Main extends Component {
 			return (
 				<main className="page app-main modal-page">
 					<Form
-						title={title}
 						openMapPicker={openMapPicker}
 						lastClickedLat={lastClickedLat}
 						lastClickedLon={lastClickedLon}
@@ -73,11 +72,10 @@ export default class Main extends Component {
 				<main className="page app-main page-adcontent-wrap">
 					<AdModalContent lastUrlSegment={lastUrlSegment} {...attributes} />
 					<Form
-						title={flows[lastUrlSegment].title}
+						lastUrlSegment={lastUrlSegment}
 						openMapPicker={openMapPicker}
 						lastClickedLat={lastClickedLat}
 						lastClickedLon={lastClickedLon}
-						lastUrlSegment={lastUrlSegment}
 						updateScenario={updateScenario}
 						eventData={eventData}
 						nounData={nounData}
