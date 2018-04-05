@@ -17,7 +17,7 @@ export default class AdHeader extends Component {
 					{Object.entries(this.props).map(([key, val]) => (
 						<li
 							className={
-								`/${lastUrlSegment}/` === val.path ? "ad-tab active" : "ad-tab"
+								`/${lastUrlSegment}` === val.path ? "ad-tab active" : "ad-tab"
 							}
 							key={key}
 						>

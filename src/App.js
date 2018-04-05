@@ -412,7 +412,21 @@ export default class App extends Component {
 			})
 	}
 	submitDo = params => {
-		let json = {}
+		let json = {
+			data: {
+				type: "scenarios",
+				id: params.scenarioId,
+				attributes: {},
+				relationships: {
+					doer: {
+						data: {
+							type: "users",
+							id: this.state.currentUserId || 0
+						}
+					}
+				}
+			}
+		}
 
 		DB.updateScenario(json)
 			.then(result => {
@@ -424,15 +438,31 @@ export default class App extends Component {
 			})
 	}
 	submitVerification = params => {
-		let json = {}
+		let json = {
+			data: {
+				type: "proofs",
+				attributes: {
+					// image: params.image
+				},
+				relationships: {
+					scenario: {
+						data: {
+							type: "scenarios",
+							id: params.scenarioId
+						}
+					}
+				}
+			}
+		}
 
-		DB.updateScenario(json)
+		DB.createProof(json)
 			.then(result => {
-				console.log("Scenario successfully updated:", result)
+				console.log("Proof successfully updated:", result)
+
 				this.getFullDataBase()
 			})
 			.catch(error => {
-				console.error("Error updating scenario:", error)
+				console.error("Error updating proof:", error)
 			})
 	}
 
@@ -443,6 +473,14 @@ export default class App extends Component {
 	}
 
 	render() {
+		let funcs = {
+			login: this.login,
+			submitRequest: this.submitRequest,
+			submitDonation: this.submitDonation,
+			submitDo: this.submitDo,
+			submitVerification: this.submitVerification
+		}
+
 		return (
 			<Router>
 				<div className="app">
@@ -467,19 +505,7 @@ export default class App extends Component {
 						<Route
 							key={key}
 							path={`/${key}`}
-							render={() => (
-								<Page
-									app={this}
-									funcs={{
-										login: this.login,
-										submitRequest: this.submitRequest,
-										submitDonation: this.submitDonation,
-										submitDo: this.submitDo,
-										submitVerification: this.submitVerification
-									}}
-									{...val}
-								/>
-							)}
+							render={() => <Page app={this} funcs={funcs} {...val} />}
 						/>
 					))}
 
@@ -488,19 +514,7 @@ export default class App extends Component {
 						<Route
 							key={key}
 							path={`/${val.id}`}
-							render={() => (
-								<Page
-									app={this}
-									funcs={{
-										login: this.login,
-										submitRequest: this.submitRequest,
-										submitDonation: this.submitDonation,
-										submitDo: this.submitDo,
-										submitVerification: this.submitVerification
-									}}
-									{...val}
-								/>
-							)}
+							render={() => <Page app={this} funcs={funcs} {...val} />}
 						/>
 					))}
 				</div>

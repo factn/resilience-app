@@ -116,10 +116,6 @@ const apiEndpoints = {
 		method: patch,
 		path: "/scenarios/:id"
 	},
-	addImageToScenario: {
-		method: patch,
-		path: "/scenarios/:id"
-	},
 
 	// Users
 	getUsers: {
@@ -149,3 +145,21 @@ const config = {
 }
 
 export default buildApi(apiEndpoints, config)
+
+const imageUploadApiEndpoints = {
+	addImageToScenario: {
+		method: patch,
+		path: "/scenarios/:id"
+	}
+}
+const imageUploadConfig = {
+	baseUrl: "https://lion-uat.herokuapp.com",
+	configureHeaders(headers) {
+		return {
+			Accept: "application/vnd.api+json",
+			"Content-Type": "multipart/image"
+		}
+	}
+}
+
+// export buildApi(imageUploadApiEndpoints, imageUploadConfig)
