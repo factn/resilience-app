@@ -4,7 +4,7 @@ import React, { Component } from "react"
 import { BrowserRouter as Router, Route } from "react-router-dom"
 import Icon from "@fortawesome/react-fontawesome"
 import faSolid from "@fortawesome/fontawesome-free-solid"
-import faBrands from "@fortawesome/fontawesome-free-brands"
+import brands from "@fortawesome/fontawesome-free-brands"
 
 // Styles
 import "./App.scss"
@@ -22,7 +22,6 @@ export default class App extends Component {
 
 		this.state = {
 			userLoggedIn: false,
-			currentUserRole: "donator",
 			currentUserId: null,
 			currentUserData: {
 				email: "",
@@ -273,16 +272,18 @@ export default class App extends Component {
 	}
 
 	login = params => {
-		let jsonParam = { email: params.email }
+		let json = { email: params.email }
 
-		DB.getUser(jsonParam)
+		DB.getUser(json)
 			.then(result => {
 				console.log("Get user complete:", result.body.data)
 				if (result.body.data) {
+					console.log("Ding!")
+					let res = result.body.data
+
 					this.setState({
-						currentUserRole: "donator",
-						currentUserId: result.body.data.attributes.id,
-						currentUserData: result.body.data.attributes
+						currentUserId: res.id,
+						currentUserData: res.attributes
 					})
 				} else {
 					console.error("User not found for email:", params.email)
@@ -291,8 +292,6 @@ export default class App extends Component {
 			.catch(error => {
 				console.error("Error getting user:", error)
 			})
-
-		window.location = "/"
 	}
 	submitRequest = params => {
 		let relatedEventId
@@ -315,7 +314,7 @@ export default class App extends Component {
 			}
 		}
 
-		let jsonParam = {
+		let json = {
 			data: {
 				type: "scenarios",
 				attributes: {
@@ -343,12 +342,24 @@ export default class App extends Component {
 							type: "verbs",
 							id: relatedVerbId
 						}
+					},
+					requester: {
+						data: {
+							type: "users",
+							id: this.state.currentUserId || 0
+						}
+					},
+					doer: {
+						data: {
+							type: "users",
+							id: 1
+						}
 					}
 				}
 			}
 		}
 
-		DB.createScenario(jsonParam)
+		DB.createScenario(json)
 			.then(result => {
 				console.log("Scenario successfully created:", result)
 				this.getFullDataBase()
@@ -368,7 +379,7 @@ export default class App extends Component {
 			amount = params.customAmountValue
 		}
 
-		let jsonParam = {
+		let json = {
 			data: {
 				type: "donations",
 				attributes: {
@@ -391,7 +402,7 @@ export default class App extends Component {
 			}
 		}
 
-		DB.createDonation(jsonParam)
+		DB.createDonation(json)
 			.then(result => {
 				console.log("Donation successfully created:", result)
 				this.getFullDataBase()
@@ -400,8 +411,30 @@ export default class App extends Component {
 				console.error("Error creating donation:", error)
 			})
 	}
-	submitDo = () => {}
-	submitVerification = () => {}
+	submitDo = params => {
+		let json = {}
+
+		DB.updateScenario(json)
+			.then(result => {
+				console.log("Scenario successfully updated:", result)
+				this.getFullDataBase()
+			})
+			.catch(error => {
+				console.error("Error updating scenario:", error)
+			})
+	}
+	submitVerification = params => {
+		let json = {}
+
+		DB.updateScenario(json)
+			.then(result => {
+				console.log("Scenario successfully updated:", result)
+				this.getFullDataBase()
+			})
+			.catch(error => {
+				console.error("Error updating scenario:", error)
+			})
+	}
 
 	buildLinks = (type, id) => {
 		return {

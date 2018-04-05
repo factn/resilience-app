@@ -37,6 +37,7 @@ export default class Form extends Component {
 						labelIcon: "sign-in-alt",
 						onSubmit: this.props.funcs.login,
 						onSubmitParams: { email: "login_email", password: "login_pw" },
+						goToPath: "/",
 						responseType: "neutral"
 					}
 				]
@@ -247,7 +248,7 @@ export default class Form extends Component {
 						inputType: "number",
 						inputID: "donation-amount",
 						labelPhrase: "What is your donation goal?",
-						labelIcon: "hand-holding-usd",
+						// labelIcon: "hand-holding-usd",
 						requiredField: true
 					},
 					{

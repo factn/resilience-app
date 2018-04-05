@@ -14,13 +14,11 @@ export default class Main extends Component {
 	render() {
 		let {
 			pageStyle,
-			title,
 			attributes,
 			openMapPicker,
 			lastClickedLat,
 			lastClickedLon,
 			tabs,
-			flows,
 			eventData,
 			nounData,
 			verbData,

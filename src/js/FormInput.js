@@ -70,7 +70,7 @@ export default class FormInput extends Component {
 							} else onSubmit()
 						}
 
-						// if (typeof goToPath !== "undefined") window.location = goToPath
+						if (typeof goToPath !== "undefined") window.location = goToPath
 					}}
 				>
 					<span className="button-label">{labelPhrase} </span>
