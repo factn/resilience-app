@@ -319,10 +319,7 @@ export default class App extends Component {
 			data: {
 				type: "scenarios",
 				attributes: {
-					// custom_message: params.customMessage,
-					funding_goal: params.fundingGoal,
-					requesterlat: params.requesterlat,
-					requesterlon: params.requesterlon
+					funding_goal: params.fundingGoal
 				},
 				relationships: {
 					event: {
@@ -346,7 +343,7 @@ export default class App extends Component {
 					requester: {
 						data: {
 							type: "users",
-							id: this.state.currentUserId || 0
+							id: this.state.currentUserId || 1
 						}
 					},
 					doer: {
@@ -363,28 +360,28 @@ export default class App extends Component {
 			.then(result => {
 				console.log("Scenario successfully created:", result)
 
-				let newScenarioCreated
+				// let newScenarioCreated
 
-				let imageUploadJson = {
-					data: {
-						type: "scenarios",
-						id: newScenarioCreated.id,
-						attributes: {
-							image: params.image
-						},
-						relationships: newScenarioCreated.relationships
-					}
-				}
+				// let imageUploadJson = {
+				// 	data: {
+				// 		type: "scenarios",
+				// 		id: newScenarioCreated.id,
+				// 		attributes: {
+				// 			image: params.image
+				// 		},
+				// 		relationships: newScenarioCreated.relationships
+				// 	}
+				// }
 
-				ImageUpload.addImageToScenario(imageUploadJson)
-					.then(result => {
-						console.log("Proof successfully updated:", result)
+				// ImageUpload.addImageToScenario(imageUploadJson)
+				// 	.then(result => {
+				// 		console.log("Proof successfully updated:", result)
 
-						this.getFullDataBase()
-					})
-					.catch(error => {
-						console.error("Error updating proof:", error)
-					})
+				// 		this.getFullDataBase()
+				// 	})
+				// 	.catch(error => {
+				// 		console.error("Error updating proof:", error)
+				// 	})
 			})
 			.catch(error => {
 				console.error("Error creating scenario:", error)
