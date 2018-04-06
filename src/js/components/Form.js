@@ -5,8 +5,9 @@ import Icon from "@fortawesome/react-fontawesome"
 
 // Local JS
 import FormInput from "./FormInput"
-import Database from "./Database"
-import ImageUpload from "./ImageUpload"
+import Database from "../resources/Database"
+import ImageUpload from "../resources/ImageUpload"
+import { getUrlPiece } from "../resources/Util"
 /*** [end of imports] ***/
 
 export default class Form extends Component {
@@ -14,7 +15,8 @@ export default class Form extends Component {
 		super(props)
 
 		this.state = {
-			refreshes: 0
+			refreshes: 0,
+			lastUrlSegment: getUrlPiece()
 		}
 		this.pages = {
 			login: {
@@ -815,29 +817,6 @@ export default class Form extends Component {
 			refreshes: this.state.refreshes + 1
 		})
 	}
-	getUrlPiece = () => {
-		let currentUrl = window.location.href.split("/")
-
-		let lastUrlSegment =
-			currentUrl[currentUrl.length - 1] !== ""
-				? currentUrl[currentUrl.length - 1]
-				: currentUrl[currentUrl.length - 2]
-
-		let allowed = [
-			"donator",
-			"requester",
-			"verifier",
-			"doer",
-			"login",
-			"thanks",
-			"account",
-			"edit-account",
-			"preferences"
-		]
-
-		if (allowed.indexOf(lastUrlSegment) === -1) return "donator"
-		else return lastUrlSegment
-	}
 
 	render() {
 		let {
@@ -847,11 +826,9 @@ export default class Form extends Component {
 			scenarioId
 		} = this.props
 
-		let lastUrlSegment = this.getUrlPiece()
-
 		return (
-			<div className={`${lastUrlSegment}-form page-form`}>
-				{this.pages[lastUrlSegment].inputs.map((_input, _index) => (
+			<div className={`${this.state.lastUrlSegment}-form page-form`}>
+				{this.pages[this.state.lastUrlSegment].inputs.map((_input, _index) => (
 					<FormInput
 						inputObj={_input}
 						openMapPicker={openMapPicker}

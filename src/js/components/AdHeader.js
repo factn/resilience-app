@@ -1,6 +1,9 @@
 /*** IMPORTS ***/
 // Module imports
 import React, { Component } from "react"
+
+// Local JS
+import { getUrlPiece } from "../resources/Util"
 /*** [end of imports] ***/
 
 export default class AdHeader extends Component {
@@ -34,29 +37,6 @@ export default class AdHeader extends Component {
 			}
 		}
 	}
-	getUrlPiece = () => {
-		let currentUrl = window.location.href.split("/")
-
-		let lastUrlSegment =
-			currentUrl[currentUrl.length - 1] !== ""
-				? currentUrl[currentUrl.length - 1]
-				: currentUrl[currentUrl.length - 2]
-
-		let allowed = [
-			"donator",
-			"requester",
-			"verifier",
-			"doer",
-			"login",
-			"thanks",
-			"account",
-			"edit-account",
-			"preferences"
-		]
-
-		if (allowed.indexOf(lastUrlSegment) === -1) return "donator"
-		else return lastUrlSegment
-	}
 
 	render() {
 		return (
@@ -65,9 +45,7 @@ export default class AdHeader extends Component {
 					{Object.entries(this.tabs).map(([key, val]) => (
 						<li
 							className={
-								`/${this.getUrlPiece()}` === val.path
-									? "ad-tab active"
-									: "ad-tab"
+								`/${getUrlPiece()}` === val.path ? "ad-tab active" : "ad-tab"
 							}
 							key={key}
 						>

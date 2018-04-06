@@ -3,7 +3,7 @@
 import React, { Component } from "react"
 
 // Local JS
-import Database from "./Database"
+import Database from "../resources/Database"
 import Ad from "./Ad"
 import AdHeader from "./AdHeader"
 import AdModalContent from "./AdModalContent"

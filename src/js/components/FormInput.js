@@ -7,33 +7,18 @@ import faSolid from "@fortawesome/fontawesome-free-solid"
 
 // Local JS
 import CustomJSX from "./CustomJSX"
+import { getUrlPiece } from "../resources/Util"
 /*** [end of imports] ***/
 
 const history = createHistory()
 
 export default class FormInput extends Component {
-	getUrlPiece = () => {
-		let currentUrl = window.location.href.split("/")
+	constructor(props) {
+		super(props)
 
-		let lastUrlSegment =
-			currentUrl[currentUrl.length - 1] !== ""
-				? currentUrl[currentUrl.length - 1]
-				: currentUrl[currentUrl.length - 2]
-
-		let allowed = [
-			"donator",
-			"requester",
-			"verifier",
-			"doer",
-			"login",
-			"thanks",
-			"account",
-			"edit-account",
-			"preferences"
-		]
-
-		if (allowed.indexOf(lastUrlSegment) === -1) return "donator"
-		else return lastUrlSegment
+		this.state = {
+			formName: getUrlPiece()
+		}
 	}
 	render() {
 		let { openMapPicker, inputObj, lat, lon, scenarioId } = this.props
@@ -74,7 +59,6 @@ export default class FormInput extends Component {
 			// Full custom
 			customJSX
 		} = inputObj
-		let formName = this.getUrlPiece()
 
 		if (inputType === "submit") {
 			return (
@@ -111,7 +95,7 @@ export default class FormInput extends Component {
 				>
 					<button
 						className="input-label btn btn-label"
-						htmlFor={`${formName}_${inputID}`}
+						htmlFor={`${this.state.formName}_${inputID}`}
 						onClick={() => openMapPicker()}
 					>
 						<span className="input-label-phrase">{labelPhrase}</span>
@@ -122,14 +106,14 @@ export default class FormInput extends Component {
 					<input
 						className="form-input"
 						type="number"
-						id={`${formName}_${inputID}_lat`}
+						id={`${this.state.formName}_${inputID}_lat`}
 						value={lat || 0}
 						hidden={true}
 					/>
 					<input
 						className="form-input"
 						type="number"
-						id={`${formName}_${inputID}_lon`}
+						id={`${this.state.formName}_${inputID}_lon`}
 						value={lon || 0}
 						hidden={true}
 					/>
@@ -142,7 +126,7 @@ export default class FormInput extends Component {
 				>
 					<label
 						className="input-label btn btn-label"
-						htmlFor={`${formName}_${inputID}`}
+						htmlFor={`${this.state.formName}_${inputID}`}
 					>
 						<span className="input-label-phrase">{labelPhrase}</span>
 						{typeof labelIcon !== "undefined" && (
@@ -152,7 +136,7 @@ export default class FormInput extends Component {
 					<input
 						className="form-input"
 						type={inputType}
-						id={`${formName}_${inputID}`}
+						id={`${this.state.formName}_${inputID}`}
 						accept="image/*"
 						required={requiredField}
 						disabled={disabledField}
@@ -171,7 +155,7 @@ export default class FormInput extends Component {
 								<input
 									className="form-input"
 									type="radio"
-									id={`${formName}_${_key.inputID}`}
+									id={`${this.state.formName}_${_key.inputID}`}
 									name={radioRowName}
 									onChange={() => _key.onChange(_key.onChangeVal)}
 								/>
@@ -179,13 +163,13 @@ export default class FormInput extends Component {
 								<input
 									className="form-input"
 									type="radio"
-									id={`${formName}_${_key.inputID}`}
+									id={`${this.state.formName}_${_key.inputID}`}
 									name={radioRowName}
 								/>
 							)}
 							<label
 								className="input-label"
-								htmlFor={`${formName}_${_key.inputID}`}
+								htmlFor={`${this.state.formName}_${_key.inputID}`}
 							>
 								<span className="input-label-phrase">{_key.labelPhrase}</span>
 							</label>
@@ -207,11 +191,14 @@ export default class FormInput extends Component {
 					<input
 						className="form-input"
 						type="checkbox"
-						id={`${formName}_${inputID}`}
+						id={`${this.state.formName}_${inputID}`}
 						required={requiredField}
 						disabled={disabledField}
 					/>
-					<label className="input-label" htmlFor={`${formName}_${inputID}`}>
+					<label
+						className="input-label"
+						htmlFor={`${this.state.formName}_${inputID}`}
+					>
 						<span className="input-label-phrase">{labelPhrase}</span>
 						{typeof labelIcon !== "undefined" && (
 							<Icon icon={labelIcon} className="input-label-icon" />
@@ -225,7 +212,10 @@ export default class FormInput extends Component {
 					className={disabledField ? "input-wrap disabled-input" : "input-wrap"}
 				>
 					{labelPhrase && (
-						<label className="input-label" htmlFor={`${formName}_${inputID}`}>
+						<label
+							className="input-label"
+							htmlFor={`${this.state.formName}_${inputID}`}
+						>
 							<span className="input-label-phrase">{labelPhrase}</span>
 							{typeof labelIcon !== "undefined" && (
 								<Icon icon={labelIcon} className="input-label-icon" />
@@ -234,7 +224,7 @@ export default class FormInput extends Component {
 					)}
 					<select
 						className="form-input"
-						id={`${formName}_${inputID}`}
+						id={`${this.state.formName}_${inputID}`}
 						required={requiredField}
 						disabled={disabledField}
 					>
@@ -252,7 +242,10 @@ export default class FormInput extends Component {
 				<div
 					className={disabledField ? "input-wrap disabled-input" : "input-wrap"}
 				>
-					<label className="input-label" htmlFor={`${formName}_${inputID}`}>
+					<label
+						className="input-label"
+						htmlFor={`${this.state.formName}_${inputID}`}
+					>
 						<span className="input-label-phrase">{labelPhrase}</span>
 						{typeof labelIcon !== "undefined" && (
 							<Icon icon={labelIcon} className="input-label-icon" />
@@ -261,7 +254,7 @@ export default class FormInput extends Component {
 					<div className="split-input-wrap">
 						{inputs.map((_input, _index) => (
 							<FormInput
-								formName={formName}
+								formName={this.state.formName}
 								inputObj={_input}
 								openMapPicker={openMapPicker}
 								lat={lat}
@@ -278,7 +271,7 @@ export default class FormInput extends Component {
 					<input
 						className="form-input"
 						type="text"
-						id={`${formName}_scenario-id`}
+						id={`${this.state.formName}_scenario-id`}
 						disabled
 						value={scenarioId}
 					/>
@@ -290,7 +283,10 @@ export default class FormInput extends Component {
 				<div
 					className={disabledField ? "input-wrap disabled-input" : "input-wrap"}
 				>
-					<label className="input-label" htmlFor={`${formName}_${inputID}`}>
+					<label
+						className="input-label"
+						htmlFor={`${this.state.formName}_${inputID}`}
+					>
 						<span className="input-label-phrase">{labelPhrase}</span>
 						{typeof labelIcon !== "undefined" && (
 							<Icon icon={labelIcon} className="input-label-icon" />
@@ -299,7 +295,7 @@ export default class FormInput extends Component {
 					<input
 						className="form-input"
 						type={inputType}
-						id={`${formName}_${inputID}`}
+						id={`${this.state.formName}_${inputID}`}
 						required={requiredField}
 						disabled={disabledField}
 					/>

@@ -5,6 +5,7 @@ import Icon from "@fortawesome/react-fontawesome"
 
 // Local JS
 import MiniMap from "./MiniMap"
+import { getUrlPiece, toFirstCap } from "../resources/Util"
 /*** [end of imports] ***/
 
 export default class AdModalContent extends Component {
@@ -12,7 +13,7 @@ export default class AdModalContent extends Component {
 		super(props)
 
 		this.state = {
-			lastUrlSegment: this.getUrlPiece()
+			lastUrlSegment: getUrlPiece()
 		}
 	}
 	buildHeader = () => {
@@ -23,13 +24,13 @@ export default class AdModalContent extends Component {
 		} else if (this.state.lastUrlSegment === "verifier") {
 			return (
 				<h3 className="adcontent-header">
-					Help us verify {this.toFirstCap(doer_firstname)}
+					Help us verify {toFirstCap(doer_firstname)}
 				</h3>
 			)
 		} else {
 			return (
 				<h3 className="adcontent-header">
-					Help {this.toFirstCap(requester_firstname)} {verb} {noun}
+					Help {toFirstCap(requester_firstname)} {verb} {noun}
 				</h3>
 			)
 		}
@@ -83,7 +84,7 @@ export default class AdModalContent extends Component {
 							<input
 								type="range"
 								className="funding-progress-slider"
-								id={`${disaster}_fundingGoal_for${this.toFirstCap(
+								id={`${disaster}_fundingGoal_for${toFirstCap(
 									requester_firstname
 								)}`}
 								min={0}
@@ -101,30 +102,6 @@ export default class AdModalContent extends Component {
 			)
 		}
 	}
-	getUrlPiece = () => {
-		let currentUrl = window.location.href.split("/")
-
-		let lastUrlSegment =
-			currentUrl[currentUrl.length - 1] !== ""
-				? currentUrl[currentUrl.length - 1]
-				: currentUrl[currentUrl.length - 2]
-
-		let allowed = [
-			"donator",
-			"requester",
-			"verifier",
-			"doer",
-			"login",
-			"thanks",
-			"account",
-			"edit-account",
-			"preferences"
-		]
-
-		if (allowed.indexOf(lastUrlSegment) === -1) return "donator"
-		else return lastUrlSegment
-	}
-	toFirstCap = str => str.charAt(0).toUpperCase() + str.slice(1)
 
 	render() {
 		let { requesterlat, requesterlon } = this.props

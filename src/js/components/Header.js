@@ -5,6 +5,7 @@ import Icon from "@fortawesome/react-fontawesome"
 
 // Local JS
 import Profile from "./Profile"
+import { toFirstCap } from "../resources/Util"
 /*** [end of imports] ***/
 
 export default class Header extends Component {
@@ -53,31 +54,6 @@ export default class Header extends Component {
 		// fetch and set state happens here for user data
 	}
 
-	getUrlPiece = () => {
-		let currentUrl = window.location.href.split("/")
-
-		let lastUrlSegment =
-			currentUrl[currentUrl.length - 1] !== ""
-				? currentUrl[currentUrl.length - 1]
-				: currentUrl[currentUrl.length - 2]
-
-		let allowed = [
-			"donator",
-			"requester",
-			"verifier",
-			"doer",
-			"login",
-			"thanks",
-			"account",
-			"edit-account",
-			"preferences"
-		]
-
-		if (allowed.indexOf(lastUrlSegment) === -1) return "donator"
-		else return lastUrlSegment
-	}
-	toFirstCap = str => str.charAt(0).toUpperCase() + str.slice(1)
-
 	openMenu = () => {
 		this.setState({
 			menuIsOpen: true
@@ -115,7 +91,7 @@ export default class Header extends Component {
 								<div className="user-info-area">
 									<Icon className="user-icon" icon="user" />
 									<div className="user-name">
-										{this.toFirstCap(this.state.currentUserData.firstname)}
+										{toFirstCap(this.state.currentUserData.firstname)}
 									</div>
 								</div>
 							) : (

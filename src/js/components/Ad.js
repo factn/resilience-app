@@ -3,6 +3,9 @@
 import React, { Component } from "react"
 import createHistory from "history/createBrowserHistory"
 import Icon from "@fortawesome/react-fontawesome"
+
+// Local JS
+import { getUrlPiece, toFirstCap } from "../resources/Util"
 /*** [end of imports] ***/
 
 const history = createHistory()
@@ -20,7 +23,7 @@ export default class Ad extends Component {
 			afterStyle: { opacity: 0 },
 			swipeThreshold: 150,
 			transitionTiming: 100,
-			lastUrlSegment: this.getUrlPiece()
+			lastUrlSegment: getUrlPiece()
 		}
 
 		this.handleTouchStart = this.handleTouchStart.bind(this)
@@ -119,30 +122,6 @@ export default class Ad extends Component {
 		}
 	}
 
-	getUrlPiece = () => {
-		let currentUrl = window.location.href.split("/")
-
-		let lastUrlSegment =
-			currentUrl[currentUrl.length - 1] !== ""
-				? currentUrl[currentUrl.length - 1]
-				: currentUrl[currentUrl.length - 2]
-
-		let allowed = [
-			"donator",
-			"requester",
-			"verifier",
-			"doer",
-			"login",
-			"thanks",
-			"account",
-			"edit-account",
-			"preferences"
-		]
-
-		if (allowed.indexOf(lastUrlSegment) === -1) return "donator"
-		else return lastUrlSegment
-	}
-	toFirstCap = str => str.charAt(0).toUpperCase() + str.slice(1)
 	titleBuild = () => {
 		let {
 			requester_firstname,
@@ -156,11 +135,7 @@ export default class Ad extends Component {
 			return (
 				<header className="ad-header">
 					<h4 className="ad-title">
-						{
-							<span>{`Help us fund ${this.toFirstCap(
-								requester_firstname
-							)}`}</span>
-						}
+						{<span>{`Help us fund ${toFirstCap(requester_firstname)}`}</span>}
 					</h4>
 					<h5 className="ad-subtitle">
 						{<span>{`${donated} funded so far`}</span>}
@@ -171,7 +146,7 @@ export default class Ad extends Component {
 			return (
 				<header className="ad-header">
 					<h4 className="ad-title">
-						<span>{`Can you ${verb} ${noun} for ${this.toFirstCap(
+						<span>{`Can you ${verb} ${noun} for ${toFirstCap(
 							requester_firstname
 						)}?`}</span>
 					</h4>
@@ -195,7 +170,7 @@ export default class Ad extends Component {
 			return (
 				<header className="ad-header">
 					<h4 className="ad-title">
-						<span>{`Know ${this.toFirstCap(requester_firstname)}?`}</span>
+						<span>{`Know ${toFirstCap(requester_firstname)}?`}</span>
 					</h4>
 					<h5 className="ad-subtitle">
 						<span>Help us identify them on Facebook</span>

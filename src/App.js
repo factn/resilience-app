@@ -10,10 +10,10 @@ import brands from "@fortawesome/fontawesome-free-brands"
 import "./App.scss"
 
 // Local JS files
-import Page from "./js/Page"
+import Page from "./js/components/Page"
 
 // DB import
-import Database from "./js/Database"
+import Database from "./js/resources/Database"
 /*** [end of imports] ***/
 
 export default class App extends Component {
