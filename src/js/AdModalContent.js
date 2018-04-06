@@ -8,34 +8,34 @@ import MiniMap from "./MiniMap"
 /*** [end of imports] ***/
 
 export default class AdModalContent extends Component {
-	buildHeader = () => {
-		let {
-			lastUrlSegment,
-			doer_firstname,
-			requester_firstname,
-			verb,
-			noun
-		} = this.props
+	constructor(props) {
+		super(props)
 
-		if (lastUrlSegment === "requester") {
+		this.state = {
+			lastUrlSegment: this.getUrlPiece()
+		}
+	}
+	buildHeader = () => {
+		let { doer_firstname, requester_firstname, verb, noun } = this.props
+
+		if (this.state.lastUrlSegment === "requester") {
 			return <h3 className="adcontent-header">Need {noun}?</h3>
-		} else if (lastUrlSegment === "verifier") {
+		} else if (this.state.lastUrlSegment === "verifier") {
 			return (
 				<h3 className="adcontent-header">
-					Help us verify {toFirstCap(doer_firstname)}
+					Help us verify {this.toFirstCap(doer_firstname)}
 				</h3>
 			)
 		} else {
 			return (
 				<h3 className="adcontent-header">
-					Help {toFirstCap(requester_firstname)} {verb} {noun}
+					Help {this.toFirstCap(requester_firstname)} {verb} {noun}
 				</h3>
 			)
 		}
 	}
 	buildFigure = () => {
 		let {
-			lastUrlSegment,
 			requester_firstname,
 			funding_goal,
 			disaster,
@@ -43,9 +43,9 @@ export default class AdModalContent extends Component {
 			donated
 		} = this.props
 
-		if (lastUrlSegment === "requester") {
+		if (this.state.lastUrlSegment === "requester") {
 			return <div />
-		} else if (lastUrlSegment === "verifier") {
+		} else if (this.state.lastUrlSegment === "verifier") {
 			return (
 				<Fragment>
 					<figure className="adcontent-image-wrap">
@@ -83,7 +83,7 @@ export default class AdModalContent extends Component {
 							<input
 								type="range"
 								className="funding-progress-slider"
-								id={`${disaster}_fundingGoal_for${toFirstCap(
+								id={`${disaster}_fundingGoal_for${this.toFirstCap(
 									requester_firstname
 								)}`}
 								min={0}
@@ -101,20 +101,42 @@ export default class AdModalContent extends Component {
 			)
 		}
 	}
+	getUrlPiece = () => {
+		let currentUrl = window.location.href.split("/")
+
+		let lastUrlSegment =
+			currentUrl[currentUrl.length - 1] !== ""
+				? currentUrl[currentUrl.length - 1]
+				: currentUrl[currentUrl.length - 2]
+
+		let allowed = [
+			"donator",
+			"requester",
+			"verifier",
+			"doer",
+			"login",
+			"thanks",
+			"account",
+			"edit-account",
+			"preferences"
+		]
+
+		if (allowed.indexOf(lastUrlSegment) === -1) return "donator"
+		else return lastUrlSegment
+	}
+	toFirstCap = str => str.charAt(0).toUpperCase() + str.slice(1)
 
 	render() {
-		let { lastUrlSegment, requesterlat, requesterlon } = this.props
+		let { requesterlat, requesterlon } = this.props
 
 		return (
 			<div className="modal-adcontent-wrap">
 				{this.buildHeader()}
 				{this.buildFigure()}
-				{lastUrlSegment !== "requester" && (
+				{this.state.lastUrlSegment !== "requester" && (
 					<MiniMap initialCenter={{ lat: requesterlat, lng: requesterlon }} />
 				)}
 			</div>
 		)
 	}
 }
-
-const toFirstCap = str => str.charAt(0).toUpperCase() + str.slice(1)

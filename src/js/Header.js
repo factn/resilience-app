@@ -11,14 +11,72 @@ export default class Header extends Component {
 	constructor(props) {
 		super(props)
 
+		this.flows = {
+			requester: {
+				title: "Help!",
+				navMenu: false
+			},
+			donator: {
+				title: "Donate",
+				navMenu: false
+			},
+			doer: {
+				title: "Work",
+				navMenu: false
+			},
+			verifier: {
+				title: "Verify",
+				navMenu: false
+			},
+			else: {
+				title: this.props.title,
+				navMenu: this.props.navMenu
+			}
+		}
 		this.state = {
-			menuIsOpen: false
+			menuIsOpen: false,
+			currentUserData: {
+				// This will be replaced with a fetch to check the server
+				email: "admin@example.com",
+				firstname: "John",
+				lastname: "Johnson",
+				latitude: -41.280789,
+				longitude: 174.775187
+			}
 		}
 
 		// Bindings
 		this.openMenu = this.openMenu.bind(this)
 		this.closeMenu = this.closeMenu.bind(this)
 	}
+	componentDidMount = () => {
+		// fetch and set state happens here for user data
+	}
+
+	getUrlPiece = () => {
+		let currentUrl = window.location.href.split("/")
+
+		let lastUrlSegment =
+			currentUrl[currentUrl.length - 1] !== ""
+				? currentUrl[currentUrl.length - 1]
+				: currentUrl[currentUrl.length - 2]
+
+		let allowed = [
+			"donator",
+			"requester",
+			"verifier",
+			"doer",
+			"login",
+			"thanks",
+			"account",
+			"edit-account",
+			"preferences"
+		]
+
+		if (allowed.indexOf(lastUrlSegment) === -1) return "donator"
+		else return lastUrlSegment
+	}
+	toFirstCap = str => str.charAt(0).toUpperCase() + str.slice(1)
 
 	openMenu = () => {
 		this.setState({
@@ -32,7 +90,8 @@ export default class Header extends Component {
 	}
 
 	render() {
-		let { versionNumber, title, navMenu, currentUserData } = this.props
+		let title = this.props.title
+		let navMenu = this.props.navMenu
 
 		return (
 			<header className="app-header">
@@ -52,11 +111,11 @@ export default class Header extends Component {
 									: "menu-drawer"
 							}
 						>
-							{currentUserData.firstname !== "" ? (
+							{this.state.currentUserData.firstname !== "" ? (
 								<div className="user-info-area">
 									<Icon className="user-icon" icon="user" />
 									<div className="user-name">
-										{toFirstCap(currentUserData.firstname)}
+										{this.toFirstCap(this.state.currentUserData.firstname)}
 									</div>
 								</div>
 							) : (
@@ -68,7 +127,7 @@ export default class Header extends Component {
 								</div>
 							)}
 
-							<Profile userData={currentUserData} />
+							<Profile userData={this.state.currentUserData} />
 
 							<button
 								className="menu-close-btn btn-lite"
@@ -79,7 +138,7 @@ export default class Header extends Component {
 
 							<div className="subheader-content">
 								<div className="copy">&copy; {new Date().getFullYear()}</div>
-								<div className="version">{versionNumber}</div>
+								<div className="version">0.1.0</div>
 							</div>
 						</section>
 					</nav>
@@ -90,5 +149,3 @@ export default class Header extends Component {
 		)
 	}
 }
-
-const toFirstCap = str => str.charAt(0).toUpperCase() + str.slice(1)

@@ -1,6 +1,7 @@
 /*** IMPORTS ***/
 // Module imports
 import React, { Component } from "react"
+import createHistory from "history/createBrowserHistory"
 import Icon from "@fortawesome/react-fontawesome"
 import faSolid from "@fortawesome/fontawesome-free-solid"
 
@@ -8,9 +9,34 @@ import faSolid from "@fortawesome/fontawesome-free-solid"
 import CustomJSX from "./CustomJSX"
 /*** [end of imports] ***/
 
+const history = createHistory()
+
 export default class FormInput extends Component {
+	getUrlPiece = () => {
+		let currentUrl = window.location.href.split("/")
+
+		let lastUrlSegment =
+			currentUrl[currentUrl.length - 1] !== ""
+				? currentUrl[currentUrl.length - 1]
+				: currentUrl[currentUrl.length - 2]
+
+		let allowed = [
+			"donator",
+			"requester",
+			"verifier",
+			"doer",
+			"login",
+			"thanks",
+			"account",
+			"edit-account",
+			"preferences"
+		]
+
+		if (allowed.indexOf(lastUrlSegment) === -1) return "donator"
+		else return lastUrlSegment
+	}
 	render() {
-		let { formName, openMapPicker, inputObj, lat, lon, scenarioId } = this.props
+		let { openMapPicker, inputObj, lat, lon, scenarioId } = this.props
 
 		/* Valid inputType's:
 		 * 	"submit", "text", "email", "password", "file",
@@ -48,6 +74,7 @@ export default class FormInput extends Component {
 			// Full custom
 			customJSX
 		} = inputObj
+		let formName = this.getUrlPiece()
 
 		if (inputType === "submit") {
 			return (
@@ -70,7 +97,7 @@ export default class FormInput extends Component {
 							} else onSubmit()
 						}
 
-						if (typeof goToPath !== "undefined") window.location = goToPath
+						if (typeof goToPath !== "undefined") history.push(goToPath)
 					}}
 				>
 					<span className="button-label">{labelPhrase} </span>

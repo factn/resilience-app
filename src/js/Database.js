@@ -137,6 +137,11 @@ const apiEndpoints = {
 	destroyUser: {
 		method: destroy,
 		path: "/users/:id"
+	},
+
+	attemptLogin: {
+		method: post,
+		path: "/users/sign_in"
 	}
 }
 

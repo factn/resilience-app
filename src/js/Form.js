@@ -5,6 +5,8 @@ import Icon from "@fortawesome/react-fontawesome"
 
 // Local JS
 import FormInput from "./FormInput"
+import Database from "./Database"
+import ImageUpload from "./ImageUpload"
 /*** [end of imports] ***/
 
 export default class Form extends Component {
@@ -35,7 +37,31 @@ export default class Form extends Component {
 						inputType: "submit",
 						labelPhrase: "Sign In",
 						labelIcon: "sign-in-alt",
-						onSubmit: this.props.funcs.login,
+						onSubmit: params => {
+							let json = {
+								email: params.email,
+								password: params.password
+							}
+
+							Database.attemptLogin(json)
+								.then(result => {
+									console.log("Login complete:", result)
+									// if (result.body.data) {
+									// 	console.log("Ding!")
+									// 	let res = result.body.data
+
+									// 	this.setState({
+									// 		currentUserId: res.id,
+									// 		currentUserData: res.attributes
+									// 	})
+									// } else {
+									// 	console.error("User not found for email:", params.email)
+									// }
+								})
+								.catch(error => {
+									console.error("Error getting user:", error)
+								})
+						},
 						onSubmitParams: { email: "login_email", password: "login_pw" },
 						goToPath: "/",
 						responseType: "neutral"
@@ -97,7 +123,7 @@ export default class Form extends Component {
 						inputType: "submit",
 						labelPhrase: "Create Account",
 						labelIcon: "user-plus",
-						// onSubmit: this.props.funcs.createAccount,
+						onSubmit: params => {},
 						onSubmitParams: {
 							email: "account_email",
 							firstname: "account_first-name",
@@ -166,7 +192,7 @@ export default class Form extends Component {
 						inputType: "submit",
 						labelPhrase: "Update Account",
 						labelIcon: "save",
-						// onSubmit: this.props.funcs.editAccount,
+						onSubmit: params => {},
 						onSubmitParams: {
 							email: "editAccount_email",
 							firstname: "editAccount_first-name",
@@ -186,8 +212,8 @@ export default class Form extends Component {
 						inputType: "submit",
 						labelPhrase: "Save settings",
 						labelIcon: "cogs",
-						responseType: "neutral"
-						// onSubmit: this.props.funcs.updatePreferences,
+						responseType: "neutral",
+						onSubmit: params => {}
 					}
 				]
 			},
@@ -283,7 +309,106 @@ export default class Form extends Component {
 						inputType: "submit",
 						labelPhrase: "Send someone",
 						labelIcon: "check",
-						onSubmit: this.props.funcs.submitRequest,
+						onSubmit: params => {
+							let relatedEventId
+							let relatedNounId
+							let relatedVerbId
+
+							for (let i in this.state.eventData) {
+								if (
+									params.event ===
+									this.state.eventData[i].attributes.description
+								) {
+									relatedEventId = this.state.eventData[i].id
+								}
+							}
+							for (let i in this.state.nounData) {
+								if (
+									params.noun === this.state.nounData[i].attributes.description
+								) {
+									relatedNounId = this.state.nounData[i].id
+								}
+							}
+							for (let i in this.state.verbData) {
+								if (
+									params.verb === this.state.verbData[i].attributes.description
+								) {
+									relatedVerbId = this.state.verbData[i].id
+								}
+							}
+
+							let json = {
+								data: {
+									type: "scenarios",
+									attributes: {
+										funding_goal: params.fundingGoal
+									},
+									relationships: {
+										event: {
+											data: {
+												type: "events",
+												id: relatedEventId
+											}
+										},
+										noun: {
+											data: {
+												type: "nouns",
+												id: relatedNounId
+											}
+										},
+										verb: {
+											data: {
+												type: "verbs",
+												id: relatedVerbId
+											}
+										},
+										requester: {
+											data: {
+												type: "users",
+												id: this.state.currentUserId || 1
+											}
+										},
+										doer: {
+											data: {
+												type: "users",
+												id: 1
+											}
+										}
+									}
+								}
+							}
+
+							Database.createScenario(json)
+								.then(result => {
+									console.log("Scenario successfully created:", result)
+
+									// let newScenarioCreated
+
+									// let imageUploadJson = {
+									// 	data: {
+									// 		type: "scenarios",
+									// 		id: newScenarioCreated.id,
+									// 		attributes: {
+									// 			image: params.image
+									// 		},
+									// 		relationships: newScenarioCreated.relationships
+									// 	}
+									// }
+
+									// ImageUpload.addImageToScenario(imageUploadJson)
+									// 	.then(result => {
+									// 		console.log("Proof successfully updated:", result)
+
+									// 		this.getFullDataBase()
+									// 	})
+									// 	.catch(error => {
+									// 		console.error("Error updating proof:", error)
+									// 	})
+								})
+								.catch(error => {
+									console.error("Error creating scenario:", error)
+								})
+						},
 						onSubmitParams: {
 							event: "requester_event-name",
 							image: "requester_photo",
@@ -449,7 +574,49 @@ export default class Form extends Component {
 						inputType: "submit",
 						labelPhrase: "Donate",
 						labelIcon: "money-bill-alt",
-						onSubmit: this.props.funcs.submitDonation,
+						onSubmit: params => {
+							let amount = 0
+
+							if (params.presetAmount) {
+								amount = 3
+							} else if (params.remainingAmount) {
+								amount = 10
+							} else if (params.customAmount) {
+								amount = params.customAmountValue
+							}
+
+							let json = {
+								data: {
+									type: "donations",
+									attributes: {
+										amount: amount
+									},
+									relationships: {
+										donator: {
+											data: {
+												type: "users",
+												id: 1
+											}
+										},
+										scenario: {
+											data: {
+												type: "scenarios",
+												id: params.scenarioId
+											}
+										}
+									}
+								}
+							}
+
+							Database.createDonation(json)
+								.then(result => {
+									console.log("Donation successfully created:", result)
+									this.getFullDataBase()
+								})
+								.catch(error => {
+									console.error("Error creating donation:", error)
+								})
+						},
 						onSubmitParams: {
 							presetAmount: "donator_preset-amount",
 							remainingAmount: "donator_remaining-amount",
@@ -497,7 +664,32 @@ export default class Form extends Component {
 						inputType: "submit",
 						labelPhrase: "I'm on my way",
 						labelIcon: "thumbs-up",
-						onSubmit: this.props.funcs.submitDo,
+						onSubmit: params => {
+							let json = {
+								data: {
+									type: "scenarios",
+									id: params.scenarioId,
+									attributes: {},
+									relationships: {
+										doer: {
+											data: {
+												type: "users",
+												id: this.state.currentUserId || 0
+											}
+										}
+									}
+								}
+							}
+
+							Database.updateScenario(json)
+								.then(result => {
+									console.log("Scenario successfully updated:", result)
+									this.getFullDataBase()
+								})
+								.catch(error => {
+									console.error("Error updating scenario:", error)
+								})
+						},
 						onSubmitParams: {
 							doerlat: "doer_location_lat",
 							doerlon: "doer_location_lon",
@@ -524,7 +716,57 @@ export default class Form extends Component {
 						inputType: "submit",
 						labelPhrase: "I don't know them",
 						labelIcon: "times",
-						onSubmit: this.props.funcs.submitVerification,
+						onSubmit: params => {
+							let json = {
+								data: {
+									type: "proofs",
+									attributes: {},
+									relationships: {
+										scenario: {
+											data: {
+												type: "scenarios",
+												id: params.scenarioId
+											}
+										}
+									}
+								}
+							}
+
+							Database.createProof(json)
+								.then(result => {
+									console.log("Proof successfully updated:", result)
+
+									let imageUploadJson = {
+										data: {
+											type: "proofs",
+											attributes: {
+												image: params.image
+											},
+											relationships: {
+												scenario: {
+													data: {
+														type: "scenarios",
+														id: params.scenarioId
+													}
+												}
+											}
+										}
+									}
+
+									ImageUpload.addImageToScenario(imageUploadJson)
+										.then(result => {
+											console.log("Proof successfully updated:", result)
+
+											this.getFullDataBase()
+										})
+										.catch(error => {
+											console.error("Error updating proof:", error)
+										})
+								})
+								.catch(error => {
+									console.error("Error updating proof:", error)
+								})
+						},
 						onSubmitParams: {
 							userVerified: false,
 							scenarioId: "verifier_scenario-id"
@@ -573,21 +815,44 @@ export default class Form extends Component {
 			refreshes: this.state.refreshes + 1
 		})
 	}
+	getUrlPiece = () => {
+		let currentUrl = window.location.href.split("/")
+
+		let lastUrlSegment =
+			currentUrl[currentUrl.length - 1] !== ""
+				? currentUrl[currentUrl.length - 1]
+				: currentUrl[currentUrl.length - 2]
+
+		let allowed = [
+			"donator",
+			"requester",
+			"verifier",
+			"doer",
+			"login",
+			"thanks",
+			"account",
+			"edit-account",
+			"preferences"
+		]
+
+		if (allowed.indexOf(lastUrlSegment) === -1) return "donator"
+		else return lastUrlSegment
+	}
 
 	render() {
 		let {
 			openMapPicker,
 			lastClickedLat,
 			lastClickedLon,
-			lastUrlSegment,
 			scenarioId
 		} = this.props
+
+		let lastUrlSegment = this.getUrlPiece()
 
 		return (
 			<div className={`${lastUrlSegment}-form page-form`}>
 				{this.pages[lastUrlSegment].inputs.map((_input, _index) => (
 					<FormInput
-						formName={lastUrlSegment}
 						inputObj={_input}
 						openMapPicker={openMapPicker}
 						lat={lastClickedLat}
