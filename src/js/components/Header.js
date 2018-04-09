@@ -128,6 +128,13 @@ export default class Header extends Component {
 				)}
 
 				<h1 className="title">{this.getTitle()}</h1>
+
+				<a
+					className="btn ad-homepage-btn"
+					href="https://lion-uat.herokuapp.com/ad"
+				>
+					Ads Homepage
+				</a>
 			</header>
 		)
 	}
