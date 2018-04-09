@@ -6,7 +6,6 @@ import Icon from "@fortawesome/react-fontawesome"
 // Local JS
 import FormInput from "./FormInput"
 import Database from "../resources/Database"
-import ImageUpload from "../resources/ImageUpload"
 import { getUrlPiece, getBase64 } from "../resources/Util"
 /*** [end of imports] ***/
 
@@ -565,7 +564,7 @@ export default class Form extends Component {
 				// console.info("Events call complete:", result.body.data)
 				this.pages.requester.inputs[1].options = result.body.data // Bad implementation, need to find a better way to get this information where it belongs
 				this.setState({
-					refreshes: this.state.refreshes + 1
+					eventData: result.body.data
 				})
 			})
 			.catch(error => {
@@ -577,7 +576,7 @@ export default class Form extends Component {
 				// console.info("Nouns call complete:", result.body.data)
 				this.pages.requester.inputs[2].inputs[1].options = result.body.data // Bad implementation, need to find a better way to get this information where it belongs
 				this.setState({
-					refreshes: this.state.refreshes + 1
+					nounData: result.body.data
 				})
 			})
 			.catch(error => {
@@ -589,7 +588,7 @@ export default class Form extends Component {
 				// console.info("Verbs call complete:", result.body.data)
 				this.pages.requester.inputs[2].inputs[0].options = result.body.data // Bad implementation, need to find a better way to get this information where it belongs
 				this.setState({
-					refreshes: this.state.refreshes + 1
+					verbData: result.body.data
 				})
 			})
 			.catch(error => {
@@ -618,7 +617,7 @@ export default class Form extends Component {
 		let relatedEventId
 		let relatedNounId
 		let relatedVerbId
-		let image_string = getBase64(params.image)
+		let imageString = getBase64(params.image)
 
 		for (let i in this.state.eventData) {
 			if (params.event === this.state.eventData[i].attributes.description) {
@@ -641,43 +640,42 @@ export default class Form extends Component {
 				type: "scenarios",
 				attributes: {
 					funding_goal: params.fundingGoal,
-					image: image_string
+					image: imageString
 				},
 				relationships: {
 					event: {
 						data: {
 							type: "events",
-							id: relatedEventId
+							id: (relatedEventId || "1").toString()
 						}
 					},
 					noun: {
 						data: {
 							type: "nouns",
-							id: relatedNounId
+							id: (relatedNounId || "1").toString()
 						}
 					},
 					verb: {
 						data: {
 							type: "verbs",
-							id: relatedVerbId
+							id: (relatedVerbId || "1").toString()
 						}
 					},
 					requester: {
 						data: {
 							type: "users",
-							id: this.state.currentUserId || 1
+							id: (this.state.currentUserId || "1").toString()
 						}
 					},
 					doer: {
 						data: {
 							type: "users",
-							id: 1
+							id: "1"
 						}
 					}
 				}
 			}
 		}
-		console.log(json)
 
 		Database.createScenario(json)
 			.then(result => {

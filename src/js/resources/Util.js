@@ -1,3 +1,5 @@
+let globalReader
+
 export function toFirstCap(str) {
 	return str ? str.charAt(0).toUpperCase() + str.slice(1) : false
 }
@@ -29,14 +31,15 @@ export function valuify(str) {
 	}
 	return ret.join("-")
 }
-export function getBase64(file) {
-	const reader = new FileReader()
-	reader.readAsDataURL(file)
-	reader.onload = () => {
-		return reader.result
-	}
-	reader.onerror = error => {
+export function prepareFileReader(file) {
+	globalReader = new FileReader()
+	globalReader.readAsDataURL(file)
+	globalReader.onload = () => {}
+	globalReader.onerror = error => {
 		console.log("Error uploading file: ", error)
-		return false
 	}
+	return globalReader
+}
+export function getBase64() {
+	return globalReader.result
 }

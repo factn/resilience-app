@@ -7,7 +7,12 @@ import faSolid from "@fortawesome/fontawesome-free-solid"
 
 // Local JS
 import CustomJSX from "./CustomJSX"
-import { getUrlPiece, valuify } from "../resources/Util"
+import {
+	getUrlPiece,
+	valuify,
+	getBase64,
+	prepareFileReader
+} from "../resources/Util"
 /*** [end of imports] ***/
 
 const history = createHistory()
@@ -74,7 +79,7 @@ export default class FormInput extends Component {
 									field = document.getElementById(onSubmitParams[i])
 									if (field.type === "radio" || field.type === "checkbox")
 										values[i] = field.checked
-									else if (field.type === "file") values[i] = field.files[0]
+									else if (field.type === "file") values[i] = getBase64()
 									else values[i] = field.value
 								}
 
@@ -141,6 +146,12 @@ export default class FormInput extends Component {
 						accept="image/*"
 						required={requiredField}
 						disabled={disabledField}
+						onChange={() => {
+							prepareFileReader(
+								document.getElementById(`${this.state.formName}_${inputID}`)
+									.files[0]
+							)
+						}}
 					/>
 				</div>
 			)
