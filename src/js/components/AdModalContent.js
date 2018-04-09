@@ -1,25 +1,33 @@
 /*** IMPORTS ***/
 // Module imports
-import React, { Component, Fragment } from "react"
+import React, { Component } from "react"
 import Icon from "@fortawesome/react-fontawesome"
 
 // Local JS
 import MiniMap from "./MiniMap"
+import { getUrlPiece, toFirstCap } from "../resources/Util"
 /*** [end of imports] ***/
 
 export default class AdModalContent extends Component {
+	constructor(props) {
+		super(props)
+
+		this.state = {
+			lastUrlSegment: getUrlPiece()
+		}
+	}
+
 	buildHeader = () => {
 		let {
-			lastUrlSegment,
 			doer_firstname,
 			requester_firstname,
 			verb,
 			noun
-		} = this.props
+		} = this.props.attributes
 
-		if (lastUrlSegment === "requester") {
+		if (this.state.lastUrlSegment === "requester") {
 			return <h3 className="adcontent-header">Need {noun}?</h3>
-		} else if (lastUrlSegment === "verifier") {
+		} else if (this.state.lastUrlSegment === "verifier") {
 			return (
 				<h3 className="adcontent-header">
 					Help us verify {toFirstCap(doer_firstname)}
@@ -34,41 +42,15 @@ export default class AdModalContent extends Component {
 		}
 	}
 	buildFigure = () => {
-		let {
-			lastUrlSegment,
-			requester_firstname,
-			funding_goal,
-			disaster,
-			image,
-			donated
-		} = this.props
+		let { funding_goal, disaster, image, donated } = this.props.attributes
 
-		if (lastUrlSegment === "requester") {
+		if (this.state.lastUrlSegment === "requester") {
 			return <div />
-		} else if (lastUrlSegment === "verifier") {
+		} else if (this.state.lastUrlSegment === "verifier") {
 			return (
-				<Fragment>
-					<figure className="adcontent-image-wrap">
-						<img src={image} alt={disaster} className="adcontent-image" />
-					</figure>
-					<div className="verifier-form page-form">
-						<div className="input-wrap">
-							<label
-								className="input-label btn btn-label"
-								htmlFor="verifier_proof"
-							>
-								<span className="input-label-phrase">Upload proof</span>
-								<Icon icon="map-pin" className="input-label-icon" />
-							</label>
-							<input
-								className="form-input"
-								type="file"
-								id="verifier_proof"
-								accept="image/*"
-							/>
-						</div>
-					</div>
-				</Fragment>
+				<figure className="adcontent-image-wrap">
+					<img src={image} alt={disaster} className="adcontent-image" />
+				</figure>
 			)
 		} else {
 			return (
@@ -78,22 +60,19 @@ export default class AdModalContent extends Component {
 						<p>{disaster}</p>
 						<div className="funding-progress-wrap">
 							<label className="funding-progress-label goal-label">
-								Funding goal: {donated} / ${funding_goal}
+								Funding goal: ${donated} / ${funding_goal}
 							</label>
 							<input
 								type="range"
 								className="funding-progress-slider"
-								id={`${disaster}_fundingGoal_for${toFirstCap(
-									requester_firstname
-								)}`}
+								id={`${disaster}_fundingGoal`}
 								min={0}
 								max={funding_goal}
-								value={donated.slice(1)}
+								value={donated}
 								disabled={true}
 							/>
 							<label className="funding-progress-label complete-label">
-								{(parseInt(donated.slice(1)) / funding_goal * 100).toFixed(0)}%
-								complete
+								{(parseInt(donated) / funding_goal * 100).toFixed(0)}% complete
 							</label>
 						</div>
 					</figcaption>
@@ -103,18 +82,16 @@ export default class AdModalContent extends Component {
 	}
 
 	render() {
-		let { lastUrlSegment, requesterlat, requesterlon } = this.props
+		let { requesterlat, requesterlon } = this.props.attributes
 
 		return (
 			<div className="modal-adcontent-wrap">
 				{this.buildHeader()}
 				{this.buildFigure()}
-				{lastUrlSegment !== "requester" && (
+				{this.state.lastUrlSegment !== "requester" && (
 					<MiniMap initialCenter={{ lat: requesterlat, lng: requesterlon }} />
 				)}
 			</div>
 		)
 	}
 }
-
-const toFirstCap = str => str.charAt(0).toUpperCase() + str.slice(1)

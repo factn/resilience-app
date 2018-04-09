@@ -5,14 +5,42 @@ import Icon from "@fortawesome/react-fontawesome"
 
 // Local JS
 import Profile from "./Profile"
+import { toFirstCap, getUrlPiece } from "../resources/Util"
 /*** [end of imports] ***/
 
 export default class Header extends Component {
 	constructor(props) {
 		super(props)
 
+		this.flows = {
+			requester: {
+				title: "Help!",
+				navMenu: false
+			},
+			donator: {
+				title: "Donate",
+				navMenu: false
+			},
+			doer: {
+				title: "Work",
+				navMenu: false
+			},
+			verifier: {
+				title: "Verify",
+				navMenu: false
+			}
+		}
 		this.state = {
-			menuIsOpen: false
+			menuIsOpen: false,
+			currentUserData: {
+				// This will be replaced with a fetch to check the server
+				email: "admin@example.com",
+				firstname: "John",
+				lastname: "Johnson",
+				latitude: -41.280789,
+				longitude: 174.775187
+			},
+			lastUrlSegment: getUrlPiece()
 		}
 
 		// Bindings
@@ -20,6 +48,22 @@ export default class Header extends Component {
 		this.closeMenu = this.closeMenu.bind(this)
 	}
 
+	componentDidMount = () => {
+		// fetch and set state happens here for user data
+	}
+
+	getTitle = () => {
+		let { lastUrlSegment } = this.state
+
+		if (this.flows[lastUrlSegment]) return this.flows[lastUrlSegment].title
+		else return this.props.title
+	}
+	getNavMenu = () => {
+		let { lastUrlSegment } = this.state
+		let { navMenu } = this.props
+
+		return navMenu || this.flows[lastUrlSegment].navMenu
+	}
 	openMenu = () => {
 		this.setState({
 			menuIsOpen: true
@@ -32,11 +76,9 @@ export default class Header extends Component {
 	}
 
 	render() {
-		let { versionNumber, title, navMenu, currentUserData } = this.props
-
 		return (
 			<header className="app-header">
-				{navMenu && (
+				{this.getNavMenu() && (
 					<nav className="menu">
 						<button
 							className="btn-lite menu-toggle-btn"
@@ -52,11 +94,11 @@ export default class Header extends Component {
 									: "menu-drawer"
 							}
 						>
-							{currentUserData.firstname !== "" ? (
+							{this.state.currentUserData.firstname !== "" ? (
 								<div className="user-info-area">
 									<Icon className="user-icon" icon="user" />
 									<div className="user-name">
-										{toFirstCap(currentUserData.firstname)}
+										{toFirstCap(this.state.currentUserData.firstname)}
 									</div>
 								</div>
 							) : (
@@ -68,7 +110,7 @@ export default class Header extends Component {
 								</div>
 							)}
 
-							<Profile userData={currentUserData} />
+							<Profile userData={this.state.currentUserData} />
 
 							<button
 								className="menu-close-btn btn-lite"
@@ -79,16 +121,14 @@ export default class Header extends Component {
 
 							<div className="subheader-content">
 								<div className="copy">&copy; {new Date().getFullYear()}</div>
-								<div className="version">{versionNumber}</div>
+								<div className="version">0.1.0</div>
 							</div>
 						</section>
 					</nav>
 				)}
 
-				<h1 className="title">{title}</h1>
+				<h1 className="title">{this.getTitle()}</h1>
 			</header>
 		)
 	}
 }
-
-const toFirstCap = str => str.charAt(0).toUpperCase() + str.slice(1)

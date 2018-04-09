@@ -36,63 +36,20 @@ export default class Page extends Component {
 	}
 
 	render() {
-		let { app, pageStyle, navMenu, attributes, funcs, title, id } = this.props
-		let { updateScenario, flows, state } = app
-		let {
-			eventData,
-			nounData,
-			verbData,
-			databaseReady,
-			scenarioData,
-			lastUrlSegment,
-			currentUserData,
-			userLoggedIn
-		} = state
-
-		let _title =
-			typeof title !== "undefined" ? title : flows[state.lastUrlSegment].title
-
-		let _eventData = []
-		let _nounData = []
-		let _verbData = []
-
-		for (let event in eventData) {
-			_eventData.push(eventData[event].attributes.description)
-		}
-		for (let noun in nounData) {
-			_nounData.push(nounData[noun].attributes.description)
-		}
-		for (let verb in verbData) {
-			_verbData.push(verbData[verb].attributes.description)
-		}
+		let { pageStyle, title, navMenu, id } = this.props
 
 		return (
 			<Fragment>
-				<Header
-					versionNumber={app.versionNumber}
-					currentUserData={currentUserData}
-					title={_title}
-					navMenu={navMenu}
-				/>
+				<Header title={title} navMenu={navMenu} />
 				<Main
 					pageStyle={pageStyle}
-					attributes={attributes}
 					openMapPicker={this.openMapPicker}
-					tabs={app.tabs}
-					eventData={_eventData}
-					nounData={_nounData}
-					verbData={_verbData}
 					lastClickedLat={this.state.lastClickedLat}
 					lastClickedLon={this.state.lastClickedLon}
-					databaseReady={databaseReady}
-					scenarioData={scenarioData}
-					lastUrlSegment={lastUrlSegment}
-					updateScenario={updateScenario}
-					funcs={funcs}
 					scenarioId={id}
 				/>
 				{pageStyle === "home-tab" ? (
-					<Footer userLoggedIn={userLoggedIn} />
+					<Footer />
 				) : (
 					<GoogleMaps
 						zoomLevel={14}

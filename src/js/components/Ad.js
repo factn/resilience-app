@@ -1,8 +1,14 @@
 /*** IMPORTS ***/
 // Module imports
 import React, { Component } from "react"
+import createHistory from "history/createBrowserHistory"
 import Icon from "@fortawesome/react-fontawesome"
+
+// Local JS
+import { getUrlPiece, toFirstCap } from "../resources/Util"
 /*** [end of imports] ***/
+
+const history = createHistory()
 
 export default class Ad extends Component {
 	constructor(props) {
@@ -15,8 +21,9 @@ export default class Ad extends Component {
 			style: { transform: `translateX(0) scale(1)` },
 			beforeStyle: { opacity: 0 },
 			afterStyle: { opacity: 0 },
-			threshold: 150,
-			transitionTiming: 100
+			swipeThreshold: 150,
+			transitionTiming: 100,
+			lastUrlSegment: getUrlPiece()
 		}
 
 		this.handleTouchStart = this.handleTouchStart.bind(this)
@@ -69,17 +76,17 @@ export default class Ad extends Component {
 		}
 	}
 	handleTouchEnd = e => {
-		let { touchStartX, lastTouchX, threshold, transitionTiming } = this.state
-
 		let {
-			scenario,
-			// dismissAd,
+			touchStartX,
+			lastTouchX,
+			swipeThreshold,
+			transitionTiming,
 			lastUrlSegment
-		} = this.props
+		} = this.state
 
 		let xDif = lastTouchX === 0 ? 0 : lastTouchX - touchStartX
 
-		if (Math.abs(xDif) > threshold) {
+		if (Math.abs(xDif) > swipeThreshold) {
 			if (touchStartX < lastTouchX) {
 				this.setState({
 					style: {
@@ -90,7 +97,7 @@ export default class Ad extends Component {
 					afterStyle: { opacity: 0 }
 				})
 				setTimeout(() => {
-					window.location = `/${scenario.id}/${lastUrlSegment}/`
+					history.push(`/${this.props.scenario.id}/${lastUrlSegment}/`)
 				}, transitionTiming)
 			} else {
 				this.setState({
@@ -101,7 +108,7 @@ export default class Ad extends Component {
 					beforeStyle: { opacity: 0 },
 					afterStyle: { opacity: 0 }
 				})
-				// return dismissAd(id)
+				// return this.dismissAd(this.props.scenario.id)
 			}
 		} else {
 			this.setState({
@@ -116,13 +123,13 @@ export default class Ad extends Component {
 	}
 
 	titleBuild = () => {
-		let { lastUrlSegment } = this.props
 		let {
 			requester_firstname,
 			donated,
 			noun,
 			verb
 		} = this.props.scenario.attributes
+		let { lastUrlSegment } = this.state
 
 		if (lastUrlSegment === "donator") {
 			return (
@@ -180,8 +187,9 @@ export default class Ad extends Component {
 	}
 
 	render() {
-		let { style, beforeStyle, afterStyle } = this.state
-		let { scenario, lastUrlSegment } = this.props
+		let { style, beforeStyle, afterStyle, lastUrlSegment } = this.state
+		let { scenario } = this.props
+		let { id } = scenario
 
 		let {
 			// doer_firstname,
@@ -199,12 +207,12 @@ export default class Ad extends Component {
 			// imagethumb,
 			// noun,
 			// verb
-		} = scenario.attributes
+		} = this.props.scenario.attributes
 
 		return (
 			<article
 				className={`ad ${lastUrlSegment}-ad`}
-				id={`scenario_${scenario.id}`}
+				id={`scenario_${id}`}
 				style={style}
 				onTouchStart={e => this.handleTouchStart(e)}
 				onTouchMove={e => this.handleTouchMove(e)}
@@ -223,15 +231,10 @@ export default class Ad extends Component {
 					<p className="ad-image-caption">{disaster}</p>
 				</figure>
 				{this.titleBuild()}
-				<a
-					className="btn ad-modal-btn"
-					href={`/${scenario.id}/${lastUrlSegment}/`}
-				>
+				<a className="btn ad-modal-btn" href={`/${id}/${lastUrlSegment}/`}>
 					{this.callToActionBuild(lastUrlSegment)}
 				</a>
 			</article>
 		)
 	}
 }
-
-const toFirstCap = str => str.charAt(0).toUpperCase() + str.slice(1)

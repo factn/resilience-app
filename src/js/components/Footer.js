@@ -7,12 +7,20 @@ import Action from "./Action"
 /*** [end of imports] ***/
 
 export default class Footer extends Component {
-	render() {
-		let { userLoggedIn } = this.props
+	constructor(props) {
+		super(props)
 
+		this.state = {
+			userLoggedIn: true // This will be replaced by a fetch call to the server
+		}
+	}
+	componentDidMount = () => {
+		// fetch to set state here
+	}
+	render() {
 		return (
 			<footer className="app-footer">
-				{userLoggedIn ? (
+				{this.state.userLoggedIn ? (
 					<Action label="Log Out" link={"/login/"} icon="sign-out-alt" />
 				) : (
 					<Fragment>

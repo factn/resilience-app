@@ -1,16 +1,32 @@
 /*** IMPORTS ***/
 // Module imports
 import React, { Component } from "react"
+import createHistory from "history/createBrowserHistory"
 import Icon from "@fortawesome/react-fontawesome"
 import faSolid from "@fortawesome/fontawesome-free-solid"
 
 // Local JS
 import CustomJSX from "./CustomJSX"
+import {
+	getUrlPiece,
+	valuify,
+	getBase64,
+	prepareFileReader
+} from "../resources/Util"
 /*** [end of imports] ***/
 
+const history = createHistory()
+
 export default class FormInput extends Component {
+	constructor(props) {
+		super(props)
+
+		this.state = {
+			formName: getUrlPiece()
+		}
+	}
 	render() {
-		let { formName, openMapPicker, inputObj, lat, lon, scenarioId } = this.props
+		let { openMapPicker, inputObj, lat, lon, scenarioId } = this.props
 
 		/* Valid inputType's:
 		 * 	"submit", "text", "email", "password", "file",
@@ -63,6 +79,7 @@ export default class FormInput extends Component {
 									field = document.getElementById(onSubmitParams[i])
 									if (field.type === "radio" || field.type === "checkbox")
 										values[i] = field.checked
+									else if (field.type === "file") values[i] = getBase64()
 									else values[i] = field.value
 								}
 
@@ -70,7 +87,7 @@ export default class FormInput extends Component {
 							} else onSubmit()
 						}
 
-						if (typeof goToPath !== "undefined") window.location = goToPath
+						if (typeof goToPath !== "undefined") history.push(goToPath)
 					}}
 				>
 					<span className="button-label">{labelPhrase} </span>
@@ -84,7 +101,7 @@ export default class FormInput extends Component {
 				>
 					<button
 						className="input-label btn btn-label"
-						htmlFor={`${formName}_${inputID}`}
+						htmlFor={`${this.state.formName}_${inputID}`}
 						onClick={() => openMapPicker()}
 					>
 						<span className="input-label-phrase">{labelPhrase}</span>
@@ -95,14 +112,14 @@ export default class FormInput extends Component {
 					<input
 						className="form-input"
 						type="number"
-						id={`${formName}_${inputID}_lat`}
+						id={`${this.state.formName}_${inputID}_lat`}
 						value={lat || 0}
 						hidden={true}
 					/>
 					<input
 						className="form-input"
 						type="number"
-						id={`${formName}_${inputID}_lon`}
+						id={`${this.state.formName}_${inputID}_lon`}
 						value={lon || 0}
 						hidden={true}
 					/>
@@ -115,7 +132,7 @@ export default class FormInput extends Component {
 				>
 					<label
 						className="input-label btn btn-label"
-						htmlFor={`${formName}_${inputID}`}
+						htmlFor={`${this.state.formName}_${inputID}`}
 					>
 						<span className="input-label-phrase">{labelPhrase}</span>
 						{typeof labelIcon !== "undefined" && (
@@ -125,10 +142,16 @@ export default class FormInput extends Component {
 					<input
 						className="form-input"
 						type={inputType}
-						id={`${formName}_${inputID}`}
+						id={`${this.state.formName}_${inputID}`}
 						accept="image/*"
 						required={requiredField}
 						disabled={disabledField}
+						onChange={() => {
+							prepareFileReader(
+								document.getElementById(`${this.state.formName}_${inputID}`)
+									.files[0]
+							)
+						}}
 					/>
 				</div>
 			)
@@ -144,7 +167,7 @@ export default class FormInput extends Component {
 								<input
 									className="form-input"
 									type="radio"
-									id={`${formName}_${_key.inputID}`}
+									id={`${this.state.formName}_${_key.inputID}`}
 									name={radioRowName}
 									onChange={() => _key.onChange(_key.onChangeVal)}
 								/>
@@ -152,13 +175,13 @@ export default class FormInput extends Component {
 								<input
 									className="form-input"
 									type="radio"
-									id={`${formName}_${_key.inputID}`}
+									id={`${this.state.formName}_${_key.inputID}`}
 									name={radioRowName}
 								/>
 							)}
 							<label
 								className="input-label"
-								htmlFor={`${formName}_${_key.inputID}`}
+								htmlFor={`${this.state.formName}_${_key.inputID}`}
 							>
 								<span className="input-label-phrase">{_key.labelPhrase}</span>
 							</label>
@@ -180,11 +203,14 @@ export default class FormInput extends Component {
 					<input
 						className="form-input"
 						type="checkbox"
-						id={`${formName}_${inputID}`}
+						id={`${this.state.formName}_${inputID}`}
 						required={requiredField}
 						disabled={disabledField}
 					/>
-					<label className="input-label" htmlFor={`${formName}_${inputID}`}>
+					<label
+						className="input-label"
+						htmlFor={`${this.state.formName}_${inputID}`}
+					>
 						<span className="input-label-phrase">{labelPhrase}</span>
 						{typeof labelIcon !== "undefined" && (
 							<Icon icon={labelIcon} className="input-label-icon" />
@@ -198,7 +224,10 @@ export default class FormInput extends Component {
 					className={disabledField ? "input-wrap disabled-input" : "input-wrap"}
 				>
 					{labelPhrase && (
-						<label className="input-label" htmlFor={`${formName}_${inputID}`}>
+						<label
+							className="input-label"
+							htmlFor={`${this.state.formName}_${inputID}`}
+						>
 							<span className="input-label-phrase">{labelPhrase}</span>
 							{typeof labelIcon !== "undefined" && (
 								<Icon icon={labelIcon} className="input-label-icon" />
@@ -207,16 +236,20 @@ export default class FormInput extends Component {
 					)}
 					<select
 						className="form-input"
-						id={`${formName}_${inputID}`}
+						id={`${this.state.formName}_${inputID}`}
 						required={requiredField}
 						disabled={disabledField}
 					>
 						<option>[Select]</option>
-						{options.map(_option => (
-							<option value={valuify(_option)} key={_option}>
-								{_option}
-							</option>
-						))}
+						{options.length &&
+							options.map((_option, _index) => (
+								<option
+									value={valuify(_option.attributes.description)}
+									key={_index}
+								>
+									{_option.attributes.description}
+								</option>
+							))}
 					</select>
 				</div>
 			)
@@ -225,7 +258,10 @@ export default class FormInput extends Component {
 				<div
 					className={disabledField ? "input-wrap disabled-input" : "input-wrap"}
 				>
-					<label className="input-label" htmlFor={`${formName}_${inputID}`}>
+					<label
+						className="input-label"
+						htmlFor={`${this.state.formName}_${inputID}`}
+					>
 						<span className="input-label-phrase">{labelPhrase}</span>
 						{typeof labelIcon !== "undefined" && (
 							<Icon icon={labelIcon} className="input-label-icon" />
@@ -234,7 +270,7 @@ export default class FormInput extends Component {
 					<div className="split-input-wrap">
 						{inputs.map((_input, _index) => (
 							<FormInput
-								formName={formName}
+								formName={this.state.formName}
 								inputObj={_input}
 								openMapPicker={openMapPicker}
 								lat={lat}
@@ -251,7 +287,7 @@ export default class FormInput extends Component {
 					<input
 						className="form-input"
 						type="text"
-						id={`${formName}_scenario-id`}
+						id={`${this.state.formName}_scenario-id`}
 						disabled
 						value={scenarioId}
 					/>
@@ -263,7 +299,10 @@ export default class FormInput extends Component {
 				<div
 					className={disabledField ? "input-wrap disabled-input" : "input-wrap"}
 				>
-					<label className="input-label" htmlFor={`${formName}_${inputID}`}>
+					<label
+						className="input-label"
+						htmlFor={`${this.state.formName}_${inputID}`}
+					>
 						<span className="input-label-phrase">{labelPhrase}</span>
 						{typeof labelIcon !== "undefined" && (
 							<Icon icon={labelIcon} className="input-label-icon" />
@@ -272,7 +311,7 @@ export default class FormInput extends Component {
 					<input
 						className="form-input"
 						type={inputType}
-						id={`${formName}_${inputID}`}
+						id={`${this.state.formName}_${inputID}`}
 						required={requiredField}
 						disabled={disabledField}
 					/>
@@ -280,15 +319,4 @@ export default class FormInput extends Component {
 			)
 		}
 	}
-}
-
-const valuify = str => {
-	let words = str.split(" ")
-	let ret = []
-
-	for (let i = 0, l = words.length; i < l; i++) {
-		ret.push(words[i].toLowerCase())
-	}
-
-	return ret.join("-")
 }

@@ -124,11 +124,12 @@
 .ad-header {
 	position: relative;
 	z-index: 2;
-	padding: 0.5rem 1rem 2rem;
+	padding: 0.5rem 1rem 1rem;
 	margin-top: -1px;
 	background: linear-gradient(
+		to bottom right,
 		rgba($white, 0.9),
-		rgba($white, 0.75) 3rem,
+		rgba($white, 0.75) 40%,
 		transparent
 	);
 	.ad-title {
