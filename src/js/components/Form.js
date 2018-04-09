@@ -120,6 +120,9 @@ export default class Form extends Component {
 			editAccount: {
 				inputs: [
 					{
+						inputType: "scenario-id"
+					},
+					{
 						inputType: "text",
 						inputID: "first-name",
 						labelPhrase: "First Name",
@@ -174,6 +177,7 @@ export default class Form extends Component {
 						labelIcon: "save",
 						onSubmit: this.submitEditAccount,
 						onSubmitParams: {
+							scenarioId: "editAccount_scenario-id",
 							email: "editAccount_email",
 							firstname: "editAccount_first-name",
 							lastname: "editAccount_last-name",
@@ -611,8 +615,55 @@ export default class Form extends Component {
 				console.error("Error getting user:", error)
 			})
 	}
-	submitCreateAccount = params => {}
-	submitEditAccount = params => {}
+	submitCreateAccount = params => {
+		let json = {
+			data: {
+				type: "users",
+				attributes: {
+					email: params.email,
+					firstname: params.firstname,
+					lastname: params.lastname,
+					latitude: params.latitude,
+					longitude: params.longitude,
+					password: params.password,
+					password_confirmation: params.password_confirmation
+				}
+			}
+		}
+
+		Database.createUser(json)
+			.then(result => {
+				// console.log("User successfully created:", result)
+			})
+			.catch(error => {
+				// console.error("Error creating user:", error)
+			})
+	}
+	submitEditAccount = params => {
+		let json = {
+			data: {
+				id: params.scenarioId,
+				type: "users",
+				attributes: {
+					email: params.email,
+					firstname: params.firstname,
+					lastname: params.lastname,
+					latitude: params.latitude,
+					longitude: params.longitude,
+					password: params.password,
+					password_confirmation: params.password_confirmation
+				}
+			}
+		}
+
+		Database.updateUser(json)
+			.then(result => {
+				// console.log("User successfully created:", result)
+			})
+			.catch(error => {
+				// console.error("Error creating user:", error)
+			})
+	}
 	submitPreferences = params => {}
 	submitRequest = params => {
 		let relatedEventId
