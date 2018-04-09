@@ -81,7 +81,7 @@ export default class Form extends Component {
 					{
 						inputType: "password",
 						inputID: "confirm-pw",
-						labelPhrase: "Password",
+						labelPhrase: "Confirm Password",
 						labelIcon: "key",
 						requiredField: true
 					},
@@ -146,14 +146,14 @@ export default class Form extends Component {
 					{
 						inputType: "password",
 						inputID: "pw",
-						labelPhrase: "Password",
+						labelPhrase: "New Password",
 						labelIcon: "key",
 						requiredField: true
 					},
 					{
 						inputType: "password",
 						inputID: "confirm-pw",
-						labelPhrase: "Password",
+						labelPhrase: "Confirm New Password",
 						labelIcon: "key",
 						requiredField: true
 					},
@@ -620,13 +620,13 @@ export default class Form extends Component {
 			data: {
 				type: "users",
 				attributes: {
-					email: params.email,
-					firstname: params.firstname,
-					lastname: params.lastname,
-					latitude: params.latitude,
-					longitude: params.longitude,
-					password: params.password,
-					password_confirmation: params.password_confirmation
+					email: params.email.toString(),
+					firstname: params.firstname.toString(),
+					lastname: params.lastname.toString(),
+					latitude: params.latitude.toString(),
+					longitude: params.longitude.toString()
+					// password: params.password.toString(),
+					// password_confirmation: params.password_confirmation.toString()
 				}
 			}
 		}
@@ -645,13 +645,13 @@ export default class Form extends Component {
 				id: params.scenarioId,
 				type: "users",
 				attributes: {
-					email: params.email,
-					firstname: params.firstname,
-					lastname: params.lastname,
-					latitude: params.latitude,
-					longitude: params.longitude,
-					password: params.password,
-					password_confirmation: params.password_confirmation
+					email: params.email.toString(),
+					firstname: params.firstname.toString(),
+					lastname: params.lastname.toString(),
+					latitude: params.latitude.toString(),
+					longitude: params.longitude.toString()
+					// password: params.password.toString(),
+					// password_confirmation: params.password_confirmation.toString()
 				}
 			}
 		}
