@@ -530,10 +530,12 @@ export default class Form extends Component {
 						inputType: "submit",
 						labelPhrase: "Verify this user",
 						labelIcon: "check",
+						onSubmit: this.submitVerification,
 						onSubmitParams: {
-							userVerified: true,
-							scenarioId: "verifier_scenario-id"
+							scenarioId: "verifier_scenario-id",
+							image: "verifier_proof"
 						},
+						goToPath: "/verifier",
 						responseType: "positive"
 					},
 					{
@@ -542,7 +544,6 @@ export default class Form extends Component {
 						labelIcon: "times",
 						onSubmit: this.submitVerification,
 						onSubmitParams: {
-							userVerified: false,
 							scenarioId: "verifier_scenario-id",
 							image: "verifier_proof"
 						},
@@ -679,10 +680,10 @@ export default class Form extends Component {
 
 		Database.createScenario(json)
 			.then(result => {
-				console.log("Scenario successfully created:", result)
+				// console.log("Scenario successfully created:", result)
 			})
 			.catch(error => {
-				console.error("Error creating scenario:", error)
+				// console.error("Error creating scenario:", error)
 			})
 	}
 	submitDonation = params => {
@@ -721,11 +722,10 @@ export default class Form extends Component {
 
 		Database.createDonation(json)
 			.then(result => {
-				console.log("Donation successfully created:", result)
-				this.getFullDataBase()
+				// console.log("Donation successfully created:", result)
 			})
 			.catch(error => {
-				console.error("Error creating donation:", error)
+				// console.error("Error creating donation:", error)
 			})
 	}
 	submitDo = params => {
@@ -747,11 +747,10 @@ export default class Form extends Component {
 
 		Database.updateScenario(json)
 			.then(result => {
-				console.log("Scenario successfully updated:", result)
-				this.getFullDataBase()
+				// console.log("Scenario successfully updated:", result)
 			})
 			.catch(error => {
-				console.error("Error updating scenario:", error)
+				// console.error("Error updating scenario:", error)
 			})
 	}
 	submitVerification = params => {
@@ -776,10 +775,10 @@ export default class Form extends Component {
 
 		Database.createProof(json)
 			.then(result => {
-				console.log("Proof successfully created:", result)
+				// console.log("Proof successfully created:", result)
 			})
 			.catch(error => {
-				console.error("Error updating proof:", error)
+				// console.error("Error updating proof:", error)
 			})
 	}
 	toggleCustomDonationAmount = turnedOn => {

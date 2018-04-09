@@ -77,6 +77,7 @@ export default class FormInput extends Component {
 
 								for (let i in onSubmitParams) {
 									field = document.getElementById(onSubmitParams[i])
+
 									if (field.type === "radio" || field.type === "checkbox")
 										values[i] = field.checked
 									else if (field.type === "file") values[i] = getBase64()
