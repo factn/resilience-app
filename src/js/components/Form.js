@@ -7,7 +7,7 @@ import Icon from "@fortawesome/react-fontawesome"
 import FormInput from "./FormInput"
 import Database from "../resources/Database"
 import ImageUpload from "../resources/ImageUpload"
-import { getUrlPiece } from "../resources/Util"
+import { getUrlPiece, getBase64 } from "../resources/Util"
 /*** [end of imports] ***/
 
 export default class Form extends Component {
@@ -16,7 +16,10 @@ export default class Form extends Component {
 
 		this.state = {
 			refreshes: 0,
-			lastUrlSegment: getUrlPiece()
+			lastUrlSegment: getUrlPiece(),
+			eventData: [],
+			nounData: [],
+			verbData: []
 		}
 		this.pages = {
 			login: {
@@ -39,31 +42,7 @@ export default class Form extends Component {
 						inputType: "submit",
 						labelPhrase: "Sign In",
 						labelIcon: "sign-in-alt",
-						onSubmit: params => {
-							let json = {
-								email: params.email,
-								password: params.password
-							}
-
-							Database.attemptLogin(json)
-								.then(result => {
-									console.log("Login complete:", result)
-									// if (result.body.data) {
-									// 	console.log("Ding!")
-									// 	let res = result.body.data
-
-									// 	this.setState({
-									// 		currentUserId: res.id,
-									// 		currentUserData: res.attributes
-									// 	})
-									// } else {
-									// 	console.error("User not found for email:", params.email)
-									// }
-								})
-								.catch(error => {
-									console.error("Error getting user:", error)
-								})
-						},
+						onSubmit: this.submitLogin,
 						onSubmitParams: { email: "login_email", password: "login_pw" },
 						goToPath: "/",
 						responseType: "neutral"
@@ -125,7 +104,7 @@ export default class Form extends Component {
 						inputType: "submit",
 						labelPhrase: "Create Account",
 						labelIcon: "user-plus",
-						onSubmit: params => {},
+						onSubmit: this.submitCreateAccount,
 						onSubmitParams: {
 							email: "account_email",
 							firstname: "account_first-name",
@@ -194,7 +173,7 @@ export default class Form extends Component {
 						inputType: "submit",
 						labelPhrase: "Update Account",
 						labelIcon: "save",
-						onSubmit: params => {},
+						onSubmit: this.submitEditAccount,
 						onSubmitParams: {
 							email: "editAccount_email",
 							firstname: "editAccount_first-name",
@@ -215,7 +194,7 @@ export default class Form extends Component {
 						labelPhrase: "Save settings",
 						labelIcon: "cogs",
 						responseType: "neutral",
-						onSubmit: params => {}
+						onSubmit: this.submitPreferences
 					}
 				]
 			},
@@ -250,7 +229,7 @@ export default class Form extends Component {
 						inputID: "event-name",
 						labelPhrase: "What disaster has effected you?",
 						labelIcon: "cloud",
-						options: this.props.eventData,
+						options: [],
 						requiredField: false
 					},
 					{
@@ -261,13 +240,13 @@ export default class Form extends Component {
 							{
 								inputType: "select",
 								inputID: "verb",
-								options: this.props.verbData,
+								options: [],
 								requiredField: false
 							},
 							{
 								inputType: "select",
 								inputID: "noun",
-								options: this.props.nounData,
+								options: [],
 								requiredField: false
 							}
 						]
@@ -311,106 +290,7 @@ export default class Form extends Component {
 						inputType: "submit",
 						labelPhrase: "Send someone",
 						labelIcon: "check",
-						onSubmit: params => {
-							let relatedEventId
-							let relatedNounId
-							let relatedVerbId
-
-							for (let i in this.state.eventData) {
-								if (
-									params.event ===
-									this.state.eventData[i].attributes.description
-								) {
-									relatedEventId = this.state.eventData[i].id
-								}
-							}
-							for (let i in this.state.nounData) {
-								if (
-									params.noun === this.state.nounData[i].attributes.description
-								) {
-									relatedNounId = this.state.nounData[i].id
-								}
-							}
-							for (let i in this.state.verbData) {
-								if (
-									params.verb === this.state.verbData[i].attributes.description
-								) {
-									relatedVerbId = this.state.verbData[i].id
-								}
-							}
-
-							let json = {
-								data: {
-									type: "scenarios",
-									attributes: {
-										funding_goal: params.fundingGoal
-									},
-									relationships: {
-										event: {
-											data: {
-												type: "events",
-												id: relatedEventId
-											}
-										},
-										noun: {
-											data: {
-												type: "nouns",
-												id: relatedNounId
-											}
-										},
-										verb: {
-											data: {
-												type: "verbs",
-												id: relatedVerbId
-											}
-										},
-										requester: {
-											data: {
-												type: "users",
-												id: this.state.currentUserId || 1
-											}
-										},
-										doer: {
-											data: {
-												type: "users",
-												id: 1
-											}
-										}
-									}
-								}
-							}
-
-							Database.createScenario(json)
-								.then(result => {
-									console.log("Scenario successfully created:", result)
-
-									// let newScenarioCreated
-
-									// let imageUploadJson = {
-									// 	data: {
-									// 		type: "scenarios",
-									// 		id: newScenarioCreated.id,
-									// 		attributes: {
-									// 			image: params.image
-									// 		},
-									// 		relationships: newScenarioCreated.relationships
-									// 	}
-									// }
-
-									// ImageUpload.addImageToScenario(imageUploadJson)
-									// 	.then(result => {
-									// 		console.log("Proof successfully updated:", result)
-
-									// 		this.getFullDataBase()
-									// 	})
-									// 	.catch(error => {
-									// 		console.error("Error updating proof:", error)
-									// 	})
-								})
-								.catch(error => {
-									console.error("Error creating scenario:", error)
-								})
-						},
+						onSubmit: this.submitRequest,
 						onSubmitParams: {
 							event: "requester_event-name",
 							image: "requester_photo",
@@ -576,49 +456,7 @@ export default class Form extends Component {
 						inputType: "submit",
 						labelPhrase: "Donate",
 						labelIcon: "money-bill-alt",
-						onSubmit: params => {
-							let amount = 0
-
-							if (params.presetAmount) {
-								amount = 3
-							} else if (params.remainingAmount) {
-								amount = 10
-							} else if (params.customAmount) {
-								amount = params.customAmountValue
-							}
-
-							let json = {
-								data: {
-									type: "donations",
-									attributes: {
-										amount: amount
-									},
-									relationships: {
-										donator: {
-											data: {
-												type: "users",
-												id: 1
-											}
-										},
-										scenario: {
-											data: {
-												type: "scenarios",
-												id: params.scenarioId
-											}
-										}
-									}
-								}
-							}
-
-							Database.createDonation(json)
-								.then(result => {
-									console.log("Donation successfully created:", result)
-									this.getFullDataBase()
-								})
-								.catch(error => {
-									console.error("Error creating donation:", error)
-								})
-						},
+						onSubmit: this.submitDonation,
 						onSubmitParams: {
 							presetAmount: "donator_preset-amount",
 							remainingAmount: "donator_remaining-amount",
@@ -666,32 +504,7 @@ export default class Form extends Component {
 						inputType: "submit",
 						labelPhrase: "I'm on my way",
 						labelIcon: "thumbs-up",
-						onSubmit: params => {
-							let json = {
-								data: {
-									type: "scenarios",
-									id: params.scenarioId,
-									attributes: {},
-									relationships: {
-										doer: {
-											data: {
-												type: "users",
-												id: this.state.currentUserId || 0
-											}
-										}
-									}
-								}
-							}
-
-							Database.updateScenario(json)
-								.then(result => {
-									console.log("Scenario successfully updated:", result)
-									this.getFullDataBase()
-								})
-								.catch(error => {
-									console.error("Error updating scenario:", error)
-								})
-						},
+						onSubmit: this.submitDo,
 						onSubmitParams: {
 							doerlat: "doer_location_lat",
 							doerlon: "doer_location_lon",
@@ -708,70 +521,31 @@ export default class Form extends Component {
 						inputType: "scenario-id"
 					},
 					{
+						inputType: "file",
+						inputID: "proof",
+						labelPhrase: "Upload proof",
+						labelIcon: "image",
+						requiredField: false
+					},
+					{
 						inputType: "submit",
 						labelPhrase: "Verify this user",
 						labelIcon: "check",
-						onSubmitParams: { userVerified: true },
+						onSubmitParams: {
+							userVerified: true,
+							scenarioId: "verifier_scenario-id"
+						},
 						responseType: "positive"
 					},
 					{
 						inputType: "submit",
 						labelPhrase: "I don't know them",
 						labelIcon: "times",
-						onSubmit: params => {
-							let json = {
-								data: {
-									type: "proofs",
-									attributes: {},
-									relationships: {
-										scenario: {
-											data: {
-												type: "scenarios",
-												id: params.scenarioId
-											}
-										}
-									}
-								}
-							}
-
-							Database.createProof(json)
-								.then(result => {
-									console.log("Proof successfully updated:", result)
-
-									let imageUploadJson = {
-										data: {
-											type: "proofs",
-											attributes: {
-												image: params.image
-											},
-											relationships: {
-												scenario: {
-													data: {
-														type: "scenarios",
-														id: params.scenarioId
-													}
-												}
-											}
-										}
-									}
-
-									ImageUpload.addImageToScenario(imageUploadJson)
-										.then(result => {
-											console.log("Proof successfully updated:", result)
-
-											this.getFullDataBase()
-										})
-										.catch(error => {
-											console.error("Error updating proof:", error)
-										})
-								})
-								.catch(error => {
-									console.error("Error updating proof:", error)
-								})
-						},
+						onSubmit: this.submitVerification,
 						onSubmitParams: {
 							userVerified: false,
-							scenarioId: "verifier_scenario-id"
+							scenarioId: "verifier_scenario-id",
+							image: "verifier_proof"
 						},
 						goToPath: "/verifier",
 						responseType: "negative"
@@ -785,6 +559,231 @@ export default class Form extends Component {
 		this.togglePaymentTypeFields = this.togglePaymentTypeFields.bind(this)
 	}
 
+	componentDidMount = () => {
+		Database.getEvents()
+			.then(result => {
+				// console.info("Events call complete:", result.body.data)
+				this.pages.requester.inputs[1].options = result.body.data // Bad implementation, need to find a better way to get this information where it belongs
+				this.setState({
+					refreshes: this.state.refreshes + 1
+				})
+			})
+			.catch(error => {
+				// console.error("Error getting events:", error)
+			})
+
+		Database.getNouns()
+			.then(result => {
+				// console.info("Nouns call complete:", result.body.data)
+				this.pages.requester.inputs[2].inputs[1].options = result.body.data // Bad implementation, need to find a better way to get this information where it belongs
+				this.setState({
+					refreshes: this.state.refreshes + 1
+				})
+			})
+			.catch(error => {
+				// console.error("Error getting nouns:", error)
+			})
+
+		Database.getVerbs()
+			.then(result => {
+				// console.info("Verbs call complete:", result.body.data)
+				this.pages.requester.inputs[2].inputs[0].options = result.body.data // Bad implementation, need to find a better way to get this information where it belongs
+				this.setState({
+					refreshes: this.state.refreshes + 1
+				})
+			})
+			.catch(error => {
+				// console.error("Error getting verbs:", error)
+			})
+	}
+
+	submitLogin = params => {
+		let json = {
+			email: params.email,
+			password: params.password
+		}
+
+		Database.attemptLogin(json)
+			.then(result => {
+				console.log("Login complete:", result)
+			})
+			.catch(error => {
+				console.error("Error getting user:", error)
+			})
+	}
+	submitCreateAccount = params => {}
+	submitEditAccount = params => {}
+	submitPreferences = params => {}
+	submitRequest = params => {
+		let relatedEventId
+		let relatedNounId
+		let relatedVerbId
+		let image_string = getBase64(params.image)
+
+		for (let i in this.state.eventData) {
+			if (params.event === this.state.eventData[i].attributes.description) {
+				relatedEventId = this.state.eventData[i].id
+			}
+		}
+		for (let i in this.state.nounData) {
+			if (params.noun === this.state.nounData[i].attributes.description) {
+				relatedNounId = this.state.nounData[i].id
+			}
+		}
+		for (let i in this.state.verbData) {
+			if (params.verb === this.state.verbData[i].attributes.description) {
+				relatedVerbId = this.state.verbData[i].id
+			}
+		}
+
+		let json = {
+			data: {
+				type: "scenarios",
+				attributes: {
+					funding_goal: params.fundingGoal,
+					image: image_string
+				},
+				relationships: {
+					event: {
+						data: {
+							type: "events",
+							id: relatedEventId
+						}
+					},
+					noun: {
+						data: {
+							type: "nouns",
+							id: relatedNounId
+						}
+					},
+					verb: {
+						data: {
+							type: "verbs",
+							id: relatedVerbId
+						}
+					},
+					requester: {
+						data: {
+							type: "users",
+							id: this.state.currentUserId || 1
+						}
+					},
+					doer: {
+						data: {
+							type: "users",
+							id: 1
+						}
+					}
+				}
+			}
+		}
+		console.log(json)
+
+		Database.createScenario(json)
+			.then(result => {
+				console.log("Scenario successfully created:", result)
+			})
+			.catch(error => {
+				console.error("Error creating scenario:", error)
+			})
+	}
+	submitDonation = params => {
+		let amount = 0
+
+		if (params.presetAmount) {
+			amount = 3
+		} else if (params.remainingAmount) {
+			amount = 10
+		} else if (params.customAmount) {
+			amount = params.customAmountValue
+		}
+
+		let json = {
+			data: {
+				type: "donations",
+				attributes: {
+					amount: amount
+				},
+				relationships: {
+					donator: {
+						data: {
+							type: "users",
+							id: 1
+						}
+					},
+					scenario: {
+						data: {
+							type: "scenarios",
+							id: params.scenarioId
+						}
+					}
+				}
+			}
+		}
+
+		Database.createDonation(json)
+			.then(result => {
+				console.log("Donation successfully created:", result)
+				this.getFullDataBase()
+			})
+			.catch(error => {
+				console.error("Error creating donation:", error)
+			})
+	}
+	submitDo = params => {
+		let json = {
+			data: {
+				type: "scenarios",
+				id: params.scenarioId,
+				attributes: {},
+				relationships: {
+					doer: {
+						data: {
+							type: "users",
+							id: this.state.currentUserId || 0
+						}
+					}
+				}
+			}
+		}
+
+		Database.updateScenario(json)
+			.then(result => {
+				console.log("Scenario successfully updated:", result)
+				this.getFullDataBase()
+			})
+			.catch(error => {
+				console.error("Error updating scenario:", error)
+			})
+	}
+	submitVerification = params => {
+		let image_string = getBase64(params.image)
+
+		let json = {
+			data: {
+				type: "proofs",
+				attributes: {
+					image: image_string
+				},
+				relationships: {
+					scenario: {
+						data: {
+							type: "scenarios",
+							id: params.scenarioId
+						}
+					}
+				}
+			}
+		}
+
+		Database.createProof(json)
+			.then(result => {
+				console.log("Proof successfully created:", result)
+			})
+			.catch(error => {
+				console.error("Error updating proof:", error)
+			})
+	}
 	toggleCustomDonationAmount = turnedOn => {
 		let { inputs } = this.pages.donator
 

@@ -7,7 +7,7 @@ import faSolid from "@fortawesome/fontawesome-free-solid"
 
 // Local JS
 import CustomJSX from "./CustomJSX"
-import { getUrlPiece } from "../resources/Util"
+import { getUrlPiece, valuify } from "../resources/Util"
 /*** [end of imports] ***/
 
 const history = createHistory()
@@ -74,6 +74,7 @@ export default class FormInput extends Component {
 									field = document.getElementById(onSubmitParams[i])
 									if (field.type === "radio" || field.type === "checkbox")
 										values[i] = field.checked
+									else if (field.type === "file") values[i] = field.files[0]
 									else values[i] = field.value
 								}
 
@@ -229,11 +230,15 @@ export default class FormInput extends Component {
 						disabled={disabledField}
 					>
 						<option>[Select]</option>
-						{options.map(_option => (
-							<option value={valuify(_option)} key={_option}>
-								{_option}
-							</option>
-						))}
+						{options.length &&
+							options.map((_option, _index) => (
+								<option
+									value={valuify(_option.attributes.description)}
+									key={_index}
+								>
+									{_option.attributes.description}
+								</option>
+							))}
 					</select>
 				</div>
 			)
@@ -303,15 +308,4 @@ export default class FormInput extends Component {
 			)
 		}
 	}
-}
-
-const valuify = str => {
-	let words = str.split(" ")
-	let ret = []
-
-	for (let i = 0, l = words.length; i < l; i++) {
-		ret.push(words[i].toLowerCase())
-	}
-
-	return ret.join("-")
 }

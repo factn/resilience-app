@@ -16,8 +16,14 @@ export default class AdModalContent extends Component {
 			lastUrlSegment: getUrlPiece()
 		}
 	}
+
 	buildHeader = () => {
-		let { doer_firstname, requester_firstname, verb, noun } = this.props
+		let {
+			doer_firstname,
+			requester_firstname,
+			verb,
+			noun
+		} = this.props.attributes
 
 		if (this.state.lastUrlSegment === "requester") {
 			return <h3 className="adcontent-header">Need {noun}?</h3>
@@ -36,40 +42,15 @@ export default class AdModalContent extends Component {
 		}
 	}
 	buildFigure = () => {
-		let {
-			requester_firstname,
-			funding_goal,
-			disaster,
-			image,
-			donated
-		} = this.props
+		let { funding_goal, disaster, image, donated } = this.props.attributes
 
 		if (this.state.lastUrlSegment === "requester") {
 			return <div />
 		} else if (this.state.lastUrlSegment === "verifier") {
 			return (
-				<Fragment>
-					<figure className="adcontent-image-wrap">
-						<img src={image} alt={disaster} className="adcontent-image" />
-					</figure>
-					<div className="verifier-form page-form">
-						<div className="input-wrap">
-							<label
-								className="input-label btn btn-label"
-								htmlFor="verifier_proof"
-							>
-								<span className="input-label-phrase">Upload proof</span>
-								<Icon icon="map-pin" className="input-label-icon" />
-							</label>
-							<input
-								className="form-input"
-								type="file"
-								id="verifier_proof"
-								accept="image/*"
-							/>
-						</div>
-					</div>
-				</Fragment>
+				<figure className="adcontent-image-wrap">
+					<img src={image} alt={disaster} className="adcontent-image" />
+				</figure>
 			)
 		} else {
 			return (
@@ -79,22 +60,19 @@ export default class AdModalContent extends Component {
 						<p>{disaster}</p>
 						<div className="funding-progress-wrap">
 							<label className="funding-progress-label goal-label">
-								Funding goal: {donated} / ${funding_goal}
+								Funding goal: ${donated} / ${funding_goal}
 							</label>
 							<input
 								type="range"
 								className="funding-progress-slider"
-								id={`${disaster}_fundingGoal_for${toFirstCap(
-									requester_firstname
-								)}`}
+								id={`${disaster}_fundingGoal`}
 								min={0}
 								max={funding_goal}
-								value={donated.slice(1)}
+								value={donated}
 								disabled={true}
 							/>
 							<label className="funding-progress-label complete-label">
-								{(parseInt(donated.slice(1)) / funding_goal * 100).toFixed(0)}%
-								complete
+								{(parseInt(donated) / funding_goal * 100).toFixed(0)}% complete
 							</label>
 						</div>
 					</figcaption>
@@ -104,7 +82,7 @@ export default class AdModalContent extends Component {
 	}
 
 	render() {
-		let { requesterlat, requesterlon } = this.props
+		let { requesterlat, requesterlon } = this.props.attributes
 
 		return (
 			<div className="modal-adcontent-wrap">

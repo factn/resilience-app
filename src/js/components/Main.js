@@ -16,7 +16,7 @@ export default class Main extends Component {
 		super(props)
 
 		this.state = {
-			scenarioData: {}
+			scenarioData: null
 		}
 	}
 
@@ -34,7 +34,7 @@ export default class Main extends Component {
 				.catch(error => {
 					// console.error("Error getting scenarios:", error)
 					this.setState({
-						scenarioData: {}
+						scenarioData: null
 					})
 				})
 		} else {
@@ -48,9 +48,37 @@ export default class Main extends Component {
 				.catch(error => {
 					// console.error("Error getting scenarios:", error)
 					this.setState({
-						scenarioData: {}
+						scenarioData: null
 					})
 				})
+		}
+	}
+
+	adContent = () => {
+		let { pageStyle } = this.props
+
+		if (this.state.scenarioData) {
+			if (pageStyle === "home-tab") {
+				return (
+					<section className="ad-feed-wrap">
+						{this.state.scenarioData
+							.slice(0, 3)
+							.map(scenario => <Ad scenario={scenario} key={scenario.id} />)}
+					</section>
+				)
+			} else {
+				return <AdModalContent {...this.state.scenarioData} />
+			}
+		} else {
+			if (pageStyle === "home-tab") {
+				return (
+					<section className="ad-feed-wrap">
+						<Loader />
+					</section>
+				)
+			} else {
+				return <Loader />
+			}
 		}
 	}
 
@@ -62,32 +90,6 @@ export default class Main extends Component {
 			lastClickedLon,
 			scenarioId
 		} = this.props
-
-		let adFeed, adModalContent
-
-		if (Object.keys(this.state.scenarioData).length > 0) {
-			if (pageStyle === "home-tab") {
-				adFeed = (
-					<section className="ad-feed-wrap">
-						{this.state.scenarioData
-							.slice(0, 3)
-							.map(scenario => <Ad scenario={scenario} key={scenario.id} />)}
-					</section>
-				)
-			} else {
-				adModalContent = <AdModalContent {...this.state.scenarioData} />
-			}
-		} else {
-			if (pageStyle === "home-tab") {
-				adFeed = (
-					<section className="ad-feed-wrap">
-						<Loader />
-					</section>
-				)
-			} else {
-				adModalContent = <Loader />
-			}
-		}
 
 		if (pageStyle === "modal") {
 			return (
@@ -104,14 +106,14 @@ export default class Main extends Component {
 			return (
 				<main className="page app-main home-tab-page">
 					<AdHeader />
-					{adFeed}
+					{this.adContent()}
 				</main>
 			)
 		} else {
 			// Flow
 			return (
 				<main className="page app-main page-adcontent-wrap">
-					{adModalContent}
+					{this.adContent()}
 					<Form
 						openMapPicker={openMapPicker}
 						lastClickedLat={lastClickedLat}

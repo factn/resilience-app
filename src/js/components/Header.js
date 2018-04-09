@@ -5,7 +5,7 @@ import Icon from "@fortawesome/react-fontawesome"
 
 // Local JS
 import Profile from "./Profile"
-import { toFirstCap } from "../resources/Util"
+import { toFirstCap, getUrlPiece } from "../resources/Util"
 /*** [end of imports] ***/
 
 export default class Header extends Component {
@@ -28,10 +28,6 @@ export default class Header extends Component {
 			verifier: {
 				title: "Verify",
 				navMenu: false
-			},
-			else: {
-				title: this.props.title,
-				navMenu: this.props.navMenu
 			}
 		}
 		this.state = {
@@ -50,10 +46,19 @@ export default class Header extends Component {
 		this.openMenu = this.openMenu.bind(this)
 		this.closeMenu = this.closeMenu.bind(this)
 	}
+
 	componentDidMount = () => {
 		// fetch and set state happens here for user data
 	}
 
+	getTitle = () => {
+		if (this.flows[getUrlPiece()]) return this.flows[getUrlPiece()].title
+		else return this.props.title
+	}
+	getNavMenu = () => {
+		if (this.flows[getUrlPiece()]) return this.flows[getUrlPiece()].navMenu
+		else return this.props.navMenu
+	}
 	openMenu = () => {
 		this.setState({
 			menuIsOpen: true
@@ -66,12 +71,9 @@ export default class Header extends Component {
 	}
 
 	render() {
-		let title = this.props.title
-		let navMenu = this.props.navMenu
-
 		return (
 			<header className="app-header">
-				{navMenu && (
+				{this.getNavMenu() && (
 					<nav className="menu">
 						<button
 							className="btn-lite menu-toggle-btn"
@@ -120,7 +122,7 @@ export default class Header extends Component {
 					</nav>
 				)}
 
-				<h1 className="title">{title}</h1>
+				<h1 className="title">{this.getTitle()}</h1>
 			</header>
 		)
 	}
