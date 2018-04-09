@@ -4,9 +4,9 @@ import React, { Component } from "react"
 
 // Local JS
 import Database from "../resources/Database"
-import Ad from "./Ad"
-import AdHeader from "./AdHeader"
-import AdModalContent from "./AdModalContent"
+import Scenario from "./Scenario"
+import HeaderTabs from "./HeaderTabs"
+import ScenarioContent from "./ScenarioContent"
 import Loader from "./Loader"
 import Form from "./Form"
 /*** [end of imports] ***/
@@ -54,25 +54,27 @@ export default class Main extends Component {
 		}
 	}
 
-	adContent = () => {
+	scenarioContent = () => {
 		let { pageStyle } = this.props
 
 		if (this.state.scenarioData) {
 			if (pageStyle === "home-tab") {
 				return (
-					<section className="ad-feed-wrap">
+					<section className="scenario-feed-wrap">
 						{this.state.scenarioData
 							.slice(0, 3)
-							.map(scenario => <Ad scenario={scenario} key={scenario.id} />)}
+							.map(scenario => (
+								<Scenario scenario={scenario} key={scenario.id} />
+							))}
 					</section>
 				)
 			} else {
-				return <AdModalContent {...this.state.scenarioData} />
+				return <ScenarioContent {...this.state.scenarioData} />
 			}
 		} else {
 			if (pageStyle === "home-tab") {
 				return (
-					<section className="ad-feed-wrap">
+					<section className="scenario-feed-wrap">
 						<Loader />
 					</section>
 				)
@@ -105,15 +107,15 @@ export default class Main extends Component {
 		} else if (pageStyle === "home-tab") {
 			return (
 				<main className="page app-main home-tab-page">
-					<AdHeader />
-					{this.adContent()}
+					<HeaderTabs />
+					{this.scenarioContent()}
 				</main>
 			)
 		} else {
 			// Flow
 			return (
-				<main className="page app-main page-adcontent-wrap">
-					{this.adContent()}
+				<main className="page app-main page-scenario-wrap">
+					{this.scenarioContent()}
 					<Form
 						openMapPicker={openMapPicker}
 						lastClickedLat={lastClickedLat}

@@ -546,10 +546,9 @@ export default class Form extends Component {
 						inputType: "submit",
 						labelPhrase: "I don't know them",
 						labelIcon: "times",
-						onSubmit: this.submitVerification,
+						onSubmit: this.dismissScenario,
 						onSubmitParams: {
-							scenarioId: "verifier_scenario-id",
-							image: "verifier_proof"
+							scenarioId: "verifier_scenario-id"
 						},
 						goToPath: "/verifier",
 						responseType: "negative"
@@ -830,6 +829,25 @@ export default class Form extends Component {
 			})
 			.catch(error => {
 				// console.error("Error updating proof:", error)
+			})
+	}
+	dismissScenario = params => {
+		let json = {
+			data: {
+				type: "scenarios",
+				id: params.scenarioId,
+				attributes: {
+					is_dismissed: true
+				}
+			}
+		}
+
+		Database.updateScenario(json)
+			.then(result => {
+				// console.log("Scenario successfully updated:", result)
+			})
+			.catch(error => {
+				// console.error("Error updating scenario:", error)
 			})
 	}
 	toggleCustomDonationAmount = turnedOn => {

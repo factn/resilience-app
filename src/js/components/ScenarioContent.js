@@ -8,7 +8,7 @@ import MiniMap from "./MiniMap"
 import { getUrlPiece, toFirstCap } from "../resources/Util"
 /*** [end of imports] ***/
 
-export default class AdModalContent extends Component {
+export default class ScenarioContent extends Component {
 	constructor(props) {
 		super(props)
 
@@ -26,16 +26,16 @@ export default class AdModalContent extends Component {
 		} = this.props.attributes
 
 		if (this.state.lastUrlSegment === "requester") {
-			return <h3 className="adcontent-header">Need {noun}?</h3>
+			return <h3 className="scenario-content-header">Need {noun}?</h3>
 		} else if (this.state.lastUrlSegment === "verifier") {
 			return (
-				<h3 className="adcontent-header">
+				<h3 className="scenario-content-header">
 					Help us verify {toFirstCap(doer_firstname)}
 				</h3>
 			)
 		} else {
 			return (
-				<h3 className="adcontent-header">
+				<h3 className="scenario-content-header">
 					Help {toFirstCap(requester_firstname)} {verb} {noun}
 				</h3>
 			)
@@ -48,15 +48,15 @@ export default class AdModalContent extends Component {
 			return <div />
 		} else if (this.state.lastUrlSegment === "verifier") {
 			return (
-				<figure className="adcontent-image-wrap">
-					<img src={image} alt={disaster} className="adcontent-image" />
+				<figure className="scenario-content-image-wrap">
+					<img src={image} alt={disaster} className="scenario-content-image" />
 				</figure>
 			)
 		} else {
 			return (
-				<figure className="adcontent-image-wrap">
-					<img src={image} alt={disaster} className="adcontent-image" />
-					<figcaption className="adcontent-image-caption">
+				<figure className="scenario-content-image-wrap">
+					<img src={image} alt={disaster} className="scenario-content-image" />
+					<figcaption className="scenario-content-image-caption">
 						<p>{disaster}</p>
 						<div className="funding-progress-wrap">
 							<label className="funding-progress-label goal-label">
@@ -85,7 +85,7 @@ export default class AdModalContent extends Component {
 		let { requesterlat, requesterlon } = this.props.attributes
 
 		return (
-			<div className="modal-adcontent-wrap">
+			<div className="scenario-content-wrap">
 				{this.buildHeader()}
 				{this.buildFigure()}
 				{this.state.lastUrlSegment !== "requester" && (

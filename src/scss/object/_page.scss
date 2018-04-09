@@ -4,18 +4,18 @@
 		padding: 0;
 	}
 }
-.page-adcontent-wrap {
-	.adcontent-header {
+.page-scenario-wrap {
+	.scenario-content-header {
 		margin-bottom: 0.5rem;
 	}
-	.adcontent-image-wrap {
+	.scenario-content-image-wrap {
 		padding: 0.25rem;
 		margin-bottom: 0.5rem;
 	}
-	.adcontent-image {
+	.scenario-content-image {
 		max-height: 30vh;
 	}
-	.adcontent-image-caption {
+	.scenario-content-image-caption {
 		color: rgba($black, 0.8);
 		font-size: 0.8em;
 		margin-top: 0.5rem;
@@ -169,14 +169,14 @@
 			.page-header {
 				grid-area: header;
 			}
-			.page-adcontent-wrap {
+			.page-scenario-wrap {
 				grid-area: adcontent;
 			}
-			.adcontent-image-wrap {
+			.scenario-content-image-wrap {
 				display: inline-flex;
 				justify-content: space-between;
 				width: 100%;
-				.adcontent-image-caption {
+				.scenario-content-image-caption {
 					padding-left: 1rem;
 					flex-grow: 5;
 				}
