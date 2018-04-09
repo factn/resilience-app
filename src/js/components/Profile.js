@@ -3,6 +3,9 @@
 import React, { Component } from "react"
 import Icon from "@fortawesome/react-fontawesome"
 import brands from "@fortawesome/fontawesome-free-brands"
+
+// Local JS
+import Database from "../resources/Database"
 /*** [end of imports] ***/
 
 export default class Profile extends Component {
@@ -14,8 +17,27 @@ export default class Profile extends Component {
 			donations: false,
 			tasks: false,
 			requests: false,
-			verifications: false
+			verifications: false,
+			userData: null
 		}
+	}
+
+	componentDidMount = () => {
+		let json = { email: this.props.userData.email }
+
+		Database.getUser(json)
+			.then(result => {
+				console.info("Database call complete:", result.body.data)
+				this.setState({
+					userData: result.body.data
+				})
+			})
+			.catch(error => {
+				console.error("Error getting scenarios:", error)
+				this.setState({
+					userData: null
+				})
+			})
 	}
 
 	toggleArticle = articleName => {
@@ -39,8 +61,6 @@ export default class Profile extends Component {
 	}
 
 	render() {
-		let { userData } = this.props
-
 		return (
 			<section className="profile">
 				<article

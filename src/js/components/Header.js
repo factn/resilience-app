@@ -39,7 +39,8 @@ export default class Header extends Component {
 				lastname: "Johnson",
 				latitude: -41.280789,
 				longitude: 174.775187
-			}
+			},
+			lastUrlSegment: getUrlPiece()
 		}
 
 		// Bindings
@@ -52,12 +53,16 @@ export default class Header extends Component {
 	}
 
 	getTitle = () => {
-		if (this.flows[getUrlPiece()]) return this.flows[getUrlPiece()].title
+		let { lastUrlSegment } = this.state
+
+		if (this.flows[lastUrlSegment]) return this.flows[lastUrlSegment].title
 		else return this.props.title
 	}
 	getNavMenu = () => {
-		if (this.flows[getUrlPiece()]) return this.flows[getUrlPiece()].navMenu
-		else return this.props.navMenu
+		let { lastUrlSegment } = this.state
+		let { navMenu } = this.props
+
+		return navMenu || this.flows[lastUrlSegment].navMenu
 	}
 	openMenu = () => {
 		this.setState({

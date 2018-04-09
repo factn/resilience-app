@@ -1,6 +1,6 @@
 /*** IMPORTS ***/
 // Module imports
-import React, { Component, Fragment } from "react"
+import React, { Component } from "react"
 import Icon from "@fortawesome/react-fontawesome"
 
 // Local JS

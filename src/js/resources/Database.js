@@ -139,14 +139,25 @@ const apiEndpoints = {
 		path: "/users/:id"
 	},
 
+	// Login
 	attemptLogin: {
 		method: post,
 		path: "/users/sign_in"
 	}
 }
 
+let baseUrl
+
+if (window.location.hostname === "localhost") {
+	console.log("localhost detected, using dev URL")
+	baseUrl = "http://localhost:4000"
+} else {
+	console.info("Live site, using production database")
+	baseUrl = "https://lion-uat.herokuapp.com"
+}
+
 const config = {
-	baseUrl: "https://lion-uat.herokuapp.com"
+	baseUrl: baseUrl
 }
 
 export default buildApi(apiEndpoints, config)
