@@ -25,12 +25,20 @@ export default class ScenarioContent extends Component {
 			noun
 		} = this.props.attributes
 
-		if (this.state.lastUrlSegment === "requester") {
+		let { lastUrlSegment } = this.state
+
+		if (lastUrlSegment === "requester") {
 			return <h3 className="scenario-content-header">Need {noun}?</h3>
-		} else if (this.state.lastUrlSegment === "verifier") {
+		} else if (lastUrlSegment === "verifier") {
 			return (
 				<h3 className="scenario-content-header">
 					Help us verify {toFirstCap(doer_firstname)}
+				</h3>
+			)
+		} else if (lastUrlSegment === "thanks") {
+			return (
+				<h3 className="scenario-content-header">
+					You helped {toFirstCap(requester_firstname)} {verb} {noun}
 				</h3>
 			)
 		} else {

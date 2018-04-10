@@ -10,7 +10,6 @@ import { toFirstCap } from "../resources/Util"
 export default class MiniScenario extends Component {
 	render() {
 		let { imagethumb, noun, requester_firstname, id } = this.props
-		console.log(this.props)
 
 		return (
 			<a className="mini-scenario" id={id} href={`/${id}/info`}>

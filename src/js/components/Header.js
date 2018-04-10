@@ -38,7 +38,7 @@ export default class Header extends Component {
 				navMenu: false
 			},
 			thanks: {
-				title: "Feel good about yourself",
+				title: "Feel good",
 				navMenu: false
 			},
 			info: {

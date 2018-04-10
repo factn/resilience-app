@@ -49,7 +49,7 @@ export default class App extends Component {
 				navMenu: true
 			},
 			thanks: {
-				title: "Feel good about yourself",
+				title: "Feel good",
 				navMenu: false
 			},
 			info: {
