@@ -1,0 +1,20 @@
+.mini-scenario {
+	display: block;
+	background: rgba($black, .1);
+	border: 1px solid rgba($black, .25);
+	margin-bottom: .25rem;
+	height: 3rem;
+	position: relative;
+	overflow: hidden;
+}
+.mini-scenario-figure {
+	padding: .5rem 1rem;
+}
+.mini-scenario-image {
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 6rem;
+}
+.mini-scenario-caption {
+}
