@@ -13,7 +13,9 @@ export default class ScenarioContent extends Component {
 		super(props)
 
 		this.state = {
-			lastUrlSegment: getUrlPiece()
+			lastUrlSegment: getUrlPiece(),
+			refreshes: 0,
+			mapRefresh: 30000 // Every 30 seconds check for map pin changes
 		}
 	}
 
@@ -88,16 +90,33 @@ export default class ScenarioContent extends Component {
 			)
 		}
 	}
+	getPins = () => {
+		let { doerlat, doerlon } = this.props.attributes
+
+		setTimeout(() => {
+			this.setState({ refreshes: this.state.refreshes + 1 })
+		}, this.state.mapRefresh)
+
+		return [{ doerlat, doerlon }]
+	}
 
 	render() {
 		let { requesterlat, requesterlon } = this.props.attributes
+		console.log(this.props)
 
 		return (
 			<div className="scenario-content-wrap">
 				{this.buildHeader()}
 				{this.buildFigure()}
-				{this.state.lastUrlSegment !== "requester" && (
-					<MiniMap initialCenter={{ lat: requesterlat, lng: requesterlon }} />
+				{this.state.lastUrlSegment !== "requester" &&
+					this.state.lastUrlSegment !== "info" && (
+						<MiniMap initialCenter={{ lat: requesterlat, lng: requesterlon }} />
+					)}
+				{this.state.lastUrlSegment === "info" && (
+					<MiniMap
+						initialCenter={{ lat: requesterlat, lng: requesterlon }}
+						pins={this.getPins()}
+					/>
 				)}
 			</div>
 		)
