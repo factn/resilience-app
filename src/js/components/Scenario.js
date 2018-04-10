@@ -84,6 +84,7 @@ export default class Scenario extends Component {
 			transitionTiming,
 			lastUrlSegment
 		} = this.state
+		let { id } = this.props.scenario
 
 		let xDif = lastTouchX === 0 ? 0 : lastTouchX - touchStartX
 
@@ -98,8 +99,8 @@ export default class Scenario extends Component {
 					afterStyle: { opacity: 0 }
 				})
 				setTimeout(() => {
-					// return this.acceptScenario({ scenarioId: this.props.scenario.id })
-					history.push(`/${this.props.scenario.id}/${lastUrlSegment}/`)
+					this.acceptScenario({ scenarioId: id })
+					history.push(`/${id}/${lastUrlSegment}/`)
 				}, transitionTiming)
 			} else {
 				this.setState({
@@ -110,7 +111,7 @@ export default class Scenario extends Component {
 					beforeStyle: { opacity: 0 },
 					afterStyle: { opacity: 0 }
 				})
-				// return this.dismissScenario({ scenarioId: this.props.scenario.id })
+				this.dismissScenario({ scenarioId: id })
 			}
 		} else {
 			this.setState({

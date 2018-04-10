@@ -21,7 +21,7 @@ export default class Main extends Component {
 	}
 
 	componentDidMount = () => {
-		let { pageStyle, scenarioId } = this.props
+		let { pageStyle, scenarioId, userId } = this.props
 
 		if (pageStyle === "home-tab") {
 			Database.getScenarios()
@@ -38,19 +38,39 @@ export default class Main extends Component {
 					})
 				})
 		} else {
-			Database.getScenario({ id: scenarioId })
-				.then(result => {
-					// console.info("Database call complete:", result.body.data)
-					this.setState({
-						scenarioData: result.body.data
+			if (scenarioId) {
+				Database.getScenario({ id: scenarioId })
+					.then(result => {
+						// console.info("Database call complete:", result.body.data)
+						this.setState({
+							scenarioData: result.body.data
+						})
 					})
-				})
-				.catch(error => {
-					// console.error("Error getting scenarios:", error)
-					this.setState({
-						scenarioData: null
+					.catch(error => {
+						// console.error("Error getting scenarios:", error)
+						this.setState({
+							scenarioData: null
+						})
 					})
+			} else if (userId) {
+				Database.getUserById({ id: userId })
+					.then(result => {
+						// console.info("Database call complete:", result.body.data)
+						this.setState({
+							scenarioData: result.body.data
+						})
+					})
+					.catch(error => {
+						// console.error("Error getting user:", error)
+						this.setState({
+							scenarioData: null
+						})
+					})
+			} else {
+				this.setState({
+					scenarioData: null
 				})
+			}
 		}
 	}
 
@@ -90,7 +110,8 @@ export default class Main extends Component {
 			openMapPicker,
 			lastClickedLat,
 			lastClickedLon,
-			scenarioId
+			scenarioId,
+			userId
 		} = this.props
 
 		if (pageStyle === "modal") {
@@ -101,6 +122,7 @@ export default class Main extends Component {
 						lastClickedLat={lastClickedLat}
 						lastClickedLon={lastClickedLon}
 						scenarioId={scenarioId}
+						userId={userId}
 					/>
 				</main>
 			)
@@ -121,6 +143,7 @@ export default class Main extends Component {
 						lastClickedLat={lastClickedLat}
 						lastClickedLon={lastClickedLon}
 						scenarioId={scenarioId}
+						userId={userId}
 					/>
 				</main>
 			)

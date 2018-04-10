@@ -126,6 +126,10 @@ const apiEndpoints = {
 		method: get,
 		path: "/users?filter[email]=:email"
 	},
+	getUserById: {
+		method: get,
+		path: "/users/:id"
+	},
 	createUser: {
 		method: post,
 		path: "/users"
@@ -137,6 +141,24 @@ const apiEndpoints = {
 	destroyUser: {
 		method: destroy,
 		path: "/users/:id"
+	},
+
+	// Scenarios related to users
+	getUserDonations: {
+		method: get,
+		path: "/users/:id/donated"
+	},
+	getUserDos: {
+		method: get,
+		path: "/users/:id/done"
+	},
+	getUserRequests: {
+		method: get,
+		path: "/users/:id/requested"
+	},
+	getUserVerifications: {
+		method: get,
+		path: "/users/:id/verified"
 	},
 
 	// Login
@@ -157,7 +179,7 @@ if (window.location.hostname === "localhost") {
 }
 
 const config = {
-	baseUrl: baseUrl
+	baseUrl: "https://lion-uat.herokuapp.com"
 }
 
 export default buildApi(apiEndpoints, config)

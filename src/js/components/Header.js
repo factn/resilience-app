@@ -40,6 +40,7 @@ export default class Header extends Component {
 		}
 		this.state = {
 			menuIsOpen: false,
+			currentUserId: 1,
 			currentUserData: {
 				// This will be replaced with a fetch to check the server
 				email: "admin@example.com",
@@ -118,7 +119,7 @@ export default class Header extends Component {
 								</div>
 							)}
 
-							<Profile userData={this.state.currentUserData} />
+							<Profile userId={this.state.currentUserId} />
 
 							<button
 								className="menu-close-btn btn-lite"

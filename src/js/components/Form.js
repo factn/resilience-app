@@ -210,6 +210,7 @@ export default class Form extends Component {
 							<div className="modal-custom-content-wrap thank-you-modal-custom-content">
 								<h4>You just made a huge difference</h4>
 								<Icon className="thank-you-icon" icon="thumbs-up" />
+								<div class="addthis_inline_share_toolbox" />
 							</div>
 						)
 					},
@@ -751,7 +752,8 @@ export default class Form extends Component {
 			data: {
 				type: "donations",
 				attributes: {
-					amount: amount
+					amount: amount,
+					is_accepted: true
 				},
 				relationships: {
 					donator: {
@@ -783,7 +785,9 @@ export default class Form extends Component {
 			data: {
 				type: "scenarios",
 				id: params.scenarioId,
-				attributes: {},
+				attributes: {
+					is_accepted: true
+				},
 				relationships: {
 					doer: {
 						data: {
@@ -810,7 +814,8 @@ export default class Form extends Component {
 			data: {
 				type: "proofs",
 				attributes: {
-					image: image_string
+					image: image_string,
+					is_accepted: true
 				},
 				relationships: {
 					scenario: {
@@ -888,7 +893,8 @@ export default class Form extends Component {
 			openMapPicker,
 			lastClickedLat,
 			lastClickedLon,
-			scenarioId
+			scenarioId,
+			userId
 		} = this.props
 
 		return (
@@ -899,7 +905,7 @@ export default class Form extends Component {
 						openMapPicker={openMapPicker}
 						lat={lastClickedLat}
 						lon={lastClickedLon}
-						scenarioId={scenarioId}
+						scenarioId={scenarioId || userId}
 						key={_index}
 					/>
 				))}

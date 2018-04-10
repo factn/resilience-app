@@ -18,24 +18,69 @@ export default class Profile extends Component {
 			tasks: false,
 			requests: false,
 			verifications: false,
-			userData: null
+			userDonations: null,
+			userDos: null,
+			userRequests: null,
+			userVerifications: null
 		}
 	}
 
 	componentDidMount = () => {
-		let json = { email: this.props.userData.email }
+		let json = { id: this.props.userId }
 
-		Database.getUser(json)
+		Database.getUserDonations(json)
 			.then(result => {
-				console.info("Database call complete:", result.body.data)
+				console.info("Donations call complete:", result.body.data)
 				this.setState({
-					userData: result.body.data
+					userDonations: result.body.data
 				})
 			})
 			.catch(error => {
-				console.error("Error getting scenarios:", error)
+				console.error("Error getting donations:", error)
 				this.setState({
-					userData: null
+					userDonations: null
+				})
+			})
+
+		Database.getUserDos(json)
+			.then(result => {
+				console.info("Dos call complete:", result.body.data)
+				this.setState({
+					userDos: result.body.data
+				})
+			})
+			.catch(error => {
+				console.error("Error getting dos:", error)
+				this.setState({
+					userDos: null
+				})
+			})
+
+		Database.getUserRequests(json)
+			.then(result => {
+				console.info("Requests call complete:", result.body.data)
+				this.setState({
+					userRequests: result.body.data
+				})
+			})
+			.catch(error => {
+				console.error("Error getting requests:", error)
+				this.setState({
+					userRequests: null
+				})
+			})
+
+		Database.getUserVerifications(json)
+			.then(result => {
+				console.info("Verifications call complete:", result.body.data)
+				this.setState({
+					userVerifications: result.body.data
+				})
+			})
+			.catch(error => {
+				console.error("Error getting verifications:", error)
+				this.setState({
+					userVerifications: null
 				})
 			})
 	}
