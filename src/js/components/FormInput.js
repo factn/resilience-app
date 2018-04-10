@@ -87,8 +87,9 @@ export default class FormInput extends Component {
 								onSubmit(values)
 							} else onSubmit()
 						}
-
-						if (typeof goToPath !== "undefined") history.push(goToPath)
+						
+						if (typeof goToPath === "string") history.push(scenarioId)
+						else if (typeof goToPath === "function") history.push(goToPath(scenarioId))
 					}}
 				>
 					<span className="button-label">{labelPhrase} </span>

@@ -36,6 +36,14 @@ export default class Header extends Component {
 			editAccount: {
 				title: "Edit Account",
 				navMenu: false
+			},
+			thanks: {
+				title: "Feel good about yourself",
+				navMenu: false
+			},
+			info: {
+				title: "Overview",
+				navMenu: true
 			}
 		}
 		this.state = {
@@ -142,7 +150,7 @@ export default class Header extends Component {
 					className="btn ad-homepage-btn"
 					href="https://lion-uat.herokuapp.com/ad"
 				>
-					Ads Homepage
+					Ads<span className="hideonmobile"> Homepage</span>
 				</a>
 			</header>
 		)

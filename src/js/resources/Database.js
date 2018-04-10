@@ -179,7 +179,7 @@ if (window.location.hostname === "localhost") {
 }
 
 const config = {
-	baseUrl: "https://lion-uat.herokuapp.com"
+	baseUrl: baseUrl
 }
 
 export default buildApi(apiEndpoints, config)

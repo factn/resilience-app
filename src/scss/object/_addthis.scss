@@ -1,0 +1,14 @@
+.custom-content {
+	h2 {
+		margin-bottom: .5rem;
+	}
+}
+.hideonmobile {
+	display: none;
+}
+
+@include breakpoint($tablet) {
+	.hideonmobile {
+		display: initial;
+	}
+}

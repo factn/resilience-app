@@ -207,10 +207,9 @@ export default class Form extends Component {
 						inputType: "custom",
 						disabledField: false,
 						customJSX: (
-							<div className="modal-custom-content-wrap thank-you-modal-custom-content">
-								<h4>You just made a huge difference</h4>
-								<Icon className="thank-you-icon" icon="thumbs-up" />
-								<div class="addthis_inline_share_toolbox" />
+							<div className="custom-content">
+								<h2>Tell everyone!</h2>
+								<div className="addthis_inline_share_toolbox" />
 							</div>
 						)
 					},
@@ -218,6 +217,27 @@ export default class Form extends Component {
 						inputType: "submit",
 						labelPhrase: "Do more",
 						labelIcon: "hand-point-right",
+						goToPath: scenarioId => `/${scenarioId}/info`,
+						responseType: "neutral"
+					}
+				]
+			},
+			info: {
+				inputs: [
+					{
+						inputType: "custom",
+						disabledField: false,
+						customJSX: (
+							<div className="custom-content">
+								<h2>Get people involved!</h2>
+								<div className="addthis_inline_share_toolbox" />
+							</div>
+						)
+					},
+					{
+						inputType: "submit",
+						labelPhrase: "Home",
+						labelIcon: "home",
 						goToPath: "/",
 						responseType: "neutral"
 					}
@@ -307,7 +327,7 @@ export default class Form extends Component {
 							fundingGoal: "requester_donation-amount",
 							scenarioId: "requester_scenario-id"
 						},
-						goToPath: "/requester",
+						goToPath: scenarioId => `/${scenarioId}/info`,
 						responseType: "neutral"
 					}
 				]
@@ -475,7 +495,7 @@ export default class Form extends Component {
 							creditCardSec: "donator_cc-sec",
 							scenarioId: "donator_scenario-id"
 						},
-						goToPath: "/thanks",
+						goToPath: scenarioId => `/${scenarioId}/thanks`,
 						responseType: "neutral"
 					}
 				]
@@ -514,7 +534,7 @@ export default class Form extends Component {
 							doerlon: "doer_location_lon",
 							scenarioId: "doer_scenario-id"
 						},
-						goToPath: "/doer",
+						goToPath: scenarioId => `/${scenarioId}/thanks`,
 						responseType: "neutral"
 					}
 				]
@@ -551,7 +571,7 @@ export default class Form extends Component {
 						onSubmitParams: {
 							scenarioId: "verifier_scenario-id"
 						},
-						goToPath: "/verifier",
+						goToPath: scenarioId => `/${scenarioId}/thanks`,
 						responseType: "negative"
 					}
 				]

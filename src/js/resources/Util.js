@@ -16,6 +16,7 @@ export function getUrlPiece() {
 		"doer",
 		"login",
 		"thanks",
+		"info",
 		"account",
 		"edit-account",
 		"preferences"

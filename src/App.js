@@ -50,8 +50,11 @@ export default class App extends Component {
 			},
 			thanks: {
 				title: "Feel good about yourself",
-				pageStyle: "modal",
 				navMenu: false
+			},
+			info: {
+				title: "Overview",
+				navMenu: true
 			}
 		}
 		this.tabs = {
