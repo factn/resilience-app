@@ -10,6 +10,11 @@
 	font-size: 1.5em;
 	text-align: center;
 }
+.ad-homepage-btn {
+	position: absolute;
+	top: 0.5rem;
+	right: 0.5rem;
+}
 
 @include breakpoint($tablet) {
 	.title {
