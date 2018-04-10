@@ -828,33 +828,26 @@ export default class Form extends Component {
 			})
 	}
 	submitDo = params => {
-		console.log(params)
-
 		let json = {
-			id: params.scenarioId,
 			data: {
 				type: "scenarios",
 				id: params.scenarioId,
-				attributes: {
-					// is_accepted: "true"
-				},
+				attributes: {},
 				relationships: {
 					doer: {
 						data: {
 							type: "users",
-							id: this.state.currentUserId || "0"
+							id: this.state.currentUserId || "1"
 						}
 					}
 				}
 			}
 		}
 
-		console.log(json)
-
-		Database.updateScenario(json)
+		Database.updateScenario({ id: params.scenarioId }, json)
 			.then(result => {
 				// console.log("Scenario successfully updated:", result)
-
+				
 				if (params.path) {
 					history.push(params.path)
 					window.location = params.path
