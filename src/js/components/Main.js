@@ -4,9 +4,9 @@ import React, { Component } from "react"
 
 // Local JS
 import Database from "../resources/Database"
-import Ad from "./Ad"
-import AdHeader from "./AdHeader"
-import AdModalContent from "./AdModalContent"
+import Scenario from "./Scenario"
+import HeaderTabs from "./HeaderTabs"
+import ScenarioContent from "./ScenarioContent"
 import Loader from "./Loader"
 import Form from "./Form"
 /*** [end of imports] ***/
@@ -21,7 +21,7 @@ export default class Main extends Component {
 	}
 
 	componentDidMount = () => {
-		let { pageStyle, scenarioId } = this.props
+		let { pageStyle, scenarioId, userId } = this.props
 
 		if (pageStyle === "home-tab") {
 			Database.getScenarios()
@@ -38,41 +38,63 @@ export default class Main extends Component {
 					})
 				})
 		} else {
-			Database.getScenario({ id: scenarioId })
-				.then(result => {
-					// console.info("Database call complete:", result.body.data)
-					this.setState({
-						scenarioData: result.body.data
+			if (scenarioId) {
+				Database.getScenario({ id: scenarioId })
+					.then(result => {
+						// console.info("Database call complete:", result.body.data)
+						this.setState({
+							scenarioData: result.body.data
+						})
 					})
-				})
-				.catch(error => {
-					// console.error("Error getting scenarios:", error)
-					this.setState({
-						scenarioData: null
+					.catch(error => {
+						// console.error("Error getting scenarios:", error)
+						this.setState({
+							scenarioData: null
+						})
 					})
+			} else if (userId) {
+				Database.getUserById({ id: userId })
+					.then(result => {
+						// console.info("Database call complete:", result.body.data)
+						this.setState({
+							scenarioData: result.body.data
+						})
+					})
+					.catch(error => {
+						// console.error("Error getting user:", error)
+						this.setState({
+							scenarioData: null
+						})
+					})
+			} else {
+				this.setState({
+					scenarioData: null
 				})
+			}
 		}
 	}
 
-	adContent = () => {
+	scenarioContent = () => {
 		let { pageStyle } = this.props
 
 		if (this.state.scenarioData) {
 			if (pageStyle === "home-tab") {
 				return (
-					<section className="ad-feed-wrap">
+					<section className="scenario-feed-wrap">
 						{this.state.scenarioData
 							.slice(0, 3)
-							.map(scenario => <Ad scenario={scenario} key={scenario.id} />)}
+							.map(scenario => (
+								<Scenario scenario={scenario} key={scenario.id} />
+							))}
 					</section>
 				)
 			} else {
-				return <AdModalContent {...this.state.scenarioData} />
+				return <ScenarioContent {...this.state.scenarioData} />
 			}
 		} else {
 			if (pageStyle === "home-tab") {
 				return (
-					<section className="ad-feed-wrap">
+					<section className="scenario-feed-wrap">
 						<Loader />
 					</section>
 				)
@@ -88,7 +110,8 @@ export default class Main extends Component {
 			openMapPicker,
 			lastClickedLat,
 			lastClickedLon,
-			scenarioId
+			scenarioId,
+			userId
 		} = this.props
 
 		if (pageStyle === "modal") {
@@ -99,26 +122,28 @@ export default class Main extends Component {
 						lastClickedLat={lastClickedLat}
 						lastClickedLon={lastClickedLon}
 						scenarioId={scenarioId}
+						userId={userId}
 					/>
 				</main>
 			)
 		} else if (pageStyle === "home-tab") {
 			return (
 				<main className="page app-main home-tab-page">
-					<AdHeader />
-					{this.adContent()}
+					<HeaderTabs />
+					{this.scenarioContent()}
 				</main>
 			)
 		} else {
 			// Flow
 			return (
-				<main className="page app-main page-adcontent-wrap">
-					{this.adContent()}
+				<main className="page app-main page-scenario-wrap">
+					{this.scenarioContent()}
 					<Form
 						openMapPicker={openMapPicker}
 						lastClickedLat={lastClickedLat}
 						lastClickedLon={lastClickedLon}
 						scenarioId={scenarioId}
+						userId={userId}
 					/>
 				</main>
 			)

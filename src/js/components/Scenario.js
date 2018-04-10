@@ -5,12 +5,13 @@ import createHistory from "history/createBrowserHistory"
 import Icon from "@fortawesome/react-fontawesome"
 
 // Local JS
+import Database from "../resources/Database"
 import { getUrlPiece, toFirstCap } from "../resources/Util"
 /*** [end of imports] ***/
 
 const history = createHistory()
 
-export default class Ad extends Component {
+export default class Scenario extends Component {
 	constructor(props) {
 		super(props)
 
@@ -83,6 +84,7 @@ export default class Ad extends Component {
 			transitionTiming,
 			lastUrlSegment
 		} = this.state
+		let { id } = this.props.scenario
 
 		let xDif = lastTouchX === 0 ? 0 : lastTouchX - touchStartX
 
@@ -97,7 +99,8 @@ export default class Ad extends Component {
 					afterStyle: { opacity: 0 }
 				})
 				setTimeout(() => {
-					history.push(`/${this.props.scenario.id}/${lastUrlSegment}/`)
+					this.acceptScenario({ scenarioId: id })
+					history.push(`/${id}/${lastUrlSegment}/`)
 				}, transitionTiming)
 			} else {
 				this.setState({
@@ -108,7 +111,7 @@ export default class Ad extends Component {
 					beforeStyle: { opacity: 0 },
 					afterStyle: { opacity: 0 }
 				})
-				// return this.dismissAd(this.props.scenario.id)
+				this.dismissScenario({ scenarioId: id })
 			}
 		} else {
 			this.setState({
@@ -122,6 +125,44 @@ export default class Ad extends Component {
 		}
 	}
 
+	dismissScenario = params => {
+		let json = {
+			data: {
+				type: "scenarios",
+				id: params.scenarioId,
+				attributes: {
+					is_dismissed: true
+				}
+			}
+		}
+
+		Database.updateScenario(json)
+			.then(result => {
+				// console.log("Scenario successfully updated:", result)
+			})
+			.catch(error => {
+				// console.error("Error updating scenario:", error)
+			})
+	}
+	acceptScenario = params => {
+		let json = {
+			data: {
+				type: "scenarios",
+				id: params.scenarioId,
+				attributes: {
+					is_accepted: true
+				}
+			}
+		}
+
+		Database.updateScenario(json)
+			.then(result => {
+				// console.log("Scenario successfully updated:", result)
+			})
+			.catch(error => {
+				// console.error("Error updating scenario:", error)
+			})
+	}
 	titleBuild = () => {
 		let {
 			requester_firstname,
@@ -133,46 +174,46 @@ export default class Ad extends Component {
 
 		if (lastUrlSegment === "donator") {
 			return (
-				<header className="ad-header">
-					<h4 className="ad-title">
+				<header className="scenario-header">
+					<h4 className="scenario-title">
 						{<span>{`Help us fund ${toFirstCap(requester_firstname)}`}</span>}
 					</h4>
-					<h5 className="ad-subtitle">
+					<h5 className="scenario-subtitle">
 						{<span>{`${donated} funded so far`}</span>}
 					</h5>
 				</header>
 			)
 		} else if (lastUrlSegment === "doer") {
 			return (
-				<header className="ad-header">
-					<h4 className="ad-title">
+				<header className="scenario-header">
+					<h4 className="scenario-title">
 						<span>{`Can you ${verb} ${noun} for ${toFirstCap(
 							requester_firstname
 						)}?`}</span>
 					</h4>
-					<h5 className="ad-subtitle">
+					<h5 className="scenario-subtitle">
 						<span>{`${donated} funded`}</span>
 					</h5>
 				</header>
 			)
 		} else if (lastUrlSegment === "requester") {
 			return (
-				<header className="ad-header">
-					<h4 className="ad-title">
+				<header className="scenario-header">
+					<h4 className="scenario-title">
 						<span>{`Need ${noun}?`}</span>
 					</h4>
-					<h5 className="ad-subtitle">
+					<h5 className="scenario-subtitle">
 						<span>30 individuals helped this month</span>
 					</h5>
 				</header>
 			)
 		} else if (lastUrlSegment === "verifier") {
 			return (
-				<header className="ad-header">
-					<h4 className="ad-title">
+				<header className="scenario-header">
+					<h4 className="scenario-title">
 						<span>{`Know ${toFirstCap(requester_firstname)}?`}</span>
 					</h4>
-					<h5 className="ad-subtitle">
+					<h5 className="scenario-subtitle">
 						<span>Help us identify them on Facebook</span>
 					</h5>
 				</header>
@@ -211,7 +252,7 @@ export default class Ad extends Component {
 
 		return (
 			<article
-				className={`ad ${lastUrlSegment}-ad`}
+				className={`scenario ${lastUrlSegment}-scenario`}
 				id={`scenario_${id}`}
 				style={style}
 				onTouchStart={e => this.handleTouchStart(e)}
@@ -226,12 +267,12 @@ export default class Ad extends Component {
 					<p>Dismiss</p>
 					<Icon icon="ban" />
 				</div>
-				<figure className="ad-image-wrap">
-					<img src={image} alt={disaster} className="ad-image" />
-					<p className="ad-image-caption">{disaster}</p>
+				<figure className="scenario-image-wrap">
+					<img src={image} alt={disaster} className="scenario-image" />
+					<p className="scenario-image-caption">{disaster}</p>
 				</figure>
 				{this.titleBuild()}
-				<a className="btn ad-modal-btn" href={`/${id}/${lastUrlSegment}/`}>
+				<a className="btn accept-scenario-btn" href={`/${id}/${lastUrlSegment}/`}>
 					{this.callToActionBuild(lastUrlSegment)}
 				</a>
 			</article>

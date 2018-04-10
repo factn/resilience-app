@@ -47,6 +47,7 @@ export default class Page extends Component {
 					lastClickedLat={this.state.lastClickedLat}
 					lastClickedLon={this.state.lastClickedLon}
 					scenarioId={id}
+					userId={1}
 				/>
 				{pageStyle === "home-tab" ? (
 					<Footer />

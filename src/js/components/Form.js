@@ -207,9 +207,9 @@ export default class Form extends Component {
 						inputType: "custom",
 						disabledField: false,
 						customJSX: (
-							<div className="modal-custom-content-wrap thank-you-modal-custom-content">
-								<h4>You just made a huge difference</h4>
-								<Icon className="thank-you-icon" icon="thumbs-up" />
+							<div className="custom-content">
+								<h2>Tell everyone!</h2>
+								<div className="addthis_inline_share_toolbox" />
 							</div>
 						)
 					},
@@ -217,6 +217,27 @@ export default class Form extends Component {
 						inputType: "submit",
 						labelPhrase: "Do more",
 						labelIcon: "hand-point-right",
+						goToPath: scenarioId => `/${scenarioId}/info`,
+						responseType: "neutral"
+					}
+				]
+			},
+			info: {
+				inputs: [
+					{
+						inputType: "custom",
+						disabledField: false,
+						customJSX: (
+							<div className="custom-content">
+								<h2>Get people involved!</h2>
+								<div className="addthis_inline_share_toolbox" />
+							</div>
+						)
+					},
+					{
+						inputType: "submit",
+						labelPhrase: "Home",
+						labelIcon: "home",
 						goToPath: "/",
 						responseType: "neutral"
 					}
@@ -306,7 +327,7 @@ export default class Form extends Component {
 							fundingGoal: "requester_donation-amount",
 							scenarioId: "requester_scenario-id"
 						},
-						goToPath: "/requester",
+						goToPath: scenarioId => `/${scenarioId}/info`,
 						responseType: "neutral"
 					}
 				]
@@ -474,7 +495,7 @@ export default class Form extends Component {
 							creditCardSec: "donator_cc-sec",
 							scenarioId: "donator_scenario-id"
 						},
-						goToPath: "/thanks",
+						goToPath: scenarioId => `/${scenarioId}/thanks`,
 						responseType: "neutral"
 					}
 				]
@@ -513,7 +534,7 @@ export default class Form extends Component {
 							doerlon: "doer_location_lon",
 							scenarioId: "doer_scenario-id"
 						},
-						goToPath: "/doer",
+						goToPath: scenarioId => `/${scenarioId}/thanks`,
 						responseType: "neutral"
 					}
 				]
@@ -546,12 +567,11 @@ export default class Form extends Component {
 						inputType: "submit",
 						labelPhrase: "I don't know them",
 						labelIcon: "times",
-						onSubmit: this.submitVerification,
+						onSubmit: this.dismissScenario,
 						onSubmitParams: {
-							scenarioId: "verifier_scenario-id",
-							image: "verifier_proof"
+							scenarioId: "verifier_scenario-id"
 						},
-						goToPath: "/verifier",
+						goToPath: scenarioId => `/${scenarioId}/thanks`,
 						responseType: "negative"
 					}
 				]
@@ -752,7 +772,8 @@ export default class Form extends Component {
 			data: {
 				type: "donations",
 				attributes: {
-					amount: amount
+					amount: amount,
+					is_accepted: true
 				},
 				relationships: {
 					donator: {
@@ -784,7 +805,9 @@ export default class Form extends Component {
 			data: {
 				type: "scenarios",
 				id: params.scenarioId,
-				attributes: {},
+				attributes: {
+					is_accepted: true
+				},
 				relationships: {
 					doer: {
 						data: {
@@ -811,7 +834,8 @@ export default class Form extends Component {
 			data: {
 				type: "proofs",
 				attributes: {
-					image: image_string
+					image: image_string,
+					is_accepted: true
 				},
 				relationships: {
 					scenario: {
@@ -830,6 +854,25 @@ export default class Form extends Component {
 			})
 			.catch(error => {
 				// console.error("Error updating proof:", error)
+			})
+	}
+	dismissScenario = params => {
+		let json = {
+			data: {
+				type: "scenarios",
+				id: params.scenarioId,
+				attributes: {
+					is_dismissed: true
+				}
+			}
+		}
+
+		Database.updateScenario(json)
+			.then(result => {
+				// console.log("Scenario successfully updated:", result)
+			})
+			.catch(error => {
+				// console.error("Error updating scenario:", error)
 			})
 	}
 	toggleCustomDonationAmount = turnedOn => {
@@ -870,7 +913,8 @@ export default class Form extends Component {
 			openMapPicker,
 			lastClickedLat,
 			lastClickedLon,
-			scenarioId
+			scenarioId,
+			userId
 		} = this.props
 
 		return (
@@ -881,7 +925,7 @@ export default class Form extends Component {
 						openMapPicker={openMapPicker}
 						lat={lastClickedLat}
 						lon={lastClickedLon}
-						scenarioId={scenarioId}
+						scenarioId={scenarioId || userId}
 						key={_index}
 					/>
 				))}

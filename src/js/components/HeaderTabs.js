@@ -6,7 +6,7 @@ import React, { Component } from "react"
 import { getUrlPiece } from "../resources/Util"
 /*** [end of imports] ***/
 
-export default class AdHeader extends Component {
+export default class HeaderTabs extends Component {
 	constructor(props) {
 		super(props)
 
@@ -40,12 +40,12 @@ export default class AdHeader extends Component {
 
 	render() {
 		return (
-			<header className="ad-tab-header">
-				<ul className="ad-tab-list">
+			<header className="scenario-header-tabs">
+				<ul className="scenario-tab-list">
 					{Object.entries(this.tabs).map(([key, val]) => (
 						<li
 							className={
-								`/${getUrlPiece()}` === val.path ? "ad-tab active" : "ad-tab"
+								`/${getUrlPiece()}` === val.path ? "scenario-tab active" : "scenario-tab"
 							}
 							key={key}
 						>

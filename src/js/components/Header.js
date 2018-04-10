@@ -36,10 +36,19 @@ export default class Header extends Component {
 			editAccount: {
 				title: "Edit Account",
 				navMenu: false
+			},
+			thanks: {
+				title: "Feel good about yourself",
+				navMenu: false
+			},
+			info: {
+				title: "Overview",
+				navMenu: true
 			}
 		}
 		this.state = {
 			menuIsOpen: false,
+			currentUserId: 1,
 			currentUserData: {
 				// This will be replaced with a fetch to check the server
 				email: "admin@example.com",
@@ -118,7 +127,7 @@ export default class Header extends Component {
 								</div>
 							)}
 
-							<Profile userData={this.state.currentUserData} />
+							<Profile userId={this.state.currentUserId} />
 
 							<button
 								className="menu-close-btn btn-lite"
@@ -141,7 +150,7 @@ export default class Header extends Component {
 					className="btn ad-homepage-btn"
 					href="https://lion-uat.herokuapp.com/ad"
 				>
-					Ads Homepage
+					Ads<span className="hideonmobile"> Homepage</span>
 				</a>
 			</header>
 		)
