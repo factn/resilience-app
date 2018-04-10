@@ -28,6 +28,14 @@ export default class Header extends Component {
 			verifier: {
 				title: "Verify",
 				navMenu: false
+			},
+			account: {
+				title: "Create Account",
+				navMenu: false
+			},
+			editAccount: {
+				title: "Edit Account",
+				navMenu: false
 			}
 		}
 		this.state = {

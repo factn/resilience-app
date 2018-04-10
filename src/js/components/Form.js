@@ -81,7 +81,7 @@ export default class Form extends Component {
 					{
 						inputType: "password",
 						inputID: "confirm-pw",
-						labelPhrase: "Password",
+						labelPhrase: "Confirm Password",
 						labelIcon: "key",
 						requiredField: true
 					},
@@ -120,6 +120,9 @@ export default class Form extends Component {
 			editAccount: {
 				inputs: [
 					{
+						inputType: "scenario-id"
+					},
+					{
 						inputType: "text",
 						inputID: "first-name",
 						labelPhrase: "First Name",
@@ -143,14 +146,14 @@ export default class Form extends Component {
 					{
 						inputType: "password",
 						inputID: "pw",
-						labelPhrase: "Password",
+						labelPhrase: "New Password",
 						labelIcon: "key",
 						requiredField: true
 					},
 					{
 						inputType: "password",
 						inputID: "confirm-pw",
-						labelPhrase: "Password",
+						labelPhrase: "Confirm New Password",
 						labelIcon: "key",
 						requiredField: true
 					},
@@ -174,6 +177,7 @@ export default class Form extends Component {
 						labelIcon: "save",
 						onSubmit: this.submitEditAccount,
 						onSubmitParams: {
+							scenarioId: "editAccount_scenario-id",
 							email: "editAccount_email",
 							firstname: "editAccount_first-name",
 							lastname: "editAccount_last-name",
@@ -530,10 +534,12 @@ export default class Form extends Component {
 						inputType: "submit",
 						labelPhrase: "Verify this user",
 						labelIcon: "check",
+						onSubmit: this.submitVerification,
 						onSubmitParams: {
-							userVerified: true,
-							scenarioId: "verifier_scenario-id"
+							scenarioId: "verifier_scenario-id",
+							image: "verifier_proof"
 						},
+						goToPath: "/verifier",
 						responseType: "positive"
 					},
 					{
@@ -542,7 +548,6 @@ export default class Form extends Component {
 						labelIcon: "times",
 						onSubmit: this.submitVerification,
 						onSubmitParams: {
-							userVerified: false,
 							scenarioId: "verifier_scenario-id",
 							image: "verifier_proof"
 						},
@@ -610,8 +615,55 @@ export default class Form extends Component {
 				console.error("Error getting user:", error)
 			})
 	}
-	submitCreateAccount = params => {}
-	submitEditAccount = params => {}
+	submitCreateAccount = params => {
+		let json = {
+			data: {
+				type: "users",
+				attributes: {
+					email: params.email.toString(),
+					firstname: params.firstname.toString(),
+					lastname: params.lastname.toString(),
+					latitude: params.latitude.toString(),
+					longitude: params.longitude.toString()
+					// password: params.password.toString(),
+					// password_confirmation: params.password_confirmation.toString()
+				}
+			}
+		}
+
+		Database.createUser(json)
+			.then(result => {
+				// console.log("User successfully created:", result)
+			})
+			.catch(error => {
+				// console.error("Error creating user:", error)
+			})
+	}
+	submitEditAccount = params => {
+		let json = {
+			data: {
+				id: params.scenarioId,
+				type: "users",
+				attributes: {
+					email: params.email.toString(),
+					firstname: params.firstname.toString(),
+					lastname: params.lastname.toString(),
+					latitude: params.latitude.toString(),
+					longitude: params.longitude.toString()
+					// password: params.password.toString(),
+					// password_confirmation: params.password_confirmation.toString()
+				}
+			}
+		}
+
+		Database.updateUser(json)
+			.then(result => {
+				// console.log("User successfully created:", result)
+			})
+			.catch(error => {
+				// console.error("Error creating user:", error)
+			})
+	}
 	submitPreferences = params => {}
 	submitRequest = params => {
 		let relatedEventId
@@ -679,10 +731,10 @@ export default class Form extends Component {
 
 		Database.createScenario(json)
 			.then(result => {
-				console.log("Scenario successfully created:", result)
+				// console.log("Scenario successfully created:", result)
 			})
 			.catch(error => {
-				console.error("Error creating scenario:", error)
+				// console.error("Error creating scenario:", error)
 			})
 	}
 	submitDonation = params => {
@@ -721,11 +773,10 @@ export default class Form extends Component {
 
 		Database.createDonation(json)
 			.then(result => {
-				console.log("Donation successfully created:", result)
-				this.getFullDataBase()
+				// console.log("Donation successfully created:", result)
 			})
 			.catch(error => {
-				console.error("Error creating donation:", error)
+				// console.error("Error creating donation:", error)
 			})
 	}
 	submitDo = params => {
@@ -747,11 +798,10 @@ export default class Form extends Component {
 
 		Database.updateScenario(json)
 			.then(result => {
-				console.log("Scenario successfully updated:", result)
-				this.getFullDataBase()
+				// console.log("Scenario successfully updated:", result)
 			})
 			.catch(error => {
-				console.error("Error updating scenario:", error)
+				// console.error("Error updating scenario:", error)
 			})
 	}
 	submitVerification = params => {
@@ -776,10 +826,10 @@ export default class Form extends Component {
 
 		Database.createProof(json)
 			.then(result => {
-				console.log("Proof successfully created:", result)
+				// console.log("Proof successfully created:", result)
 			})
 			.catch(error => {
-				console.error("Error updating proof:", error)
+				// console.error("Error updating proof:", error)
 			})
 	}
 	toggleCustomDonationAmount = turnedOn => {
