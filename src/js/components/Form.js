@@ -116,11 +116,12 @@ export default class Form extends Component {
 							password: "account_pw",
 							password_confirmation: "account_confirm-pw"
 						},
+						goToPath: "/",
 						responseType: "neutral"
 					}
 				]
 			},
-			editAccount: {
+			"edit-account": {
 				inputs: [
 					{
 						inputType: "scenario-id"
@@ -180,14 +181,14 @@ export default class Form extends Component {
 						labelIcon: "save",
 						onSubmit: this.submitEditAccount,
 						onSubmitParams: {
-							scenarioId: "editAccount_scenario-id",
-							email: "editAccount_email",
-							firstname: "editAccount_first-name",
-							lastname: "editAccount_last-name",
-							latitude: "editAccount_user-location_lat",
-							longitude: "editAccount_user-location_lon",
-							password: "editAccount_pw",
-							password_confirmation: "editAccount_confirm-pw"
+							scenarioId: "edit-account_scenario-id",
+							email: "edit-account_email",
+							firstname: "edit-account_first-name",
+							lastname: "edit-account_last-name",
+							latitude: "edit-account_user-location_lat",
+							longitude: "edit-account_user-location_lon",
+							password: "edit-account_pw",
+							password_confirmation: "edit-account_confirm-pw"
 						},
 						responseType: "neutral"
 					}
@@ -652,9 +653,9 @@ export default class Form extends Component {
 					firstname: params.firstname,
 					lastname: params.lastname,
 					latitude: params.latitude,
-					longitude: params.longitude
-					// password: params.password,
-					// password_confirmation: params.password_confirmation
+					longitude: params.longitude,
+					password: params.password,
+					password_confirmation: params.password_confirmation
 				}
 			}
 		}
@@ -847,7 +848,7 @@ export default class Form extends Component {
 		Database.updateScenario({ id: params.scenarioId }, json)
 			.then(result => {
 				// console.log("Scenario successfully updated:", result)
-				
+
 				if (params.path) {
 					history.push(params.path)
 					window.location = params.path
@@ -950,10 +951,11 @@ export default class Form extends Component {
 			scenarioId,
 			userId
 		} = this.props
+		let { lastUrlSegment } = this.state
 
 		return (
-			<div className={`${this.state.lastUrlSegment}-form page-form`}>
-				{this.pages[this.state.lastUrlSegment].inputs.map((_input, _index) => (
+			<div className={`${lastUrlSegment}-form page-form`}>
+				{this.pages[lastUrlSegment].inputs.map((_input, _index) => (
 					<FormInput
 						inputObj={_input}
 						openMapPicker={openMapPicker}

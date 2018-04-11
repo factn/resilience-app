@@ -33,7 +33,7 @@ export default class Header extends Component {
 				title: "Create Account",
 				navMenu: false
 			},
-			editAccount: {
+			"edit-account": {
 				title: "Edit Account",
 				navMenu: false
 			},

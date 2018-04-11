@@ -20,9 +20,13 @@ export default class MiniScenario extends Component {
 						alt={`${toFirstCap(noun)} for ${toFirstCap(requester_firstname)}`}
 					/>
 					<figcaption className="mini-scenario-caption">
-						<p>{`${toFirstCap(noun)} for ${toFirstCap(
-							requester_firstname
-						)}`}</p>
+						{requester_firstname && noun ? (
+							<p>{`${toFirstCap(noun)} for ${toFirstCap(
+								requester_firstname
+							)}`}</p>
+						) : (
+							<p>See more</p>
+						)}
 					</figcaption>
 				</figure>
 			</a>

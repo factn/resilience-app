@@ -7,6 +7,7 @@ import Main from "./Main"
 import Header from "./Header"
 import GoogleMaps from "./GoogleMaps"
 import Footer from "./Footer"
+import Database from "../resources/Database"
 /*** [end of imports] ***/
 
 export default class Page extends Component {
@@ -37,6 +38,14 @@ export default class Page extends Component {
 
 	render() {
 		let { pageStyle, title, navMenu, id } = this.props
+
+		Database.getUsers()
+			.then(result => {
+				console.info("Users call complete:", result.body.data)
+			})
+			.catch(error => {
+				// console.error("Error getting donations:", error)
+			})
 
 		return (
 			<Fragment>

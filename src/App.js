@@ -38,7 +38,7 @@ export default class App extends Component {
 				pageStyle: "modal",
 				navMenu: false
 			},
-			editAccount: {
+			"edit-account": {
 				title: "Edit Account",
 				pageStyle: "modal",
 				navMenu: false
