@@ -772,6 +772,7 @@ export default class Form extends Component {
 			.then(result => {
 				// console.log("Scenario successfully created:", result)
 
+				this.acceptScenario({ scenarioId: result.body.data.id })
 				if (params.path) {
 					history.push(params.path)
 					window.location = params.path
@@ -817,8 +818,9 @@ export default class Form extends Component {
 
 		Database.createDonation(json)
 			.then(result => {
-				// console.log("Donation successfully created:", result)
+				console.log("Donation successfully created:", result)
 
+				this.acceptScenario({ scenarioId: result.body.data.id })
 				if (params.path) {
 					history.push(params.path)
 					window.location = params.path
@@ -849,6 +851,7 @@ export default class Form extends Component {
 			.then(result => {
 				// console.log("Scenario successfully updated:", result)
 
+				this.acceptScenario({ scenarioId: params.scenarioId })
 				if (params.path) {
 					history.push(params.path)
 					window.location = params.path
@@ -882,6 +885,7 @@ export default class Form extends Component {
 			.then(result => {
 				// console.log("Proof successfully created:", result)
 
+				this.acceptScenario({ scenarioId: params.scenarioId })
 				if (params.path) {
 					history.push(params.path)
 					window.location = params.path
@@ -892,22 +896,103 @@ export default class Form extends Component {
 			})
 	}
 	dismissScenario = params => {
+		let { lastUrlSegment } = this.state
+		let ad_type
+
+		if (lastUrlSegment === "doer") ad_type = "1"
+		else if (lastUrlSegment === "requester") ad_type = "2"
+		else if (lastUrlSegment === "donator") ad_type = "3"
+		else if (lastUrlSegment === "verifier") ad_type = "4"
+
 		let json = {
 			data: {
-				type: "scenarios",
-				id: params.scenarioId,
-				attributes: {
-					is_dismissed: "true"
+				type: "user_ad_interactions",
+				attributes: {},
+				relationships: {
+					user: {
+						data: {
+							type: "users",
+							id: "1"
+						}
+					},
+					scenario: {
+						data: {
+							id: params.scenarioId,
+							type: "scenarios"
+						}
+					},
+					ad_type: {
+						data: {
+							id: ad_type,
+							type: "ad_types"
+						}
+					},
+					interaction_type: {
+						data: {
+							id: "2",
+							type: "interaction_types"
+						}
+					}
 				}
 			}
 		}
 
-		Database.updateScenario(json)
+		Database.createUserAdInteraction(json)
 			.then(result => {
-				// console.log("Scenario successfully updated:", result)
+				// console.log("User ad interaction successfully created:", result)
 			})
 			.catch(error => {
-				// console.error("Error updating scenario:", error)
+				// console.error("Error creating user ad interaction:", error)
+			})
+	}
+	acceptScenario = params => {
+		let { lastUrlSegment } = this.state
+		let ad_type
+
+		if (lastUrlSegment === "doer") ad_type = "1"
+		else if (lastUrlSegment === "requester") ad_type = "2"
+		else if (lastUrlSegment === "donator") ad_type = "3"
+		else if (lastUrlSegment === "verifier") ad_type = "4"
+
+		let json = {
+			data: {
+				type: "user_ad_interactions",
+				attributes: {},
+				relationships: {
+					user: {
+						data: {
+							type: "users",
+							id: "1"
+						}
+					},
+					scenario: {
+						data: {
+							id: params.scenarioId,
+							type: "scenarios"
+						}
+					},
+					ad_type: {
+						data: {
+							id: ad_type,
+							type: "ad_types"
+						}
+					},
+					interaction_type: {
+						data: {
+							id: "1",
+							type: "interaction_types"
+						}
+					}
+				}
+			}
+		}
+
+		Database.createUserAdInteraction(json)
+			.then(result => {
+				// console.log("User ad interaction successfully created:", result)
+			})
+			.catch(error => {
+				// console.error("Error creating user ad interaction:", error)
 			})
 	}
 	toggleCustomDonationAmount = turnedOn => {
