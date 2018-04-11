@@ -39,14 +39,6 @@ export default class Page extends Component {
 	render() {
 		let { pageStyle, title, navMenu, id } = this.props
 
-		Database.getUsers()
-			.then(result => {
-				console.info("Users call complete:", result.body.data)
-			})
-			.catch(error => {
-				// console.error("Error getting donations:", error)
-			})
-
 		return (
 			<Fragment>
 				<Header title={title} navMenu={navMenu} />

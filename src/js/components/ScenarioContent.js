@@ -4,6 +4,7 @@ import React, { Component } from "react"
 import Icon from "@fortawesome/react-fontawesome"
 
 // Local JS
+import Database from "../resources/Database"
 import MiniMap from "./MiniMap"
 import { getUrlPiece, toFirstCap } from "../resources/Util"
 /*** [end of imports] ***/
@@ -14,7 +15,8 @@ export default class ScenarioContent extends Component {
 
 		this.state = {
 			lastUrlSegment: getUrlPiece(),
-			refreshes: 0,
+			lat: this.props.attributes.doerlat,
+			lon: this.props.attributes.doerlon,
 			mapRefresh: 5000 // Every 5 seconds check for map pin changes
 		}
 	}
@@ -91,28 +93,47 @@ export default class ScenarioContent extends Component {
 		}
 	}
 	getPins = () => {
-		let { doerlat, doerlon } = this.props.attributes
-		let { refreshes, mapRefresh } = this.state
+		let { id } = this.props
+		let { mapRefresh } = this.state
 
 		setTimeout(() => {
-			this.setState({ refreshes: refreshes + 1 })
-		}, mapRefresh)
+			console.log("Checking...")
 
-		return [{ doerlat, doerlon }]
+			Database.getScenario({ id: id })
+				.then(result => {
+					let { doerlat, doerlon } = result.body.data.attributes
+					this.setState({
+						lat: doerlat,
+						lon: doerlon
+					})
+					console.log("success!", { doerlat, doerlon })
+					return [{ doerlat, doerlon }]
+				})
+				.catch(error => {
+					// console.error("Error getting scenarios:", error)
+					let { doerlat, doerlon } = this.props.attributes
+					this.setState({
+						lat: doerlat,
+						lon: doerlon
+					})
+					return [{ doerlat, doerlon }]
+				})
+		}, mapRefresh)
 	}
 
 	render() {
 		let { requesterlat, requesterlon } = this.props.attributes
+		let { lastUrlSegment } = this.state
 
 		return (
 			<div className="scenario-content-wrap">
 				{this.buildHeader()}
 				{this.buildFigure()}
-				{this.state.lastUrlSegment !== "requester" &&
-					this.state.lastUrlSegment !== "info" && (
+				{lastUrlSegment !== "requester" &&
+					lastUrlSegment !== "info" && (
 						<MiniMap initialCenter={{ lat: requesterlat, lng: requesterlon }} />
 					)}
-				{this.state.lastUrlSegment === "info" && (
+				{lastUrlSegment === "info" && (
 					<MiniMap
 						initialCenter={{ lat: requesterlat, lng: requesterlon }}
 						pins={this.getPins()}

@@ -73,13 +73,13 @@ export default class Profile extends Component {
 
 		Database.getUserVerifications(json)
 			.then(result => {
-				console.info("Verifications call complete:", result.body.data)
+				// console.info("Verifications call complete:", result.body.data)
 				this.setState({
 					userVerifications: result.body.data
 				})
 			})
 			.catch(error => {
-				console.error("Error getting verifications:", error)
+				// console.error("Error getting verifications:", error)
 				this.setState({
 					userVerifications: null
 				})
