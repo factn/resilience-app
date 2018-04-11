@@ -15,7 +15,7 @@ export default class ScenarioContent extends Component {
 		this.state = {
 			lastUrlSegment: getUrlPiece(),
 			refreshes: 0,
-			mapRefresh: 30000 // Every 30 seconds check for map pin changes
+			mapRefresh: 5000 // Every 5 seconds check for map pin changes
 		}
 	}
 
@@ -92,17 +92,17 @@ export default class ScenarioContent extends Component {
 	}
 	getPins = () => {
 		let { doerlat, doerlon } = this.props.attributes
+		let { refreshes, mapRefresh } = this.state
 
 		setTimeout(() => {
-			this.setState({ refreshes: this.state.refreshes + 1 })
-		}, this.state.mapRefresh)
+			this.setState({ refreshes: refreshes + 1 })
+		}, mapRefresh)
 
 		return [{ doerlat, doerlon }]
 	}
 
 	render() {
 		let { requesterlat, requesterlon } = this.props.attributes
-		console.log(this.props)
 
 		return (
 			<div className="scenario-content-wrap">
