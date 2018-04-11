@@ -101,6 +101,7 @@ export default class Scenario extends Component {
 				setTimeout(() => {
 					this.acceptScenario({ scenarioId: id })
 					history.push(`/${id}/${lastUrlSegment}/`)
+					window.location = `/${id}/${lastUrlSegment}/`
 				}, transitionTiming)
 			} else {
 				this.setState({

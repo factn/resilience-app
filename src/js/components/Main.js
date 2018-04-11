@@ -77,8 +77,6 @@ export default class Main extends Component {
 	scenarioContent = () => {
 		let { pageStyle } = this.props
 
-		console.log(this.state.scenarioData)
-
 		if (this.state.scenarioData) {
 			if (pageStyle === "home-tab") {
 				return (

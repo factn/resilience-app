@@ -162,10 +162,6 @@
 			color: rgba($black, 0.5);
 		}
 	}
-	.funding-progress-slider {
-		border: 1px solid rgba($black, 0.5);
-		background: linear-gradient(to right, $red, $yellow, $green);
-	}
 }
 
 @include breakpoint($phone-down) {

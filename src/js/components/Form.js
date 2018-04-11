@@ -221,7 +221,7 @@ export default class Form extends Component {
 						inputType: "submit",
 						labelPhrase: "Do more",
 						labelIcon: "hand-point-right",
-						goToPath: scenarioId => `/${scenarioId}/info`,
+						goToPath: "/donator",
 						responseType: "neutral"
 					}
 				]
@@ -280,13 +280,6 @@ export default class Form extends Component {
 						]
 					},
 					{
-						inputType: "number",
-						inputID: "donation-amount",
-						labelPhrase: "What is your donation goal?",
-						// labelIcon: "hand-holding-usd",
-						requiredField: true
-					},
-					{
 						inputType: "text",
 						inputID: "first-name",
 						labelPhrase: "What is your name?",
@@ -328,7 +321,6 @@ export default class Form extends Component {
 							noun: "requester_noun",
 							verb: "requester_verb",
 							customMessage: "requester_custom-message",
-							fundingGoal: "requester_donation-amount",
 							scenarioId: "requester_scenario-id"
 						},
 						goToPath: scenarioId => `/${scenarioId}/info`,
@@ -513,13 +505,22 @@ export default class Form extends Component {
 						inputType: "checkbox",
 						inputID: "materials",
 						labelPhrase: "I'm bringing materials",
-						requiredField: false
+						requiredField: false,
+						checkedField: true
+					},
+					{
+						inputType: "checkbox",
+						inputID: "volunteering",
+						labelPhrase: "I can provide transportation",
+						requiredField: false,
+						checkedField: true
 					},
 					{
 						inputType: "checkbox",
 						inputID: "volunteering",
 						labelPhrase: "I'm volunteering",
-						requiredField: false
+						requiredField: false,
+						checkedField: true
 					},
 					{
 						inputType: "location",
@@ -538,7 +539,7 @@ export default class Form extends Component {
 							doerlon: "doer_location_lon",
 							scenarioId: "doer_scenario-id"
 						},
-						goToPath: scenarioId => `/${scenarioId}/thanks`,
+						goToPath: scenarioId => `/${scenarioId}/info`,
 						responseType: "neutral"
 					}
 				]
@@ -683,9 +684,9 @@ export default class Form extends Component {
 					firstname: params.firstname,
 					lastname: params.lastname,
 					latitude: params.latitude,
-					longitude: params.longitude
-					// password: params.password,
-					// password_confirmation: params.password_confirmation
+					longitude: params.longitude,
+					password: params.password,
+					password_confirmation: params.password_confirmation
 				}
 			}
 		}
@@ -730,7 +731,7 @@ export default class Form extends Component {
 			data: {
 				type: "scenarios",
 				attributes: {
-					funding_goal: params.fundingGoal,
+					funding_goal: "50",
 					image: imageString
 				},
 				relationships: {

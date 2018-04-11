@@ -63,6 +63,7 @@ export default class FormInput extends Component {
 			inputID,
 			requiredField,
 			disabledField,
+			checkedField,
 
 			// Submit function
 			responseType,
@@ -236,6 +237,7 @@ export default class FormInput extends Component {
 						id={`${this.state.formName}_${inputID}`}
 						required={requiredField}
 						disabled={disabledField}
+						checked={checkedField}
 					/>
 					<label
 						className="input-label"
