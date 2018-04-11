@@ -31,13 +31,13 @@ export default class Profile extends Component {
 
 		Database.getUserDonations(json)
 			.then(result => {
-				console.info("Donations call complete:", result.body.data)
+				// console.info("Donations call complete:", result.body.data)
 				this.setState({
 					userDonations: result.body.data
 				})
 			})
 			.catch(error => {
-				console.error("Error getting donations:", error)
+				// console.error("Error getting donations:", error)
 				this.setState({
 					userDonations: null
 				})
@@ -45,13 +45,13 @@ export default class Profile extends Component {
 
 		Database.getUserDos(json)
 			.then(result => {
-				console.info("Dos call complete:", result.body.data)
+				// console.info("Dos call complete:", result.body.data)
 				this.setState({
 					userDos: result.body.data
 				})
 			})
 			.catch(error => {
-				console.error("Error getting dos:", error)
+				// console.error("Error getting dos:", error)
 				this.setState({
 					userDos: null
 				})
@@ -59,13 +59,13 @@ export default class Profile extends Component {
 
 		Database.getUserRequests(json)
 			.then(result => {
-				console.info("Requests call complete:", result.body.data)
+				// console.info("Requests call complete:", result.body.data)
 				this.setState({
 					userRequests: result.body.data
 				})
 			})
 			.catch(error => {
-				console.error("Error getting requests:", error)
+				// console.error("Error getting requests:", error)
 				this.setState({
 					userRequests: null
 				})
@@ -73,13 +73,13 @@ export default class Profile extends Component {
 
 		Database.getUserVerifications(json)
 			.then(result => {
-				console.info("Verifications call complete:", result.body.data)
+				// console.info("Verifications call complete:", result.body.data)
 				this.setState({
 					userVerifications: result.body.data
 				})
 			})
 			.catch(error => {
-				console.error("Error getting verifications:", error)
+				// console.error("Error getting verifications:", error)
 				this.setState({
 					userVerifications: null
 				})
@@ -217,7 +217,9 @@ export default class Profile extends Component {
 						className="profile-article-header"
 						onClick={() => this.toggleArticle("verifications")}
 					>
-						<h4>Verifications ({userVerifications ? userVerifications.length : 0})</h4>
+						<h4>
+							Verifications ({userVerifications ? userVerifications.length : 0})
+						</h4>
 						{verifications ? (
 							<Icon className="profile-icon" icon="caret-up" />
 						) : (

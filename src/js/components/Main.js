@@ -26,7 +26,7 @@ export default class Main extends Component {
 		if (pageStyle === "home-tab") {
 			Database.getScenarios()
 				.then(result => {
-					// console.info("Database call complete:", result.body.data)
+					console.info("Database call complete:", result.body.data)
 					this.setState({
 						scenarioData: result.body.data
 					})
@@ -76,6 +76,8 @@ export default class Main extends Component {
 
 	scenarioContent = () => {
 		let { pageStyle } = this.props
+
+		console.log(this.state.scenarioData)
 
 		if (this.state.scenarioData) {
 			if (pageStyle === "home-tab") {

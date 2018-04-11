@@ -1,12 +1,13 @@
 /*** IMPORTS ***/
 // Module imports
-import React, { Component } from "react"
+import React, { Component, Fragment } from "react"
 import createHistory from "history/createBrowserHistory"
 import Icon from "@fortawesome/react-fontawesome"
 import faSolid from "@fortawesome/fontawesome-free-solid"
 
 // Local JS
 import CustomJSX from "./CustomJSX"
+import Loader from "./Loader"
 import {
 	getUrlPiece,
 	valuify,
@@ -22,9 +23,17 @@ export default class FormInput extends Component {
 		super(props)
 
 		this.state = {
-			formName: getUrlPiece()
+			formName: getUrlPiece(),
+			buttonPressed: false
 		}
 	}
+
+	pressButton = () => {
+		this.setState({
+			buttonPressed: true
+		})
+	}
+
 	render() {
 		let { openMapPicker, inputObj, lat, lon, scenarioId } = this.props
 
@@ -70,30 +79,49 @@ export default class FormInput extends Component {
 				<button
 					className={`btn submit-btn ${responseType}-response`}
 					onClick={() => {
-						if (typeof onSubmit !== "undefined") {
-							if (typeof onSubmitParams !== "undefined") {
-								let values = {}
-								let field
+						if (!this.state.buttonPressed) {
+							let values = {}
+							this.pressButton()
 
-								for (let i in onSubmitParams) {
-									field = document.getElementById(onSubmitParams[i])
+							if (typeof onSubmit !== "undefined") {
+								if (typeof onSubmitParams !== "undefined") {
+									let field
 
-									if (field.type === "radio" || field.type === "checkbox")
-										values[i] = field.checked
-									else if (field.type === "file") values[i] = getBase64()
-									else values[i] = field.value
+									for (let i in onSubmitParams) {
+										field = document.getElementById(onSubmitParams[i])
+
+										if (field.type === "radio" || field.type === "checkbox")
+											values[i] = field.checked.toString()
+										else if (field.type === "file")
+											values[i] = getBase64().toString()
+										else values[i] = field.value.toString()
+									}
 								}
-
+								values["path"] =
+									typeof goToPath === "string"
+										? scenarioId
+										: goToPath(scenarioId)
 								onSubmit(values)
-							} else onSubmit()
-						}
-						
-						if (typeof goToPath === "string") history.push(scenarioId)
-						else if (typeof goToPath === "function") history.push(goToPath(scenarioId))
+							} else {
+								if (typeof goToPath === "string") {
+									history.push(goToPath)
+									window.location = goToPath
+								} else if (typeof goToPath === "function") {
+									history.push(goToPath(scenarioId))
+									window.location = goToPath(scenarioId)
+								}
+							}
+						} else console.log("Bong!")
 					}}
 				>
-					<span className="button-label">{labelPhrase} </span>
-					<Icon icon={labelIcon} className="button-icon" />
+					{this.state.buttonPressed ? (
+						<Loader />
+					) : (
+						<Fragment>
+							<span className="button-label">{labelPhrase} </span>
+							<Icon icon={labelIcon} className="button-icon" />
+						</Fragment>
+					)}
 				</button>
 			)
 		} else if (inputType === "location") {

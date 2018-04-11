@@ -165,6 +165,28 @@ const apiEndpoints = {
 	attemptLogin: {
 		method: post,
 		path: "/users/sign_in"
+	},
+
+	// Ad Types
+	getAdTypes: {
+		method: get,
+		path: "/ad_types"
+	},
+
+	// User Ad Interactions
+	getUserAdInteractions: {
+		method: get,
+		path: "/user_ad_interactions"
+	},
+	createUserAdInteraction: {
+		method: post,
+		path: "/user_ad_interactions"
+	},
+
+	// Interaction Types
+	getInteractionTypes: {
+		method: get,
+		path: "/interaction_types"
 	}
 }
 

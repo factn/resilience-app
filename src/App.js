@@ -38,7 +38,7 @@ export default class App extends Component {
 				pageStyle: "modal",
 				navMenu: false
 			},
-			editAccount: {
+			"edit-account": {
 				title: "Edit Account",
 				pageStyle: "modal",
 				navMenu: false
@@ -49,7 +49,7 @@ export default class App extends Component {
 				navMenu: true
 			},
 			thanks: {
-				title: "Feel good about yourself",
+				title: "Feel good",
 				navMenu: false
 			},
 			info: {

@@ -2,12 +2,15 @@
 // Module imports
 import React, { Component, Fragment } from "react"
 import Icon from "@fortawesome/react-fontawesome"
+import createHistory from "history/createBrowserHistory"
 
 // Local JS
 import FormInput from "./FormInput"
 import Database from "../resources/Database"
 import { getUrlPiece, getBase64 } from "../resources/Util"
 /*** [end of imports] ***/
+
+const history = createHistory()
 
 export default class Form extends Component {
 	constructor(props) {
@@ -113,11 +116,12 @@ export default class Form extends Component {
 							password: "account_pw",
 							password_confirmation: "account_confirm-pw"
 						},
+						goToPath: "/",
 						responseType: "neutral"
 					}
 				]
 			},
-			editAccount: {
+			"edit-account": {
 				inputs: [
 					{
 						inputType: "scenario-id"
@@ -177,14 +181,14 @@ export default class Form extends Component {
 						labelIcon: "save",
 						onSubmit: this.submitEditAccount,
 						onSubmitParams: {
-							scenarioId: "editAccount_scenario-id",
-							email: "editAccount_email",
-							firstname: "editAccount_first-name",
-							lastname: "editAccount_last-name",
-							latitude: "editAccount_user-location_lat",
-							longitude: "editAccount_user-location_lon",
-							password: "editAccount_pw",
-							password_confirmation: "editAccount_confirm-pw"
+							scenarioId: "edit-account_scenario-id",
+							email: "edit-account_email",
+							firstname: "edit-account_first-name",
+							lastname: "edit-account_last-name",
+							latitude: "edit-account_user-location_lat",
+							longitude: "edit-account_user-location_lon",
+							password: "edit-account_pw",
+							password_confirmation: "edit-account_confirm-pw"
 						},
 						responseType: "neutral"
 					}
@@ -571,7 +575,7 @@ export default class Form extends Component {
 						onSubmitParams: {
 							scenarioId: "verifier_scenario-id"
 						},
-						goToPath: scenarioId => `/${scenarioId}/thanks`,
+						goToPath: scenarioId => `/${scenarioId}/info`,
 						responseType: "negative"
 					}
 				]
@@ -629,10 +633,15 @@ export default class Form extends Component {
 
 		Database.attemptLogin(json)
 			.then(result => {
-				console.log("Login complete:", result)
+				// console.log("Login complete:", result)
+
+				if (params.path) {
+					history.push(params.path)
+					window.location = params.path
+				}
 			})
 			.catch(error => {
-				console.error("Error getting user:", error)
+				// console.error("Error getting user:", error)
 			})
 	}
 	submitCreateAccount = params => {
@@ -640,13 +649,13 @@ export default class Form extends Component {
 			data: {
 				type: "users",
 				attributes: {
-					email: params.email.toString(),
-					firstname: params.firstname.toString(),
-					lastname: params.lastname.toString(),
-					latitude: params.latitude.toString(),
-					longitude: params.longitude.toString()
-					// password: params.password.toString(),
-					// password_confirmation: params.password_confirmation.toString()
+					email: params.email,
+					firstname: params.firstname,
+					lastname: params.lastname,
+					latitude: params.latitude,
+					longitude: params.longitude,
+					password: params.password,
+					password_confirmation: params.password_confirmation
 				}
 			}
 		}
@@ -654,6 +663,11 @@ export default class Form extends Component {
 		Database.createUser(json)
 			.then(result => {
 				// console.log("User successfully created:", result)
+
+				if (params.path) {
+					history.push(params.path)
+					window.location = params.path
+				}
 			})
 			.catch(error => {
 				// console.error("Error creating user:", error)
@@ -665,13 +679,13 @@ export default class Form extends Component {
 				id: params.scenarioId,
 				type: "users",
 				attributes: {
-					email: params.email.toString(),
-					firstname: params.firstname.toString(),
-					lastname: params.lastname.toString(),
-					latitude: params.latitude.toString(),
-					longitude: params.longitude.toString()
-					// password: params.password.toString(),
-					// password_confirmation: params.password_confirmation.toString()
+					email: params.email,
+					firstname: params.firstname,
+					lastname: params.lastname,
+					latitude: params.latitude,
+					longitude: params.longitude
+					// password: params.password,
+					// password_confirmation: params.password_confirmation
 				}
 			}
 		}
@@ -679,6 +693,11 @@ export default class Form extends Component {
 		Database.updateUser(json)
 			.then(result => {
 				// console.log("User successfully created:", result)
+
+				if (params.path) {
+					history.push(params.path)
+					window.location = params.path
+				}
 			})
 			.catch(error => {
 				// console.error("Error creating user:", error)
@@ -718,25 +737,25 @@ export default class Form extends Component {
 					event: {
 						data: {
 							type: "events",
-							id: (relatedEventId || "1").toString()
+							id: relatedEventId || "1"
 						}
 					},
 					noun: {
 						data: {
 							type: "nouns",
-							id: (relatedNounId || "1").toString()
+							id: relatedNounId || "1"
 						}
 					},
 					verb: {
 						data: {
 							type: "verbs",
-							id: (relatedVerbId || "1").toString()
+							id: relatedVerbId || "1"
 						}
 					},
 					requester: {
 						data: {
 							type: "users",
-							id: (this.state.currentUserId || "1").toString()
+							id: this.state.currentUserId || "1"
 						}
 					},
 					doer: {
@@ -752,6 +771,12 @@ export default class Form extends Component {
 		Database.createScenario(json)
 			.then(result => {
 				// console.log("Scenario successfully created:", result)
+
+				this.acceptScenario({ scenarioId: result.body.data.id })
+				if (params.path) {
+					history.push(params.path)
+					window.location = params.path
+				}
 			})
 			.catch(error => {
 				// console.error("Error creating scenario:", error)
@@ -772,14 +797,13 @@ export default class Form extends Component {
 			data: {
 				type: "donations",
 				attributes: {
-					amount: amount,
-					is_accepted: true
+					amount: amount
 				},
 				relationships: {
 					donator: {
 						data: {
 							type: "users",
-							id: 1
+							id: "1"
 						}
 					},
 					scenario: {
@@ -794,7 +818,13 @@ export default class Form extends Component {
 
 		Database.createDonation(json)
 			.then(result => {
-				// console.log("Donation successfully created:", result)
+				console.log("Donation successfully created:", result)
+
+				this.acceptScenario({ scenarioId: result.body.data.id })
+				if (params.path) {
+					history.push(params.path)
+					window.location = params.path
+				}
 			})
 			.catch(error => {
 				// console.error("Error creating donation:", error)
@@ -805,23 +835,27 @@ export default class Form extends Component {
 			data: {
 				type: "scenarios",
 				id: params.scenarioId,
-				attributes: {
-					is_accepted: true
-				},
+				attributes: {},
 				relationships: {
 					doer: {
 						data: {
 							type: "users",
-							id: this.state.currentUserId || 0
+							id: this.state.currentUserId || "1"
 						}
 					}
 				}
 			}
 		}
 
-		Database.updateScenario(json)
+		Database.updateScenario({ id: params.scenarioId }, json)
 			.then(result => {
 				// console.log("Scenario successfully updated:", result)
+
+				this.acceptScenario({ scenarioId: params.scenarioId })
+				if (params.path) {
+					history.push(params.path)
+					window.location = params.path
+				}
 			})
 			.catch(error => {
 				// console.error("Error updating scenario:", error)
@@ -834,8 +868,7 @@ export default class Form extends Component {
 			data: {
 				type: "proofs",
 				attributes: {
-					image: image_string,
-					is_accepted: true
+					image: image_string
 				},
 				relationships: {
 					scenario: {
@@ -851,28 +884,115 @@ export default class Form extends Component {
 		Database.createProof(json)
 			.then(result => {
 				// console.log("Proof successfully created:", result)
+
+				this.acceptScenario({ scenarioId: params.scenarioId })
+				if (params.path) {
+					history.push(params.path)
+					window.location = params.path
+				}
 			})
 			.catch(error => {
 				// console.error("Error updating proof:", error)
 			})
 	}
 	dismissScenario = params => {
+		let { lastUrlSegment } = this.state
+		let ad_type
+
+		if (lastUrlSegment === "doer") ad_type = "1"
+		else if (lastUrlSegment === "requester") ad_type = "2"
+		else if (lastUrlSegment === "donator") ad_type = "3"
+		else if (lastUrlSegment === "verifier") ad_type = "4"
+
 		let json = {
 			data: {
-				type: "scenarios",
-				id: params.scenarioId,
-				attributes: {
-					is_dismissed: true
+				type: "user_ad_interactions",
+				attributes: {},
+				relationships: {
+					user: {
+						data: {
+							type: "users",
+							id: "1"
+						}
+					},
+					scenario: {
+						data: {
+							id: params.scenarioId,
+							type: "scenarios"
+						}
+					},
+					ad_type: {
+						data: {
+							id: ad_type,
+							type: "ad_types"
+						}
+					},
+					interaction_type: {
+						data: {
+							id: "2",
+							type: "interaction_types"
+						}
+					}
 				}
 			}
 		}
 
-		Database.updateScenario(json)
+		Database.createUserAdInteraction(json)
 			.then(result => {
-				// console.log("Scenario successfully updated:", result)
+				// console.log("User ad interaction successfully created:", result)
 			})
 			.catch(error => {
-				// console.error("Error updating scenario:", error)
+				// console.error("Error creating user ad interaction:", error)
+			})
+	}
+	acceptScenario = params => {
+		let { lastUrlSegment } = this.state
+		let ad_type
+
+		if (lastUrlSegment === "doer") ad_type = "1"
+		else if (lastUrlSegment === "requester") ad_type = "2"
+		else if (lastUrlSegment === "donator") ad_type = "3"
+		else if (lastUrlSegment === "verifier") ad_type = "4"
+
+		let json = {
+			data: {
+				type: "user_ad_interactions",
+				attributes: {},
+				relationships: {
+					user: {
+						data: {
+							type: "users",
+							id: "1"
+						}
+					},
+					scenario: {
+						data: {
+							id: params.scenarioId,
+							type: "scenarios"
+						}
+					},
+					ad_type: {
+						data: {
+							id: ad_type,
+							type: "ad_types"
+						}
+					},
+					interaction_type: {
+						data: {
+							id: "1",
+							type: "interaction_types"
+						}
+					}
+				}
+			}
+		}
+
+		Database.createUserAdInteraction(json)
+			.then(result => {
+				// console.log("User ad interaction successfully created:", result)
+			})
+			.catch(error => {
+				// console.error("Error creating user ad interaction:", error)
 			})
 	}
 	toggleCustomDonationAmount = turnedOn => {
@@ -916,10 +1036,11 @@ export default class Form extends Component {
 			scenarioId,
 			userId
 		} = this.props
+		let { lastUrlSegment } = this.state
 
 		return (
-			<div className={`${this.state.lastUrlSegment}-form page-form`}>
-				{this.pages[this.state.lastUrlSegment].inputs.map((_input, _index) => (
+			<div className={`${lastUrlSegment}-form page-form`}>
+				{this.pages[lastUrlSegment].inputs.map((_input, _index) => (
 					<FormInput
 						inputObj={_input}
 						openMapPicker={openMapPicker}

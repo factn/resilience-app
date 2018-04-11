@@ -4,6 +4,7 @@ import React, { Component } from "react"
 import Icon from "@fortawesome/react-fontawesome"
 
 // Local JS
+import Database from "../resources/Database"
 import MiniMap from "./MiniMap"
 import { getUrlPiece, toFirstCap } from "../resources/Util"
 /*** [end of imports] ***/
@@ -13,7 +14,10 @@ export default class ScenarioContent extends Component {
 		super(props)
 
 		this.state = {
-			lastUrlSegment: getUrlPiece()
+			lastUrlSegment: getUrlPiece(),
+			lat: this.props.attributes.doerlat,
+			lon: this.props.attributes.doerlon,
+			mapRefresh: 5000 // Every 5 seconds check for map pin changes
 		}
 	}
 
@@ -25,12 +29,20 @@ export default class ScenarioContent extends Component {
 			noun
 		} = this.props.attributes
 
-		if (this.state.lastUrlSegment === "requester") {
+		let { lastUrlSegment } = this.state
+
+		if (lastUrlSegment === "requester") {
 			return <h3 className="scenario-content-header">Need {noun}?</h3>
-		} else if (this.state.lastUrlSegment === "verifier") {
+		} else if (lastUrlSegment === "verifier") {
 			return (
 				<h3 className="scenario-content-header">
 					Help us verify {toFirstCap(doer_firstname)}
+				</h3>
+			)
+		} else if (lastUrlSegment === "thanks") {
+			return (
+				<h3 className="scenario-content-header">
+					You helped {toFirstCap(requester_firstname)} {verb} {noun}
 				</h3>
 			)
 		} else {
@@ -80,16 +92,52 @@ export default class ScenarioContent extends Component {
 			)
 		}
 	}
+	getPins = () => {
+		let { id } = this.props
+		let { mapRefresh } = this.state
+
+		setTimeout(() => {
+			console.log("Checking...")
+
+			Database.getScenario({ id: id })
+				.then(result => {
+					let { doerlat, doerlon } = result.body.data.attributes
+					this.setState({
+						lat: doerlat,
+						lon: doerlon
+					})
+					console.log("success!", { doerlat, doerlon })
+					return [{ doerlat, doerlon }]
+				})
+				.catch(error => {
+					// console.error("Error getting scenarios:", error)
+					let { doerlat, doerlon } = this.props.attributes
+					this.setState({
+						lat: doerlat,
+						lon: doerlon
+					})
+					return [{ doerlat, doerlon }]
+				})
+		}, mapRefresh)
+	}
 
 	render() {
 		let { requesterlat, requesterlon } = this.props.attributes
+		let { lastUrlSegment } = this.state
 
 		return (
 			<div className="scenario-content-wrap">
 				{this.buildHeader()}
 				{this.buildFigure()}
-				{this.state.lastUrlSegment !== "requester" && (
-					<MiniMap initialCenter={{ lat: requesterlat, lng: requesterlon }} />
+				{lastUrlSegment !== "requester" &&
+					lastUrlSegment !== "info" && (
+						<MiniMap initialCenter={{ lat: requesterlat, lng: requesterlon }} />
+					)}
+				{lastUrlSegment === "info" && (
+					<MiniMap
+						initialCenter={{ lat: requesterlat, lng: requesterlon }}
+						pins={this.getPins()}
+					/>
 				)}
 			</div>
 		)
