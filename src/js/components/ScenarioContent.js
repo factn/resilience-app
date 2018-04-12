@@ -55,6 +55,7 @@ export default class ScenarioContent extends Component {
 	}
 	buildFigure = () => {
 		let { funding_goal, disaster, image, donated } = this.props.attributes
+		let { id } = this.props
 
 		if (this.state.lastUrlSegment === "requester") {
 			return <div />
@@ -95,6 +96,52 @@ export default class ScenarioContent extends Component {
 								{(parseInt(donated) / funding_goal * 100).toFixed(0)}% complete
 							</label>
 						</div>
+						<div className="goal-progress-wrap">
+							<div className="goal input-wrap checkbox-input-wrap complete-goal">
+								<span className="input-label" htmlFor={`materials_${id}`}>
+									Materials
+								</span>
+								<input
+									className="form-input"
+									type="checkbox"
+									id={`materials_${id}`}
+									checked={false}
+								/>
+							</div>
+							<div className="goal input-wrap checkbox-input-wrap">
+								<span className="input-label" htmlFor={`transportation_${id}`}>
+									Transportation
+								</span>
+								<input
+									className="form-input"
+									type="checkbox"
+									id={`transportation_${id}`}
+									checked={false}
+								/>
+							</div>
+							<div className="goal input-wrap checkbox-input-wrap">
+								<span className="input-label" htmlFor={`volunteers_${id}`}>
+									Volunteers
+								</span>
+								<input
+									className="form-input"
+									type="checkbox"
+									id={`volunteers_${id}`}
+									checked={false}
+								/>
+							</div>
+							<div className="goal input-wrap checkbox-input-wrap">
+								<span className="input-label" htmlFor={`mission_complete_${id}`}>
+									Mission complete
+								</span>
+								<input
+									className="form-input"
+									type="checkbox"
+									id={`mission_complete_${id}`}
+									checked={false}
+								/>
+							</div>
+						</div>
 					</figcaption>
 				</figure>
 			)
@@ -105,8 +152,6 @@ export default class ScenarioContent extends Component {
 		let { mapRefresh } = this.state
 
 		setTimeout(() => {
-			console.log("Checking...")
-
 			Database.getScenario({ id: id })
 				.then(result => {
 					let { doerlat, doerlon } = result.body.data.attributes
@@ -114,7 +159,6 @@ export default class ScenarioContent extends Component {
 						lat: doerlat,
 						lon: doerlon
 					})
-					console.log("success!", { doerlat, doerlon })
 					return [{ doerlat, doerlon }]
 				})
 				.catch(error => {

@@ -605,7 +605,7 @@ export default class Form extends Component {
 
 		Database.getNouns()
 			.then(result => {
-				console.info("Nouns call complete:", result.body.data)
+				// console.info("Nouns call complete:", result.body.data)
 				this.pages.requester.inputs[2].inputs[1].options = result.body.data // Bad implementation, need to find a better way to get this information where it belongs
 				this.setState({
 					nounData: result.body.data
@@ -617,7 +617,7 @@ export default class Form extends Component {
 
 		Database.getVerbs()
 			.then(result => {
-				console.info("Verbs call complete:", result.body.data)
+				// console.info("Verbs call complete:", result.body.data)
 				this.pages.requester.inputs[2].inputs[0].options = result.body.data // Bad implementation, need to find a better way to get this information where it belongs
 				this.setState({
 					verbData: result.body.data
@@ -745,8 +745,9 @@ export default class Form extends Component {
 				relatedVerbId = "1"
 			})
 
-		setInterval(() => {
+		let getIds = setInterval(() => {
 			if (relatedEventId && relatedNounId && relatedVerbId) {
+				clearInterval(getIds)
 				let json = {
 					data: {
 						type: "scenarios",
@@ -795,13 +796,11 @@ export default class Form extends Component {
 
 						this.makeNewRequestChildrenScenarios({
 							parentScenarioId: result.body.data.id,
-							image: imageString
+							image: imageString,
+							event: relatedEventId,
+							path: params.path || "/"
 						})
 						this.acceptScenario({ scenarioId: result.body.data.id })
-						if (params.path) {
-							history.push(params.path)
-							window.location = params.path
-						}
 					})
 					.catch(error => {
 						// console.error("Error creating scenario:", error)
@@ -810,97 +809,195 @@ export default class Form extends Component {
 		}, 100)
 	}
 	makeNewRequestChildrenScenarios = params => {
-		let relatedEventId
-		let relatedNounId
-		let relatedVerbId
-
-		Database.getEventId({ description: unvaluify(params.event) })
-			.then(result => {
-				// console.log("Event successfully found:", result)
-				relatedEventId = result.body.data[0].id
-			})
-			.catch(error => {
-				// console.error("Error finding event:", error)
-				relatedEventId = "1"
-			})
-
-		Database.getNounId({ description: unvaluify(params.noun) })
-			.then(result => {
-				// console.log("Noun successfully found:", result)
-				relatedNounId = result.body.data[0].id
-			})
-			.catch(error => {
-				// console.error("Error finding noun:", error)
-				relatedNounId = "1"
-			})
-
-		Database.getVerbId({ description: unvaluify(params.verb) })
-			.then(result => {
-				// console.log("Verb successfully found:", result)
-				relatedVerbId = result.body.data[0].id
-			})
-			.catch(error => {
-				// console.error("Error finding verb:", error)
-				relatedVerbId = "1"
-			})
-
-		setInterval(() => {
-			if (relatedEventId && relatedNounId && relatedVerbId) {
-				let json = {
-					data: {
-						type: "scenarios",
-						attributes: {
-							funding_goal: "50",
-							image: params.image,
-							parent_scenario_id: params.parentScenarioId
-						},
-						relationships: {
-							event: {
-								data: {
-									type: "events",
-									id: "1"
-								}
-							},
-							noun: {
-								data: {
-									type: "nouns",
-									id: "1"
-								}
-							},
-							verb: {
-								data: {
-									type: "verbs",
-									id: "1"
-								}
-							},
-							requester: {
-								data: {
-									type: "users",
-									id: this.state.currentUserId || "1"
-								}
-							},
-							doer: {
-								data: {
-									type: "users",
-									id: "1"
-								}
-							}
+		let getMaterials = {
+			data: {
+				type: "scenarios",
+				attributes: {
+					funding_goal: "50",
+					image: params.image
+				},
+				relationships: {
+					event: {
+						data: {
+							type: "events",
+							id: params.event || "1"
+						}
+					},
+					noun: {
+						data: {
+							type: "nouns",
+							id: "6" // Materials
+						}
+					},
+					verb: {
+						data: {
+							type: "verbs",
+							id: "1" // Get
+						}
+					},
+					requester: {
+						data: {
+							type: "users",
+							id: this.state.currentUserId || "1"
+						}
+					},
+					doer: {
+						data: {
+							type: "users",
+							id: "1"
+						}
+					},
+					parent_scenario: {
+						data: {
+							type: "scenarios",
+							id: params.parentScenarioId
 						}
 					}
 				}
-				
-				Database.createScenario(json)
-					.then(result => {
-						// console.log("Scenario successfully created:", result)
-
-						this.acceptScenario({ scenarioId: result.body.data.id })
-						if (params.path) {
-							history.push(params.path)
-							window.location = params.path
+			}
+		}
+		let getTransportation = {
+			data: {
+				type: "scenarios",
+				attributes: {
+					funding_goal: "50",
+					image: params.image
+				},
+				relationships: {
+					event: {
+						data: {
+							type: "events",
+							id: params.event || "1"
 						}
+					},
+					noun: {
+						data: {
+							type: "nouns",
+							id: "18" // Transportation
+						}
+					},
+					verb: {
+						data: {
+							type: "verbs",
+							id: "1" // Get
+						}
+					},
+					requester: {
+						data: {
+							type: "users",
+							id: this.state.currentUserId || "1"
+						}
+					},
+					doer: {
+						data: {
+							type: "users",
+							id: "1"
+						}
+					},
+					parent_scenario: {
+						data: {
+							type: "scenarios",
+							id: params.parentScenarioId
+						}
+					}
+				}
+			}
+		}
+		let findVolunteers = {
+			data: {
+				type: "scenarios",
+				attributes: {
+					funding_goal: "50",
+					image: params.image
+				},
+				relationships: {
+					event: {
+						data: {
+							type: "events",
+							id: params.event || "1"
+						}
+					},
+					noun: {
+						data: {
+							type: "nouns",
+							id: "17" // Volunteers
+						}
+					},
+					verb: {
+						data: {
+							type: "verbs",
+							id: "3" // Find
+						}
+					},
+					requester: {
+						data: {
+							type: "users",
+							id: this.state.currentUserId || "1"
+						}
+					},
+					doer: {
+						data: {
+							type: "users",
+							id: "1"
+						}
+					},
+					parent_scenario: {
+						data: {
+							type: "scenarios",
+							id: params.parentScenarioId
+						}
+					}
+				}
+			}
+		}
+		let childrenId = []
+
+		Database.createScenario(getMaterials)
+			.then(result => {
+				// console.log("Child scenario 1 successfully created:", result)
+				childrenId.push(result.body.data[0].id)
+			})
+			.catch(error => {
+				// console.error("Error creating child scenario:", error)
+			})
+
+		Database.createScenario(getTransportation)
+			.then(result => {
+				// console.log("Child scenario 2 successfully created:", result)
+				childrenId.push(result.body.data[0].id)
+			})
+			.catch(error => {
+				// console.error("Error creating child scenario:", error)
+			})
+
+		Database.createScenario(findVolunteers)
+			.then(result => {
+				// console.log("Child scenario 3 successfully created:", result)
+				childrenId.push(result.body.data[0].id)
+			})
+			.catch(error => {
+				// console.error("Error creating child scenario:", error)
+			})
+
+		let attachChildren = setInterval(() => {
+			if (childrenId.length === 3) {
+				clearInterval(attachChildren)
+				Database.updateScenario({
+					data: {
+						type: "scenarios",
+						id: params.parentScenarioId,
+						attributes: {
+							children_scenario: childrenId
+						}
+					}
+				})
+					.then(result => {
+						// console.log("Children scenarios successfully connected to parent:", result)
+						history.push(params.path)
+						window.location = params.path
 					})
 					.catch(error => {
-						// console.error("Error creating scenario:", error)
+						// console.error("Error connecting child scenarios:", error)
 					})
 			}
 		}, 100)

@@ -27,6 +27,28 @@
 	background: rgba($black, 0.1);
 	box-shadow: inset 0.0625rem 0.0625rem 0.5rem rgba($black, 0.1);
 }
+.goal-progress-wrap {
+	width: 100%;
+	margin-top: 0.5rem;
+	display: inline-flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	.goal {
+		font-weight: $bold-weight;
+		background: rgba($black, 0.1);
+		border-radius: 0.25rem;
+		margin: 0 .25rem 0.25rem;
+		padding: 0.25rem 0.5rem;
+		flex-basis: 45%;
+    flex-grow: 1;
+		&.complete-goal {
+			background: $progress-green;
+		}
+		.form-input {
+			float: right;
+		}
+	}
+}
 .page-form {
 	.input-wrap {
 		margin-bottom: 1rem;
@@ -204,5 +226,10 @@
 	}
 	.page-header {
 		font-size: 1.2em;
+	}
+	.goal-progress-wrap {
+		.goal {
+			flex-basis: 24%;
+		}
 	}
 }

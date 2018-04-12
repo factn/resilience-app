@@ -7,7 +7,6 @@ import Main from "./Main"
 import Header from "./Header"
 import GoogleMaps from "./GoogleMaps"
 import Footer from "./Footer"
-import Database from "../resources/Database"
 /*** [end of imports] ***/
 
 export default class Page extends Component {

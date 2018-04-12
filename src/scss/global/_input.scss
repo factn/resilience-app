@@ -41,8 +41,7 @@ input[type="radio"] {
 	width: 1rem !important;
 	height: 1rem;
 	border: 1px solid $blue;
-	&:hover,
-	&:active {
+	&:hover {
 		background: $blue;
 	}
 	&:checked {
