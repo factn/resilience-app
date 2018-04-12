@@ -1,8 +1,20 @@
+// Modules
 import React from "react"
 import ReactDOM from "react-dom"
-import "./index.css"
+import { BrowserRouter as Router } from "react-router-dom"
+import createHistory from "history/createBrowserHistory"
+
+// Local JS
 import App from "./App"
 import registerServiceWorker from "./registerServiceWorker"
 
-ReactDOM.render(<App />, document.getElementById("root"))
+// Styles
+import "./index.css"
+
+const history = createHistory()
+
+ReactDOM.render(
+	<Router history={history} routes={App} />,
+	document.getElementById("root")
+)
 registerServiceWorker()

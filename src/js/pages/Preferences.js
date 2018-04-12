@@ -1,21 +1,32 @@
 /*** IMPORTS ***/
 // Module imports
-import React, { Component } from "react"
+import React from "react"
 
 // Local JS
+import Form from '../components/Form'
 import FormInput from "./FormInput"
 import { getUrlPiece } from "../resources/Util"
 /*** [end of imports] ***/
 
-export default class Form extends Component {
+export default class Preferences extends Form {
 	constructor(props) {
 		super(props)
 
 		this.state = {
-			refreshes: 0,
 			lastUrlSegment: getUrlPiece()
 		}
+		this.inputs = [
+			{
+				inputType: "submit",
+				labelPhrase: "Save settings",
+				labelIcon: "cogs",
+				responseType: "neutral",
+				onSubmit: this.submitPreferences
+			}
+		]
 	}
+
+	submitPreferences = params => {}
 
 	render() {
 		let {

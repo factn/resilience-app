@@ -1,20 +1,39 @@
 /*** IMPORTS ***/
 // Module imports
-import React, { Component } from "react"
+import React from "react"
 
 // Local JS
+import Form from '../components/Form'
 import FormInput from "./FormInput"
 import { getUrlPiece } from "../resources/Util"
 /*** [end of imports] ***/
 
-export default class Form extends Component {
+export default class Thanks extends Form {
 	constructor(props) {
 		super(props)
 
 		this.state = {
-			refreshes: 0,
 			lastUrlSegment: getUrlPiece()
 		}
+		this.inputs = [
+			{
+				inputType: "custom",
+				disabledField: false,
+				customJSX: (
+					<div className="custom-content">
+						<h2>Tell everyone!</h2>
+						<div className="addthis_inline_share_toolbox" />
+					</div>
+				)
+			},
+			{
+				inputType: "submit",
+				labelPhrase: "Do more",
+				labelIcon: "hand-point-right",
+				goToPath: "/donator",
+				responseType: "neutral"
+			}
+		]
 	}
 
 	render() {

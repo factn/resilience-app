@@ -1,7 +1,7 @@
 /*** IMPORTS ***/
 // Module imports
 import React, { Component } from "react"
-import { BrowserRouter as Router, Route } from "react-router-dom"
+import { BrowserRouter as Router, Route, IndexRoute } from "react-router-dom"
 import Icon from "@fortawesome/react-fontawesome"
 import faSolid from "@fortawesome/fontawesome-free-solid"
 import brands from "@fortawesome/fontawesome-free-brands"
@@ -14,6 +14,21 @@ import Page from "./js/components/Page"
 
 // DB import
 import Database from "./js/resources/Database"
+
+// Pages
+// import Home from "./js/pages/Home"
+// import Account from "./js/pages/Account"
+// import EditAccount from "./js/pages/EditAccount"
+// import Info from "./js/pages/Info"
+// import Login from "./js/pages/Login"
+// import Preferences from "./js/pages/Preferences"
+// import Thanks from "./js/pages/Thanks"
+
+// Flow Pages
+// import DoerFlow from "./js/pages/DoerFlow"
+// import DonatorFlow from "./js/pages/DonatorFlow"
+// import RequesterFlow from "./js/pages/RequesterFlow"
+// import VerifierFlow from "./js/pages/VerifierFlow"
 /*** [end of imports] ***/
 
 export default class App extends Component {
@@ -145,8 +160,27 @@ export default class App extends Component {
 
 	render() {
 		return (
-			<Router>
+			<Router path="/" component={App}>
 				<div className="app">
+					{/* Home tab */}
+					{/* <IndexRoute component={Home} /> */}
+
+					{/* Other pages */}
+					{/* <Route path='account' component={Account} />
+					<Route path='edit-account' component={EditAccount} />
+					<Route path='login' component={Login} />
+					<Route path='preferences' component={Preferences} /> */}
+
+					{/* Flows */}
+					{/* <Route path='1/donator' component={DonatorFlow} />
+					<Route path='1/requester' component={RequesterFlow} />
+					<Route path='1/doer' component={DoerFlow} />
+					<Route path='1/verifier' component={VerifierFlow} /> */}
+
+					{/* End of flow */}
+					{/* <Route path='info' component={Info} />
+					<Route path='thanks' component={Thanks} /> */}
+
 					{/* home */}
 					<Route path="/" exact render={() => <Page {...this.tabs.Donate} />} />
 

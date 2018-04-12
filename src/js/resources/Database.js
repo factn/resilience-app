@@ -104,6 +104,10 @@ const apiEndpoints = {
 		method: get,
 		path: "/scenarios"
 	},
+	scenarioFeed: {
+		method: get,
+		path: "/scenarios?page[limit]=3" // still needs sort
+	},
 	getScenario: {
 		method: get,
 		path: "/scenarios/:id"

@@ -24,7 +24,7 @@ export default class Main extends Component {
 		let { pageStyle, scenarioId, userId } = this.props
 
 		if (pageStyle === "home-tab") {
-			Database.getScenarios()
+			Database.scenarioFeed()
 				.then(result => {
 					console.info("Database call complete:", result.body.data)
 					this.setState({
@@ -82,7 +82,6 @@ export default class Main extends Component {
 				return (
 					<section className="scenario-feed-wrap">
 						{this.state.scenarioData
-							.slice(0, 3)
 							.map(scenario => (
 								<Scenario scenario={scenario} key={scenario.id} />
 							))}
