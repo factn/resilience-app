@@ -10,6 +10,10 @@ const apiEndpoints = {
 		method: get,
 		path: "/nouns/:description"
 	},
+	getNounId: {
+		method: get,
+		path: "/nouns/?filter[description]=:description"
+	},
 	createNoun: {
 		method: post,
 		path: "/nouns"
@@ -23,6 +27,10 @@ const apiEndpoints = {
 	getVerb: {
 		method: get,
 		path: "/verbs/:description"
+	},
+	getVerbId: {
+		method: get,
+		path: "/verbs/?filter[description]=:description"
 	},
 	createVerb: {
 		method: post,
@@ -55,6 +63,10 @@ const apiEndpoints = {
 	getEvents: {
 		method: get,
 		path: "/events"
+	},
+	getEventId: {
+		method: get,
+		path: "/events/?filter[description]=:description"
 	},
 	createEvent: {
 		method: post,

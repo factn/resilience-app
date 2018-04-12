@@ -7,7 +7,7 @@ import createHistory from "history/createBrowserHistory"
 // Local JS
 import FormInput from "./FormInput"
 import Database from "../resources/Database"
-import { getUrlPiece, getBase64 } from "../resources/Util"
+import { getUrlPiece, getBase64, unvaluify } from "../resources/Util"
 /*** [end of imports] ***/
 
 const history = createHistory()
@@ -114,7 +114,8 @@ export default class Form extends Component {
 							latitude: "account_user-location_lat",
 							longitude: "account_user-location_lon",
 							password: "account_pw",
-							password_confirmation: "account_confirm-pw"
+							password_confirmation: "account_confirm-pw",
+							avatar: "account_profile-photo"
 						},
 						goToPath: "/",
 						responseType: "neutral"
@@ -188,7 +189,8 @@ export default class Form extends Component {
 							latitude: "edit-account_user-location_lat",
 							longitude: "edit-account_user-location_lon",
 							password: "edit-account_pw",
-							password_confirmation: "edit-account_confirm-pw"
+							password_confirmation: "edit-account_confirm-pw",
+							avatar: "edit-account_profile-photo"
 						},
 						responseType: "neutral"
 					}
@@ -603,7 +605,7 @@ export default class Form extends Component {
 
 		Database.getNouns()
 			.then(result => {
-				// console.info("Nouns call complete:", result.body.data)
+				console.info("Nouns call complete:", result.body.data)
 				this.pages.requester.inputs[2].inputs[1].options = result.body.data // Bad implementation, need to find a better way to get this information where it belongs
 				this.setState({
 					nounData: result.body.data
@@ -615,7 +617,7 @@ export default class Form extends Component {
 
 		Database.getVerbs()
 			.then(result => {
-				// console.info("Verbs call complete:", result.body.data)
+				console.info("Verbs call complete:", result.body.data)
 				this.pages.requester.inputs[2].inputs[0].options = result.body.data // Bad implementation, need to find a better way to get this information where it belongs
 				this.setState({
 					verbData: result.body.data
@@ -656,7 +658,8 @@ export default class Form extends Component {
 					latitude: params.latitude,
 					longitude: params.longitude,
 					password: params.password,
-					password_confirmation: params.password_confirmation
+					password_confirmation: params.password_confirmation,
+					avatar: params.avatar
 				}
 			}
 		}
@@ -686,7 +689,8 @@ export default class Form extends Component {
 					latitude: params.latitude,
 					longitude: params.longitude,
 					password: params.password,
-					password_confirmation: params.password_confirmation
+					password_confirmation: params.password_confirmation,
+					avatar: params.avatar
 				}
 			}
 		}
@@ -711,77 +715,195 @@ export default class Form extends Component {
 		let relatedVerbId
 		let imageString = getBase64(params.image)
 
-		for (let i in this.state.eventData) {
-			if (params.event === this.state.eventData[i].attributes.description) {
-				relatedEventId = this.state.eventData[i].id
-			}
-		}
-		for (let i in this.state.nounData) {
-			if (params.noun === this.state.nounData[i].attributes.description) {
-				relatedNounId = this.state.nounData[i].id
-			}
-		}
-		for (let i in this.state.verbData) {
-			if (params.verb === this.state.verbData[i].attributes.description) {
-				relatedVerbId = this.state.verbData[i].id
-			}
-		}
+		Database.getEventId({ description: unvaluify(params.event) })
+			.then(result => {
+				// console.log("Event successfully found:", result)
+				relatedEventId = result.body.data[0].id
+			})
+			.catch(error => {
+				// console.error("Error finding event:", error)
+				relatedEventId = "1"
+			})
 
-		let json = {
-			data: {
-				type: "scenarios",
-				attributes: {
-					funding_goal: "50",
-					image: imageString
-				},
-				relationships: {
-					event: {
-						data: {
-							type: "events",
-							id: relatedEventId || "1"
-						}
-					},
-					noun: {
-						data: {
-							type: "nouns",
-							id: relatedNounId || "1"
-						}
-					},
-					verb: {
-						data: {
-							type: "verbs",
-							id: relatedVerbId || "1"
-						}
-					},
-					requester: {
-						data: {
-							type: "users",
-							id: this.state.currentUserId || "1"
-						}
-					},
-					doer: {
-						data: {
-							type: "users",
-							id: "1"
+		Database.getNounId({ description: unvaluify(params.noun) })
+			.then(result => {
+				// console.log("Noun successfully found:", result)
+				relatedNounId = result.body.data[0].id
+			})
+			.catch(error => {
+				// console.error("Error finding noun:", error)
+				relatedNounId = "1"
+			})
+
+		Database.getVerbId({ description: unvaluify(params.verb) })
+			.then(result => {
+				// console.log("Verb successfully found:", result)
+				relatedVerbId = result.body.data[0].id
+			})
+			.catch(error => {
+				// console.error("Error finding verb:", error)
+				relatedVerbId = "1"
+			})
+
+		setInterval(() => {
+			if (relatedEventId && relatedNounId && relatedVerbId) {
+				let json = {
+					data: {
+						type: "scenarios",
+						attributes: {
+							funding_goal: "50",
+							image: imageString
+						},
+						relationships: {
+							event: {
+								data: {
+									type: "events",
+									id: relatedEventId || "1"
+								}
+							},
+							noun: {
+								data: {
+									type: "nouns",
+									id: relatedNounId || "1"
+								}
+							},
+							verb: {
+								data: {
+									type: "verbs",
+									id: relatedVerbId || "1"
+								}
+							},
+							requester: {
+								data: {
+									type: "users",
+									id: this.state.currentUserId || "1"
+								}
+							},
+							doer: {
+								data: {
+									type: "users",
+									id: "1"
+								}
+							}
 						}
 					}
 				}
+
+				Database.createScenario(json)
+					.then(result => {
+						// console.log("Scenario successfully created:", result)
+
+						this.makeNewRequestChildrenScenarios({
+							parentScenarioId: result.body.data.id,
+							image: imageString
+						})
+						this.acceptScenario({ scenarioId: result.body.data.id })
+						if (params.path) {
+							history.push(params.path)
+							window.location = params.path
+						}
+					})
+					.catch(error => {
+						// console.error("Error creating scenario:", error)
+					})
 			}
-		}
+		}, 100)
+	}
+	makeNewRequestChildrenScenarios = params => {
+		let relatedEventId
+		let relatedNounId
+		let relatedVerbId
 
-		Database.createScenario(json)
+		Database.getEventId({ description: unvaluify(params.event) })
 			.then(result => {
-				// console.log("Scenario successfully created:", result)
-
-				this.acceptScenario({ scenarioId: result.body.data.id })
-				if (params.path) {
-					history.push(params.path)
-					window.location = params.path
-				}
+				// console.log("Event successfully found:", result)
+				relatedEventId = result.body.data[0].id
 			})
 			.catch(error => {
-				// console.error("Error creating scenario:", error)
+				// console.error("Error finding event:", error)
+				relatedEventId = "1"
 			})
+
+		Database.getNounId({ description: unvaluify(params.noun) })
+			.then(result => {
+				// console.log("Noun successfully found:", result)
+				relatedNounId = result.body.data[0].id
+			})
+			.catch(error => {
+				// console.error("Error finding noun:", error)
+				relatedNounId = "1"
+			})
+
+		Database.getVerbId({ description: unvaluify(params.verb) })
+			.then(result => {
+				// console.log("Verb successfully found:", result)
+				relatedVerbId = result.body.data[0].id
+			})
+			.catch(error => {
+				// console.error("Error finding verb:", error)
+				relatedVerbId = "1"
+			})
+
+		setInterval(() => {
+			if (relatedEventId && relatedNounId && relatedVerbId) {
+				let json = {
+					data: {
+						type: "scenarios",
+						attributes: {
+							funding_goal: "50",
+							image: params.image,
+							parent_scenario_id: params.parentScenarioId
+						},
+						relationships: {
+							event: {
+								data: {
+									type: "events",
+									id: "1"
+								}
+							},
+							noun: {
+								data: {
+									type: "nouns",
+									id: "1"
+								}
+							},
+							verb: {
+								data: {
+									type: "verbs",
+									id: "1"
+								}
+							},
+							requester: {
+								data: {
+									type: "users",
+									id: this.state.currentUserId || "1"
+								}
+							},
+							doer: {
+								data: {
+									type: "users",
+									id: "1"
+								}
+							}
+						}
+					}
+				}
+				
+				Database.createScenario(json)
+					.then(result => {
+						// console.log("Scenario successfully created:", result)
+
+						this.acceptScenario({ scenarioId: result.body.data.id })
+						if (params.path) {
+							history.push(params.path)
+							window.location = params.path
+						}
+					})
+					.catch(error => {
+						// console.error("Error creating scenario:", error)
+					})
+			}
+		}, 100)
 	}
 	submitDonation = params => {
 		let amount = 0
