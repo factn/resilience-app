@@ -107,7 +107,7 @@ export default class Profile extends Component {
 	}
 
 	render() {
-		let {
+		const {
 			userDonations,
 			userDos,
 			userRequests,

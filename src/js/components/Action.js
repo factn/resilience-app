@@ -6,7 +6,7 @@ import Icon from "@fortawesome/react-fontawesome"
 
 export default class Action extends Component {
 	render() {
-		let { label, link, icon } = this.props
+		const { label, link, icon } = this.props
 
 		return (
 			<div className="action">

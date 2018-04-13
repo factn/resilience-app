@@ -42,7 +42,7 @@ export default class Scenario extends Component {
 		})
 	}
 	handleTouchMove = e => {
-		let { touchStartX } = this.state
+		const { touchStartX } = this.state
 		let currentTouchX = e.targetTouches[0].clientX
 		let xDif = currentTouchX - touchStartX
 
@@ -77,14 +77,14 @@ export default class Scenario extends Component {
 		}
 	}
 	handleTouchEnd = e => {
-		let {
+		const {
 			touchStartX,
 			lastTouchX,
 			swipeThreshold,
 			transitionTiming,
 			lastUrlSegment
 		} = this.state
-		let { id } = this.props.scenario
+		const { id } = this.props.scenario
 
 		let xDif = lastTouchX === 0 ? 0 : lastTouchX - touchStartX
 
@@ -101,6 +101,7 @@ export default class Scenario extends Component {
 				setTimeout(() => {
 					this.acceptScenario({ scenarioId: id })
 					history.push(`/${id}/${lastUrlSegment}/`)
+					window.location = `/${id}/${lastUrlSegment}/`
 				}, transitionTiming)
 			} else {
 				this.setState({
@@ -126,7 +127,7 @@ export default class Scenario extends Component {
 	}
 
 	dismissScenario = params => {
-		let { lastUrlSegment } = this.state
+		const { lastUrlSegment } = this.state
 		let ad_type
 
 		if (lastUrlSegment === "doer") ad_type = "1"
@@ -176,7 +177,7 @@ export default class Scenario extends Component {
 			})
 	}
 	acceptScenario = params => {
-		let { lastUrlSegment } = this.state
+		const { lastUrlSegment } = this.state
 		let ad_type
 
 		if (lastUrlSegment === "doer") ad_type = "1"
@@ -226,13 +227,13 @@ export default class Scenario extends Component {
 			})
 	}
 	titleBuild = () => {
-		let {
+		const {
 			requester_firstname,
 			donated,
 			noun,
 			verb
 		} = this.props.scenario.attributes
-		let { lastUrlSegment } = this.state
+		const { lastUrlSegment } = this.state
 
 		if (lastUrlSegment === "donator") {
 			return (
@@ -290,11 +291,11 @@ export default class Scenario extends Component {
 	}
 
 	render() {
-		let { style, beforeStyle, afterStyle, lastUrlSegment } = this.state
-		let { scenario } = this.props
-		let { id } = scenario
+		const { style, beforeStyle, afterStyle, lastUrlSegment } = this.state
+		const { scenario } = this.props
+		const { id } = scenario
 
-		let {
+		const {
 			// doer_firstname,
 			// doer_lastname,
 			// requester_firstname,

@@ -22,14 +22,14 @@ export default class ScenarioContent extends Component {
 	}
 
 	buildHeader = () => {
-		let {
+		const {
 			doer_firstname,
 			requester_firstname,
 			verb,
 			noun
 		} = this.props.attributes
 
-		let { lastUrlSegment } = this.state
+		const { lastUrlSegment } = this.state
 
 		if (lastUrlSegment === "requester") {
 			return <h3 className="scenario-content-header">Need {noun}?</h3>
@@ -54,7 +54,8 @@ export default class ScenarioContent extends Component {
 		}
 	}
 	buildFigure = () => {
-		let { funding_goal, disaster, image, donated } = this.props.attributes
+		const { funding_goal, disaster, image, donated } = this.props.attributes
+		const { id } = this.props
 
 		if (this.state.lastUrlSegment === "requester") {
 			return <div />
@@ -72,20 +73,74 @@ export default class ScenarioContent extends Component {
 						<p>{disaster}</p>
 						<div className="funding-progress-wrap">
 							<label className="funding-progress-label goal-label">
-								Funding goal: ${donated} / ${funding_goal}
+								Funding goal: ${parseInt(donated).toFixed(2)} / ${parseInt(
+									funding_goal
+								).toFixed(2)}
 							</label>
-							<input
-								type="range"
+							<div
 								className="funding-progress-slider"
 								id={`${disaster}_fundingGoal`}
-								min={0}
-								max={funding_goal}
-								value={donated}
-								disabled={true}
+								style={{
+									background: `linear-gradient(to right, #24e051, #24e051 ${(
+										parseInt(donated) /
+										funding_goal *
+										100
+									).toFixed(0)}%, rgba(0, 0, 0, 0.1) ${(
+										parseInt(donated) /
+										funding_goal *
+										100
+									).toFixed(0)}%, rgba(0, 0, 0, 0.1))`
+								}}
 							/>
 							<label className="funding-progress-label complete-label">
 								{(parseInt(donated) / funding_goal * 100).toFixed(0)}% complete
 							</label>
+						</div>
+						<div className="goal-progress-wrap">
+							<div className="goal input-wrap checkbox-input-wrap complete-goal">
+								<span className="input-label" htmlFor={`materials_${id}`}>
+									Materials
+								</span>
+								<input
+									className="form-input"
+									type="checkbox"
+									id={`materials_${id}`}
+									checked={false}
+								/>
+							</div>
+							<div className="goal input-wrap checkbox-input-wrap">
+								<span className="input-label" htmlFor={`transportation_${id}`}>
+									Transportation
+								</span>
+								<input
+									className="form-input"
+									type="checkbox"
+									id={`transportation_${id}`}
+									checked={false}
+								/>
+							</div>
+							<div className="goal input-wrap checkbox-input-wrap">
+								<span className="input-label" htmlFor={`volunteers_${id}`}>
+									Volunteers
+								</span>
+								<input
+									className="form-input"
+									type="checkbox"
+									id={`volunteers_${id}`}
+									checked={false}
+								/>
+							</div>
+							<div className="goal input-wrap checkbox-input-wrap">
+								<span className="input-label" htmlFor={`mission_complete_${id}`}>
+									Mission complete
+								</span>
+								<input
+									className="form-input"
+									type="checkbox"
+									id={`mission_complete_${id}`}
+									checked={false}
+								/>
+							</div>
 						</div>
 					</figcaption>
 				</figure>
@@ -93,25 +148,22 @@ export default class ScenarioContent extends Component {
 		}
 	}
 	getPins = () => {
-		let { id } = this.props
-		let { mapRefresh } = this.state
+		const { id } = this.props
+		const { mapRefresh } = this.state
 
 		setTimeout(() => {
-			console.log("Checking...")
-
 			Database.getScenario({ id: id })
 				.then(result => {
-					let { doerlat, doerlon } = result.body.data.attributes
+					const { doerlat, doerlon } = result.body.data.attributes
 					this.setState({
 						lat: doerlat,
 						lon: doerlon
 					})
-					console.log("success!", { doerlat, doerlon })
 					return [{ doerlat, doerlon }]
 				})
 				.catch(error => {
 					// console.error("Error getting scenarios:", error)
-					let { doerlat, doerlon } = this.props.attributes
+					const { doerlat, doerlon } = this.props.attributes
 					this.setState({
 						lat: doerlat,
 						lon: doerlon
@@ -122,8 +174,8 @@ export default class ScenarioContent extends Component {
 	}
 
 	render() {
-		let { requesterlat, requesterlon } = this.props.attributes
-		let { lastUrlSegment } = this.state
+		const { requesterlat, requesterlon } = this.props.attributes
+		const { lastUrlSegment } = this.state
 
 		return (
 			<div className="scenario-content-wrap">

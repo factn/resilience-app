@@ -1,12 +1,11 @@
 /*** IMPORTS ***/
 // Module imports
 import React, { Component, Fragment } from "react"
-import createHistory from "history/createBrowserHistory"
 import Icon from "@fortawesome/react-fontawesome"
 import faSolid from "@fortawesome/fontawesome-free-solid"
 
 // Local JS
-import CustomJSX from "./CustomJSX"
+import CustomInput from "./CustomInput"
 import Loader from "./Loader"
 import {
 	getUrlPiece,
@@ -15,8 +14,6 @@ import {
 	prepareFileReader
 } from "../resources/Util"
 /*** [end of imports] ***/
-
-const history = createHistory()
 
 export default class FormInput extends Component {
 	constructor(props) {
@@ -63,6 +60,7 @@ export default class FormInput extends Component {
 			inputID,
 			requiredField,
 			disabledField,
+			checkedField,
 
 			// Submit function
 			responseType,
@@ -97,21 +95,24 @@ export default class FormInput extends Component {
 										else values[i] = field.value.toString()
 									}
 								}
-								values["path"] =
-									typeof goToPath === "string"
-										? scenarioId
-										: goToPath(scenarioId)
+								if (goToPath) {
+									values["path"] =
+										typeof goToPath === "string"
+											? scenarioId
+											: goToPath(scenarioId)
+								}
 								onSubmit(values)
 							} else {
-								if (typeof goToPath === "string") {
-									history.push(goToPath)
-									window.location = goToPath
-								} else if (typeof goToPath === "function") {
-									history.push(goToPath(scenarioId))
-									window.location = goToPath(scenarioId)
+								if (goToPath) {
+									console.log(typeof goToPath);
+									
+									if (typeof goToPath === "string")
+										this.props.history.push(goToPath)
+									else if (typeof goToPath === "function")
+										this.props.history.push(goToPath(scenarioId))
 								}
 							}
-						} else console.log("Bong!")
+						}
 					}}
 				>
 					{this.state.buttonPressed ? (
@@ -220,7 +221,7 @@ export default class FormInput extends Component {
 				</div>
 			)
 		} else if (inputType === "custom") {
-			return <CustomJSX content={customJSX} disabledField={disabledField} />
+			return <CustomInput content={customJSX} disabledField={disabledField} />
 		} else if (inputType === "checkbox") {
 			return (
 				<div
@@ -236,6 +237,7 @@ export default class FormInput extends Component {
 						id={`${this.state.formName}_${inputID}`}
 						required={requiredField}
 						disabled={disabledField}
+						checked={checkedField}
 					/>
 					<label
 						className="input-label"
@@ -271,7 +273,7 @@ export default class FormInput extends Component {
 						disabled={disabledField}
 					>
 						<option>[Select]</option>
-						{options.length &&
+						{options &&
 							options.map((_option, _index) => (
 								<option
 									value={valuify(_option.attributes.description)}

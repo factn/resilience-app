@@ -32,6 +32,14 @@ export function valuify(str) {
 	}
 	return ret.join("-")
 }
+export function unvaluify(str) {
+	let words = str.split("-")
+	let ret = []
+	for (let i = 0, l = words.length; i < l; i++) {
+		ret.push(toFirstCap(words[i]))
+	}
+	return ret.join(" ")
+}
 export function prepareFileReader(file) {
 	globalReader = new FileReader()
 	globalReader.readAsDataURL(file)
@@ -43,4 +51,7 @@ export function prepareFileReader(file) {
 }
 export function getBase64() {
 	return globalReader.result
+}
+export function getScenarioIdFromURL(url) {
+	return url.split("/")[1]
 }

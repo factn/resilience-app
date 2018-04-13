@@ -58,7 +58,7 @@ class MiniMap extends Component {
 	}
 
 	render() {
-		let { google, initialCenter, pins } = this.props
+		const { google, initialCenter, pins } = this.props
 
 		return (
 			<section className="mini-map-wrap">

@@ -1,6 +1,7 @@
 /*** IMPORTS ***/
 // Module imports
 import React, { Component } from "react"
+import { Link } from "react-router-dom"
 
 // Local JS
 import { getUrlPiece } from "../resources/Util"
@@ -49,7 +50,7 @@ export default class HeaderTabs extends Component {
 							}
 							key={key}
 						>
-							<a href={val.path}>{key}</a>
+							<Link to={val.path}>{key}</Link>
 						</li>
 					))}
 				</ul>

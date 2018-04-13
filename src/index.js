@@ -1,8 +1,17 @@
+// Modules
 import React from "react"
 import ReactDOM from "react-dom"
-import "./index.css"
+import { BrowserRouter as Router } from "react-router-dom";
+
+// Local JS
 import App from "./App"
 import registerServiceWorker from "./registerServiceWorker"
 
-ReactDOM.render(<App />, document.getElementById("root"))
+// Styles
+import "./index.css"
+
+ReactDOM.render(
+	<Router><App /></Router>,
+	document.getElementById("root")
+)
 registerServiceWorker()
