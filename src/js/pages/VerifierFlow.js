@@ -1,7 +1,4 @@
 /*** IMPORTS ***/
-// Module imports
-import createHistory from "history/createBrowserHistory"
-
 // Local JS
 import Page from "./Page"
 
@@ -9,8 +6,6 @@ import Page from "./Page"
 import Database from "../resources/Database"
 import { getBase64 } from "../resources/Util"
 /*** [end of imports] ***/
-
-const history = createHistory()
 
 export default class VerifierFlow extends Page {
 	constructor(props) {
@@ -67,6 +62,12 @@ export default class VerifierFlow extends Page {
 							type: "scenarios",
 							id: scenarioId
 						}
+					},
+					verifier: {
+						data: {
+							type: "users",
+							id: this.state.userId || "1"
+						}
 					}
 				}
 			}
@@ -77,7 +78,7 @@ export default class VerifierFlow extends Page {
 				// console.log("Proof successfully created:", result)
 
 				super.acceptScenario({ scenarioId: scenarioId })
-				history.push(`/${scenarioId}/info`)
+				this.props.history.push(`/${scenarioId}/info`)
 			})
 			.catch(error => {
 				// console.error("Error updating proof:", error)

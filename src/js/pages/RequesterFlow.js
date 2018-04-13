@@ -1,7 +1,4 @@
 /*** IMPORTS ***/
-// Module imports
-import createHistory from "history/createBrowserHistory"
-
 // Local JS
 import Page from "./Page"
 
@@ -9,8 +6,6 @@ import Page from "./Page"
 import Database from "../resources/Database"
 import { getBase64, unvaluify } from "../resources/Util"
 /*** [end of imports] ***/
-
-const history = createHistory()
 
 export default class RequesterFlow extends Page {
 	constructor(props) {
@@ -21,7 +16,9 @@ export default class RequesterFlow extends Page {
 			title: "Get help!",
 			navMenu: false,
 			userId: 1,
-			scenarioId: this.props.match.params.scenarioId || 1
+			scenarioId: this.props.match.params.scenarioId || 1,
+			scenarioData: null,
+			refreshes: 0
 		}
 		this.inputs = [
 			{
@@ -29,7 +26,7 @@ export default class RequesterFlow extends Page {
 				inputID: "event-name",
 				labelPhrase: "What disaster has effected you?",
 				labelIcon: "cloud",
-				options: [],
+				options: null,
 				requiredField: false
 			},
 			{
@@ -40,13 +37,13 @@ export default class RequesterFlow extends Page {
 					{
 						inputType: "select",
 						inputID: "verb",
-						options: [],
+						options: null,
 						requiredField: false
 					},
 					{
 						inputType: "select",
 						inputID: "noun",
-						options: [],
+						options: null,
 						requiredField: false
 					}
 				]
@@ -97,6 +94,67 @@ export default class RequesterFlow extends Page {
 				responseType: "neutral"
 			}
 		]
+	}
+
+	componentDidMount = () => {
+		this.setScenarioData()
+		this.setEventData()
+		this.setNounData()
+		this.setVerbData()
+	}
+	setScenarioData = () => {
+		Database.getScenario({ id: this.state.scenarioId })
+			.then(result => {
+				// console.info("Database call complete:", result.body.data)
+				this.setState({
+					scenarioData: result.body.data
+				})
+			})
+			.catch(error => {
+				// console.error("Error getting scenarios:", error)
+				this.setState({
+					scenarioData: null
+				})
+			})
+	}
+	setEventData = () => {
+		Database.getEvents()
+			.then(result => {
+				// console.info("Events call complete:", result.body.data)
+				this.inputs[0].options = result.body.data
+				this.setState({
+					refreshes: this.state.refreshes + 1
+				})
+			})
+			.catch(error => {
+				// console.error("Error getting events:", error)
+			})
+	}
+	setVerbData = () => {
+		Database.getNouns()
+			.then(result => {
+				// console.info("Nouns call complete:", result.body.data)
+				this.inputs[1].inputs[1].options = result.body.data
+				this.setState({
+					refreshes: this.state.refreshes + 1
+				})
+			})
+			.catch(error => {
+				// console.error("Error getting nouns:", error)
+			})
+	}
+	setNounData = () => {
+		Database.getVerbs()
+			.then(result => {
+				// console.info("Verbs call complete:", result.body.data)
+				this.inputs[1].inputs[0].options = result.body.data
+				this.setState({
+					refreshes: this.state.refreshes + 1
+				})
+			})
+			.catch(error => {
+				// console.error("Error getting verbs:", error)
+			})
 	}
 
 	submitRequest = params => {
@@ -190,7 +248,6 @@ export default class RequesterFlow extends Page {
 							event: relatedEventId,
 							path: params.path || "/"
 						})
-						super.acceptScenario({ scenarioId: result.body.data.id })
 					})
 					.catch(error => {
 						// console.error("Error creating scenario:", error)
@@ -199,7 +256,18 @@ export default class RequesterFlow extends Page {
 		}, 100)
 	}
 	makeNewRequestChildrenScenarios = params => {
-		let getMaterials = {
+		let json = {
+			image: params.image,
+			event: params.event,
+			parentScenarioId: params.parentScenarioId
+		}
+
+		this.makeMaterialsScenario(json)
+		this.makeTransportationScenario(json)
+		this.makeVolunteersScenario(json)
+	}
+	makeMaterialsScenario = params => {
+		let json = {
 			data: {
 				type: "scenarios",
 				attributes: {
@@ -246,7 +314,21 @@ export default class RequesterFlow extends Page {
 				}
 			}
 		}
-		let getTransportation = {
+
+		Database.createScenario(json)
+			.then(result => {
+				console.log("Child scenario 1 successfully created:", result)
+				this.attachChildToParent({
+					parentScenarioId: params.parentScenarioId,
+					childId: result.body.data.id
+				})
+			})
+			.catch(error => {
+				// console.error("Error creating child scenario:", error)
+			})
+	}
+	makeTransportationScenario = params => {
+		let json = {
 			data: {
 				type: "scenarios",
 				attributes: {
@@ -293,7 +375,21 @@ export default class RequesterFlow extends Page {
 				}
 			}
 		}
-		let findVolunteers = {
+
+		Database.createScenario(json)
+			.then(result => {
+				console.log("Child scenario 2 successfully created:", result)
+				this.attachChildToParent({
+					parentScenarioId: params.parentScenarioId,
+					childId: result.body.data.id
+				})
+			})
+			.catch(error => {
+				// console.error("Error creating child scenario:", error)
+			})
+	}
+	makeVolunteersScenario = params => {
+		let json = {
 			data: {
 				type: "scenarios",
 				attributes: {
@@ -340,67 +436,42 @@ export default class RequesterFlow extends Page {
 				}
 			}
 		}
-		let childrenId = []
 
-		Database.createScenario(getMaterials)
+		Database.createScenario(json)
 			.then(result => {
-				// console.log("Child scenario 1 successfully created:", result)
-				childrenId.push(result.body.data[0].id)
-			})
-			.catch(error => {
-				// console.error("Error creating child scenario:", error)
-			})
-
-		Database.createScenario(getTransportation)
-			.then(result => {
-				// console.log("Child scenario 2 successfully created:", result)
-				childrenId.push(result.body.data[0].id)
-			})
-			.catch(error => {
-				// console.error("Error creating child scenario:", error)
-			})
-
-		Database.createScenario(findVolunteers)
-			.then(result => {
-				// console.log("Child scenario 3 successfully created:", result)
-				childrenId.push(result.body.data[0].id)
-			})
-			.catch(error => {
-				// console.error("Error creating child scenario:", error)
-			})
-
-		let attachChildren = setInterval(() => {
-			if (childrenId.length === 3) {
-				clearInterval(attachChildren)
-				Database.updateScenario({
-					data: {
-						type: "scenarios",
-						id: params.parentScenarioId,
-						attributes: {
-							children_scenario: childrenId
-						}
-					}
+				console.log("Child scenario 3 successfully created:", result)
+				this.attachChildToParent({
+					parentScenarioId: params.parentScenarioId,
+					childId: result.body.data.id
 				})
-					.then(result => {
-						// console.log("Children scenarios successfully connected to parent:", result)
-						
-						// history.push(`/${scenarioId}/info`)
-					})
-					.catch(error => {
-						// console.error("Error connecting child scenarios:", error)
-					})
+			})
+			.catch(error => {
+				// console.error("Error creating child scenario:", error)
+			})
+	}
+	attachChildToParent = params => {
+		let json = {
+			data: {
+				type: "scenarios",
+				id: params.parentScenarioId,
+				relationships: {
+					child_scenario: {
+						type: "scenarios",
+						id: params.childId
+					}
+				}
 			}
-		})
+		}
 
-		// Database.createProof(json)
-		// 	.then(result => {
-		// 		// console.log("Proof successfully created:", result)
+		this.props.history.push(`/${params.parentScenarioId}/info`)
 
-		// 		this.acceptScenario({ scenarioId: params.scenarioId })
-		// 		// history.push(`/${scenarioId}/info`)
-		// 	})
-		// 	.catch(error => {
-		// 		// console.error("Error updating proof:", error)
-		// 	})
+		// This doesn't work yet, don't have access to child_scenario attribute above
+		Database.updateScenario({ id: params.parentScenarioId }, json)
+			.then(result => {
+				// console.log("Children scenarios successfully connected to parent:", result)
+			})
+			.catch(error => {
+				// console.error("Error connecting child scenarios:", error)
+			})
 	}
 }

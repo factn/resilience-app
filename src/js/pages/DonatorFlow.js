@@ -2,7 +2,6 @@
 // Module imports
 import React, { Fragment } from "react"
 import Icon from "@fortawesome/react-fontawesome"
-import createHistory from "history/createBrowserHistory"
 import { faPaypal, faEthereum } from "@fortawesome/fontawesome-free-brands"
 
 // Local JS
@@ -11,8 +10,6 @@ import Page from "./Page"
 // Local JS Utilities
 import Database from "../resources/Database"
 /*** [end of imports] ***/
-
-const history = createHistory()
 
 export default class DonatorFlow extends Page {
 	constructor(props) {
@@ -219,6 +216,8 @@ export default class DonatorFlow extends Page {
 		})
 	}
 	submitDonation = params => {
+		const { scenarioId, userId } = this.state
+		
 		let json = {
 			data: {
 				type: "donations",
@@ -229,13 +228,13 @@ export default class DonatorFlow extends Page {
 					donator: {
 						data: {
 							type: "users",
-							id: "1"
+							id: userId || "1"
 						}
 					},
 					scenario: {
 						data: {
 							type: "scenarios",
-							id: this.state.scenarioId
+							id: scenarioId
 						}
 					}
 				}
@@ -244,20 +243,40 @@ export default class DonatorFlow extends Page {
 
 		Database.createDonation(json)
 			.then(result => {
-				// console.log("Donation successfully created:", result)
-				super.acceptScenario({ scenarioId: result.body.data.id })
-				history.push(`/${this.state.scenarioId}/thanks`)
+				console.log("Donation successfully created:", result)
+				
+				this.props.history.push(`/${scenarioId}/thanks`)
 			})
 			.catch(error => {
-				// console.error("Error creating donation:", error)
+				console.error("Error creating donation:", error)
 			})
 	}
 	donationAmount = params => {
-		if (params.presetAmount) return 3
-		else if (params.remainingAmount) return this.calculateRemainder()
-		else if (params.customAmount) return params.customAmountValue
+		if (params.presetAmount === "true") return 3
+		else if (params.remainingAmount === "true") return this.calculateRemainder()
+		else if (params.customAmount === "true") return params.customAmountValue
+		return 0
 	}
 	calculateRemainder = () => {
-		return 10
+		const { scenarioId } = this.state
+		let remainder
+
+		Database.getScenario({id: scenarioId})
+			.then(result => {
+				const { attributes } = result.body.data
+				// console.log("Scenario successfully found:", result)
+
+				remainder = attributes.funding_goal - attributes.donated
+			})
+			.catch(error => {
+				// console.error("Error getting scenario:", error)
+			})
+		
+		let remainderAwait = setInterval(() => {
+			if (remainder) {
+				clearInterval(remainderAwait)
+				return remainder
+			}
+		}, 100)
 	}
 }

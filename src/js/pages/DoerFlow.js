@@ -1,15 +1,10 @@
 /*** IMPORTS ***/
-// Module imports
-import createHistory from "history/createBrowserHistory"
-
 // Local JS
 import Page from "./Page"
 
 // Local JS Utilities
 import Database from "../resources/Database"
 /*** [end of imports] ***/
-
-const history = createHistory()
 
 export default class DoerFlow extends Page {
 	constructor(props) {
@@ -90,9 +85,8 @@ export default class DoerFlow extends Page {
 		Database.updateScenario({ id: scenarioId }, json)
 			.then(result => {
 				// console.log("Scenario successfully updated:", result)
-
-				super.acceptScenario({ scenarioId: scenarioId })
-				history.push(`/${scenarioId}/info`)
+				
+				this.props.history.push(`/${scenarioId}/info`)
 			})
 			.catch(error => {
 				// console.error("Error updating scenario:", error)

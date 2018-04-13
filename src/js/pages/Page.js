@@ -57,7 +57,7 @@ export default class Page extends Component {
 			this.homeTabComponentMount()
 		} else {
 			if (scenarioId) {
-				this.scenarioComponentMount()
+				this.setScenarioData()
 			} else if (userId) {
 				this.userComponentMount()
 			} else {
@@ -82,7 +82,7 @@ export default class Page extends Component {
 				})
 			})
 	}
-	scenarioComponentMount = () => {
+	setScenarioData = () => {
 		Database.getScenario({ id: this.state.scenarioId })
 			.then(result => {
 				// console.info("Database call complete:", result.body.data)
@@ -253,6 +253,7 @@ export default class Page extends Component {
 							<Form>
 								{this.inputs.map((_input, _index) => (
 									<FormInput
+										history={this.props.history}
 										inputObj={_input}
 										openMapPicker={this.openMapPicker}
 										lat={lastClickedLat}
@@ -273,7 +274,7 @@ export default class Page extends Component {
 
 				{pageStyle === "home-tab" && (
 					<Fragment>
-					<Main>
+						<Main>
 							<HeaderTabs />
 							<ScenarioFeed>
 								{this.state.scenarioData ? (
@@ -291,7 +292,7 @@ export default class Page extends Component {
 
 				{pageStyle === "flow" && (
 					<Fragment>
-					<Main>
+						<Main>
 							{this.state.scenarioData ? (
 								<ScenarioContent {...this.state.scenarioData} />
 							) : (
@@ -300,6 +301,7 @@ export default class Page extends Component {
 							<Form>
 								{this.inputs.map((_input, _index) => (
 									<FormInput
+										history={this.props.history}
 										inputObj={_input}
 										openMapPicker={this.openMapPicker}
 										lat={lastClickedLat}

@@ -13,7 +13,8 @@ export default class Thanks extends Page {
 		this.state = {
 			pageStyle: "flow",
 			title: "Feel good",
-			userId: 1
+			userId: 1,
+			scenarioId: this.props.match.params.scenarioId || 1
 		}
 		this.inputs = [
 			{

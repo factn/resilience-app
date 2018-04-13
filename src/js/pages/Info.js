@@ -14,7 +14,8 @@ export default class Info extends Page {
 			pageStyle: "flow",
 			title: "Overview",
 			navMenu: true,
-			userId: 1
+			userId: 1,
+			scenarioId: this.props.match.params.scenarioId || 1
 		}
 		this.inputs = [
 			{

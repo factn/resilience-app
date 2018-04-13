@@ -1,7 +1,6 @@
 /*** IMPORTS ***/
 // Module imports
 import React, { Component, Fragment } from "react"
-import createHistory from "history/createBrowserHistory"
 import Icon from "@fortawesome/react-fontawesome"
 import faSolid from "@fortawesome/fontawesome-free-solid"
 
@@ -15,8 +14,6 @@ import {
 	prepareFileReader
 } from "../resources/Util"
 /*** [end of imports] ***/
-
-const history = createHistory()
 
 export default class FormInput extends Component {
 	constructor(props) {
@@ -107,16 +104,15 @@ export default class FormInput extends Component {
 								onSubmit(values)
 							} else {
 								if (goToPath) {
-									if (typeof goToPath === "string") {
-										history.push(goToPath)
-										window.location = goToPath
-									} else if (typeof goToPath === "function") {
-										history.push(goToPath(scenarioId))
-										window.location = goToPath(scenarioId)
-									}
+									console.log(typeof goToPath);
+									
+									if (typeof goToPath === "string")
+										this.props.history.push(goToPath)
+									else if (typeof goToPath === "function")
+										this.props.history.push(goToPath(scenarioId))
 								}
 							}
-						} else console.log("Bong!")
+						}
 					}}
 				>
 					{this.state.buttonPressed ? (
@@ -277,7 +273,7 @@ export default class FormInput extends Component {
 						disabled={disabledField}
 					>
 						<option>[Select]</option>
-						{options.length &&
+						{options &&
 							options.map((_option, _index) => (
 								<option
 									value={valuify(_option.attributes.description)}
