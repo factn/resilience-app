@@ -52,3 +52,6 @@ export function prepareFileReader(file) {
 export function getBase64() {
 	return globalReader.result
 }
+export function getScenarioIdFromURL(url) {
+	return url.split("/")[1]
+}

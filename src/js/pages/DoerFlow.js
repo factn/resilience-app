@@ -1,24 +1,26 @@
 /*** IMPORTS ***/
 // Module imports
-import React from "react"
 import createHistory from "history/createBrowserHistory"
 
 // Local JS
-import Form from '../components/Form'
-import FormInput from "./FormInput"
+import Page from "./Page"
+
+// Local JS Utilities
 import Database from "../resources/Database"
-import { getUrlPiece } from "../resources/Util"
 /*** [end of imports] ***/
 
 const history = createHistory()
 
-export default class DoerFlow extends Form {
+export default class DoerFlow extends Page {
 	constructor(props) {
 		super(props)
 
 		this.state = {
-			refreshes: 0,
-			lastUrlSegment: getUrlPiece()
+			pageStyle: "flow",
+			title: "Work",
+			navMenu: false,
+			userId: 1,
+			scenarioId: this.props.match.params.scenarioId || 1
 		}
 		this.inputs = [
 			{
@@ -59,70 +61,41 @@ export default class DoerFlow extends Form {
 				onSubmit: this.submitDo,
 				onSubmitParams: {
 					doerlat: "doer_location_lat",
-					doerlon: "doer_location_lon",
-					scenarioId: "doer_scenario-id"
+					doerlon: "doer_location_lon"
 				},
-				goToPath: scenarioId => `/${scenarioId}/info`,
 				responseType: "neutral"
 			}
 		]
 	}
 
 	submitDo = params => {
+		const { scenarioId, userId } = this.state
+
 		let json = {
 			data: {
 				type: "scenarios",
-				id: params.scenarioId,
+				id: scenarioId,
 				attributes: {},
 				relationships: {
 					doer: {
 						data: {
 							type: "users",
-							id: this.state.currentUserId || "1"
+							id: userId || "1"
 						}
 					}
 				}
 			}
 		}
 
-		Database.updateScenario({ id: params.scenarioId }, json)
+		Database.updateScenario({ id: scenarioId }, json)
 			.then(result => {
 				// console.log("Scenario successfully updated:", result)
 
-				this.acceptScenario({ scenarioId: params.scenarioId })
-				if (params.path) {
-					history.push(params.path)
-					window.location = params.path
-				}
+				super.acceptScenario({ scenarioId: scenarioId })
+				history.push(`/${scenarioId}/info`)
 			})
 			.catch(error => {
 				// console.error("Error updating scenario:", error)
 			})
-	}
-
-	render() {
-		let {
-			openMapPicker,
-			lastClickedLat,
-			lastClickedLon,
-			scenarioId,
-			userId
-		} = this.props
-		let { lastUrlSegment } = this.state
-
-		return (
-			<div className={`${lastUrlSegment}-form page-form`}>
-				{this.pages[lastUrlSegment].inputs.map((_input, _index) => (
-					<FormInput
-						inputObj={_input}
-						openMapPicker={openMapPicker}
-						lat={lastClickedLat}
-						lon={lastClickedLon}
-						scenarioId={scenarioId || userId}
-						key={_index}
-					/>
-				))}
-			</div>
-		)
 	}
 }

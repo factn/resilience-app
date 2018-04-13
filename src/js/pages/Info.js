@@ -3,17 +3,18 @@
 import React from "react"
 
 // Local JS
-import Form from '../components/Form'
-import FormInput from "./FormInput"
-import { getUrlPiece } from "../resources/Util"
+import Page from "./Page"
 /*** [end of imports] ***/
 
-export default class Info extends Form {
+export default class Info extends Page {
 	constructor(props) {
 		super(props)
 
 		this.state = {
-			lastUrlSegment: getUrlPiece()
+			pageStyle: "flow",
+			title: "Overview",
+			navMenu: true,
+			userId: 1
 		}
 		this.inputs = [
 			{
@@ -34,31 +35,5 @@ export default class Info extends Form {
 				responseType: "neutral"
 			}
 		]
-	}
-
-	render() {
-		let {
-			openMapPicker,
-			lastClickedLat,
-			lastClickedLon,
-			scenarioId,
-			userId
-		} = this.props
-		let { lastUrlSegment } = this.state
-
-		return (
-			<div className={`${lastUrlSegment}-form page-form`}>
-				{this.pages[lastUrlSegment].inputs.map((_input, _index) => (
-					<FormInput
-						inputObj={_input}
-						openMapPicker={openMapPicker}
-						lat={lastClickedLat}
-						lon={lastClickedLon}
-						scenarioId={scenarioId || userId}
-						key={_index}
-					/>
-				))}
-			</div>
-		)
 	}
 }

@@ -1,23 +1,25 @@
 /*** IMPORTS ***/
 // Module imports
-import React from "react"
 import createHistory from "history/createBrowserHistory"
 
 // Local JS
-import Form from '../components/Form'
-import FormInput from "./FormInput"
+import Page from "./Page"
+
+// Local JS Utilities
 import Database from "../resources/Database"
-import { getUrlPiece } from "../resources/Util"
 /*** [end of imports] ***/
 
 const history = createHistory()
 
-export default class Login extends Form {
+export default class Login extends Page {
 	constructor(props) {
 		super(props)
 
 		this.state = {
-			lastUrlSegment: getUrlPiece()
+			pageStyle: "modal",
+			title: "Login",
+			navMenu: false,
+			userId: 1
 		}
 		this.inputs = [
 			{
@@ -40,7 +42,6 @@ export default class Login extends Form {
 				labelIcon: "sign-in-alt",
 				onSubmit: this.submitLogin,
 				onSubmitParams: { email: "login_email", password: "login_pw" },
-				goToPath: "/",
 				responseType: "neutral"
 			}
 		]
@@ -56,39 +57,10 @@ export default class Login extends Form {
 			.then(result => {
 				// console.log("Login complete:", result)
 
-				if (params.path) {
-					history.push(params.path)
-					window.location = params.path
-				}
+				history.push("/")
 			})
 			.catch(error => {
 				// console.error("Error getting user:", error)
 			})
-	}
-
-	render() {
-		let {
-			openMapPicker,
-			lastClickedLat,
-			lastClickedLon,
-			scenarioId,
-			userId
-		} = this.props
-		let { lastUrlSegment } = this.state
-
-		return (
-			<div className={`${lastUrlSegment}-form page-form`}>
-				{this.pages[lastUrlSegment].inputs.map((_input, _index) => (
-					<FormInput
-						inputObj={_input}
-						openMapPicker={openMapPicker}
-						lat={lastClickedLat}
-						lon={lastClickedLon}
-						scenarioId={scenarioId || userId}
-						key={_index}
-					/>
-				))}
-			</div>
-		)
 	}
 }

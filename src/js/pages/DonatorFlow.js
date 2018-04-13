@@ -3,22 +3,28 @@
 import React, { Fragment } from "react"
 import Icon from "@fortawesome/react-fontawesome"
 import createHistory from "history/createBrowserHistory"
+import { faPaypal, faEthereum } from "@fortawesome/fontawesome-free-brands"
 
 // Local JS
-import Form from '../components/Form'
-import FormInput from "./FormInput"
+import Page from "./Page"
+
+// Local JS Utilities
 import Database from "../resources/Database"
-import { getUrlPiece } from "../resources/Util"
 /*** [end of imports] ***/
 
 const history = createHistory()
 
-export default class DonatorFlow extends Form {
+export default class DonatorFlow extends Page {
 	constructor(props) {
 		super(props)
 
 		this.state = {
-			lastUrlSegment: getUrlPiece()
+			pageStyle: "flow",
+			title: "Donate",
+			navMenu: false,
+			userId: 1,
+			scenarioId: this.props.match.params.scenarioId || 1,
+			refreshes: 0
 		}
 		this.inputs = [
 			{
@@ -97,10 +103,8 @@ export default class DonatorFlow extends Form {
 								target="_blank"
 								rel="noopener noreferrer"
 							>
-								<span className="input-label-phrase">
-									Donate via Paypal{" "}
-								</span>
-								<Icon icon="paypal" className="input-label-icon" />
+								<span className="input-label-phrase">Donate via Paypal </span>
+								<Icon icon={faPaypal} className="input-label-icon" />
 							</a>
 						</div>
 					</Fragment>
@@ -114,7 +118,7 @@ export default class DonatorFlow extends Form {
 					<Fragment>
 						<label className="input-label">
 							<span className="input-label-phrase">Ethereum wallet ID</span>
-							<Icon icon="ethereum" className="input-label-icon" />
+							<Icon icon={faEthereum} className="input-label-icon" />
 						</label>
 						<div className="pseudo-input">
 							<div className="ethereum-wallet-id-transaction-number">
@@ -179,31 +183,47 @@ export default class DonatorFlow extends Form {
 					creditCardNumber: "donator_cc-number",
 					creditCardMonth: "donator_cc-expiration-month",
 					creditCardYear: "donator_cc-expiration-year",
-					creditCardSec: "donator_cc-sec",
-					scenarioId: "donator_scenario-id"
+					creditCardSec: "donator_cc-sec"
 				},
-				goToPath: scenarioId => `/${scenarioId}/thanks`,
 				responseType: "neutral"
 			}
 		]
 	}
 
-	submitDonation = params => {
-		let amount = 0
-
-		if (params.presetAmount) {
-			amount = 3
-		} else if (params.remainingAmount) {
-			amount = 10
-		} else if (params.customAmount) {
-			amount = params.customAmountValue
+	toggleCustomDonationAmount = turnedOn => {
+		if (turnedOn) {
+			this.inputs[2].requiredField = true
+			this.inputs[2].disabledField = false
+		} else {
+			this.inputs[2].requiredField = false
+			this.inputs[2].disabledField = true
 		}
 
+		this.setState({
+			refreshes: this.state.refreshes + 1
+		})
+	}
+	togglePaymentTypeFields = turnedOn => {
+		for (let i = 5, l = this.inputs.length; i < l; i++) {
+			if (this.inputs[i].toggleGroup === turnedOn) {
+				this.inputs[i].requiredField = true
+				this.inputs[i].disabledField = false
+			} else {
+				this.inputs[i].requiredField = false
+				this.inputs[i].disabledField = true
+			}
+		}
+
+		this.setState({
+			refreshes: this.state.refreshes + 1
+		})
+	}
+	submitDonation = params => {
 		let json = {
 			data: {
 				type: "donations",
 				attributes: {
-					amount: amount
+					amount: this.donationAmount(params)
 				},
 				relationships: {
 					donator: {
@@ -215,7 +235,7 @@ export default class DonatorFlow extends Form {
 					scenario: {
 						data: {
 							type: "scenarios",
-							id: params.scenarioId
+							id: this.state.scenarioId
 						}
 					}
 				}
@@ -224,42 +244,20 @@ export default class DonatorFlow extends Form {
 
 		Database.createDonation(json)
 			.then(result => {
-				console.log("Donation successfully created:", result)
-
-				this.acceptScenario({ scenarioId: result.body.data.id })
-				if (params.path) {
-					history.push(params.path)
-					window.location = params.path
-				}
+				// console.log("Donation successfully created:", result)
+				super.acceptScenario({ scenarioId: result.body.data.id })
+				history.push(`/${this.state.scenarioId}/thanks`)
 			})
 			.catch(error => {
 				// console.error("Error creating donation:", error)
 			})
 	}
-
-	render() {
-		let {
-			openMapPicker,
-			lastClickedLat,
-			lastClickedLon,
-			scenarioId,
-			userId
-		} = this.props
-		let { lastUrlSegment } = this.state
-
-		return (
-			<div className={`${lastUrlSegment}-form page-form`}>
-				{this.pages[lastUrlSegment].inputs.map((_input, _index) => (
-					<FormInput
-						inputObj={_input}
-						openMapPicker={openMapPicker}
-						lat={lastClickedLat}
-						lon={lastClickedLon}
-						scenarioId={scenarioId || userId}
-						key={_index}
-					/>
-				))}
-			</div>
-		)
+	donationAmount = params => {
+		if (params.presetAmount) return 3
+		else if (params.remainingAmount) return this.calculateRemainder()
+		else if (params.customAmount) return params.customAmountValue
+	}
+	calculateRemainder = () => {
+		return 10
 	}
 }

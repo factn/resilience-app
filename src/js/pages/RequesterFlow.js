@@ -1,25 +1,29 @@
 /*** IMPORTS ***/
 // Module imports
-import React from "react"
+import createHistory from "history/createBrowserHistory"
 
 // Local JS
-import Form from '../components/Form'
-import FormInput from "./FormInput"
+import Page from "./Page"
+
+// Local JS Utilities
 import Database from "../resources/Database"
-import { getUrlPiece, getBase64, unvaluify } from "../resources/Util"
+import { getBase64, unvaluify } from "../resources/Util"
 /*** [end of imports] ***/
 
-export default class RequesterFlow extends Form {
+const history = createHistory()
+
+export default class RequesterFlow extends Page {
 	constructor(props) {
 		super(props)
 
 		this.state = {
-			lastUrlSegment: getUrlPiece()
+			pageStyle: "flow",
+			title: "Get help!",
+			navMenu: false,
+			userId: 1,
+			scenarioId: this.props.match.params.scenarioId || 1
 		}
 		this.inputs = [
-			{
-				inputType: "scenario-id"
-			},
 			{
 				inputType: "select",
 				inputID: "event-name",
@@ -88,10 +92,8 @@ export default class RequesterFlow extends Form {
 					requesterlon: "requester_location_lon",
 					noun: "requester_noun",
 					verb: "requester_verb",
-					customMessage: "requester_custom-message",
-					scenarioId: "requester_scenario-id"
+					customMessage: "requester_custom-message"
 				},
-				goToPath: scenarioId => `/${scenarioId}/info`,
 				responseType: "neutral"
 			}
 		]
@@ -147,25 +149,25 @@ export default class RequesterFlow extends Form {
 							event: {
 								data: {
 									type: "events",
-									id: relatedEventId || "1"
+									id: relatedEventId
 								}
 							},
 							noun: {
 								data: {
 									type: "nouns",
-									id: relatedNounId || "1"
+									id: relatedNounId
 								}
 							},
 							verb: {
 								data: {
 									type: "verbs",
-									id: relatedVerbId || "1"
+									id: relatedVerbId
 								}
 							},
 							requester: {
 								data: {
 									type: "users",
-									id: this.state.currentUserId || "1"
+									id: this.state.userId || "1"
 								}
 							},
 							doer: {
@@ -188,7 +190,7 @@ export default class RequesterFlow extends Form {
 							event: relatedEventId,
 							path: params.path || "/"
 						})
-						this.acceptScenario({ scenarioId: result.body.data.id })
+						super.acceptScenario({ scenarioId: result.body.data.id })
 					})
 					.catch(error => {
 						// console.error("Error creating scenario:", error)
@@ -196,30 +198,209 @@ export default class RequesterFlow extends Form {
 			}
 		}, 100)
 	}
+	makeNewRequestChildrenScenarios = params => {
+		let getMaterials = {
+			data: {
+				type: "scenarios",
+				attributes: {
+					funding_goal: "50",
+					image: params.image
+				},
+				relationships: {
+					event: {
+						data: {
+							type: "events",
+							id: params.event || "1"
+						}
+					},
+					noun: {
+						data: {
+							type: "nouns",
+							id: "6" // Materials
+						}
+					},
+					verb: {
+						data: {
+							type: "verbs",
+							id: "1" // Get
+						}
+					},
+					requester: {
+						data: {
+							type: "users",
+							id: this.state.currentUserId || "1"
+						}
+					},
+					doer: {
+						data: {
+							type: "users",
+							id: "1"
+						}
+					},
+					parent_scenario: {
+						data: {
+							type: "scenarios",
+							id: params.parentScenarioId
+						}
+					}
+				}
+			}
+		}
+		let getTransportation = {
+			data: {
+				type: "scenarios",
+				attributes: {
+					funding_goal: "50",
+					image: params.image
+				},
+				relationships: {
+					event: {
+						data: {
+							type: "events",
+							id: params.event || "1"
+						}
+					},
+					noun: {
+						data: {
+							type: "nouns",
+							id: "18" // Transportation
+						}
+					},
+					verb: {
+						data: {
+							type: "verbs",
+							id: "1" // Get
+						}
+					},
+					requester: {
+						data: {
+							type: "users",
+							id: this.state.currentUserId || "1"
+						}
+					},
+					doer: {
+						data: {
+							type: "users",
+							id: "1"
+						}
+					},
+					parent_scenario: {
+						data: {
+							type: "scenarios",
+							id: params.parentScenarioId
+						}
+					}
+				}
+			}
+		}
+		let findVolunteers = {
+			data: {
+				type: "scenarios",
+				attributes: {
+					funding_goal: "50",
+					image: params.image
+				},
+				relationships: {
+					event: {
+						data: {
+							type: "events",
+							id: params.event || "1"
+						}
+					},
+					noun: {
+						data: {
+							type: "nouns",
+							id: "17" // Volunteers
+						}
+					},
+					verb: {
+						data: {
+							type: "verbs",
+							id: "3" // Find
+						}
+					},
+					requester: {
+						data: {
+							type: "users",
+							id: this.state.currentUserId || "1"
+						}
+					},
+					doer: {
+						data: {
+							type: "users",
+							id: "1"
+						}
+					},
+					parent_scenario: {
+						data: {
+							type: "scenarios",
+							id: params.parentScenarioId
+						}
+					}
+				}
+			}
+		}
+		let childrenId = []
 
-	render() {
-		let {
-			openMapPicker,
-			lastClickedLat,
-			lastClickedLon,
-			scenarioId,
-			userId
-		} = this.props
-		let { lastUrlSegment } = this.state
+		Database.createScenario(getMaterials)
+			.then(result => {
+				// console.log("Child scenario 1 successfully created:", result)
+				childrenId.push(result.body.data[0].id)
+			})
+			.catch(error => {
+				// console.error("Error creating child scenario:", error)
+			})
 
-		return (
-			<div className={`${lastUrlSegment}-form page-form`}>
-				{this.pages[lastUrlSegment].inputs.map((_input, _index) => (
-					<FormInput
-						inputObj={_input}
-						openMapPicker={openMapPicker}
-						lat={lastClickedLat}
-						lon={lastClickedLon}
-						scenarioId={scenarioId || userId}
-						key={_index}
-					/>
-				))}
-			</div>
-		)
+		Database.createScenario(getTransportation)
+			.then(result => {
+				// console.log("Child scenario 2 successfully created:", result)
+				childrenId.push(result.body.data[0].id)
+			})
+			.catch(error => {
+				// console.error("Error creating child scenario:", error)
+			})
+
+		Database.createScenario(findVolunteers)
+			.then(result => {
+				// console.log("Child scenario 3 successfully created:", result)
+				childrenId.push(result.body.data[0].id)
+			})
+			.catch(error => {
+				// console.error("Error creating child scenario:", error)
+			})
+
+		let attachChildren = setInterval(() => {
+			if (childrenId.length === 3) {
+				clearInterval(attachChildren)
+				Database.updateScenario({
+					data: {
+						type: "scenarios",
+						id: params.parentScenarioId,
+						attributes: {
+							children_scenario: childrenId
+						}
+					}
+				})
+					.then(result => {
+						// console.log("Children scenarios successfully connected to parent:", result)
+						
+						// history.push(`/${scenarioId}/info`)
+					})
+					.catch(error => {
+						// console.error("Error connecting child scenarios:", error)
+					})
+			}
+		})
+
+		// Database.createProof(json)
+		// 	.then(result => {
+		// 		// console.log("Proof successfully created:", result)
+
+		// 		this.acceptScenario({ scenarioId: params.scenarioId })
+		// 		// history.push(`/${scenarioId}/info`)
+		// 	})
+		// 	.catch(error => {
+		// 		// console.error("Error updating proof:", error)
+		// 	})
 	}
 }

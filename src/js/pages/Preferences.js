@@ -1,19 +1,26 @@
 /*** IMPORTS ***/
 // Module imports
-import React from "react"
+import createHistory from "history/createBrowserHistory"
 
 // Local JS
-import Form from '../components/Form'
-import FormInput from "./FormInput"
-import { getUrlPiece } from "../resources/Util"
+import Page from "./Page"
+
+// Local JS Utilities
+import Database from "../resources/Database"
 /*** [end of imports] ***/
 
-export default class Preferences extends Form {
+const history = createHistory()
+
+export default class Preferences extends Page {
 	constructor(props) {
 		super(props)
 
 		this.state = {
-			lastUrlSegment: getUrlPiece()
+			pageStyle: "modal",
+			mapPickerIsOpen: false,
+			title: "Preferences",
+			navMenu: true,
+			userId: 1
 		}
 		this.inputs = [
 			{
@@ -26,31 +33,7 @@ export default class Preferences extends Form {
 		]
 	}
 
-	submitPreferences = params => {}
-
-	render() {
-		let {
-			openMapPicker,
-			lastClickedLat,
-			lastClickedLon,
-			scenarioId,
-			userId
-		} = this.props
-		let { lastUrlSegment } = this.state
-
-		return (
-			<div className={`${lastUrlSegment}-form page-form`}>
-				{this.pages[lastUrlSegment].inputs.map((_input, _index) => (
-					<FormInput
-						inputObj={_input}
-						openMapPicker={openMapPicker}
-						lat={lastClickedLat}
-						lon={lastClickedLon}
-						scenarioId={scenarioId || userId}
-						key={_index}
-					/>
-				))}
-			</div>
-		)
+	submitPreferences = params => {
+		history.push("/")
 	}
 }

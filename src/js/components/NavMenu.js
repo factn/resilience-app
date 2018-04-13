@@ -13,8 +13,9 @@ export default class Header extends Component {
 		super(props)
 
 		this.state = {
-			menuIsOpen: this.props.menuIsOpen || false,
-			currentUserData: null
+			menuIsOpen: false,
+			currentUserData: null,
+			currentUserId: this.props.userId || 1
 		}
 
 		// Bindings
@@ -23,11 +24,11 @@ export default class Header extends Component {
 	}
 
 	componentDidMount = () => {
-		Database.getUser({ id: this.props.userId })
+		Database.getUserById({ id: this.state.currentUserId })
 			.then(result => {
 				// console.log("User successfully found:", result)
 				this.setState({
-					currentUserData: result.body.data[0].attributes
+					currentUserData: result.body.data.attributes
 				})
 			})
 			.catch(error => {
@@ -64,7 +65,7 @@ export default class Header extends Component {
 				<section
 					className={menuIsOpen ? "menu-drawer open-drawer" : "menu-drawer"}
 				>
-					{currentUserData.firstname !== "" ? (
+					{currentUserData && currentUserData.firstname !== "" ? (
 						<div className="user-info-area">
 							<Icon className="user-icon" icon="user" />
 							<div className="user-name">

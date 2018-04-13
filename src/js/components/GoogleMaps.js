@@ -20,7 +20,7 @@ class MapContainer extends Component {
 	}
 
 	mapClicked = (mapProps, map, clickEvent) => {
-		let { closeMapPicker } = this.props
+		const { closeMapPicker } = this.props
 		this.setState({
 			markerShown: true,
 			markerPos: clickEvent.latLng
@@ -30,7 +30,7 @@ class MapContainer extends Component {
 	}
 
 	render() {
-		let { google, zoomLevel, mapPickerIsOpen } = this.props
+		const { google, zoomLevel, mapPickerIsOpen } = this.props
 
 		return (
 			<section className={mapPickerIsOpen ? "map-wrap open" : "map-wrap"}>

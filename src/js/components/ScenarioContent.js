@@ -22,14 +22,14 @@ export default class ScenarioContent extends Component {
 	}
 
 	buildHeader = () => {
-		let {
+		const {
 			doer_firstname,
 			requester_firstname,
 			verb,
 			noun
 		} = this.props.attributes
 
-		let { lastUrlSegment } = this.state
+		const { lastUrlSegment } = this.state
 
 		if (lastUrlSegment === "requester") {
 			return <h3 className="scenario-content-header">Need {noun}?</h3>
@@ -54,8 +54,8 @@ export default class ScenarioContent extends Component {
 		}
 	}
 	buildFigure = () => {
-		let { funding_goal, disaster, image, donated } = this.props.attributes
-		let { id } = this.props
+		const { funding_goal, disaster, image, donated } = this.props.attributes
+		const { id } = this.props
 
 		if (this.state.lastUrlSegment === "requester") {
 			return <div />
@@ -148,13 +148,13 @@ export default class ScenarioContent extends Component {
 		}
 	}
 	getPins = () => {
-		let { id } = this.props
-		let { mapRefresh } = this.state
+		const { id } = this.props
+		const { mapRefresh } = this.state
 
 		setTimeout(() => {
 			Database.getScenario({ id: id })
 				.then(result => {
-					let { doerlat, doerlon } = result.body.data.attributes
+					const { doerlat, doerlon } = result.body.data.attributes
 					this.setState({
 						lat: doerlat,
 						lon: doerlon
@@ -163,7 +163,7 @@ export default class ScenarioContent extends Component {
 				})
 				.catch(error => {
 					// console.error("Error getting scenarios:", error)
-					let { doerlat, doerlon } = this.props.attributes
+					const { doerlat, doerlon } = this.props.attributes
 					this.setState({
 						lat: doerlat,
 						lon: doerlon
@@ -174,8 +174,8 @@ export default class ScenarioContent extends Component {
 	}
 
 	render() {
-		let { requesterlat, requesterlon } = this.props.attributes
-		let { lastUrlSegment } = this.state
+		const { requesterlat, requesterlon } = this.props.attributes
+		const { lastUrlSegment } = this.state
 
 		return (
 			<div className="scenario-content-wrap">

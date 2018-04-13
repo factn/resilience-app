@@ -6,7 +6,7 @@ import Icon from "@fortawesome/react-fontawesome"
 import faSolid from "@fortawesome/fontawesome-free-solid"
 
 // Local JS
-import CustomJSX from "./CustomJSX"
+import CustomInput from "./CustomInput"
 import Loader from "./Loader"
 import {
 	getUrlPiece,
@@ -98,18 +98,22 @@ export default class FormInput extends Component {
 										else values[i] = field.value.toString()
 									}
 								}
-								values["path"] =
-									typeof goToPath === "string"
-										? scenarioId
-										: goToPath(scenarioId)
+								if (goToPath) {
+									values["path"] =
+										typeof goToPath === "string"
+											? scenarioId
+											: goToPath(scenarioId)
+								}
 								onSubmit(values)
 							} else {
-								if (typeof goToPath === "string") {
-									history.push(goToPath)
-									window.location = goToPath
-								} else if (typeof goToPath === "function") {
-									history.push(goToPath(scenarioId))
-									window.location = goToPath(scenarioId)
+								if (goToPath) {
+									if (typeof goToPath === "string") {
+										history.push(goToPath)
+										window.location = goToPath
+									} else if (typeof goToPath === "function") {
+										history.push(goToPath(scenarioId))
+										window.location = goToPath(scenarioId)
+									}
 								}
 							}
 						} else console.log("Bong!")
@@ -221,7 +225,7 @@ export default class FormInput extends Component {
 				</div>
 			)
 		} else if (inputType === "custom") {
-			return <CustomJSX content={customJSX} disabledField={disabledField} />
+			return <CustomInput content={customJSX} disabledField={disabledField} />
 		} else if (inputType === "checkbox") {
 			return (
 				<div

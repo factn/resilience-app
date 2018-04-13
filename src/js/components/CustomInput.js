@@ -3,9 +3,9 @@
 import React, { Component } from "react"
 /*** [end of imports] ***/
 
-export default class CustomJSX extends Component {
+export default class CustomInput extends Component {
 	render() {
-		let { disabledField, content } = this.props
+		const { disabledField, content } = this.props
 
 		return (
 			<div
