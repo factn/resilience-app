@@ -73,8 +73,8 @@ export default class ScenarioContent extends Component {
 						<p>{disaster}</p>
 						<div className="funding-progress-wrap">
 							<label className="funding-progress-label goal-label">
-								Funding goal: ${parseInt(donated).toFixed(2)} / ${parseInt(
-									funding_goal
+								Funding goal: ${parseInt(donated, 10).toFixed(2)} / ${parseInt(
+									funding_goal, 10
 								).toFixed(2)}
 							</label>
 							<div
@@ -82,18 +82,18 @@ export default class ScenarioContent extends Component {
 								id={`${disaster}_fundingGoal`}
 								style={{
 									background: `linear-gradient(to right, #24e051, #24e051 ${(
-										parseInt(donated) /
+										parseInt(donated, 10) /
 										funding_goal *
 										100
 									).toFixed(0)}%, rgba(0, 0, 0, 0.1) ${(
-										parseInt(donated) /
+										parseInt(donated, 10) /
 										funding_goal *
 										100
 									).toFixed(0)}%, rgba(0, 0, 0, 0.1))`
 								}}
 							/>
 							<label className="funding-progress-label complete-label">
-								{(parseInt(donated) / funding_goal * 100).toFixed(0)}% complete
+								{(parseInt(donated, 10) / funding_goal * 100).toFixed(0)}% complete
 							</label>
 						</div>
 						<div className="goal-progress-wrap">

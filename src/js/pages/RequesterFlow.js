@@ -27,6 +27,7 @@ export default class RequesterFlow extends Page {
 				labelPhrase: "What disaster has effected you?",
 				labelIcon: "cloud",
 				options: null,
+				preselectedOption: null,
 				requiredField: false
 			},
 			{
@@ -38,12 +39,14 @@ export default class RequesterFlow extends Page {
 						inputType: "select",
 						inputID: "verb",
 						options: null,
+						preselectedOption: null,
 						requiredField: false
 					},
 					{
 						inputType: "select",
 						inputID: "noun",
 						options: null,
+						preselectedOption: null,
 						requiredField: false
 					}
 				]
@@ -105,9 +108,14 @@ export default class RequesterFlow extends Page {
 	setScenarioData = () => {
 		Database.getScenario({ id: this.state.scenarioId })
 			.then(result => {
-				// console.info("Database call complete:", result.body.data)
+				const { data } = result.body
+				// console.info("Database call complete:", data)
+
+				this.inputs[0].preselectedOption = data.attributes.event
+				this.inputs[1].inputs[0].preselectedOption = data.attributes.verb
+				this.inputs[1].inputs[1].preselectedOption = data.attributes.noun
 				this.setState({
-					scenarioData: result.body.data
+					scenarioData: data
 				})
 			})
 			.catch(error => {

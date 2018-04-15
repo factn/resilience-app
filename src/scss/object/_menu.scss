@@ -45,14 +45,19 @@
 	padding: 2rem 1rem;
 	display: inline-flex;
 	justify-content: space-between;
-	.user-icon {
+	.user-icon, .user-image {
 		color: $white;
 		background: rgba($black, 0.5);
 		width: 2rem;
 		height: 2rem;
-		padding: 0.25rem;
 		border-radius: 50%;
 		border: 0.25rem solid $white;
+	}
+	.user-icon {
+		padding: 0.25rem;
+	}
+	.user-image {
+		overflow: hidden;
 	}
 	.user-name {
 		padding-top: 0.5rem;
