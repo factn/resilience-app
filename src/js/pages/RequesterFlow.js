@@ -73,6 +73,30 @@ export default class RequesterFlow extends Page {
 				requiredField: true
 			},
 			{
+				inputType: "select",
+				inputID: "verification-choice",
+				labelPhrase: "Who can verify your identity?",
+				labelIcon: "question-circle",
+				options: [
+					{
+						attributes: {
+							description: "Facebook friends"
+						}
+					},
+					{
+						attributes: {
+							description: "Twitter followers"
+						}
+					},
+					{
+						attributes: {
+							description: "Instagram followers"
+						}
+					}
+				],
+				requiredField: false
+			},
+			{
 				inputType: "text",
 				inputID: "custom-message",
 				labelPhrase: "Anything else you'd like to say?",
@@ -92,6 +116,7 @@ export default class RequesterFlow extends Page {
 					requesterlon: "requester_location_lon",
 					noun: "requester_noun",
 					verb: "requester_verb",
+					verificationChoice: "requester_verification-choice",
 					customMessage: "requester_custom-message"
 				},
 				responseType: "neutral"

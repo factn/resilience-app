@@ -11,7 +11,8 @@ export default class RequesterTab extends Page {
 			title: "Get Help",
 			pageStyle: "home-tab",
 			navMenu: true,
-			userId: 1
+			userId: 1,
+      scenariosInList: 3
 		}
 	}
 }

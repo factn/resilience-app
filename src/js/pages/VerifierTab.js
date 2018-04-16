@@ -11,7 +11,8 @@ export default class VerifierTab extends Page {
 			title: "Verify",
 			pageStyle: "home-tab",
 			navMenu: true,
-			userId: 1
+			userId: 1,
+      scenariosInList: 3
 		}
 	}
 }

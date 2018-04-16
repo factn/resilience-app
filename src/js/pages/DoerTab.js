@@ -10,7 +10,9 @@ export default class DoerTab extends Page {
 		this.state = {
 			title: "Work",
 			pageStyle: "home-tab",
-			navMenu: true
+			navMenu: true,
+      userId: 1,
+      scenariosInList: 3
 		}
 	}
 }
