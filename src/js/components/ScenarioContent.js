@@ -109,6 +109,7 @@ export default class ScenarioContent extends Component {
                   type="checkbox"
                   id={`materials_${id}`}
                   checked={false}
+                  onChange={() => this.toggleCheckbox(`materials_${id}`)}
                 />
               </div>
               <div className="goal input-wrap checkbox-input-wrap">
@@ -120,6 +121,7 @@ export default class ScenarioContent extends Component {
                   type="checkbox"
                   id={`transportation_${id}`}
                   checked={false}
+                  onChange={() => this.toggleCheckbox(`transportation_${id}`)}
                 />
               </div>
               <div className="goal input-wrap checkbox-input-wrap">
@@ -131,6 +133,7 @@ export default class ScenarioContent extends Component {
                   type="checkbox"
                   id={`volunteers_${id}`}
                   checked={false}
+                  onChange={() => this.toggleCheckbox(`volunteers_${id}`)}
                 />
               </div>
               <div className="goal input-wrap checkbox-input-wrap">
@@ -145,6 +148,7 @@ export default class ScenarioContent extends Component {
                   type="checkbox"
                   id={`mission_complete_${id}`}
                   checked={false}
+                  onChange={() => this.toggleCheckbox(`mission_complete_${id}`)}
                 />
               </div>
             </div>
@@ -193,12 +197,13 @@ export default class ScenarioContent extends Component {
         })
       })
   }
+  toggleCheckbox = id => {
+    document.getElementById(id).checked = !document.getElementById(id).checked
+  }
 
   render() {
     const { requesterlat, requesterlon } = this.props.attributes
     const { lastUrlSegment } = this.state
-
-    console.log(this.getCheckboxes())
 
     return (
       <div className="scenario-content-wrap">

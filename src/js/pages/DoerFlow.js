@@ -15,32 +15,36 @@ export default class DoerFlow extends Page {
       title: "Work",
       navMenu: false,
       userId: 1,
-      scenarioId: this.props.match.params.scenarioId || 1
+      scenarioId: this.props.match.params.scenarioId || 1,
+      refreshes: 0
     }
     this.inputs = [
-      {
-        inputType: "scenario-id"
-      },
       {
         inputType: "checkbox",
         inputID: "materials",
         labelPhrase: "I'm bringing materials",
         requiredField: false,
-        checkedField: true
+        checkedField: true,
+        onChange: this.toggleCheckbox,
+        onChangeVal: 0
       },
       {
         inputType: "checkbox",
         inputID: "volunteering",
         labelPhrase: "I can provide transportation",
         requiredField: false,
-        checkedField: true
+        checkedField: true,
+        onChange: this.toggleCheckbox,
+        onChangeVal: 1
       },
       {
         inputType: "checkbox",
         inputID: "volunteering",
         labelPhrase: "I'm volunteering",
         requiredField: false,
-        checkedField: true
+        checkedField: true,
+        onChange: this.toggleCheckbox,
+        onChangeVal: 2
       },
       {
         inputType: "location",
@@ -63,6 +67,12 @@ export default class DoerFlow extends Page {
     ]
   }
 
+  toggleCheckbox = inputId => {
+    this.inputs[inputId].checkedField = !this.inputs[inputId].checkedField
+    this.setState({
+      refreshes: this.state.refreshes + 1
+    })
+  }
   submitDo = params => {
     const { scenarioId, userId } = this.state
 
