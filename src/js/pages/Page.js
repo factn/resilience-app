@@ -27,300 +27,323 @@ import Footer from "../components/Footer"
 /*** [end of imports] ***/
 
 export default class Page extends Component {
-	constructor(props) {
-		super(props)
+  constructor(props) {
+    super(props)
 
-		this.state = {
-			scenarioData: null,
-			mapPickerIsOpen: false,
-			lastClickedLat: null,
-			lastClickedLon: null,
-			pageStyle: "",
-			title: "",
-			navMenu: true,
-			scenarioId: 1,
-			userId: 1,
-			lastUrlSegment: getUrlPiece(),
-			wrapperClass: ""
-		}
-		this.inputs = []
+    this.state = {
+      scenarioData: null,
+      mapPickerIsOpen: false,
+      lastClickedLat: null,
+      lastClickedLon: null,
+      pageStyle: "",
+      title: "",
+      navMenu: true,
+      scenarioId: 1,
+      userId: 1,
+      lastUrlSegment: getUrlPiece(),
+      wrapperClass: "",
+      scenariosInList: 3
+    }
+    this.inputs = []
 
-		// Bindings
-		this.openMapPicker = this.openMapPicker.bind(this)
-		this.closeMapPicker = this.closeMapPicker.bind(this)
-	}
+    // Bindings
+    this.openMapPicker = this.openMapPicker.bind(this)
+    this.closeMapPicker = this.closeMapPicker.bind(this)
+  }
 
-	componentDidMount = () => {
-		const { pageStyle, scenarioId, userId } = this.state
+  componentDidMount = () => {
+    const { pageStyle, scenarioId, userId } = this.state
 
-		if (pageStyle === "home-tab") {
-			this.homeTabComponentMount()
-		} else {
-			if (scenarioId) {
-				this.setScenarioData()
-			} else if (userId) {
-				this.userComponentMount()
-			} else {
-				this.setState({
-					scenarioData: null
-				})
-			}
-		}
-	}
-	homeTabComponentMount = () => {
-		Database.scenarioFeed()
-			.then(result => {
-				// console.info("Database call complete:", result.body.data)
-				this.setState({
-					scenarioData: result.body.data.slice(0, 3) // Shouldn't need this. Page limit doesn't seem to be working
-				})
-			})
-			.catch(error => {
-				// console.error("Error getting scenarios:", error)
-				this.setState({
-					scenarioData: null
-				})
-			})
-	}
-	setScenarioData = () => {
-		Database.getScenario({ id: this.state.scenarioId })
-			.then(result => {
-				// console.info("Database call complete:", result.body.data)
-				this.setState({
-					scenarioData: result.body.data
-				})
-			})
-			.catch(error => {
-				// console.error("Error getting scenarios:", error)
-				this.setState({
-					scenarioData: null
-				})
-			})
-	}
-	userComponentMount = () => {
-		Database.getUserById({ id: this.state.userId })
-			.then(result => {
-				// console.info("Database call complete:", result.body.data)
-				this.setState({
-					scenarioData: result.body.data
-				})
-			})
-			.catch(error => {
-				// console.error("Error getting user:", error)
-				this.setState({
-					scenarioData: null
-				})
-			})
-	}
+    if (pageStyle === "home-tab") {
+      this.homeTabComponentMount()
+    } else {
+      if (scenarioId) {
+        this.setScenarioData()
+      } else if (userId) {
+        this.userComponentMount()
+      } else {
+        this.setState({
+          scenarioData: null
+        })
+      }
+    }
+  }
+  homeTabComponentMount = () => {
+    Database.scenarioFeed()
+      .then(result => {
+        // console.info("Database call complete:", result.body.data)
+        this.setState({
+          scenariosInList: 3,
+          scenarioData: result.body.data.slice(0, 3) // Shouldn't need this. Page limit doesn't seem to be working
+        })
+      })
+      .catch(error => {
+        // console.error("Error getting scenarios:", error)
+        this.setState({
+          scenarioData: null
+        })
+      })
+  }
+  setScenarioData = () => {
+    Database.getScenario({ id: this.state.scenarioId })
+      .then(result => {
+        // console.info("Database call complete:", result.body.data)
+        this.setState({
+          scenarioData: result.body.data
+        })
+      })
+      .catch(error => {
+        // console.error("Error getting scenarios:", error)
+        this.setState({
+          scenarioData: null
+        })
+      })
+  }
+  userComponentMount = () => {
+    Database.getUserById({ id: this.state.userId })
+      .then(result => {
+        // console.info("Database call complete:", result.body.data)
+        this.setState({
+          scenarioData: result.body.data
+        })
+      })
+      .catch(error => {
+        // console.error("Error getting user:", error)
+        this.setState({
+          scenarioData: null
+        })
+      })
+  }
 
-	openMapPicker = () => {
-		this.setState({ mapPickerIsOpen: true })
-	}
-	closeMapPicker = (lat, lon) => {
-		this.setState({
-			mapPickerIsOpen: false,
-			lastClickedLat: lat,
-			lastClickedLon: lon
-		})
-	}
-	dismissScenario = params => {
-		const { lastUrlSegment } = this.state
-		let ad_type
+  openMapPicker = () => {
+    this.setState({ mapPickerIsOpen: true })
+  }
+  closeMapPicker = (lat, lon) => {
+    this.setState({
+      mapPickerIsOpen: false,
+      lastClickedLat: lat,
+      lastClickedLon: lon
+    })
+  }
+  dismissScenario = params => {
+    const { lastUrlSegment } = this.state
+    let ad_type
 
-		if (lastUrlSegment === "doer") ad_type = "1"
-		else if (lastUrlSegment === "requester") ad_type = "2"
-		else if (lastUrlSegment === "donator") ad_type = "3"
-		else if (lastUrlSegment === "verifier") ad_type = "4"
+    if (lastUrlSegment === "doer") ad_type = "1"
+    else if (lastUrlSegment === "requester") ad_type = "2"
+    else if (lastUrlSegment === "donator") ad_type = "3"
+    else if (lastUrlSegment === "verifier") ad_type = "4"
 
-		let json = {
-			data: {
-				type: "user_ad_interactions",
-				attributes: {},
-				relationships: {
-					user: {
-						data: {
-							type: "users",
-							id: "1"
-						}
-					},
-					scenario: {
-						data: {
-							id: params.scenarioId,
-							type: "scenarios"
-						}
-					},
-					ad_type: {
-						data: {
-							id: ad_type,
-							type: "ad_types"
-						}
-					},
-					interaction_type: {
-						data: {
-							id: "2",
-							type: "interaction_types"
-						}
-					}
-				}
-			}
-		}
+    let json = {
+      data: {
+        type: "user_ad_interactions",
+        attributes: {},
+        relationships: {
+          user: {
+            data: {
+              type: "users",
+              id: "1"
+            }
+          },
+          scenario: {
+            data: {
+              id: params.scenarioId,
+              type: "scenarios"
+            }
+          },
+          ad_type: {
+            data: {
+              id: ad_type,
+              type: "ad_types"
+            }
+          },
+          interaction_type: {
+            data: {
+              id: "2",
+              type: "interaction_types"
+            }
+          }
+        }
+      }
+    }
 
-		Database.createUserAdInteraction(json)
-			.then(result => {
-				// console.log("User ad interaction successfully created:", result)
-			})
-			.catch(error => {
-				// console.error("Error creating user ad interaction:", error)
-			})
-	}
-	acceptScenario = params => {
-		const { lastUrlSegment } = this.state
-		let ad_type
+    Database.createUserAdInteraction(json)
+      .then(result => {
+        // console.log("User ad interaction successfully created:", result)
+        this.setState({
+          scenariosInList: this.state.scenariosInList - 1
+        })
+      })
+      .catch(error => {
+        // console.error("Error creating user ad interaction:", error)
+      })
+  }
+  acceptScenario = params => {
+    const { lastUrlSegment } = this.state
+    let ad_type
 
-		if (lastUrlSegment === "doer") ad_type = "1"
-		else if (lastUrlSegment === "requester") ad_type = "2"
-		else if (lastUrlSegment === "donator") ad_type = "3"
-		else if (lastUrlSegment === "verifier") ad_type = "4"
+    if (lastUrlSegment === "doer") ad_type = "1"
+    else if (lastUrlSegment === "requester") ad_type = "2"
+    else if (lastUrlSegment === "donator") ad_type = "3"
+    else if (lastUrlSegment === "verifier") ad_type = "4"
 
-		let json = {
-			data: {
-				type: "user_ad_interactions",
-				attributes: {},
-				relationships: {
-					user: {
-						data: {
-							type: "users",
-							id: "1"
-						}
-					},
-					scenario: {
-						data: {
-							id: params.scenarioId,
-							type: "scenarios"
-						}
-					},
-					ad_type: {
-						data: {
-							id: ad_type,
-							type: "ad_types"
-						}
-					},
-					interaction_type: {
-						data: {
-							id: "1",
-							type: "interaction_types"
-						}
-					}
-				}
-			}
-		}
+    let json = {
+      data: {
+        type: "user_ad_interactions",
+        attributes: {},
+        relationships: {
+          user: {
+            data: {
+              type: "users",
+              id: "1"
+            }
+          },
+          scenario: {
+            data: {
+              id: params.scenarioId,
+              type: "scenarios"
+            }
+          },
+          ad_type: {
+            data: {
+              id: ad_type,
+              type: "ad_types"
+            }
+          },
+          interaction_type: {
+            data: {
+              id: "1",
+              type: "interaction_types"
+            }
+          }
+        }
+      }
+    }
 
-		Database.createUserAdInteraction(json)
-			.then(result => {
-				// console.log("User ad interaction successfully created:", result)
-			})
-			.catch(error => {
-				// console.error("Error creating user ad interaction:", error)
-			})
-	}
+    Database.createUserAdInteraction(json)
+      .then(result => {
+        // console.log("User ad interaction successfully created:", result)
+      })
+      .catch(error => {
+        // console.error("Error creating user ad interaction:", error)
+      })
+  }
+  removeFromFeed = () => {
+    const { scenariosInList } = this.state
 
-	render() {
-		const {
-			pageStyle,
-			title,
-			navMenu,
-			scenarioId,
-			userId,
-			lastClickedLat,
-			lastClickedLon,
-			mapPickerIsOpen
-		} = this.state
+    if (scenariosInList === 1) {
+      this.homeTabComponentMount()
+    } else {
+      this.setState({
+        scenariosInList: scenariosInList - 1
+      })
+    }
+  }
 
-		return (
-			<div className={`page-full-wrapper ${this.state.wrapperClass}`}>
-				<Header>
-					{navMenu && (
-						<NavMenu userId={userId}>
-							<Profile userId={userId} />
-						</NavMenu>
-					)}
-					<h1 className="title">{title}</h1>
-				</Header>
+  render() {
+    const {
+      pageStyle,
+      title,
+      navMenu,
+      scenarioId,
+      userId,
+      lastClickedLat,
+      lastClickedLon,
+      mapPickerIsOpen
+    } = this.state
 
-				{pageStyle === "modal" && (
-					<Fragment>
-						<Main>
-							<Form>
-								{this.inputs.map((_input, _index) => (
-									<FormInput
-										history={this.props.history}
-										inputObj={_input}
-										openMapPicker={this.openMapPicker}
-										lat={lastClickedLat}
-										lon={lastClickedLon}
-										userId={userId}
-										key={_index}
-									/>
-								))}
-							</Form>
-						</Main>
-						<GoogleMaps
-							zoomLevel={14}
-							closeMapPicker={this.closeMapPicker}
-							mapPickerIsOpen={mapPickerIsOpen}
-						/>
-					</Fragment>
-				)}
+    return (
+      <div className={`page-full-wrapper ${this.state.wrapperClass}`}>
+        <Header>
+          {navMenu && (
+            <NavMenu userId={userId}>
+              <Profile userId={userId} />
+            </NavMenu>
+          )}
+          <h1 className="title">{title}</h1>
+        </Header>
 
-				{pageStyle === "home-tab" && (
-					<Fragment>
-						<Main>
-							<HeaderTabs />
-							<ScenarioFeed>
-								{this.state.scenarioData ? (
-									this.state.scenarioData.map(scenario => (
-										<Scenario scenario={scenario} key={scenario.id} />
-									))
-								) : (
-									<Loader />
-								)}
-							</ScenarioFeed>
-						</Main>
-						<Footer />
-					</Fragment>
-				)}
+        {pageStyle === "modal" && (
+          <Fragment>
+            <Main>
+              <Form>
+                {this.inputs.map((_input, _index) => (
+                  <FormInput
+                    history={this.props.history}
+                    inputObj={_input}
+                    openMapPicker={this.openMapPicker}
+                    lat={lastClickedLat}
+                    lon={lastClickedLon}
+                    userId={userId}
+                    key={_index}
+                  />
+                ))}
+              </Form>
+            </Main>
+            <GoogleMaps
+              zoomLevel={14}
+              closeMapPicker={this.closeMapPicker}
+              mapPickerIsOpen={mapPickerIsOpen}
+            />
+          </Fragment>
+        )}
 
-				{pageStyle === "flow" && (
-					<Fragment>
-						<Main>
-							{this.state.scenarioData ? (
-								<ScenarioContent {...this.state.scenarioData} />
-							) : (
-								<Loader />
-							)}
-							<Form>
-								{this.inputs.map((_input, _index) => (
-									<FormInput
-										history={this.props.history}
-										inputObj={_input}
-										openMapPicker={this.openMapPicker}
-										lat={lastClickedLat}
-										lon={lastClickedLon}
-										scenarioId={scenarioId}
-										userId={userId}
-										key={_index}
-									/>
-								))}
-							</Form>
-						</Main>
-						<GoogleMaps
-							zoomLevel={14}
-							closeMapPicker={this.closeMapPicker}
-							mapPickerIsOpen={mapPickerIsOpen}
-						/>
-					</Fragment>
-				)}
-			</div>
-		)
-	}
+        {pageStyle === "home-tab" && (
+          <Fragment>
+            <Main>
+              <HeaderTabs />
+              <ScenarioFeed>
+                {this.state.scenarioData ? (
+                  this.state.scenarioData.map(scenario => (
+                    <Scenario
+                      scenario={scenario}
+                      key={scenario.id}
+                      removeFromFeed={this.removeFromFeed}
+                    />
+                  ))
+                ) : (
+                  <Loader />
+                )}
+              </ScenarioFeed>
+            </Main>
+            <Footer />
+          </Fragment>
+        )}
+
+        {pageStyle === "flow" && (
+          <Fragment>
+            <Main>
+              {this.state.scenarioData ? (
+                <ScenarioContent
+                  scenarioId={scenarioId}
+                  {...this.state.scenarioData}
+                />
+              ) : (
+                <Loader />
+              )}
+              <Form>
+                {this.inputs.map((_input, _index) => (
+                  <FormInput
+                    history={this.props.history}
+                    inputObj={_input}
+                    openMapPicker={this.openMapPicker}
+                    lat={lastClickedLat}
+                    lon={lastClickedLon}
+                    scenarioId={scenarioId}
+                    userId={userId}
+                    key={_index}
+                  />
+                ))}
+              </Form>
+            </Main>
+            <GoogleMaps
+              zoomLevel={14}
+              closeMapPicker={this.closeMapPicker}
+              mapPickerIsOpen={mapPickerIsOpen}
+            />
+          </Fragment>
+        )}
+      </div>
+    )
+  }
 }

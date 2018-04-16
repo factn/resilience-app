@@ -1,19 +1,19 @@
 .loader-wrap {
-	display: flex;
-	justify-content: space-around;
+  display: flex;
+  justify-content: space-around;
 }
 .loader {
-	padding: 0.5rem;
+  padding: 0.5rem;
 }
 .loader-icon {
-	margin: 0.25rem;
-	&:first-of-type {
-		animation: $loader-time $cubic loader infinite;
-	}
-	&:nth-of-type(2) {
-		animation: $loader-time $cubic $fast loader infinite;
-	}
-	&:nth-of-type(3) {
-		animation: $loader-time $cubic ($fast * 2) loader infinite;
-	}
+  margin: 0.25rem;
+  &:first-of-type {
+    animation: $loader-time $cubic loader infinite;
+  }
+  &:nth-of-type(2) {
+    animation: $loader-time $cubic $fast loader infinite;
+  }
+  &:nth-of-type(3) {
+    animation: $loader-time $cubic ($fast * 2) loader infinite;
+  }
 }

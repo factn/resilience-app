@@ -1,16 +1,16 @@
 a {
-	color: darken($blue, 10%);
-	text-decoration: none;
-	transition: {
-		property: color;
-		duration: $fast;
-		timing-function: $cubic;
-	}
-	&:focus,
-	&:hover {
-		color: darken($blue, 20%);
-	}
-	&:visited {
-		color: darken($blue, 10%);
-	}
+  color: darken($blue, 10%);
+  text-decoration: none;
+  transition: {
+    property: color;
+    duration: $fast;
+    timing-function: $cubic;
+  }
+  &:focus,
+  &:hover {
+    color: darken($blue, 20%);
+  }
+  &:visited {
+    color: darken($blue, 10%);
+  }
 }

@@ -1,56 +1,56 @@
 .app-footer {
-	position: fixed;
-	bottom: 0.5rem;
-	right: 0.5rem;
+  position: fixed;
+  bottom: 0.5rem;
+  right: 0.5rem;
 }
 .action {
-	text-align: right;
-	margin-top: 0.5rem;
+  text-align: right;
+  margin-top: 0.5rem;
 }
 .action-label {
-	margin-right: 0.5rem;
-	border-radius: 0.25rem;
-	color: $white;
-	text-shadow: 0 0 0.25rem $black, 0 0 0.25rem $black;
-	font-weight: bold;
+  margin-right: 0.5rem;
+  border-radius: 0.25rem;
+  color: $white;
+  text-shadow: 0 0 0.25rem $black, 0 0 0.25rem $black;
+  font-weight: bold;
 }
 .action-btn {
-	display: inline-block;
-	width: 2rem;
-	height: 2rem;
-	padding: 0.25rem;
-	font-size: 1rem;
-	box-shadow: 0 0 0.25rem $black, 0 0 0.25rem $black;
-	vertical-align: middle;
-	text-align: center;
+  display: inline-block;
+  width: 2rem;
+  height: 2rem;
+  padding: 0.25rem;
+  font-size: 1rem;
+  box-shadow: 0 0 0.25rem $black, 0 0 0.25rem $black;
+  vertical-align: middle;
+  text-align: center;
 }
 
 @include breakpoint($tablet) {
-	.app-footer {
-		bottom: 1rem;
-		right: 1rem;
-	}
-	.action-label {
-		font-size: 1.1rem;
-	}
-	.action-btn {
-		width: 2.5rem;
-		height: 2.5rem;
-		font-size: 1.1rem;
-	}
+  .app-footer {
+    bottom: 1rem;
+    right: 1rem;
+  }
+  .action-label {
+    font-size: 1.1rem;
+  }
+  .action-btn {
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: 1.1rem;
+  }
 }
 
 @include breakpoint($desktop) {
-	.app-footer {
-		bottom: 1.5rem;
-		right: 1.5rem;
-	}
-	.action-label {
-		font-size: 1.2rem;
-	}
-	.action-btn {
-		width: 3rem;
-		height: 3rem;
-		font-size: 1.2rem;
-	}
+  .app-footer {
+    bottom: 1.5rem;
+    right: 1.5rem;
+  }
+  .action-label {
+    font-size: 1.2rem;
+  }
+  .action-btn {
+    width: 3rem;
+    height: 3rem;
+    font-size: 1.2rem;
+  }
 }

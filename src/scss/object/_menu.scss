@@ -1,98 +1,104 @@
 .menu {
-	position: absolute;
+  position: absolute;
 }
 .menu-toggle-btn,
 .menu-close-btn {
-	font-size: 1.2rem;
+  font-size: 1.2rem;
 }
 .menu-close-btn {
-	opacity: 0;
-	position: absolute;
-	top: 0.5rem;
-	right: -2.5rem;
-	width: 2rem;
-	text-align: center;
+  opacity: 0;
+  position: absolute;
+  top: 0.5rem;
+  right: -2.5rem;
+  width: 2rem;
+  text-align: center;
 }
 .menu-drawer {
-	@include menu-back;
-	position: absolute;
-	top: -0.5rem;
-	left: -100vw;
-	width: calc(100vw - 3rem);
-	height: 100vh;
-	z-index: 11;
-	opacity: 0;
-	padding: 1rem;
-	transition: {
-		property: opacity, left;
-		duration: $medium;
-		timing-function: $cubic;
-	}
-	&.open-drawer {
-		opacity: 1;
-		left: -1rem;
-		.menu-close-btn {
-			opacity: 1;
-		}
-	}
+  @include menu-back;
+  position: absolute;
+  top: -0.5rem;
+  left: -100vw;
+  width: calc(100vw - 3rem);
+  height: 100vh;
+  z-index: 11;
+  opacity: 0;
+  padding: 1rem;
+  transition: {
+    property: opacity, left;
+    duration: $medium;
+    timing-function: $cubic;
+  }
+  &.open-drawer {
+    opacity: 1;
+    left: -1rem;
+    .menu-close-btn {
+      opacity: 1;
+    }
+  }
 }
 .user-info-area {
-	width: calc(100% + 2rem);
-	height: 5rem;
-	margin: -1rem -1rem 1rem;
-	box-shadow: 0 0 1rem rgba($black, 0.5);
-	background: linear-gradient(to bottom right, lighten($green, 10%), $blue);
-	padding: 2rem 1rem;
-	display: inline-flex;
-	justify-content: space-between;
-	.user-icon {
-		color: $white;
-		background: rgba($black, 0.5);
-		width: 2rem;
-		height: 2rem;
-		padding: 0.25rem;
-		border-radius: 50%;
-		border: 0.25rem solid $white;
-	}
-	.user-name {
-		padding-top: 0.5rem;
-		color: $white;
-		&.not-signed-in {
-			color: rgba($white, 0.75);
-		}
-	}
+  width: calc(100% + 2rem);
+  height: 5rem;
+  margin: -1rem -1rem 1rem;
+  box-shadow: 0 0 1rem rgba($black, 0.5);
+  background: linear-gradient(to bottom right, lighten($green, 10%), $blue);
+  padding: 2rem 1rem;
+  display: inline-flex;
+  justify-content: space-between;
+  .user-icon,
+  .user-image {
+    color: $white;
+    background: rgba($black, 0.5);
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    border: 0.25rem solid $white;
+  }
+  .user-icon {
+    padding: 0.25rem;
+  }
+  .user-image {
+    overflow: hidden;
+  }
+  .user-name {
+    padding-top: 0.5rem;
+    color: $white;
+    &.not-signed-in {
+      color: rgba($white, 0.75);
+    }
+  }
 }
 .menu-list {
-	@include pseudo-list;
+  @include pseudo-list;
 }
 .menu-item {
-	.btn-lite {
-		line-height: 1.4;
-		font-size: 1.5rem;
-	}
+  .btn-lite {
+    line-height: 1.4;
+    font-size: 1.5rem;
+  }
 }
 .subheader-content {
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	padding: 0.5rem 1rem;
-	width: 100%;
-	color: rgba($black, 0.5);
-	font-size: 0.8rem;
-	display: inline-flex;
-	justify-content: space-between;
-	.copy {
-	}
-	.version {
-	}
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 0.5rem 1rem;
+  width: 100%;
+  color: rgba($black, 0.5);
+  font-size: 0.8rem;
+  display: inline-flex;
+  justify-content: space-between;
+  .copy {
+  }
+  .version {
+  }
 }
 
 @include breakpoint($tablet) {
-	.menu-drawer {
-		width: 20rem;
-	}
-	.menu-close-btn {
-		right: 0.5rem;
-		color: $white;
-	}
+  .menu-drawer {
+    width: 20rem;
+  }
+  .menu-close-btn {
+    right: 0.5rem;
+    color: $white;
+  }
 }

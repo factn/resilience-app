@@ -1,235 +1,235 @@
 .page {
-	padding: 1rem;
-	&.home-tab-page {
-		padding: 0;
-	}
+  padding: 1rem;
+  &.home-tab-page {
+    padding: 0;
+  }
 }
 .page-scenario-wrap {
-	.scenario-content-header {
-		margin-bottom: 0.5rem;
-	}
+  .scenario-content-header {
+    margin-bottom: 0.5rem;
+  }
 }
 .scenario-content-image-wrap {
-	padding: 0.25rem;
-	margin-bottom: 0.5rem;
+  padding: 0.25rem;
+  margin-bottom: 0.5rem;
 }
 .scenario-content-image {
-	max-height: 30vh;
+  max-height: 30vh;
 }
 .scenario-content-image-caption {
-	color: rgba($black, 0.8);
-	font-size: 0.8em;
-	margin-top: 0.5rem;
+  color: rgba($black, 0.8);
+  font-size: 0.8em;
+  margin-top: 0.5rem;
 }
 .funding-progress-slider {
-	height: 1rem;
-	border-radius: 0.5rem;
-	background: rgba($black, 0.1);
-	box-shadow: inset 0.0625rem 0.0625rem 0.5rem rgba($black, 0.1);
+  height: 1rem;
+  border-radius: 0.5rem;
+  background: rgba($black, 0.1);
+  box-shadow: inset 0.0625rem 0.0625rem 0.5rem rgba($black, 0.1);
 }
 .goal-progress-wrap {
-	width: 100%;
-	margin-top: 0.5rem;
-	display: inline-flex;
-	justify-content: space-between;
-	flex-wrap: wrap;
-	.goal {
-		font-weight: $bold-weight;
-		background: rgba($black, 0.1);
-		border-radius: 0.25rem;
-		margin: 0 .25rem 0.25rem;
-		padding: 0.25rem 0.5rem;
-		flex-basis: 45%;
+  width: 100%;
+  margin-top: 0.5rem;
+  display: inline-flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  .goal {
+    font-weight: $bold-weight;
+    background: rgba($black, 0.1);
+    border-radius: 0.25rem;
+    margin: 0 0.25rem 0.25rem;
+    padding: 0.25rem 0.5rem;
+    flex-basis: 45%;
     flex-grow: 1;
-		&.complete-goal {
-			background: $progress-green;
-		}
-		.form-input {
-			float: right;
-		}
-	}
+    &.complete-goal {
+      background: $progress-green;
+    }
+    .form-input {
+      float: right;
+    }
+  }
 }
 .page-form {
-	.input-wrap {
-		margin-bottom: 1rem;
-		opacity: 1;
-		transition: {
-			property: opacity, max-height, margin-bottom;
-			duration: $medium;
-			timing-function: $cubic;
-		}
-		&.checkbox-input-wrap {
-			.input-label {
-				padding-left: 0.5rem;
-			}
-		}
-		&:not(.checkbox-input-wrap) {
-			.input-label {
-				display: inline-flex;
-				justify-content: space-between;
-				width: 100%;
-				margin-bottom: 0.5rem;
-				.input-label-icon {
-					color: rgba($blue, 0.75);
-					width: 2rem;
-					text-align: center;
-				}
-			}
-		}
-		&.disabled-input {
-			max-height: 0;
-			margin-bottom: 0;
-			opacity: 0;
-			overflow: hidden;
-		}
-		.input-label-phrase {
-			color: rgba($black, 0.5);
-		}
-		button.input-label {
-			font-size: 1rem;
-		}
-		.input-label.btn-label {
-			.input-label-icon,
-			.input-label-phrase {
-				color: rgba($white, 0.9);
-			}
-			&:focus,
-			&:hover {
-				.input-label-icon,
-				.input-label-phrase {
-					color: rgba($blue, 0.9);
-				}
-			}
-		}
-		.form-input {
-			font-size: 1.5rem;
-		}
-	}
-	.input-row-label {
-		color: rgba($black, 0.5);
-		margin-bottom: 0.5rem;
-	}
-	.radio-row-wrap {
-		.radio-row-input-wrap {
-			margin-bottom: 0.5rem;
-		}
-		.form-input {
-			font-size: 0.25rem;
-			margin: -1rem 0.5rem 0 0;
-		}
-	}
-	.split-input-wrap {
-		width: 100%;
-		display: inline-flex;
-		justify-content: space-between;
-		.input-wrap {
-			flex-grow: 1;
-			margin: 0;
-			&:not(:first-of-type) {
-				margin-left: 0.5rem;
-			}
-		}
-	}
-	.submit-btn {
-		width: 100%;
-		font-size: 1.5rem;
-		margin-bottom: 0.5rem;
-		text-align: center;
-		&.positive-response {
-			background: $green;
-			border: 0.125em solid $green;
-		}
-		&.negative-response {
-			background: $red;
-			border: 0.125em solid $red;
-		}
-	}
+  .input-wrap {
+    margin-bottom: 1rem;
+    opacity: 1;
+    transition: {
+      property: opacity, max-height, margin-bottom;
+      duration: $medium;
+      timing-function: $cubic;
+    }
+    &.checkbox-input-wrap {
+      .input-label {
+        padding-left: 0.5rem;
+      }
+    }
+    &:not(.checkbox-input-wrap) {
+      .input-label {
+        display: inline-flex;
+        justify-content: space-between;
+        width: 100%;
+        margin-bottom: 0.5rem;
+        .input-label-icon {
+          color: rgba($blue, 0.75);
+          width: 2rem;
+          text-align: center;
+        }
+      }
+    }
+    &.disabled-input {
+      max-height: 0;
+      margin-bottom: 0;
+      opacity: 0;
+      overflow: hidden;
+    }
+    .input-label-phrase {
+      color: rgba($black, 0.5);
+    }
+    button.input-label {
+      font-size: 1rem;
+    }
+    .input-label.btn-label {
+      .input-label-icon,
+      .input-label-phrase {
+        color: rgba($white, 0.9);
+      }
+      &:focus,
+      &:hover {
+        .input-label-icon,
+        .input-label-phrase {
+          color: rgba($blue, 0.9);
+        }
+      }
+    }
+    .form-input {
+      font-size: 1.5rem;
+    }
+  }
+  .input-row-label {
+    color: rgba($black, 0.5);
+    margin-bottom: 0.5rem;
+  }
+  .radio-row-wrap {
+    .radio-row-input-wrap {
+      margin-bottom: 0.5rem;
+    }
+    .form-input {
+      font-size: 0.25rem;
+      margin: -1rem 0.5rem 0 0;
+    }
+  }
+  .split-input-wrap {
+    width: 100%;
+    display: inline-flex;
+    justify-content: space-between;
+    .input-wrap {
+      flex-grow: 1;
+      margin: 0;
+      &:not(:first-of-type) {
+        margin-left: 0.5rem;
+      }
+    }
+  }
+  .submit-btn {
+    width: 100%;
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    text-align: center;
+    &.positive-response {
+      background: $green;
+      border: 0.125em solid $green;
+    }
+    &.negative-response {
+      background: $red;
+      border: 0.125em solid $red;
+    }
+  }
 }
 .thank-you-page-custom-content {
-	text-align: center;
-	h4 {
-		margin-bottom: 1rem;
-	}
-	.thank-you-icon {
-		color: $blue;
-		font-size: 3em;
-	}
+  text-align: center;
+  h4 {
+    margin-bottom: 1rem;
+  }
+  .thank-you-icon {
+    color: $blue;
+    font-size: 3em;
+  }
 }
 .paypal-donate-btn {
-	.input-label-phrase {
-		color: rgba($white, 0.9) !important;
-	}
+  .input-label-phrase {
+    color: rgba($white, 0.9) !important;
+  }
 }
 .ethereum-wallet-id-transaction-number {
-	background: rgba($white, 0.5);
-	padding: 0.125rem 0.25rem;
-	border-radius: 0.25rem;
-	cursor: pointer;
-	.copy-icon {
-		color: rgba($blue, 0.75);
-		width: 2rem;
-		text-align: center;
-		float: right;
-	}
+  background: rgba($white, 0.5);
+  padding: 0.125rem 0.25rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  .copy-icon {
+    color: rgba($blue, 0.75);
+    width: 2rem;
+    text-align: center;
+    float: right;
+  }
 }
 
 @include breakpoint($tablet) {
-	.page-close-btn {
-		.page-close-text {
-			display: initial;
-		}
-	}
-	.page {
-		&.home-tab-page {
-			padding: 1rem;
-		}
-		&.adcontent-page {
-			display: grid;
-			grid: {
-				template: {
-					columns: 1fr 20rem;
-					rows: auto;
-					areas: "header header" "adcontent form";
-				}
-				gap: 1rem;
-			}
-			.page-header {
-				grid-area: header;
-			}
-			.page-scenario-wrap {
-				grid-area: adcontent;
-			}
-			.scenario-content-image-wrap {
-				display: inline-flex;
-				justify-content: space-between;
-				width: 100%;
-				.scenario-content-image-caption {
-					padding-left: 1rem;
-					flex-grow: 5;
-				}
-			}
-			.page-form {
-				grid-area: form;
-				border: 0.125rem solid $blue;
-				border-radius: 0.5rem;
-				padding: 0.5rem;
-			}
-		}
-		&.no-adcontent-page {
-			max-width: 30em;
-			height: auto;
-			max-height: calc(100vh - 4rem);
-			top: 3rem;
-			left: calc(50% - 15em);
-			border-radius: 1rem;
-		}
-	}
-	.page-header {
-		font-size: 1.2em;
-	}
-	.goal-progress-wrap {
-		.goal {
-			flex-basis: 24%;
-		}
-	}
+  .page-close-btn {
+    .page-close-text {
+      display: initial;
+    }
+  }
+  .page {
+    &.home-tab-page {
+      padding: 1rem;
+    }
+    &.adcontent-page {
+      display: grid;
+      grid: {
+        template: {
+          columns: 1fr 20rem;
+          rows: auto;
+          areas: "header header" "adcontent form";
+        }
+        gap: 1rem;
+      }
+      .page-header {
+        grid-area: header;
+      }
+      .page-scenario-wrap {
+        grid-area: adcontent;
+      }
+      .scenario-content-image-wrap {
+        display: inline-flex;
+        justify-content: space-between;
+        width: 100%;
+        .scenario-content-image-caption {
+          padding-left: 1rem;
+          flex-grow: 5;
+        }
+      }
+      .page-form {
+        grid-area: form;
+        border: 0.125rem solid $blue;
+        border-radius: 0.5rem;
+        padding: 0.5rem;
+      }
+    }
+    &.no-adcontent-page {
+      max-width: 30em;
+      height: auto;
+      max-height: calc(100vh - 4rem);
+      top: 3rem;
+      left: calc(50% - 15em);
+      border-radius: 1rem;
+    }
+  }
+  .page-header {
+    font-size: 1.2em;
+  }
+  .goal-progress-wrap {
+    .goal {
+      flex-basis: 24%;
+    }
+  }
 }

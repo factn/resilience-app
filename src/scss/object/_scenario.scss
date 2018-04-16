@@ -1,215 +1,224 @@
 .scenario-header-tabs {
-	padding: 1rem 0.5rem 0.5rem;
-	border-bottom: 2px solid rgba($blue, 0.5);
+  margin: 0 -1rem;
+  padding: 1rem 0.5rem 0.5rem;
+  border-bottom: 2px solid rgba($blue, 0.5);
 }
 .scenario-tab-list {
-	@include inline-flex-list;
-	width: 100%;
+  @include inline-flex-list;
+  width: 100%;
 }
 .scenario-tab {
-	cursor: pointer;
-	font-weight: bold;
-	padding: 0.25rem 0.75rem;
-	transition: {
-		property: color, box-shadow;
-		duration: $fast;
-		timing-function: $cubic;
-	}
-	&.active {
-		color: $blue;
-		box-shadow: inset 0 -0.125rem $blue;
-	}
+  cursor: pointer;
+  font-weight: bold;
+  padding: 0.25rem 0.75rem;
+  transition: {
+    property: color, box-shadow;
+    duration: $fast;
+    timing-function: $cubic;
+  }
+  &.active {
+    color: $blue;
+    box-shadow: inset 0 -0.125rem $blue;
+  }
 }
 .scenario-feed-wrap {
-	padding: 0 0 5rem;
-	perspective: 1000rem;
-	overflow: hidden;
+  padding: 0 0 5rem;
+  margin: 0 -1rem;
+  perspective: 1000rem;
+  overflow: hidden;
 }
 .scenario {
-	position: relative;
-	background: $white;
-	margin-bottom: 0.5rem;
-	overflow: hidden;
-	min-height: 15rem;
-	&.doer-scenario {
-		.scenario-header {
-			.scenario-title,
-			.scenario-subtitle {
-				color: $red;
-			}
-		}
-		.accept-scenario-btn {
-			background: $red;
-			border: 0.125em solid $red;
-		}
-	}
-	&.donator-scenario {
-		.scenario-header {
-			.scenario-title,
-			.scenario-subtitle {
-				color: $green;
-			}
-		}
-		.accept-scenario-btn {
-			background: $green;
-			border: 0.125em solid $green;
-		}
-	}
-	&.verifier-scenario {
-		.scenario-header {
-			.scenario-title,
-			.scenario-subtitle {
-				color: $purple;
-			}
-		}
-		.accept-scenario-btn {
-			background: $purple;
-			border: 0.125em solid $purple;
-		}
-	}
-	&.requester-scenario {
-		.scenario-header {
-			.scenario-title,
-			.scenario-subtitle {
-				color: $blue;
-			}
-		}
-		.accept-scenario-btn {
-			background: $blue;
-			border: 0.125em solid $blue;
-		}
-	}
-	.accept-scenario-btn {
-		position: absolute;
-		bottom: 0;
-		left: 0;
-		width: 100%;
-		font-size: 1rem;
-		border-radius: 0;
-		z-index: 15;
-		text-align: center;
-		&:active,
-		&:focus,
-		&:hover {
-			color: $white;
-		}
-	}
-	.pseudo-before,
-	.pseudo-after {
-		position: absolute;
-		top: 0;
-		width: 75%;
-		height: 15rem;
-		z-index: 3;
-		color: rgba($white, 0.5);
-		text-align: center;
-		font-size: 2.5rem;
-		padding-top: 4rem;
-		opacity: 0;
-		transition: {
-			property: opacity;
-			duration: $very-fast;
-			timing-function: $cubic;
-		}
-	}
-	.pseudo-before {
-		left: 0;
-		background: linear-gradient(to right, rgba($green, 0.5), transparent);
-	}
-	.pseudo-after {
-		right: 0;
-		background: linear-gradient(to left, rgba($red, 0.5), transparent);
-	}
+  position: relative;
+  background: $white;
+  margin-bottom: 0.5rem;
+  overflow: hidden;
+  min-height: 15rem;
+  transition: {
+    property: margin;
+    duration: $fast;
+    timing-function: $cubic;
+  }
+  &.doer-scenario {
+    .scenario-header {
+      .scenario-title,
+      .scenario-subtitle {
+        color: $red;
+      }
+    }
+    .accept-scenario-btn {
+      background: $red;
+      border: 0.125em solid $red;
+    }
+  }
+  &.donator-scenario {
+    .scenario-header {
+      .scenario-title,
+      .scenario-subtitle {
+        color: $green;
+      }
+    }
+    .accept-scenario-btn {
+      background: $green;
+      border: 0.125em solid $green;
+    }
+  }
+  &.verifier-scenario {
+    .scenario-header {
+      .scenario-title,
+      .scenario-subtitle {
+        color: $purple;
+      }
+    }
+    .accept-scenario-btn {
+      background: $purple;
+      border: 0.125em solid $purple;
+    }
+  }
+  &.requester-scenario {
+    .scenario-header {
+      .scenario-title,
+      .scenario-subtitle {
+        color: $blue;
+      }
+    }
+    .accept-scenario-btn {
+      background: $blue;
+      border: 0.125em solid $blue;
+    }
+  }
+  .accept-scenario-btn {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    font-size: 1rem;
+    border-radius: 0;
+    z-index: 15;
+    text-align: center;
+    &:active,
+    &:focus,
+    &:hover {
+      color: $white;
+    }
+  }
+  .pseudo-before,
+  .pseudo-after {
+    position: absolute;
+    top: 0;
+    width: 75%;
+    height: 15rem;
+    z-index: 3;
+    color: rgba($white, 0.5);
+    text-align: center;
+    font-size: 2.5rem;
+    padding-top: 4rem;
+    opacity: 0;
+    transition: {
+      property: opacity;
+      duration: $very-fast;
+      timing-function: $cubic;
+    }
+  }
+  .pseudo-before {
+    left: 0;
+    background: linear-gradient(to right, rgba($green, 0.5), transparent);
+  }
+  .pseudo-after {
+    right: 0;
+    background: linear-gradient(to left, rgba($red, 0.5), transparent);
+  }
 }
 .scenario-header {
-	position: relative;
-	z-index: 2;
-	padding: 0.5rem 1rem 1rem;
-	margin-top: -1px;
-	background: linear-gradient(
-		to bottom right,
-		rgba($white, 0.9),
-		rgba($white, 0.75) 40%,
-		transparent
-	);
-	.scenario-title {
-		font-weight: bold;
-	}
+  position: relative;
+  z-index: 2;
+  padding: 0.5rem 1rem 1rem;
+  margin-top: -1px;
+  background: linear-gradient(
+    to bottom right,
+    rgba($white, 0.9),
+    rgba($white, 0.75) 40%,
+    transparent
+  );
+  .scenario-title {
+    font-weight: bold;
+  }
 }
 .scenario-image-wrap {
-	.scenario-image {
-		position: absolute;
-		top: 0;
-		left: 0;
-		min-width: 100%;
-	}
+  .scenario-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    min-width: 100%;
+  }
 }
 .scenario-image-caption {
-	color: rgba($black, 0.8);
-	font-size: 0.8em;
+  color: rgba($black, 0.8);
+  font-size: 0.8em;
 }
 .funding-progress-wrap {
-	.funding-progress-label {
-		display: block;
-		font-size: 1.2rem;
-		cursor: inherit;
-		&.goal-label {
-			margin-bottom: 0.5rem;
-		}
-		&.complete-label {
-			margin-top: 0.5rem;
-			font-size: 1rem;
-			color: rgba($black, 0.5);
-		}
-	}
+  .funding-progress-label {
+    display: block;
+    font-size: 1.2rem;
+    cursor: inherit;
+    &.goal-label {
+      margin-bottom: 0.5rem;
+    }
+    &.complete-label {
+      margin-top: 0.5rem;
+      font-size: 1rem;
+      color: rgba($black, 0.5);
+    }
+  }
 }
 
 @include breakpoint($phone-down) {
-	.scenario-feed-wrap {
-		display: grid;
-		padding: 1rem 1rem 5rem;
-		grid: {
-			template: {
-				columns: repeat(2, 1fr);
-				rows: auto;
-			}
-			gap: 1rem;
-		}
-	}
-	.scenario {
-		border: 1px solid rgba($black, 0.5);
-		.pseudo-before,
-		.pseudo-after {
-			display: none;
-		}
-	}
+  .scenario-feed-wrap {
+    display: grid;
+    margin: 0;
+    padding: 1rem 1rem 5rem;
+    grid: {
+      template: {
+        columns: repeat(2, 1fr);
+        rows: auto;
+      }
+      gap: 1rem;
+    }
+  }
+  .scenario {
+    border: 1px solid rgba($black, 0.5);
+    .pseudo-before,
+    .pseudo-after {
+      display: none;
+    }
+  }
 }
 
 @include breakpoint($tablet) {
-	.scenario-header-tabs {
-		padding: 1rem;
-	}
-	.scenario-tab-list {
-		width: auto;
-	}
-	.scenario-tab {
-		font-size: 1.2em;
-	}
-	.scenario-feed-wrap {
-		grid-template-columns: repeat(3, 1fr);
-	}
-	.scenario {
-		margin: 0;
-	}
+  .scenario-header-tabs {
+    margin: 0;
+    padding: 1rem;
+  }
+  .scenario-tab-list {
+    width: auto;
+  }
+  .scenario-tab {
+    font-size: 1.2em;
+  }
+  .scenario-feed-wrap {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .scenario {
+    margin: 0;
+  }
 }
 
 @include breakpoint($desktop) {
-	.scenario-feed-wrap {
-		max-width: 90rem;
-		margin: 0 auto;
-		grid: {
-			template-columns: repeat(4, 1fr);
-			gap: 1.5rem;
-		}
-	}
+  .scenario-feed-wrap {
+    max-width: 90rem;
+    margin: 0 auto;
+    grid: {
+      template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+    }
+  }
 }

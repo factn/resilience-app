@@ -132,6 +132,10 @@ const apiEndpoints = {
 		method: patch,
 		path: "/scenarios/:id"
 	},
+	getSubtasks: {
+		method: get,
+		path: "/scenarios/:id?include=children_scenario"
+	},
 
 	// Users
 	getUsers: {
