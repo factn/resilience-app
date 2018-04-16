@@ -28,10 +28,7 @@ export default class SplitInput extends Component {
       <div
         className={disabledField ? "input-wrap disabled-input" : "input-wrap"}
       >
-        <label
-          className="input-label"
-          htmlFor={`${formName}_${inputID}`}
-        >
+        <label className="input-label" htmlFor={`${formName}_${inputID}`}>
           <span className="input-label-phrase">{labelPhrase}</span>
           {typeof labelIcon !== "undefined" && (
             <Icon icon={labelIcon} className="input-label-icon" />
@@ -39,14 +36,7 @@ export default class SplitInput extends Component {
         </label>
         <div className="split-input-wrap">
           {inputs.map((_input, _index) => (
-            <FormInput
-              formName={formName}
-              inputObj={_input}
-              openMapPicker={_input.inputObj.openMapPicker}
-              lat={_input.inputObj.lat}
-              lon={_input.inputObj.lon}
-              key={_index}
-            />
+            <FormInput inputObj={_input} key={_index} />
           ))}
         </div>
       </div>

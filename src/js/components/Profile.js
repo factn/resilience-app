@@ -2,7 +2,6 @@
 // Module imports
 import React, { Component } from "react"
 import Icon from "@fortawesome/react-fontawesome"
-import brands from "@fortawesome/fontawesome-free-brands"
 
 // Local JS
 import Database from "../resources/Database"

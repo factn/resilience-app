@@ -30,10 +30,7 @@ export default class Select extends Component {
         className={disabledField ? "input-wrap disabled-input" : "input-wrap"}
       >
         {labelPhrase && (
-          <label
-            className="input-label"
-            htmlFor={`${formName}_${inputID}`}
-          >
+          <label className="input-label" htmlFor={`${formName}_${inputID}`}>
             <span className="input-label-phrase">{labelPhrase}</span>
             {typeof labelIcon !== "undefined" && (
               <Icon icon={labelIcon} className="input-label-icon" />
@@ -56,7 +53,7 @@ export default class Select extends Component {
 
           {options &&
             options.map((_option, _index) => {
-              if (_option.attributes.description !== preselectedOption)
+              if (_option.attributes.description !== preselectedOption) {
                 return (
                   <option
                     value={valuify(_option.attributes.description)}
@@ -65,6 +62,7 @@ export default class Select extends Component {
                     {_option.attributes.description}
                   </option>
                 )
+              } else return false
             })}
         </select>
       </div>
