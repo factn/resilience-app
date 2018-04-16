@@ -12,28 +12,28 @@ import Database from "../resources/Database"
 const history = createHistory()
 
 export default class Preferences extends Page {
-	constructor(props) {
-		super(props)
+  constructor(props) {
+    super(props)
 
-		this.state = {
-			pageStyle: "modal",
-			mapPickerIsOpen: false,
-			title: "Preferences",
-			navMenu: true,
-			userId: 1
-		}
-		this.inputs = [
-			{
-				inputType: "submit",
-				labelPhrase: "Save settings",
-				labelIcon: "cogs",
-				responseType: "neutral",
-				onSubmit: this.submitPreferences
-			}
-		]
-	}
+    this.state = {
+      pageStyle: "modal",
+      mapPickerIsOpen: false,
+      title: "Preferences",
+      navMenu: true,
+      userId: 1
+    }
+    this.inputs = [
+      {
+        inputType: "submit",
+        labelPhrase: "Save settings",
+        labelIcon: "cogs",
+        responseType: "neutral",
+        onSubmit: this.submitPreferences
+      }
+    ]
+  }
 
-	submitPreferences = params => {
-		history.push("/")
-	}
+  submitPreferences = params => {
+    history.push("/")
+  }
 }

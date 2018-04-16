@@ -32,30 +32,30 @@ import Info from "./js/pages/Info"
 /*** [end of imports] ***/
 
 export default class App extends Component {
-	render() {
-		return (
-			<div className="app">
-				{/* Home tab */}
-				<Route path="/" exact component={DonatorTab} />
-				<Route path="/donator" component={DonatorTab} />
-				<Route path="/requester" component={RequesterTab} />
-				<Route path="/doer" component={DoerTab} />
-				<Route path="/verifier" component={VerifierTab} />
+  render() {
+    return (
+      <div className="app">
+        {/* Home tab */}
+        <Route path="/" exact component={DonatorTab} />
+        <Route path="/donator" component={DonatorTab} />
+        <Route path="/requester" component={RequesterTab} />
+        <Route path="/doer" component={DoerTab} />
+        <Route path="/verifier" component={VerifierTab} />
 
-				{/* Modals */}
-				<Route path="/account" component={Account} />
-				<Route path="/edit-account" component={EditAccount} />
-				<Route path="/login" component={Login} />
-				<Route path="/preferences" component={Preferences} />
+        {/* Modals */}
+        <Route path="/account" component={Account} />
+        <Route path="/edit-account" component={EditAccount} />
+        <Route path="/login" component={Login} />
+        <Route path="/preferences" component={Preferences} />
 
-				{/* Flows */}
-				<Route path="/:scenarioId/donator" component={DonatorFlow} />
-				<Route path="/:scenarioId/requester" component={RequesterFlow} />
-				<Route path="/:scenarioId/doer" component={DoerFlow} />
-				<Route path="/:scenarioId/verifier" component={VerifierFlow} />
-				<Route path="/:scenarioId/info" component={Info} />
-				<Route path="/:scenarioId/thanks" component={Thanks} />
-			</div>
-		)
-	}
+        {/* Flows */}
+        <Route path="/:scenarioId/donator" component={DonatorFlow} />
+        <Route path="/:scenarioId/requester" component={RequesterFlow} />
+        <Route path="/:scenarioId/doer" component={DoerFlow} />
+        <Route path="/:scenarioId/verifier" component={VerifierFlow} />
+        <Route path="/:scenarioId/info" component={Info} />
+        <Route path="/:scenarioId/thanks" component={Thanks} />
+      </div>
+    )
+  }
 }

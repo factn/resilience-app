@@ -22,8 +22,8 @@ export default class DonatorFlow extends Page {
       navMenu: false,
       userId: 1,
       scenarioId: this.props.match.params.scenarioId || 1,
-			refreshes: 0,
-			donationAmount: 0
+      refreshes: 0,
+      donationAmount: 0
     }
     this.inputs = [
       {
@@ -259,22 +259,21 @@ export default class DonatorFlow extends Page {
     return 0
   }
   calculateRemainder = () => {
-		const { scenarioData } = this.state
-		
+    const { scenarioData } = this.state
+
     if (scenarioData) {
-			let remainder = (
+      let remainder =
         parseInt(scenarioData.attributes.funding_goal, 10) -
         parseInt(scenarioData.attributes.donated, 10)
-			)
-			
+
       this.inputs[0].radios[1].labelPhrase = `Remainder of project ($${remainder})`
-			this.setState({
-				donationAmount: remainder
-			})
-		} else {
-			setTimeout(() => {
-				this.calculateRemainder()
-			}, 100)
-		}
+      this.setState({
+        donationAmount: remainder
+      })
+    } else {
+      setTimeout(() => {
+        this.calculateRemainder()
+      }, 100)
+    }
   }
 }

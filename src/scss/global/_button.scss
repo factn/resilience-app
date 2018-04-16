@@ -1,58 +1,58 @@
 button,
 .btn {
-	background: $blue;
-	color: rgba($white, 0.9);
-	padding: 0.25em 0.5em;
-	cursor: pointer;
-	border: 0.125em solid $blue;
-	border-radius: 0.25em;
-	transition: {
-		property: color, background, border;
-		duration: $fast;
-		timing-function: $cubic;
-	}
-	a,
-	a:visited,
-	&:visited {
-		color: rgba($white, 0.9);
-	}
-	&:focus,
-	&:hover {
-		background: $white;
-		color: $blue;
-		a,
-		a:hover,
-		a:focus {
-			color: $blue;
-		}
-	}
-	&:active,
-	&.active {
-		background: $white;
-		color: $green;
-		border: 0.125em solid $green;
-		a,
-		a:active {
-			color: $green;
-		}
-	}
-	&.circle-btn {
-		border-radius: 50%;
-	}
+  background: $blue;
+  color: rgba($white, 0.9);
+  padding: 0.25em 0.5em;
+  cursor: pointer;
+  border: 0.125em solid $blue;
+  border-radius: 0.25em;
+  transition: {
+    property: color, background, border;
+    duration: $fast;
+    timing-function: $cubic;
+  }
+  a,
+  a:visited,
+  &:visited {
+    color: rgba($white, 0.9);
+  }
+  &:focus,
+  &:hover {
+    background: $white;
+    color: $blue;
+    a,
+    a:hover,
+    a:focus {
+      color: $blue;
+    }
+  }
+  &:active,
+  &.active {
+    background: $white;
+    color: $green;
+    border: 0.125em solid $green;
+    a,
+    a:active {
+      color: $green;
+    }
+  }
+  &.circle-btn {
+    border-radius: 50%;
+  }
 }
 .btn-lite {
-	background: transparent;
-	color: $blue;
-	padding: 0;
-	cursor: pointer;
-	border: 0;
-	border-radius: none;
-	&:hover {
-		color: $black;
-	}
-	&:active,
-	&:focus {
-		border: 0;
-		border-radius: none;
-	}
+  background: transparent;
+  color: $blue;
+  padding: 0;
+  cursor: pointer;
+  border: 0;
+  border-radius: none;
+  &:hover {
+    color: $black;
+  }
+  &:active,
+  &:focus {
+    border: 0;
+    border-radius: none;
+  }
 }

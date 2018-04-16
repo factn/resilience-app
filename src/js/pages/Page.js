@@ -314,7 +314,10 @@ export default class Page extends Component {
           <Fragment>
             <Main>
               {this.state.scenarioData ? (
-                <ScenarioContent {...this.state.scenarioData} />
+                <ScenarioContent
+                  scenarioId={scenarioId}
+                  {...this.state.scenarioData}
+                />
               ) : (
                 <Loader />
               )}

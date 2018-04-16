@@ -1,33 +1,33 @@
 .profile-article {
-	&:not(:last-of-type) {
-		padding-bottom: 0.5rem;
-		border-bottom: 1px solid rgba($black, 0.1);
-		margin-bottom: 0.5rem;
-	}
-	&.open {
-		.profile-content-wrap {
-			max-height: 50vh;
-			opacity: 1;
-			padding: 0.5rem 0;
-		}
-	}
+  &:not(:last-of-type) {
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba($black, 0.1);
+    margin-bottom: 0.5rem;
+  }
+  &.open {
+    .profile-content-wrap {
+      max-height: 50vh;
+      opacity: 1;
+      padding: 0.5rem 0;
+    }
+  }
 }
 .profile-article-header {
-	width: 100%;
-	display: inline-flex;
-	justify-content: space-between;
+  width: 100%;
+  display: inline-flex;
+  justify-content: space-between;
 }
 .profile-icon {
-	color: $blue;
+  color: $blue;
 }
 .profile-content-wrap {
-	max-height: 0;
-	opacity: 0;
-	overflow: auto;
-	padding: 0;
-	transition: {
-		property: max-height, opacity, padding;
-		duration: $fast;
-		timing-function: $cubic;
-	}
+  max-height: 0;
+  opacity: 0;
+  overflow: auto;
+  padding: 0;
+  transition: {
+    property: max-height, opacity, padding;
+    duration: $fast;
+    timing-function: $cubic;
+  }
 }

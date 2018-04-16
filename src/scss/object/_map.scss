@@ -1,20 +1,20 @@
 .map-wrap {
-	position: fixed;
-	top: -100vh;
-	left: 0.5rem;
-	width: calc(100% - 1rem);
-	height: 10rem;
-	z-index: 15;
-	box-shadow: $taper-shadow;
-	overflow: hidden;
-	&.open {
-		top: calc(100vh - 11rem);
-	}
+  position: fixed;
+  top: -100vh;
+  left: 0.5rem;
+  width: calc(100% - 1rem);
+  height: 10rem;
+  z-index: 15;
+  box-shadow: $taper-shadow;
+  overflow: hidden;
+  &.open {
+    top: calc(100vh - 11rem);
+  }
 }
 .mini-map-wrap {
-	position: relative;
-	width: 100%;
-	height: 8rem;
-	overflow: hidden;
-	margin-bottom: 0.5rem;
+  position: relative;
+  width: 100%;
+  height: 8rem;
+  overflow: hidden;
+  margin-bottom: 0.5rem;
 }
