@@ -1,7 +1,6 @@
 /*** IMPORTS ***/
 // Module imports
 import React, { Component } from "react"
-import Icon from "@fortawesome/react-fontawesome"
 
 // Local JS
 import Database from "../resources/Database"
@@ -109,6 +108,7 @@ export default class ScenarioContent extends Component {
                   type="checkbox"
                   id={`materials_${id}`}
                   checked={false}
+                  disabled
                 />
               </div>
               <div className="goal input-wrap checkbox-input-wrap">
@@ -120,6 +120,7 @@ export default class ScenarioContent extends Component {
                   type="checkbox"
                   id={`transportation_${id}`}
                   checked={false}
+                  disabled
                 />
               </div>
               <div className="goal input-wrap checkbox-input-wrap">
@@ -131,6 +132,7 @@ export default class ScenarioContent extends Component {
                   type="checkbox"
                   id={`volunteers_${id}`}
                   checked={false}
+                  disabled
                 />
               </div>
               <div className="goal input-wrap checkbox-input-wrap">
@@ -145,6 +147,7 @@ export default class ScenarioContent extends Component {
                   type="checkbox"
                   id={`mission_complete_${id}`}
                   checked={false}
+                  disabled
                 />
               </div>
             </div>
@@ -197,8 +200,6 @@ export default class ScenarioContent extends Component {
   render() {
     const { requesterlat, requesterlon } = this.props.attributes
     const { lastUrlSegment } = this.state
-
-    console.log(this.getCheckboxes())
 
     return (
       <div className="scenario-content-wrap">

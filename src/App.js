@@ -2,9 +2,6 @@
 // Module imports
 import React, { Component } from "react"
 import { Route } from "react-router-dom"
-import Icon from "@fortawesome/react-fontawesome"
-import faSolid from "@fortawesome/fontawesome-free-solid"
-import brands from "@fortawesome/fontawesome-free-brands"
 
 // Styles
 import "./App.scss"

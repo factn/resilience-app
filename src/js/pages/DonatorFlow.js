@@ -2,7 +2,9 @@
 // Module imports
 import React, { Fragment } from "react"
 import Icon from "@fortawesome/react-fontawesome"
+import { faICursor, faCreditCard, faMoneyBillAlt } from "@fortawesome/fontawesome-free-solid"
 import { faPaypal, faEthereum } from "@fortawesome/fontawesome-free-brands"
+
 
 // Local JS
 import Page from "./Page"
@@ -56,7 +58,7 @@ export default class DonatorFlow extends Page {
         inputType: "number",
         inputID: "custom-amount-value",
         labelPhrase: "Custom amount",
-        labelIcon: "i-cursor",
+        labelIcon: faICursor,
         requiredField: false,
         disabledField: true
       },
@@ -131,7 +133,7 @@ export default class DonatorFlow extends Page {
         inputType: "number",
         inputID: "cc-number",
         labelPhrase: "Credit card number",
-        labelIcon: "credit-card",
+        labelIcon: faCreditCard,
         toggleGroup: 3,
         requiredField: false,
         disabledField: true
@@ -166,7 +168,7 @@ export default class DonatorFlow extends Page {
       {
         inputType: "submit",
         labelPhrase: "Donate",
-        labelIcon: "money-bill-alt",
+        labelIcon: faMoneyBillAlt,
         onSubmit: this.submitDonation,
         onSubmitParams: {
           presetAmount: "donator_preset-amount",

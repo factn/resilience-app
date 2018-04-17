@@ -19,7 +19,7 @@ export default class Scenario extends Component {
       xTransform: 0,
       touchStartX: 0,
       lastTouchX: 0,
-      style: { transform: `translateX(0) scale(1)` },
+      style: { transform: "translateX(0)" },
       beforeStyle: { opacity: 0 },
       afterStyle: { opacity: 0 },
       swipeThreshold: 150,
@@ -38,7 +38,7 @@ export default class Scenario extends Component {
         xTransform: 0,
         touchStartX: 0,
         lastTouchX: 0,
-        style: { transform: `translateX(0) scale(1)` },
+        style: { transform: `translateX(0)` },
         beforeStyle: { opacity: 0 },
         afterStyle: { opacity: 0 }
       })
@@ -49,7 +49,7 @@ export default class Scenario extends Component {
     this.setState({
       touchStartX: e.targetTouches[0].clientX,
       style: {
-        transform: `translateX(0) scale(1.05)`,
+        transform: `translateX(0)`,
         zIndex: 10
       }
     })
@@ -64,7 +64,7 @@ export default class Scenario extends Component {
         xTransform: xDif,
         lastTouchX: currentTouchX,
         style: {
-          transform: `translateX(${xDif}px) scale(1.05)`
+          transform: `translateX(${xDif}px)`
         },
         beforeStyle: {
           opacity: 1
@@ -78,7 +78,7 @@ export default class Scenario extends Component {
         xTransform: xDif,
         lastTouchX: currentTouchX,
         style: {
-          transform: `translateX(${xDif}px) scale(1.05)`
+          transform: `translateX(${xDif}px)`
         },
         beforeStyle: {
           opacity: 0
@@ -108,7 +108,7 @@ export default class Scenario extends Component {
 
     this.setState({
       style: {
-        transform: "translateX(100%) scale(1)",
+        transform: "translateX(100%)",
         marginBottom: "-15rem" // Currently this is an approximation of the element height
       }
     })
@@ -131,7 +131,7 @@ export default class Scenario extends Component {
 
     this.setState({
       style: {
-        transform: "translateX(-100%) scale(1)",
+        transform: "translateX(-100%)",
         marginBottom: "-15rem" // Currently this is an approximation of the element height
       }
     })
@@ -140,7 +140,7 @@ export default class Scenario extends Component {
   resetSwipePos = () => {
     this.setState({
       style: {
-        transform: `translateX(0) scale(1)`,
+        transform: "translateX(0)",
         zIndex: 10
       },
       beforeStyle: { opacity: 0 },

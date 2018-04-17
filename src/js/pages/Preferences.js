@@ -4,9 +4,6 @@ import createHistory from "history/createBrowserHistory"
 
 // Local JS
 import Page from "./Page"
-
-// Local JS Utilities
-import Database from "../resources/Database"
 /*** [end of imports] ***/
 
 const history = createHistory()

@@ -2,7 +2,6 @@
 // Module imports
 import React, { Component } from "react"
 import Icon from "@fortawesome/react-fontawesome"
-import brands from "@fortawesome/fontawesome-free-brands"
 
 // Local JS
 import Database from "../resources/Database"
@@ -27,6 +26,13 @@ export default class Profile extends Component {
   }
 
   componentDidMount = () => {
+    this.userDonationsMount()
+    this.userDosMount()
+    this.userRequestsMount()
+    this.userVerificationsMount()
+  }
+
+  userDonationsMount = () => {
     let json = { id: this.props.userId }
 
     Database.getUserDonations(json)
@@ -42,6 +48,9 @@ export default class Profile extends Component {
           userDonations: null
         })
       })
+  }
+  userDosMount = () => {
+    let json = { id: this.props.userId }
 
     Database.getUserDos(json)
       .then(result => {
@@ -56,6 +65,9 @@ export default class Profile extends Component {
           userDos: null
         })
       })
+  }
+  userRequestsMount = () => {
+    let json = { id: this.props.userId }
 
     Database.getUserRequests(json)
       .then(result => {
@@ -70,6 +82,9 @@ export default class Profile extends Component {
           userRequests: null
         })
       })
+  }
+  userVerificationsMount = () => {
+    let json = { id: this.props.userId }
 
     Database.getUserVerifications(json)
       .then(result => {
