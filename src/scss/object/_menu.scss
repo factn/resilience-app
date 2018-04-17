@@ -9,8 +9,9 @@
   opacity: 0;
   position: absolute;
   top: 0.5rem;
-  right: -2.5rem;
+  right: 0.5rem;
   width: 2rem;
+  color: $white;
   text-align: center;
 }
 .menu-drawer {
@@ -96,9 +97,5 @@
 @include breakpoint($tablet) {
   .menu-drawer {
     width: 20rem;
-  }
-  .menu-close-btn {
-    right: 0.5rem;
-    color: $white;
   }
 }

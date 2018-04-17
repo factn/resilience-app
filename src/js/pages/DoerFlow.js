@@ -1,4 +1,7 @@
 /*** IMPORTS ***/
+// Module imports
+import { faMapPin, faThumbsUp } from "@fortawesome/fontawesome-free-solid"
+
 // Local JS
 import Page from "./Page"
 
@@ -50,13 +53,13 @@ export default class DoerFlow extends Page {
         inputType: "location",
         inputID: "location",
         labelPhrase: "Where are you now?",
-        labelIcon: "map-pin",
+        labelIcon: faMapPin,
         requiredField: true
       },
       {
         inputType: "submit",
         labelPhrase: "I'm on my way",
-        labelIcon: "thumbs-up",
+        labelIcon: faThumbsUp,
         onSubmit: this.submitDo,
         onSubmitParams: {
           doerlat: "doer_location_lat",

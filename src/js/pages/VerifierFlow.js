@@ -1,4 +1,7 @@
 /*** IMPORTS ***/
+// Module imports
+import { faImage, faCheck, faTimes } from "@fortawesome/fontawesome-free-solid"
+
 // Local JS
 import Page from "./Page"
 
@@ -22,13 +25,13 @@ export default class VerifierFlow extends Page {
 				inputType: "file",
 				inputID: "proof",
 				labelPhrase: "Upload proof",
-				labelIcon: "image",
+				labelIcon: faImage,
 				requiredField: false
 			},
 			{
 				inputType: "submit",
 				labelPhrase: "Verify this user",
-				labelIcon: "check",
+				labelIcon: faCheck,
 				onSubmit: this.submitVerification,
 				onSubmitParams: {
 					image: "verifier_proof"
@@ -38,7 +41,7 @@ export default class VerifierFlow extends Page {
 			{
 				inputType: "submit",
 				labelPhrase: "I don't know them",
-				labelIcon: "times",
+				labelIcon: faTimes,
 				onSubmit: super.dismissScenario,
 				responseType: "negative"
 			}

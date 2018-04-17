@@ -1,6 +1,6 @@
 .scenario-header-tabs {
   margin: 0 -1rem;
-  padding: 1rem 0.5rem 0.5rem;
+  padding: 0 0.5rem 0.5rem;
   border-bottom: 2px solid rgba($blue, 0.5);
 }
 .scenario-tab-list {
@@ -121,11 +121,11 @@
   }
   .pseudo-before {
     left: 0;
-    background: linear-gradient(to right, rgba($green, 0.5), transparent);
+    background: linear-gradient(to right, $green, transparent);
   }
   .pseudo-after {
     right: 0;
-    background: linear-gradient(to left, rgba($red, 0.5), transparent);
+    background: linear-gradient(to left, $red, transparent);
   }
 }
 .scenario-header {

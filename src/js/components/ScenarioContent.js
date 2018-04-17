@@ -108,7 +108,7 @@ export default class ScenarioContent extends Component {
                   type="checkbox"
                   id={`materials_${id}`}
                   checked={false}
-                  onChange={() => this.toggleCheckbox(`materials_${id}`)}
+                  disabled
                 />
               </div>
               <div className="goal input-wrap checkbox-input-wrap">
@@ -120,7 +120,7 @@ export default class ScenarioContent extends Component {
                   type="checkbox"
                   id={`transportation_${id}`}
                   checked={false}
-                  onChange={() => this.toggleCheckbox(`transportation_${id}`)}
+                  disabled
                 />
               </div>
               <div className="goal input-wrap checkbox-input-wrap">
@@ -132,7 +132,7 @@ export default class ScenarioContent extends Component {
                   type="checkbox"
                   id={`volunteers_${id}`}
                   checked={false}
-                  onChange={() => this.toggleCheckbox(`volunteers_${id}`)}
+                  disabled
                 />
               </div>
               <div className="goal input-wrap checkbox-input-wrap">
@@ -147,7 +147,7 @@ export default class ScenarioContent extends Component {
                   type="checkbox"
                   id={`mission_complete_${id}`}
                   checked={false}
-                  onChange={() => this.toggleCheckbox(`mission_complete_${id}`)}
+                  disabled
                 />
               </div>
             </div>
@@ -195,9 +195,6 @@ export default class ScenarioContent extends Component {
           subtasks: null
         })
       })
-  }
-  toggleCheckbox = id => {
-    document.getElementById(id).checked = !document.getElementById(id).checked
   }
 
   render() {

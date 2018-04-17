@@ -2,7 +2,6 @@
 // Module imports
 import React, { Component } from "react"
 import Icon from "@fortawesome/react-fontawesome"
-import faSolid from "@fortawesome/fontawesome-free-solid"
 
 // Local JS
 import { getUrlPiece } from "../../resources/Util"

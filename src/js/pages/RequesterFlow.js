@@ -1,4 +1,15 @@
 /*** IMPORTS ***/
+// Module imports
+import {
+  faCloud,
+  faUser,
+  faImage,
+  faMapPin,
+  faQuestionCircle,
+  faICursor,
+  faCheck
+} from "@fortawesome/fontawesome-free-solid"
+
 // Local JS
 import Page from "./Page"
 
@@ -25,7 +36,7 @@ export default class RequesterFlow extends Page {
         inputType: "select",
         inputID: "event-name",
         labelPhrase: "What disaster has effected you?",
-        labelIcon: "cloud",
+        labelIcon: faCloud,
         options: null,
         preselectedOption: null,
         requiredField: false
@@ -55,28 +66,28 @@ export default class RequesterFlow extends Page {
         inputType: "text",
         inputID: "first-name",
         labelPhrase: "What is your name?",
-        labelIcon: "user",
+        labelIcon: faUser,
         requiredField: false
       },
       {
         inputType: "file",
         inputID: "photo",
         labelPhrase: "Show us what happened",
-        labelIcon: "image",
+        labelIcon: faImage,
         requiredField: false
       },
       {
         inputType: "location",
         inputID: "location",
         labelPhrase: "Where are you?",
-        labelIcon: "map-pin",
+        labelIcon: faMapPin,
         requiredField: true
       },
       {
         inputType: "select",
         inputID: "verification-choice",
         labelPhrase: "Who can verify your identity?",
-        labelIcon: "question-circle",
+        labelIcon: faQuestionCircle,
         options: [
           {
             attributes: {
@@ -100,13 +111,13 @@ export default class RequesterFlow extends Page {
         inputType: "text",
         inputID: "custom-message",
         labelPhrase: "Anything else you'd like to say?",
-        labelIcon: "i-cursor",
+        labelIcon: faICursor,
         requiredField: false
       },
       {
         inputType: "submit",
         labelPhrase: "Send someone",
-        labelIcon: "check",
+        labelIcon: faCheck,
         onSubmit: this.submitRequest,
         onSubmitParams: {
           event: "requester_event-name",
@@ -350,8 +361,8 @@ export default class RequesterFlow extends Page {
 
     Database.createScenario(json)
       .then(result => {
-        console.log("Child scenario 1 successfully created:", result)
-        this.attachChildToParent({
+        // console.log("Child scenario 1 successfully created:", result)
+        this.attachParentToChild({
           parentScenarioId: params.parentScenarioId,
           childId: result.body.data.id
         })
@@ -411,8 +422,8 @@ export default class RequesterFlow extends Page {
 
     Database.createScenario(json)
       .then(result => {
-        console.log("Child scenario 2 successfully created:", result)
-        this.attachChildToParent({
+        // console.log("Child scenario 2 successfully created:", result)
+        this.attachParentToChild({
           parentScenarioId: params.parentScenarioId,
           childId: result.body.data.id
         })
@@ -472,8 +483,8 @@ export default class RequesterFlow extends Page {
 
     Database.createScenario(json)
       .then(result => {
-        console.log("Child scenario 3 successfully created:", result)
-        this.attachChildToParent({
+        // console.log("Child scenario 3 successfully created:", result)
+        this.attachParentToChild({
           parentScenarioId: params.parentScenarioId,
           childId: result.body.data.id
         })
@@ -482,29 +493,32 @@ export default class RequesterFlow extends Page {
         // console.error("Error creating child scenario:", error)
       })
   }
-  attachChildToParent = params => {
+  attachParentToChild = params => {
     let json = {
       data: {
         type: "scenarios",
-        id: params.parentScenarioId,
+        id: params.childId,
         relationships: {
-          child_scenario: {
+          parent_scenario: {
             type: "scenarios",
-            id: params.childId
+            id: params.parentScenarioId
           }
         }
       }
     }
 
-    this.props.history.push(`/${params.parentScenarioId}/info`)
-
     // This doesn't work yet, don't have access to child_scenario attribute above
-    Database.updateScenario({ id: params.parentScenarioId }, json)
+    Database.updateScenario({ id: params.childId }, json)
       .then(result => {
-        // console.log("Children scenarios successfully connected to parent:", result)
+        console.log(
+          "Parent scenario successfully connected to child:",
+          params.childId,
+          result
+        )
+        this.props.history.push(`/${params.parentScenarioId}/info`)
       })
       .catch(error => {
-        // console.error("Error connecting child scenarios:", error)
+        // console.error("Error connecting parent scenario:", error)
       })
   }
 }

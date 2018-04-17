@@ -16,15 +16,13 @@ import Text from "./inputs/Text"
 
 export default class FormInput extends Component {
   render() {
-    const { openMapPicker, lat, lon, scenarioId, inputObj, disabledField, content } = this.props
-    const { inputType } = inputObj
+    const { openMapPicker, lat, lon, scenarioId, inputObj } = this.props
+    const { inputType, disabledField, customJSX } = inputObj
 
-    if (inputType === "checkbox")
-      return <Checkbox inputObj={inputObj} />
-    else if (inputType === "custom-input")
-      return <CustomInput disabledField={disabledField} content={content} />
-    else if (inputType === "file")
-      return <File inputObj={inputObj} />
+    if (inputType === "checkbox") return <Checkbox inputObj={inputObj} />
+    else if (inputType === "custom")
+      return <CustomInput disabledField={disabledField} content={customJSX} />
+    else if (inputType === "file") return <File inputObj={inputObj} />
     else if (inputType === "location") {
       return (
         <Location
@@ -36,15 +34,12 @@ export default class FormInput extends Component {
       )
     } else if (inputType === "radio-row")
       return <RadioRow inputObj={inputObj} />
-    else if (inputType === "select")
-      return <Select inputObj={inputObj} />
+    else if (inputType === "select") return <Select inputObj={inputObj} />
     else if (inputType === "split-input")
       return <SplitInput inputObj={inputObj} />
     else if (inputType === "submit")
       return <Submit inputObj={inputObj} scenarioId={scenarioId} />
-    else if (inputType === "hr")
-      return <hr />
-    else
-      return <Text inputObj={inputObj} />
+    else if (inputType === "hr") return <hr />
+    else return <Text inputObj={inputObj} />
   }
 }
