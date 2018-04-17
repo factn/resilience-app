@@ -33,17 +33,12 @@ input[type="file"] {
   z-index: -1;
   top: -100vh;
 }
-input[type="search"] {
-}
 input[type="checkbox"],
 input[type="radio"] {
   cursor: pointer;
   width: 1rem !important;
   height: 1rem;
   border: 1px solid $blue;
-  &:hover {
-    background: $blue;
-  }
   &:checked {
     background: darken($blue, 10%);
   }
