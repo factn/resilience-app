@@ -192,11 +192,11 @@ export default class DonatorFlow extends Page {
 
   toggleCustomDonationAmount = turnedOn => {
     if (turnedOn) {
-      this.inputs[2].requiredField = true
-      this.inputs[2].disabledField = false
+      this.inputs[1].requiredField = true
+      this.inputs[1].disabledField = false
     } else {
-      this.inputs[2].requiredField = false
-      this.inputs[2].disabledField = true
+      this.inputs[1].requiredField = false
+      this.inputs[1].disabledField = true
     }
 
     this.setState({
@@ -204,7 +204,7 @@ export default class DonatorFlow extends Page {
     })
   }
   togglePaymentTypeFields = turnedOn => {
-    for (let i = 5, l = this.inputs.length; i < l; i++) {
+    for (let i = 4, l = this.inputs.length; i < l; i++) {
       if (this.inputs[i].toggleGroup === turnedOn) {
         this.inputs[i].requiredField = true
         this.inputs[i].disabledField = false

@@ -309,25 +309,8 @@ export default class Scenario extends Component {
   render() {
     const { style, beforeStyle, afterStyle, lastUrlSegment } = this.state
     const { scenario } = this.props
-    const { id } = scenario
-
-    const {
-      // doer_firstname,
-      // doer_lastname,
-      // requester_firstname,
-      // requester_lastname,
-      // funding_goal,
-      disaster,
-      // doerlat,
-      // doerlon,
-      // requestorlat,
-      // requestorlon,
-      // donated,
-      image
-      // imagethumb,
-      // noun,
-      // verb
-    } = this.props.scenario.attributes
+    const { id, attributes } = scenario
+    const { event, image } = attributes
 
     return (
       <article
@@ -347,8 +330,8 @@ export default class Scenario extends Component {
           <Icon icon="ban" />
         </div>
         <figure className="scenario-image-wrap">
-          <img src={image} alt={disaster} className="scenario-image" />
-          <p className="scenario-image-caption">{disaster}</p>
+          <img src={image} alt={event} className="scenario-image" />
+          <p className="scenario-image-caption">{event}</p>
         </figure>
         {this.titleBuild()}
         <a
