@@ -510,11 +510,7 @@ export default class RequesterFlow extends Page {
     // This doesn't work yet, don't have access to child_scenario attribute above
     Database.updateScenario({ id: params.childId }, json)
       .then(result => {
-        console.log(
-          "Parent scenario successfully connected to child:",
-          params.childId,
-          result
-        )
+        // console.log("Parent scenario successfully connected to child:", result)
         this.props.history.push(`/${params.parentScenarioId}/info`)
       })
       .catch(error => {

@@ -33,7 +33,7 @@ export default class DoerFlow extends Page {
       },
       {
         inputType: "checkbox",
-        inputID: "volunteering",
+        inputID: "transportation",
         labelPhrase: "I can provide transportation",
         requiredField: false,
         checkedField: true,

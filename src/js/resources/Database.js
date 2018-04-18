@@ -134,11 +134,11 @@ const apiEndpoints = {
 	},
 	getParentScenarios: {
 		method: get,
-		path: "/scenarios?filter[is_sub_task]=false"
+		path: "/scenarios?filter[is_parent]=true"
 	},
 	getChildScenarios: {
 		method: get,
-		path: "/scenarios?filter[is_sub_task]=true"
+		path: "/scenarios?filter[is_child]=true"
 	},
 
 	// Users
@@ -178,7 +178,7 @@ const apiEndpoints = {
 	},
 	getUserRequests: {
 		method: get,
-		path: "/users/:id/requested"
+		path: "/users/:id/requested?filter[is_parent]=true"
 	},
 	getUserVerifications: {
 		method: get,
