@@ -10,7 +10,7 @@ textarea {
   padding: 0.125rem 0.25rem;
   background: rgba($white, 0.5);
   font-family: "Raleway", arial, sans-serif;
-  border: 1px solid transparent;
+  border: 0.0625em solid rgba($black, .1);
   border-radius: 0.25rem;
   transition: {
     property: background, border-color;
@@ -19,7 +19,7 @@ textarea {
   }
   &:focus {
     background: $white;
-    border: 1px solid $blue;
+    border: 0.0625em solid $blue;
   }
   &:-webkit-autofill {
     -webkit-box-shadow: 0 0 0 100rem $white inset;
@@ -38,7 +38,7 @@ input[type="radio"] {
   cursor: pointer;
   width: 1rem !important;
   height: 1rem;
-  border: 1px solid $blue;
+  border: 0.0625em solid $blue;
   &:checked {
     background: darken($blue, 10%);
   }
