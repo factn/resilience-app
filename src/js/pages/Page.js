@@ -13,7 +13,6 @@ import Profile from "../components/Profile"
 
 // Main
 import Main from "../components/Main"
-import HeaderTabs from "../components/HeaderTabs"
 import ScenarioFeed from "../components/ScenarioFeed"
 import Scenario from "../components/Scenario"
 import ScenarioContent from "../components/ScenarioContent"
@@ -21,9 +20,11 @@ import Loader from "../components/Loader"
 import Form from "../components/Form"
 import FormInput from "../components/FormInput"
 
-// Footer
+// Floating components
 import GoogleMaps from "../components/GoogleMaps"
-import Footer from "../components/Footer"
+
+// Logo image
+import logo from "../../img/logo.png"
 /*** [end of imports] ***/
 
 export default class Page extends Component {
@@ -36,7 +37,6 @@ export default class Page extends Component {
       lastClickedLat: null,
       lastClickedLon: null,
       pageStyle: "",
-      title: "",
       navMenu: true,
       scenarioId: 1,
       userId: 1,
@@ -243,7 +243,6 @@ export default class Page extends Component {
   render() {
     const {
       pageStyle,
-      title,
       navMenu,
       scenarioId,
       userId,
@@ -260,7 +259,7 @@ export default class Page extends Component {
               <Profile userId={userId} />
             </NavMenu>
           )}
-          <h1 className="title">{title}</h1>
+          <div className="logo"><a href="/"><img src={logo} alt="WAGL" /></a></div>
         </Header>
 
         {pageStyle === "modal" && (
@@ -291,7 +290,6 @@ export default class Page extends Component {
         {pageStyle === "home-tab" && (
           <Fragment>
             <Main>
-              <HeaderTabs />
               <ScenarioFeed>
                 {this.state.scenarioData ? (
                   this.state.scenarioData.map(scenario => (
@@ -306,7 +304,6 @@ export default class Page extends Component {
                 )}
               </ScenarioFeed>
             </Main>
-            <Footer />
           </Fragment>
         )}
 

@@ -3,16 +3,16 @@
   width: 100%;
   padding: 0.5em 1em;
   z-index: 5;
-  background: $white;
+  border-bottom: 0.125rem solid rgba($black, 0.25);
 }
-.title {
-  font-size: 1.5em;
-  text-align: center;
+.logo img {
+  max-height: 3rem;
 }
 .ad-homepage-btn {
   position: absolute;
-  top: 0.5rem;
+  top: 1rem;
   left: 1rem;
+  font-size: 1.25rem;
 }
 
 @include breakpoint($tablet) {

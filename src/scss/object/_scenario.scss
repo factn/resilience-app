@@ -1,20 +1,3 @@
-.scenario-header-tabs {
-  background: $white;
-  margin: 0 -1rem;
-  padding: 0 0.5rem;
-  border-bottom: 1px solid rgba($black, 0.25);
-}
-.scenario-tab-list {
-  @include inline-flex-list;
-  width: 100%;
-}
-.scenario-tab {
-  cursor: pointer;
-  padding: 0.25rem 0.75rem;
-  &.active {
-    box-shadow: inset 0 -1px $blue;
-  }
-}
 .scenario-feed-wrap {
   padding: 1rem 0 0;
   perspective: 1000rem;
@@ -50,9 +33,9 @@
     width: 10rem;
     margin: 0.5rem auto;
     font-size: 1rem;
-    border-radius: 1rem;
     z-index: 15;
     text-align: center;
+    text-transform: uppercase;
     &:active,
     &:focus,
     &:hover {
@@ -95,12 +78,13 @@
   }
 }
 .scenario-image-wrap {
-  max-height: 10rem;
+  height: 10rem;
   overflow: hidden;
-  background: $black;
+  padding: .25rem;
   .scenario-image {
     min-width: 100%;
     opacity: .75rem;
+    background: rgba($black, .5);
     transition: {
       property: opacity;
       duration: $very-fast;
@@ -113,10 +97,11 @@
   top: 0.5rem;
   right: 0.5rem;
   color: rgba($white, 0.9);
+  font-style: italic;
   font-size: 0.8em;
-  background: rgba($black, 0.5);
+  background: rgba($black, 0.25);
   padding: 0.25rem 0.5rem;
-  border: 1px solid rgba($white, 0.9);
+  border: 0.0625em solid rgba($black, 0.5);
   border-radius: 1rem;
 }
 .funding-progress-wrap {

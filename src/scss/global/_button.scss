@@ -1,11 +1,11 @@
 button,
 .btn {
-  background: rgba($black, 0.1);
-  color: rgba($blue, 0.9);
+  background: rgba($black, 0.25);
+  color: rgba($white, .9);
   padding: 0.25em 0.5em;
   cursor: pointer;
-  border: 0.125em solid rgba($black, 0.25);
-  border-radius: 1em;
+  border: 0.0625em solid rgba($black, 0.5);
+  border-radius: 0.5em;
   transition: {
     property: color;
     duration: $fast;
@@ -14,22 +14,22 @@ button,
   a,
   a:visited,
   &:visited {
-    color: $blue;
+    color: rgba($white, .9);
   }
   &:focus,
   &:hover {
-    color: $blue;
+    color: rgba($white, .9);
     a,
     a:hover,
     a:focus {
-      color: $blue;
+    color: rgba($white, .9);
     }
   }
   &:active,
   &.active {
     a,
     a:active {
-      color: $blue;
+    color: rgba($white, .9);
     }
   }
 }
