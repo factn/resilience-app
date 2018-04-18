@@ -2,17 +2,12 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 body {
-  // position: relative;
+  position: relative;
   width: 100%;
   min-height: 100vh;
   margin: 0;
   overflow-x: hidden;
-  background: linear-gradient(
-    to right,
-    darken($white, 7%),
-    darken($white, 10%),
-    darken($white, 7%)
-  );
+  background: darken($white, 3%);
   font: {
     size: 16px;
     family: "Raleway", arial, sans-serif;
@@ -20,7 +15,6 @@ body {
   }
   * {
     box-sizing: border-box;
-    font-smooth: always;
     -webkit-font-smoothing: subpixel-antialiased;
     -moz-osx-font-smoothing: grayscale;
     -webkit-backface-visibility: hidden;

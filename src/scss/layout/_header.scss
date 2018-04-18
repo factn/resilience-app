@@ -1,10 +1,9 @@
 .app-header {
-  background: $white;
   position: relative;
   width: 100%;
   padding: 0.5em 1em;
   z-index: 5;
-  box-shadow: $menu-shadow;
+  background: $white;
 }
 .title {
   font-size: 1.5em;
@@ -12,8 +11,8 @@
 }
 .ad-homepage-btn {
   position: absolute;
-  top: 0.75rem;
-  right: 1rem;
+  top: 0.5rem;
+  left: 1rem;
 }
 
 @include breakpoint($tablet) {

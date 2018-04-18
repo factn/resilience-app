@@ -1,5 +1,7 @@
 .menu {
   position: absolute;
+  top: 0.75rem;
+  right: 1rem;
 }
 .menu-toggle-btn,
 .menu-close-btn {
@@ -9,63 +11,57 @@
   opacity: 0;
   position: absolute;
   top: 0.5rem;
-  right: 0.5rem;
+  left: 0.5rem;
   width: 2rem;
-  color: $white;
   text-align: center;
 }
 .menu-drawer {
   @include menu-back;
   position: absolute;
-  top: -0.5rem;
-  left: -100vw;
+  top: -0.75rem;
+  right: -100vw;
   width: calc(100vw - 3rem);
   height: 100vh;
   z-index: 11;
   opacity: 0;
   padding: 1rem;
   transition: {
-    property: opacity, left;
+    property: opacity, right;
     duration: $medium;
     timing-function: $cubic;
   }
   &.open-drawer {
     opacity: 1;
-    left: -1rem;
+    right: -1rem;
     .menu-close-btn {
       opacity: 1;
     }
   }
 }
 .user-info-area {
-  width: calc(100% + 2rem);
-  height: 5rem;
-  margin: -1rem -1rem 1rem;
-  box-shadow: 0 0 1rem rgba($black, 0.5);
-  background: linear-gradient(to bottom right, lighten($green, 10%), $blue);
-  padding: 2rem 1rem;
-  display: inline-flex;
-  justify-content: space-between;
+  text-align: center;
+  padding: 3rem 0;
   .user-icon,
   .user-image {
     color: $white;
-    background: rgba($black, 0.5);
-    width: 2rem;
-    height: 2rem;
+    background: rgba($black, 0.1);
+    width: 8rem;
+    height: 8rem;
     border-radius: 50%;
-    border: 0.25rem solid $white;
+    border: 0.125rem solid rgba($black, 0.25);
   }
   .user-icon {
     padding: 0.25rem;
   }
   .user-image {
+    margin: 0 auto;
     overflow: hidden;
   }
   .user-name {
     padding-top: 0.5rem;
-    color: $white;
+    color: rgba($black, 0.9);
     &.not-signed-in {
-      color: rgba($white, 0.75);
+      color: rgba($black, 0.75);
     }
   }
 }
@@ -88,10 +84,6 @@
   font-size: 0.8rem;
   display: inline-flex;
   justify-content: space-between;
-  .copy {
-  }
-  .version {
-  }
 }
 
 @include breakpoint($tablet) {

@@ -1,13 +1,11 @@
 .page {
-  padding: 1rem;
+  padding: 0 1rem 1rem;
   &.home-tab-page {
     padding: 0;
   }
 }
-.page-scenario-wrap {
-  .scenario-content-header {
-    margin-bottom: 0.5rem;
-  }
+.scenario-content-header {
+  margin: 0.5rem 0;
 }
 .scenario-content-image-wrap {
   padding: 0.25rem;
@@ -131,17 +129,18 @@
     }
   }
   .submit-btn {
-    width: 100%;
+    display: block;
+    width: 10rem;
+    margin: 0 auto 0.5rem;
+    color: $blue;
     font-size: 1.5rem;
     margin-bottom: 0.5rem;
     text-align: center;
     &.positive-response {
-      background: $green;
-      border: 0.125em solid $green;
+      color: $green;
     }
     &.negative-response {
-      background: $red;
-      border: 0.125em solid $red;
+      color: $red;
     }
   }
 }
