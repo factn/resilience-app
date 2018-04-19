@@ -11,7 +11,6 @@ import { getUrlPiece } from "../resources/Util"
 // Header
 import Header from "../components/Header"
 import NavMenu from "../components/NavMenu"
-import Profile from "../components/Profile"
 
 // Main
 import Main from "../components/Main"

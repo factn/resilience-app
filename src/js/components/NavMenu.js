@@ -30,7 +30,7 @@ export default class Header extends Component {
       },
       {
         label: "Profile",
-        link: "/"
+        link: "/profile"
       },
       {
         label: "Log Out",
