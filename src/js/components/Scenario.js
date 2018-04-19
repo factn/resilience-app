@@ -3,6 +3,7 @@
 import React, { Component } from "react"
 import createHistory from "history/createBrowserHistory"
 import Icon from "@fortawesome/react-fontawesome"
+import { faChevronDown } from "@fortawesome/fontawesome-free-solid"
 
 // Local JS
 import Database from "../resources/Database"
@@ -20,8 +21,14 @@ export default class Scenario extends Component {
       touchStartX: 0,
       lastTouchX: 0,
       style: { transform: "translateX(0)" },
-      beforeStyle: { opacity: 0 },
-      afterStyle: { opacity: 0 },
+      beforeStyle: {
+        opacity: 0,
+        zIndex: 0
+      },
+      afterStyle: {
+        opacity: 0,
+        zIndex: 0
+      },
       swipeThreshold: 150,
       transitionTiming: 100,
       lastUrlSegment: getUrlPiece()
@@ -39,8 +46,14 @@ export default class Scenario extends Component {
         touchStartX: 0,
         lastTouchX: 0,
         style: { transform: `translateX(0)` },
-        beforeStyle: { opacity: 0 },
-        afterStyle: { opacity: 0 }
+        beforeStyle: {
+          opacity: 0,
+          zIndex: 0
+        },
+        afterStyle: {
+          opacity: 0,
+          zIndex: 0
+        }
       })
     }
   }
@@ -67,10 +80,12 @@ export default class Scenario extends Component {
           transform: `translateX(${xDif}px)`
         },
         beforeStyle: {
-          opacity: 1
+          opacity: 1,
+          zIndex: 5
         },
         afterStyle: {
-          opacity: 0
+          opacity: 0,
+          zIndex: 0
         }
       })
     } else {
@@ -81,10 +96,12 @@ export default class Scenario extends Component {
           transform: `translateX(${xDif}px)`
         },
         beforeStyle: {
-          opacity: 0
+          opacity: 0,
+          zIndex: 0
         },
         afterStyle: {
-          opacity: 1
+          opacity: 1,
+          zIndex: 5
         }
       })
     }
@@ -143,8 +160,14 @@ export default class Scenario extends Component {
         transform: "translateX(0)",
         zIndex: 10
       },
-      beforeStyle: { opacity: 0 },
-      afterStyle: { opacity: 0 }
+      beforeStyle: {
+        opacity: 0,
+        zIndex: 0
+      },
+      afterStyle: {
+        opacity: 0,
+        zIndex: 0
+      }
     })
   }
 
@@ -242,75 +265,20 @@ export default class Scenario extends Component {
       })
   }
 
-  titleBuild = () => {
-    const {
-      requester_firstname,
-      donated,
-      noun,
-      verb
-    } = this.props.scenario.attributes
-    const { lastUrlSegment } = this.state
-
-    if (lastUrlSegment === "donator") {
-      return (
-        <header className="scenario-header">
-          <h4 className="scenario-title">
-            {<span>{`Help us fund ${toFirstCap(requester_firstname)}`}</span>}
-          </h4>
-          <h5 className="scenario-subtitle">
-            {<span>{`${donated} funded so far`}</span>}
-          </h5>
-        </header>
-      )
-    } else if (lastUrlSegment === "doer") {
-      return (
-        <header className="scenario-header">
-          <h4 className="scenario-title">
-            <span>{`Can you ${verb} ${noun} for ${toFirstCap(
-              requester_firstname
-            )}?`}</span>
-          </h4>
-          <h5 className="scenario-subtitle">
-            <span>{`${donated} funded`}</span>
-          </h5>
-        </header>
-      )
-    } else if (lastUrlSegment === "requester") {
-      return (
-        <header className="scenario-header">
-          <h4 className="scenario-title">
-            <span>{`Need ${noun}?`}</span>
-          </h4>
-          <h5 className="scenario-subtitle">
-            <span>30 individuals helped this month</span>
-          </h5>
-        </header>
-      )
-    } else if (lastUrlSegment === "verifier") {
-      return (
-        <header className="scenario-header">
-          <h4 className="scenario-title">
-            <span>{`Know ${toFirstCap(requester_firstname)}?`}</span>
-          </h4>
-          <h5 className="scenario-subtitle">
-            <span>Help us identify them on Facebook</span>
-          </h5>
-        </header>
-      )
-    }
-  }
-  callToActionBuild = requestType => {
-    if (requestType === "doer") return <span>Help today</span>
-    else if (requestType === "donator") return <span>Donate now</span>
-    else if (requestType === "verifier") return <span>Verify user</span>
-    else if (requestType === "requester") return <span>Get Help</span>
-  }
-
   render() {
     const { style, beforeStyle, afterStyle, lastUrlSegment } = this.state
     const { scenario } = this.props
     const { id, attributes } = scenario
-    const { event, image } = attributes
+    const {
+      event,
+      image,
+      requester_firstname,
+      donated,
+      noun,
+      verb,
+      funding_goal,
+      customMessage
+    } = attributes
 
     return (
       <article
@@ -333,12 +301,83 @@ export default class Scenario extends Component {
           <img src={image} alt={event} className="scenario-image" />
           <p className="scenario-image-caption">{event}</p>
         </figure>
-        {this.titleBuild()}
+        <div className="scenario-body">
+          <header className="scenario-header">
+            <h4 className="scenario-title">
+              {`${toFirstCap(verb)} ${toFirstCap(
+                requester_firstname
+              )}'s ${noun}`}
+            </h4>
+          </header>
+
+          <div className="scenario-description">{customMessage}</div>
+
+          <div className="scenario-tags">
+            <ul className="tag-list">
+              <li className="tag">
+                <a href="" className="tag-link">
+                  #Donations
+                </a>
+              </li>
+              <li className="tag">
+                <a href="" className="tag-link">
+                  #Jobs
+                </a>
+              </li>
+              <li className="tag">
+                <a href="" className="tag-link">
+                  #Painting
+                </a>
+              </li>
+              <li className="tag">
+                <a href="" className="tag-link">
+                  #Roofing
+                </a>
+              </li>
+              <li className="tag">
+                <a href="" className="tag-link">
+                  #HurricaneKatrina
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <footer className="scenario-footer">
+            <div className="scenario-funding-goal">
+              <h4>Funding goal:</h4>
+              <div className="funding-goal-label">
+                ${parseInt(donated, 10).toFixed(2)} / ${parseInt(
+                  funding_goal,
+                  10
+                ).toFixed(2)}
+              </div>
+              <div
+                className="funding-progress-slider"
+                id={`${event}_fundingGoal`}
+                style={{
+                  background: `linear-gradient(to right, #24e051, #24e051 ${(
+                    parseInt(donated, 10) /
+                    funding_goal *
+                    100
+                  ).toFixed(0)}%, rgba(0, 0, 0, 0.1) ${(
+                    parseInt(donated, 10) /
+                    funding_goal *
+                    100
+                  ).toFixed(0)}%, rgba(0, 0, 0, 0.1))`
+                }}
+              />
+            </div>
+            <div className="scenario-task-wrap">
+              <h4>Jobs:</h4>
+              <div className="goals-list">Materials, Transportation, Volunteers</div>
+            </div>
+          </footer>
+        </div>
         <a
           className="btn accept-scenario-btn"
           href={`/${id}/${lastUrlSegment}/`}
         >
-          {this.callToActionBuild(lastUrlSegment)}
+          <Icon icon={faChevronDown} />
         </a>
       </article>
     )

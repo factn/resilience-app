@@ -5,6 +5,6 @@ import React, { Component } from "react"
 
 export default class Main extends Component {
   render() {
-    return <main className="page app-main">{this.props.children}</main>
+    return <main className="app-main">{this.props.children}</main>
   }
 }

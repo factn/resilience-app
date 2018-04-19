@@ -1,0 +1,17 @@
+.tag-list {
+  @include inline-list;
+}
+.tag {
+  background: rgba($black, 0.25);
+  color: $white;
+  padding: 0.25em 0.5em;
+  margin: 0 .5rem .25rem 0;
+  border: 0.0625em solid rgba($black, 0.3);
+  border-radius: 0.5em;
+  cursor: pointer;
+  font-style: italic;
+  font-size: .8em;
+  .tag-link {
+    color: $white;
+  }
+}

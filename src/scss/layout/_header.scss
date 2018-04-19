@@ -1,28 +1,22 @@
 .app-header {
   position: relative;
-  width: 100%;
-  padding: 0.5em 1em;
-  z-index: 5;
+  padding-bottom: 1em;
   border-bottom: 0.125rem solid rgba($black, 0.25);
 }
 .logo img {
-  max-height: 3rem;
+  max-height: 3.5rem;
 }
 .ad-homepage-btn {
   position: absolute;
-  top: 1rem;
-  left: 1rem;
+  top: 0;
+  right: 0;
   font-size: 1.25rem;
 }
-
-@include breakpoint($tablet) {
-  .title {
-    font-size: 2em;
-  }
+.title {
+  text-align: center;
 }
-
-@include breakpoint($desktop) {
-  .title {
-    font-size: 2.5em;
-  }
+.menu {
+  position: absolute;
+  top: 0;
+  left: 0;
 }

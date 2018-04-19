@@ -17,14 +17,17 @@
 @import "./scss/global/select";
 
 @import "./scss/layout/root";
-@import "./scss/layout/main";
 @import "./scss/layout/header";
+@import "./scss/layout/main";
+@import "./scss/layout/footer";
 
+@import "./scss/object/tag";
 @import "./scss/object/map";
 @import "./scss/object/menu";
 @import "./scss/object/page";
 @import "./scss/object/loader";
 @import "./scss/object/profile";
 @import "./scss/object/addthis";
+@import "./scss/object/subheader";
 @import "./scss/object/scenario";
 @import "./scss/object/mini-scenario";

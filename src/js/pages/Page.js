@@ -20,6 +20,9 @@ import Loader from "../components/Loader"
 import Form from "../components/Form"
 import FormInput from "../components/FormInput"
 
+// Footer
+import Footer from "../components/Footer"
+
 // Floating components
 import GoogleMaps from "../components/GoogleMaps"
 
@@ -252,15 +255,24 @@ export default class Page extends Component {
     } = this.state
 
     return (
-      <div className={`page-full-wrapper ${this.state.wrapperClass}`}>
+      <div className="page">
         <Header>
           {navMenu && (
             <NavMenu userId={userId}>
               <Profile userId={userId} />
             </NavMenu>
           )}
-          <div className="logo"><a href="/"><img src={logo} alt="WAGL" /></a></div>
+          <div className="logo">
+            <a href="/">
+              <img src={logo} alt="WAGL" />
+            </a>
+          </div>
         </Header>
+        <div className="subheader">
+          <div className="subheader-title">Donate Money / Do a job.</div>
+          <div className="subheader-title">Post a mission and get help.</div>
+          <div className="subheader-more-btn">More</div>
+        </div>
 
         {pageStyle === "modal" && (
           <Fragment>
@@ -304,6 +316,7 @@ export default class Page extends Component {
                 )}
               </ScenarioFeed>
             </Main>
+            <Footer />
           </Fragment>
         )}
 

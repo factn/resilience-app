@@ -1,12 +1,7 @@
-.scenario-feed-wrap {
-  padding: 1rem 0 0;
-  perspective: 1000rem;
-}
 .scenario {
   background: $white;
   margin-bottom: 1rem;
-  overflow: hidden;
-  min-height: 15rem;
+  min-height: 23rem;
   box-shadow: $card-shadow;
   opacity: 1;
   transition: {
@@ -14,28 +9,15 @@
     duration: $fast;
     timing-function: $cubic;
   }
-  // &:first-of-type {
-  //   min-height: 30rem;
-  //   .scenario-image-wrap {
-  //     max-height: 15rem;
-  //   }
-  // }
-  &:hover {
-    .scenario-image {
-      opacity: 1;
-    }
-  }
   .accept-scenario-btn {
     position: absolute;
-    display: block;
-    bottom: 0;
-    left: calc(50% - 5rem);
-    width: 10rem;
-    margin: 0.5rem auto;
+    bottom: -1rem;
+    right: 0.5rem;
+    width: 2rem;
     font-size: 1rem;
-    z-index: 15;
     text-align: center;
-    text-transform: uppercase;
+    border-radius: 1rem;
+    background: darken($white, 25%);
     &:active,
     &:focus,
     &:hover {
@@ -61,35 +43,23 @@
     }
   }
   .pseudo-before {
+    z-index: 0;
     left: 0;
     background: linear-gradient(to right, $green, transparent);
   }
   .pseudo-after {
+    z-index: 0;
     right: 0;
     background: linear-gradient(to left, $red, transparent);
-  }
-}
-.scenario-header {
-  position: relative;
-  z-index: 2;
-  padding: 0.5rem 1rem 3rem;
-  .scenario-title {
-    font-weight: bold;
   }
 }
 .scenario-image-wrap {
   height: 10rem;
   overflow: hidden;
-  padding: .25rem;
+  padding: 0.25rem;
   .scenario-image {
     min-width: 100%;
-    opacity: .75rem;
-    background: rgba($black, .5);
-    transition: {
-      property: opacity;
-      duration: $very-fast;
-      timing-function: $cubic;
-    }
+    background: rgba($black, 0.5);
   }
 }
 .scenario-image-caption {
@@ -101,8 +71,55 @@
   font-size: 0.8em;
   background: rgba($black, 0.25);
   padding: 0.25rem 0.5rem;
-  border: 0.0625em solid rgba($black, 0.5);
-  border-radius: 1rem;
+  border: 0.0625em solid rgba($black, 0.3);
+  border-radius: 0.5rem;
+}
+.scenario-body {
+  padding: 1rem;
+}
+.scenario-header {
+  position: relative;
+  z-index: 2;
+  padding-bottom: 1rem;
+  .scenario-title {
+    font-weight: $h1-weight;
+    text-transform: uppercase;
+  }
+}
+.scenario-footer {
+  display: inline-flex;
+  justify-content: space-between;
+  width: calc(100% + 2rem);
+  background: #ddd;
+  margin: 1rem -1rem -1rem;
+  padding: 1rem;
+  .scenario-funding-goal,
+  .scenario-task-wrap {
+    flex-grow: 1;
+    flex-basis: 40%;
+  }
+  .scenario-task-wrap {
+    margin-left: 1rem;
+  }
+  h4 {
+    font-weight: bold;
+    padding-bottom: 0.5rem;
+  }
+}
+.goal {
+  font-weight: $bold-weight;
+  background: rgba($black, 0.1);
+  border-radius: 0.25rem;
+  margin: 0 0.25rem 0.25rem;
+  padding: 0.25rem 0.5rem;
+  flex-basis: 45%;
+  flex-grow: 1;
+  &.complete-goal {
+    background: $progress-green;
+  }
+  .form-input {
+    float: right;
+  }
 }
 .funding-progress-wrap {
   .funding-progress-label {
