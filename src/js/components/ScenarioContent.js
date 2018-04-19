@@ -21,141 +21,6 @@ export default class ScenarioContent extends Component {
     }
   }
 
-  buildHeader = () => {
-    const {
-      doer_firstname,
-      requester_firstname,
-      verb,
-      noun
-    } = this.props.attributes
-
-    const { lastUrlSegment } = this.state
-
-    if (lastUrlSegment === "requester") {
-      return <h3 className="scenario-content-header">Need {noun}?</h3>
-    } else if (lastUrlSegment === "verifier") {
-      return (
-        <h3 className="scenario-content-header">
-          Help us verify {toFirstCap(doer_firstname)}
-        </h3>
-      )
-    } else if (lastUrlSegment === "thanks") {
-      return (
-        <h3 className="scenario-content-header">
-          You helped {toFirstCap(requester_firstname)} {verb} {noun}
-        </h3>
-      )
-    } else {
-      return (
-        <h3 className="scenario-content-header">
-          Help {toFirstCap(requester_firstname)} {verb} {noun}
-        </h3>
-      )
-    }
-  }
-  buildFigure = () => {
-    const { funding_goal, disaster, image, donated } = this.props.attributes
-    const { id } = this.props
-
-    if (this.state.lastUrlSegment === "requester") {
-      return <div />
-    } else if (this.state.lastUrlSegment === "verifier") {
-      return (
-        <figure className="scenario-content-image-wrap">
-          <img src={image} alt={disaster} className="scenario-content-image" />
-        </figure>
-      )
-    } else {
-      return (
-        <figure className="scenario-content-image-wrap">
-          <img src={image} alt={disaster} className="scenario-content-image" />
-          <figcaption className="scenario-content-image-caption">
-            <p>{disaster}</p>
-            <div className="funding-progress-wrap">
-              <label className="funding-progress-label goal-label">
-                Funding goal: ${parseInt(donated, 10).toFixed(2)} / ${parseInt(
-                  funding_goal,
-                  10
-                ).toFixed(2)}
-              </label>
-              <div
-                className="funding-progress-slider"
-                id={`${disaster}_fundingGoal`}
-                style={{
-                  background: `linear-gradient(to right, #24e051, #24e051 ${(
-                    parseInt(donated, 10) /
-                    funding_goal *
-                    100
-                  ).toFixed(0)}%, rgba(0, 0, 0, 0.1) ${(
-                    parseInt(donated, 10) /
-                    funding_goal *
-                    100
-                  ).toFixed(0)}%, rgba(0, 0, 0, 0.1))`
-                }}
-              />
-              <label className="funding-progress-label complete-label">
-                {(parseInt(donated, 10) / funding_goal * 100).toFixed(0)}%
-                complete
-              </label>
-            </div>
-            <div className="goal-progress-wrap">
-              <div className="goal input-wrap checkbox-input-wrap complete-goal">
-                <span className="input-label" htmlFor={`materials_${id}`}>
-                  Materials
-                </span>
-                <input
-                  className="form-input"
-                  type="checkbox"
-                  id={`materials_${id}`}
-                  checked={false}
-                  disabled
-                />
-              </div>
-              <div className="goal input-wrap checkbox-input-wrap">
-                <span className="input-label" htmlFor={`transportation_${id}`}>
-                  Transportation
-                </span>
-                <input
-                  className="form-input"
-                  type="checkbox"
-                  id={`transportation_${id}`}
-                  checked={false}
-                  disabled
-                />
-              </div>
-              <div className="goal input-wrap checkbox-input-wrap">
-                <span className="input-label" htmlFor={`volunteers_${id}`}>
-                  Volunteers
-                </span>
-                <input
-                  className="form-input"
-                  type="checkbox"
-                  id={`volunteers_${id}`}
-                  checked={false}
-                  disabled
-                />
-              </div>
-              <div className="goal input-wrap checkbox-input-wrap">
-                <span
-                  className="input-label"
-                  htmlFor={`mission_complete_${id}`}
-                >
-                  Mission complete
-                </span>
-                <input
-                  className="form-input"
-                  type="checkbox"
-                  id={`mission_complete_${id}`}
-                  checked={false}
-                  disabled
-                />
-              </div>
-            </div>
-          </figcaption>
-        </figure>
-      )
-    }
-  }
   getPins = () => {
     const { id } = this.props
     const { mapRefresh } = this.state
@@ -198,13 +63,105 @@ export default class ScenarioContent extends Component {
   }
 
   render() {
-    const { requesterlat, requesterlon } = this.props.attributes
     const { lastUrlSegment } = this.state
+    const { id, attributes } = this.props
+    const {
+      requesterlat,
+      requesterlon,
+      event,
+      image,
+      donated,
+      funding_goal,
+      requester_firstname,
+      noun
+    } = attributes
 
     return (
       <div className="scenario-content-wrap">
-        {this.buildHeader()}
-        {this.buildFigure()}
+        <div className="scenario-content-image-wrap">
+          <img src={image} alt={event} className="scenario-content-image" />
+          <p className="scenario-image-caption">{event}</p>
+        </div>
+        <div className="scenario-content-body">
+        <header className="scenario-content-header"><h4>Help with {toFirstCap(requester_firstname)}'s {noun}</h4></header>
+          <div className="funding-progress-wrap">
+            <label className="funding-progress-label goal-label">
+              Funding goal: ${parseInt(donated, 10).toFixed(2)} / ${parseInt(
+                funding_goal,
+                10
+              ).toFixed(2)}
+            </label>
+            <div
+              className="funding-progress-slider"
+              id={`${event}_fundingGoal`}
+              style={{
+                background: `linear-gradient(to right, #24e051, #24e051 ${(
+                  parseInt(donated, 10) /
+                  funding_goal *
+                  100
+                ).toFixed(0)}%, rgba(0, 0, 0, 0.1) ${(
+                  parseInt(donated, 10) /
+                  funding_goal *
+                  100
+                ).toFixed(0)}%, rgba(0, 0, 0, 0.1))`
+              }}
+            />
+            <label className="funding-progress-label complete-label">
+              {(parseInt(donated, 10) / funding_goal * 100).toFixed(0)}%
+              complete
+            </label>
+          </div>
+          <div className="goal-progress-wrap">
+            <div className="goal input-wrap checkbox-input-wrap complete-goal">
+              <span className="input-label" htmlFor={`materials_${id}`}>
+                Materials
+              </span>
+              <input
+                className="form-input"
+                type="checkbox"
+                id={`materials_${id}`}
+                checked={false}
+                disabled
+              />
+            </div>
+            <div className="goal input-wrap checkbox-input-wrap">
+              <span className="input-label" htmlFor={`transportation_${id}`}>
+                Transportation
+              </span>
+              <input
+                className="form-input"
+                type="checkbox"
+                id={`transportation_${id}`}
+                checked={false}
+                disabled
+              />
+            </div>
+            <div className="goal input-wrap checkbox-input-wrap">
+              <span className="input-label" htmlFor={`volunteers_${id}`}>
+                Volunteers
+              </span>
+              <input
+                className="form-input"
+                type="checkbox"
+                id={`volunteers_${id}`}
+                checked={false}
+                disabled
+              />
+            </div>
+            <div className="goal input-wrap checkbox-input-wrap">
+              <span className="input-label" htmlFor={`mission_complete_${id}`}>
+                Mission complete
+              </span>
+              <input
+                className="form-input"
+                type="checkbox"
+                id={`mission_complete_${id}`}
+                checked={false}
+                disabled
+              />
+            </div>
+          </div>
+        </div>
         {lastUrlSegment !== "requester" &&
           lastUrlSegment !== "info" && (
             <MiniMap initialCenter={{ lat: requesterlat, lng: requesterlon }} />

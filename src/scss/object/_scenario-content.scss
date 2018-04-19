@@ -1,0 +1,42 @@
+.scenario-content-wrap {
+  margin-top: 1em;
+}
+.scenario-content-image-wrap {
+  position: relative;
+  max-height: 12rem;
+  width: 100vw;
+  margin: 0 -1.5rem;
+  overflow: hidden;
+}
+.scenario-content-image {
+}
+.scenario-image-caption {
+  position: absolute;
+  top: 1em;
+  right: 1em;
+  color: rgba($white, 0.9);
+  font-style: italic;
+  font-size: 0.8em;
+  background: rgba($black, 0.25);
+  padding: 0.25rem 0.5rem;
+  border: 0.0625em solid rgba($black, 0.3);
+  border-radius: 0.5rem;
+}
+.scenario-content-header {
+  font-size: 1rem;
+  margin: 0.5rem 0;
+}
+.scenario-content-body {
+  color: rgba($black, 0.8);
+  font-size: 0.8em;
+  margin-top: 0.5rem;
+}
+
+@include breakpoint($tablet) {
+  .adcontent-page {
+    .scenario-content-body {
+      padding-left: 1rem;
+      flex-grow: 5;
+    }
+  }
+}

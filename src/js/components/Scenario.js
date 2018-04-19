@@ -377,7 +377,7 @@ export default class Scenario extends Component {
         </div>
         <a
           className="btn accept-scenario-btn"
-          href={`/${id}/${lastUrlSegment}/`}
+          href={`/${id}/info/`}
         >
           <Icon icon={faChevronDown} />
         </a>

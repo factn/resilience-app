@@ -5,11 +5,6 @@ import React, { Component } from "react"
 
 export default class Header extends Component {
   render() {
-    return (
-      <header className="app-header">
-        {this.props.children}
-        <div className="title">Help with disaster relief.</div>
-      </header>
-    )
+    return <header className="app-header">{this.props.children}</header>
   }
 }

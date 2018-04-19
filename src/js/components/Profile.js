@@ -71,7 +71,7 @@ export default class Profile extends Component {
 
     Database.getUserRequests(json)
       .then(result => {
-        console.info("Requests call complete:", result.body.data)
+        // console.info("Requests call complete:", result.body.data)
         this.setState({
           userRequests: result.body.data
         })

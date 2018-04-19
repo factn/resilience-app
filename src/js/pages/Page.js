@@ -275,11 +275,6 @@ export default class Page extends Component {
             </a>
           </div>
         </Header>
-        <div className="subheader">
-          <div className="subheader-title">Donate Money / Do a job.</div>
-          <div className="subheader-title">Post a mission and get help.</div>
-          <div className="subheader-more-btn">More</div>
-        </div>
 
         {pageStyle === "modal" && (
           <Fragment>
@@ -298,6 +293,7 @@ export default class Page extends Component {
                 ))}
               </Form>
             </Main>
+
             <GoogleMaps
               zoomLevel={14}
               closeMapPicker={this.closeMapPicker}
@@ -308,6 +304,15 @@ export default class Page extends Component {
 
         {pageStyle === "home-tab" && (
           <Fragment>
+            <div className="subheader">
+              <div className="title">Help with disaster relief.</div>
+              <div className="subheader-title">Donate Money / Do a job.</div>
+              <div className="subheader-title">
+                Post a mission and get help.
+              </div>
+              <div className="subheader-more-btn">More</div>
+            </div>
+
             <Main>
               <ScenarioFeed>
                 {this.state.scenarioData ? (
@@ -317,6 +322,7 @@ export default class Page extends Component {
                 )}
               </ScenarioFeed>
             </Main>
+
             <Footer />
           </Fragment>
         )}
