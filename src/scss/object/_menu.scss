@@ -1,4 +1,24 @@
-.menu-toggle-btn {
+.menu-toggle-btn,
+.missions-btn {
+  font-size: 2.25em;
+}
+.menu-toggle-btn,
+.missions-btn a {
+  color: darken($white, 25%);
+  transition: {
+    property: color;
+    duration: $fast;
+    timing-function: $cubic;
+  }
+  &:hover,
+  &:active {
+    color: $blue;
+  }
+}
+.missions-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
   font-size: 2.25em;
 }
 .menu-close-btn {
@@ -20,7 +40,7 @@
   z-index: 11;
   opacity: 0;
   padding: 1rem;
-  box-shadow: 0 0 .5rem rgba($black, .25);
+  box-shadow: 0 0 0.5rem rgba($black, 0.25);
   transition: {
     property: opacity, left;
     duration: $medium;
@@ -28,7 +48,7 @@
   }
   &.open-drawer {
     opacity: 1;
-    left: -1rem;
+    left: -1.5rem;
     .menu-close-btn {
       opacity: 1;
     }
@@ -37,8 +57,8 @@
 .menu-header {
   text-align: center;
   text-transform: uppercase;
-  padding: 0 0 .5em;
-  border-bottom: 2px solid rgba($black, .25);
+  padding: 0 0 0.5em;
+  border-bottom: 2px solid rgba($black, 0.25);
 }
 .user-info-area {
   text-align: center;

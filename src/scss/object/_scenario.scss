@@ -1,7 +1,6 @@
 .scenario {
   background: $white;
   margin-bottom: 1rem;
-  min-height: 23rem;
   box-shadow: $card-shadow;
   opacity: 1;
   transition: {
@@ -97,6 +96,10 @@
   .scenario-task-wrap {
     flex-grow: 1;
     flex-basis: 40%;
+  }
+  .funding-goal-label {
+    font-size: 0.8rem;
+    margin-bottom: 0.25rem;
   }
   .scenario-task-wrap {
     margin-left: 1rem;

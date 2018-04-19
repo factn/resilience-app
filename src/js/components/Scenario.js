@@ -267,8 +267,7 @@ export default class Scenario extends Component {
 
   render() {
     const { style, beforeStyle, afterStyle, lastUrlSegment } = this.state
-    const { scenario } = this.props
-    const { id, attributes } = scenario
+    const { id, attributes } = this.props.scenario
     const {
       event,
       image,
@@ -367,9 +366,12 @@ export default class Scenario extends Component {
                 }}
               />
             </div>
+
             <div className="scenario-task-wrap">
               <h4>Jobs:</h4>
-              <div className="goals-list">Materials, Transportation, Volunteers</div>
+              <div className="goals-list">
+                Materials, Transportation, Volunteers
+              </div>
             </div>
           </footer>
         </div>

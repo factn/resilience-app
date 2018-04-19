@@ -1,6 +1,8 @@
 /*** IMPORTS ***/
 // Module imports
 import React, { Component, Fragment } from "react"
+import Icon from "@fortawesome/react-fontawesome"
+import { faBullseye } from "@fortawesome/fontawesome-free-solid"
 
 // Local JS Utilities
 import Database from "../resources/Database"
@@ -267,6 +269,11 @@ export default class Page extends Component {
               <img src={logo} alt="WAGL" />
             </a>
           </div>
+          <div className="missions-btn">
+            <a href="/missions">
+              <Icon icon={faBullseye} />
+            </a>
+          </div>
         </Header>
         <div className="subheader">
           <div className="subheader-title">Donate Money / Do a job.</div>
@@ -304,13 +311,7 @@ export default class Page extends Component {
             <Main>
               <ScenarioFeed>
                 {this.state.scenarioData ? (
-                  this.state.scenarioData.map(scenario => (
-                    <Scenario
-                      scenario={scenario}
-                      key={scenario.id}
-                      removeFromFeed={this.removeFromFeed}
-                    />
-                  ))
+                  <Scenario scenario={this.state.scenarioData[0]} />
                 ) : (
                   <Loader />
                 )}
