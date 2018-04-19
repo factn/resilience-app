@@ -259,11 +259,7 @@ export default class Page extends Component {
     return (
       <div className="page">
         <Header>
-          {navMenu && (
-            <NavMenu userId={userId}>
-              <Profile userId={userId} />
-            </NavMenu>
-          )}
+          {navMenu && <NavMenu userId={userId} />}
           <div className="logo">
             <a href="/">
               <img src={logo} alt="WAGL" />

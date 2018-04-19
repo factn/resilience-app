@@ -3,9 +3,12 @@
 import React, { Component } from "react"
 import Icon from "@fortawesome/react-fontawesome"
 
-// Local JS
-import Database from "../resources/Database"
+// Components
 import MiniScenario from "./MiniScenario"
+
+// Utilities
+import Database from "../resources/Database"
+import { toFirstCap } from "../resources/Util"
 /*** [end of imports] ***/
 
 export default class Profile extends Component {
@@ -21,17 +24,35 @@ export default class Profile extends Component {
       userDonations: null,
       userDos: null,
       userRequests: null,
-      userVerifications: null
+      userVerifications: null,
+      currentUserData: null,
+      currentUserId: this.props.userId || 1
     }
   }
 
   componentDidMount = () => {
+    this.userDataMount()
     this.userDonationsMount()
     this.userDosMount()
     this.userRequestsMount()
     this.userVerificationsMount()
   }
 
+  userDataMount = () => {
+    Database.getUserById({ id: this.state.currentUserId })
+      .then(result => {
+        // console.log("User successfully found:", result)
+        this.setState({
+          currentUserData: result.body.data.attributes
+        })
+      })
+      .catch(error => {
+        // console.error("Error getting user:", error)
+        this.setState({
+          currentUserData: null
+        })
+      })
+  }
   userDonationsMount = () => {
     let json = { id: this.props.userId }
 
@@ -131,11 +152,38 @@ export default class Profile extends Component {
       donations,
       dos,
       requests,
-      verifications
+      verifications,
+      currentUserData
     } = this.state
 
     return (
       <section className="profile">
+        {currentUserData && currentUserData.firstname !== "" ? (
+          <div className="user-info-area">
+            {currentUserData.avatar ? (
+              <div className="user-image">
+                <img
+                  src={currentUserData.avatar}
+                  alt={currentUserData.firstname}
+                />
+              </div>
+            ) : (
+              <Icon className="user-icon" icon="user" />
+            )}
+
+            <div className="user-name">
+              {toFirstCap(currentUserData.firstname)}
+            </div>
+          </div>
+        ) : (
+          <div className="user-info-area">
+            <Icon className="user-icon" icon="question" />
+            <a className="user-name not-signed-in" href="/login/">
+              Please sign in
+            </a>
+          </div>
+        )}
+
         <article className={honey ? "profile-article open" : "profile-article"}>
           <header
             className="profile-article-header"

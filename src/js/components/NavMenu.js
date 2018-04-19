@@ -2,10 +2,6 @@
 // Module imports
 import React, { Component } from "react"
 import Icon from "@fortawesome/react-fontawesome"
-
-// Local JS
-import Database from "../resources/Database"
-import { toFirstCap } from "../resources/Util"
 /*** [end of imports] ***/
 
 export default class Header extends Component {
@@ -13,30 +9,38 @@ export default class Header extends Component {
     super(props)
 
     this.state = {
-      menuIsOpen: false,
-      currentUserData: null,
-      currentUserId: this.props.userId || 1
+      menuIsOpen: false
     }
+    this.menuItems = [
+      {
+        label: "Browse Scenarios",
+        link: "/"
+      },
+      {
+        label: "Get Help",
+        link: "/"
+      },
+      {
+        label: "Stories",
+        link: "/"
+      },
+      {
+        label: "How it Works",
+        link: "/"
+      },
+      {
+        label: "Profile",
+        link: "/"
+      },
+      {
+        label: "Log Out",
+        link: "/"
+      }
+    ]
 
     // Bindings
     this.openMenu = this.openMenu.bind(this)
     this.closeMenu = this.closeMenu.bind(this)
-  }
-
-  componentDidMount = () => {
-    Database.getUserById({ id: this.state.currentUserId })
-      .then(result => {
-        // console.log("User successfully found:", result)
-        this.setState({
-          currentUserData: result.body.data.attributes
-        })
-      })
-      .catch(error => {
-        // console.error("Error getting user:", error)
-        this.setState({
-          currentUserData: null
-        })
-      })
   }
 
   openMenu = () => {
@@ -51,7 +55,7 @@ export default class Header extends Component {
   }
 
   render() {
-    const { menuIsOpen, currentUserData } = this.state
+    const { menuIsOpen } = this.state
 
     return (
       <nav className="menu">
@@ -72,33 +76,15 @@ export default class Header extends Component {
             </button>
           </header>
 
-          {currentUserData && currentUserData.firstname !== "" ? (
-            <div className="user-info-area">
-              {currentUserData.avatar ? (
-                <div className="user-image">
-                  <img
-                    src={currentUserData.avatar}
-                    alt={currentUserData.firstname}
-                  />
-                </div>
-              ) : (
-                <Icon className="user-icon" icon="user" />
-              )}
-
-              <div className="user-name">
-                {toFirstCap(currentUserData.firstname)}
-              </div>
-            </div>
-          ) : (
-            <div className="user-info-area">
-              <Icon className="user-icon" icon="question" />
-              <a className="user-name not-signed-in" href="/login/">
-                Please sign in
-              </a>
-            </div>
-          )}
-
-          {this.props.children}
+          <ul className="menu-list">
+            {this.menuItems.map(item => (
+              <li className="menu-item" key={item}>
+                <a href={item.link} className="menu-item-link">
+                  {item.label}
+                </a>
+              </li>
+            ))}
+          </ul>
 
           <div className="subheader-content">
             <div className="copy">&copy; {new Date().getFullYear()}</div>

@@ -31,3 +31,30 @@
     timing-function: $cubic;
   }
 }
+.user-info-area {
+  text-align: center;
+  padding: 3rem 0;
+  .user-icon,
+  .user-image {
+    color: $white;
+    background: rgba($black, 0.1);
+    width: 8rem;
+    height: 8rem;
+    border-radius: 50%;
+    border: 0.125rem solid rgba($black, 0.25);
+  }
+  .user-icon {
+    padding: 0.25rem;
+  }
+  .user-image {
+    margin: 0 auto;
+    overflow: hidden;
+  }
+  .user-name {
+    padding-top: 0.5rem;
+    color: rgba($black, 0.9);
+    &.not-signed-in {
+      color: rgba($black, 0.75);
+    }
+  }
+}
