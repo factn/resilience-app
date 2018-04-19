@@ -8,12 +8,7 @@ export default class Header extends Component {
     return (
       <header className="app-header">
         {this.props.children}
-        <a
-          className="btn ad-homepage-btn"
-          href="https://lion-uat.herokuapp.com/ad"
-        >
-          Ads<span className="hideonmobile"> Homepage</span>
-        </a>
+        <div className="title">Help with disaster relief.</div>
       </header>
     )
   }

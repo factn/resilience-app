@@ -1,6 +1,8 @@
 /*** IMPORTS ***/
 // Module imports
 import React, { Component, Fragment } from "react"
+import Icon from "@fortawesome/react-fontawesome"
+import { faBullseye } from "@fortawesome/fontawesome-free-solid"
 
 // Local JS Utilities
 import Database from "../resources/Database"
@@ -13,7 +15,6 @@ import Profile from "../components/Profile"
 
 // Main
 import Main from "../components/Main"
-import HeaderTabs from "../components/HeaderTabs"
 import ScenarioFeed from "../components/ScenarioFeed"
 import Scenario from "../components/Scenario"
 import ScenarioContent from "../components/ScenarioContent"
@@ -22,8 +23,13 @@ import Form from "../components/Form"
 import FormInput from "../components/FormInput"
 
 // Footer
-import GoogleMaps from "../components/GoogleMaps"
 import Footer from "../components/Footer"
+
+// Floating components
+import GoogleMaps from "../components/GoogleMaps"
+
+// Logo image
+import logo from "../../img/logo.png"
 /*** [end of imports] ***/
 
 export default class Page extends Component {
@@ -36,7 +42,6 @@ export default class Page extends Component {
       lastClickedLat: null,
       lastClickedLon: null,
       pageStyle: "",
-      title: "",
       navMenu: true,
       scenarioId: 1,
       userId: 1,
@@ -243,7 +248,6 @@ export default class Page extends Component {
   render() {
     const {
       pageStyle,
-      title,
       navMenu,
       scenarioId,
       userId,
@@ -253,15 +257,29 @@ export default class Page extends Component {
     } = this.state
 
     return (
-      <div className={`page-full-wrapper ${this.state.wrapperClass}`}>
+      <div className="page">
         <Header>
           {navMenu && (
             <NavMenu userId={userId}>
               <Profile userId={userId} />
             </NavMenu>
           )}
-          <h1 className="title">{title}</h1>
+          <div className="logo">
+            <a href="/">
+              <img src={logo} alt="WAGL" />
+            </a>
+          </div>
+          <div className="missions-btn">
+            <a href="/missions">
+              <Icon icon={faBullseye} />
+            </a>
+          </div>
         </Header>
+        <div className="subheader">
+          <div className="subheader-title">Donate Money / Do a job.</div>
+          <div className="subheader-title">Post a mission and get help.</div>
+          <div className="subheader-more-btn">More</div>
+        </div>
 
         {pageStyle === "modal" && (
           <Fragment>
@@ -291,16 +309,9 @@ export default class Page extends Component {
         {pageStyle === "home-tab" && (
           <Fragment>
             <Main>
-              <HeaderTabs />
               <ScenarioFeed>
                 {this.state.scenarioData ? (
-                  this.state.scenarioData.map(scenario => (
-                    <Scenario
-                      scenario={scenario}
-                      key={scenario.id}
-                      removeFromFeed={this.removeFromFeed}
-                    />
-                  ))
+                  <Scenario scenario={this.state.scenarioData[0]} />
                 ) : (
                   <Loader />
                 )}

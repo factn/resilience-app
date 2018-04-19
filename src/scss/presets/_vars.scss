@@ -2,17 +2,13 @@
 $black: #000;
 $white: #fff;
 
-$blue: #0a79ce;
+$blue: #074e54; // #0a79ce;
 $green: #04861c;
 $yellow: #fbff00;
 $red: #c60000;
 $purple: #9000b3;
 
 $progress-green: #24e051;
-
-// menu:
-$menu-background: linear-gradient($white, darken($white, 10%));
-$menu-shadow: 0 0 1rem rgba($black, 0.5);
 
 // timing functions
 $cubic: cubic-bezier(0.73, 0.2, 0.43, 1);
@@ -36,3 +32,4 @@ $desktop: 75em; /* 1200/16 */
 
 // shadows
 $taper-shadow: 0.0625rem 0.125rem 0.25rem rgba($black, 0.5);
+$card-shadow: 0 0.2rem 0.5rem rgba($black, 0.25);

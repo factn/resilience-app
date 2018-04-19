@@ -1,29 +1,46 @@
-.menu {
-  position: absolute;
+.menu-toggle-btn,
+.missions-btn {
+  font-size: 2.25em;
 }
 .menu-toggle-btn,
-.menu-close-btn {
-  font-size: 1.2rem;
+.missions-btn a {
+  color: darken($white, 25%);
+  transition: {
+    property: color;
+    duration: $fast;
+    timing-function: $cubic;
+  }
+  &:hover,
+  &:active {
+    color: $blue;
+  }
+}
+.missions-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 2.25em;
 }
 .menu-close-btn {
   opacity: 0;
   position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
+  top: 1rem;
+  right: 1rem;
   width: 2rem;
-  color: $white;
+  font-size: 1.5em;
   text-align: center;
 }
 .menu-drawer {
-  @include menu-back;
+  background: $white;
   position: absolute;
-  top: -0.5rem;
+  top: -1em;
   left: -100vw;
   width: calc(100vw - 3rem);
   height: 100vh;
   z-index: 11;
   opacity: 0;
   padding: 1rem;
+  box-shadow: 0 0 0.5rem rgba($black, 0.25);
   transition: {
     property: opacity, left;
     duration: $medium;
@@ -31,41 +48,42 @@
   }
   &.open-drawer {
     opacity: 1;
-    left: -1rem;
+    left: -1.5rem;
     .menu-close-btn {
       opacity: 1;
     }
   }
 }
+.menu-header {
+  text-align: center;
+  text-transform: uppercase;
+  padding: 0 0 0.5em;
+  border-bottom: 2px solid rgba($black, 0.25);
+}
 .user-info-area {
-  width: calc(100% + 2rem);
-  height: 5rem;
-  margin: -1rem -1rem 1rem;
-  box-shadow: 0 0 1rem rgba($black, 0.5);
-  background: linear-gradient(to bottom right, lighten($green, 10%), $blue);
-  padding: 2rem 1rem;
-  display: inline-flex;
-  justify-content: space-between;
+  text-align: center;
+  padding: 3rem 0;
   .user-icon,
   .user-image {
     color: $white;
-    background: rgba($black, 0.5);
-    width: 2rem;
-    height: 2rem;
+    background: rgba($black, 0.1);
+    width: 8rem;
+    height: 8rem;
     border-radius: 50%;
-    border: 0.25rem solid $white;
+    border: 0.125rem solid rgba($black, 0.25);
   }
   .user-icon {
     padding: 0.25rem;
   }
   .user-image {
+    margin: 0 auto;
     overflow: hidden;
   }
   .user-name {
     padding-top: 0.5rem;
-    color: $white;
+    color: rgba($black, 0.9);
     &.not-signed-in {
-      color: rgba($white, 0.75);
+      color: rgba($black, 0.75);
     }
   }
 }
@@ -88,10 +106,6 @@
   font-size: 0.8rem;
   display: inline-flex;
   justify-content: space-between;
-  .copy {
-  }
-  .version {
-  }
 }
 
 @include breakpoint($tablet) {

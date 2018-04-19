@@ -1,100 +1,24 @@
-.scenario-header-tabs {
-  margin: 0 -1rem;
-  padding: 0 0.5rem 0.5rem;
-  border-bottom: 2px solid rgba($blue, 0.5);
-}
-.scenario-tab-list {
-  @include inline-flex-list;
-  width: 100%;
-}
-.scenario-tab {
-  cursor: pointer;
-  font-weight: bold;
-  padding: 0.25rem 0.75rem;
-  transition: {
-    property: color, box-shadow;
-    duration: $fast;
-    timing-function: $cubic;
-  }
-  &.active {
-    color: $blue;
-    box-shadow: inset 0 -0.125rem $blue;
-  }
-}
-.scenario-feed-wrap {
-  padding: 0 0 5rem;
-  margin: 0 -1rem;
-  perspective: 1000rem;
-  overflow: hidden;
-}
 .scenario {
-  position: relative;
   background: $white;
-  margin-bottom: 0.5rem;
-  overflow: hidden;
-  min-height: 15rem;
+  margin-bottom: 1rem;
+  box-shadow: $card-shadow;
+  opacity: 1;
   transition: {
-    property: margin;
+    property: margin, opacity;
     duration: $fast;
     timing-function: $cubic;
-  }
-  &.doer-scenario {
-    .scenario-header {
-      .scenario-title,
-      .scenario-subtitle {
-        color: $red;
-      }
-    }
-    .accept-scenario-btn {
-      background: $red;
-      border: 0.125em solid $red;
-    }
-  }
-  &.donator-scenario {
-    .scenario-header {
-      .scenario-title,
-      .scenario-subtitle {
-        color: $green;
-      }
-    }
-    .accept-scenario-btn {
-      background: $green;
-      border: 0.125em solid $green;
-    }
-  }
-  &.verifier-scenario {
-    .scenario-header {
-      .scenario-title,
-      .scenario-subtitle {
-        color: $purple;
-      }
-    }
-    .accept-scenario-btn {
-      background: $purple;
-      border: 0.125em solid $purple;
-    }
-  }
-  &.requester-scenario {
-    .scenario-header {
-      .scenario-title,
-      .scenario-subtitle {
-        color: $blue;
-      }
-    }
-    .accept-scenario-btn {
-      background: $blue;
-      border: 0.125em solid $blue;
-    }
   }
   .accept-scenario-btn {
     position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
+    bottom: -1rem;
+    right: 0.5rem;
+    width: 2rem;
+    height: 2rem;
+    padding-top: .4rem;
     font-size: 1rem;
-    border-radius: 0;
-    z-index: 15;
     text-align: center;
+    border-radius: 1rem;
+    background: darken($white, 25%);
     &:active,
     &:focus,
     &:hover {
@@ -106,7 +30,7 @@
     position: absolute;
     top: 0;
     width: 75%;
-    height: 15rem;
+    height: 100%;
     z-index: 3;
     color: rgba($white, 0.5);
     text-align: center;
@@ -120,40 +44,87 @@
     }
   }
   .pseudo-before {
+    z-index: 0;
     left: 0;
     background: linear-gradient(to right, $green, transparent);
   }
   .pseudo-after {
+    z-index: 0;
     right: 0;
     background: linear-gradient(to left, $red, transparent);
   }
 }
-.scenario-header {
-  position: relative;
-  z-index: 2;
-  padding: 0.5rem 1rem 1rem;
-  margin-top: -1px;
-  background: linear-gradient(
-    to bottom right,
-    rgba($white, 0.9),
-    rgba($white, 0.75) 40%,
-    transparent
-  );
-  .scenario-title {
-    font-weight: bold;
-  }
-}
 .scenario-image-wrap {
+  height: 10rem;
+  overflow: hidden;
+  padding: 0.25rem;
   .scenario-image {
-    position: absolute;
-    top: 0;
-    left: 0;
     min-width: 100%;
+    background: rgba($black, 0.5);
   }
 }
 .scenario-image-caption {
-  color: rgba($black, 0.8);
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  color: rgba($white, 0.9);
+  font-style: italic;
   font-size: 0.8em;
+  background: rgba($black, 0.25);
+  padding: 0.25rem 0.5rem;
+  border: 0.0625em solid rgba($black, 0.3);
+  border-radius: 0.5rem;
+}
+.scenario-body {
+  padding: 1rem;
+}
+.scenario-header {
+  position: relative;
+  z-index: 2;
+  padding-bottom: 1rem;
+  .scenario-title {
+    font-weight: $h1-weight;
+    text-transform: uppercase;
+  }
+}
+.scenario-footer {
+  display: inline-flex;
+  justify-content: space-between;
+  width: calc(100% + 2rem);
+  background: #ddd;
+  margin: 1rem -1rem -1rem;
+  padding: 1rem;
+  .scenario-funding-goal,
+  .scenario-task-wrap {
+    flex-grow: 1;
+    flex-basis: 40%;
+  }
+  .funding-goal-label {
+    font-size: 0.8rem;
+    margin-bottom: 0.25rem;
+  }
+  .scenario-task-wrap {
+    margin-left: 1rem;
+  }
+  h4 {
+    font-weight: bold;
+    padding-bottom: 0.5rem;
+  }
+}
+.goal {
+  font-weight: $bold-weight;
+  background: rgba($black, 0.1);
+  border-radius: 0.25rem;
+  margin: 0 0.25rem 0.25rem;
+  padding: 0.25rem 0.5rem;
+  flex-basis: 45%;
+  flex-grow: 1;
+  &.complete-goal {
+    background: $progress-green;
+  }
+  .form-input {
+    float: right;
+  }
 }
 .funding-progress-wrap {
   .funding-progress-label {
@@ -174,8 +145,8 @@
 @include breakpoint($phone-down) {
   .scenario-feed-wrap {
     display: grid;
-    margin: 0;
-    padding: 1rem 1rem 5rem;
+    margin: 0 -1rem;
+    padding: 1rem 2rem;
     grid: {
       template: {
         columns: repeat(2, 1fr);
@@ -194,12 +165,9 @@
 }
 
 @include breakpoint($tablet) {
-  .scenario-header-tabs {
-    margin: 0;
-    padding: 1rem;
-  }
-  .scenario-tab-list {
-    width: auto;
+  .scenario-feed-wrap {
+    margin: 0 -1rem;
+    padding: 1rem 2rem;
   }
   .scenario-tab {
     font-size: 1.2em;
@@ -207,18 +175,12 @@
   .scenario-feed-wrap {
     grid-template-columns: repeat(3, 1fr);
   }
-  .scenario {
-    margin: 0;
-  }
 }
 
 @include breakpoint($desktop) {
   .scenario-feed-wrap {
     max-width: 90rem;
     margin: 0 auto;
-    grid: {
-      template-columns: repeat(4, 1fr);
-      gap: 1.5rem;
-    }
+    grid-gap: 1.5rem;
   }
 }

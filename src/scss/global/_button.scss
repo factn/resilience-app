@@ -1,43 +1,36 @@
 button,
 .btn {
-  background: $blue;
-  color: rgba($white, 0.9);
+  background: rgba($black, 0.25);
+  color: rgba($white, .9);
   padding: 0.25em 0.5em;
   cursor: pointer;
-  border: 0.125em solid $blue;
-  border-radius: 0.25em;
+  border: 0.0625em solid rgba($black, 0.3);
+  border-radius: 0.5em;
   transition: {
-    property: color, background, border;
+    property: color;
     duration: $fast;
     timing-function: $cubic;
   }
   a,
   a:visited,
   &:visited {
-    color: rgba($white, 0.9);
+    color: rgba($white, .9);
   }
   &:focus,
   &:hover {
-    background: $white;
-    color: $blue;
+    color: rgba($white, .9);
     a,
     a:hover,
     a:focus {
-      color: $blue;
+    color: rgba($white, .9);
     }
   }
   &:active,
   &.active {
-    background: $white;
-    color: $green;
-    border: 0.125em solid $green;
     a,
     a:active {
-      color: $green;
+    color: rgba($white, .9);
     }
-  }
-  &.circle-btn {
-    border-radius: 50%;
   }
 }
 .btn-lite {

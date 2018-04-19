@@ -1,12 +1,12 @@
 .profile-article {
   &:not(:last-of-type) {
     padding-bottom: 0.5rem;
-    border-bottom: 1px solid rgba($black, 0.1);
+    border-bottom: 1px solid rgba($black, 0.25);
     margin-bottom: 0.5rem;
   }
   &.open {
     .profile-content-wrap {
-      max-height: 50vh;
+      max-height: 11rem;
       opacity: 1;
       padding: 0.5rem 0;
     }

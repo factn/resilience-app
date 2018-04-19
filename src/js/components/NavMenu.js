@@ -62,6 +62,16 @@ export default class Header extends Component {
         <section
           className={menuIsOpen ? "menu-drawer open-drawer" : "menu-drawer"}
         >
+          <header className="menu-header">
+            <h2 className="menu-header-title">Menu</h2>
+            <button
+              className="menu-close-btn btn-lite"
+              onClick={this.closeMenu}
+            >
+              <Icon icon="times" />
+            </button>
+          </header>
+
           {currentUserData && currentUserData.firstname !== "" ? (
             <div className="user-info-area">
               {currentUserData.avatar ? (
@@ -89,10 +99,6 @@ export default class Header extends Component {
           )}
 
           {this.props.children}
-
-          <button className="menu-close-btn btn-lite" onClick={this.closeMenu}>
-            <Icon icon="times" />
-          </button>
 
           <div className="subheader-content">
             <div className="copy">&copy; {new Date().getFullYear()}</div>

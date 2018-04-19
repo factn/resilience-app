@@ -1,7 +1,7 @@
 /*** IMPORTS ***/
 // Module imports
 import React, { Component } from "react"
-import { Route } from "react-router-dom"
+import { Route, Switch } from "react-router-dom"
 
 // Styles
 import "./App.scss"
@@ -26,32 +26,40 @@ import DoerFlow from "./js/pages/DoerFlow"
 import VerifierFlow from "./js/pages/VerifierFlow"
 import Thanks from "./js/pages/Thanks"
 import Info from "./js/pages/Info"
+
+// 404
+import NoPage from "./js/pages/NoPage"
 /*** [end of imports] ***/
 
 export default class App extends Component {
   render() {
     return (
       <div className="app">
-        {/* Home tab */}
-        <Route path="/" exact component={DonatorTab} />
-        <Route path="/donator" component={DonatorTab} />
-        <Route path="/requester" component={RequesterTab} />
-        <Route path="/doer" component={DoerTab} />
-        <Route path="/verifier" component={VerifierTab} />
+        <Switch>
+          {/* Home tab */}
+          <Route path="/" exact component={DonatorTab} />
+          <Route path="/donator" component={DonatorTab} />
+          <Route path="/requester" component={RequesterTab} />
+          <Route path="/doer" component={DoerTab} />
+          <Route path="/verifier" component={VerifierTab} />
 
-        {/* Modals */}
-        <Route path="/account" component={Account} />
-        <Route path="/edit-account" component={EditAccount} />
-        <Route path="/login" component={Login} />
-        <Route path="/preferences" component={Preferences} />
+          {/* Modals */}
+          <Route path="/account" component={Account} />
+          <Route path="/edit-account" component={EditAccount} />
+          <Route path="/login" component={Login} />
+          <Route path="/preferences" component={Preferences} />
 
-        {/* Flows */}
-        <Route path="/:scenarioId/donator" component={DonatorFlow} />
-        <Route path="/:scenarioId/requester" component={RequesterFlow} />
-        <Route path="/:scenarioId/doer" component={DoerFlow} />
-        <Route path="/:scenarioId/verifier" component={VerifierFlow} />
-        <Route path="/:scenarioId/info" component={Info} />
-        <Route path="/:scenarioId/thanks" component={Thanks} />
+          {/* Flows */}
+          <Route path="/:scenarioId/donator" component={DonatorFlow} />
+          <Route path="/:scenarioId/requester" component={RequesterFlow} />
+          <Route path="/:scenarioId/doer" component={DoerFlow} />
+          <Route path="/:scenarioId/verifier" component={VerifierFlow} />
+          <Route path="/:scenarioId/info" component={Info} />
+          <Route path="/:scenarioId/thanks" component={Thanks} />
+
+          {/* 404 */}
+          <Route component={NoPage} />
+        </Switch>
       </div>
     )
   }
