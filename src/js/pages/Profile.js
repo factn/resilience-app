@@ -35,12 +35,6 @@ export default class Info extends Page {
       navMenu: true,
       userId: 1,
       scenarioId: this.props.match.params.scenarioId || 1,
-
-      honey: false,
-      donations: false,
-      dos: false,
-      requests: false,
-      verifications: false,
       userDonations: null,
       userDos: null,
       userRequests: null,
@@ -142,68 +136,29 @@ export default class Info extends Page {
       })
   }
 
-  toggleArticle = articleName => {
-    if (this.state[articleName]) {
-      this.setState({
-        honey: false,
-        donations: false,
-        dos: false,
-        requests: false,
-        verifications: false
-      })
-    } else {
-      this.setState({
-        honey: articleName === "honey",
-        donations: articleName === "donations",
-        dos: articleName === "dos",
-        requests: articleName === "requests",
-        verifications: articleName === "verifications"
-      })
-    }
-  }
-
   profileArea = () => {
     const {
       userDonations,
       userDos,
       userRequests,
-      userVerifications,
-      honey,
-      donations,
-      dos,
-      requests,
-      verifications,
-      currentUserData
+      userVerifications
     } = this.state
 
     return (
       <section className="profile">
-        <article className={honey ? "profile-article open" : "profile-article"}>
-          <header
-            className="profile-article-header"
-            onClick={() => this.toggleArticle("honey")}
-          >
+        <article className="profile-article">
+          <header className="profile-article-header">
             <h4>Honey</h4>
-            {honey ? (
-              <Icon className="profile-icon" icon="caret-up" />
-            ) : (
-              <Icon className="profile-icon" icon="caret-down" />
-            )}
+            <Icon className="profile-icon" icon="caret-down" />
           </header>
         </article>
-        <article
-          className={donations ? "profile-article open" : "profile-article"}
-        >
+        <article className="profile-article">
           <header
             className="profile-article-header"
             onClick={() => this.toggleArticle("donations")}
           >
             <h4>Donations ({userDonations ? userDonations.length : 0})</h4>
-            {donations ? (
-              <Icon className="profile-icon" icon="caret-up" />
-            ) : (
-              <Icon className="profile-icon" icon="caret-down" />
-            )}
+            <Icon className="profile-icon" icon="caret-down" />
           </header>
           {userDonations && (
             <div className="profile-content-wrap">
@@ -217,17 +172,10 @@ export default class Info extends Page {
             </div>
           )}
         </article>
-        <article className={dos ? "profile-article open" : "profile-article"}>
-          <header
-            className="profile-article-header"
-            onClick={() => this.toggleArticle("dos")}
-          >
+        <article className="profile-article">
+          <header className="profile-article-header">
             <h4>Tasks ({userDos ? userDos.length : 0})</h4>
-            {dos ? (
-              <Icon className="profile-icon" icon="caret-up" />
-            ) : (
-              <Icon className="profile-icon" icon="caret-down" />
-            )}
+            <Icon className="profile-icon" icon="caret-down" />
           </header>
           {userDos && (
             <div className="profile-content-wrap">
@@ -241,19 +189,10 @@ export default class Info extends Page {
             </div>
           )}
         </article>
-        <article
-          className={requests ? "profile-article open" : "profile-article"}
-        >
-          <header
-            className="profile-article-header"
-            onClick={() => this.toggleArticle("requests")}
-          >
+        <article className="profile-article">
+          <header className="profile-article-header">
             <h4>Requests ({userRequests ? userRequests.length : 0})</h4>
-            {requests ? (
-              <Icon className="profile-icon" icon="caret-up" />
-            ) : (
-              <Icon className="profile-icon" icon="caret-down" />
-            )}
+            <Icon className="profile-icon" icon="caret-down" />
           </header>
           {userRequests && (
             <div className="profile-content-wrap">
@@ -267,21 +206,12 @@ export default class Info extends Page {
             </div>
           )}
         </article>
-        <article
-          className={verifications ? "profile-article open" : "profile-article"}
-        >
-          <header
-            className="profile-article-header"
-            onClick={() => this.toggleArticle("verifications")}
-          >
+        <article className="profile-article">
+          <header className="profile-article-header">
             <h4>
               Verifications ({userVerifications ? userVerifications.length : 0})
             </h4>
-            {verifications ? (
-              <Icon className="profile-icon" icon="caret-up" />
-            ) : (
-              <Icon className="profile-icon" icon="caret-down" />
-            )}
+            <Icon className="profile-icon" icon="caret-down" />
           </header>
           {userVerifications && (
             <div className="profile-content-wrap">

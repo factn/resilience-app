@@ -4,7 +4,6 @@ import React, { Component } from "react"
 
 // Local JS
 import Database from "../resources/Database"
-import MiniMap from "./MiniMap"
 import {
   getUrlPiece,
   toFirstCap,
@@ -74,11 +73,9 @@ export default class ScenarioContent extends Component {
   }
 
   render() {
-    const { lastUrlSegment, activeTab } = this.state
-    const { id, attributes } = this.props
+    const { activeTab } = this.state
+    const { attributes } = this.props
     const {
-      requesterlat,
-      requesterlon,
       event,
       image,
       donated,

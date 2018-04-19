@@ -78,7 +78,7 @@ export default class Header extends Component {
 
           <ul className="menu-list">
             {this.menuItems.map(item => (
-              <li className="menu-item" key={item}>
+              <li className="menu-item" key={item.label}>
                 <a href={item.link} className="menu-item-link">
                   {item.label}
                 </a>
