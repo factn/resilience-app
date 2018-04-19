@@ -3,9 +3,8 @@
 }
 .funding-progress-slider {
   height: 1rem;
-  border-radius: 0.5rem;
   background: rgba($black, 0.1);
-  box-shadow: inset 0.0625rem 0.0625rem 0.5rem rgba($black, 0.1);
+  border: 1px solid rgba($black, 0.25);
 }
 .page-form {
   .input-wrap {
@@ -89,7 +88,7 @@
   .submit-btn {
     display: block;
     width: 15rem;
-    margin: 0 auto 0.5rem;
+    margin: 1rem auto 0;
     color: $blue;
     font-size: 1.5rem;
     margin-bottom: 0.5rem;

@@ -61,3 +61,15 @@ export function getBase64() {
 export function getScenarioIdFromURL(url) {
   return url.split("/")[1]
 }
+
+export function moneyfy (str) {
+  return `$${parseInt(str, 10).toFixed(2)}`
+}
+
+export function gradientPercent (dividend, divisor) {
+  return (
+    parseInt(dividend, 10) /
+    parseInt(divisor, 10) *
+    100
+  ).toFixed(0)
+}
