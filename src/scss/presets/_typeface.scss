@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Montserrat|Raleway');
+@import url('https://fonts.googleapis.com/css?family=Lato:400,700|Montserrat:300,400,600');
 
 @font-face {
   src: url("./fonts/Montserrat-Light.ttf") format("ttf");
@@ -23,16 +23,16 @@
 }
 
 @font-face {
-  src: url("./fonts/Raleway-Regular.ttf") format("ttf");
+  src: url("./fonts/Lato-Regular.ttf") format("ttf");
   font: {
-    family: "Raleway";
+    family: "Lato";
     weight: 400;
   }
 }
 @font-face {
-  src: url("./fonts/Raleway-SemiBold.ttf") format("ttf");
+  src: url("./fonts/Lato-Bold.ttf") format("ttf");
   font: {
-    family: "Raleway";
-    weight: 600;
+    family: "Lato";
+    weight: 700;
   }
 }
