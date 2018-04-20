@@ -1,0 +1,43 @@
+.home-page {
+  text-align: center;
+  font-size: 1.1em;
+  .logo {
+    height: 10rem;
+    padding: 1rem;
+    img {
+      max-height: inherit;
+      height: 8rem;
+    }
+  }
+  .subheader-home {
+    .subheader-line {
+      padding: 0.5rem 0;
+      &:first-of-type {
+        display: inline-block;
+        margin: 0 auto;
+        border-bottom: 2px dashed $orange;
+      }
+    }
+  }
+  .home-btn {
+    display: block;
+    padding: 1.5rem;
+    margin: 0 0 0.5rem;
+    width: 100%;
+    font-size: 1.25em;
+    color: $blue;
+    .button-icon {
+      color: $white;
+      float: right;
+    }
+    &.donate-btn {
+      background: $orange-bright;
+    }
+    &.do-btn {
+      background: $orange;
+    }
+    &.verify-btn {
+      background: $green-bright;
+    }
+  }
+}

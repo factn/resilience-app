@@ -8,6 +8,7 @@ import "./App.scss"
 
 // Pages
 // 	Home Tabs
+import Home from "./js/pages/Home"
 import DonatorTab from "./js/pages/DonatorTab"
 import RequesterTab from "./js/pages/RequesterTab"
 import DoerTab from "./js/pages/DoerTab"
@@ -38,7 +39,7 @@ export default class App extends Component {
       <div className="app">
         <Switch>
           {/* Home tab */}
-          <Route path="/" exact component={DonatorTab} />
+          <Route path="/" exact component={Home} />
           <Route path="/donator" component={DonatorTab} />
           <Route path="/requester" component={RequesterTab} />
           <Route path="/doer" component={DoerTab} />

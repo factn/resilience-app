@@ -7,7 +7,8 @@ export default class Footer extends Component {
   render() {
     return (
       <footer className="app-footer">
-        <button className="btn footer-btn">Get Help</button>
+        {this.props.children}
+        <a href="/requester" className="btn footer-btn request-btn">Get Help</a>
       </footer>
     )
   }

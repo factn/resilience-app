@@ -1,5 +1,5 @@
 a {
-  color: darken($blue, 10%);
+  color: $blue;
   text-decoration: none;
   transition: {
     property: color;
@@ -9,9 +9,20 @@ a {
   &:focus,
   &:hover,
   &:active {
-    color: darken($blue, 20%);
+    color: lighten($blue, 10%);
   }
   &:visited {
-    color: darken($blue, 10%);
+    color: $blue;
+  }
+  &.bright-link {
+    color: $orange;
+    &:focus,
+    &:hover,
+    &:active {
+      color: darken($orange, 10%);
+    }
+    &:visited {
+      color: $orange;
+    }
   }
 }
