@@ -1,6 +1,7 @@
 /*** IMPORTS ***/
 // Module imports
 import React, { Component } from "react"
+import { Link } from "react-router-dom"
 import Icon from "@fortawesome/react-fontawesome"
 import { faDollarSign } from "@fortawesome/fontawesome-free-solid"
 
@@ -61,19 +62,19 @@ export default class DonatorFlowSettings extends Component {
               <div className="donation-clarification">To each mission I swipe right on</div>
             </article>
           </section>
-          <section className="user-settings">
+          {/* <section className="user-settings">
             <div className="future-setting">
               <input className="setting-input" type="checkbox" id="saveFutureDonationSettings" />
               <label className="setting-label" htmlFor="saveFutureDonationSettings">
                 Save this donation setting for my next session
               </label>
             </div>
-          </section>
+          </section> */}
         </Main>
         <Footer>
-          <a href="/donator/feed" className="btn footer-btn feed-btn">
+          <Link to="/feed" className="btn footer-btn feed-btn">
             Start Mission
-          </a>
+          </Link>
         </Footer>
       </div>
     )
