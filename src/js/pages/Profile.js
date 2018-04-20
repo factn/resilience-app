@@ -282,7 +282,7 @@ export default class Info extends Page {
             <header className="discovery-settings-header">
               <h3>Discovery Settings</h3>
             </header>
-            <article className="discovery-settings">
+            <article className="discovery-settings card">
               <div className="settings-box">
                 <div className="setting-icon">
                   <Icon icon={faMapMarkerAlt} />

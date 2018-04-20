@@ -38,18 +38,13 @@ button,
   }
 }
 .btn-lite {
-  background: transparent;
+  background: $white;
   color: $blue;
-  padding: 0;
+  border: 1px solid $orange;
   cursor: pointer;
-  border: 0;
-  border-radius: none;
-  &:hover {
-    color: $black;
-  }
-  &:active,
-  &:focus {
-    border: 0;
-    border-radius: none;
+  &:hover,
+  &:focus,
+  &:active {
+    color: $blue;
   }
 }

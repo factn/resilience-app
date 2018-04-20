@@ -60,6 +60,9 @@ export default class Home extends Component {
         </Main>
         <Footer>
           <div className="button-label">Post a request</div>
+          <a href="/requester" className="btn footer-btn request-btn">
+            Get Help
+          </a>
         </Footer>
       </div>
     )
