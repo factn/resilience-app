@@ -221,12 +221,14 @@ export default class Scenario extends Component {
 
   swipedUp = () => {
     this.setState({
-      transform: "translateX(0) translateY(-80vh)"
+      transform: "translateX(0) translateY(-80vh)",
+      opacity: 0
     })
   }
   swipedRight = () => {
     this.setState({
-      transform: "translateX(100%) translateY(0)"
+      transform: "translateX(100%) translateY(0)",
+      opacity: 0
     })
     // const { transitionTiming, lastUrlSegment } = this.state
     // const { id } = this.props.scenario
@@ -238,7 +240,8 @@ export default class Scenario extends Component {
   }
   swipedLeft = () => {
     this.setState({
-      transform: "translateX(-100%) translateY(0)"
+      transform: "translateX(-100%) translateY(0)",
+      opacity: 0
     })
     // const { lastUrlSegment } = this.state
     // const { id } = this.props.scenario
