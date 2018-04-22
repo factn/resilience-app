@@ -7,7 +7,12 @@ import { faChevronDown } from "@fortawesome/fontawesome-free-solid"
 
 // Local JS
 import Database from "../resources/Database"
-import { getUrlPiece, toFirstCap } from "../resources/Util"
+import {
+  getUrlPiece,
+  toFirstCap,
+  moneyfy,
+  gradientPercent
+} from "../resources/Util"
 /*** [end of imports] ***/
 
 const history = createHistory()
@@ -345,24 +350,19 @@ export default class Scenario extends Component {
             <div className="scenario-funding-goal">
               <h4>Funding goal:</h4>
               <div className="funding-goal-label">
-                ${parseInt(donated, 10).toFixed(2)} / ${parseInt(
-                  funding_goal,
-                  10
-                ).toFixed(2)}
+                {moneyfy(donated)} / {moneyfy(funding_goal)}
               </div>
               <div
                 className="funding-progress-slider"
                 id={`${event}_fundingGoal`}
                 style={{
-                  background: `linear-gradient(to right, #24e051, #24e051 ${(
-                    parseInt(donated, 10) /
-                    funding_goal *
-                    100
-                  ).toFixed(0)}%, rgba(0, 0, 0, 0.1) ${(
-                    parseInt(donated, 10) /
-                    funding_goal *
-                    100
-                  ).toFixed(0)}%, rgba(0, 0, 0, 0.1))`
+                  background: `linear-gradient(to right, #24e051, #24e051 ${gradientPercent(
+                    donated,
+                    funding_goal
+                  )}%, rgba(0, 0, 0, 0.1) ${gradientPercent(
+                    donated,
+                    funding_goal
+                  )}%, rgba(0, 0, 0, 0.1))`
                 }}
               />
             </div>
@@ -375,10 +375,7 @@ export default class Scenario extends Component {
             </div>
           </footer>
         </div>
-        <a
-          className="btn accept-scenario-btn"
-          href={`/${id}/${lastUrlSegment}/`}
-        >
+        <a className="btn accept-scenario-btn" href={`/${id}/info/`}>
           <Icon icon={faChevronDown} />
         </a>
       </article>

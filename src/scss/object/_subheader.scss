@@ -1,7 +1,13 @@
+.title {
+  text-align: center;
+  padding-bottom: 0.5em;
+  border-bottom: 0.125rem solid rgba($black, 0.25);
+  margin-bottom: 0.5em;
+}
 .subheader {
   position: relative;
   text-align: center;
-  padding: 1em 0;
+  padding: 0 0 1em;
 }
 .subheader-title {
   font-style: italic;

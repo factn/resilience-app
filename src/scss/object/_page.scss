@@ -1,26 +1,10 @@
 .page {
   padding: 1em 1.5em;
 }
-.scenario-content-header {
-  margin: 0.5rem 0;
-}
-.scenario-content-image-wrap {
-  padding: 0.25rem;
-  margin-bottom: 0.5rem;
-}
-.scenario-content-image {
-  max-height: 30vh;
-}
-.scenario-content-image-caption {
-  color: rgba($black, 0.8);
-  font-size: 0.8em;
-  margin-top: 0.5rem;
-}
 .funding-progress-slider {
   height: 1rem;
-  border-radius: 0.5rem;
   background: rgba($black, 0.1);
-  box-shadow: inset 0.0625rem 0.0625rem 0.5rem rgba($black, 0.1);
+  border: 1px solid rgba($black, 0.25);
 }
 .page-form {
   .input-wrap {
@@ -104,7 +88,7 @@
   .submit-btn {
     display: block;
     width: 15rem;
-    margin: 0 auto 0.5rem;
+    margin: 1rem auto 0;
     color: $blue;
     font-size: 1.5rem;
     margin-bottom: 0.5rem;
@@ -171,15 +155,6 @@
       }
       .page-scenario-wrap {
         grid-area: adcontent;
-      }
-      .scenario-content-image-wrap {
-        display: inline-flex;
-        justify-content: space-between;
-        width: 100%;
-        .scenario-content-image-caption {
-          padding-left: 1rem;
-          flex-grow: 5;
-        }
       }
       .page-form {
         grid-area: form;

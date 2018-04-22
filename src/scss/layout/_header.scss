@@ -1,7 +1,5 @@
 .app-header {
   position: relative;
-  padding-bottom: 1em;
-  border-bottom: 0.125rem solid rgba($black, 0.25);
 }
 .logo img {
   max-height: 3.5rem;
@@ -11,9 +9,6 @@
   top: 0;
   right: 0;
   font-size: 1.25rem;
-}
-.title {
-  text-align: center;
 }
 .menu {
   position: absolute;
