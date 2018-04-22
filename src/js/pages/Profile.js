@@ -1,18 +1,41 @@
 /*** IMPORTS ***/
 // Module imports
-import React, { Component } from "react"
+import React from "react"
 import Icon from "@fortawesome/react-fontawesome"
+import {
+  faBullseye,
+  faMapMarkerAlt,
+  faPlusCircle
+} from "@fortawesome/fontawesome-free-solid"
 
 // Local JS
+import Page from "./Page"
+
+// Components
+import Header from "../components/Header"
+import NavMenu from "../components/NavMenu"
+import MiniScenario from "../components/MiniScenario"
+import Main from "../components/Main"
+
+// Utilities
 import Database from "../resources/Database"
-import MiniScenario from "./MiniScenario"
+import { toFirstCap } from "../resources/Util"
+
+// Logo image
+import logo from "../../img/logo.png"
 /*** [end of imports] ***/
 
-export default class Profile extends Component {
+export default class Info extends Page {
   constructor(props) {
     super(props)
 
     this.state = {
+      pageStyle: "modal",
+      title: "Profile",
+      navMenu: true,
+      userId: 1,
+      scenarioId: this.props.match.params.scenarioId || 1,
+
       honey: false,
       donations: false,
       dos: false,
@@ -21,17 +44,35 @@ export default class Profile extends Component {
       userDonations: null,
       userDos: null,
       userRequests: null,
-      userVerifications: null
+      userVerifications: null,
+      currentUserData: null,
+      currentUserId: this.props.userId || 1
     }
   }
 
   componentDidMount = () => {
+    this.userDataMount()
     this.userDonationsMount()
     this.userDosMount()
     this.userRequestsMount()
     this.userVerificationsMount()
   }
 
+  userDataMount = () => {
+    Database.getUserById({ id: this.state.currentUserId })
+      .then(result => {
+        // console.log("User successfully found:", result)
+        this.setState({
+          currentUserData: result.body.data.attributes
+        })
+      })
+      .catch(error => {
+        // console.error("Error getting user:", error)
+        this.setState({
+          currentUserData: null
+        })
+      })
+  }
   userDonationsMount = () => {
     let json = { id: this.props.userId }
 
@@ -121,7 +162,7 @@ export default class Profile extends Component {
     }
   }
 
-  render() {
+  profileArea = () => {
     const {
       userDonations,
       userDos,
@@ -131,7 +172,8 @@ export default class Profile extends Component {
       donations,
       dos,
       requests,
-      verifications
+      verifications,
+      currentUserData
     } = this.state
 
     return (
@@ -254,6 +296,119 @@ export default class Profile extends Component {
           )}
         </article>
       </section>
+    )
+  }
+
+  render() {
+    const { userId, currentUserData } = this.state
+
+    return (
+      <div className="page profile-page">
+        <Header>
+          <NavMenu userId={userId} />
+          <div className="logo">
+            <a href="/">
+              <img src={logo} alt="WAGL" />
+            </a>
+          </div>
+          <div className="missions-btn">
+            <a href="/missions">
+              <Icon icon={faBullseye} />
+            </a>
+          </div>
+        </Header>
+
+        <Main>
+          {currentUserData && currentUserData.firstname !== "" ? (
+            <div className="user-info-area">
+              {currentUserData.avatar ? (
+                <div className="user-image">
+                  <img
+                    src={currentUserData.avatar}
+                    alt={currentUserData.firstname}
+                  />
+                </div>
+              ) : (
+                <Icon className="user-icon" icon="user" />
+              )}
+
+              <div className="user-name">
+                {toFirstCap(currentUserData.firstname)}
+              </div>
+            </div>
+          ) : (
+            <div className="user-info-area">
+              <Icon className="user-icon" icon="question" />
+              <a className="user-name not-signed-in" href="/login/">
+                Please sign in
+              </a>
+            </div>
+          )}
+          <div className="subheader">
+            <div className="subheader-title">Donate Money / Do a job.</div>
+            <div className="subheader-title">Post a mission and get help.</div>
+          </div>
+          <section className="discovery-settings-area">
+            <header className="discovery-settings-header">
+              <h3>Discovery Settings</h3>
+            </header>
+            <article className="discovery-settings">
+              <div className="settings-box">
+                <div className="setting-icon">
+                  <Icon icon={faMapMarkerAlt} />
+                </div>
+                <h4 className="setting-label">Location</h4>
+                <div className="location-setting">Wellington, NZ</div>
+              </div>
+              <div className="settings-box">
+                <div className="setting-icon">
+                  <Icon icon={faPlusCircle} />
+                </div>
+                <h4 className="setting-label">I want to do</h4>
+                <div className="scenario-tags">
+                  <ul className="tag-list">
+                    <li className="tag">
+                      <a href="" className="tag-link">
+                        #Donations
+                      </a>
+                    </li>
+                    <li className="tag">
+                      <a href="" className="tag-link">
+                        #Jobs
+                      </a>
+                    </li>
+                    <li className="tag">
+                      <a href="" className="tag-link">
+                        #Painting
+                      </a>
+                    </li>
+                    <li className="tag">
+                      <a href="" className="tag-link">
+                        #Roofing
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div className="settings-box">
+                <div className="setting-icon">
+                  <Icon icon={faPlusCircle} />
+                </div>
+                <h4 className="setting-label">Events I follow</h4>
+                <div className="scenario-tags">
+                  <ul className="tag-list">
+                    <li className="tag">
+                      <a href="" className="tag-link">
+                        #HurricaneKatrina
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </article>
+          </section>
+        </Main>
+      </div>
     )
   }
 }

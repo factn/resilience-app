@@ -18,6 +18,7 @@ import Account from "./js/pages/Account"
 import EditAccount from "./js/pages/EditAccount"
 import Login from "./js/pages/Login"
 import Preferences from "./js/pages/Preferences"
+import Profile from "./js/pages/Profile"
 
 // 	Flow Pages
 import DonatorFlow from "./js/pages/DonatorFlow"
@@ -48,6 +49,7 @@ export default class App extends Component {
           <Route path="/edit-account" component={EditAccount} />
           <Route path="/login" component={Login} />
           <Route path="/preferences" component={Preferences} />
+          <Route path="/profile" component={Profile} />
 
           {/* Flows */}
           <Route path="/:scenarioId/donator" component={DonatorFlow} />

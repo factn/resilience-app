@@ -11,7 +11,6 @@ import { getUrlPiece } from "../resources/Util"
 // Header
 import Header from "../components/Header"
 import NavMenu from "../components/NavMenu"
-import Profile from "../components/Profile"
 
 // Main
 import Main from "../components/Main"
@@ -259,11 +258,7 @@ export default class Page extends Component {
     return (
       <div className="page">
         <Header>
-          {navMenu && (
-            <NavMenu userId={userId}>
-              <Profile userId={userId} />
-            </NavMenu>
-          )}
+          {navMenu && <NavMenu userId={userId} />}
           <div className="logo">
             <a href="/">
               <img src={logo} alt="WAGL" />
