@@ -5,10 +5,6 @@ import React, { Component } from "react"
 
 export default class Footer extends Component {
   render() {
-    return (
-      <footer className="app-footer">
-        <button className="btn footer-btn">Get Help</button>
-      </footer>
-    )
+    return <footer className="app-footer">{this.props.children}</footer>
   }
 }

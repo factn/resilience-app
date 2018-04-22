@@ -59,26 +59,23 @@ export default class Header extends Component {
 
     return (
       <nav className="menu">
-        <button className="btn-lite menu-toggle-btn" onClick={this.openMenu}>
+        <div className="menu-toggle-btn" onClick={this.openMenu}>
           <Icon icon="bars" />
-        </button>
+        </div>
 
         <section
           className={menuIsOpen ? "menu-drawer open-drawer" : "menu-drawer"}
         >
           <header className="menu-header">
             <h2 className="menu-header-title">Menu</h2>
-            <button
-              className="menu-close-btn btn-lite"
-              onClick={this.closeMenu}
-            >
+            <div className="menu-close-btn" onClick={this.closeMenu}>
               <Icon icon="times" />
-            </button>
+            </div>
           </header>
 
           <ul className="menu-list">
             {this.menuItems.map(item => (
-              <li className="menu-item" key={item}>
+              <li className="menu-item" key={item.label}>
                 <a href={item.link} className="menu-item-link">
                   {item.label}
                 </a>

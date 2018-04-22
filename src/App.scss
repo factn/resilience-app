@@ -23,6 +23,7 @@
 
 @import "./scss/object/tag";
 @import "./scss/object/map";
+@import "./scss/object/card";
 @import "./scss/object/menu";
 @import "./scss/object/page";
 @import "./scss/object/loader";
@@ -32,3 +33,7 @@
 @import "./scss/object/scenario";
 @import "./scss/object/mini-scenario";
 @import "./scss/object/scenario-content";
+
+@import "./scss/pages/home";
+@import "./scss/pages/feed";
+@import "./scss/pages/donator-flow-settings";

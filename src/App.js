@@ -7,11 +7,14 @@ import { Route, Switch } from "react-router-dom"
 import "./App.scss"
 
 // Pages
+import Home from "./js/pages/Home"
+import DonatorFlowSettings from "./js/pages/DonatorFlowSettings"
+import Feed from "./js/pages/Feed"
+
 // 	Home Tabs
-import DonatorTab from "./js/pages/DonatorTab"
-import RequesterTab from "./js/pages/RequesterTab"
-import DoerTab from "./js/pages/DoerTab"
-import VerifierTab from "./js/pages/VerifierTab"
+// import RequesterTab from "./js/pages/RequesterTab"
+// import DoerTab from "./js/pages/DoerTab"
+// import VerifierTab from "./js/pages/VerifierTab"
 
 // 	Modals
 import Account from "./js/pages/Account"
@@ -37,12 +40,10 @@ export default class App extends Component {
     return (
       <div className="app">
         <Switch>
-          {/* Home tab */}
-          <Route path="/" exact component={DonatorTab} />
-          <Route path="/donator" component={DonatorTab} />
-          <Route path="/requester" component={RequesterTab} />
-          <Route path="/doer" component={DoerTab} />
-          <Route path="/verifier" component={VerifierTab} />
+          <Route path="/" exact component={Home} />
+          <Route path="/donator" component={DonatorFlowSettings} />
+          <Route path="/feed" component={Feed} />
+
 
           {/* Modals */}
           <Route path="/account" component={Account} />
