@@ -1,6 +1,6 @@
 /*** IMPORTS ***/
 // Module imports
-import React, { Component } from "react"
+import React, { Component, Fragment } from "react"
 import Icon from "@fortawesome/react-fontawesome"
 import { faBullseye } from "@fortawesome/fontawesome-free-solid"
 
@@ -30,28 +30,54 @@ export default class Feed extends Component {
 
     this.state = {
       scenarioData: null,
-      userId: 1
+      feedOffset: 0,
+      userId: 1,
+      previewDismissed: false
     }
   }
 
   componentDidMount = () => {
-    Database.getScenarios()
+    Database.scenarioFeed()
       .then(result => {
         // console.info("Database call complete:", result.body.data)
         this.setState({
+          feedOffset: result.body.data.length,
           scenarioData: result.body.data
         })
       })
       .catch(error => {
         // console.error("Error getting scenarios:", error)
         this.setState({
+          feedOffset: 0,
           scenarioData: null
         })
       })
   }
 
+  nextItem = () => {
+    Database.nextInFeed({ offset: this.state.feedOffset })
+      .then(result => {
+        // console.info("Next in feed call complete:", result.body.data)
+        this.setState({
+          feedOffset: this.state.feedOffset + 1,
+          scenarioData: this.state.scenarioData.concat(result.body.data)
+        })
+      })
+      .catch(error => {
+        // console.error("Error getting scenarios:", error)
+        // this.sthis.state.
+      })
+  }
+  dismissPreview = () => {
+    this.setState({
+      previewDismissed: true
+    })
+  }
+
   render() {
-    const { userId, scenarioData } = this.state
+    const { userId, scenarioData, feedOffset, previewDismissed } = this.state
+
+    console.log("Feed render", scenarioData)
 
     return (
       <div className="page feed-page">
@@ -72,7 +98,22 @@ export default class Feed extends Component {
         <Main>
           <ScenarioFeed>
             {scenarioData ? (
-              <Scenario scenario={scenarioData[0]} />
+              scenarioData.map((scenario, index) => {
+                if (index === feedOffset - 2) {
+                  return (
+                    <Scenario
+                      key={scenario.id}
+                      scenario={scenario}
+                      first
+                      nextItem={this.nextItem}
+                      previewDismissed={previewDismissed}
+                      dismissPreview={this.dismissPreview}
+                    />
+                  )
+                } else if (index > feedOffset - 2) {
+                  return <Scenario key={scenario.id} scenario={scenario} />
+                }
+              })
             ) : (
               <Loader />
             )}

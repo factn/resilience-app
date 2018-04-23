@@ -1,12 +1,24 @@
 .scenario {
+  position: absolute;
+  left: 1rem;
+  width: calc(100vw - 2rem);
   background: $white;
-  margin-bottom: 1rem;
   box-shadow: $card-shadow;
-  opacity: 1;
   transition: {
-    property: margin, opacity;
+    property: opacity, top, filter;
     duration: $fast;
     timing-function: $cubic;
+  }
+  &.first {
+    top: 5rem;
+    z-index: 2;
+    opacity: 1;
+  }
+  &:not(.first) {
+    top: 7rem;
+    z-index: 1;
+    opacity: 0.5;
+    filter: blur(2px);
   }
   .accept-scenario-btn {
     position: absolute;
@@ -52,6 +64,7 @@
   }
   .pseudo-sub-text {
     color: $blue;
+    margin-bottom: .5rem;
   }
   .action {
     position: absolute;
@@ -266,10 +279,6 @@
 }
 
 @include breakpoint($tablet) {
-  .scenario-feed-wrap {
-    margin: 0 -1rem;
-    padding: 1rem 2rem;
-  }
   .scenario-tab {
     font-size: 1.2em;
   }
