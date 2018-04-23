@@ -75,7 +75,7 @@ export default class Page extends Component {
   homeTabComponentMount = () => {
     Database.scenarioFeed()
       .then(result => {
-        // console.info("Database call complete:", result.body.data)
+        console.info("Database call complete:", result.body.data)
         this.setState({
           scenariosInList: 3,
           scenarioData: result.body.data.slice(0, 3) // Shouldn't need this. Page limit doesn't seem to be working
@@ -311,7 +311,9 @@ export default class Page extends Component {
             <Main>
               <ScenarioFeed>
                 {this.state.scenarioData ? (
-                  <Scenario scenario={this.state.scenarioData[0]} />
+                  this.state.scenarioData.map(id => (
+                    <Scenario key={id} scenario={id} />
+                  ))
                 ) : (
                   <Loader />
                 )}

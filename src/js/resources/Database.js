@@ -106,7 +106,11 @@ const apiEndpoints = {
 	},
 	scenarioFeed: {
 		method: get,
-		path: "/scenarios?page[limit]=3" // still needs sort
+		path: "/scenarios?page[limit]=2" // ?sort=accepted-ratio-donator
+	},
+	nextInFeed: {
+		method: get,
+		path: "/scenarios?page[limit]=1&page[offset]=:offset" // ?sort=accepted-ratio-donator
 	},
 	getScenario: {
 		method: get,

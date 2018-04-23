@@ -4,21 +4,18 @@ import React, { Component } from "react"
 import createHistory from "history/createBrowserHistory"
 import Icon from "@fortawesome/react-fontawesome"
 import {
-  faChevronDown,
   faCaretUp,
   faCaretRight,
   faCaretLeft,
-  faHandPointUp
+  faHandPointUp,
+  faArrowAltCircleDown,
+  faCheck,
+  faMapMarkerAlt
 } from "@fortawesome/fontawesome-free-solid"
 
 // Local JS
 import Database from "../resources/Database"
-import {
-  getUrlPiece,
-  toFirstCap,
-  moneyfy,
-  gradientPercent
-} from "../resources/Util"
+import { toFirstCap, moneyfy, gradientPercent } from "../resources/Util"
 
 // Logo image
 import logo from "../../img/logo.svg"
@@ -32,9 +29,16 @@ export default class Scenario extends Component {
 
     this.state = {
       xTransform: 0,
+      yTransform: 0,
       touchStartX: 0,
+      touchStartY: 0,
       lastTouchX: 0,
-      style: { transform: "translateX(0)" },
+      lastTouchY: 0,
+      style: {
+        transform: `translateX(0) translateY(0) scale(${
+          this.props.first ? 1 : 0.9
+        })`
+      },
       previewStyle: {
         opacity: 1,
         zIndex: 5
@@ -53,9 +57,7 @@ export default class Scenario extends Component {
       },
       upThreshold: -32,
       swipeThreshold: 150,
-      previewDismissed: false,
-      transitionTiming: 100,
-      lastUrlSegment: getUrlPiece()
+      transitionTiming: 100
     }
 
     this.handleTouchStart = this.handleTouchStart.bind(this)
@@ -64,38 +66,31 @@ export default class Scenario extends Component {
   }
 
   componentDidMount = () => {
-    if (this.props.feedReset) {
-      this.setState({
-        xTransform: 0,
-        yTransform: 0,
-        touchStartX: 0,
-        touchStartY: 0,
-        lastTouchX: 0,
-        lastTouchY: 0,
-        style: { transform: "translateX(0) translateY(0)" },
-        upStyle: {
-          opacity: 0,
-          zIndex: 0
-        },
-        leftStyle: {
-          opacity: 0,
-          zIndex: 0
-        },
-        rightStyle: {
-          opacity: 0,
-          zIndex: 0
-        }
-      })
-    }
-  }
-
-  dismissPreview = () => {
     this.setState({
-      previewStyle: {
+      xTransform: 0,
+      yTransform: 0,
+      touchStartX: 0,
+      touchStartY: 0,
+      lastTouchX: 0,
+      lastTouchY: 0,
+      style: {
+        transform: `translateX(0) translateY(0) scale(${
+          this.props.first ? 1 : 0.9
+        })`
+      },
+      upStyle: {
         opacity: 0,
         zIndex: 0
       },
-      previewDismissed: true
+      leftStyle: {
+        opacity: 0,
+        zIndex: 0
+      },
+      rightStyle: {
+        opacity: 0,
+        zIndex: 0
+      },
+      firstChecked: false
     })
   }
 
@@ -104,18 +99,16 @@ export default class Scenario extends Component {
       touchStartX: e.targetTouches[0].clientX,
       touchStartY: e.targetTouches[0].clientY,
       style: {
-        transform: "translateX(0) translateY(0)",
+        transform: `translateX(0) translateY(0) scale(${
+          this.props.first ? 1 : 0.9
+        })`,
         zIndex: 10
       }
     })
   }
   handleTouchMove = e => {
-    const {
-      touchStartX,
-      touchStartY,
-      upThreshold,
-      previewDismissed
-    } = this.state
+    const { touchStartX, touchStartY, upThreshold } = this.state
+    const { first, previewDismissed } = this.props
 
     if (previewDismissed) {
       let currentTouchX = e.targetTouches[0].clientX
@@ -130,7 +123,9 @@ export default class Scenario extends Component {
           lastTouchX: currentTouchX,
           lastTouchY: currentTouchY,
           style: {
-            transform: `translateX(${xDif}px) translateY(${yDif}px)`
+            transform: `translateX(${xDif}px) translateY(${yDif}px) scale(${
+              first ? 1 : 0.9
+            })`
           },
           upStyle: {
             opacity: 1,
@@ -153,7 +148,9 @@ export default class Scenario extends Component {
             lastTouchX: currentTouchX,
             lastTouchY: currentTouchY,
             style: {
-              transform: `translateX(${xDif}px) translateY(${yDif}px)`
+              transform: `translateX(${xDif}px) translateY(${yDif}px) scale(${
+                first ? 1 : 0.9
+              })`
             },
             upStyle: {
               opacity: 0,
@@ -175,7 +172,9 @@ export default class Scenario extends Component {
             lastTouchX: currentTouchX,
             lastTouchY: currentTouchY,
             style: {
-              transform: `translateX(${xDif}px) translateY(${yDif}px)`
+              transform: `translateX(${xDif}px) translateY(${yDif}px) scale(${
+                first ? 1 : 0.9
+              })`
             },
             upStyle: {
               opacity: 0,
@@ -208,6 +207,7 @@ export default class Scenario extends Component {
     let yDif = lastTouchY === 0 ? 0 : lastTouchY - touchStartY
 
     if (Math.abs(xDif) > swipeThreshold || yDif < upThreshold) {
+      if (this.props.nextItem) this.props.nextItem()
       if (yDif < upThreshold) {
         this.swipedUp()
       } else {
@@ -221,42 +221,53 @@ export default class Scenario extends Component {
 
   swipedUp = () => {
     this.setState({
-      transform: "translateX(0) translateY(-80vh)",
-      opacity: 0
+      style: {
+        transitionProperty: "transform margin, opacity, top, filter",
+        transform: `translateX(0) translateY(-80vh) scale(${
+          this.props.first ? 1 : 0.9
+        })`,
+        opacity: 0
+      }
     })
   }
   swipedRight = () => {
+    const { transitionTiming } = this.state
+    const { id } = this.props.scenario
+
     this.setState({
-      transform: "translateX(100%) translateY(0)",
-      opacity: 0
+      style: {
+        transitionProperty: "transform margin, opacity, top, filter",
+        transform: `translateX(100%) translateY(0) scale(${
+          this.props.sfirst ? 1 : 0.9
+        })`,
+        opacity: 0
+      }
     })
-    // const { transitionTiming, lastUrlSegment } = this.state
-    // const { id } = this.props.scenario
-    // setTimeout(() => {
-    //   this.acceptScenario({ scenarioId: id })
-    //   history.push(`/${id}/${lastUrlSegment}/`)
-    //   window.location = `/${id}/${lastUrlSegment}/`
-    // }, transitionTiming)
+
+    setTimeout(() => {
+      this.acceptScenario({ scenarioId: id })
+    }, transitionTiming)
   }
   swipedLeft = () => {
+    const { scenario, first } = this.props
+    const { id } = scenario
+
     this.setState({
-      transform: "translateX(-100%) translateY(0)",
-      opacity: 0
+      style: {
+        transitionProperty: "transform margin, opacity, top, filter",
+        transform: `translateX(-100%) translateY(0) scale(${first ? 1 : 0.9})`,
+        opacity: 0
+      }
     })
-    // const { lastUrlSegment } = this.state
-    // const { id } = this.props.scenario
-    // let adType
-    // if (lastUrlSegment === "doer") adType = "1"
-    // else if (lastUrlSegment === "requester") adType = "2"
-    // else if (lastUrlSegment === "donator") adType = "3"
-    // else if (lastUrlSegment === "verifier") adType = "4"
-    // })
-    // this.dismissScenario({ scenarioId: id, adType: adType })
+
+    this.dismissScenario({ scenarioId: id })
   }
   resetSwipePos = () => {
     this.setState({
       style: {
-        transform: "translateX(0) translateY(0)",
+        transform: `translateX(0) translateY(0) scale(${
+          this.props.first ? 1 : 0.9
+        })`,
         zIndex: 10
       },
       upStyle: {
@@ -294,13 +305,13 @@ export default class Scenario extends Component {
           },
           ad_type: {
             data: {
-              id: params.adType,
+              id: params.adType || "3",
               type: "ad_types"
             }
           },
           interaction_type: {
             data: {
-              id: "2",
+              id: "2", // dismissal
               type: "interaction_types"
             }
           }
@@ -318,14 +329,6 @@ export default class Scenario extends Component {
       })
   }
   acceptScenario = params => {
-    const { lastUrlSegment } = this.state
-    let ad_type
-
-    if (lastUrlSegment === "doer") ad_type = "1"
-    else if (lastUrlSegment === "requester") ad_type = "2"
-    else if (lastUrlSegment === "donator") ad_type = "3"
-    else if (lastUrlSegment === "verifier") ad_type = "4"
-
     let json = {
       data: {
         type: "user_ad_interactions",
@@ -345,7 +348,7 @@ export default class Scenario extends Component {
           },
           ad_type: {
             data: {
-              id: ad_type,
+              id: "3",
               type: "ad_types"
             }
           },
@@ -375,13 +378,15 @@ export default class Scenario extends Component {
       upStyle,
       leftStyle,
       rightStyle,
-      lastUrlSegment
+      firstChecked
     } = this.state
-    const { id, attributes } = this.props.scenario
+    const { first, scenario, previewDismissed } = this.props
+    const { id, attributes } = scenario
     const {
       event,
       image,
       requester_firstname,
+      requester_lastname,
       donated,
       noun,
       verb,
@@ -389,51 +394,63 @@ export default class Scenario extends Component {
       customMessage
     } = attributes
 
+    if (first && !firstChecked) {
+      this.setState({
+        firstChecked: true,
+        style: {
+          transform: "translateX(0) translateY(0) scale(1)"
+        }
+      })
+    }
+
     return (
       <article
-        className="scenario"
+        className={first ? "scenario first" : "scenario"}
         id={`scenario_${id}`}
         style={style}
         onTouchStart={e => this.handleTouchStart(e)}
         onTouchMove={e => this.handleTouchMove(e)}
         onTouchEnd={e => this.handleTouchEnd(e)}
       >
-        <div className="pseudo-preview" style={previewStyle}>
-          <div className="action up-action">
-            <div className="pseudo-main-text">Fund</div>
-            <div className="pseudo-sub-text">full amount</div>
-            <div className="arrow arrow-up">
-              <Icon icon={faCaretUp} />
+        {first &&
+          !previewDismissed && (
+            <div className="pseudo-preview" style={previewStyle}>
+              <div className="action up-action">
+                <div className="pseudo-main-text">Fund</div>
+                <div className="pseudo-sub-text">full amount</div>
+                <div className="arrow arrow-up">
+                  <Icon icon={faCaretUp} />
+                </div>
+              </div>
+              <div className="action right-action">
+                <div className="pseudo-main-text">Donate</div>
+                <div className="pseudo-sub-text">$0.20</div>
+                <div className="arrow arrow-right">
+                  <Icon icon={faCaretRight} />
+                </div>
+              </div>
+              <div className="action left-action">
+                <div className="pseudo-main-text">Dismiss</div>
+                <div className="pseudo-sub-text">don't fund</div>
+                <div className="arrow arrow-left">
+                  <Icon icon={faCaretLeft} />
+                </div>
+              </div>
+              <div className="touch-icon">
+                <Icon icon={faHandPointUp} />
+              </div>
+              <div className="action down-action">
+                <button
+                  className="btn btn-lite preview-dismiss-btn"
+                  onClick={() => this.props.dismissPreview()}
+                >
+                  Start Mission
+                </button>
+              </div>
             </div>
-          </div>
-          <div className="action right-action">
-            <div className="pseudo-main-text">Donate</div>
-            <div className="pseudo-sub-text">$0.20</div>
-            <div className="arrow arrow-right">
-              <Icon icon={faCaretRight} />
-            </div>
-          </div>
-          <div className="action left-action">
-            <div className="pseudo-main-text">Dismiss</div>
-            <div className="pseudo-sub-text">don't fund</div>
-            <div className="arrow arrow-left">
-              <Icon icon={faCaretLeft} />
-            </div>
-          </div>
-          <div className="touch-icon">
-            <Icon icon={faHandPointUp} />
-          </div>
-          <div className="action down-action">
-            <button
-              className="btn btn-lite preview-dismiss-btn"
-              onClick={() => this.dismissPreview()}
-            >
-              Start Mission
-            </button>
-          </div>
-        </div>
+          )}
         <div className="pseudo-up" style={upStyle}>
-          <div className="action up-action">
+          <div className="action down-action">
             <div className="pseudo-main-text">Fund</div>
             <div className="pseudo-sub-text">full amount</div>
             <div className="arrow arrow-up">
@@ -442,7 +459,7 @@ export default class Scenario extends Component {
           </div>
         </div>
         <div className="pseudo-before" style={leftStyle}>
-          <div className="action right-action">
+          <div className="action left-action">
             <div className="pseudo-main-text">Donate</div>
             <div className="pseudo-sub-text">$0.20</div>
             <div className="arrow arrow-right">
@@ -451,7 +468,7 @@ export default class Scenario extends Component {
           </div>
         </div>
         <div className="pseudo-after" style={rightStyle}>
-          <div className="action left-action">
+          <div className="action right-action">
             <div className="pseudo-main-text">Dismiss</div>
             <div className="pseudo-sub-text">don't fund</div>
             <div className="arrow arrow-left">
@@ -461,7 +478,6 @@ export default class Scenario extends Component {
         </div>
         <figure className="scenario-image-wrap">
           <img src={image} alt={event} className="scenario-image" />
-          <p className="scenario-image-caption">{event}</p>
         </figure>
         <div className="scenario-body">
           <header className="scenario-header">
@@ -472,83 +488,60 @@ export default class Scenario extends Component {
             </h4>
           </header>
 
+          <section className="scenario-subheader">
+            <div className="user-info">
+              <figure className="user-avatar" />
+              <div className="user-name">
+                {requester_firstname} {requester_lastname}
+              </div>
+              <div className="user-verified-status">
+                <Icon icon={faCheck} />
+              </div>
+            </div>
+            <div className="scenario-location">
+              <div className="location-name">Pearlington, Louisiana</div>
+              <div className="location-icon">
+                <Icon icon={faMapMarkerAlt} />
+              </div>
+            </div>
+          </section>
+
           <div className="scenario-description">
             {customMessage ||
               "My roof was blown off in Hurricane Katrina. I need your help to fix it. Can have more info here to help tell the story and convince people to do this."}
           </div>
-
-          <div className="scenario-tags">
-            <ul className="tag-list">
-              <li className="tag">
-                <a href="" className="tag-link">
-                  #Donations
-                </a>
-              </li>
-              <li className="tag">
-                <a href="" className="tag-link">
-                  #Jobs
-                </a>
-              </li>
-              <li className="tag">
-                <a href="" className="tag-link">
-                  #Painting
-                </a>
-              </li>
-              <li className="tag">
-                <a href="" className="tag-link">
-                  #Roofing
-                </a>
-              </li>
-              <li className="tag">
-                <a href="" className="tag-link">
-                  #HurricaneKatrina
-                </a>
-              </li>
-            </ul>
-          </div>
+          
+          <section className="scenario-tags">
+          <div className="scenario-event-location">{event}</div>
+          <div className="scenario-severity">Urgent
+          </div></section>
 
           <footer className="scenario-footer">
-            <div className="scenario-funding-goal">
-              <h4>Funding goal:</h4>
-              <div className="funding-goal-label">
-                {moneyfy(donated)} / {moneyfy(funding_goal)}
-              </div>
-              <div
-                className="funding-progress-slider"
-                id={`${event}_fundingGoal`}
-                style={{
-                  background: `linear-gradient(to right, #24e051, #24e051 ${gradientPercent(
-                    donated,
-                    funding_goal
-                  )}%, #fff ${gradientPercent(donated, funding_goal)}%, #fff)`
-                }}
-              />
+            <div className="funding-goal-label">
+              To fully fund{" "}
+              <span className="dollar-amount">{moneyfy(funding_goal - donated)}</span>
             </div>
-
-            <div className="scenario-task-wrap">
-              <h4>Jobs:</h4>
-              <ul className="goals-list">
-                <li className="goal-icon complete-goal">
-                  <img src={logo} alt="Goal" />
-                </li>
-                <li className="goal-icon complete-goal">
-                  <img src={logo} alt="Goal" />
-                </li>
-                <li className="goal-icon">
-                  <img src={logo} alt="Goal" />
-                </li>
-                <li className="goal-icon">
-                  <img src={logo} alt="Goal" />
-                </li>
-                <li className="goal-icon">
-                  <img src={logo} alt="Goal" />
-                </li>
-              </ul>
+            <div
+              className="funding-progress-slider"
+              id={`${event}_fundingGoal`}
+              style={{
+                background: `linear-gradient(to right, #24e051, #24e051 ${gradientPercent(
+                  donated,
+                  funding_goal
+                )}%, #fff ${gradientPercent(donated, funding_goal)}%, #fff)`
+              }}
+            />
+            <div className="funding-goal-label">
+              Target{" "}
+              <span className="dollar-amount">{moneyfy(funding_goal)}</span>
+            </div>
+            <div className="funding-goal-summary">
+              450 donators, {moneyfy(donated)} donated
             </div>
           </footer>
         </div>
         <a className="btn accept-scenario-btn" href={`/${id}/info/`}>
-          <Icon icon={faChevronDown} />
+          <Icon icon={faArrowAltCircleDown} />
         </a>
       </article>
     )
