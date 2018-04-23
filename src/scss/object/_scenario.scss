@@ -172,9 +172,7 @@
   }
 }
 .scenario-subheader {
-  display: inline-flex;
-  justify-content: space-between;
-  width: 100%;
+  @include inline-flex;
   font-size: 0.75rem;
   font-style: italic;
   margin-bottom: 0.5rem;
@@ -212,9 +210,7 @@
   margin-bottom: 0.5rem;
 }
 .scenario-tags {
-  display: inline-flex;
-  justify-content: space-between;
-  width: 100%;
+  @include inline-flex;
   .scenario-event-location,
   .scenario-severity {
     flex-basis: 30%;

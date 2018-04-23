@@ -1,12 +1,13 @@
 .doer-flow-page {
   .location-city {
-    display: inline-flex;
-    justify-content: space-between;
-    width: 100%;
+    @include inline-flex;
     .location-label,
     .location-current {
       flex-basis: 40%;
       flex-grow: 1;
+    }
+    .location-icon {
+      color: rgba($black, 0.25);
     }
   }
 }

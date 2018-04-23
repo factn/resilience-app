@@ -3,7 +3,7 @@
 import React, { Component } from "react"
 import { Link } from "react-router-dom"
 import Icon from "@fortawesome/react-fontawesome"
-import { faDollarSign } from "@fortawesome/fontawesome-free-solid"
+import { faChevronRight } from "@fortawesome/fontawesome-free-solid"
 
 // Page elements
 import Header from "../components/Header"
@@ -61,15 +61,22 @@ export default class DoerFlow extends Component {
               <div className="card-area location-city">
                 <div className="location-label">Location</div>
                 <div className="location-current">Pearlington, MI</div>
+                <div className="location-icon">
+                  <Icon icon={faChevronRight} />
+                </div>
               </div>
               <div className="card-area home-and-abroad-toggle">
                 <div className="toggle-row">
                   <div className="toggle-label">I want to work from home</div>
-                  <div className="toggle" />
+                  <div className="toggle on">
+                    <div className="toggle-button" />
+                  </div>
                 </div>
                 <div className="toggle-row">
                   <div className="toggle-label">I'm willing to travel</div>
-                  <div className="toggle" />
+                  <div className="toggle">
+                    <div className="toggle-button" />
+                  </div>
                 </div>
               </div>
               <div className="card-area travel-distance">

@@ -49,11 +49,10 @@
     }
   }
   .input-with-icon-wrap {
+    @include inline-flex;
     background: rgba($black, 0.1);
     border: 1px solid $orange;
     font-size: 1.5rem;
-    display: inline-flex;
-    justify-content: space-between;
     .input-icon {
       background: $orange;
       color: $white;
