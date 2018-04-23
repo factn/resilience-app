@@ -1,0 +1,12 @@
+.doer-flow-page {
+  .location-city {
+    display: inline-flex;
+    justify-content: space-between;
+    width: 100%;
+    .location-label,
+    .location-current {
+      flex-basis: 40%;
+      flex-grow: 1;
+    }
+  }
+}

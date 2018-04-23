@@ -3,7 +3,7 @@
 import Page from "./Page"
 /*** [end of imports] ***/
 
-export default class DoerTab extends Page {
+export default class DoerFeed extends Page {
   constructor(props) {
     super(props)
 

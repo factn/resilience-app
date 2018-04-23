@@ -24,7 +24,7 @@ import Database from "../resources/Database"
 import logo from "../../img/logo.svg"
 /*** [end of imports] ***/
 
-export default class Feed extends Component {
+export default class DonatorFeed extends Component {
   constructor(props) {
     super(props)
 

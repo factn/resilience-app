@@ -7,14 +7,20 @@ import { Route, Switch } from "react-router-dom"
 import "./App.scss"
 
 // Pages
+// Home
 import Home from "./js/pages/Home"
-import DonatorFlowSettings from "./js/pages/DonatorFlowSettings"
-import Feed from "./js/pages/Feed"
 
-// 	Home Tabs
-// import RequesterTab from "./js/pages/RequesterTab"
-// import DoerTab from "./js/pages/DoerTab"
-// import VerifierTab from "./js/pages/VerifierTab"
+// Flows
+import DonatorFlow from "./js/pages/DonatorFlow"
+import DoerFlow from "./js/pages/DoerFlow"
+import RequesterFlow from "./js/pages/RequesterFlow"
+import VerifierFlow from "./js/pages/VerifierFlow"
+
+// Feeds
+import DonatorFeed from "./js/pages/DonatorFeed"
+import DoerFeed from "./js/pages/DoerFeed"
+import RequesterFeed from "./js/pages/RequesterFeed"
+import VerifierFeed from "./js/pages/VerifierFeed"
 
 // 	Modals
 import Account from "./js/pages/Account"
@@ -23,12 +29,7 @@ import Login from "./js/pages/Login"
 import Preferences from "./js/pages/Preferences"
 import Profile from "./js/pages/Profile"
 
-// 	Flow Pages
-import DonatorFlow from "./js/pages/DonatorFlow"
-import RequesterFlow from "./js/pages/RequesterFlow"
-import DoerFlow from "./js/pages/DoerFlow"
-import VerifierFlow from "./js/pages/VerifierFlow"
-import Thanks from "./js/pages/Thanks"
+// 	Info Pages
 import Info from "./js/pages/Info"
 
 // 404
@@ -40,9 +41,20 @@ export default class App extends Component {
     return (
       <div className="app">
         <Switch>
+          {/* Home */}
           <Route path="/" exact component={Home} />
-          <Route path="/donator" component={DonatorFlowSettings} />
-          <Route path="/feed" component={Feed} />
+
+          {/* Flows */}
+          <Route path="/donator" component={DonatorFlow} />
+          <Route path="/doer" component={DoerFlow} />
+          <Route path="/requester" component={RequesterFlow} />
+          <Route path="/verifier" component={VerifierFlow} />
+
+          {/* Feeds */}
+          <Route path="/feed/donator" component={DonatorFeed} />
+          <Route path="/feed/doer" component={DoerFeed} />
+          <Route path="/feed/requester" component={RequesterFeed} />
+          <Route path="/feed/verifier" component={VerifierFeed} />
 
 
           {/* Modals */}
@@ -52,13 +64,11 @@ export default class App extends Component {
           <Route path="/preferences" component={Preferences} />
           <Route path="/profile" component={Profile} />
 
-          {/* Flows */}
-          <Route path="/:scenarioId/donator" component={DonatorFlow} />
-          <Route path="/:scenarioId/requester" component={RequesterFlow} />
-          <Route path="/:scenarioId/doer" component={DoerFlow} />
-          <Route path="/:scenarioId/verifier" component={VerifierFlow} />
+          {/* Mission control */}
+          <Route path="/mission-control" component={Profile} />
+
+          {/* Scenario full-page */}
           <Route path="/:scenarioId/info" component={Info} />
-          <Route path="/:scenarioId/thanks" component={Thanks} />
 
           {/* 404 */}
           <Route component={NoPage} />

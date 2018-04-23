@@ -1,0 +1,38 @@
+.flow-page {
+  background: darken($white, 10%);
+  min-height: 100vh;
+  .app-header {
+    background: $white;
+    margin: -1rem -1.5rem 1rem;
+    padding: 1rem;
+  }
+  .login-link {
+    text-align: center;
+  }
+  .settings-header {
+    text-transform: uppercase;
+    text-align: center;
+    margin: 1rem 0;
+  }
+  .card {
+    padding: 1rem;
+    h4 {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    .card-area:not(:last-of-type) {
+      padding-bottom: 0.5rem;
+      border-bottom: 0.125rem solid rgba($black, 0.1);
+    }
+  }
+  .btn-card {
+    margin-bottom: 1rem;
+    h4 {
+      font-weight: bold;
+      margin: 0;
+    }
+    &.active {
+      background: $orange;
+    }
+  }
+}
