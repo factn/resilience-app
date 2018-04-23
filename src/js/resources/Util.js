@@ -63,7 +63,7 @@ export function getScenarioIdFromURL(url) {
 }
 
 export function moneyfy (str) {
-  return `$${parseInt(str, 10).toFixed(2)}`
+  return `$${parseInt(str, 10).toFixed(0)}`
 }
 
 export function gradientPercent (dividend, divisor) {

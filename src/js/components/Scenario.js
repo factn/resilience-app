@@ -4,11 +4,13 @@ import React, { Component } from "react"
 import createHistory from "history/createBrowserHistory"
 import Icon from "@fortawesome/react-fontawesome"
 import {
-  faChevronDown,
   faCaretUp,
   faCaretRight,
   faCaretLeft,
-  faHandPointUp
+  faHandPointUp,
+  faArrowAltCircleDown,
+  faCheck,
+  faMapMarkerAlt
 } from "@fortawesome/fontawesome-free-solid"
 
 // Local JS
@@ -384,6 +386,7 @@ export default class Scenario extends Component {
       event,
       image,
       requester_firstname,
+      requester_lastname,
       donated,
       noun,
       verb,
@@ -475,7 +478,6 @@ export default class Scenario extends Component {
         </div>
         <figure className="scenario-image-wrap">
           <img src={image} alt={event} className="scenario-image" />
-          <p className="scenario-image-caption">{event}</p>
         </figure>
         <div className="scenario-body">
           <header className="scenario-header">
@@ -486,83 +488,60 @@ export default class Scenario extends Component {
             </h4>
           </header>
 
+          <section className="scenario-subheader">
+            <div className="user-info">
+              <figure className="user-avatar" />
+              <div className="user-name">
+                {requester_firstname} {requester_lastname}
+              </div>
+              <div className="user-verified-status">
+                <Icon icon={faCheck} />
+              </div>
+            </div>
+            <div className="scenario-location">
+              <div className="location-name">Pearlington, Louisiana</div>
+              <div className="location-icon">
+                <Icon icon={faMapMarkerAlt} />
+              </div>
+            </div>
+          </section>
+
           <div className="scenario-description">
             {customMessage ||
               "My roof was blown off in Hurricane Katrina. I need your help to fix it. Can have more info here to help tell the story and convince people to do this."}
           </div>
-
-          <div className="scenario-tags">
-            <ul className="tag-list">
-              <li className="tag">
-                <a href="" className="tag-link">
-                  #Donations
-                </a>
-              </li>
-              <li className="tag">
-                <a href="" className="tag-link">
-                  #Jobs
-                </a>
-              </li>
-              <li className="tag">
-                <a href="" className="tag-link">
-                  #Painting
-                </a>
-              </li>
-              <li className="tag">
-                <a href="" className="tag-link">
-                  #Roofing
-                </a>
-              </li>
-              <li className="tag">
-                <a href="" className="tag-link">
-                  #HurricaneKatrina
-                </a>
-              </li>
-            </ul>
-          </div>
+          
+          <section className="scenario-tags">
+          <div className="scenario-event-location">{event}</div>
+          <div className="scenario-severity">Urgent
+          </div></section>
 
           <footer className="scenario-footer">
-            <div className="scenario-funding-goal">
-              <h4>Funding goal:</h4>
-              <div className="funding-goal-label">
-                {moneyfy(donated)} / {moneyfy(funding_goal)}
-              </div>
-              <div
-                className="funding-progress-slider"
-                id={`${event}_fundingGoal`}
-                style={{
-                  background: `linear-gradient(to right, #24e051, #24e051 ${gradientPercent(
-                    donated,
-                    funding_goal
-                  )}%, #fff ${gradientPercent(donated, funding_goal)}%, #fff)`
-                }}
-              />
+            <div className="funding-goal-label">
+              To fully fund{" "}
+              <span className="dollar-amount">{moneyfy(funding_goal - donated)}</span>
             </div>
-
-            <div className="scenario-task-wrap">
-              <h4>Jobs:</h4>
-              <ul className="goals-list">
-                <li className="goal-icon complete-goal">
-                  <img src={logo} alt="Goal" />
-                </li>
-                <li className="goal-icon complete-goal">
-                  <img src={logo} alt="Goal" />
-                </li>
-                <li className="goal-icon">
-                  <img src={logo} alt="Goal" />
-                </li>
-                <li className="goal-icon">
-                  <img src={logo} alt="Goal" />
-                </li>
-                <li className="goal-icon">
-                  <img src={logo} alt="Goal" />
-                </li>
-              </ul>
+            <div
+              className="funding-progress-slider"
+              id={`${event}_fundingGoal`}
+              style={{
+                background: `linear-gradient(to right, #24e051, #24e051 ${gradientPercent(
+                  donated,
+                  funding_goal
+                )}%, #fff ${gradientPercent(donated, funding_goal)}%, #fff)`
+              }}
+            />
+            <div className="funding-goal-label">
+              Target{" "}
+              <span className="dollar-amount">{moneyfy(funding_goal)}</span>
+            </div>
+            <div className="funding-goal-summary">
+              450 donators, {moneyfy(donated)} donated
             </div>
           </footer>
         </div>
         <a className="btn accept-scenario-btn" href={`/${id}/info/`}>
-          <Icon icon={faChevronDown} />
+          <Icon icon={faArrowAltCircleDown} />
         </a>
       </article>
     )

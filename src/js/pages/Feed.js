@@ -39,7 +39,7 @@ export default class Feed extends Component {
   componentDidMount = () => {
     Database.scenarioFeed()
       .then(result => {
-        // console.info("Database call complete:", result.body.data)
+        console.info("Database call complete:", result.body)
         this.setState({
           feedOffset: result.body.data.length,
           scenarioData: result.body.data

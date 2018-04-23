@@ -30,7 +30,7 @@
     font-size: 1rem;
     text-align: center;
     border-radius: 1rem;
-    background: darken($white, 25%);
+    background: $orange;
     z-index: 10;
     &:active,
     &:focus,
@@ -64,7 +64,7 @@
   }
   .pseudo-sub-text {
     color: $blue;
-    margin-bottom: .5rem;
+    margin-bottom: 0.5rem;
   }
   .action {
     position: absolute;
@@ -156,23 +156,8 @@
     background: rgba($black, 0.5);
   }
 }
-.scenario-image-caption {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  color: rgba($white, 0.9);
-  font-style: italic;
-  font-size: 0.8em;
-  background: rgba($black, 0.25);
-  padding: 0.25rem 0.5rem;
-  border: 0.0625em solid rgba($black, 0.3);
-  border-radius: 0.5rem;
-}
 .scenario-body {
   padding: 1rem;
-}
-.scenario-description {
-  margin-bottom: 0.5rem;
 }
 .scenario-header {
   position: relative;
@@ -186,71 +171,89 @@
     margin-bottom: 0.5rem;
   }
 }
-.scenario-footer {
+.scenario-subheader {
   display: inline-flex;
   justify-content: space-between;
+  width: 100%;
+  font-size: 0.75rem;
+  font-style: italic;
+  margin-bottom: 0.5rem;
+  .user-info,
+  .scenario-location {
+    flex-basis: 45%;
+    flex-grow: 1;
+  }
+  .user-info {
+    .user-avatar,
+    .user-name,
+    .user-verified-status {
+      display: inline-block;
+    }
+    .user-verified-status {
+      color: $green-bright;
+      width: 1.5rem;
+      text-align: center;
+    }
+  }
+  .scenario-location {
+    padding-left: 0.5rem;
+    .location-name,
+    .location-icon {
+      display: inline-block;
+    }
+    .location-icon {
+      color: $orange;
+      width: 1.5rem;
+      text-align: center;
+    }
+  }
+}
+.scenario-description {
+  margin-bottom: 0.5rem;
+}
+.scenario-tags {
+  display: inline-flex;
+  justify-content: space-between;
+  width: 100%;
+  .scenario-event-location,
+  .scenario-severity {
+    flex-basis: 30%;
+    flex-grow: 1;
+    padding: 0.25em 1em;
+    color: $white;
+    border-radius: 0.5em;
+    font-size: 0.8rem;
+    font-style: italic;
+    text-align: center;
+  }
+  .scenario-event-location {
+    background: $green-dark;
+  }
+  .scenario-severity {
+    background: $orange;
+    text-transform: uppercase;
+    margin-left: 1rem;
+  }
+}
+.scenario-footer {
   width: calc(100% + 2rem);
-  background: #ddd;
+  background: darken($white, 10%);
   margin: 1rem -1rem -1rem;
   padding: 1rem;
-  .scenario-funding-goal,
-  .scenario-task-wrap {
-    flex-grow: 1;
-    flex-basis: 40%;
-  }
   .funding-goal-label {
+    text-align: right;
+    text-transform: uppercase;
     font-size: 0.8rem;
-    margin-bottom: 0.25rem;
+    margin: 0.25rem 0;
   }
-  .scenario-task-wrap {
-    margin-left: 2rem;
-  }
-  h4 {
+  .dollar-amount {
     font-weight: bold;
-    padding-bottom: 0.5rem;
   }
-  .goals-list {
-    @include inline-list;
-  }
-  .goal-icon {
-    color: rgba($black, 0.1);
-    margin-right: 0.25rem;
-    img {
-      max-width: 1.35rem;
-    }
-    &.complete {
-      color: $orange;
-    }
-  }
-}
-.goal {
-  font-weight: $bold-weight;
-  background: rgba($black, 0.1);
-  border-radius: 0.25rem;
-  margin: 0 0.25rem 0.25rem;
-  padding: 0.25rem 0.5rem;
-  flex-basis: 45%;
-  flex-grow: 1;
-  &.complete-goal {
-    background: $progress-green;
-  }
-  .form-input {
-    float: right;
-  }
-}
-.funding-progress-wrap {
-  .funding-progress-label {
-    display: block;
-    font-size: 1.2rem;
-    cursor: inherit;
-    &.goal-label {
-      margin-bottom: 0.5rem;
-    }
-    &.complete-label {
-      margin-top: 0.5rem;
-      font-size: 1rem;
-      color: rgba($black, 0.5);
-    }
+  .funding-goal-summary {
+    float: left;
+    font-size: 0.7rem;
+    font-style: italic;
+    margin-top: -1rem;
   }
 }
 
