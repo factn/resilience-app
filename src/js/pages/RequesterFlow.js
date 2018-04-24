@@ -9,7 +9,7 @@ import { faMapMarkerAlt } from "@fortawesome/fontawesome-free-solid"
 import Header from "../components/Header"
 import Main from "../components/Main"
 import Footer from "../components/Footer"
-import MiniMap from "../components/MiniMap"
+import GoogleMaps from "../components/GoogleMaps"
 /*** [end of imports] ***/
 
 export default class RequesterFlow extends Component {
@@ -53,6 +53,7 @@ export default class RequesterFlow extends Component {
               <textarea
                 placeholder="Enter a description"
                 maxLength="512"
+                rows="3"
                 onChange={e => this.updateCharacterCount(e)}
               />
               <div className="remaining-character-count">
@@ -76,7 +77,7 @@ export default class RequesterFlow extends Component {
                   placeholder="Enter address"
                 />
               </div>
-              <MiniMap />
+              <GoogleMaps />
             </article>
           </section>
         </Main>

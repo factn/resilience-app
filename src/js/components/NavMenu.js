@@ -13,21 +13,13 @@ export default class Header extends Component {
     }
     this.menuItems = [
       {
-        label: "Browse Scenarios",
-        link: "/"
-      },
-      {
         label: "Get Help",
-        link: "/"
+        link: "/requester"
       },
-      {
-        label: "Stories",
-        link: "/"
-      },
-      {
-        label: "How it Works",
-        link: "/"
-      },
+      // {
+      //   label: "Stories",
+      //   link: "/"
+      // },
       {
         label: "Profile",
         link: "/profile"

@@ -30,10 +30,10 @@ class MapContainer extends Component {
   }
 
   render() {
-    const { google, zoomLevel, mapPickerIsOpen } = this.props
+    const { google, zoomLevel } = this.props
 
     return (
-      <section className={mapPickerIsOpen ? "map-wrap open" : "map-wrap"}>
+      <section className="map-wrap">
         <Map
           google={google}
           zoom={zoomLevel}
