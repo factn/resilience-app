@@ -40,4 +40,13 @@
       background: $orange;
     }
   }
+  &.input-card {
+    box-shadow: inset $card-shadow;
+    input, select, textarea {
+      background: transparent;
+      border: 0;
+      border-radius: 0;
+      padding: 0;
+    }
+  }
 }

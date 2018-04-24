@@ -48,22 +48,4 @@
       color: $orange;
     }
   }
-  .input-with-icon-wrap {
-    @include inline-flex;
-    background: rgba($black, 0.1);
-    border: 1px solid $orange;
-    font-size: 1.5rem;
-    .input-icon {
-      background: $orange;
-      color: $white;
-      text-align: center;
-      width: 2.5rem;
-      padding: 0.25rem;
-    }
-    .input-field {
-      font-size: 1.5rem;
-      background: transparent;
-      border: 0;
-    }
-  }
 }
