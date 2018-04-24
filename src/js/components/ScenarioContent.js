@@ -129,12 +129,12 @@ export default class ScenarioContent extends Component {
         </header>
 
         <section className="scenario-content-body">
-          <ul className="scenario-tab-list">
+          <ul className="tab-list">
             <li
               className={
                 activeTab === "Overview"
-                  ? "scenario-tab-link active"
-                  : "scenario-tab-link"
+                  ? "tab-link active"
+                  : "tab-link"
               }
               onClick={() => this.changeTab("Overview")}
             >
@@ -143,8 +143,8 @@ export default class ScenarioContent extends Component {
             <li
               className={
                 activeTab === "Instructions"
-                  ? "scenario-tab-link active"
-                  : "scenario-tab-link"
+                  ? "tab-link active"
+                  : "tab-link"
               }
               onClick={() => this.changeTab("Instructions")}
             >
@@ -153,20 +153,20 @@ export default class ScenarioContent extends Component {
             <li
               className={
                 activeTab === "Updates"
-                  ? "scenario-tab-link active"
-                  : "scenario-tab-link"
+                  ? "tab-link active"
+                  : "tab-link"
               }
               onClick={() => this.changeTab("Updates")}
             >
               Updates
             </li>
           </ul>
-          <div className="scenario-tab-wrap">
+          <div className="tab-wrap scenario-tab-wrap">
             <article
               className={
                 activeTab === "Overview"
-                  ? "scenario-tab active"
-                  : "scenario-tab"
+                  ? "tab active"
+                  : "tab"
               }
             >
               <section className="scenario-subheader">
@@ -200,8 +200,8 @@ export default class ScenarioContent extends Component {
             <article
               className={
                 activeTab === "Instructions"
-                  ? "scenario-tab active"
-                  : "scenario-tab"
+                  ? "tab active"
+                  : "tab"
               }
             >
               <header className="job-status-header">
@@ -224,7 +224,7 @@ export default class ScenarioContent extends Component {
             </article>
             <article
               className={
-                activeTab === "Updates" ? "scenario-tab active" : "scenario-tab"
+                activeTab === "Updates" ? "tab active" : "tab"
               }
             >
               Updates
