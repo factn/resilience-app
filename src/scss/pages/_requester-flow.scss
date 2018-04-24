@@ -1,3 +1,53 @@
 .requester-flow-page {
-  
+  .title-card {
+    margin-bottom: 1rem;
+  }
+  .form-input {
+    font-size: 1rem;
+  }
+  .photo-card {
+    background: transparent;
+    border: 1px dashed rgba($black, 0.25);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    &:after {
+      content: '';
+      display: table;
+      clear: both;
+    }
+    .photo-icon {
+      width: 100%;
+      text-align: center;
+      font-size: 5rem;
+      color: rgba($black, 0.25);
+    }
+    .input-label {
+      float: left;
+    }
+    .input-label.second-label {
+      float: right;
+    }
+    .input-label-phrase {
+      padding-right: .5rem;
+    }
+  }
+  .event-card, .jobs-card {
+    .input-wrap {
+      @include inline-flex;
+    }
+    .input-label {
+      font-weight: bold;
+    }
+    .form-input {
+      margin-left: 1rem;
+    }
+  }
+  .tag-wrap {
+    margin-top: .5rem;
+  }
+}
+.remaining-character-count {
+  color: rgba($black, 0.25);
+  font-size: 0.75rem;
+  font-style: italic;
 }

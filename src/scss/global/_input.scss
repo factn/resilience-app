@@ -8,10 +8,9 @@ textarea {
   width: 100%;
   max-width: 100%;
   padding: 0.125rem 0.25rem;
-  background: rgba($white, 0.5);
+  background: rgba($black, 0.1);
   font-family: "Lato", arial, sans-serif;
-  border: 0.0625em solid rgba($black, 0.1);
-  border-radius: 0.25rem;
+  border: 0.0625em solid $orange;
   transition: {
     property: background, border-color;
     duration: $fast;
@@ -19,10 +18,10 @@ textarea {
   }
   &:focus {
     background: $white;
-    border: 0.0625em solid $blue;
   }
   &:disabled {
     background: rgba($black, 0.25);
+    border: 0.0625em solid rgba($black, 0.5);
   }
   &:-webkit-autofill {
     -webkit-box-shadow: 0 0 0 100rem $white inset;
@@ -32,15 +31,16 @@ input[type="file"] {
   position: absolute;
   z-index: -1;
   top: -100vh;
+  left: 0;
 }
 input[type="checkbox"],
 input[type="radio"] {
   cursor: pointer;
   width: 1rem !important;
   height: 1rem;
-  border: 0.0625em solid $blue;
+  border: 0.0625em solid $orange;
   &:checked {
-    background: darken($blue, 10%);
+    background: darken($orange, 10%);
   }
 }
 input[type="radio"] {
