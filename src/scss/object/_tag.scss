@@ -5,12 +5,20 @@
   background: $green-dark;
   color: $white;
   padding: 0.25em 0.5em;
-  margin: 0 .5rem .25rem 0;
+  margin: 0 0.5rem 0.25rem 0;
   border-radius: 0.5em;
   cursor: pointer;
   font-style: italic;
-  font-size: .8em;
+  font-size: 0.8em;
   .tag-link {
     color: $white;
+  }
+  &.inactive-tag {
+    background: darken($white, 25%);
+    color: $black;
+  }
+  &.active-tag {
+    background: $orange;
+    color: $black;
   }
 }

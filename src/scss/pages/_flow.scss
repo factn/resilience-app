@@ -1,0 +1,17 @@
+.flow-page {
+  background: darken($white, 10%);
+  min-height: 100vh;
+  .app-header {
+    background: $white;
+    margin: -1rem -1.5rem 1rem;
+    padding: 1rem;
+  }
+  .login-link {
+    text-align: center;
+  }
+  .settings-header {
+    text-transform: uppercase;
+    text-align: center;
+    margin: 1rem 0;
+  }
+}

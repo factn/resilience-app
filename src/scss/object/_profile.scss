@@ -13,9 +13,7 @@
   }
 }
 .profile-article-header {
-  width: 100%;
-  display: inline-flex;
-  justify-content: space-between;
+  @include inline-flex;
 }
 .profile-icon {
   color: $blue;

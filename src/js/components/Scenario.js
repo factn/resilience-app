@@ -1,6 +1,6 @@
 /*** IMPORTS ***/
 // Module imports
-import React, { Component } from "react"
+import React, { Component, Fragment } from "react"
 import createHistory from "history/createBrowserHistory"
 import Icon from "@fortawesome/react-fontawesome"
 import {
@@ -15,10 +15,7 @@ import {
 
 // Local JS
 import Database from "../resources/Database"
-import { toFirstCap, moneyfy, gradientPercent } from "../resources/Util"
-
-// Logo image
-import logo from "../../img/logo.svg"
+import { toFirstCap, moneyfy, gradientStyle } from "../resources/Util"
 /*** [end of imports] ***/
 
 const history = createHistory()
@@ -92,6 +89,193 @@ export default class Scenario extends Component {
       },
       firstChecked: false
     })
+  }
+
+  actionsBuild = () => {
+    const { previewStyle, upStyle, leftStyle, rightStyle } = this.state
+    const { first, previewDismissed, feedType, dismissPreview } = this.props
+
+    if (feedType === "donator") {
+      return (
+        <Fragment>
+          {first &&
+            !previewDismissed && (
+              <div className="pseudo-preview" style={previewStyle}>
+                <div className="action up-action">
+                  <div className="pseudo-main-text">Fund</div>
+                  <div className="pseudo-sub-text">full amount</div>
+                  <div className="arrow arrow-up">
+                    <Icon icon={faCaretUp} />
+                  </div>
+                </div>
+                <div className="action right-action">
+                  <div className="pseudo-main-text">Donate</div>
+                  <div className="pseudo-sub-text">$0.20</div>
+                  <div className="arrow arrow-right">
+                    <Icon icon={faCaretRight} />
+                  </div>
+                </div>
+                <div className="action left-action">
+                  <div className="pseudo-main-text">Dismiss</div>
+                  <div className="pseudo-sub-text">don't fund</div>
+                  <div className="arrow arrow-left">
+                    <Icon icon={faCaretLeft} />
+                  </div>
+                </div>
+                <div className="touch-icon">
+                  <Icon icon={faHandPointUp} />
+                </div>
+                <div className="action down-action">
+                  <button
+                    className="btn btn-lite preview-dismiss-btn"
+                    onClick={() => this.props.dismissPreview()}
+                  >
+                    Start Mission
+                  </button>
+                </div>
+              </div>
+            )}
+          <div className="pseudo-up" style={upStyle}>
+            <div className="action down-action">
+              <div className="pseudo-main-text">Fund</div>
+              <div className="pseudo-sub-text">full amount</div>
+              <div className="arrow arrow-up">
+                <Icon icon={faCaretUp} />
+              </div>
+            </div>
+          </div>
+          <div className="pseudo-before" style={leftStyle}>
+            <div className="action left-action">
+              <div className="pseudo-main-text">Donate</div>
+              <div className="pseudo-sub-text">$0.20</div>
+              <div className="arrow arrow-right">
+                <Icon icon={faCaretRight} />
+              </div>
+            </div>
+          </div>
+          <div className="pseudo-after" style={rightStyle}>
+            <div className="action right-action">
+              <div className="pseudo-main-text">Dismiss</div>
+              <div className="pseudo-sub-text">don't fund</div>
+              <div className="arrow arrow-left">
+                <Icon icon={faCaretLeft} />
+              </div>
+            </div>
+          </div>
+        </Fragment>
+      )
+    } else if (feedType === "doer") {
+      return (
+        <Fragment>
+          {first &&
+            !previewDismissed && (
+              <div className="pseudo-preview" style={previewStyle}>
+                <div className="action right-action">
+                  <div className="pseudo-main-text">Accept</div>
+                  <div className="pseudo-sub-text">do this job</div>
+                  <div className="arrow arrow-right">
+                    <Icon icon={faCaretRight} />
+                  </div>
+                </div>
+                <div className="action left-action">
+                  <div className="pseudo-main-text">Dismiss</div>
+                  <div className="pseudo-sub-text">don't do job</div>
+                  <div className="arrow arrow-left">
+                    <Icon icon={faCaretLeft} />
+                  </div>
+                </div>
+                <div className="touch-icon">
+                  <Icon icon={faHandPointUp} />
+                </div>
+                <div className="action down-action">
+                  <button
+                    className="btn btn-lite preview-dismiss-btn"
+                    onClick={() => dismissPreview()}
+                  >
+                    Start Mission
+                  </button>
+                </div>
+              </div>
+            )}
+          <div className="pseudo-before" style={leftStyle}>
+            <div className="action left-action">
+              <div className="pseudo-main-text">Accept</div>
+              <div className="pseudo-sub-text">do this job</div>
+              <div className="arrow arrow-right">
+                <Icon icon={faCaretRight} />
+              </div>
+            </div>
+          </div>
+          <div className="pseudo-after" style={rightStyle}>
+            <div className="action right-action">
+              <div className="pseudo-main-text">Dismiss</div>
+              <div className="pseudo-sub-text">don't do job</div>
+              <div className="arrow arrow-left">
+                <Icon icon={faCaretLeft} />
+              </div>
+            </div>
+          </div>
+        </Fragment>
+      )
+    } else if (feedType === "verifier") {
+      return <Fragment />
+    } else {
+      return <Fragment />
+    }
+  }
+  footerBuild = () => {
+    const { feedType, scenario } = this.props
+    const { event, donated, funding_goal } = scenario.attributes
+
+    let fundingGoalSliderStyle = gradientStyle({
+      dividend: donated,
+      divisor: funding_goal,
+      endColor: "#fff"
+    })
+
+    if (feedType === "donator") {
+      return (
+        <footer className="scenario-footer">
+          <div className="funding-goal-label">
+            <span>To fully fund </span>
+            <span className="dollar-amount">
+              {moneyfy(funding_goal - donated)}
+            </span>
+          </div>
+          <div
+            className="funding-progress-slider"
+            id={`${event}_fundingGoal`}
+            style={fundingGoalSliderStyle}
+          />
+          <div className="funding-goal-label">
+            Target{" "}
+            <span className="dollar-amount">{moneyfy(funding_goal)}</span>
+          </div>
+          <div className="funding-goal-summary">
+            450 donators, {moneyfy(donated)} donated
+          </div>
+        </footer>
+      )
+    } else if (feedType === "doer") {
+      return (
+        <footer className="scenario-footer">
+        <div className="tag-list-wrap">
+          <span className="tag-list-label">Work needed:</span>
+          <ul className="tag-list">
+            <li className="tag active-tag">#Roofing</li>
+            <li className="tag inactive-tag">#Labor</li>
+            <li className="tag inactive-tag">#Painting</li>
+            <li className="tag inactive-tag">#Transport</li>
+            <li className="tag inactive-tag">#Building</li>
+          </ul>
+        </div>
+        </footer>
+      )
+    } else if (feedType === "verifier") {
+      return <footer className="scenario-footer" />
+    } else {
+      return <footer className="scenario-footer" />
+    }
   }
 
   handleTouchStart = e => {
@@ -232,7 +416,7 @@ export default class Scenario extends Component {
   }
   swipedRight = () => {
     const { transitionTiming } = this.state
-    const { id } = this.props.scenario
+    const { scenario, feedType } = this.props
 
     this.setState({
       style: {
@@ -244,9 +428,16 @@ export default class Scenario extends Component {
       }
     })
 
-    setTimeout(() => {
-      this.acceptScenario({ scenarioId: id })
-    }, transitionTiming)
+    if (feedType === "donator") {
+      setTimeout(() => {
+        this.acceptScenario({ scenarioId: scenario.id })
+      }, transitionTiming)
+    } else if (feedType === "doer") {
+      setTimeout(() => {
+        history.push(`/${scenario.id}/info`)
+        window.location = `/${scenario.id}/info`
+      }, transitionTiming)
+    }
   }
   swipedLeft = () => {
     const { scenario, first } = this.props
@@ -372,25 +563,16 @@ export default class Scenario extends Component {
   }
 
   render() {
-    const {
-      style,
-      previewStyle,
-      upStyle,
-      leftStyle,
-      rightStyle,
-      firstChecked
-    } = this.state
-    const { first, scenario, previewDismissed } = this.props
+    const { style, firstChecked } = this.state
+    const { first, scenario } = this.props
     const { id, attributes } = scenario
     const {
       event,
       image,
       requester_firstname,
       requester_lastname,
-      donated,
       noun,
       verb,
-      funding_goal,
       customMessage
     } = attributes
 
@@ -412,70 +594,7 @@ export default class Scenario extends Component {
         onTouchMove={e => this.handleTouchMove(e)}
         onTouchEnd={e => this.handleTouchEnd(e)}
       >
-        {first &&
-          !previewDismissed && (
-            <div className="pseudo-preview" style={previewStyle}>
-              <div className="action up-action">
-                <div className="pseudo-main-text">Fund</div>
-                <div className="pseudo-sub-text">full amount</div>
-                <div className="arrow arrow-up">
-                  <Icon icon={faCaretUp} />
-                </div>
-              </div>
-              <div className="action right-action">
-                <div className="pseudo-main-text">Donate</div>
-                <div className="pseudo-sub-text">$0.20</div>
-                <div className="arrow arrow-right">
-                  <Icon icon={faCaretRight} />
-                </div>
-              </div>
-              <div className="action left-action">
-                <div className="pseudo-main-text">Dismiss</div>
-                <div className="pseudo-sub-text">don't fund</div>
-                <div className="arrow arrow-left">
-                  <Icon icon={faCaretLeft} />
-                </div>
-              </div>
-              <div className="touch-icon">
-                <Icon icon={faHandPointUp} />
-              </div>
-              <div className="action down-action">
-                <button
-                  className="btn btn-lite preview-dismiss-btn"
-                  onClick={() => this.props.dismissPreview()}
-                >
-                  Start Mission
-                </button>
-              </div>
-            </div>
-          )}
-        <div className="pseudo-up" style={upStyle}>
-          <div className="action down-action">
-            <div className="pseudo-main-text">Fund</div>
-            <div className="pseudo-sub-text">full amount</div>
-            <div className="arrow arrow-up">
-              <Icon icon={faCaretUp} />
-            </div>
-          </div>
-        </div>
-        <div className="pseudo-before" style={leftStyle}>
-          <div className="action left-action">
-            <div className="pseudo-main-text">Donate</div>
-            <div className="pseudo-sub-text">$0.20</div>
-            <div className="arrow arrow-right">
-              <Icon icon={faCaretRight} />
-            </div>
-          </div>
-        </div>
-        <div className="pseudo-after" style={rightStyle}>
-          <div className="action right-action">
-            <div className="pseudo-main-text">Dismiss</div>
-            <div className="pseudo-sub-text">don't fund</div>
-            <div className="arrow arrow-left">
-              <Icon icon={faCaretLeft} />
-            </div>
-          </div>
-        </div>
+        {this.actionsBuild()}
         <figure className="scenario-image-wrap">
           <img src={image} alt={event} className="scenario-image" />
         </figure>
@@ -510,35 +629,13 @@ export default class Scenario extends Component {
             {customMessage ||
               "My roof was blown off in Hurricane Katrina. I need your help to fix it. Can have more info here to help tell the story and convince people to do this."}
           </div>
-          
-          <section className="scenario-tags">
-          <div className="scenario-event-location">{event}</div>
-          <div className="scenario-severity">Urgent
-          </div></section>
 
-          <footer className="scenario-footer">
-            <div className="funding-goal-label">
-              To fully fund{" "}
-              <span className="dollar-amount">{moneyfy(funding_goal - donated)}</span>
-            </div>
-            <div
-              className="funding-progress-slider"
-              id={`${event}_fundingGoal`}
-              style={{
-                background: `linear-gradient(to right, #24e051, #24e051 ${gradientPercent(
-                  donated,
-                  funding_goal
-                )}%, #fff ${gradientPercent(donated, funding_goal)}%, #fff)`
-              }}
-            />
-            <div className="funding-goal-label">
-              Target{" "}
-              <span className="dollar-amount">{moneyfy(funding_goal)}</span>
-            </div>
-            <div className="funding-goal-summary">
-              450 donators, {moneyfy(donated)} donated
-            </div>
-          </footer>
+          <section className="scenario-tags">
+            <div className="scenario-event-location">{event}</div>
+            <div className="scenario-severity">Urgent</div>
+          </section>
+
+          {this.footerBuild()}
         </div>
         <a className="btn accept-scenario-btn" href={`/${id}/info/`}>
           <Icon icon={faArrowAltCircleDown} />

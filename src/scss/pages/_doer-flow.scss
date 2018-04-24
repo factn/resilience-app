@@ -1,0 +1,29 @@
+.doer-flow-page {
+  .location-city {
+    @include inline-flex;
+    .location-label,
+    .location-current {
+      flex-basis: 40%;
+      flex-grow: 1;
+    }
+    .location-icon {
+      color: rgba($black, 0.25);
+    }
+  }
+  .travel-range-label {
+    color: rgba($black, 0.5);
+    float: right;
+    margin-top: -1rem;
+  }
+}
+.doer-feed-wrap {
+  .tag-list-wrap {
+    .tag-list-label,
+    .tag-list {
+      display: inline;
+    }
+    .tag-list-label {
+      padding-right: 1rem;
+    }
+  }
+}

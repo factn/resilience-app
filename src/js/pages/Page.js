@@ -28,7 +28,7 @@ import Footer from "../components/Footer"
 import GoogleMaps from "../components/GoogleMaps"
 
 // Logo image
-import logo from "../../img/logo.png"
+import logo from "../../img/logo.svg"
 /*** [end of imports] ***/
 
 export default class Page extends Component {
@@ -272,29 +272,21 @@ export default class Page extends Component {
         </Header>
 
         {pageStyle === "modal" && (
-          <Fragment>
-            <Main>
-              <Form>
-                {this.inputs.map((_input, _index) => (
-                  <FormInput
-                    history={this.props.history}
-                    inputObj={_input}
-                    openMapPicker={this.openMapPicker}
-                    lat={lastClickedLat}
-                    lon={lastClickedLon}
-                    userId={userId}
-                    key={_index}
-                  />
-                ))}
-              </Form>
-            </Main>
-
-            <GoogleMaps
-              zoomLevel={14}
-              closeMapPicker={this.closeMapPicker}
-              mapPickerIsOpen={mapPickerIsOpen}
-            />
-          </Fragment>
+          <Main>
+            <Form>
+              {this.inputs.map((_input, _index) => (
+                <FormInput
+                  history={this.props.history}
+                  inputObj={_input}
+                  openMapPicker={this.openMapPicker}
+                  lat={lastClickedLat}
+                  lon={lastClickedLon}
+                  userId={userId}
+                  key={_index}
+                />
+              ))}
+            </Form>
+          </Main>
         )}
 
         {pageStyle === "home-tab" && (
@@ -350,11 +342,6 @@ export default class Page extends Component {
                 ))}
               </Form>
             </Main>
-            <GoogleMaps
-              zoomLevel={14}
-              closeMapPicker={this.closeMapPicker}
-              mapPickerIsOpen={mapPickerIsOpen}
-            />
           </Fragment>
         )}
       </div>

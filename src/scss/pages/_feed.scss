@@ -3,11 +3,10 @@
     padding-top: 1rem;
   }
   .app-footer {
+    @include inline-flex;
     background: darken($white, 25%);
     color: $blue;
     text-align: left;
-    display: inline-flex;
-    justify-content: space-between;
     padding: 1rem 2rem;
     font-size: 1.25rem;
   }

@@ -1,108 +1,206 @@
 /*** IMPORTS ***/
 // Module imports
-import { faMapPin, faThumbsUp } from "@fortawesome/fontawesome-free-solid"
+import React, { Component } from "react"
+import { Link } from "react-router-dom"
+import Icon from "@fortawesome/react-fontawesome"
+import { faChevronRight } from "@fortawesome/fontawesome-free-solid"
 
-// Local JS
-import Page from "./Page"
+// Page elements
+import Header from "../components/Header"
+import Main from "../components/Main"
+import Footer from "../components/Footer"
 
-// Local JS Utilities
-import Database from "../resources/Database"
+// Utilities
+import { gradientStyle } from "../resources/Util"
 /*** [end of imports] ***/
 
-export default class DoerFlow extends Page {
+export default class DoerFlow extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      pageStyle: "flow",
-      title: "Work",
-      navMenu: false,
-      userId: 1,
-      scenarioId: this.props.match.params.scenarioId || 1,
-      refreshes: 0
+      timeFrame: "urgent", // "urgent" || "semi-urgent" || "important"
+      workFromHome: true,
+      workAbroad: false,
+      workDistance: 40,
+      distanceMax: 1000
     }
-    this.inputs = [
-      {
-        inputType: "checkbox",
-        inputID: "materials",
-        labelPhrase: "I'm bringing materials",
-        requiredField: false,
-        checkedField: true,
-        onChange: this.toggleCheckbox,
-        onChangeVal: 0
-      },
-      {
-        inputType: "checkbox",
-        inputID: "transportation",
-        labelPhrase: "I can provide transportation",
-        requiredField: false,
-        checkedField: true,
-        onChange: this.toggleCheckbox,
-        onChangeVal: 1
-      },
-      {
-        inputType: "checkbox",
-        inputID: "volunteering",
-        labelPhrase: "I'm volunteering",
-        requiredField: false,
-        checkedField: true,
-        onChange: this.toggleCheckbox,
-        onChangeVal: 2
-      },
-      {
-        inputType: "location",
-        inputID: "location",
-        labelPhrase: "Where are you now?",
-        labelIcon: faMapPin,
-        requiredField: true
-      },
-      {
-        inputType: "submit",
-        labelPhrase: "I'm on my way",
-        labelIcon: faThumbsUp,
-        onSubmit: this.submitDo,
-        onSubmitParams: {
-          doerlat: "doer_location_lat",
-          doerlon: "doer_location_lon"
-        },
-        responseType: "neutral"
-      }
-    ]
+
+    this.setTimeframe = this.setTimeframe.bind(this)
+    this.toggleWorkFromHome = this.toggleWorkFromHome.bind(this)
+    this.toggleWorkAbroad = this.toggleWorkAbroad.bind(this)
+    this.setWorkdistance = this.setWorkdistance.bind(this)
   }
 
-  toggleCheckbox = inputId => {
-    this.inputs[inputId].checkedField = !this.inputs[inputId].checkedField
+  setTimeframe = newTimeFrame => {
     this.setState({
-      refreshes: this.state.refreshes + 1
+      timeFrame: newTimeFrame
     })
   }
-  submitDo = params => {
-    const { scenarioId, userId } = this.state
+  toggleWorkFromHome = () => {
+    this.setState({
+      workFromHome: !this.state.workFromHome
+    })
+  }
+  toggleWorkAbroad = () => {
+    this.setState({
+      workAbroad: !this.state.workAbroad
+    })
+  }
+  setWorkdistance = e => {
+    const { value } = e.target
 
-    let json = {
-      data: {
-        type: "scenarios",
-        id: scenarioId,
-        attributes: {},
-        relationships: {
-          doer: {
-            data: {
-              type: "users",
-              id: userId || "1"
-            }
-          }
-        }
-      }
-    }
+    this.setState({
+      workDistance: value
+    })
 
-    Database.updateScenario({ id: scenarioId }, json)
-      .then(result => {
-        // console.log("Scenario successfully updated:", result)
+    return value
+  }
 
-        this.props.history.push(`/${scenarioId}/info`)
-      })
-      .catch(error => {
-        // console.error("Error updating scenario:", error)
-      })
+  render() {
+    const {
+      timeFrame,
+      workFromHome,
+      workAbroad,
+      workDistance,
+      distanceMax
+    } = this.state
+
+    let sliderStyle = gradientStyle({
+      dividend: workDistance,
+      divisor: distanceMax,
+      startColor: "#f39c12",
+      endColor: "rgba(0, 0, 0, 0.1)"
+    })
+
+    return (
+      <div className="page flow-page doer-flow-page">
+        <Header>
+          <div className="login-link">
+            <a className="bright-link" href="/login">
+              Login / Sign up
+            </a>
+          </div>
+        </Header>
+        <Main>
+          <section className="session-settings">
+            <header className="settings-header">
+              <h3>Jobs I want to do</h3>
+            </header>
+            <article className="card trending-card">
+              <h4>Select from trending jobs</h4>
+              <ul className="tag-list">
+                <li className="tag inactive-tag">#Painting</li>
+                <li className="tag active-tag">#Roofing</li>
+                <li className="tag inactive-tag">#Transport</li>
+                <li className="tag inactive-tag">#Coding</li>
+                <li className="tag inactive-tag">#FirstAid</li>
+                <li className="tag inactive-tag">#Childcare</li>
+              </ul>
+            </article>
+          </section>
+          <section className="timeframe-settings">
+            <header className="settings-header">
+              <h4>Time frame</h4>
+            </header>
+            <article
+              className={
+                timeFrame === "urgent"
+                  ? "card btn-card active"
+                  : "card btn-card"
+              }
+              onClick={() => this.setTimeframe("urgent")}
+            >
+              <h4>Urgent Jobs (next 24 hours)</h4>
+            </article>
+            <article
+              className={
+                timeFrame === "semi-urgent"
+                  ? "card btn-card active"
+                  : "card btn-card"
+              }
+              onClick={() => this.setTimeframe("semi-urgent")}
+            >
+              <h4>Semi-Urgent Jobs (next 1-2 days)</h4>
+            </article>
+            <article
+              className={
+                timeFrame === "important"
+                  ? "card btn-card active"
+                  : "card btn-card"
+              }
+              onClick={() => this.setTimeframe("important")}
+            >
+              <h4>Important Jobs (within the next week)</h4>
+            </article>
+          </section>
+          <section className="location-settings">
+            <header className="settings-header">
+              <h4>Location</h4>
+            </header>
+            <article className="card">
+              <div className="card-area location-city">
+                <div className="location-label">Location</div>
+                <div className="location-current">Pearlington, MI</div>
+                <div className="location-icon">
+                  <Icon icon={faChevronRight} />
+                </div>
+              </div>
+              <div className="card-area home-and-abroad-toggle">
+                <div className="toggle-row">
+                  <div className="toggle-label">I want to work from home</div>
+                  <div
+                    className={workFromHome ? "toggle on" : "toggle"}
+                    onClick={() => this.toggleWorkFromHome()}
+                  >
+                    <div className="toggle-button" />
+                  </div>
+                </div>
+                <div className="toggle-row">
+                  <div className="toggle-label">I'm willing to travel</div>
+                  <div
+                    className={workAbroad ? "toggle on" : "toggle"}
+                    onClick={() => this.toggleWorkAbroad()}
+                  >
+                    <div className="toggle-button" />
+                  </div>
+                </div>
+              </div>
+              <div
+                className={
+                  workAbroad
+                    ? "card-area travel-distance"
+                    : "card-area travel-distance disabled-card-area"
+                }
+              >
+                <div className="travel-range-title">Distance I can travel</div>
+                <label
+                  className="travel-range-label range-label"
+                  htmlFor="travelDistanceSlider"
+                >
+                  {workDistance}km
+                </label>
+                <input
+                  type="range"
+                  className="range-slider"
+                  id="travelDistanceSlider"
+                  min="0"
+                  max={distanceMax}
+                  step="10"
+                  value={workDistance}
+                  onChange={e => this.setWorkdistance(e)}
+                  style={sliderStyle}
+                />
+              </div>
+            </article>
+          </section>
+        </Main>
+        <Footer>
+          <Link to="/feed/doer" className="btn footer-btn feed-btn">
+            Start Mission
+          </Link>
+        </Footer>
+      </div>
+    )
   }
 }

@@ -1,6 +1,13 @@
 /*** IMPORTS ***/
 // Module imports
 import React, { Component } from "react"
+import { Link } from "react-router-dom"
+import Icon from "@fortawesome/react-fontawesome"
+import { faCheck, faMapMarkerAlt } from "@fortawesome/fontawesome-free-solid"
+
+// Local components
+import MiniMap from "./MiniMap"
+import Footer from "../components/Footer"
 
 // Local JS
 import Database from "../resources/Database"
@@ -8,7 +15,7 @@ import {
   getUrlPiece,
   toFirstCap,
   moneyfy,
-  gradientPercent
+  gradientStyle
 } from "../resources/Util"
 /*** [end of imports] ***/
 
@@ -22,7 +29,7 @@ export default class ScenarioContent extends Component {
       lon: this.props.attributes.doerlon,
       subtasks: null,
       mapRefresh: 5000, // Every 5 seconds check for map pin changes
-      activeTab: "Overview"
+      activeTab: this.props.activeTab || "Overview"
     }
   }
 
@@ -81,8 +88,32 @@ export default class ScenarioContent extends Component {
       donated,
       funding_goal,
       requester_firstname,
-      noun
+      requester_lastname,
+      requesterlat,
+      requesterlon,
+      doerlat,
+      doerlon,
+      noun,
+      verb,
+      customMessage
     } = attributes
+
+    let mapPos = {
+      lat: requesterlat,
+      lng: requesterlon
+    }
+    let doerPins = [
+      {
+        lat: doerlat,
+        lng: doerlon
+      }
+    ]
+
+    let fundingGoalSliderStyle = gradientStyle({
+      dividend: donated,
+      divisor: funding_goal,
+      endColor: "#fff"
+    })
 
     return (
       <div className="scenario-content-wrap">
@@ -92,8 +123,8 @@ export default class ScenarioContent extends Component {
         </div>
 
         <header className="scenario-content-header">
-          <h4>
-            Help with {toFirstCap(requester_firstname)}'s {noun}
+          <h4 className="scenario-title">
+            {`${toFirstCap(verb)} ${toFirstCap(requester_firstname)}'s ${noun}`}
           </h4>
         </header>
 
@@ -111,6 +142,16 @@ export default class ScenarioContent extends Component {
             </li>
             <li
               className={
+                activeTab === "Instructions"
+                  ? "scenario-tab-link active"
+                  : "scenario-tab-link"
+              }
+              onClick={() => this.changeTab("Instructions")}
+            >
+              Instructions
+            </li>
+            <li
+              className={
                 activeTab === "Updates"
                   ? "scenario-tab-link active"
                   : "scenario-tab-link"
@@ -118,16 +159,6 @@ export default class ScenarioContent extends Component {
               onClick={() => this.changeTab("Updates")}
             >
               Updates
-            </li>
-            <li
-              className={
-                activeTab === "Workers"
-                  ? "scenario-tab-link active"
-                  : "scenario-tab-link"
-              }
-              onClick={() => this.changeTab("Workers")}
-            >
-              Workers
             </li>
           </ul>
           <div className="scenario-tab-wrap">
@@ -138,7 +169,58 @@ export default class ScenarioContent extends Component {
                   : "scenario-tab"
               }
             >
-              Overview
+              <section className="scenario-subheader">
+                <div className="user-info">
+                  <figure className="user-avatar" />
+                  <div className="user-name">
+                    {requester_firstname} {requester_lastname}
+                  </div>
+                  <div className="user-verified-status">
+                    <Icon icon={faCheck} />
+                  </div>
+                </div>
+                <div className="scenario-location">
+                  <div className="location-name">Pearlington, Louisiana</div>
+                  <div className="location-icon">
+                    <Icon icon={faMapMarkerAlt} />
+                  </div>
+                </div>
+              </section>
+
+              <div className="scenario-description">
+                {customMessage ||
+                  "My roof was blown off in Hurricane Katrina. I need your help to fix it. Can have more info here to help tell the story and convince people to do this."}
+              </div>
+
+              <section className="scenario-tags">
+                <div className="scenario-event-location">{event}</div>
+                <div className="scenario-severity">Urgent</div>
+              </section>
+            </article>
+            <article
+              className={
+                activeTab === "Instructions"
+                  ? "scenario-tab active"
+                  : "scenario-tab"
+              }
+            >
+              <header className="job-status-header">
+                <h4>
+                  <span className="job-status-label">Job Status: </span>
+                  <span>Workers arriving on site</span>
+                </h4>
+              </header>
+
+              <div className="card job-card">
+                <div className="card-label">Materials are on site</div>
+                <div className="done-job-icon">
+                  <Icon icon={faCheck} />
+                </div>
+              </div>
+              <div className="card job-card">
+                <div className="card-label">Do you have tools?</div>
+                <button className="btn btn-lite do-job-btn">Yes</button>
+              </div>
             </article>
             <article
               className={
@@ -147,44 +229,36 @@ export default class ScenarioContent extends Component {
             >
               Updates
             </article>
-            <article
-              className={
-                activeTab === "Workers" ? "scenario-tab active" : "scenario-tab"
-              }
-            >
-              Workers
-            </article>
           </div>
         </section>
 
-        <footer className="scenario-footer">
-          <div className="scenario-funding-goal">
-            <h4>Funding goal:</h4>
-            <div className="funding-goal-label">
-              {moneyfy(donated)} / {moneyfy(funding_goal)}
-            </div>
-            <div
-              className="funding-progress-slider"
-              id={`${event}_fundingGoal`}
-              style={{
-                background: `linear-gradient(to right, #24e051, #24e051 ${gradientPercent(
-                  donated,
-                  funding_goal
-                )}%, rgba(0, 0, 0, 0.1) ${gradientPercent(
-                  donated,
-                  funding_goal
-                )}%, rgba(0, 0, 0, 0.1))`
-              }}
-            />
-          </div>
+        <MiniMap initialCenter={mapPos} pins={doerPins} />
 
-          <div className="scenario-task-wrap">
-            <h4>Jobs:</h4>
-            <div className="goals-list">
-              Materials, Transportation, Volunteers
-            </div>
+        <footer className="scenario-footer">
+          <div className="funding-goal-label">
+            <span>To fully fund </span>
+            <span className="dollar-amount">
+              {moneyfy(funding_goal - donated)}
+            </span>
+          </div>
+          <div
+            className="funding-progress-slider"
+            id={`${event}_fundingGoal`}
+            style={fundingGoalSliderStyle}
+          />
+          <div className="funding-goal-label">
+            Target{" "}
+            <span className="dollar-amount">{moneyfy(funding_goal)}</span>
+          </div>
+          <div className="funding-goal-summary">
+            450 donators, {moneyfy(donated)} donated
           </div>
         </footer>
+        <Footer>
+          <Link to="/feed/doer" className="btn footer-btn feed-btn">
+            Start Job
+          </Link>
+        </Footer>
       </div>
     )
   }

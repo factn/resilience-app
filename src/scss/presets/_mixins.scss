@@ -9,9 +9,14 @@
     display: inline-block;
   }
 }
+@mixin inline-flex {
+  display: inline-flex;
+  justify-content: space-between;
+  width: 100%;
+}
 @mixin inline-flex-list {
   @include pseudo-list;
-  display: inline-flex;
+  @include inline-flex;
 }
 @mixin alternating-list {
   @include pseudo-list;

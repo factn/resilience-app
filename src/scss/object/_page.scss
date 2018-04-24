@@ -1,5 +1,5 @@
 .page {
-  padding: 1em 1.5em;
+  padding: 1em 1.5em 5em;
 }
 .funding-progress-slider {
   height: 1rem;
@@ -24,9 +24,7 @@
     }
     &:not(.checkbox-input-wrap) {
       .input-label {
-        display: inline-flex;
-        justify-content: space-between;
-        width: 100%;
+        @include inline-flex;
         margin-bottom: 0.5rem;
         .input-label-icon {
           color: rgba($blue, 0.75);
@@ -76,9 +74,7 @@
     }
   }
   .split-input-wrap {
-    width: 100%;
-    display: inline-flex;
-    justify-content: space-between;
+    @include inline-flex;
     .input-wrap {
       flex-grow: 1;
       margin: 0;
