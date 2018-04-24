@@ -23,6 +23,7 @@ import EditAccount from "./js/pages/EditAccount"
 import Login from "./js/pages/Login"
 import Preferences from "./js/pages/Preferences"
 import Profile from "./js/pages/Profile"
+import MissionControl from "./js/pages/MissionControl";
 
 // 	Info Pages
 import Info from "./js/pages/Info"
@@ -55,7 +56,7 @@ export default class App extends Component {
           <Route path="/profile" component={Profile} />
 
           {/* Mission control */}
-          <Route path="/mission-control" component={Profile} />
+          <Route path="/missions" component={MissionControl} />
 
           {/* Scenario full-page */}
           <Route path="/:scenarioId/info" component={Info} />

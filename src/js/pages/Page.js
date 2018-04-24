@@ -24,9 +24,6 @@ import FormInput from "../components/FormInput"
 // Footer
 import Footer from "../components/Footer"
 
-// Floating components
-import GoogleMaps from "../components/GoogleMaps"
-
 // Logo image
 import logo from "../../img/logo.svg"
 /*** [end of imports] ***/
@@ -251,8 +248,7 @@ export default class Page extends Component {
       scenarioId,
       userId,
       lastClickedLat,
-      lastClickedLon,
-      mapPickerIsOpen
+      lastClickedLon
     } = this.state
 
     return (

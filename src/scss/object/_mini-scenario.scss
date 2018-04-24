@@ -1,20 +1,8 @@
 .mini-scenario {
-  display: block;
-  background: rgba($black, 0.1);
-  border: 1px solid rgba($black, 0.25);
-  margin-bottom: 0.25rem;
-  height: 3rem;
-  position: relative;
-  overflow: hidden;
+  padding-bottom: 2rem;
+  border-bottom: 0.125rem solid rgba($black, 0.25);
+  margin-bottom: 1rem;
 }
-.mini-scenario-figure {
-  padding: 0.5rem 1rem;
-}
-.mini-scenario-image {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 6rem;
-}
-.mini-scenario-caption {
+.mini-scenario-title {
+  font-weight: bold;
 }
