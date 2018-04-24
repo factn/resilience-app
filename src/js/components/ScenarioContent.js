@@ -3,7 +3,12 @@
 import React, { Component } from "react"
 import { Link } from "react-router-dom"
 import Icon from "@fortawesome/react-fontawesome"
-import { faCheck, faMapMarkerAlt } from "@fortawesome/fontawesome-free-solid"
+import {
+  faCheck,
+  faMapMarkerAlt,
+  faArrowCircleUp,
+  faEllipsisH
+} from "@fortawesome/fontawesome-free-solid"
 
 // Local components
 import MiniMap from "./MiniMap"
@@ -11,12 +16,7 @@ import Footer from "../components/Footer"
 
 // Local JS
 import Database from "../resources/Database"
-import {
-  getUrlPiece,
-  toFirstCap,
-  moneyfy,
-  gradientStyle
-} from "../resources/Util"
+import { toFirstCap, moneyfy, gradientStyle } from "../resources/Util"
 /*** [end of imports] ***/
 
 export default class ScenarioContent extends Component {
@@ -24,15 +24,22 @@ export default class ScenarioContent extends Component {
     super(props)
 
     this.state = {
-      lastUrlSegment: getUrlPiece(),
       lat: this.props.attributes.doerlat,
       lon: this.props.attributes.doerlon,
       subtasks: null,
       mapRefresh: 5000, // Every 5 seconds check for map pin changes
-      activeTab: this.props.activeTab || "Overview"
+      activeTab: this.props.tab || "Overview"
     }
   }
 
+  getBackLink = () => {
+    const { role } = this.props
+
+    if (role === "donator" || role === "doer" || role === "verifer")
+      return `/feed/${role}`
+    else if (role === "requester") return "/requester"
+    else return "/"
+  }
   getPins = () => {
     const { id } = this.props
     const { mapRefresh } = this.state
@@ -78,10 +85,105 @@ export default class ScenarioContent extends Component {
       activeTab: tabName
     })
   }
+  callToActionBtn = () => {
+    const { role } = this.props
+
+    if (role === "donator") {
+      return (
+        <Link to="/feed/donator" className="btn footer-btn feed-btn">
+          Donate
+        </Link>
+      )
+    } else if (role === "doer") {
+      return (
+        <Link to="/feed/doer" className="btn footer-btn feed-btn">
+          Start Mission
+        </Link>
+      )
+    } else if (role === "verifer") {
+      return (
+        <Link to="/feed/verifier" className="btn footer-btn feed-btn">
+          Verify
+        </Link>
+      )
+    } else if (role === "requester") {
+      return (
+        <Link to="/missions" className="btn footer-btn feed-btn">
+          Edit Mission
+        </Link>
+      )
+    } else {
+      return (
+        <Link to="/missions" className="btn footer-btn feed-btn">
+          Share
+        </Link>
+      )
+    }
+  }
+  tabs = () => {
+    const { role } = this.props
+    const { activeTab } = this.state
+
+    if (role === "donator" || role === "info" || role === "requester") {
+      return (
+        <ul className="tab-list">
+          <li
+            className={
+              activeTab === "Overview" ? "tab-link active" : "tab-link"
+            }
+            onClick={() => this.changeTab("Overview")}
+          >
+            Overview
+          </li>
+          <li
+            className={activeTab === "Costs" ? "tab-link active" : "tab-link"}
+            onClick={() => this.changeTab("Costs")}
+          >
+            Costs
+          </li>
+          <li
+            className={
+              activeTab === "Verifiers" ? "tab-link active" : "tab-link"
+            }
+            onClick={() => this.changeTab("Verifiers")}
+          >
+            Verifiers
+          </li>
+        </ul>
+      )
+    } else if (role === "doer" || role === "verifier") {
+      return (
+        <ul className="tab-list">
+          <li
+            className={
+              activeTab === "Overview" ? "tab-link active" : "tab-link"
+            }
+            onClick={() => this.changeTab("Overview")}
+          >
+            Overview
+          </li>
+          <li
+            className={
+              activeTab === "Instructions" ? "tab-link active" : "tab-link"
+            }
+            onClick={() => this.changeTab("Instructions")}
+          >
+            Instructions
+          </li>
+          <li
+            className={activeTab === "Updates" ? "tab-link active" : "tab-link"}
+            onClick={() => this.changeTab("Updates")}
+          >
+            Updates
+          </li>
+        </ul>
+      )
+    }
+  }
 
   render() {
     const { activeTab } = this.state
-    const { attributes } = this.props
+    const { attributes, role } = this.props
     const {
       event,
       image,
@@ -97,6 +199,9 @@ export default class ScenarioContent extends Component {
       verb,
       customMessage
     } = attributes
+
+    console.log(this.props);
+    
 
     let mapPos = {
       lat: requesterlat,
@@ -116,11 +221,47 @@ export default class ScenarioContent extends Component {
     })
 
     return (
-      <div className="scenario-content-wrap">
-        <div className="scenario-content-image-wrap">
+      <div className={`scenario-content-wrap ${role}-scenario-content`}>
+        {role === "requester" && (
+          <header className="scenario-content-superheader">
+            <h3 className="mission-status-header">
+              <span className="mission-status-label">Mission Status: </span>
+              <span className="mission-status">Being verified</span>
+            </h3>
+            <ul className="verification-list">
+              <li className="verification">
+                <div className="verification-label">
+                  Location is in Pearlington, Mississippi
+                </div>
+                <div className="verification-status">
+                  <span className="status-name">Verified</span>
+                  <span className="status-icon verified">
+                    <Icon icon={faCheck} />
+                  </span>
+                </div>
+              </li>
+              <li className="verification">
+                <div className="verification-label">
+                  Verification that roof needs fixing
+                </div>
+                <div className="verification-status">
+                  <span className="status-name">Pending</span>
+                  <span className="status-icon">
+                    <Icon icon={faEllipsisH} />
+                  </span>
+                </div>
+              </li>
+            </ul>
+          </header>
+        )}
+
+        <figure className="scenario-content-image-wrap">
           <img src={image} alt={event} className="scenario-content-image" />
-          <p className="scenario-image-caption">{event}</p>
-        </div>
+        </figure>
+
+        <Link className="btn back-btn" to={this.getBackLink()}>
+          <Icon icon={faArrowCircleUp} />
+        </Link>
 
         <header className="scenario-content-header">
           <h4 className="scenario-title">
@@ -129,45 +270,10 @@ export default class ScenarioContent extends Component {
         </header>
 
         <section className="scenario-content-body">
-          <ul className="tab-list">
-            <li
-              className={
-                activeTab === "Overview"
-                  ? "tab-link active"
-                  : "tab-link"
-              }
-              onClick={() => this.changeTab("Overview")}
-            >
-              Overview
-            </li>
-            <li
-              className={
-                activeTab === "Instructions"
-                  ? "tab-link active"
-                  : "tab-link"
-              }
-              onClick={() => this.changeTab("Instructions")}
-            >
-              Instructions
-            </li>
-            <li
-              className={
-                activeTab === "Updates"
-                  ? "tab-link active"
-                  : "tab-link"
-              }
-              onClick={() => this.changeTab("Updates")}
-            >
-              Updates
-            </li>
-          </ul>
+          {this.tabs()}
           <div className="tab-wrap scenario-tab-wrap">
             <article
-              className={
-                activeTab === "Overview"
-                  ? "tab active"
-                  : "tab"
-              }
+              className={activeTab === "Overview" ? "tab active" : "tab"}
             >
               <section className="scenario-subheader">
                 <div className="user-info">
@@ -198,11 +304,7 @@ export default class ScenarioContent extends Component {
               </section>
             </article>
             <article
-              className={
-                activeTab === "Instructions"
-                  ? "tab active"
-                  : "tab"
-              }
+              className={activeTab === "Instructions" ? "tab active" : "tab"}
             >
               <header className="job-status-header">
                 <h4>
@@ -222,12 +324,16 @@ export default class ScenarioContent extends Component {
                 <button className="btn btn-lite do-job-btn">Yes</button>
               </div>
             </article>
-            <article
-              className={
-                activeTab === "Updates" ? "tab active" : "tab"
-              }
-            >
+            <article className={activeTab === "Updates" ? "tab active" : "tab"}>
               Updates
+            </article>
+            <article className={activeTab === "Costs" ? "tab active" : "tab"}>
+              Costs
+            </article>
+            <article
+              className={activeTab === "Verifiers" ? "tab active" : "tab"}
+            >
+              Verifiers
             </article>
           </div>
         </section>
@@ -254,11 +360,7 @@ export default class ScenarioContent extends Component {
             450 donators, {moneyfy(donated)} donated
           </div>
         </footer>
-        <Footer>
-          <Link to="/feed/doer" className="btn footer-btn feed-btn">
-            Start Job
-          </Link>
-        </Footer>
+        <Footer>{this.callToActionBtn()}</Footer>
       </div>
     )
   }

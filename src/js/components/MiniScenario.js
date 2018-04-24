@@ -8,8 +8,83 @@ import { toFirstCap, moneyfy, gradientStyle } from "../resources/Util"
 /*** [end of imports] ***/
 
 export default class MiniScenario extends Component {
+  actionBtn = () => {
+    const { id, role, tab, verified } = this.props
+
+    if (role === "Requests") {
+      if (tab === "Donating") {
+        if (verified) {
+          return (
+            <Link
+              className="btn btn-lite mini-scenario-link"
+              to={`/${id}/requester`}
+            >
+              Post update
+            </Link>
+          )
+        } else {
+          return (
+            <Link
+              className="btn btn-lite mini-scenario-link"
+              to={`/${id}/requester`}
+            >
+              Edit request
+            </Link>
+          )
+        }
+      } else if (tab === "In Progress") {
+        return (
+          <Link
+            className="btn btn-lite mini-scenario-link"
+            to={`/${id}/requester`}
+          >
+            Add tasks
+          </Link>
+        )
+      } else if (tab === "Finished") {
+        return (
+          <Link
+            className="btn btn-lite mini-scenario-link"
+            to={`/${id}/info`}
+          >
+            Post update
+          </Link>
+        )
+      }
+    } else {
+      // role === "Missions" or other
+      if (tab === "Donating") {
+        return (
+          <Link
+            className="btn btn-lite mini-scenario-link"
+            to={`/${id}/donator`}
+          >
+            Fund the rest
+          </Link>
+        )
+      } else if (tab === "In Progress") {
+        return (
+          <Link className="btn btn-lite mini-scenario-link" to={`/${id}/doer`}>
+            Do a task
+          </Link>
+        )
+      } else if (tab === "Finished") {
+        return (
+          <Link
+            className="btn btn-lite mini-scenario-link"
+            to={`/${id}/info/Updates`}
+          >
+            Review Story
+          </Link>
+        )
+      }
+    }
+  }
+
   render() {
     const {
+      role,
+      tab,
       imagethumb,
       noun,
       verb,
@@ -17,7 +92,8 @@ export default class MiniScenario extends Component {
       id,
       donated,
       funding_goal,
-      event
+      event,
+      verified
     } = this.props
 
     let fundingGoalSliderStyle = gradientStyle({
@@ -26,24 +102,46 @@ export default class MiniScenario extends Component {
       endColor: "#fff"
     })
     return (
-      <section className="mini-scenario" id={id}>
-        <p className="mini-scenario-title">{`${toFirstCap(verb)} ${toFirstCap(
-          requester_firstname
-        )}'s ${noun}`}</p>
-        <div
-          className="funding-progress-slider"
-          id={`${event}_fundingGoal`}
-          style={fundingGoalSliderStyle}
-        />
-        <div className="funding-goal-label">
-          <span className="dollar-amount">
-            {moneyfy(funding_goal - donated)}
-          </span>
-          <span> To fund</span>
+      <section
+        className={verified ? "mini-scenario verified" : "mini-scenario"}
+        id={id}
+      >
+        <figure className="mini-scenario-image-wrap">
+          <img
+            src={imagethumb}
+            alt={`${toFirstCap(verb)} ${toFirstCap(
+              requester_firstname
+            )}'s ${noun}`}
+            className="mini-scenario-image"
+          />
+        </figure>
+        <div className="mini-scenario-right">
+          <p className="mini-scenario-title">{`${toFirstCap(verb)} ${toFirstCap(
+            requester_firstname
+          )}'s ${noun}`}</p>
+          <div
+            className="funding-progress-slider"
+            id={`${event}_fundingGoal`}
+            style={fundingGoalSliderStyle}
+          />
+          <div className="funding-goal-label">
+            <span className="dollar-amount">
+              {moneyfy(funding_goal - donated)}
+            </span>
+            <span> To fund</span>
+          </div>
+          {this.actionBtn()}
+          {role === "Requests" &&
+            tab === "Donating" &&
+            !verified && (
+              <div className="btn status-btn">Awaiting Verification</div>
+            )}
+          {role === "Requests" &&
+            tab === "Donating" &&
+            verified && (
+              <div className="btn status-btn verified">Verified and Live</div>
+            )}
         </div>
-        <Link className="btn btn-lite mini-scenario-link" to={`/${id}/info`}>
-          Fund the rest
-        </Link>
       </section>
     )
   }

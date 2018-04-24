@@ -12,7 +12,9 @@ export default class Info extends Page {
 			title: "Overview",
 			navMenu: true,
 			userId: 1,
-			scenarioId: this.props.match.params.scenarioId || 1
+			scenarioId: this.props.match.params.scenarioId || 1,
+      role: this.props.match.params.role || "Info",
+			tab: this.props.match.params.tab || "Overview"
 		}
 	}
 }
