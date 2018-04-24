@@ -1,11 +1,14 @@
 /*** IMPORTS ***/
 // Module imports
 import React, { Component } from "react"
-// https://github.com/fullstackreact/google-maps-react
 import { Map, Marker, GoogleApiWrapper } from "google-maps-react"
+import { faMapMarkerAlt } from "@fortawesome/fontawesome-free-solid"
 
 // Local JS
 import Database from "../resources/Database"
+
+// Logo image
+import customMapPin from "../../img/custom-map-pin.svg"
 /*** [end of imports] ***/
 
 class MiniMap extends Component {
@@ -68,9 +71,14 @@ class MiniMap extends Component {
           initialCenter={initialCenter}
           onClick={this.mapClicked}
         >
-          <Marker position={this.state.markerPos} />
+          <Marker
+            position={this.state.markerPos}
+            options={{ icon: customMapPin }}
+          />
           {pins &&
-            pins.map((_pin, _index) => <Marker key={_index} position={_pin} />)}
+            pins.map((_pin, _index) => (
+              <Marker key={_index} position={_pin} options={{ icon: customMapPin }} />
+            ))}
         </Map>
       </section>
     )

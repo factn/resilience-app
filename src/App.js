@@ -15,12 +15,7 @@ import DonatorFlow from "./js/pages/DonatorFlow"
 import DoerFlow from "./js/pages/DoerFlow"
 import RequesterFlow from "./js/pages/RequesterFlow"
 import VerifierFlow from "./js/pages/VerifierFlow"
-
-// Feeds
-import DonatorFeed from "./js/pages/DonatorFeed"
-import DoerFeed from "./js/pages/DoerFeed"
-import RequesterFeed from "./js/pages/RequesterFeed"
-import VerifierFeed from "./js/pages/VerifierFeed"
+import Feed from "./js/pages/Feed"
 
 // 	Modals
 import Account from "./js/pages/Account"
@@ -49,12 +44,7 @@ export default class App extends Component {
           <Route path="/doer" component={DoerFlow} />
           <Route path="/requester" component={RequesterFlow} />
           <Route path="/verifier" component={VerifierFlow} />
-
-          {/* Feeds */}
-          <Route path="/feed/donator" component={DonatorFeed} />
-          <Route path="/feed/doer" component={DoerFeed} />
-          <Route path="/feed/requester" component={RequesterFeed} />
-          <Route path="/feed/verifier" component={VerifierFeed} />
+          <Route path="/feed" component={Feed} />
 
 
           {/* Modals */}

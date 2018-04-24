@@ -72,7 +72,7 @@ export default class DonatorFlow extends Component {
           </section> */}
         </Main>
         <Footer>
-          <Link to="/feed" className="btn footer-btn feed-btn">
+          <Link to="/feed/donator" className="btn footer-btn feed-btn">
             Start Mission
           </Link>
         </Footer>

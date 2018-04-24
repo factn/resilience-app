@@ -5,8 +5,10 @@ import React, { Component } from "react"
 
 export default class ScenarioFeed extends Component {
   render() {
+    const { feedType } = this.props
+
     return (
-      <section className="scenario-feed-wrap">{this.props.children}</section>
+      <section className={`scenario-feed-wrap ${feedType}-feed-wrap`}>{this.props.children}</section>
     )
   }
 }

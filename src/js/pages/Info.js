@@ -14,13 +14,5 @@ export default class Info extends Page {
 			userId: 1,
 			scenarioId: this.props.match.params.scenarioId || 1
 		}
-		this.inputs = [
-			{
-				inputType: "submit",
-				labelPhrase: "Donate",
-				goToPath: `/${this.props.match.params.scenarioId}/donator`,
-				responseType: "neutral"
-			}
-		]
 	}
 }

@@ -13,8 +13,6 @@
   margin: 0 -1.5rem;
   overflow: hidden;
 }
-.scenario-content-image {
-}
 .scenario-image-caption {
   position: absolute;
   top: 1em;
@@ -29,10 +27,16 @@
 }
 
 .scenario-content-header {
-  font-size: 1rem;
-  margin: 1rem 0;
-  h4 {
+  position: relative;
+  z-index: 2;
+  margin-top: 1rem;
+  .scenario-title {
     font-weight: bold;
+    text-transform: uppercase;
+    display: inline-block;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px dashed $orange;
+    margin-bottom: 0.5rem;
   }
 }
 
@@ -46,29 +50,31 @@
   width: 100%;
   justify-content: space-between;
   margin-bottom: 0.5rem;
+  border-bottom: 1px solid $blue;
 }
 .scenario-tab-link {
   color: $blue;
   padding: 0 0 0.25rem;
   font-size: 1rem;
+  margin-bottom: -1px;
   transition: {
     property: box-shadow;
     duration: $fast;
     timing-function: $cubic;
   }
   &.active {
-    box-shadow: inset 0 -0.25rem 0 $blue;
+    box-shadow: inset 0 -0.25rem 0 $orange;
   }
 }
 .scenario-tab-wrap {
   position: relative;
-  height: 8rem;
-  overflow: auto;
+  height: 12rem;
 }
 .scenario-tab {
   position: absolute;
   top: 0;
   left: 0;
+  width: 100%;
   opacity: 0;
   z-index: 1;
   transition: {
@@ -79,6 +85,31 @@
   &.active {
     opacity: 1;
     z-index: 2;
+  }
+}
+.job-status-header {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  .job-status-label {
+    font-weight: bold;
+  }
+}
+.job-card {
+  margin-bottom: 1rem;
+  .card-label {
+    font-size: 1rem;
+    font-weight: bold;
+  }
+  .done-job-icon,
+  .do-job-btn {
+    float: right;
+    margin-top: -1.25rem;
+  }
+  .done-job-icon {
+    color: $green-bright;
+  }
+  .do-job-btn {
+    min-width: 4rem;
   }
 }
 

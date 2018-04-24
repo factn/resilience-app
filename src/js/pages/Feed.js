@@ -1,6 +1,6 @@
 /*** IMPORTS ***/
 // Module imports
-import React, { Component, Fragment } from "react"
+import React, { Component } from "react"
 import Icon from "@fortawesome/react-fontawesome"
 import { faBullseye } from "@fortawesome/fontawesome-free-solid"
 
@@ -19,20 +19,22 @@ import Footer from "../components/Footer"
 
 // Local JS Utilities
 import Database from "../resources/Database"
+import {getUrlPiece} from "../resources/Util"
 
 // Logo image
 import logo from "../../img/logo.svg"
 /*** [end of imports] ***/
 
-export default class DonatorFeed extends Component {
+export default class Feed extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
       scenarioData: null,
       feedOffset: 0,
-      userId: 1,
-      previewDismissed: false
+      userId: this.props.userId || 1,
+      previewDismissed: false,
+      lastUrlSegment: getUrlPiece()
     }
   }
 
@@ -65,7 +67,10 @@ export default class DonatorFeed extends Component {
       })
       .catch(error => {
         // console.error("Error getting scenarios:", error)
-        // this.sthis.state.
+        this.setState({
+          feedOffset: 0,
+          scenarioData: null
+        })
       })
   }
   dismissPreview = () => {
@@ -75,12 +80,10 @@ export default class DonatorFeed extends Component {
   }
 
   render() {
-    const { userId, scenarioData, feedOffset, previewDismissed } = this.state
-
-    console.log("Feed render", scenarioData)
+    const { userId, scenarioData, feedOffset, previewDismissed, lastUrlSegment } = this.state
 
     return (
-      <div className="page feed-page">
+      <div className={`page feed-page ${lastUrlSegment}-feed`}>
         <Header>
           <NavMenu userId={userId} />
           <div className="logo">
@@ -96,7 +99,7 @@ export default class DonatorFeed extends Component {
         </Header>
 
         <Main>
-          <ScenarioFeed>
+          <ScenarioFeed feedType={lastUrlSegment}>
             {scenarioData ? (
               scenarioData.map((scenario, index) => {
                 if (index === feedOffset - 2) {
@@ -108,10 +111,17 @@ export default class DonatorFeed extends Component {
                       nextItem={this.nextItem}
                       previewDismissed={previewDismissed}
                       dismissPreview={this.dismissPreview}
+                      feedType={lastUrlSegment}
                     />
                   )
                 } else if (index > feedOffset - 2) {
-                  return <Scenario key={scenario.id} scenario={scenario} />
+                  return (
+                    <Scenario
+                      key={scenario.id}
+                      scenario={scenario}
+                      feedType={lastUrlSegment}
+                    />
+                  )
                 }
               })
             ) : (

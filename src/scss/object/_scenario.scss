@@ -278,9 +278,6 @@
 }
 
 @include breakpoint($tablet) {
-  .scenario-tab {
-    font-size: 1.2em;
-  }
   .scenario-feed-wrap {
     grid-template-columns: repeat(3, 1fr);
   }

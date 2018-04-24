@@ -10,4 +10,20 @@
       color: rgba($black, 0.25);
     }
   }
+  .travel-range-label {
+    color: rgba($black, 0.5);
+    float: right;
+    margin-top: -1rem;
+  }
+}
+.doer-feed-wrap {
+  .tag-list-wrap {
+    .tag-list-label,
+    .tag-list {
+      display: inline;
+    }
+    .tag-list-label {
+      padding-right: 1rem;
+    }
+  }
 }
