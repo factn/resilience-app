@@ -59,7 +59,7 @@ export default class App extends Component {
           <Route path="/missions" component={MissionControl} />
 
           {/* Scenario full-page */}
-          <Route path="/:scenarioId/info" component={Info} />
+          <Route path="/:scenarioId/:role" component={Info} />
 
           {/* 404 */}
           <Route component={NoPage} />

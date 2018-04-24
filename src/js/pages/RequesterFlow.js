@@ -3,7 +3,12 @@
 import React, { Component } from "react"
 import { Link } from "react-router-dom"
 import Icon from "@fortawesome/react-fontawesome"
-import { faMapMarkerAlt, faCamera, faCloudUploadAlt } from "@fortawesome/fontawesome-free-solid"
+import {
+  faMapMarkerAlt,
+  faCamera,
+  faCloudUploadAlt,
+  faImage
+} from "@fortawesome/fontawesome-free-solid"
 
 // Page elements
 import Header from "../components/Header"
@@ -13,6 +18,7 @@ import GoogleMaps from "../components/GoogleMaps"
 
 // Input
 import File from "../components/inputs/File"
+import Text from "../components/inputs/Text"
 /*** [end of imports] ***/
 
 export default class RequesterFlow extends Component {
@@ -35,13 +41,24 @@ export default class RequesterFlow extends Component {
   render() {
     const { remainingCharacterCount } = this.state
 
-    let inputObj = {
-      // Label properties
+    let requestPhotoInputObj = {
       labelPhrase: "Upload",
       labelIcon: faCloudUploadAlt,
-
-      // HTML tag arguments
-      inputID: "requester_photo",
+      inputID: "photo",
+      requiredField: true,
+      disabledField: false
+    }
+    let eventTagInputObj = {
+      inputType: "text",
+      labelPhrase: "Event",
+      inputID: "eventTag",
+      requiredField: true,
+      disabledField: false
+    }
+    let jobsInputObj = {
+      inputType: "text",
+      labelPhrase: "Jobs",
+      inputID: "jobsTags",
       requiredField: true,
       disabledField: false
     }
@@ -100,15 +117,49 @@ export default class RequesterFlow extends Component {
             </header>
             <article className="photo-card">
               <div className="photo-icon">
-                <Icon icon={faCamera} />
+                <Icon icon={faImage} />
               </div>
-              <File inputObj={inputObj} />
+              <File inputObj={requestPhotoInputObj} />
+              <label
+                className="input-label btn btn-label second-label"
+                htmlFor="requester_photo"
+              >
+                <span className="input-label-phrase">Take Photo</span>
+                <Icon icon={faCamera} className="input-label-icon" />
+              </label>
+            </article>
+          </section>
+          <section className="event-settings">
+            <header className="settings-header">
+              <h3>Event tag</h3>
+            </header>
+            <article className="card event-card">
+              <Text inputObj={eventTagInputObj} />
+            </article>
+          </section>
+          <section className="jobs-settings">
+            <header className="settings-header">
+              <h3>What jobs do you need done?</h3>
+            </header>
+            <article className="card jobs-card">
+              <Text inputObj={jobsInputObj} />
+              <div className="tag-wrap">
+                <ul className="tag-list">
+                  <li className="tag inactive-tag">#Painting</li>
+                  <li className="tag inactive-tag">#Roofing</li>
+                  <li className="tag inactive-tag">#Transport</li>
+                  <li className="tag inactive-tag">#Coding</li>
+                  <li className="tag inactive-tag">#FirstAid</li>
+                  <li className="tag inactive-tag">#Childcare</li>
+                </ul>
+              </div>
             </article>
           </section>
         </Main>
         <Footer>
-          <Link to="/feed/donator" className="btn footer-btn feed-btn">
-            Start Mission
+          <div className="button-label">Post your request</div>
+          <Link to="/1/requester" className="btn footer-btn feed-btn">
+            Submit
           </Link>
         </Footer>
       </div>

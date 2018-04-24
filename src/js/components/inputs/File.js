@@ -10,8 +10,6 @@ import { getUrlPiece, prepareFileReader } from "../../resources/Util"
 export default class File extends Component {
   render() {
     const {
-      inputType,
-
       // Label properties
       labelPhrase,
       labelIcon,
@@ -38,7 +36,7 @@ export default class File extends Component {
         </label>
         <input
           className="form-input"
-          type={inputType}
+          type="file"
           id={`${formName}_${inputID}`}
           accept="image/*"
           required={requiredField}
