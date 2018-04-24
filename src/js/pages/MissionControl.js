@@ -23,8 +23,8 @@ export default class MissionControl extends Component {
     super(props)
 
     this.state = {
-      activeFlow: this.props.activeFlow || "Missions",
-      activeTab: this.props.activeTab || "Donating",
+      role: this.props.match.params.role || "Missions",
+			tab: this.props.match.params.tab || "Donating",
       userId: this.props.userId || 1,
       userDonations: null,
       userDos: null
@@ -72,17 +72,17 @@ export default class MissionControl extends Component {
 
   changeFlow = flowName => {
     this.setState({
-      activeFlow: flowName
+      role: flowName
     })
   }
   changeTab = tabName => {
     this.setState({
-      activeTab: tabName
+      tab: tabName
     })
   }
 
   render() {
-    const { activeFlow, activeTab, userId, userDonations, userDos } = this.state
+    const { role, tab, userId, userDonations, userDos } = this.state
 
     return (
       <div className="page feed-page mission-control-page">
@@ -103,7 +103,7 @@ export default class MissionControl extends Component {
         <div className="mission-control-subheader">
           <h4
             className={
-              activeFlow === "Requests"
+              role === "Requests"
                 ? "sub-header-option active"
                 : "sub-header-option"
             }
@@ -113,7 +113,7 @@ export default class MissionControl extends Component {
           </h4>
           <h4
             className={
-              activeFlow === "Missions"
+              role === "Missions"
                 ? "sub-header-option active"
                 : "sub-header-option"
             }
@@ -129,7 +129,7 @@ export default class MissionControl extends Component {
               <ul className="tab-list">
                 <li
                   className={
-                    activeTab === "Donating" ? "tab-link active" : "tab-link"
+                    tab === "Donating" ? "tab-link active" : "tab-link"
                   }
                   onClick={() => this.changeTab("Donating")}
                 >
@@ -137,7 +137,7 @@ export default class MissionControl extends Component {
                 </li>
                 <li
                   className={
-                    activeTab === "In Progress" ? "tab-link active" : "tab-link"
+                    tab === "In Progress" ? "tab-link active" : "tab-link"
                   }
                   onClick={() => this.changeTab("In Progress")}
                 >
@@ -145,7 +145,7 @@ export default class MissionControl extends Component {
                 </li>
                 <li
                   className={
-                    activeTab === "Finished" ? "tab-link active" : "tab-link"
+                    tab === "Finished" ? "tab-link active" : "tab-link"
                   }
                   onClick={() => this.changeTab("Finished")}
                 >
@@ -155,13 +155,15 @@ export default class MissionControl extends Component {
             </header>
             <div className="tab-wrap missions-tab-wrap">
               <article
-                className={activeTab === "Donating" ? "tab active" : "tab"}
+                className={tab === "Donating" ? "tab active" : "tab"}
               >
-                {userDonations ? (
-                  userDonations.map(scenario => (
+                {userDos ? (
+                  userDos.map(scenario => (
                     <MiniScenario
                       key={scenario.id}
                       id={scenario.id}
+                      role={role}
+                      tab={tab}
                       {...scenario.attributes}
                     />
                   ))
@@ -170,13 +172,15 @@ export default class MissionControl extends Component {
                 )}
               </article>
               <article
-                className={activeTab === "In Progress" ? "tab active" : "tab"}
+                className={tab === "In Progress" ? "tab active" : "tab"}
               >
                 {userDos ? (
                   userDos.map(scenario => (
                     <MiniScenario
                       key={scenario.id}
                       id={scenario.id}
+                      role={role}
+                      tab={tab}
                       {...scenario.attributes}
                     />
                   ))
@@ -185,13 +189,15 @@ export default class MissionControl extends Component {
                 )}
               </article>
               <article
-                className={activeTab === "Finished" ? "tab active" : "tab"}
+                className={tab === "Finished" ? "tab active" : "tab"}
               >
                 {userDos ? (
                   userDos.map(scenario => (
                     <MiniScenario
                       key={scenario.id}
                       id={scenario.id}
+                      role={role}
+                      tab={tab}
                       {...scenario.attributes}
                     />
                   ))

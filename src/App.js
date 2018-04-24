@@ -56,7 +56,9 @@ export default class App extends Component {
           <Route path="/profile" component={Profile} />
 
           {/* Mission control */}
-          <Route path="/missions" component={MissionControl} />
+          <Route path="/missions" exact component={MissionControl} />
+          <Route path="/missions/:role" exact component={MissionControl} />
+          <Route path="/missions/:role/:tab" exact component={MissionControl} />
 
           {/* Scenario full-page */}
           <Route path="/:scenarioId/" exact component={Info} />
