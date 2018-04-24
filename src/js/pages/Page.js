@@ -39,9 +39,10 @@ export default class Page extends Component {
       lastClickedLon: null,
       pageStyle: "",
       navMenu: true,
-      scenarioId: 1,
       userId: 1,
-      lastUrlSegment: getUrlPiece(),
+			scenarioId: this.props.match.params.scenarioId || 1,
+      role: this.props.match.params.role || "Info",
+			tab: this.props.match.params.tab || "Overview",
       wrapperClass: "",
       scenariosInList: 3
     }
@@ -127,13 +128,13 @@ export default class Page extends Component {
     })
   }
   dismissScenario = params => {
-    const { lastUrlSegment } = this.state
+    const { role } = this.state
     let ad_type
 
-    if (lastUrlSegment === "doer") ad_type = "1"
-    else if (lastUrlSegment === "requester") ad_type = "2"
-    else if (lastUrlSegment === "donator") ad_type = "3"
-    else if (lastUrlSegment === "verifier") ad_type = "4"
+    if (role === "doer") ad_type = "1"
+    else if (role === "requester") ad_type = "2"
+    else if (role === "donator") ad_type = "3"
+    else if (role === "verifier") ad_type = "4"
 
     let json = {
       data: {
@@ -180,13 +181,13 @@ export default class Page extends Component {
       })
   }
   acceptScenario = params => {
-    const { lastUrlSegment } = this.state
+    const { role } = this.state
     let ad_type
 
-    if (lastUrlSegment === "doer") ad_type = "1"
-    else if (lastUrlSegment === "requester") ad_type = "2"
-    else if (lastUrlSegment === "donator") ad_type = "3"
-    else if (lastUrlSegment === "verifier") ad_type = "4"
+    if (role === "doer") ad_type = "1"
+    else if (role === "requester") ad_type = "2"
+    else if (role === "donator") ad_type = "3"
+    else if (role === "verifier") ad_type = "4"
 
     let json = {
       data: {
@@ -246,6 +247,8 @@ export default class Page extends Component {
       pageStyle,
       navMenu,
       scenarioId,
+      role,
+      tab,
       userId,
       lastClickedLat,
       lastClickedLon
@@ -318,6 +321,8 @@ export default class Page extends Component {
               {this.state.scenarioData ? (
                 <ScenarioContent
                   scenarioId={scenarioId}
+                  role={role}
+                  tab={tab}
                   {...this.state.scenarioData}
                 />
               ) : (

@@ -59,7 +59,9 @@ export default class App extends Component {
           <Route path="/missions" component={MissionControl} />
 
           {/* Scenario full-page */}
-          <Route path="/:scenarioId/:role" component={Info} />
+          <Route path="/:scenarioId/" exact component={Info} />
+          <Route path="/:scenarioId/:role/" exact component={Info} />
+          <Route path="/:scenarioId/:role/:tab" exact component={Info} />
 
           {/* 404 */}
           <Route component={NoPage} />
