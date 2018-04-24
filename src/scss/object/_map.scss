@@ -1,6 +1,9 @@
 .map-wrap {
+  position: relative;
   width: 100%;
   height: 8rem;
+  overflow: hidden;
+  margin-top: 1rem;
 }
 .mini-map-wrap {
   position: relative;

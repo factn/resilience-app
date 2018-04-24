@@ -3,13 +3,16 @@
 import React, { Component } from "react"
 import { Link } from "react-router-dom"
 import Icon from "@fortawesome/react-fontawesome"
-import { faMapMarkerAlt } from "@fortawesome/fontawesome-free-solid"
+import { faMapMarkerAlt, faCamera, faCloudUploadAlt } from "@fortawesome/fontawesome-free-solid"
 
 // Page elements
 import Header from "../components/Header"
 import Main from "../components/Main"
 import Footer from "../components/Footer"
 import GoogleMaps from "../components/GoogleMaps"
+
+// Input
+import File from "../components/inputs/File"
 /*** [end of imports] ***/
 
 export default class RequesterFlow extends Component {
@@ -31,6 +34,17 @@ export default class RequesterFlow extends Component {
 
   render() {
     const { remainingCharacterCount } = this.state
+
+    let inputObj = {
+      // Label properties
+      labelPhrase: "Upload",
+      labelIcon: faCloudUploadAlt,
+
+      // HTML tag arguments
+      inputID: "requester_photo",
+      requiredField: true,
+      disabledField: false
+    }
 
     return (
       <div className="page flow-page requester-flow-page">
@@ -78,6 +92,17 @@ export default class RequesterFlow extends Component {
                 />
               </div>
               <GoogleMaps />
+            </article>
+          </section>
+          <section className="session-settings">
+            <header className="settings-header">
+              <h3>Add a photo</h3>
+            </header>
+            <article className="photo-card">
+              <div className="photo-icon">
+                <Icon icon={faCamera} />
+              </div>
+              <File inputObj={inputObj} />
             </article>
           </section>
         </Main>

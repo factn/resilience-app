@@ -2,6 +2,18 @@
   .title-card {
     margin-bottom: 1rem;
   }
+  .photo-card {
+    background: transparent;
+    border: 1px dashed rgba($black, 0.25);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    .photo-icon {
+      width: 100%;
+      text-align: center;
+      font-size: 3rem;
+      color: rgba($black, 0.25);
+    }
+  }
 }
 .remaining-character-count {
   color: rgba($black, 0.25);
