@@ -3,12 +3,15 @@
 import React, { Component } from "react"
 import { Link } from "react-router-dom"
 import Icon from "@fortawesome/react-fontawesome"
-import { faCloudUploadAlt } from "@fortawesome/fontawesome-free-solid"
+import { faCloudUploadAlt, faImage, faCamera } from "@fortawesome/fontawesome-free-solid"
 
 // Page elements
 import Header from "../components/Header"
 import Main from "../components/Main"
 import Footer from "../components/Footer"
+
+// Input
+import File from "../components/inputs/File"
 /*** [end of imports] ***/
 
 export default class DoerConfirmation extends Component {
@@ -23,25 +26,35 @@ export default class DoerConfirmation extends Component {
 
     return (
       <div className="page flow-page doer-confirmation-page">
-        <Header />
+        <Header>
+          <div className="login-link">
+            <a className="bright-link" href="/account">
+              Login / Sign up
+            </a>
+          </div>
+        </Header>
+        
         <Main>
           <section className="session-settings">
             <header className="settings-header">
-              <h3>Jobs I want to do</h3>
+              <h3>Add a photo</h3>
             </header>
-            <article className="card trending-card">
-              <h4 className="card-title">Select from trending jobs</h4>
-              <ul className="tag-list">
-                <li className="tag inactive-tag">#Painting</li>
-                <li className="tag active-tag">#Roofing</li>
-                <li className="tag inactive-tag">#Transport</li>
-                <li className="tag inactive-tag">#Coding</li>
-                <li className="tag inactive-tag">#FirstAid</li>
-                <li className="tag inactive-tag">#Childcare</li>
-              </ul>
+            <article className="photo-card">
+              <div className="photo-icon">
+                <Icon icon={faImage} />
+              </div>
+              <File inputObj={confirmationPhotoInputObj} />
+              <label
+                className="input-label btn btn-label second-label"
+                htmlFor="requester_photo"
+              >
+                <span className="input-label-phrase">Take Photo</span>
+                <Icon icon={faCamera} className="input-label-icon" />
+              </label>
             </article>
           </section>
         </Main>
+        
         <Footer>
           <Link to="/feed/doer" className="btn footer-btn feed-btn">
             Send Confirmation

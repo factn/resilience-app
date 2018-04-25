@@ -24,6 +24,7 @@ export default class FBVerify extends Component {
           </div>
           <h2>Get verified</h2>
         </Header>
+        
         <Main>
           <div className="or-line">Choose a friend to verify who you are</div>
           <div className="or-line">
@@ -77,6 +78,7 @@ export default class FBVerify extends Component {
             </ul>
           </section>
         </Main>
+        
         <Footer>
           <div className="button-label">Send message</div>
           <Link to="/profile" className="btn footer-btn feed-btn">

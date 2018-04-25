@@ -231,6 +231,7 @@ export default class Info extends Page {
     return (
       <div className="page profile-page">
         <Header />
+        
         <Main>
           <header className="settings-header">
             <h3>Profile</h3>

@@ -81,6 +81,7 @@ export default class MissionControl extends Component {
     return (
       <div className="page feed-page mission-control-page">
         <Header />
+        
         <div className="mission-control-subheader">
           <h4
             className={

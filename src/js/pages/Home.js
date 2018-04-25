@@ -15,6 +15,7 @@ export default class Home extends Component {
     return (
       <div className="page home-page">
         <Header />
+        
         <div className="subheader-home">
           <div className="subheader-line">Help with disaster relief.</div>
           <div className="subheader-line">Donate money / do a job.</div>
@@ -22,6 +23,7 @@ export default class Home extends Component {
             What would you like to do in this mission?
           </div>
         </div>
+        
         <Main>
           <div className="home-buttons">
             <a href="/donator" className="btn home-btn square-btn donate-btn">
@@ -44,6 +46,7 @@ export default class Home extends Component {
             </a>
           </div>
         </Main>
+        
         <Footer>
           <div className="button-label">Post a request</div>
           <a href="/requester" className="btn footer-btn request-btn">

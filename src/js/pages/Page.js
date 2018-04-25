@@ -30,7 +30,7 @@ export default class Page extends Component {
       mapPickerIsOpen: false,
       lastClickedLat: null,
       lastClickedLon: null,
-      pageStyle: "",
+      pageStyle: "flow",
       navMenu: true,
       userId: 1,
 			scenarioId: this.props.match.params.scenarioId || 1,
@@ -249,6 +249,7 @@ export default class Page extends Component {
     return (
       <div className="page">
         <Header/>
+
         {pageStyle === "modal" && (
           <Main>
             <Form>
@@ -307,6 +308,7 @@ export default class Page extends Component {
               ) : (
                 <Loader />
               )}
+              
               <Form>
                 {this.inputs.map((_input, _index) => (
                   <FormInput

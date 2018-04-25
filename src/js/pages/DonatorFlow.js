@@ -16,6 +16,7 @@ export default class DonatorFlow extends Component {
     return (
       <div className="page flow-page donator-flow-page">
         <Header />
+        
         <Main>
           <section className="session-settings">
             <header className="settings-header">
@@ -65,6 +66,7 @@ export default class DonatorFlow extends Component {
             </div>
           </section> */}
         </Main>
+
         <Footer>
           <Link to="/feed/donator" className="btn footer-btn feed-btn">
             Start Mission

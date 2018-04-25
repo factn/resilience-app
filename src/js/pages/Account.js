@@ -33,6 +33,7 @@ export default class Account extends Component {
         <Header>
           <h2>Create your profile</h2>
         </Header>
+        
         <Main>
           <section className="session-settings facebook-setting">
             <Link
@@ -89,6 +90,7 @@ export default class Account extends Component {
             </article>
           </section>
         </Main>
+        
         <Footer>
           <div className="button-label">Create your profile</div>
           <Link to="/profile" className="btn footer-btn feed-btn">

@@ -84,6 +84,7 @@ export default class Feed extends Component {
     return (
       <div className={`page feed-page ${lastUrlSegment}-feed`}>
         <Header />
+        
         <Main>
           <ScenarioFeed feedType={lastUrlSegment}>
             {scenarioData ? (

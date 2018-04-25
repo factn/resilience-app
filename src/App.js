@@ -24,14 +24,13 @@ import FBConfirm from "./js/pages/FBConfirm";
 import FBVerify from "./js/pages/FBVerify";
 
 // 	Account
-import EditAccount from "./js/pages/EditAccount"
 import Login from "./js/pages/Login"
 import Preferences from "./js/pages/Preferences"
 import Profile from "./js/pages/Profile"
 import MissionControl from "./js/pages/MissionControl";
 
 // 	Info Pages
-import Info from "./js/pages/Info"
+import Page from "./js/pages/Page"
 
 // 404
 import NoPage from "./js/pages/NoPage"
@@ -59,7 +58,6 @@ export default class App extends Component {
           <Route path="/account/verify-facebook" exact component={FBVerify} />
 
           {/* Account */}
-          <Route path="/edit-account" component={EditAccount} />
           <Route path="/login" component={Login} />
           <Route path="/preferences" component={Preferences} />
           <Route path="/profile" component={Profile} />
@@ -70,9 +68,9 @@ export default class App extends Component {
           <Route path="/missions/:role/:tab" exact component={MissionControl} />
 
           {/* Scenario full-page */}
-          <Route path="/:scenarioId/" exact component={Info} />
-          <Route path="/:scenarioId/:role/" exact component={Info} />
-          <Route path="/:scenarioId/:role/:tab" exact component={Info} />
+          <Route path="/:scenarioId/" exact component={Page} />
+          <Route path="/:scenarioId/:role/" exact component={Page} />
+          <Route path="/:scenarioId/:role/:tab" exact component={Page} />
 
           {/* 404 */}
           <Route component={NoPage} />
