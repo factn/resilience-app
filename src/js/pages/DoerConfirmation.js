@@ -15,7 +15,25 @@ import File from "../components/inputs/File"
 /*** [end of imports] ***/
 
 export default class DoerConfirmation extends Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      remainingCharacterCount: 512
+    }
+  }
+
+  updateCharacterCount = e => {
+    const { value } = e.target
+
+    this.setState({
+      remainingCharacterCount: 512 - value.length
+    })
+  }
+
   render() {
+    const { remainingCharacterCount } = this.state
+
     let confirmationPhotoInputObj = {
       labelPhrase: "Upload",
       labelIcon: faCloudUploadAlt,
@@ -26,13 +44,7 @@ export default class DoerConfirmation extends Component {
 
     return (
       <div className="page flow-page doer-confirmation-page">
-        <Header>
-          <div className="login-link">
-            <a className="bright-link" href="/account">
-              Login / Sign up
-            </a>
-          </div>
-        </Header>
+        <Header />
         
         <Main>
           <section className="session-settings">
@@ -51,6 +63,22 @@ export default class DoerConfirmation extends Component {
                 <span className="input-label-phrase">Take Photo</span>
                 <Icon icon={faCamera} className="input-label-icon" />
               </label>
+            </article>
+          </section>
+          <section className="session-settings">
+            <header className="settings-header">
+              <h3>Include a message</h3>
+            </header>
+            <article className="card input-card message-card">
+              <textarea
+                placeholder="Add a message"
+                maxLength="512"
+                rows="3"
+                onChange={e => this.updateCharacterCount(e)}
+              />
+              <div className="remaining-character-count">
+                {remainingCharacterCount} characters left
+              </div>
             </article>
           </section>
         </Main>
