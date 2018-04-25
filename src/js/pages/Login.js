@@ -6,7 +6,7 @@ import Icon from "@fortawesome/react-fontawesome"
 import { faAt, faKey, faSignInAlt } from "@fortawesome/fontawesome-free-solid"
 
 // Components
-import Header from "../components/Header"
+import Page from "./Page"
 import Main from "../components/Main"
 import Form from "../components/Form"
 import Loader from "../components/Loader"
@@ -49,9 +49,7 @@ export default class Login extends Component {
 
   render() {
     return (
-      <div className="page">
-        <Header />
-
+      <Page clas="flow-page requester-flow-page">
         <Main>
           <Form>
             <div className="input-wrap">
@@ -100,7 +98,7 @@ export default class Login extends Component {
             </button>
           </Form>
         </Main>
-      </div>
+      </Page>
     )
   }
 }

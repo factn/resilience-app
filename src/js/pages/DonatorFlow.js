@@ -6,7 +6,7 @@ import Icon from "@fortawesome/react-fontawesome"
 import { faDollarSign } from "@fortawesome/fontawesome-free-solid"
 
 // Page elements
-import Header from "../components/Header"
+import Page from "./Page"
 import Main from "../components/Main"
 import Footer from "../components/Footer"
 /*** [end of imports] ***/
@@ -14,9 +14,7 @@ import Footer from "../components/Footer"
 export default class DonatorFlow extends Component {
   render() {
     return (
-      <div className="page flow-page donator-flow-page">
-        <Header />
-        
+      <Page clas="flow-page donator-flow-page">
         <Main>
           <section className="session-settings">
             <header className="settings-header">
@@ -54,7 +52,9 @@ export default class DonatorFlow extends Component {
                 <button className="btn square-btn">$5.00</button>
                 <button className="btn square-btn">$10.00</button>
               </div>
-              <div className="donation-clarification">To each mission I swipe right on</div>
+              <div className="donation-clarification">
+                To each mission I swipe right on
+              </div>
             </article>
           </section>
           {/* <section className="user-settings">
@@ -72,7 +72,7 @@ export default class DonatorFlow extends Component {
             Start Mission
           </Link>
         </Footer>
-      </div>
+      </Page>
     )
   }
 }

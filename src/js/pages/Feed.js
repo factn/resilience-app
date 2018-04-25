@@ -2,10 +2,8 @@
 // Module imports
 import React, { Component } from "react"
 
-// Header
-import Header from "../components/Header"
-
-// Main
+// Component
+import Page from "./Page"
 import Main from "../components/Main"
 import ScenarioFeed from "../components/ScenarioFeed"
 import Scenario from "../components/Scenario"
@@ -27,7 +25,7 @@ export default class Feed extends Component {
       feedOffset: 0,
       userId: this.props.userId || 1,
       previewDismissed: false,
-			feedType: this.props.match.params.type || 1,
+      feedType: this.props.match.params.type || 1
     }
   }
 
@@ -73,17 +71,10 @@ export default class Feed extends Component {
   }
 
   render() {
-    const {
-      scenarioData,
-      feedOffset,
-      previewDismissed,
-      feedType
-    } = this.state
+    const { scenarioData, feedOffset, previewDismissed, feedType } = this.state
 
     return (
-      <div className={`page feed-page ${feedType}-feed`}>
-        <Header />
-        
+      <Page clas={`feed-page ${feedType}-feed`}>
         <Main>
           <ScenarioFeed feedType={feedType}>
             {scenarioData ? (
@@ -126,7 +117,7 @@ export default class Feed extends Component {
             <h4 className="dollar-amount-label">Donated</h4>
           </div>
         </Footer>
-      </div>
+      </Page>
     )
   }
 }

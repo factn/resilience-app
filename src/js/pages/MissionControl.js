@@ -3,7 +3,7 @@
 import React, { Component } from "react"
 
 // Components
-import Header from "../components/Header"
+import Page from "./Page"
 import MiniScenario from "../components/MiniScenario"
 import Main from "../components/Main"
 import Loader from "../components/Loader"
@@ -79,9 +79,7 @@ export default class MissionControl extends Component {
     const { role, tab, userDonations, userDos } = this.state
 
     return (
-      <div className="page feed-page mission-control-page">
-        <Header />
-        
+      <Page clas="feed-page mission-control-page">
         <div className="mission-control-subheader">
           <h4
             className={
@@ -184,7 +182,7 @@ export default class MissionControl extends Component {
             </div>
           </section>
         </Main>
-      </div>
+      </Page>
     )
   }
 }

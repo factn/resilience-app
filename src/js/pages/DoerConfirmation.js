@@ -2,16 +2,14 @@
 // Module imports
 import React, { Component } from "react"
 import { Link } from "react-router-dom"
-import Icon from "@fortawesome/react-fontawesome"
-import { faCloudUploadAlt, faImage, faCamera } from "@fortawesome/fontawesome-free-solid"
 
 // Page elements
-import Header from "../components/Header"
+import Page from "./Page"
 import Main from "../components/Main"
 import Footer from "../components/Footer"
 
 // Input
-import File from "../components/inputs/File"
+import Image from "../components/inputs/Image"
 /*** [end of imports] ***/
 
 export default class DoerConfirmation extends Component {
@@ -34,36 +32,14 @@ export default class DoerConfirmation extends Component {
   render() {
     const { remainingCharacterCount } = this.state
 
-    let confirmationPhotoInputObj = {
-      labelPhrase: "Upload",
-      labelIcon: faCloudUploadAlt,
-      inputID: "photo",
-      requiredField: true,
-      disabledField: false
-    }
-
     return (
-      <div className="page flow-page doer-confirmation-page">
-        <Header />
-        
+      <Page clas="flow-page doer-flow-page">
         <Main>
           <section className="session-settings">
             <header className="settings-header">
               <h3>Add a photo</h3>
             </header>
-            <article className="photo-card">
-              <div className="photo-icon">
-                <Icon icon={faImage} />
-              </div>
-              <File inputObj={confirmationPhotoInputObj} />
-              <label
-                className="input-label btn btn-label second-label"
-                htmlFor="requester_photo"
-              >
-                <span className="input-label-phrase">Take Photo</span>
-                <Icon icon={faCamera} className="input-label-icon" />
-              </label>
-            </article>
+            <Image />
           </section>
           <section className="session-settings">
             <header className="settings-header">
@@ -82,13 +58,13 @@ export default class DoerConfirmation extends Component {
             </article>
           </section>
         </Main>
-        
+
         <Footer>
           <Link to="/feed/doer" className="btn footer-btn feed-btn">
             Send Confirmation
           </Link>
         </Footer>
-      </div>
+      </Page>
     )
   }
 }

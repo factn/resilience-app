@@ -9,7 +9,7 @@ import {
 } from "@fortawesome/fontawesome-free-solid"
 
 // Components
-import Header from "../components/Header"
+import Page from "./Page"
 import MiniScenario from "../components/MiniScenario"
 import Main from "../components/Main"
 
@@ -222,9 +222,7 @@ export default class Info extends Component {
     const { currentUserData } = this.state
 
     return (
-      <div className="page profile-page">
-        <Header />
-        
+      <Page clas="profile-page">
         <Main>
           <header className="settings-header">
             <h3>Profile</h3>
@@ -317,7 +315,7 @@ export default class Info extends Component {
             </article>
           </section>
         </Main>
-      </div>
+      </Page>
     )
   }
 }
