@@ -11,11 +11,12 @@ import "./App.scss"
 import Home from "./js/pages/Home"
 
 // Flows
+import Feed from "./js/pages/Feed"
 import DonatorFlow from "./js/pages/DonatorFlow"
 import DoerFlow from "./js/pages/DoerFlow"
 import RequesterFlow from "./js/pages/RequesterFlow"
 import VerifierFlow from "./js/pages/VerifierFlow"
-import Feed from "./js/pages/Feed"
+import DoerConfirmation from "./js/pages/DoerConfirmation"
 
 // 	Account creation
 import Account from "./js/pages/Account"
@@ -50,6 +51,7 @@ export default class App extends Component {
           <Route path="/requester" component={RequesterFlow} />
           <Route path="/verifier" component={VerifierFlow} />
           <Route path="/feed" component={Feed} />
+          <Route path="/doer/confirmation" component={DoerConfirmation} />
 
           {/* Account creation */}
           <Route path="/account" exact component={Account} />

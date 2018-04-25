@@ -96,8 +96,8 @@ export default class ScenarioContent extends Component {
       )
     } else if (role === "doer") {
       return (
-        <Link to="/feed/doer" className="btn footer-btn feed-btn">
-          Start Mission
+        <Link to="/doer/confirmation" className="btn footer-btn feed-btn">
+          Complete Mission
         </Link>
       )
     } else if (role === "verifer") {

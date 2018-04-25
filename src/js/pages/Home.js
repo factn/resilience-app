@@ -8,34 +8,20 @@ import { faChevronRight } from "@fortawesome/fontawesome-free-solid"
 import Header from "../components/Header"
 import Main from "../components/Main"
 import Footer from "../components/Footer"
-
-// Logo image
-import logo from "../../img/logo.svg"
 /*** [end of imports] ***/
 
 export default class Home extends Component {
   render() {
     return (
       <div className="page home-page">
-        <Header>
-          <div className="login-link">
-            <a className="bright-link" href="/account">
-              Login / Sign up
-            </a>
+        <Header />
+        <div className="subheader-home">
+          <div className="subheader-line">Help with disaster relief.</div>
+          <div className="subheader-line">Donate money / do a job.</div>
+          <div className="subheader-line">
+            What would you like to do in this mission?
           </div>
-          <div className="logo">
-            <a href="/">
-              <img src={logo} alt="WAGL" />
-            </a>
-          </div>
-          <div className="subheader-home">
-            <div className="subheader-line">Help with disaster relief.</div>
-            <div className="subheader-line">Donate money / do a job.</div>
-            <div className="subheader-line">
-              What would you like to do in this mission?
-            </div>
-          </div>
-        </Header>
+        </div>
         <Main>
           <div className="home-buttons">
             <a href="/donator" className="btn home-btn square-btn donate-btn">

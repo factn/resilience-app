@@ -65,13 +65,7 @@ export default class RequesterFlow extends Component {
 
     return (
       <div className="page flow-page requester-flow-page">
-        <Header>
-          <div className="login-link">
-            <a className="bright-link" href="/account">
-              Login / Sign up
-            </a>
-          </div>
-        </Header>
+        <Header />
         <Main>
           <section className="session-settings">
             <header className="settings-header">
