@@ -75,13 +75,8 @@ export default class DoerFlow extends Component {
 
     return (
       <div className="page flow-page doer-flow-page">
-        <Header>
-          <div className="login-link">
-            <a className="bright-link" href="/account">
-              Login / Sign up
-            </a>
-          </div>
-        </Header>
+        <Header />
+        
         <Main>
           <section className="session-settings">
             <header className="settings-header">
@@ -195,6 +190,7 @@ export default class DoerFlow extends Component {
             </article>
           </section>
         </Main>
+
         <Footer>
           <Link to="/feed/doer" className="btn footer-btn feed-btn">
             Start Mission

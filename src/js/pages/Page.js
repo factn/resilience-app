@@ -1,16 +1,12 @@
 /*** IMPORTS ***/
 // Module imports
 import React, { Component, Fragment } from "react"
-import Icon from "@fortawesome/react-fontawesome"
-import { faBullseye } from "@fortawesome/fontawesome-free-solid"
 
 // Local JS Utilities
 import Database from "../resources/Database"
-import { getUrlPiece } from "../resources/Util"
 
 // Header
 import Header from "../components/Header"
-import NavMenu from "../components/NavMenu"
 
 // Main
 import Main from "../components/Main"
@@ -23,9 +19,6 @@ import FormInput from "../components/FormInput"
 
 // Footer
 import Footer from "../components/Footer"
-
-// Logo image
-import logo from "../../img/logo.svg"
 /*** [end of imports] ***/
 
 export default class Page extends Component {
@@ -37,7 +30,7 @@ export default class Page extends Component {
       mapPickerIsOpen: false,
       lastClickedLat: null,
       lastClickedLon: null,
-      pageStyle: "",
+      pageStyle: "flow",
       navMenu: true,
       userId: 1,
 			scenarioId: this.props.match.params.scenarioId || 1,
@@ -245,7 +238,6 @@ export default class Page extends Component {
   render() {
     const {
       pageStyle,
-      navMenu,
       scenarioId,
       role,
       tab,
@@ -256,19 +248,7 @@ export default class Page extends Component {
 
     return (
       <div className="page">
-        <Header>
-          {navMenu && <NavMenu userId={userId} />}
-          <div className="logo">
-            <a href="/">
-              <img src={logo} alt="WAGL" />
-            </a>
-          </div>
-          <div className="missions-btn">
-            <a href="/missions">
-              <Icon icon={faBullseye} />
-            </a>
-          </div>
-        </Header>
+        <Header/>
 
         {pageStyle === "modal" && (
           <Main>
@@ -328,6 +308,7 @@ export default class Page extends Component {
               ) : (
                 <Loader />
               )}
+              
               <Form>
                 {this.inputs.map((_input, _index) => (
                   <FormInput

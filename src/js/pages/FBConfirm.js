@@ -23,6 +23,7 @@ export default class FBConfirm extends Component {
           </div>
           <h2>Confirm Login</h2>
         </Header>
+        
         <Main>
           <div className="logo">
             <a href="/">

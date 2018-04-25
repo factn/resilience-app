@@ -3,7 +3,6 @@
 import React from "react"
 import Icon from "@fortawesome/react-fontawesome"
 import {
-  faBullseye,
   faMapMarkerAlt,
   faPlusCircle,
   faCheck
@@ -14,16 +13,12 @@ import Page from "./Page"
 
 // Components
 import Header from "../components/Header"
-import NavMenu from "../components/NavMenu"
 import MiniScenario from "../components/MiniScenario"
 import Main from "../components/Main"
 
 // Utilities
 import Database from "../resources/Database"
 import { toFirstCap } from "../resources/Util"
-
-// Logo image
-import logo from "../../img/logo.svg"
 /*** [end of imports] ***/
 
 export default class Info extends Page {
@@ -231,24 +226,12 @@ export default class Info extends Page {
   }
 
   render() {
-    const { userId, currentUserData } = this.state
+    const { currentUserData } = this.state
 
     return (
       <div className="page profile-page">
-        <Header>
-          <NavMenu userId={userId} />
-          <div className="logo">
-            <a href="/">
-              <img src={logo} alt="WAGL" />
-            </a>
-          </div>
-          <div className="missions-btn">
-            <a href="/missions">
-              <Icon icon={faBullseye} />
-            </a>
-          </div>
-        </Header>
-
+        <Header />
+        
         <Main>
           <header className="settings-header">
             <h3>Profile</h3>

@@ -434,8 +434,8 @@ export default class Scenario extends Component {
       }, transitionTiming)
     } else if (feedType === "doer") {
       setTimeout(() => {
-        history.push(`/${scenario.id}/info`)
-        window.location = `/${scenario.id}/info`
+        history.push(`/${scenario.id}/doer/Instructions`)
+        window.location = `/${scenario.id}/doer/Instructions`
       }, transitionTiming)
     }
   }

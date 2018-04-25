@@ -1,12 +1,9 @@
 /*** IMPORTS ***/
 // Module imports
 import React, { Component } from "react"
-import Icon from "@fortawesome/react-fontawesome"
-import { faBullseye } from "@fortawesome/fontawesome-free-solid"
 
 // Header
 import Header from "../components/Header"
-import NavMenu from "../components/NavMenu"
 
 // Main
 import Main from "../components/Main"
@@ -19,10 +16,7 @@ import Footer from "../components/Footer"
 
 // Local JS Utilities
 import Database from "../resources/Database"
-import {getUrlPiece} from "../resources/Util"
-
-// Logo image
-import logo from "../../img/logo.svg"
+import { getUrlPiece } from "../resources/Util"
 /*** [end of imports] ***/
 
 export default class Feed extends Component {
@@ -80,24 +74,17 @@ export default class Feed extends Component {
   }
 
   render() {
-    const { userId, scenarioData, feedOffset, previewDismissed, lastUrlSegment } = this.state
+    const {
+      scenarioData,
+      feedOffset,
+      previewDismissed,
+      lastUrlSegment
+    } = this.state
 
     return (
       <div className={`page feed-page ${lastUrlSegment}-feed`}>
-        <Header>
-          <NavMenu userId={userId} />
-          <div className="logo">
-            <a href="/">
-              <img src={logo} alt="WAGL" />
-            </a>
-          </div>
-          <div className="missions-btn">
-            <a href="/missions">
-              <Icon icon={faBullseye} />
-            </a>
-          </div>
-        </Header>
-
+        <Header />
+        
         <Main>
           <ScenarioFeed feedType={lastUrlSegment}>
             {scenarioData ? (

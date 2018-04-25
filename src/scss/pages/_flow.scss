@@ -5,6 +5,16 @@
     background: $white;
     margin: -1rem -1.5rem 1rem;
     padding: 1rem;
+    .menu,
+    .missions-btn {
+      top: 1rem;
+    }
+    .menu {
+      left: 1.5rem;
+    }
+    .missions-btn {
+      right: 1.5rem;
+    }
   }
   .login-link {
     text-align: center;
