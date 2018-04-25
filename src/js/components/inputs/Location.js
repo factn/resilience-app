@@ -2,9 +2,6 @@
 // Module imports
 import React, { Component } from "react"
 import Icon from "@fortawesome/react-fontawesome"
-
-// Local JS
-import { getUrlPiece } from "../../resources/Util"
 /*** [end of imports] ***/
 
 export default class Location extends Component {
@@ -19,7 +16,6 @@ export default class Location extends Component {
       inputID,
       disabledField
     } = inputObj
-    const formName = getUrlPiece()
 
     return (
       <div
@@ -27,7 +23,7 @@ export default class Location extends Component {
       >
         <button
           className="input-label btn btn-label"
-          htmlFor={`${formName}_${inputID}`}
+          htmlFor={inputID}
           onClick={() => openMapPicker()}
         >
           <span className="input-label-phrase">{labelPhrase}</span>
@@ -38,14 +34,14 @@ export default class Location extends Component {
         <input
           className="form-input"
           type="number"
-          id={`${formName}_${inputID}_lat`}
+          id={`${inputID}_lat`}
           value={lat || 0}
           hidden={true}
         />
         <input
           className="form-input"
           type="number"
-          id={`${formName}_${inputID}_lon`}
+          id={`${inputID}_lon`}
           value={lon || 0}
           hidden={true}
         />

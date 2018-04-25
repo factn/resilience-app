@@ -1,9 +1,15 @@
 /*** IMPORTS ***/
 // Module imports
+import React, { Component, Fragment } from "react"
 import createHistory from "history/createBrowserHistory"
+import Icon from "@fortawesome/react-fontawesome"
+import { faAt, faKey, faSignInAlt } from "@fortawesome/fontawesome-free-solid"
 
-// Local JS
-import Page from "./Page"
+// Components
+import Header from "../components/Header"
+import Main from "../components/Main"
+import Form from "../components/Form"
+import Loader from "../components/Loader"
 
 // Local JS Utilities
 import Database from "../resources/Database"
@@ -11,40 +17,13 @@ import Database from "../resources/Database"
 
 const history = createHistory()
 
-export default class Login extends Page {
+export default class Login extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      pageStyle: "modal",
-      title: "Login",
-      navMenu: false,
-      userId: 1
+      buttonPressed: false
     }
-    this.inputs = [
-      {
-        inputType: "email",
-        inputID: "email",
-        labelPhrase: "Email",
-        labelIcon: "at",
-        requiredField: true
-      },
-      {
-        inputType: "password",
-        inputID: "pw",
-        labelPhrase: "Password",
-        labelIcon: "key",
-        requiredField: true
-      },
-      {
-        inputType: "submit",
-        labelPhrase: "Sign In",
-        labelIcon: "sign-in-alt",
-        onSubmit: this.submitLogin,
-        onSubmitParams: { email: "login_email", password: "login_pw" },
-        responseType: "neutral"
-      }
-    ]
   }
 
   submitLogin = params => {
@@ -52,6 +31,10 @@ export default class Login extends Page {
       email: params.email,
       password: params.password
     }
+
+    this.setState({
+      buttonPressed: true
+    })
 
     Database.attemptLogin(json)
       .then(result => {
@@ -62,5 +45,62 @@ export default class Login extends Page {
       .catch(error => {
         // console.error("Error getting user:", error)
       })
+  }
+
+  render() {
+    return (
+      <div className="page">
+        <Header />
+
+        <Main>
+          <Form>
+            <div className="input-wrap">
+              <label className="input-label" htmlFor="login_email">
+                <span className="input-label-phrase">Email</span>
+                <Icon icon={faAt} className="input-label-icon" />
+              </label>
+              <input className="form-input" type="email" id="login_email" />
+            </div>
+
+            <div className="input-wrap">
+              <label className="input-label" htmlFor="login_password">
+                <span className="input-label-phrase">Password</span>
+                <Icon icon={faKey} className="input-label-icon" />
+              </label>
+              <input
+                className="form-input"
+                type="password"
+                id="login_password"
+              />
+            </div>
+
+            <button
+              className="btn submit-btn neutral-response"
+              onClick={() => {
+                if (!this.state.buttonPressed) {
+                  this.submitLogin({
+                    email: document
+                      .getElementById("login_email")
+                      .value.toString(),
+                    password: document
+                      .getElementById("login_password")
+                      .value.toString()
+                  })
+                }
+              }}
+            >
+              {this.state.buttonPressed ? (
+                <Loader />
+              ) : (
+                <Fragment>
+                  <span className="button-label">Sign In </span>
+                  <Icon icon={faSignInAlt} className="button-icon" />
+                </Fragment>
+              )}
+            </button>
+          </Form>
+        </Main>
+      </div>
+    )
   }
 }

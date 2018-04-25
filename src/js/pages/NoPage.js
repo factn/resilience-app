@@ -1,40 +1,36 @@
 /*** IMPORTS ***/
 // Module imports
-import React from "react"
+import React, { Component } from "react"
+import { Link } from "react-router-dom"
+import Icon from "@fortawesome/react-fontawesome"
+import { faHome } from "@fortawesome/fontawesome-free-solid"
 
-// Local JS
-import Page from "./Page"
+// Components
+import Header from "../components/Header"
+import Main from "../components/Main"
+import Form from "../components/Form"
 /*** [end of imports] ***/
 
-export default class Info extends Page {
-	constructor(props) {
-		super(props)
-
-		this.state = {
-			pageStyle: "modal",
-			title: "Oops",
-			navMenu: true,
-			userId: 1,
-			scenarioId: this.props.match.params.scenarioId || 1
-		}
-		this.inputs = [
-			{
-				inputType: "custom",
-				disabledField: false,
-				customJSX: (
-					<div className="custom-content">
-						<h2>There's nothing here!</h2>
-            <p>The page you are trying to reach does not exist.</p>
-					</div>
-				)
-			},
-			{
-				inputType: "submit",
-				labelPhrase: "Go Home",
-				labelIcon: "home",
-				goToPath: "/",
-				responseType: "neutral"
-			}
-		]
-	}
+export default class NoPage extends Component {
+  render() {
+    return (
+      <div className="page no-page-404">
+        <Header />
+        <Main>
+          <Form>
+            <div className="input-wrap">
+              <div className="custom-content">
+                <h2>There's nothing here!</h2>
+                <p>The page you are trying to reach does not exist.</p>
+              </div>
+            </div>
+            <Link className="btn submit-btn neutral-response" to="/">
+              <span className="button-label">Go Home </span>
+              <Icon icon={faHome} className="button-icon" />
+            </Link>
+          </Form>
+        </Main>
+      </div>
+    )
+  }
 }

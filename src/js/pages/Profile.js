@@ -1,15 +1,12 @@
 /*** IMPORTS ***/
 // Module imports
-import React from "react"
+import React, { Component } from "react"
 import Icon from "@fortawesome/react-fontawesome"
 import {
   faMapMarkerAlt,
   faPlusCircle,
   faCheck
 } from "@fortawesome/fontawesome-free-solid"
-
-// Local JS
-import Page from "./Page"
 
 // Components
 import Header from "../components/Header"
@@ -21,15 +18,11 @@ import Database from "../resources/Database"
 import { toFirstCap } from "../resources/Util"
 /*** [end of imports] ***/
 
-export default class Info extends Page {
+export default class Info extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      pageStyle: "modal",
-      title: "Profile",
-      navMenu: true,
-      userId: 1,
       scenarioId: this.props.match.params.scenarioId || 1,
       userDonations: null,
       userDos: null,
@@ -64,7 +57,7 @@ export default class Info extends Page {
       })
   }
   userDonationsMount = () => {
-    let json = { id: this.props.userId }
+    let json = { id: this.state.currentUserId }
 
     Database.getUserDonations(json)
       .then(result => {
@@ -81,7 +74,7 @@ export default class Info extends Page {
       })
   }
   userDosMount = () => {
-    let json = { id: this.props.userId }
+    let json = { id: this.state.currentUserId }
 
     Database.getUserDos(json)
       .then(result => {
@@ -98,7 +91,7 @@ export default class Info extends Page {
       })
   }
   userRequestsMount = () => {
-    let json = { id: this.props.userId }
+    let json = { id: this.state.currentUserId }
 
     Database.getUserRequests(json)
       .then(result => {
@@ -115,7 +108,7 @@ export default class Info extends Page {
       })
   }
   userVerificationsMount = () => {
-    let json = { id: this.props.userId }
+    let json = { id: this.state.currentUserId }
 
     Database.getUserVerifications(json)
       .then(result => {

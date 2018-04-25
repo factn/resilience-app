@@ -16,7 +16,6 @@ import Footer from "../components/Footer"
 
 // Local JS Utilities
 import Database from "../resources/Database"
-import { getUrlPiece } from "../resources/Util"
 /*** [end of imports] ***/
 
 export default class Feed extends Component {
@@ -28,14 +27,14 @@ export default class Feed extends Component {
       feedOffset: 0,
       userId: this.props.userId || 1,
       previewDismissed: false,
-      lastUrlSegment: getUrlPiece()
+			feedType: this.props.match.params.type || 1,
     }
   }
 
   componentDidMount = () => {
     Database.scenarioFeed()
       .then(result => {
-        console.info("Database call complete:", result.body)
+        // console.info("Database call complete:", result.body)
         this.setState({
           feedOffset: result.body.data.length,
           scenarioData: result.body.data
@@ -78,15 +77,15 @@ export default class Feed extends Component {
       scenarioData,
       feedOffset,
       previewDismissed,
-      lastUrlSegment
+      feedType
     } = this.state
 
     return (
-      <div className={`page feed-page ${lastUrlSegment}-feed`}>
+      <div className={`page feed-page ${feedType}-feed`}>
         <Header />
         
         <Main>
-          <ScenarioFeed feedType={lastUrlSegment}>
+          <ScenarioFeed feedType={feedType}>
             {scenarioData ? (
               scenarioData.map((scenario, index) => {
                 if (index === feedOffset - 2) {
@@ -98,7 +97,7 @@ export default class Feed extends Component {
                       nextItem={this.nextItem}
                       previewDismissed={previewDismissed}
                       dismissPreview={this.dismissPreview}
-                      feedType={lastUrlSegment}
+                      feedType={feedType}
                     />
                   )
                 } else if (index > feedOffset - 2) {
@@ -106,7 +105,7 @@ export default class Feed extends Component {
                     <Scenario
                       key={scenario.id}
                       scenario={scenario}
-                      feedType={lastUrlSegment}
+                      feedType={feedType}
                     />
                   )
                 }
