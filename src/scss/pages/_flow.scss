@@ -14,11 +14,6 @@
     font-style: italic;
     font-size: .8rem;
   }
-  .settings-header {
-    text-transform: uppercase;
-    text-align: center;
-    margin: 1rem 0;
-  }
   .input-with-icon-wrap {
     @include inline-flex;
     border: 1px solid $orange;

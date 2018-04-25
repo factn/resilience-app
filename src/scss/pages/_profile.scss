@@ -12,6 +12,11 @@
     }
   }
 }
+.settings-header {
+  text-transform: uppercase;
+  text-align: center;
+  margin: 1rem 0;
+}
 .profile-article-header {
   @include inline-flex;
 }
@@ -31,7 +36,7 @@
 }
 .user-info-area {
   text-align: center;
-  padding: 2rem 0 0.5rem;
+  padding: 1rem 0 2rem;
   .user-icon,
   .user-image {
     @include circle-photo-wrap(8rem);
@@ -52,6 +57,15 @@
     &.not-signed-in {
       color: rgba($black, 0.75);
     }
+    span {
+      text-transform: uppercase;
+    }
+  }
+  .user-verified-icon {
+    display: inline-block;
+    color: $green-bright;
+    width: 2rem;
+    text-align: center;
   }
 }
 .discovery-settings-header {

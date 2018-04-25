@@ -5,7 +5,8 @@ import Icon from "@fortawesome/react-fontawesome"
 import {
   faBullseye,
   faMapMarkerAlt,
-  faPlusCircle
+  faPlusCircle,
+  faCheck
 } from "@fortawesome/fontawesome-free-solid"
 
 // Local JS
@@ -249,6 +250,9 @@ export default class Info extends Page {
         </Header>
 
         <Main>
+          <header className="settings-header">
+            <h3>Profile</h3>
+          </header>
           {currentUserData && currentUserData.firstname !== "" ? (
             <div className="user-info-area">
               {currentUserData.avatar ? (
@@ -263,7 +267,10 @@ export default class Info extends Page {
               )}
 
               <div className="user-name">
-                {toFirstCap(currentUserData.firstname)}
+                <span>{toFirstCap(currentUserData.firstname)}</span>
+                <span className="user-verified-icon">
+                  <Icon icon={faCheck} />
+                </span>
               </div>
             </div>
           ) : (
@@ -274,10 +281,6 @@ export default class Info extends Page {
               </a>
             </div>
           )}
-          <div className="subheader">
-            <div className="subheader-title">Donate Money / Do a job.</div>
-            <div className="subheader-title">Post a mission and get help.</div>
-          </div>
           <section className="discovery-settings-area">
             <header className="discovery-settings-header">
               <h3>Discovery Settings</h3>
