@@ -5,20 +5,17 @@ import { Link } from "react-router-dom"
 import Icon from "@fortawesome/react-fontawesome"
 import {
   faMapMarkerAlt,
-  faCamera,
-  faCloudUploadAlt,
-  faImage
+  faChevronRight
 } from "@fortawesome/fontawesome-free-solid"
 
 // Page elements
-import Header from "../components/Header"
+import Page from "./Page"
 import Main from "../components/Main"
 import Footer from "../components/Footer"
 import GoogleMaps from "../components/GoogleMaps"
 
 // Input
-import File from "../components/inputs/File"
-import Text from "../components/inputs/Text"
+import Image from "../components/inputs/Image"
 /*** [end of imports] ***/
 
 export default class RequesterFlow extends Component {
@@ -41,36 +38,20 @@ export default class RequesterFlow extends Component {
   render() {
     const { remainingCharacterCount } = this.state
 
-    let requestPhotoInputObj = {
-      labelPhrase: "Upload",
-      labelIcon: faCloudUploadAlt,
-      inputID: "photo",
-      requiredField: true,
-      disabledField: false
-    }
-    let eventTagInputObj = {
-      inputType: "text",
-      labelPhrase: "Event",
-      inputID: "eventTag",
-      requiredField: true,
-      disabledField: false
-    }
-    let jobsInputObj = {
-      inputType: "text",
-      labelPhrase: "Jobs",
-      inputID: "jobsTags",
-      requiredField: true,
-      disabledField: false
-    }
-
     return (
-      <div className="page flow-page requester-flow-page">
-        <Header />
-
+      <Page clas="flow-page requester-flow-page">
         <Main>
+          <section className="session-settings event-settings">
+            <header className="settings-header">
+              <h3>Event</h3>
+            </header>
+            <article className="card input-card event-card">
+              <input type="text" placeholder="Enter event name" />
+            </article>
+          </section>
           <section className="session-settings">
             <header className="settings-header">
-              <h3>What do you need?</h3>
+              <h3>What help do you need?</h3>
             </header>
             <article className="card input-card title-card">
               <input type="text" placeholder="Enter a title" />
@@ -110,55 +91,50 @@ export default class RequesterFlow extends Component {
             <header className="settings-header">
               <h3>Add a photo</h3>
             </header>
-            <article className="photo-card">
-              <div className="photo-icon">
-                <Icon icon={faImage} />
+            <Image />
+          </section>
+          <section className="session-settings jobs-settings">
+            <header className="settings-header">
+              <h3>Tasks</h3>
+            </header>
+            <article className="card btn-card job-card">
+              <h4 className="job-label">Get materials on site</h4>
+              <div className="plus-amount">+10</div>
+              <div className="take-action-icon">
+                <Icon icon={faChevronRight} />
               </div>
-              <File inputObj={requestPhotoInputObj} />
-              <label
-                className="input-label btn btn-label second-label"
-                htmlFor="requester_photo"
-              >
-                <span className="input-label-phrase">Take Photo</span>
-                <Icon icon={faCamera} className="input-label-icon" />
-              </label>
             </article>
-          </section>
-          <section className="event-settings">
-            <header className="settings-header">
-              <h3>Event tag</h3>
-            </header>
-            <article className="card event-card">
-              <Text inputObj={eventTagInputObj} />
+            <article className="card btn-card job-card">
+              <h4 className="job-label">Get to location</h4>
+              <div className="plus-amount">+5</div>
+              <div className="take-action-icon">
+                <Icon icon={faChevronRight} />
+              </div>
             </article>
-          </section>
-          <section className="jobs-settings">
-            <header className="settings-header">
-              <h3>What jobs do you need done?</h3>
-            </header>
-            <article className="card jobs-card">
-              <Text inputObj={jobsInputObj} />
-              <div className="tag-wrap">
-                <ul className="tag-list">
-                  <li className="tag inactive-tag">#Painting</li>
-                  <li className="tag inactive-tag">#Roofing</li>
-                  <li className="tag inactive-tag">#Transport</li>
-                  <li className="tag inactive-tag">#Coding</li>
-                  <li className="tag inactive-tag">#FirstAid</li>
-                  <li className="tag inactive-tag">#Childcare</li>
-                </ul>
+            <article className="card btn-card job-card">
+              <h4 className="job-label">Cover roof</h4>
+              <div className="plus-amount">+20</div>
+              <div className="take-action-icon">
+                <Icon icon={faChevronRight} />
+              </div>
+            </article>
+            <article className="card btn-card job-card">
+              <h4 className="job-label">Secure roof</h4>
+              <div className="plus-amount">+15</div>
+              <div className="take-action-icon">
+                <Icon icon={faChevronRight} />
               </div>
             </article>
           </section>
         </Main>
-        
+
         <Footer>
           <div className="button-label">Post your request</div>
           <Link to="/1/requester" className="btn footer-btn feed-btn">
             Submit
           </Link>
         </Footer>
-      </div>
+      </Page>
     )
   }
 }

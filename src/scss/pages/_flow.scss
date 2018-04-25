@@ -16,13 +16,19 @@
       right: 1.5rem;
     }
   }
+  .session-settings {
+    padding-bottom: 1rem;
+    &:not(:last-of-type) {
+      border-bottom: 0.125rem solid rgba($black, 0.1);
+    }
+  }
   .login-link {
     text-align: center;
   }
   .or-line {
     text-align: center;
     font-style: italic;
-    font-size: .8rem;
+    font-size: 0.8rem;
   }
   .input-with-icon-wrap {
     @include inline-flex;
@@ -40,30 +46,24 @@
       border: 0;
     }
   }
-  .photo-card {
-    background: transparent;
-    border: 1px dashed rgba($black, 0.25);
-    border-radius: 0.5rem;
-    padding: 1rem;
-    &:after {
-      content: "";
-      display: table;
-      clear: both;
-    }
-    .photo-icon {
-      width: 100%;
-      text-align: center;
-      font-size: 5rem;
-      color: rgba($black, 0.25);
-    }
-    .input-label {
-      float: left;
-    }
-    .input-label.second-label {
-      float: right;
-    }
-    .input-label-phrase {
-      padding-right: 0.5rem;
-    }
+}
+.photo-card {
+  background: transparent;
+  border: 1px dashed rgba($black, 0.25);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  .button-row {
+    @include inline-flex;
+  }
+  .photo-icon {
+    width: 100%;
+    text-align: center;
+    font-size: 5rem;
+    color: rgba($black, 0.25);
+  }
+  .input-label {
+    font-size: 0.8rem;
+    text-align: center;
+    width: 8rem;
   }
 }

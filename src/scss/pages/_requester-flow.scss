@@ -5,7 +5,8 @@
   .form-input {
     font-size: 1rem;
   }
-  .event-card, .jobs-card {
+  .event-card,
+  .jobs-card {
     .input-wrap {
       @include inline-flex;
     }
@@ -17,7 +18,27 @@
     }
   }
   .tag-wrap {
-    margin-top: .5rem;
+    margin-top: 0.5rem;
+  }
+  .job-card {
+    @include inline-flex;
+    .job-label {
+      flex-basis: 70%;
+      flex-grow: 5;
+    }
+    .plus-amount,
+    .take-action-icon {
+      flex-basis: 15%;
+      flex-grow: 1;
+      text-align: center;
+      margin-left: 1rem;
+    }
+    .plus-amount {
+      background: rgba($black, 0.1);
+      padding: 0.25rem;
+      border-radius: 0.5rem;
+      margin: -0.25rem 0 -0.25rem 1rem;
+    }
   }
 }
 .remaining-character-count {

@@ -3,7 +3,7 @@
 import React, { Component } from "react"
 
 // Local JS
-import File from "./inputs/File"
+import Image from "./inputs/Image"
 import Location from "./inputs/Location"
 import Select from "./inputs/Select"
 import Submit from "./inputs/Submit"
@@ -15,7 +15,7 @@ export default class FormInput extends Component {
     const { openMapPicker, lat, lon, scenarioId, inputObj } = this.props
     const { inputType } = inputObj
 
-    if (inputType === "file") return <File inputObj={inputObj} />
+    if (inputType === "image") return <Image />
     else if (inputType === "location") {
       return (
         <Location

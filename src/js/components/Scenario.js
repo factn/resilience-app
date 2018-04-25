@@ -130,7 +130,7 @@ export default class Scenario extends Component {
                     className="btn btn-lite preview-dismiss-btn"
                     onClick={() => this.props.dismissPreview()}
                   >
-                    Start Mission
+                    Got it
                   </button>
                 </div>
               </div>
@@ -192,7 +192,7 @@ export default class Scenario extends Component {
                     className="btn btn-lite preview-dismiss-btn"
                     onClick={() => dismissPreview()}
                   >
-                    Start Mission
+                    Got it
                   </button>
                 </div>
               </div>
@@ -259,16 +259,16 @@ export default class Scenario extends Component {
     } else if (feedType === "doer") {
       return (
         <footer className="scenario-footer">
-        <div className="tag-list-wrap">
-          <span className="tag-list-label">Work needed:</span>
-          <ul className="tag-list">
-            <li className="tag active-tag">#Roofing</li>
-            <li className="tag inactive-tag">#Labor</li>
-            <li className="tag inactive-tag">#Painting</li>
-            <li className="tag inactive-tag">#Transport</li>
-            <li className="tag inactive-tag">#Building</li>
-          </ul>
-        </div>
+          <div className="tag-list-wrap">
+            <span className="tag-list-label">Work needed:</span>
+            <ul className="tag-list">
+              <li className="tag active-tag">#Roofing</li>
+              <li className="tag inactive-tag">#Labor</li>
+              <li className="tag inactive-tag">#Painting</li>
+              <li className="tag inactive-tag">#Transport</li>
+              <li className="tag inactive-tag">#Building</li>
+            </ul>
+          </div>
         </footer>
       )
     } else if (feedType === "verifier") {
@@ -637,7 +637,7 @@ export default class Scenario extends Component {
 
           {this.footerBuild()}
         </div>
-        <a className="btn accept-scenario-btn" href={`/${id}/info/`}>
+        <a className="btn accept-scenario-btn" href={`/${id}/donator/`}>
           <Icon icon={faArrowAltCircleDown} />
         </a>
       </article>

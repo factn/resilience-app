@@ -2,12 +2,6 @@
 // Module imports
 import React, { Component } from "react"
 import { Link } from "react-router-dom"
-import Icon from "@fortawesome/react-fontawesome"
-import {
-  faCamera,
-  faCloudUploadAlt,
-  faImage
-} from "@fortawesome/fontawesome-free-solid"
 
 // Page elements
 import Header from "../components/Header"
@@ -15,25 +9,17 @@ import Main from "../components/Main"
 import Footer from "../components/Footer"
 
 // Input
-import File from "../components/inputs/File"
+import Image from "../components/inputs/Image"
 /*** [end of imports] ***/
 
 export default class Account extends Component {
   render() {
-    let avatarInputObj = {
-      labelPhrase: "Upload",
-      labelIcon: faCloudUploadAlt,
-      inputID: "photo",
-      requiredField: true,
-      disabledField: false
-    }
-
     return (
       <div className="page flow-page create-account-page">
         <Header>
           <h2>Create your profile</h2>
         </Header>
-        
+
         <Main>
           <section className="session-settings facebook-setting">
             <Link
@@ -75,22 +61,10 @@ export default class Account extends Component {
             <header className="settings-header">
               <h3>Add a photo</h3>
             </header>
-            <article className="photo-card">
-              <div className="photo-icon">
-                <Icon icon={faImage} />
-              </div>
-              <File inputObj={avatarInputObj} />
-              <label
-                className="input-label btn btn-label second-label"
-                htmlFor="requester_photo"
-              >
-                <span className="input-label-phrase">Take Photo</span>
-                <Icon icon={faCamera} className="input-label-icon" />
-              </label>
-            </article>
+            <Image />
           </section>
         </Main>
-        
+
         <Footer>
           <div className="button-label">Create your profile</div>
           <Link to="/profile" className="btn footer-btn feed-btn">

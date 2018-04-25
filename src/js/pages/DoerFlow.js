@@ -6,7 +6,7 @@ import Icon from "@fortawesome/react-fontawesome"
 import { faChevronRight } from "@fortawesome/fontawesome-free-solid"
 
 // Page elements
-import Header from "../components/Header"
+import Page from "./Page"
 import Main from "../components/Main"
 import Footer from "../components/Footer"
 
@@ -74,9 +74,7 @@ export default class DoerFlow extends Component {
     })
 
     return (
-      <div className="page flow-page doer-flow-page">
-        <Header />
-        
+      <Page clas="flow-page doer-flow-page">
         <Main>
           <section className="session-settings">
             <header className="settings-header">
@@ -196,7 +194,7 @@ export default class DoerFlow extends Component {
             Start Mission
           </Link>
         </Footer>
-      </div>
+      </Page>
     )
   }
 }
