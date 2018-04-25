@@ -1,5 +1,10 @@
 .app-header {
   position: relative;
+  h1, h2, h3 {
+    color: $orange;
+    text-transform: uppercase;
+    text-align: center;
+  }
 }
 .logo img {
   max-height: 3rem;

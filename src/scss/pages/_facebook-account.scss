@@ -1,0 +1,67 @@
+.confirm-facebook-page,
+.verify-facebook-page {
+  .app-header {
+    background: $fb-blue;
+    h1, h2, h3 {
+      color: $white;
+    }
+  }
+  .facebook-icon {
+    color: $white;
+    float: left;
+    font-size: 1.5rem;
+  }
+}
+.confirm-facebook-page,
+.verify-facebook-page,
+.create-account-page {
+  .facebook-connect-btn {
+    display: block;
+    width: 100%;
+    border-radius: 2rem;
+    font-size: 1.25rem;
+    background: $fb-blue;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+}
+.confirm-facebook-page {
+  .logo {
+    margin-bottom: 1rem;
+    img {
+      max-height: 5rem;
+    }
+  }
+  .facebook-setting {
+    margin-top: 1rem;
+  }
+}
+.verify-facebook-page {
+  background: $white;
+  .or-line {
+    margin-bottom: 1rem;
+    color: rgba($black, .5);
+    &:first-of-type {
+      font-size: 1.1em;
+      color: $black;
+    }
+  }
+  .friends-list-wrap {
+    background: darken($white, 10%);
+    padding: 1rem;
+    margin: 0 -1.5rem;
+  }
+  .friends-list {
+    @include pseudo-list;
+  }
+  .friend {
+    @include inline-flex;
+    padding: .5rem 0;
+    &:not(:last-of-type) {
+      border-bottom: .125rem solid rgba($black, .1);
+    }
+  }
+  .friend-photo-wrap {
+    @include circle-photo-wrap(3rem);
+  }
+}

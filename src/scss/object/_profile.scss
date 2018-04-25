@@ -34,11 +34,9 @@
   padding: 2rem 0 0.5rem;
   .user-icon,
   .user-image {
+    @include circle-photo-wrap(8rem);
     color: $white;
     background: rgba($black, 0.1);
-    width: 8rem;
-    height: 8rem;
-    border-radius: 50%;
     border: 0.125rem solid rgba($black, 0.25);
   }
   .user-icon {

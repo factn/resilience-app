@@ -77,7 +77,7 @@ export default class DoerFlow extends Component {
       <div className="page flow-page doer-flow-page">
         <Header>
           <div className="login-link">
-            <a className="bright-link" href="/login">
+            <a className="bright-link" href="/account">
               Login / Sign up
             </a>
           </div>

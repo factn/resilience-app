@@ -17,7 +17,7 @@ export default class DonatorFlow extends Component {
       <div className="page flow-page donator-flow-page">
         <Header>
           <div className="login-link">
-            <a className="bright-link" href="/login">
+            <a className="bright-link" href="/account">
               Login / Sign up
             </a>
           </div>

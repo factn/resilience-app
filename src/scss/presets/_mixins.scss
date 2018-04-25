@@ -33,6 +33,15 @@
     }
   }
 }
+@mixin circle($dim) {
+  width: $dim;
+  height: $dim;
+  border-radius: 50%;
+}
+@mixin circle-photo-wrap($dim) {
+  @include circle($dim);
+  overflow: hidden;
+}
 @mixin menu-back {
   background: $menu-background;
   box-shadow: $menu-shadow;
