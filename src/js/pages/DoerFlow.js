@@ -88,7 +88,7 @@ export default class DoerFlow extends Component {
               <h3>Jobs I want to do</h3>
             </header>
             <article className="card trending-card">
-              <h4>Select from trending jobs</h4>
+              <h4 className="card-title">Select from trending jobs</h4>
               <ul className="tag-list">
                 <li className="tag inactive-tag">#Painting</li>
                 <li className="tag active-tag">#Roofing</li>
@@ -101,7 +101,7 @@ export default class DoerFlow extends Component {
           </section>
           <section className="timeframe-settings">
             <header className="settings-header">
-              <h4>Time frame</h4>
+              <h4 className="card-title">Time frame</h4>
             </header>
             <article
               className={
@@ -136,7 +136,7 @@ export default class DoerFlow extends Component {
           </section>
           <section className="location-settings">
             <header className="settings-header">
-              <h4>Location</h4>
+              <h4 className="card-title">Location</h4>
             </header>
             <article className="card">
               <div className="card-area location-city">

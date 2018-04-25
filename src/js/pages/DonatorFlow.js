@@ -28,7 +28,7 @@ export default class DonatorFlow extends Component {
               <h3>Total I want to spend</h3>
             </header>
             <article className="card session-card">
-              <h4>In this session</h4>
+              <h4 className="card-title">In this session</h4>
               <div className="input-with-icon-wrap">
                 <label className="input-icon" htmlFor="selectMaxDonationAmount">
                   <Icon icon={faDollarSign} />
