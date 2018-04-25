@@ -4,7 +4,7 @@ import React, { Component } from "react"
 import Icon from "@fortawesome/react-fontawesome"
 
 // Local JS
-import { getUrlPiece, prepareFileReader } from "../../resources/Util"
+import { prepareFileReader } from "../../resources/Util"
 /*** [end of imports] ***/
 
 export default class File extends Component {
@@ -19,7 +19,6 @@ export default class File extends Component {
       requiredField,
       disabledField
     } = this.props.inputObj
-    const formName = getUrlPiece()
 
     return (
       <div
@@ -27,7 +26,7 @@ export default class File extends Component {
       >
         <label
           className="input-label btn btn-label"
-          htmlFor={`${formName}_${inputID}`}
+          htmlFor={inputID}
         >
           <span className="input-label-phrase">{labelPhrase}</span>
           {typeof labelIcon !== "undefined" && (
@@ -37,13 +36,13 @@ export default class File extends Component {
         <input
           className="form-input"
           type="file"
-          id={`${formName}_${inputID}`}
+          id={inputID}
           accept="image/*"
           required={requiredField}
           disabled={disabledField}
           onChange={() => {
             prepareFileReader(
-              document.getElementById(`${formName}_${inputID}`).files[0]
+              document.getElementById(inputID).files[0]
             )
           }}
         />

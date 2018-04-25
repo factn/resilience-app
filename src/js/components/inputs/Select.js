@@ -4,7 +4,7 @@ import React, { Component } from "react"
 import Icon from "@fortawesome/react-fontawesome"
 
 // Local JS
-import { getUrlPiece, valuify } from "../../resources/Util"
+import { valuify } from "../../resources/Util"
 /*** [end of imports] ***/
 
 export default class Select extends Component {
@@ -23,14 +23,13 @@ export default class Select extends Component {
       requiredField,
       disabledField
     } = this.props.inputObj
-    const formName = getUrlPiece()
 
     return (
       <div
         className={disabledField ? "input-wrap disabled-input" : "input-wrap"}
       >
         {labelPhrase && (
-          <label className="input-label" htmlFor={`${formName}_${inputID}`}>
+          <label className="input-label" htmlFor={inputID}>
             <span className="input-label-phrase">{labelPhrase}</span>
             {typeof labelIcon !== "undefined" && (
               <Icon icon={labelIcon} className="input-label-icon" />
@@ -39,7 +38,7 @@ export default class Select extends Component {
         )}
         <select
           className="form-input"
-          id={`${formName}_${inputID}`}
+          id={inputID}
           required={requiredField}
           disabled={disabledField}
         >
