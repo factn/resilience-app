@@ -22,7 +22,7 @@ import Database from "../resources/Database"
 import { toFirstCap } from "../resources/Util"
 
 // Logo image
-import logo from "../../img/logo.png"
+import logo from "../../img/logo.svg"
 /*** [end of imports] ***/
 
 export default class Info extends Page {

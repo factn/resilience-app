@@ -1,121 +1,101 @@
 /*** IMPORTS ***/
 // Module imports
-import createHistory from "history/createBrowserHistory"
+import React, { Component } from "react"
+import { Link } from "react-router-dom"
+import Icon from "@fortawesome/react-fontawesome"
+import {
+  faCamera,
+  faCloudUploadAlt,
+  faImage
+} from "@fortawesome/fontawesome-free-solid"
 
-// Local JS
-import Page from "./Page"
+// Page elements
+import Header from "../components/Header"
+import Main from "../components/Main"
+import Footer from "../components/Footer"
 
-// Local JS Utilities
-import Database from "../resources/Database"
+// Input
+import File from "../components/inputs/File"
 /*** [end of imports] ***/
 
-const history = createHistory()
-
-export default class Account extends Page {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      pageStyle: "modal",
-      title: "Create Account",
-      navMenu: false,
-      userId: 1
-    }
-    this.inputs = [
-      {
-        inputType: "text",
-        inputID: "first-name",
-        labelPhrase: "First Name",
-        labelIcon: "id-card",
-        requiredField: true
-      },
-      {
-        inputType: "text",
-        inputID: "last-name",
-        labelPhrase: "Last Name",
-        labelIcon: "id-card",
-        requiredField: false
-      },
-      {
-        inputType: "email",
-        inputID: "email",
-        labelPhrase: "Email",
-        labelIcon: "at",
-        requiredField: true
-      },
-      {
-        inputType: "password",
-        inputID: "pw",
-        labelPhrase: "Password",
-        labelIcon: "key",
-        requiredField: true
-      },
-      {
-        inputType: "password",
-        inputID: "confirm-pw",
-        labelPhrase: "Confirm Password",
-        labelIcon: "key",
-        requiredField: true
-      },
-      {
-        inputType: "location",
-        inputID: "user-location",
-        labelPhrase: "Location",
-        labelIcon: "map-pin",
-        requiredField: false
-      },
-      {
-        inputType: "file",
-        inputID: "profile-photo",
-        labelPhrase: "Photo",
-        labelIcon: "image",
-        requiredField: false
-      },
-      {
-        inputType: "submit",
-        labelPhrase: "Create Account",
-        labelIcon: "user-plus",
-        onSubmit: this.submitCreateAccount,
-        onSubmitParams: {
-          email: "account_email",
-          firstname: "account_first-name",
-          lastname: "account_last-name",
-          latitude: "account_user-location_lat",
-          longitude: "account_user-location_lon",
-          password: "account_pw",
-          password_confirmation: "account_confirm-pw",
-          avatar: "account_profile-photo"
-        },
-        responseType: "neutral"
-      }
-    ]
-  }
-
-  submitCreateAccount = params => {
-    let json = {
-      data: {
-        type: "users",
-        attributes: {
-          email: params.email,
-          firstname: params.firstname,
-          lastname: params.lastname,
-          latitude: params.latitude,
-          longitude: params.longitude,
-          password: params.password,
-          password_confirmation: params.password_confirmation,
-          avatar: params.avatar
-        }
-      }
+export default class Account extends Component {
+  render() {
+    let avatarInputObj = {
+      labelPhrase: "Upload",
+      labelIcon: faCloudUploadAlt,
+      inputID: "photo",
+      requiredField: true,
+      disabledField: false
     }
 
-    Database.createUser(json)
-      .then(result => {
-        // console.log("User successfully created:", result)
-
-        history.push("/")
-      })
-      .catch(error => {
-        // console.error("Error creating user:", error)
-      })
+    return (
+      <div className="page flow-page create-account-page">
+        <Header>
+          <h2>Create your profile</h2>
+        </Header>
+        <Main>
+          <section className="session-settings facebook-setting">
+            <Link
+              className="btn facebook-connect-btn"
+              to="/account/confirm-facebook"
+            >
+              Sign up with Facebook
+            </Link>
+          </section>
+          <div className="or-line">or enter your details</div>
+          <section className="session-settings name-settings">
+            <header className="settings-header">
+              <h3>Name</h3>
+            </header>
+            <article className="card input-card name-card">
+              <input type="text" placeholder="Enter a name" />
+            </article>
+          </section>
+          <section className="session-settings email-settings">
+            <header className="settings-header">
+              <h3>Email</h3>
+            </header>
+            <article className="card input-card email-card">
+              <input type="email" placeholder="Enter your email" />
+            </article>
+          </section>
+          <section className="session-settings password-settings">
+            <header className="settings-header">
+              <h3>Password</h3>
+            </header>
+            <article className="card input-card password-card">
+              <input type="password" placeholder="Choose a password" />
+            </article>
+            <article className="card input-card password-confirm-card">
+              <input type="password" placeholder="Confirm your password" />
+            </article>
+          </section>
+          <section className="session-settings">
+            <header className="settings-header">
+              <h3>Add a photo</h3>
+            </header>
+            <article className="photo-card">
+              <div className="photo-icon">
+                <Icon icon={faImage} />
+              </div>
+              <File inputObj={avatarInputObj} />
+              <label
+                className="input-label btn btn-label second-label"
+                htmlFor="requester_photo"
+              >
+                <span className="input-label-phrase">Take Photo</span>
+                <Icon icon={faCamera} className="input-label-icon" />
+              </label>
+            </article>
+          </section>
+        </Main>
+        <Footer>
+          <div className="button-label">Create your profile</div>
+          <Link to="/profile" className="btn footer-btn feed-btn">
+            Submit
+          </Link>
+        </Footer>
+      </div>
+    )
   }
 }

@@ -9,6 +9,11 @@
   .login-link {
     text-align: center;
   }
+  .or-line {
+    text-align: center;
+    font-style: italic;
+    font-size: .8rem;
+  }
   .settings-header {
     text-transform: uppercase;
     text-align: center;
@@ -28,6 +33,32 @@
     .input-field {
       font-size: 1.5rem;
       border: 0;
+    }
+  }
+  .photo-card {
+    background: transparent;
+    border: 1px dashed rgba($black, 0.25);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    &:after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+    .photo-icon {
+      width: 100%;
+      text-align: center;
+      font-size: 5rem;
+      color: rgba($black, 0.25);
+    }
+    .input-label {
+      float: left;
+    }
+    .input-label.second-label {
+      float: right;
+    }
+    .input-label-phrase {
+      padding-right: 0.5rem;
     }
   }
 }

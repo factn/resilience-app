@@ -17,8 +17,12 @@ import RequesterFlow from "./js/pages/RequesterFlow"
 import VerifierFlow from "./js/pages/VerifierFlow"
 import Feed from "./js/pages/Feed"
 
-// 	Modals
+// 	Account creation
 import Account from "./js/pages/Account"
+import FBConfirm from "./js/pages/FBConfirm";
+import FBVerify from "./js/pages/FBVerify";
+
+// 	Account
 import EditAccount from "./js/pages/EditAccount"
 import Login from "./js/pages/Login"
 import Preferences from "./js/pages/Preferences"
@@ -47,9 +51,12 @@ export default class App extends Component {
           <Route path="/verifier" component={VerifierFlow} />
           <Route path="/feed" component={Feed} />
 
+          {/* Account creation */}
+          <Route path="/account" exact component={Account} />
+          <Route path="/account/confirm-facebook" exact component={FBConfirm} />
+          <Route path="/account/verify-facebook" exact component={FBVerify} />
 
-          {/* Modals */}
-          <Route path="/account" component={Account} />
+          {/* Account */}
           <Route path="/edit-account" component={EditAccount} />
           <Route path="/login" component={Login} />
           <Route path="/preferences" component={Preferences} />
