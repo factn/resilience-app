@@ -127,7 +127,7 @@ export default class Scenario extends Component {
                 </div>
                 <div className="action down-action">
                   <button
-                    className="btn btn-lite preview-dismiss-btn"
+                    className="btn preview-dismiss-btn"
                     onClick={() => this.props.dismissPreview()}
                   >
                     Got it
@@ -189,7 +189,7 @@ export default class Scenario extends Component {
                 </div>
                 <div className="action down-action">
                   <button
-                    className="btn btn-lite preview-dismiss-btn"
+                    className="btn preview-dismiss-btn"
                     onClick={() => dismissPreview()}
                   >
                     Got it
