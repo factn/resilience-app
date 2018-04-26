@@ -2,12 +2,12 @@
 // Module imports
 import React, { Component } from "react"
 import { Map, Marker, GoogleApiWrapper } from "google-maps-react"
-import { faMapMarkerAlt } from "@fortawesome/fontawesome-free-solid"
 
 // Local JS
 import Database from "../resources/Database"
 
 // Logo image
+import mapMarkerAlt from "../../img/map-marker-alt.svg"
 import customMapPin from "../../img/custom-map-pin.svg"
 /*** [end of imports] ***/
 
@@ -73,7 +73,7 @@ class MiniMap extends Component {
         >
           <Marker
             position={this.state.markerPos}
-            options={{ icon: customMapPin }}
+            options={{ icon: mapMarkerAlt }}
           />
           {pins &&
             pins.map((_pin, _index) => (

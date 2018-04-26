@@ -33,12 +33,10 @@ export default class Home extends Component {
         <div className="subheader-home">
           <div className="subheader-line">Help with disaster relief.</div>
           <div className="subheader-line">Donate money / do a job.</div>
-          <div className="subheader-line">
-            What would you like to do in this mission?
-          </div>
         </div>
 
         <Main>
+          <header className="home-header">Choose your mission</header>
           <div className="home-buttons">
             <a href="/donator" className="btn home-btn square-btn donate-btn">
               <span>Donate</span>

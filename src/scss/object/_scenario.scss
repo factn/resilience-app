@@ -1,7 +1,7 @@
 .scenario {
   position: absolute;
-  left: 1rem;
-  width: calc(100vw - 2rem);
+  left: 1.5rem;
+  width: calc(100vw - 3rem);
   background: $white;
   box-shadow: $card-shadow;
   transition: {
@@ -48,9 +48,8 @@
     width: 100%;
     height: 100%;
     color: $white;
-    background: rgba($white, 0.75);
+    background: rgba(darken($white, 5%), 0.85);
     text-align: center;
-    font-size: 1.5rem;
     transition: {
       property: opacity;
       duration: $very-fast;
@@ -59,10 +58,12 @@
   }
   .pseudo-main-text {
     font-weight: bold;
+    font-size: 1.25rem;
     color: $orange;
     text-transform: uppercase;
   }
   .pseudo-sub-text {
+    font-size: 1.1rem;
     color: $blue;
     margin-bottom: 0.5rem;
   }
@@ -70,7 +71,7 @@
     position: absolute;
   }
   .up-action {
-    top: 1rem;
+    top: 2rem;
     left: 0;
     width: 100%;
     text-align: center;
@@ -78,7 +79,10 @@
   .left-action,
   .right-action {
     top: 8rem;
-    padding: 1rem;
+    .pseudo-main-text,
+    .pseudo-sub-text {
+      padding: 0 2rem;
+    }
   }
   .left-action {
     text-align: right;
@@ -124,6 +128,7 @@
   .arrow-right {
     width: 8rem;
     height: 1px;
+    margin-top: 1rem;
     svg {
       top: -1.25rem;
     }
@@ -143,7 +148,7 @@
     text-align: center;
   }
   .preview-dismiss-btn {
-    background: transparent;
+    width: 50%;
     font-size: 1rem;
   }
 }
@@ -175,7 +180,7 @@
   @include inline-flex;
   font-size: 0.75rem;
   font-style: italic;
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
   .user-info,
   .scenario-location {
     flex-basis: 45%;
@@ -207,7 +212,7 @@
   }
 }
 .scenario-description {
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
 }
 .scenario-tags {
   @include inline-flex;

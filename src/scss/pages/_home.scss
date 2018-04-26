@@ -2,22 +2,27 @@
   text-align: center;
   font-size: 1.1em;
   .logo {
-    height: 10rem;
+    height: 8rem;
     padding: 1rem;
     img {
       max-height: inherit;
-      height: 8rem;
+      height: 6rem;
     }
   }
   .subheader-home {
+    margin-bottom: 1rem;
     .subheader-line {
       padding: 0.5rem 0;
       &:first-of-type {
         display: inline-block;
         margin: 0 auto;
-        border-bottom: 2px dashed $orange;
+        border-bottom: 0.0625rem dashed $orange;
       }
     }
+  }
+  .home-header {
+    font-weight: bold;
+    margin: 2rem 0 1rem;
   }
   .home-btn {
     display: block;
