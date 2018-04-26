@@ -1,7 +1,6 @@
 /*** IMPORTS ***/
 // Module imports
 import React, { Component } from "react"
-import { Link } from "react-router-dom"
 import Icon from "@fortawesome/react-fontawesome"
 import {
   faMapMarkerAlt,
@@ -13,9 +12,11 @@ import Page from "./Page"
 import Main from "../components/Main"
 import Footer from "../components/Footer"
 import GoogleMaps from "../components/GoogleMaps"
-
-// Input
 import Image from "../components/inputs/Image"
+
+// Local JS Utilities
+import Database from "../resources/Database"
+import { getBase64 } from "../resources/Util"
 /*** [end of imports] ***/
 
 export default class RequesterFlow extends Component {
@@ -34,6 +35,60 @@ export default class RequesterFlow extends Component {
       remainingCharacterCount: 512 - value.length
     })
   }
+  submitRequest = params => {
+    let imageString = getBase64(params.image)
+
+    let json = {
+      data: {
+        type: "scenarios",
+        attributes: {
+          funding_goal: "1000",
+          image: imageString
+        },
+        relationships: {
+          event: {
+            data: {
+              type: "events",
+              id: "2" // "Hurricane Katrina", will be based of of title field
+            }
+          },
+          noun: {
+            data: {
+              type: "nouns",
+              id: "5" // "roof", will be based of of title field
+            }
+          },
+          verb: {
+            data: {
+              type: "verbs",
+              id: "5" // "fix", will be based of of title field
+            }
+          },
+          requester: {
+            data: {
+              type: "users",
+              id: "1" // current user, right now, defaulted
+            }
+          },
+          doer: {
+            data: {
+              type: "users",
+              id: "1" // will be admin until chosen
+            }
+          }
+        }
+      }
+    }
+
+    Database.createScenario(json)
+      .then(result => {
+        console.log("Scenario successfully created:", result)
+        // go to /newID/requester
+      })
+      .catch(error => {
+        // console.error("Error creating scenario:", error)
+      })
+  }
 
   render() {
     const { remainingCharacterCount } = this.state
@@ -46,7 +101,7 @@ export default class RequesterFlow extends Component {
               <h3>Event</h3>
             </header>
             <article className="card input-card event-card">
-              <input type="text" placeholder="Enter event name" />
+              <input type="text" placeholder="Enter event name" id="event" />
             </article>
           </section>
           <section className="session-settings">
@@ -54,7 +109,11 @@ export default class RequesterFlow extends Component {
               <h3>What help do you need?</h3>
             </header>
             <article className="card input-card title-card">
-              <input type="text" placeholder="Enter a title" />
+              <input
+                type="text"
+                placeholder="Enter a title"
+                defaultValue="Fix my roof"
+              />
             </article>
             <article className="card input-card message-card">
               <textarea
@@ -130,9 +189,17 @@ export default class RequesterFlow extends Component {
 
         <Footer>
           <div className="button-label">Post your request</div>
-          <Link to="/1/requester" className="btn footer-btn feed-btn">
+          <button
+            className="btn footer-btn feed-btn"
+            onClick={() =>
+              this.submitRequest({
+                event: document.getElementById("event").value,
+                image: document.getElementById("photo")
+              })
+            }
+          >
             Submit
-          </Link>
+          </button>
         </Footer>
       </Page>
     )

@@ -52,8 +52,8 @@ export default class Scenario extends Component {
         opacity: 0,
         zIndex: 0
       },
-      upThreshold: -32,
-      swipeThreshold: 150,
+      upThreshold: -64,
+      swipeThreshold: 128,
       transitionTiming: 100
     }
 
@@ -252,7 +252,7 @@ export default class Scenario extends Component {
             <span className="dollar-amount">{moneyfy(funding_goal)}</span>
           </div>
           <div className="funding-goal-summary">
-            450 donators, {moneyfy(donated)} donated
+            1 donator(s), {moneyfy(donated)} donated
           </div>
         </footer>
       )
@@ -391,7 +391,6 @@ export default class Scenario extends Component {
     let yDif = lastTouchY === 0 ? 0 : lastTouchY - touchStartY
 
     if (Math.abs(xDif) > swipeThreshold || yDif < upThreshold) {
-      if (this.props.nextItem) this.props.nextItem()
       if (yDif < upThreshold) {
         this.swipedUp()
       } else {
@@ -404,6 +403,16 @@ export default class Scenario extends Component {
   }
 
   swipedUp = () => {
+    const { transitionTiming } = this.state
+    const { scenario } = this.props
+    const { donated, funding_goal } = scenario.attributes
+
+    let json = {
+      scenarioId: scenario.id
+    }
+
+    if (this.adType() === "3") json["amount"] = funding_goal - donated
+
     this.setState({
       style: {
         transitionProperty: "transform margin, opacity, top, filter",
@@ -413,29 +422,47 @@ export default class Scenario extends Component {
         opacity: 0
       }
     })
+    if (this.props.nextItem) {
+      this.props.nextItem({
+        directionSwiped: "up",
+        fullFundAmount: funding_goal - donated
+      })
+    }
+
+    setTimeout(() => {
+      this.acceptScenario(json)
+    }, transitionTiming)
   }
   swipedRight = () => {
     const { transitionTiming } = this.state
-    const { scenario, feedType } = this.props
+    const { scenario, feedType, standardAmount } = this.props
+
+    let json = {
+      scenarioId: scenario.id
+    }
+
+    if (this.adType() === "3") json["amount"] = standardAmount
 
     this.setState({
       style: {
         transitionProperty: "transform margin, opacity, top, filter",
         transform: `translateX(100%) translateY(0) scale(${
-          this.props.sfirst ? 1 : 0.9
+          this.props.first ? 1 : 0.9
         })`,
         opacity: 0
       }
     })
 
-    if (feedType === "donator") {
-      setTimeout(() => {
-        this.acceptScenario({ scenarioId: scenario.id })
-      }, transitionTiming)
-    } else if (feedType === "doer") {
+    if (this.props.nextItem) this.props.nextItem({ directionSwiped: "right" })
+
+    if (feedType === "doer") {
       setTimeout(() => {
         history.push(`/${scenario.id}/doer/Instructions`)
         window.location = `/${scenario.id}/doer/Instructions`
+      }, transitionTiming)
+    } else {
+      setTimeout(() => {
+        this.acceptScenario(json)
       }, transitionTiming)
     }
   }
@@ -450,6 +477,10 @@ export default class Scenario extends Component {
         opacity: 0
       }
     })
+
+    if (this.props.nextItem) {
+      this.props.nextItem({ directionSwiped: "left" })
+    }
 
     this.dismissScenario({ scenarioId: id })
   }
@@ -476,6 +507,15 @@ export default class Scenario extends Component {
     })
   }
 
+  adType = () => {
+    const { feedType } = this.props
+
+    if (feedType === "doer") return "1"
+    else if (feedType === "requester") return "2"
+    else if (feedType === "donator") return "3"
+    else if (feedType === "verifier") return "4"
+    return "3"
+  }
   dismissScenario = params => {
     let json = {
       data: {
@@ -496,7 +536,7 @@ export default class Scenario extends Component {
           },
           ad_type: {
             data: {
-              id: params.adType || "3",
+              id: this.adType(),
               type: "ad_types"
             }
           },
@@ -539,13 +579,13 @@ export default class Scenario extends Component {
           },
           ad_type: {
             data: {
-              id: "3",
+              id: this.adType(),
               type: "ad_types"
             }
           },
           interaction_type: {
             data: {
-              id: "1",
+              id: "1", // Positive interaction
               type: "interaction_types"
             }
           }
@@ -556,9 +596,47 @@ export default class Scenario extends Component {
     Database.createUserAdInteraction(json)
       .then(result => {
         // console.log("User ad interaction successfully created:", result)
+        if (this.adType() === "3") {
+          this.donate({
+            amount: params.amount,
+            scenarioId: params.scenarioId
+          })
+        }
       })
       .catch(error => {
         // console.error("Error creating user ad interaction:", error)
+      })
+  }
+  donate = params => {
+    let json = {
+      data: {
+        type: "donations",
+        attributes: {
+          amount: params.amount
+        },
+        relationships: {
+          scenario: {
+            data: {
+              id: params.scenarioId,
+              type: "scenarios"
+            }
+          },
+          donator: {
+            data: {
+              type: "users",
+              id: "1"
+            }
+          }
+        }
+      }
+    }
+
+    Database.createDonation(json)
+      .then(result => {
+        // console.log("Donation successfully created:", result)
+      })
+      .catch(error => {
+        // console.error("Error creating donation:", error)
       })
   }
 
