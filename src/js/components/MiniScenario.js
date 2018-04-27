@@ -38,7 +38,7 @@ export default class MiniScenario extends Component {
             className="btn btn-lite mini-scenario-link"
             to={`/${id}/requester`}
           >
-            Add tasks
+            Post update
           </Link>
         )
       } else if (tab === "Finished") {

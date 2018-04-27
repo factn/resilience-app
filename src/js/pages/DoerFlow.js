@@ -9,6 +9,7 @@ import { faChevronRight } from "@fortawesome/fontawesome-free-solid"
 import Page from "./Page"
 import Main from "../components/Main"
 import Footer from "../components/Footer"
+import SessionSetting from "../components/SessionSetting"
 
 // Utilities
 import { gradientStyle } from "../resources/Util"
@@ -76,10 +77,7 @@ export default class DoerFlow extends Component {
     return (
       <Page clas="flow-page doer-flow-page">
         <Main>
-          <section className="session-settings">
-            <header className="settings-header">
-              <h3>Jobs I want to do</h3>
-            </header>
+          <SessionSetting headerLabel="Jobs I want to do">
             <article className="card trending-card">
               <h4 className="card-title">Select from trending jobs</h4>
               <ul className="tag-list">
@@ -91,11 +89,9 @@ export default class DoerFlow extends Component {
                 <li className="tag inactive-tag">#Childcare</li>
               </ul>
             </article>
-          </section>
-          <section className="timeframe-settings">
-            <header className="settings-header">
-              <h4 className="card-title">Time frame</h4>
-            </header>
+          </SessionSetting>
+
+          <SessionSetting headerLabel="Time frame" clas="timeframe-settings">
             <article
               className={
                 timeFrame === "urgent"
@@ -126,11 +122,9 @@ export default class DoerFlow extends Component {
             >
               <h4>Important Jobs (within the next week)</h4>
             </article>
-          </section>
-          <section className="location-settings">
-            <header className="settings-header">
-              <h4 className="card-title">Location</h4>
-            </header>
+          </SessionSetting>
+
+          <SessionSetting headerLabel="Location" clas="location-settings">
             <article className="card">
               <div className="card-area location-city">
                 <div className="location-label">Location</div>
@@ -186,7 +180,7 @@ export default class DoerFlow extends Component {
                 />
               </div>
             </article>
-          </section>
+          </SessionSetting>
         </Main>
 
         <Footer>

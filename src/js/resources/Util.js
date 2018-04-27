@@ -33,7 +33,7 @@ export function prepareFileReader(file) {
 }
 
 export function getBase64() {
-  return globalReader.result
+  return globalReader ? globalReader.result : ""
 }
 
 export function getScenarioIdFromURL(url) {
