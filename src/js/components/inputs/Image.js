@@ -18,19 +18,21 @@ export default class File extends Component {
 
         <input
           className="form-input"
+          id="photo"
           type="file"
-          id="photo_upload"
           accept="image/*"
           onChange={() => {
-            prepareFileReader(document.getElementById("photo_upload").files[0])
+            prepareFileReader(
+              document.getElementById("photo").files[0]
+            )
           }}
         />
 
         <div className="button-row">
-          <label className="input-label btn" htmlFor="photo_upload">
+          <label className="input-label btn" htmlFor="photo">
             Take Photo
           </label>
-          <label className="input-label btn" htmlFor="photo_upload">
+          <label className="input-label btn" htmlFor="photo">
             Upload Photo
           </label>
         </div>

@@ -7,16 +7,19 @@
   background: $blue;
   padding: 1em;
   text-align: center;
-  z-index: 100;
+  z-index: 10;
   .button-label {
-    margin: 0 0 .5rem;
+    margin: 0 0 0.5rem;
     font-style: italic;
   }
 }
 .footer-btn {
   display: inline-block;
   margin: 0 auto;
-  padding: .5rem 2rem;
+  padding: 0.5rem 2rem;
   font-size: 1rem;
   min-width: 10rem;
+  .loader-icon {
+    font-size: 0.75rem;
+  }
 }

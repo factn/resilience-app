@@ -15,6 +15,7 @@ export default class Text extends Component {
 
       // HTML tag arguments
       inputID,
+      placeholder,
       requiredField,
       disabledField
     } = this.props.inputObj
@@ -37,6 +38,7 @@ export default class Text extends Component {
           className="form-input"
           type={inputType}
           id={inputID}
+          placeholder={placeholder || ""}
           required={requiredField}
           disabled={disabledField}
         />

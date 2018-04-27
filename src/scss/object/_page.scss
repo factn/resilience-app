@@ -4,8 +4,9 @@
 .funding-progress-slider {
   height: 1rem;
   background: rgba($black, 0.1);
-  border: 1px solid $white;
-  box-shadow: 0 0 1px $black;
+  border: 0.0625rem solid $white;
+  box-shadow: 0.0625rem 0.0625rem $black, 0.0625rem -0.0625rem $black,
+    -0.0625rem 0.0625rem $black, -0.0625rem -0.0625rem $black;
   margin: 0.125rem auto;
 }
 .page-form {

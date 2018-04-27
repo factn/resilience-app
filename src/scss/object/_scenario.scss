@@ -24,12 +24,12 @@
     position: absolute;
     bottom: -1rem;
     right: 0.5rem;
-    width: 2rem;
-    height: 2rem;
-    padding-top: 0.4rem;
-    font-size: 1rem;
+    width: 2.25rem;
+    height: 2.25rem;
+    padding: 0.1875rem; // 3px
+    font-size: 1.5rem;
     text-align: center;
-    border-radius: 1rem;
+    border-radius: 50%;
     background: $orange;
     z-index: 10;
     &:active,

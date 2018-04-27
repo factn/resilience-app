@@ -1,6 +1,7 @@
 /*** IMPORTS ***/
 // Module imports
 import React, { Component } from "react"
+import createHistory from "history/createBrowserHistory"
 import Icon from "@fortawesome/react-fontawesome"
 import {
   faMapMarkerAlt,
@@ -12,33 +13,27 @@ import Page from "./Page"
 import Main from "../components/Main"
 import Footer from "../components/Footer"
 import GoogleMaps from "../components/GoogleMaps"
+import SessionSetting from "../components/SessionSetting"
+
+// Inputs
 import Image from "../components/inputs/Image"
+import TextArea from "../components/inputs/TextArea"
+import Submit from "../components/inputs/Submit"
+import InputIconWrap from "../components/inputs/InputIconWrap"
 
 // Local JS Utilities
 import Database from "../resources/Database"
 import { getBase64 } from "../resources/Util"
 /*** [end of imports] ***/
 
+const history = createHistory()
+
 export default class RequesterFlow extends Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      remainingCharacterCount: 512
-    }
-  }
-
-  updateCharacterCount = e => {
-    const { value } = e.target
-
-    this.setState({
-      remainingCharacterCount: 512 - value.length
-    })
-  }
   submitRequest = params => {
     let imageString = getBase64(params.image)
 
     let json = {
+      // No where to put address info, custom message, or tasks / jobs
       data: {
         type: "scenarios",
         attributes: {
@@ -49,7 +44,7 @@ export default class RequesterFlow extends Component {
           event: {
             data: {
               type: "events",
-              id: "2" // "Hurricane Katrina", will be based of of title field
+              id: "2" // "Hurricane Katrina", or title field based off of `params.event`
             }
           },
           noun: {
@@ -82,8 +77,9 @@ export default class RequesterFlow extends Component {
 
     Database.createScenario(json)
       .then(result => {
-        console.log("Scenario successfully created:", result)
-        // go to /newID/requester
+        // console.log("Scenario successfully created:", result)
+        history.push(`/${result.body.data.id}/requester`)
+        window.location = `/${result.body.data.id}/requester`
       })
       .catch(error => {
         // console.error("Error creating scenario:", error)
@@ -91,23 +87,26 @@ export default class RequesterFlow extends Component {
   }
 
   render() {
-    const { remainingCharacterCount } = this.state
+    let buttonObj = {
+      labelPhrase: "Submit",
+      clas: "footer-btn feed-btn",
+      onSubmit: this.submitRequest,
+      onSubmitParams: { event: "event", photo: "photo" }
+    }
+    let textareaObj = {
+      id: "description"
+    }
 
     return (
       <Page clas="flow-page requester-flow-page">
         <Main>
-          <section className="session-settings event-settings">
-            <header className="settings-header">
-              <h3>Event</h3>
-            </header>
+          <SessionSetting headerLabel="Event">
             <article className="card input-card event-card">
               <input type="text" placeholder="Enter event name" id="event" />
             </article>
-          </section>
-          <section className="session-settings">
-            <header className="settings-header">
-              <h3>What help do you need?</h3>
-            </header>
+          </SessionSetting>
+
+          <SessionSetting headerLabel="What help do you need?">
             <article className="card input-card title-card">
               <input
                 type="text"
@@ -116,46 +115,29 @@ export default class RequesterFlow extends Component {
               />
             </article>
             <article className="card input-card message-card">
-              <textarea
-                placeholder="Enter a description"
-                maxLength="512"
-                rows="3"
-                onChange={e => this.updateCharacterCount(e)}
-              />
-              <div className="remaining-character-count">
-                {remainingCharacterCount} characters left
-              </div>
+              <TextArea {...textareaObj} />
             </article>
-          </section>
-          <section className="session-settings">
-            <header className="settings-header">
-              <h3>Where is it?</h3>
-            </header>
+          </SessionSetting>
+
+          <SessionSetting headerLabel="Where is it?">
             <article className="card">
-              <div className="input-with-icon-wrap">
-                <label className="input-icon" htmlFor="requestLocation">
-                  <Icon icon={faMapMarkerAlt} />
-                </label>
+              <InputIconWrap id="requestLocation" icon={faMapMarkerAlt}>
                 <input
                   className="input-field"
                   type="text"
                   id="requestLocation"
                   placeholder="Enter address"
                 />
-              </div>
+              </InputIconWrap>
               <GoogleMaps />
             </article>
-          </section>
-          <section className="session-settings">
-            <header className="settings-header">
-              <h3>Add a photo</h3>
-            </header>
+          </SessionSetting>
+
+          <SessionSetting headerLabel="Add a photo">
             <Image />
-          </section>
-          <section className="session-settings jobs-settings">
-            <header className="settings-header">
-              <h3>Tasks</h3>
-            </header>
+          </SessionSetting>
+
+          <SessionSetting headerLabel="Tasks" clas="jobs-settings">
             <article className="card btn-card job-card">
               <h4 className="job-label">Get materials on site</h4>
               <div className="plus-amount">+10</div>
@@ -184,22 +166,12 @@ export default class RequesterFlow extends Component {
                 <Icon icon={faChevronRight} />
               </div>
             </article>
-          </section>
+          </SessionSetting>
         </Main>
 
         <Footer>
           <div className="button-label">Post your request</div>
-          <button
-            className="btn footer-btn feed-btn"
-            onClick={() =>
-              this.submitRequest({
-                event: document.getElementById("event").value,
-                image: document.getElementById("photo")
-              })
-            }
-          >
-            Submit
-          </button>
+          <Submit {...buttonObj} />
         </Footer>
       </Page>
     )

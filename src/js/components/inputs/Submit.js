@@ -18,71 +18,52 @@ export default class Submit extends Component {
   }
 
   pressButton = () => {
-    this.setState({
-      buttonPressed: true
-    })
+    const { onSubmit, onSubmitParams } = this.props
+    let values = {}
+
+    if (!this.state.buttonPressed) {
+      this.setState({
+        buttonPressed: true
+      })
+
+      if (onSubmit) {
+        if (onSubmitParams) {
+          let field
+  
+          for (let i in onSubmitParams) {
+            field = document.getElementById(onSubmitParams[i])
+  
+            if (field.type === "radio" || field.type === "checkbox") {
+              values[i] = field.checked.toString()
+            } else if (field.type === "file") {
+              values[i] = getBase64().toString()
+            } else {
+              values[i] = field.value.toString()
+            }
+          }
+  
+          onSubmit(values)
+        } else {
+          onSubmit()
+        }
+      }
+    }
   }
 
   render() {
-    const { inputObj, scenarioId } = this.props
-    const {
-      // Label properties
-      labelPhrase,
-      labelIcon,
-
-      // Submit function
-      responseType,
-      onSubmit,
-      onSubmitParams,
-      goToPath
-    } = inputObj
+    const { labelPhrase, labelIcon, clas } = this.props
 
     return (
       <button
-        className={`btn submit-btn ${responseType}-response`}
-        onClick={() => {
-          if (!this.state.buttonPressed) {
-            let values = {}
-            this.pressButton()
-
-            if (typeof onSubmit !== "undefined") {
-              if (typeof onSubmitParams !== "undefined") {
-                let field
-
-                for (let i in onSubmitParams) {
-                  field = document.getElementById(onSubmitParams[i])
-
-                  if (field.type === "radio" || field.type === "checkbox")
-                    values[i] = field.checked.toString()
-                  else if (field.type === "file")
-                    values[i] = getBase64().toString()
-                  else values[i] = field.value.toString()
-                }
-              }
-              if (goToPath) {
-                values["path"] =
-                  typeof goToPath === "string"
-                    ? scenarioId
-                    : goToPath(scenarioId)
-              }
-              onSubmit(values)
-            } else {
-              if (goToPath) {
-                if (typeof goToPath === "string")
-                  this.props.history.push(goToPath)
-                else if (typeof goToPath === "function")
-                  this.props.history.push(goToPath(scenarioId))
-              }
-            }
-          }
-        }}
+        className={clas ? `btn ${clas}` : "btn"}
+        onClick={() => this.pressButton()}
       >
         {this.state.buttonPressed ? (
           <Loader />
         ) : (
           <Fragment>
             <span className="button-label">{labelPhrase} </span>
-            <Icon icon={labelIcon} className="button-icon" />
+            {labelIcon && <Icon icon={labelIcon} className="button-icon" />}
           </Fragment>
         )}
       </button>
