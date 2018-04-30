@@ -2,6 +2,7 @@
 // Module imports
 import React, { Component } from "react"
 import { Link } from "react-router-dom"
+import { invalidateRequests } from "redux-bees"
 import Icon from "@fortawesome/react-fontawesome"
 import {
   faCheck,
@@ -36,19 +37,24 @@ export default class Info extends Component {
   }
 
   componentDidMount = () => {
-    Database.getScenario({ id: this.state.scenarioId })
-      .then(result => {
-        // console.info("Database call complete:", result.body.data)
-        this.setState({
-          scenarioData: result.body.data
+    this.checkScenarioUpdates()
+  }
+  checkScenarioUpdates = () => {
+    let autorefresh = setInterval(() => {
+      Database.getScenario({ id: this.state.scenarioId })
+        .then(result => {
+          this.setState({
+            scenarioData: result.body.data
+          })
+          invalidateRequests(Database.getScenario)
         })
-      })
-      .catch(error => {
-        // console.error("Error getting scenarios:", error)
-        this.setState({
-          scenarioData: null
+        .catch(error => {
+          // console.error("Error getting scenarios:", error)
+          this.setState({
+            scenarioData: null
+          })
         })
-      })
+    }, 1000)
   }
 
   getBackLink = () => {
