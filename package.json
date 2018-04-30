@@ -34,6 +34,7 @@
     "history": "^4.7.2",
     "html-webpack-plugin": "2.29.0",
     "jest": "20.0.4",
+    "js-cookie": "^2.2.0",
     "npm": "^5.8.0",
     "object-assign": "4.1.1",
     "postcss-flexbugs-fixes": "3.2.0",

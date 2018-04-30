@@ -1,6 +1,7 @@
 /*** IMPORTS ***/
 // Module imports
 import React, { Component, Fragment } from "react"
+import Cookies from "js-cookie"
 import createHistory from "history/createBrowserHistory"
 import Icon from "@fortawesome/react-fontawesome"
 import { faAt, faKey, faSignInAlt } from "@fortawesome/fontawesome-free-solid"
@@ -40,12 +41,17 @@ export default class Login extends Component {
       .then(result => {
         // console.log("Login complete:", result)
 
+        this.setUserCookie(result)
         history.push("/")
       })
       .catch(error => {
         // console.error("Error getting user:", error)
       })
   }
+  setUserCookie = loginResult => {
+    // Cookies.set("userId", loginResult.)
+  }
+
 
   render() {
     return (

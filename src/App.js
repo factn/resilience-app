@@ -2,6 +2,7 @@
 // Module imports
 import React, { Component } from "react"
 import { Route, Switch } from "react-router-dom"
+import Cookies from "js-cookie"
 
 // Styles
 import "./App.scss"
@@ -20,13 +21,13 @@ import Feed from "./js/pages/Feed"
 
 //  - Account creation
 import Account from "./js/pages/Account"
-import FBConfirm from "./js/pages/FBConfirm";
-import FBVerify from "./js/pages/FBVerify";
+import FBConfirm from "./js/pages/FBConfirm"
+import FBVerify from "./js/pages/FBVerify"
 
 //  - Account
 import Login from "./js/pages/Login"
 import Profile from "./js/pages/Profile"
-import MissionControl from "./js/pages/MissionControl";
+import MissionControl from "./js/pages/MissionControl"
 
 //  - Info Pages
 import Info from "./js/pages/Info"
@@ -36,6 +37,10 @@ import NoPage from "./js/pages/NoPage"
 /*** [end of imports] ***/
 
 export default class App extends Component {
+  componentDidMount = () => {
+    Cookies.set("userId", "1")
+  }
+
   render() {
     return (
       <div className="app">

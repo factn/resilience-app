@@ -19,8 +19,12 @@ export default class Home extends Component {
       <div className="page home-page">
         <Header>
           <div className="login-link">
+            <a className="bright-link" href="/login">
+              Login
+            </a>
+            <span> / </span>
             <a className="bright-link" href="/account">
-              Login / Sign up
+              Sign up
             </a>
           </div>
           <div className="logo">
