@@ -46,6 +46,12 @@
       border: 0;
       font-weight: 300;  
     }
+    .input-wrap {
+      width: calc(100% - 2.5rem);
+      .input-field {
+        padding: 0.5625rem .25rem; // 9x4 px
+      }
+    }
   }
 }
 .photo-card {

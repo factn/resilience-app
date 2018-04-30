@@ -1,8 +1,15 @@
 Welcome to Lion!
 
-## Deployment
+## Heroku Deployment
 
-Initially do this `git remote add heroku https://git.heroku.com/lion-frontend-uat.git`
-Then do this `heroku login`
+Login into Heroku with Email and Password:
 
-Develop as per normal, branching and merging to master and branching and swearing and merging to master again. Once you are happy with master, `git push heroku master`
+`heroku login`
+
+Then add the heroku branch to your local machine:
+
+`heroku git:remote -a lion-frontend-uat`
+
+Develop as per normal, branching and merging to master and branching and swearing and merging to master again. Once you are happy with master, push the changes into the heroku branch:
+
+`git push heroku master`

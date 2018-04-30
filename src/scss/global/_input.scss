@@ -50,7 +50,7 @@ input[type="range"] {
   background: rgba($black, 0.1);
   cursor: pointer;
   height: 0.5rem;
-  margin: 1rem 0 .5rem;
+  margin: 1rem 0 0.5rem;
 }
 input[type="range"]::-ms-track {
   cursor: pointer;
@@ -60,7 +60,7 @@ input[type="range"]::-webkit-slider-thumb {
   @include circle(2rem);
   -webkit-appearance: none;
   background: $white;
-  box-shadow: 0 .125rem .5rem rgba($black, .5);
+  box-shadow: 0 0.125rem 0.5rem rgba($black, 0.5);
 }
 input[type="range"]::-ms-thumb {
   @include circle(1rem);
@@ -80,4 +80,20 @@ textarea {
 }
 label {
   cursor: pointer;
+}
+.select-wrap {
+  position: relative;
+  .form-input {
+    position: relative;
+    z-index: 2;
+  }
+  .drop-down-icon {
+    position: relative;
+    z-index: 1;
+    width: 2rem;
+    text-align: center;
+    color: rgba($black, 0.5);
+    float: right;
+    margin-top: -1rem;
+  }
 }

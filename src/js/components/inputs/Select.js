@@ -2,6 +2,7 @@
 // Module imports
 import React, { Component } from "react"
 import Icon from "@fortawesome/react-fontawesome"
+import { faChevronDown } from "@fortawesome/fontawesome-free-solid"
 
 // Local JS
 import { valuify } from "../../resources/Util"
@@ -10,32 +11,21 @@ import { valuify } from "../../resources/Util"
 export default class Select extends Component {
   render() {
     const {
-      // Label properties
-      labelPhrase,
-      labelIcon,
-
-      // Select
       options,
       preselectedOption,
-
-      // HTML tag arguments
       inputID,
       requiredField,
       disabledField
-    } = this.props.inputObj
+    } = this.props
 
     return (
       <div
-        className={disabledField ? "input-wrap disabled-input" : "input-wrap"}
+        className={
+          disabledField
+            ? "input-wrap disabled-input select-wrap"
+            : "input-wrap select-wrap"
+        }
       >
-        {labelPhrase && (
-          <label className="input-label" htmlFor={inputID}>
-            <span className="input-label-phrase">{labelPhrase}</span>
-            {typeof labelIcon !== "undefined" && (
-              <Icon icon={labelIcon} className="input-label-icon" />
-            )}
-          </label>
-        )}
         <select
           className="form-input"
           id={inputID}
@@ -64,6 +54,9 @@ export default class Select extends Component {
               } else return false
             })}
         </select>
+        <label className="drop-down-icon" htmlFor={inputID}>
+          <Icon icon={faChevronDown} />
+        </label>
       </div>
     )
   }

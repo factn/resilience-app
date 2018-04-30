@@ -59,9 +59,9 @@ export default class Info extends Component {
     else if (role === "requester") return "/requester"
     else return "/"
   }
-  changeTab = tabName => {
+  changeTab = tab => {
     this.setState({
-      tab: tabName
+      tab
     })
   }
   callToActionBtn = () => {
