@@ -53,10 +53,10 @@ class MiniMap extends Component {
 
     Database.updateUser({ id: 1 }, json)
       .then(result => {
-        console.log("User successfully updated:", result)
+        // console.log("User successfully updated:", result)
       })
       .catch(error => {
-        console.error("Error updating user:", error)
+        // console.error("Error updating user:", error)
       })
   }
 

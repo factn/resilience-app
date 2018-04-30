@@ -34,7 +34,7 @@ export default class MissionControl extends Component {
 
     Database.getUserDonations(json)
       .then(result => {
-        console.info("Donations call complete:", result.body.data)
+        // console.info("Donations call complete:", result.body.data)
         this.setState({
           userDonations: result.body.data
         })
@@ -51,7 +51,7 @@ export default class MissionControl extends Component {
 
     Database.getUserDos(json)
       .then(result => {
-        console.info("Dos call complete:", result.body.data)
+        // console.info("Dos call complete:", result.body.data)
         this.setState({
           userDos: result.body.data
         })
@@ -64,14 +64,14 @@ export default class MissionControl extends Component {
       })
   }
 
-  changeFlow = flowName => {
+  changeFlow = role => {
     this.setState({
-      role: flowName
+      role
     })
   }
-  changeTab = tabName => {
+  changeTab = tab => {
     this.setState({
-      tab: tabName
+      tab
     })
   }
 

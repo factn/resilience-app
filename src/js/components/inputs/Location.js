@@ -1,51 +1,136 @@
 /*** IMPORTS ***/
 // Module imports
-import React, { Component } from "react"
-import Icon from "@fortawesome/react-fontawesome"
+import React, { Component, Fragment } from "react"
+import { faMapMarkerAlt } from "@fortawesome/fontawesome-free-solid"
+import PlacesAutocomplete, {
+  geocodeByAddress,
+  getLatLng
+} from "react-places-autocomplete"
+
+// Local component
+import InputIconWrap from "./InputIconWrap"
+import GoogleMaps from "../GoogleMaps"
 /*** [end of imports] ***/
 
 export default class Location extends Component {
-  render() {
-    const { openMapPicker, inputObj, lat, lon } = this.props
-    const {
-      // Label properties
-      labelPhrase,
-      labelIcon,
+  constructor(props) {
+    super(props)
 
-      // HTML tag arguments
-      inputID,
-      disabledField
-    } = inputObj
+    this.state = {
+      address: "",
+      latLng: {
+        lat: this.props.lat || -41.280789,
+        lng: this.props.lon || 174.775187
+      }
+    }
+
+    this.handleLatChange = this.handleLatChange.bind(this)
+    this.handleLonChange = this.handleLonChange.bind(this)
+  }
+
+  handleChange = address => {
+    this.setState({ address })
+  }
+  handleSelect = address => {
+    geocodeByAddress(address)
+      .then(results => getLatLng(results[0]))
+      .then(latLng => {
+        // console.info("Success", latLng)
+
+        this.setState({
+          latLng
+        })
+      })
+      .catch(error => {
+        // console.error("Error", error)
+      })
+  }
+  handleLatChange = e => e.target.value
+  handleLonChange = e => e.target.value
+
+  render() {
+    const { latLng } = this.state
+    const { inputID, disabledField } = this.props
+
+    const activeStyle = {
+      background: "#fafafa",
+      cursor: "pointer",
+      fontSize: "0.8rem",
+      fontWeight: "300",
+      padding: "0.25rem 0.5rem"
+    }
+    const inactiveStyle = {
+      background: "#fff",
+      cursor: "pointer",
+      fontSize: "0.8rem",
+      fontWeight: "300",
+      padding: "0.25rem 0.5rem"
+    }
 
     return (
-      <div
-        className={disabledField ? "input-wrap disabled-input" : "input-wrap"}
-      >
-        <button
-          className="input-label btn btn-label"
-          htmlFor={inputID}
-          onClick={() => openMapPicker()}
-        >
-          <span className="input-label-phrase">{labelPhrase}</span>
-          {typeof labelIcon !== "undefined" && (
-            <Icon icon={labelIcon} className="input-label-icon" />
-          )}
-        </button>
-        <input
-          className="form-input"
-          type="number"
-          id={`${inputID}_lat`}
-          value={lat || 0}
-          hidden={true}
-        />
-        <input
-          className="form-input"
-          type="number"
-          id={`${inputID}_lon`}
-          value={lon || 0}
-          hidden={true}
-        />
-      </div>
+      <Fragment>
+        <InputIconWrap id={inputID} icon={faMapMarkerAlt}>
+          <div
+            className={
+              disabledField
+                ? "input-wrap disabled-input places-autocomplete"
+                : "input-wrap places-autocomplete"
+            }
+          >
+            <PlacesAutocomplete
+              value={this.state.address}
+              onChange={this.handleChange}
+              onSelect={this.handleSelect}
+              id={inputID}
+              highlightFirstSuggestion={true}
+            >
+              {({ getInputProps, suggestions, getSuggestionItemProps }) => (
+                <Fragment>
+                  <input
+                    {...getInputProps({
+                      placeholder: "Enter your address...",
+                      className: "input-field"
+                    })}
+                    id={inputID}
+                  />
+                  <div className="autocomplete-dropdown-container">
+                    {suggestions.map(suggestion => (
+                      <div
+                        {...getSuggestionItemProps(suggestion, {
+                          className: suggestion.active
+                            ? "suggestion-item active"
+                            : "suggestion-item",
+                          style: suggestion.active ? activeStyle : inactiveStyle
+                        })}
+                      >
+                        {suggestion.description}
+                      </div>
+                    ))}
+                  </div>
+                </Fragment>
+              )}
+            </PlacesAutocomplete>
+
+            <input
+              className="form-input"
+              type="number"
+              id={`${inputID}_lat`}
+              value={latLng.lat}
+              hidden={true}
+              onChange={e => this.handleLatChange(e)}
+            />
+            <input
+              className="form-input"
+              type="number"
+              id={`${inputID}_lon`}
+              value={latLng.lng}
+              hidden={true}
+              onChange={e => this.handleLonChange(e)}
+            />
+          </div>
+        </InputIconWrap>
+        <GoogleMaps marker={latLng} />
+      </Fragment>
     )
   }
 }

@@ -3,33 +3,124 @@
 import React, { Component } from "react"
 import createHistory from "history/createBrowserHistory"
 import Icon from "@fortawesome/react-fontawesome"
-import {
-  faMapMarkerAlt,
-  faChevronRight
-} from "@fortawesome/fontawesome-free-solid"
+import { faChevronRight } from "@fortawesome/fontawesome-free-solid"
 
 // Page elements
 import Page from "./Page"
 import Main from "../components/Main"
 import Footer from "../components/Footer"
-import GoogleMaps from "../components/GoogleMaps"
 import SessionSetting from "../components/SessionSetting"
 
 // Inputs
 import Image from "../components/inputs/Image"
 import TextArea from "../components/inputs/TextArea"
 import Submit from "../components/inputs/Submit"
-import InputIconWrap from "../components/inputs/InputIconWrap"
+import Location from "../components/inputs/Location"
+import Select from "../components/inputs/Select"
 
 // Local JS Utilities
 import Database from "../resources/Database"
-import { getBase64 } from "../resources/Util"
+import { getBase64, toFirstCap } from "../resources/Util"
 /*** [end of imports] ***/
 
 const history = createHistory()
 
 export default class RequesterFlow extends Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      scenarioId: this.props.match.params.scenarioId || 1,
+      scenarioData: null,
+      eventData: [],
+      nounData: [],
+      verbData: [],
+      defaultEvent: "Hurricane Katrina",
+      defaultNoun: "roof",
+      defaultVerb: "fix"
+    }
+  }
+
+  componentDidMount = () => {
+    this.setScenarioData()
+    this.setEventData()
+    this.setNounData()
+    this.setVerbData()
+  }
+  setScenarioData = () => {
+    Database.getScenario({ id: this.state.scenarioId })
+      .then(result => {
+        const { defaultEvent, nounEvent, verbEvent } = this.state
+        const { data } = result.body
+
+        // console.info("Database call complete:", data)
+
+        this.setState({
+          scenarioData: data,
+          defaultEvent: data.attributes.event || defaultEvent,
+          nounEvent: data.attributes.noun || nounEvent,
+          verbEvent: data.attributes.verb || verbEvent
+        })
+      })
+      .catch(error => {
+        // console.error("Error getting scenarios:", error)
+        this.setState({
+          scenarioData: null
+        })
+      })
+  }
+  setEventData = () => {
+    Database.getEvents()
+      .then(result => {
+        const { data } = result.body
+        // console.info("Events call complete:", data)
+        this.setState({
+          eventData: data
+        })
+      })
+      .catch(error => {
+        // console.error("Error getting events:", error)
+        this.setState({
+          eventData: []
+        })
+      })
+  }
+  setNounData = () => {
+    Database.getNouns()
+      .then(result => {
+        const { data } = result.body
+        // console.info("Nouns call complete:", result.body.data)
+        this.setState({
+          nounData: data
+        })
+      })
+      .catch(error => {
+        // console.error("Error getting nouns:", error)
+        this.setState({
+          nounData: []
+        })
+      })
+  }
+  setVerbData = () => {
+    Database.getVerbs()
+      .then(result => {
+        const { data } = result.body
+        // console.info("Verbs call complete:", result.body.data)
+        this.setState({
+          verbData: data
+        })
+      })
+      .catch(error => {
+        // console.error("Error getting verbs:", error)
+        this.setState({
+          verbData: []
+        })
+      })
+  }
+
   submitRequest = params => {
+    console.log(params)
+
     let imageString = getBase64(params.image)
 
     let json = {
@@ -63,6 +154,7 @@ export default class RequesterFlow extends Component {
             data: {
               type: "users",
               id: "1" // current user, right now, defaulted
+              // update lat and long from params.lat and params.lon
             }
           },
           doer: {
@@ -87,11 +179,35 @@ export default class RequesterFlow extends Component {
   }
 
   render() {
+    const {
+      defaultEvent,
+      defaultNoun,
+      defaultVerb,
+      eventData,
+      nounData,
+      verbData
+    } = this.state
+
+    let eventSelectObj = {
+      options: eventData,
+      preselectedOption: defaultEvent,
+      inputID: "event"
+    }
+    let nounVerbSelectObj = {
+      options: [],
+      preselectedOption: `${toFirstCap(defaultVerb)} my ${defaultNoun}`,
+      inputID: "noun_and_verb"
+    }
     let buttonObj = {
       labelPhrase: "Submit",
       clas: "footer-btn feed-btn",
       onSubmit: this.submitRequest,
-      onSubmitParams: { event: "event", photo: "photo" }
+      onSubmitParams: {
+        event: "event",
+        photo: "photo",
+        requesterlat: "requestLocation_lat",
+        requesterlon: "requestLocation_lon"
+      }
     }
     let textareaObj = {
       id: "description"
@@ -102,17 +218,13 @@ export default class RequesterFlow extends Component {
         <Main>
           <SessionSetting headerLabel="Event">
             <article className="card input-card event-card">
-              <input type="text" placeholder="Enter event name" id="event" />
+              <Select {...eventSelectObj} />
             </article>
           </SessionSetting>
 
           <SessionSetting headerLabel="What help do you need?">
             <article className="card input-card title-card">
-              <input
-                type="text"
-                placeholder="Enter a title"
-                defaultValue="Fix my roof"
-              />
+              <Select {...nounVerbSelectObj} />
             </article>
             <article className="card input-card message-card">
               <TextArea {...textareaObj} />
@@ -121,15 +233,7 @@ export default class RequesterFlow extends Component {
 
           <SessionSetting headerLabel="Where is it?">
             <article className="card">
-              <InputIconWrap id="requestLocation" icon={faMapMarkerAlt}>
-                <input
-                  className="input-field"
-                  type="text"
-                  id="requestLocation"
-                  placeholder="Enter address"
-                />
-              </InputIconWrap>
-              <GoogleMaps />
+              <Location inputID="requestLocation" />
             </article>
           </SessionSetting>
 

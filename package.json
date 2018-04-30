@@ -43,6 +43,7 @@
     "react": "^16.3.1",
     "react-dev-utils": "^5.0.0",
     "react-dom": "^16.3.1",
+    "react-places-autocomplete": "^7.1.1",
     "react-router-dom": "^4.2.2",
     "redux": "^3.7.2",
     "redux-bees": "^0.1.7",

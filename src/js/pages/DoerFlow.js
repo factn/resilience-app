@@ -33,9 +33,9 @@ export default class DoerFlow extends Component {
     this.setWorkdistance = this.setWorkdistance.bind(this)
   }
 
-  setTimeframe = newTimeFrame => {
+  setTimeframe = timeFrame => {
     this.setState({
-      timeFrame: newTimeFrame
+      timeFrame
     })
   }
   toggleWorkFromHome = () => {
@@ -49,13 +49,13 @@ export default class DoerFlow extends Component {
     })
   }
   setWorkdistance = e => {
-    const { value } = e.target
+    const workDistance = e.target.value
 
     this.setState({
-      workDistance: value
+      workDistance
     })
 
-    return value
+    return workDistance
   }
 
   render() {

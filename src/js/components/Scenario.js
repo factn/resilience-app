@@ -110,7 +110,7 @@ export default class Scenario extends Component {
                 </div>
                 <div className="action right-action">
                   <div className="pseudo-main-text">Donate</div>
-                  <div className="pseudo-sub-text">$0.20</div>
+                  <div className="pseudo-sub-text">$1.00</div>
                   <div className="arrow arrow-right">
                     <Icon icon={faCaretRight} />
                   </div>
@@ -147,7 +147,7 @@ export default class Scenario extends Component {
           <div className="pseudo-before" style={leftStyle}>
             <div className="action left-action">
               <div className="pseudo-main-text">Donate</div>
-              <div className="pseudo-sub-text">$0.20</div>
+              <div className="pseudo-sub-text">$1.00</div>
               <div className="arrow arrow-right">
                 <Icon icon={faCaretRight} />
               </div>
