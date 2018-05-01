@@ -136,13 +136,9 @@ const apiEndpoints = {
 		method: patch,
 		path: "/scenarios/:id"
 	},
-	getParentScenarios: {
+	getScenarioWithChildren: {
 		method: get,
-		path: "/scenarios?filter[is_parent]=true"
-	},
-	getChildScenarios: {
-		method: get,
-		path: "/scenarios?filter[is_child]=true"
+		path: "/scenarios/:id/?include=children_scenario"
 	},
 
 	// Users
