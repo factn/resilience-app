@@ -1,6 +1,7 @@
 /*** IMPORTS ***/
 // Module imports
 import React, { Component } from "react"
+import Cookies from "js-cookie"
 
 // Component
 import Page from "./Page"
@@ -23,7 +24,7 @@ export default class Feed extends Component {
     this.state = {
       scenarioData: null,
       feedOffset: 0,
-      userId: this.props.userId || 1,
+      userId: Cookies.get("userId") || 1,
       previewDismissed: false,
       type: this.props.match.params.type || 1,
       sessionTotal: 200.0,

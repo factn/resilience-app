@@ -1,6 +1,7 @@
 /*** IMPORTS ***/
 // Module imports
 import React, { Component, Fragment } from "react"
+import Cookies from "js-cookie"
 import Icon from "@fortawesome/react-fontawesome"
 import { faBullseye } from "@fortawesome/fontawesome-free-solid"
 
@@ -12,16 +13,16 @@ import logo from "../../img/logo.svg"
 /*** [end of imports] ***/
 
 export default class Header extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
       loggedIn: this.props.loggedIn || true,
-      userId: this.props.userId || 1
+      userId: Cookies.get("userId") || 1
     }
   }
   render() {
-    const { loggedIn , userId} = this.state
+    const { loggedIn, userId } = this.state
 
     return (
       <header className="app-header">
@@ -42,8 +43,12 @@ export default class Header extends Component {
             </Fragment>
           ) : (
             <div className="login-link">
+              <a className="bright-link" href="/login">
+                Login
+              </a>
+              <span> / </span>
               <a className="bright-link" href="/account">
-                Login / Sign up
+                Sign up
               </a>
             </div>
           ))}

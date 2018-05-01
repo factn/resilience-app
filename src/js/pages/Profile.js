@@ -1,6 +1,7 @@
 /*** IMPORTS ***/
 // Module imports
 import React, { Component } from "react"
+import Cookies from "js-cookie"
 import Icon from "@fortawesome/react-fontawesome"
 import {
   faMapMarkerAlt,
@@ -29,7 +30,7 @@ export default class Info extends Component {
       userRequests: null,
       userVerifications: null,
       currentUserData: null,
-      currentUserId: this.props.userId || 1
+      userId: Cookies.get("userId") || 1
     }
   }
 
@@ -42,7 +43,7 @@ export default class Info extends Component {
   }
 
   userDataMount = () => {
-    Database.getUserById({ id: this.state.currentUserId })
+    Database.getUserById({ id: this.state.userId })
       .then(result => {
         // console.log("User successfully found:", result)
         this.setState({
@@ -57,7 +58,7 @@ export default class Info extends Component {
       })
   }
   userDonationsMount = () => {
-    let json = { id: this.state.currentUserId }
+    let json = { id: this.state.userId }
 
     Database.getUserDonations(json)
       .then(result => {
@@ -74,7 +75,7 @@ export default class Info extends Component {
       })
   }
   userDosMount = () => {
-    let json = { id: this.state.currentUserId }
+    let json = { id: this.state.userId }
 
     Database.getUserDos(json)
       .then(result => {
@@ -91,7 +92,7 @@ export default class Info extends Component {
       })
   }
   userRequestsMount = () => {
-    let json = { id: this.state.currentUserId }
+    let json = { id: this.state.userId }
 
     Database.getUserRequests(json)
       .then(result => {
@@ -108,7 +109,7 @@ export default class Info extends Component {
       })
   }
   userVerificationsMount = () => {
-    let json = { id: this.state.currentUserId }
+    let json = { id: this.state.userId }
 
     Database.getUserVerifications(json)
       .then(result => {

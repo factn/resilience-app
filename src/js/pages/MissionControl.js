@@ -1,6 +1,7 @@
 /*** IMPORTS ***/
 // Module imports
 import React, { Component } from "react"
+import Cookies from "js-cookie"
 
 // Components
 import Page from "./Page"
@@ -19,7 +20,7 @@ export default class MissionControl extends Component {
     this.state = {
       role: this.props.match.params.role || "Missions",
       tab: this.props.match.params.tab || "Donating",
-      userId: this.props.userId || 1,
+      userId: Cookies.get("userId") || 1,
       userDonations: null,
       userDos: null
     }
