@@ -49,7 +49,7 @@ export default class DonatorFlow extends Component {
 
   beginMission = params => {
     const { userId } = this.state
-    let json = {
+    const json = {
       // No where to put address info or custom message
       data: {
         type: "users",

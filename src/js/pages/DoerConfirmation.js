@@ -1,36 +1,95 @@
 /*** IMPORTS ***/
 // Module imports
 import React, { Component } from "react"
-import { Link } from "react-router-dom"
+import Cookies from "js-cookie"
+import createHistory from "history/createBrowserHistory"
 
 // Page elements
 import Page from "./Page"
 import Main from "../components/Main"
 import Footer from "../components/Footer"
 
-// Input
+// Inputs
 import Image from "../components/inputs/Image"
+import TextArea from "../components/inputs/TextArea"
+import Submit from "../components/inputs/Submit"
+
+// Local JS Utilities
+import Database from "../resources/Database"
+import { getBase64 } from "../resources/Util"
 /*** [end of imports] ***/
+
+const history = createHistory()
 
 export default class DoerConfirmation extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      remainingCharacterCount: 512
+      parentScenarioId: this.props.match.params.scenarioId || "1",
+      verb: this.props.match.params.verb || "fix",
+      noun: this.props.match.params.noun || "roof",
+      currentUser: Cookies.get("userId") || "1"
     }
   }
 
-  updateCharacterCount = e => {
-    const { value } = e.target
+  submitConfirmation = params => {
+    const { scenarioId, currentUser } = this.state
+    const imageString = getBase64(params.image)
 
-    this.setState({
-      remainingCharacterCount: 512 - value.length
-    })
+    const json = {
+      data: {
+        type: "proofs",
+        attributes: {
+          image: imageString
+          // custom_message: params.custom_message || ""
+        },
+        relationships: {
+          scenario: {
+            data: {
+              type: "scenarios",
+              id: scenarioId
+            }
+          },
+          verifier: {
+            data: {
+              type: "users",
+              id: currentUser
+            }
+          }
+        }
+      }
+    }
+
+    history.push("/feed/doer")
+    window.location = "/feed/doer"
+
+    // Database.createProof(json)
+    //   .then(result => {
+    //     const { data } = result.body
+    //     console.log("Proof successfully created:", data)
+
+    //     // history.push("/feed/doer")
+    //     // window.location = "/feed/doer"
+    //   })
+    //   .catch(error => {
+    //     // console.error("Error creating proof:", error)
+    //   })
   }
 
   render() {
-    const { remainingCharacterCount } = this.state
+    let buttonObj = {
+      labelPhrase: "Send Confirmation",
+      clas: "footer-btn feed-btn",
+      onSubmit: this.submitConfirmation,
+      onSubmitParams: {
+        photo: "photo",
+        custom_message: "description"
+      }
+    }
+    let textareaObj = {
+      inputID: "description"
+    }
 
     return (
       <Page clas="flow-page doer-flow-page">
@@ -46,23 +105,13 @@ export default class DoerConfirmation extends Component {
               <h3>Include a message</h3>
             </header>
             <article className="card input-card message-card">
-              <textarea
-                placeholder="Add a message"
-                maxLength="512"
-                rows="3"
-                onChange={e => this.updateCharacterCount(e)}
-              />
-              <div className="remaining-character-count">
-                {remainingCharacterCount} characters left
-              </div>
+              <TextArea {...textareaObj} />
             </article>
           </section>
         </Main>
 
         <Footer>
-          <Link to="/feed/doer" className="btn footer-btn feed-btn">
-            Send Confirmation
-          </Link>
+          <Submit {...buttonObj} />
         </Footer>
       </Page>
     )

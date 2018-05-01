@@ -58,7 +58,7 @@ export default class Info extends Component {
       })
   }
   userDonationsMount = () => {
-    let json = { id: this.state.userId }
+    const json = { id: this.state.userId }
 
     Database.getUserDonations(json)
       .then(result => {
@@ -75,7 +75,7 @@ export default class Info extends Component {
       })
   }
   userDosMount = () => {
-    let json = { id: this.state.userId }
+    const json = { id: this.state.userId }
 
     Database.getUserDos(json)
       .then(result => {
@@ -92,7 +92,7 @@ export default class Info extends Component {
       })
   }
   userRequestsMount = () => {
-    let json = { id: this.state.userId }
+    const json = { id: this.state.userId }
 
     Database.getUserRequests(json)
       .then(result => {
@@ -109,7 +109,7 @@ export default class Info extends Component {
       })
   }
   userVerificationsMount = () => {
-    let json = { id: this.state.userId }
+    const json = { id: this.state.userId }
 
     Database.getUserVerifications(json)
       .then(result => {

@@ -28,7 +28,7 @@ export default class Login extends Component {
   }
 
   submitLogin = params => {
-    let json = {
+    const json = {
       email: params.email,
       password: params.password
     }
