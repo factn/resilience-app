@@ -119,8 +119,6 @@ export default class RequesterFlow extends Component {
   }
 
   submitRequest = params => {
-    console.log(params)
-
     let imageString = getBase64(params.image)
 
     let json = {
@@ -155,12 +153,6 @@ export default class RequesterFlow extends Component {
               type: "users",
               id: "1" // current user, right now, defaulted
               // update lat and long from params.lat and params.lon
-            }
-          },
-          doer: {
-            data: {
-              type: "users",
-              id: "1" // will be admin until chosen
             }
           }
         }
