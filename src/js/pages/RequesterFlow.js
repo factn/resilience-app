@@ -1,6 +1,7 @@
 /*** IMPORTS ***/
 // Module imports
 import React, { Component } from "react"
+import Cookies from "js-cookie"
 import createHistory from "history/createBrowserHistory"
 import Icon from "@fortawesome/react-fontawesome"
 import { faChevronRight } from "@fortawesome/fontawesome-free-solid"
@@ -37,7 +38,8 @@ export default class RequesterFlow extends Component {
       verbData: [],
       defaultEvent: "Hurricane Katrina",
       defaultNoun: "roof",
-      defaultVerb: "fix"
+      defaultVerb: "fix",
+      completeChildren: 0
     }
   }
 
@@ -122,7 +124,7 @@ export default class RequesterFlow extends Component {
     let imageString = getBase64(params.image)
 
     let json = {
-      // No where to put address info, custom message, or tasks / jobs
+      // No where to put address info or custom message
       data: {
         type: "scenarios",
         attributes: {
@@ -151,7 +153,7 @@ export default class RequesterFlow extends Component {
           requester: {
             data: {
               type: "users",
-              id: "1" // current user, right now, defaulted
+              id: Cookies.get("userId") || "1"
               // update lat and long from params.lat and params.lon
             }
           }
@@ -162,8 +164,252 @@ export default class RequesterFlow extends Component {
     Database.createScenario(json)
       .then(result => {
         // console.log("Scenario successfully created:", result)
-        history.push(`/${result.body.data.id}/requester`)
-        window.location = `/${result.body.data.id}/requester`
+        this.createChildrenScenario({
+          image: imageString,
+          event: "2", // "Hurricane Katrina", or title field based off of `params.event`
+          userId: Cookies.get("userId") || "1",
+          lat: params.lat,
+          lon: params.lon,
+          parentScenarioId: result.body.data.id,
+          address: params.address || "",
+          custom_message: params.custom_message || ""
+        })
+      })
+      .catch(error => {
+        // console.error("Error creating scenario:", error)
+      })
+  }
+  createChildrenScenario = params => {
+    // This should be rolled up into one endpoint
+    this.createGetMaterialsScenario(params)
+    this.createGetTransporationScenario(params)
+    this.createPatchRoofScenario(params)
+    this.createFixRoofScenario(params)
+
+    let waitForChildren = setInterval(() => {
+      if (this.state.completeChildren === 4) {
+        clearInterval(waitForChildren)
+
+        history.push(`/${params.parentScenarioId}/requester`)
+        window.location = `/${params.parentScenarioId}/requester`
+      }
+    })
+  }
+  createGetMaterialsScenario = params => {
+    const json = {
+      // No where to put address info or custom message
+      data: {
+        type: "scenarios",
+        attributes: {
+          funding_goal: "0",
+          image: params.image
+        },
+        relationships: {
+          parent_scenario: {
+            data: {
+              type: "scenarios",
+              id: params.parentScenarioId
+            }
+          },
+          event: {
+            data: {
+              type: "events",
+              id: params.event
+            }
+          },
+          noun: {
+            data: {
+              type: "nouns",
+              id: "7" // "materials"
+            }
+          },
+          verb: {
+            data: {
+              type: "verbs",
+              id: "1" // "get"
+            }
+          },
+          requester: {
+            data: {
+              type: "users",
+              id: params.userId
+            }
+          }
+        }
+      }
+    }
+
+    Database.createScenario(json)
+      .then(result => {
+        console.log("Scenario successfully created:", result)
+        this.setState({
+          completeChildren: this.state.completeChildren + 1
+        })
+      })
+      .catch(error => {
+        // console.error("Error creating scenario:", error)
+      })
+  }
+  createGetTransporationScenario = params => {
+    const json = {
+      // No where to put address info or custom message
+      data: {
+        type: "scenarios",
+        attributes: {
+          funding_goal: "0",
+          image: params.image
+        },
+        relationships: {
+          parent_scenario: {
+            data: {
+              type: "scenarios",
+              id: params.parentScenarioId
+            }
+          },
+          event: {
+            data: {
+              type: "events",
+              id: params.event
+            }
+          },
+          noun: {
+            data: {
+              type: "nouns",
+              id: "19" // "transportation"
+            }
+          },
+          verb: {
+            data: {
+              type: "verbs",
+              id: "1" // "get"
+            }
+          },
+          requester: {
+            data: {
+              type: "users",
+              id: params.userId
+            }
+          }
+        }
+      }
+    }
+
+    Database.createScenario(json)
+      .then(result => {
+        console.log("Scenario successfully created:", result)
+        this.setState({
+          completeChildren: this.state.completeChildren + 1
+        })
+      })
+      .catch(error => {
+        // console.error("Error creating scenario:", error)
+      })
+  }
+  createPatchRoofScenario = params => {
+    const json = {
+      // No where to put address info or custom message
+      data: {
+        type: "scenarios",
+        attributes: {
+          funding_goal: "0",
+          image: params.image
+        },
+        relationships: {
+          parent_scenario: {
+            data: {
+              type: "scenarios",
+              id: params.parentScenarioId
+            }
+          },
+          event: {
+            data: {
+              type: "events",
+              id: params.event
+            }
+          },
+          noun: {
+            data: {
+              type: "nouns",
+              id: "5" // "roof"
+            }
+          },
+          verb: {
+            data: {
+              type: "verbs",
+              id: "6" // "patch"
+            }
+          },
+          requester: {
+            data: {
+              type: "users",
+              id: params.userId
+            }
+          }
+        }
+      }
+    }
+
+    Database.createScenario(json)
+      .then(result => {
+        console.log("Scenario successfully created:", result)
+        this.setState({
+          completeChildren: this.state.completeChildren + 1
+        })
+      })
+      .catch(error => {
+        // console.error("Error creating scenario:", error)
+      })
+  }
+  createFixRoofScenario = params => {
+    const json = {
+      // No where to put address info or custom message
+      data: {
+        type: "scenarios",
+        attributes: {
+          funding_goal: "0",
+          image: params.image
+        },
+        relationships: {
+          parent_scenario: {
+            data: {
+              type: "scenarios",
+              id: params.parentScenarioId
+            }
+          },
+          event: {
+            data: {
+              type: "events",
+              id: params.event
+            }
+          },
+          noun: {
+            data: {
+              type: "nouns",
+              id: "5" // "roof"
+            }
+          },
+          verb: {
+            data: {
+              type: "verbs",
+              id: "5" // "fix"
+            }
+          },
+          requester: {
+            data: {
+              type: "users",
+              id: params.userId
+            }
+          }
+        }
+      }
+    }
+
+    Database.createScenario(json)
+      .then(result => {
+        console.log("Scenario successfully created:", result)
+        this.setState({
+          completeChildren: this.state.completeChildren + 1
+        })
       })
       .catch(error => {
         // console.error("Error creating scenario:", error)

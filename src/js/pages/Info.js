@@ -1,6 +1,6 @@
 /*** IMPORTS ***/
 // Module imports
-import React, { Component } from "react"
+import React, { Component, Fragment } from "react"
 import { Link } from "react-router-dom"
 import { invalidateRequests } from "redux-bees"
 import Icon from "@fortawesome/react-fontawesome"
@@ -29,10 +29,12 @@ export default class Info extends Component {
 
     this.state = {
       scenarioData: null,
+      childrenScenarioData: null,
+      doerButton: null,
       scenarioId: this.props.match.params.scenarioId || 1,
       role: this.props.match.params.role || "Info",
       tab: this.props.match.params.tab || "Overview",
-      mapRefresh: 5000 // Every 5 seconds check for map pin changes
+      dataRefreshRate: 5000 // Every 5 seconds check for map pin changes
     }
   }
 
@@ -40,12 +42,20 @@ export default class Info extends Component {
     this.checkScenarioUpdates()
   }
   checkScenarioUpdates = () => {
+    const { dataRefreshRate, scenarioId } = this.state
+
     let autorefresh = setInterval(() => {
-      Database.getScenario({ id: this.state.scenarioId })
+      Database.getScenarioWithChildren({ id: scenarioId })
         .then(result => {
+          // console.info("Success getting scenario:", result)
+
           this.setState({
             scenarioData: result.body.data
           })
+          this.setChildrenScenarioData(
+            result.body.data.relationships.children_scenario.data
+          )
+
           invalidateRequests(Database.getScenario)
         })
         .catch(error => {
@@ -54,9 +64,35 @@ export default class Info extends Component {
             scenarioData: null
           })
         })
-    }, 1000)
+    }, dataRefreshRate)
   }
 
+  setChildrenScenarioData = list => {
+    let childrenScenarioData = []
+    let completedChildren = 0
+
+    for (let i = 0, l = list.length; i < l; i++) {
+      Database.getScenario({ id: list[i].id })
+        .then(result => {
+          // console.info("Success getting child scenario:", result)
+          childrenScenarioData.push(result.body.data)
+          completedChildren++
+        })
+        .catch(error => {
+          // console.error("Error getting child scenario:", error)
+        })
+    }
+
+    let checkCompletedChildren = setInterval(() => {
+      if (completedChildren === 4) {
+        clearInterval(checkCompletedChildren)
+
+        this.setState({
+          childrenScenarioData
+        })
+      }
+    })
+  }
   getBackLink = () => {
     const { role } = this.state
 
@@ -71,7 +107,7 @@ export default class Info extends Component {
     })
   }
   callToActionBtn = () => {
-    const { role } = this.state
+    const { role, doerButton } = this.state
 
     if (role === "donator") {
       return (
@@ -80,11 +116,19 @@ export default class Info extends Component {
         </Link>
       )
     } else if (role === "doer") {
-      return (
-        <Link to="/doer/confirmation" className="btn footer-btn feed-btn">
-          Complete Mission
-        </Link>
-      )
+      if (doerButton) {
+        return (
+          <Link to="/doer/confirmation" className="btn footer-btn feed-btn">
+            {doerButton}
+          </Link>
+        )
+      } else {
+        return (
+          <Link to="/doer/confirmation" className="btn footer-btn feed-btn">
+            Complete Mission
+          </Link>
+        )
+      }
     } else if (role === "verifer") {
       return (
         <Link to="/feed/verifier" className="btn footer-btn feed-btn">
@@ -118,10 +162,10 @@ export default class Info extends Component {
             Overview
           </li>
           <li
-            className={tab === "Costs" ? "tab-link active" : "tab-link"}
-            onClick={() => this.changeTab("Costs")}
+            className={tab === "Instructions" ? "tab-link active" : "tab-link"}
+            onClick={() => this.changeTab("Instructions")}
           >
-            Costs
+            Instructions
           </li>
           <li
             className={tab === "Verifiers" ? "tab-link active" : "tab-link"}
@@ -155,6 +199,82 @@ export default class Info extends Component {
         </ul>
       )
     }
+  }
+  jobs = () => {
+    const { childrenScenarioData } = this.state
+
+    return (
+      <Fragment>
+        {childrenScenarioData &&
+          childrenScenarioData.map(childScenario => {
+            const { noun, verb, is_complete } = childScenario.attributes
+            let label, button
+
+            if (noun === "materials" && verb === "get") {
+              if (is_complete) {
+                label = "Materials on site"
+              } else {
+                label = "Can you bring materials?"
+                if (this.state.doerButton) {
+                  this.setState({
+                    doerButton: "Bring Materials"
+                  })
+                }
+              }
+            } else if (noun === "transportation" && verb === "get") {
+              if (is_complete) {
+                label = "Workers on site"
+              } else {
+                label = "Can you provide transport?"
+                if (this.state.doerButton) {
+                  this.setState({
+                    doerButton: "Provide transport"
+                  })
+                }
+              }
+            } else if (noun === "roof" && verb === "patch") {
+              if (is_complete) {
+                label = "Roof covered"
+              } else {
+                label = "Can you cover the roof?"
+                if (this.state.doerButton) {
+                  this.setState({
+                    doerButton: "Cover roof"
+                  })
+                }
+              }
+            } else if (noun === "roof" && verb === "fix") {
+              if (is_complete) {
+                label = "Roof fixed"
+              } else {
+                label = "Can you secure the roof?"
+                if (this.state.doerButton) {
+                  this.setState({
+                    doerButton: "Secure roof"
+                  })
+                }
+              }
+            }
+
+            if (is_complete) {
+              button = (
+                <div className="done-job-icon">
+                  <Icon icon={faCheck} />
+                </div>
+              )
+            } else {
+              button = <button className="btn btn-lite do-job-btn">Yes</button>
+            }
+
+            return (
+              <div className="card job-card" key={childScenario.id}>
+                <div className="card-label">{label}</div>
+                {button}
+              </div>
+            )
+          })}
+      </Fragment>
+    )
   }
 
   render() {
@@ -297,23 +417,10 @@ export default class Info extends Component {
                         <span>Workers arriving on site</span>
                       </h4>
                     </header>
-
-                    <div className="card job-card">
-                      <div className="card-label">Materials are on site</div>
-                      <div className="done-job-icon">
-                        <Icon icon={faCheck} />
-                      </div>
-                    </div>
-                    <div className="card job-card">
-                      <div className="card-label">Do you have tools?</div>
-                      <button className="btn btn-lite do-job-btn">Yes</button>
-                    </div>
+                    {this.jobs()}
                   </article>
                   <article className={tab === "Updates" ? "tab active" : "tab"}>
                     Updates
-                  </article>
-                  <article className={tab === "Costs" ? "tab active" : "tab"}>
-                    Costs
                   </article>
                   <article
                     className={tab === "Verifiers" ? "tab active" : "tab"}

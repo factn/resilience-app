@@ -8,7 +8,8 @@ export default class TextArea extends Component {
     super(props)
 
     this.state = {
-      remainingCharacterCount: 512
+      maxCharacterCount: 140,
+      remainingCharacterCount: 140
     }
   }
 
@@ -16,19 +17,14 @@ export default class TextArea extends Component {
     const { value } = e.target
 
     this.setState({
-      remainingCharacterCount: 512 - value.length
+      remainingCharacterCount: 140 - value.length
     })
   }
 
   render() {
-    const { remainingCharacterCount } = this.state
+    const { maxCharacterCount, remainingCharacterCount } = this.state
 
-    const {
-      labelPhrase,
-      inputID,
-      requiredField,
-      disabledField
-    } = this.props
+    const { labelPhrase, inputID, requiredField, disabledField } = this.props
 
     return (
       <div
@@ -37,7 +33,7 @@ export default class TextArea extends Component {
         <textarea
           placeholder={labelPhrase || "Enter a description"}
           id={inputID}
-          maxLength="512"
+          maxLength={maxCharacterCount}
           rows="3"
           onChange={e => this.updateCharacterCount(e)}
           required={requiredField}
