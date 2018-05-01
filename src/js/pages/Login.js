@@ -37,26 +37,55 @@ export default class Login extends Component {
       buttonPressed: true
     })
 
-    Database.attemptLogin(json)
-      .then(result => {
-        // console.log("Login complete:", result)
+    // Database.attemptLogin(json)
+    //   .then(result => {
+    //     // console.log("Login complete:", result)
 
-        this.setUserCookie(result)
-        history.push("/")
-      })
-      .catch(error => {
-        // console.error("Error getting user:", error)
-      })
+    //     this.setUserCookie(result)
+    //   })
+    //   .catch(error => {
+    //     // console.error("Error getting user:", error)
+    //   })
   }
-  setUserCookie = loginResult => {
-    // Cookies.set("userId", loginResult.)
+  setUserCookie = userId => {
+    Cookies.set("userId", userId)
+    history.push("/")
+    window.location = "/"
   }
-
 
   render() {
     return (
-      <Page clas="flow-page requester-flow-page">
+      <Page clas="flow-page login-page">
         <Main>
+          <section className="user-select-wrap">
+            <button
+              className="btn user-btn"
+              onClick={() => this.setUserCookie("1")}
+            >
+              User #1
+            </button>
+            <button
+              className="btn user-btn"
+              onClick={() => this.setUserCookie("2")}
+            >
+              User #2
+            </button>
+            <button
+              className="btn user-btn"
+              onClick={() => this.setUserCookie("3")}
+            >
+              User #3
+            </button>
+            <button
+              className="btn user-btn"
+              onClick={() => this.setUserCookie("4")}
+            >
+              User #4
+            </button>
+          </section>
+
+          {/* This is the real login form, commenting for now, but it will go back to this
+          
           <Form>
             <div className="input-wrap">
               <label className="input-label" htmlFor="login_email">
@@ -102,7 +131,7 @@ export default class Login extends Component {
                 </Fragment>
               )}
             </button>
-          </Form>
+          </Form> */}
         </Main>
       </Page>
     )

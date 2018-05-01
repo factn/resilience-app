@@ -38,7 +38,7 @@ import NoPage from "./js/pages/NoPage"
 
 export default class App extends Component {
   componentDidMount = () => {
-    Cookies.set("userId", "1")
+    if (!Cookies.get("userId")) Cookies.set("userId", "1")
   }
 
   render() {
