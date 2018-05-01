@@ -55,15 +55,13 @@ export default class App extends Component {
           <Route path="/requester" component={RequesterFlow} />
           {/* <Route path="/verifier" component={VerifierFlow} /> */}
           <Route path="/feed/:type" component={Feed} />
-
-          {/* Account creation */}
-          <Route path="/account" exact component={Account} />
-          <Route path="/account/confirm-facebook" exact component={FBConfirm} />
-          <Route path="/account/verify-facebook" exact component={FBVerify} />
-
+          
           {/* Account */}
           <Route path="/login" component={Login} />
           <Route path="/profile" component={Profile} />
+          <Route path="/account" exact component={Account} />
+          <Route path="/account/confirm-facebook" exact component={FBConfirm} />
+          <Route path="/account/verify-facebook" exact component={FBVerify} />
 
           {/* Mission control */}
           <Route path="/missions" exact component={MissionControl} />

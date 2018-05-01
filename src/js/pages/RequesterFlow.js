@@ -129,7 +129,8 @@ export default class RequesterFlow extends Component {
         type: "scenarios",
         attributes: {
           funding_goal: "1000",
-          image: imageString
+          image: imageString,
+          custom_message: params.custom_message || ""
         },
         relationships: {
           event: {
@@ -444,11 +445,12 @@ export default class RequesterFlow extends Component {
         event: "event",
         photo: "photo",
         requesterlat: "requestLocation_lat",
-        requesterlon: "requestLocation_lon"
+        requesterlon: "requestLocation_lon",
+        custom_message: "description"
       }
     }
     let textareaObj = {
-      id: "description"
+      inputID: "description"
     }
 
     return (

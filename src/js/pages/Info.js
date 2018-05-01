@@ -293,7 +293,7 @@ export default class Info extends Component {
         doerlon,
         noun,
         verb,
-        customMessage
+        custom_message
       } = scenarioData.attributes
 
       let mapPos = {
@@ -399,7 +399,7 @@ export default class Info extends Component {
                     </section>
 
                     <div className="scenario-description">
-                      {customMessage ||
+                      {custom_message ||
                         "My roof was blown off in Hurricane Katrina. I need your help to fix it. Can have more info here to help tell the story and convince people to do this."}
                     </div>
 

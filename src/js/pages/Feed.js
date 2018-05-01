@@ -27,13 +27,17 @@ export default class Feed extends Component {
       userId: Cookies.get("userId") || 1,
       previewDismissed: false,
       type: this.props.match.params.type || 1,
-      sessionTotal: 200.0,
-      perSwipeAmount: 1.0,
+      sessionTotal: null,
+      perSwipeAmount: null,
       donatedTotal: 0.0
     }
   }
 
   componentDidMount = () => {
+    this.mountFeedScenarios()
+    this.mountUserData()
+  }
+  mountFeedScenarios = () => {
     Database.scenarioFeed()
       .then(result => {
         // console.info("Database call complete:", result.body)
@@ -47,6 +51,24 @@ export default class Feed extends Component {
         this.setState({
           feedOffset: 0,
           scenarioData: null
+        })
+      })
+  }
+  mountUserData = () => {
+    Database.getUserById({ id: this.state.userId })
+      .then(result => {
+        // console.log("User successfully found:", result)
+        this.setState({
+          sessionTotal:
+            result.body.data.attributes.default_total_session_donation,
+          perSwipeAmount: result.body.data.attributes.default_swipe_donation
+        })
+      })
+      .catch(error => {
+        // console.error("Error getting user:", error)
+        this.setState({
+          sessionTotal: null,
+          perSwipeAmount: null
         })
       })
   }
@@ -140,11 +162,15 @@ export default class Feed extends Component {
         {type === "donator" && (
           <Footer>
             <div className="footer-left">
-              <div className="dollar-amount">{moneyfy(sessionTotal)}</div>
+              <div className="dollar-amount">
+                {sessionTotal ? moneyfy(sessionTotal) : "0"}
+              </div>
               <h4 className="dollar-amount-label">To spend</h4>
             </div>
             <div className="footer-right">
-              <div className="dollar-amount">{moneyfy(donatedTotal)}</div>
+              <div className="dollar-amount">
+                {donatedTotal ? moneyfy(donatedTotal) : "0"}
+              </div>
               <h4 className="dollar-amount-label">Donated</h4>
             </div>
           </Footer>
