@@ -241,6 +241,14 @@
   background: darken($white, 10%);
   margin: 1rem -1rem -1rem;
   padding: 1rem;
+  .funding-top-row {
+    @include inline-flex;
+  }
+  .funding-doubler {
+    color: rgba($black, 0.5);
+    font-size: 0.65rem;
+    padding: 0.5rem 0;
+  }
   .funding-goal-label {
     text-align: right;
     text-transform: uppercase;
