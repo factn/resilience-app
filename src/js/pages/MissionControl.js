@@ -35,9 +35,11 @@ export default class MissionControl extends Component {
 
     Database.getUserDonations(json)
       .then(result => {
-        // console.info("Donations call complete:", result.body.data)
+        const { data } = result.body
+        // console.info("Donations call complete:", data)
+
         this.setState({
-          userDonations: result.body.data
+          userDonations: data
         })
       })
       .catch(error => {
@@ -52,9 +54,11 @@ export default class MissionControl extends Component {
 
     Database.getUserDos(json)
       .then(result => {
-        // console.info("Dos call complete:", result.body.data)
+        const { data } = result.body
+        // console.info("Dos call complete:", data)
+
         this.setState({
-          userDos: result.body.data
+          userDos: data
         })
       })
       .catch(error => {

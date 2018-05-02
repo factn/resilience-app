@@ -62,9 +62,11 @@ export default class Info extends Component {
 
     Database.getUserDonations(json)
       .then(result => {
-        // console.info("Donations call complete:", result.body.data)
+        const { data } = result.body
+        // console.info("Donations call complete:", data)
+
         this.setState({
-          userDonations: result.body.data
+          userDonations: data
         })
       })
       .catch(error => {
@@ -79,9 +81,11 @@ export default class Info extends Component {
 
     Database.getUserDos(json)
       .then(result => {
-        // console.info("Dos call complete:", result.body.data)
+        const { data } = result.body
+        // console.info("Dos call complete:", data)
+
         this.setState({
-          userDos: result.body.data
+          userDos: data
         })
       })
       .catch(error => {
@@ -96,9 +100,11 @@ export default class Info extends Component {
 
     Database.getUserRequests(json)
       .then(result => {
-        // console.info("Requests call complete:", result.body.data)
+        const { data } = result.body
+        // console.info("Requests call complete:", data)
+
         this.setState({
-          userRequests: result.body.data
+          userRequests: data
         })
       })
       .catch(error => {
@@ -113,9 +119,11 @@ export default class Info extends Component {
 
     Database.getUserVerifications(json)
       .then(result => {
-        // console.info("Verifications call complete:", result.body.data)
+        const { data } = result.body
+        // console.info("Verifications call complete:", data)
+
         this.setState({
-          userVerifications: result.body.data
+          userVerifications: data
         })
       })
       .catch(error => {

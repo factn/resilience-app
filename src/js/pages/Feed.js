@@ -25,6 +25,7 @@ export default class Feed extends Component {
     this.state = {
       scenarioData: null,
       feedOffset: 0,
+      cardsOnPage: null,
       userId: Cookies.get("userId") || 1,
       previewDismissed: false,
       type: this.props.match.params.type || 1,
@@ -42,17 +43,20 @@ export default class Feed extends Component {
   mountFeedScenarios = () => {
     Database.scenarioFeed()
       .then(result => {
-        // console.info("Database call complete:", result.body)
+        const { data } = result.body
+        console.info("Database call complete:", data)
+
         this.setState({
-          feedOffset: result.body.data.length,
-          scenarioData: result.body.data
+          scenarioData: data,
+          cardsOnPage: data.length
         })
       })
       .catch(error => {
         // console.error("Error getting scenarios:", error)
         this.setState({
           feedOffset: 0,
-          scenarioData: null
+          scenarioData: null,
+          cardsOnPage: null
         })
       })
   }
@@ -80,36 +84,58 @@ export default class Feed extends Component {
       feedOffset,
       scenarioData,
       perSwipeAmount,
-      donatedTotal
+      donatedTotal,
+      cardsOnPage
     } = this.state
     const { directionSwiped, fullFundAmount } = params
 
-    Database.nextInFeed({ offset: feedOffset })
-      .then(result => {
-        // console.info("Next in feed call complete:", result.body.data)
-        this.setState({
-          feedOffset: feedOffset + 1,
-          scenarioData: scenarioData.concat(result.body.data)
-        })
-        if (directionSwiped === "right") {
+    if (cardsOnPage === 1) {
+      Database.nextInFeed({ offset: feedOffset + 1 })
+        .then(result => {
+          const { data } = result.body
+          console.info("Next in feed call complete:", data)
+
           this.setState({
-            donatedTotal: donatedTotal + perSwipeAmount,
-            overlayOpen: true
+            feedOffset: 0,
+            scenarioData: data,
+            cardsOnPage: 3
           })
-        } else if (directionSwiped === "up") {
-          this.setState({
-            donatedTotal: donatedTotal + fullFundAmount,
-            overlayOpen: true
-          })
-        }
-      })
-      .catch(error => {
-        // console.error("Error getting scenarios:", error)
-        this.setState({
-          feedOffset: 0,
-          scenarioData: null
+          if (directionSwiped === "right") {
+            this.setState({
+              donatedTotal: donatedTotal + perSwipeAmount,
+              overlayOpen: true
+            })
+          } else if (directionSwiped === "up") {
+            this.setState({
+              donatedTotal: donatedTotal + fullFundAmount,
+              overlayOpen: true
+            })
+          }
         })
+        .catch(error => {
+          // console.error("Error getting scenarios:", error)
+          this.setState({
+            feedOffset: 0,
+            scenarioData: null
+          })
+        })
+    } else {
+      this.setState({
+        feedOffset: feedOffset + 1,
+        cardsOnPage: cardsOnPage - 1
       })
+      if (directionSwiped === "right") {
+        this.setState({
+          donatedTotal: donatedTotal + perSwipeAmount,
+          overlayOpen: true
+        })
+      } else if (directionSwiped === "up") {
+        this.setState({
+          donatedTotal: donatedTotal + fullFundAmount,
+          overlayOpen: true
+        })
+      }
+    }
   }
   dismissPreview = () => {
     this.setState({
@@ -133,6 +159,7 @@ export default class Feed extends Component {
       perSwipeAmount,
       overlayOpen
     } = this.state
+    console.log(this.state)
 
     return (
       <Page clas={`feed-page ${type}-feed`}>
@@ -141,7 +168,7 @@ export default class Feed extends Component {
           <section className={`scenario-feed-wrap ${type}-feed-wrap`}>
             {scenarioData ? (
               scenarioData.map((scenario, index) => {
-                if (index === feedOffset - 3) {
+                if (index === feedOffset) {
                   return (
                     <Scenario
                       key={scenario.id}
@@ -154,7 +181,7 @@ export default class Feed extends Component {
                       standardAmount={perSwipeAmount}
                     />
                   )
-                } else if (index === feedOffset - 2) {
+                } else if (index === feedOffset + 1) {
                   return (
                     <Scenario
                       key={scenario.id}
@@ -167,7 +194,7 @@ export default class Feed extends Component {
                       standardAmount={perSwipeAmount}
                     />
                   )
-                } else if (index > feedOffset - 2) {
+                } else if (index > feedOffset + 1) {
                   return (
                     <Scenario
                       key={scenario.id}

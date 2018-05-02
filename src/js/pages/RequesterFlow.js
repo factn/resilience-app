@@ -91,7 +91,8 @@ export default class RequesterFlow extends Component {
     Database.getNouns()
       .then(result => {
         const { data } = result.body
-        // console.info("Nouns call complete:", result.body.data)
+        // console.info("Nouns call complete:", data)
+
         this.setState({
           nounData: data
         })
@@ -107,7 +108,8 @@ export default class RequesterFlow extends Component {
     Database.getVerbs()
       .then(result => {
         const { data } = result.body
-        // console.info("Verbs call complete:", result.body.data)
+        // console.info("Verbs call complete:", data)
+
         this.setState({
           verbData: data
         })
@@ -166,7 +168,7 @@ export default class RequesterFlow extends Component {
       .then(result => {
         const { data } = result.body
         // console.log("Scenario successfully created:", data)
-        
+
         history.push(`/${data.id}/requester`)
         window.location = `/${data.id}/requester`
       })
