@@ -1,0 +1,36 @@
+.notification {
+  position: fixed;
+  top: -10rem;
+  left: 1rem;
+  width: calc(100% - 2rem);
+  padding: 1.5rem 1rem 1rem;
+  background: rgba(darken($white, 5%), 0.9);
+  box-shadow: $card-shadow;
+  border-radius: 0 0 1rem 1rem;
+  z-index: 20;
+  opacity: 0;
+  transition: {
+    property: opacity, top;
+    duration: $medium;
+    timing-function: $cubic;
+  }
+  &.open {
+    top: 0;
+    opacity: 1;
+  }
+  .notification-content {
+    padding-bottom: 0.5rem;
+    border-bottom: 0.125rem solid rgba($black, 0.1);
+    margin-bottom: 0.5rem;
+  }
+  .button-row {
+    @include inline-flex;
+  }
+  .btn {
+    font-size: 1rem;
+  }
+  .view-btn {
+  }
+  .dismiss-btn {
+  }
+}

@@ -27,9 +27,52 @@ export default class DoerConfirmation extends Component {
 
     this.state = {
       parentScenarioId: this.props.match.params.scenarioId || "1",
+      scenarioId: null,
       verb: this.props.match.params.verb || "fix",
       noun: this.props.match.params.noun || "roof",
       currentUser: Cookies.get("userId") || "1"
+    }
+  }
+
+  componentDidMount = () => {
+    Database.getScenarioWithChildren({ id: this.state.parentScenarioId })
+      .then(result => {
+        const { data } = result.body.data.relationships.children_scenario
+        // console.info("Success getting scenario:", data)
+        let idList = []
+
+        for (let i in data) {
+          idList.push(data[i].id)
+        }
+
+        this.setChildrenScenarioData(idList)
+      })
+      .catch(error => {
+        // console.error("Error getting scenarios:", error)
+        this.setState({
+          scenarioData: null
+        })
+      })
+  }
+
+  setChildrenScenarioData = list => {
+    for (let i = 0, l = list.length; i < l; i++) {
+      Database.getScenarioWithProofs({ id: list[i] })
+        .then(result => {
+          const { data } = result.body
+          const { noun, verb } = data.attributes
+
+          // console.info("Success getting child scenario:", data)
+
+          if (noun === this.state.noun && verb === this.state.verb) {
+            this.setState({
+              scenarioId: list[i]
+            })
+          }
+        })
+        .catch(error => {
+          // console.error("Error getting child scenario:", error)
+        })
     }
   }
 
@@ -61,20 +104,17 @@ export default class DoerConfirmation extends Component {
       }
     }
 
-    history.push("/feed/doer")
-    window.location = "/feed/doer"
+    Database.createProof(json)
+      .then(result => {
+        // const { data } = result.body
+        // console.log("Proof successfully created:", data)
 
-    // Database.createProof(json)
-    //   .then(result => {
-    //     const { data } = result.body
-    //     console.log("Proof successfully created:", data)
-
-    //     // history.push("/feed/doer")
-    //     // window.location = "/feed/doer"
-    //   })
-    //   .catch(error => {
-    //     // console.error("Error creating proof:", error)
-    //   })
+        history.push("/feed/doer")
+        window.location = "/feed/doer"
+      })
+      .catch(error => {
+        // console.error("Error creating proof:", error)
+      })
   }
 
   render() {
