@@ -106,7 +106,7 @@ const apiEndpoints = {
 	},
 	scenarioFeed: {
 		method: get,
-		path: "/scenarios?page[limit]=2" // ?sort=accepted-ratio-donator
+		path: "/scenarios?page[limit]=3" // ?sort=accepted-ratio-donator
 	},
 	nextInFeed: {
 		method: get,
