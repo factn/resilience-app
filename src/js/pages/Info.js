@@ -30,6 +30,7 @@ export default class Info extends Component {
     this.state = {
       scenarioData: null,
       childrenScenarioData: null,
+      buttonOverride: false,
       materialsDone: false,
       transportDone: false,
       roofCovered: false,
@@ -79,7 +80,7 @@ export default class Info extends Component {
     }
 
     for (let id in childrenScenarioData) {
-      Database.getScenario({ id: id })
+      Database.getScenarioWithProofs({ id: id })
         .then(result => {
           const { data } = result.body
 
@@ -257,7 +258,7 @@ export default class Info extends Component {
     }
   }
   jobs = () => {
-    const { childrenScenarioData } = this.state
+    const { childrenScenarioData, buttonOverride } = this.state
 
     return (
       <Fragment>
@@ -269,36 +270,48 @@ export default class Info extends Component {
             if (noun === "materials" && verb === "get") {
               if (is_complete) {
                 label = "Materials on site"
-                this.setState({
-                  materialsDone: true
-                })
+                if (!buttonOverride) {
+                  this.setState({
+                    materialsDone: true,
+                    buttonOverride: true
+                  })
+                }
               } else {
                 label = "Can you bring materials?"
               }
             } else if (noun === "transportation" && verb === "get") {
               if (is_complete) {
                 label = "Workers on site"
-                this.setState({
-                  transportDone: true
-                })
+                if (!buttonOverride) {
+                  this.setState({
+                    transportDone: true,
+                    buttonOverride: true
+                  })
+                }
               } else {
                 label = "Can you provide transport?"
               }
             } else if (noun === "roof" && verb === "patch") {
               if (is_complete) {
                 label = "Roof covered"
-                this.setState({
-                  roofCovered: true
-                })
+                if (!buttonOverride) {
+                  this.setState({
+                    roofCovered: true,
+                    buttonOverride: true
+                  })
+                }
               } else {
                 label = "Can you cover the roof?"
               }
             } else if (noun === "roof" && verb === "fix") {
               if (is_complete) {
                 label = "Roof fixed"
-                this.setState({
-                  roofSecured: true
-                })
+                if (!buttonOverride) {
+                  this.setState({
+                    roofSecured: true,
+                    buttonOverride: true
+                  })
+                }
               } else {
                 label = "Can you secure the roof?"
               }

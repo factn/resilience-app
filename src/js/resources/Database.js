@@ -140,6 +140,10 @@ const apiEndpoints = {
 		method: get,
 		path: "/scenarios/:id/?include=children_scenario"
 	},
+	getScenarioWithProofs: {
+		method: get,
+		path: "/scenarios/:id/?include=proofs"
+	},
 
 	// Users
 	getUsers: {

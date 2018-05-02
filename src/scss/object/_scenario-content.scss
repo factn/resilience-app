@@ -111,13 +111,16 @@
   .done-job-icon,
   .do-job-btn {
     float: right;
-    margin-top: -1.35rem;
   }
   .done-job-icon {
     color: $green-bright;
+    width: 4rem;
+    text-align: center;
+    margin-top: -1.25rem;
   }
   .do-job-btn {
     min-width: 4rem;
+    margin-top: -1.35rem;
   }
 }
 
