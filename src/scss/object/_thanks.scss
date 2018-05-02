@@ -1,0 +1,52 @@
+.thank-you-modal {
+  position: fixed;
+  top: -100vh;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  padding: 25vh 1rem 1rem;
+  background: rgba(darken($white, 5%), 0.9);
+  z-index: 20;
+  opacity: 0;
+  transition: {
+    property: opacity;
+    duration: $medium;
+    timing-function: $cubic;
+  }
+  &.open {
+    top: 0;
+    opacity: 1;
+  }
+  h2,
+  h3 {
+    text-align: center;
+  }
+  h2 {
+    color: $blue;
+    margin-bottom: 1rem;
+    font-size: 3rem;
+  }
+  h3 {
+    color: rgba($black, 0.75);
+    margin-bottom: 0.5rem;
+    font-size: 2rem;
+  }
+  .social-share-area {
+    margin-bottom: 1rem;
+  }
+  .social-share-label {
+    text-align: center;
+    margin-bottom: 0.5rem;
+  }
+  .add-this-wrap {
+    margin: 0 auto;
+    width: 10rem;
+  }
+  .dismiss-btn {
+    position: absolute;
+    bottom: 1.5rem;
+    left: calc(50% - 5rem);
+    font-size: 1.2rem;
+    width: 10rem;
+  }
+}
