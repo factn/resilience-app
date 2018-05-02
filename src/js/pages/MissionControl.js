@@ -81,7 +81,7 @@ export default class MissionControl extends Component {
   }
 
   render() {
-    const { role, tab, userDonations, userDos } = this.state
+    const { role, tab, userDos } = this.state
 
     return (
       <Page clas="feed-page mission-control-page">

@@ -43,15 +43,12 @@ export default class Notification extends Component {
 
     if (toLink) {
       return toLink
-    } else {
-      if (scenarioData) {
-        return `/${id}/doer/confirmation/${scenarioData.attributes.verb}/${
-          scenarioData.attributes.noun
-        }`
-      } else {
-        return "/"
-      }
+    } else if (!toLink && scenarioData) {
+      return `/${id}/doer/confirmation/${scenarioData.attributes.verb}/${
+        scenarioData.attributes.noun
+      }`
     }
+    return "/"
   }
   buildScenario = () => {
     if (this.state.scenarioData) {

@@ -182,9 +182,9 @@ export default class RequesterFlow extends Component {
       defaultEvent,
       defaultNoun,
       defaultVerb,
-      eventData,
-      nounData,
-      verbData
+      eventData
+      // nounData,
+      // verbData
     } = this.state
 
     let eventSelectObj = {

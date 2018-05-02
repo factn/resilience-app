@@ -82,7 +82,7 @@ export default class Feed extends Component {
   nextItem = params => {
     const {
       feedOffset,
-      scenarioData,
+      // scenarioData,
       perSwipeAmount,
       donatedTotal,
       cardsOnPage
