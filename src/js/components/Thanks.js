@@ -13,7 +13,7 @@ export default class Thanks extends Component {
         <div className="social-share-area">
           <div className="social-share-label">Tell your friends:</div>
           <div className="add-this-wrap">
-            <div class="addthis_inline_share_toolbox"></div>
+            <div className="addthis_inline_share_toolbox"></div>
           </div>
         </div>
         <button className="btn-lite dismiss-btn" onClick={() => dismiss()}>

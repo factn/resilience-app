@@ -110,7 +110,7 @@ const apiEndpoints = {
 	},
 	nextInFeed: {
 		method: get,
-		path: "/scenarios?page[limit]=1&page[offset]=:offset" // ?sort=accepted-ratio-donator
+		path: "/scenarios?page[limit]=3&page[offset]=:offset" // ?sort=accepted-ratio-donator
 	},
 	getScenario: {
 		method: get,
