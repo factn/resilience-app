@@ -31,7 +31,7 @@ export default class MissionControl extends Component {
     this.userDosMount()
   }
   userDonationsMount = () => {
-    let json = { id: this.state.userId }
+    const json = { id: this.state.userId }
 
     Database.getUserDonations(json)
       .then(result => {
@@ -48,7 +48,7 @@ export default class MissionControl extends Component {
       })
   }
   userDosMount = () => {
-    let json = { id: this.state.userId }
+    const json = { id: this.state.userId }
 
     Database.getUserDos(json)
       .then(result => {

@@ -1,7 +1,8 @@
 /*** IMPORTS ***/
 // Module imports
 import React, { Component } from "react"
-import { Link } from "react-router-dom"
+import Cookies from "js-cookie"
+import createHistory from "history/createBrowserHistory"
 import { faDollarSign } from "@fortawesome/fontawesome-free-solid"
 
 // Page elements
@@ -12,10 +13,77 @@ import SessionSetting from "../components/SessionSetting"
 
 // Inputs
 import InputIconWrap from "../components/inputs/InputIconWrap"
+import Submit from "../components/inputs/Submit"
+
+// Utilities
+import Database from "../resources/Database"
 /*** [end of imports] ***/
 
+const history = createHistory()
+
 export default class DonatorFlow extends Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      userId: Cookies.get("userId") || 1,
+      userData: null
+    }
+  }
+
+  componentDidMount = () => {
+    Database.getUserById({ id: this.state.userId })
+      .then(result => {
+        // console.log("User successfully found:", result)
+        this.setState({
+          currentUserData: result.body.data.attributes
+        })
+      })
+      .catch(error => {
+        // console.error("Error getting user:", error)
+        this.setState({
+          currentUserData: null
+        })
+      })
+  }
+
+  beginMission = params => {
+    const { userId } = this.state
+    const json = {
+      // No where to put address info or custom message
+      data: {
+        type: "users",
+        id: userId,
+        attributes: {
+          default_total_session_donation: params.default_total_session_donation,
+          default_swipe_donation: "1" // params.default_swipe_donation
+        }
+      }
+    }
+
+    Database.updateUser({ id: userId }, json)
+      .then(result => {
+        // console.log("User successfully updated:", result)
+
+        history.push("/feed/donator")
+        window.location = "/feed/donator"
+      })
+      .catch(error => {
+        // console.error("Error updating user:", error)
+      })
+  }
+
   render() {
+    let buttonObj = {
+      labelPhrase: "Start Mission",
+      clas: "footer-btn feed-btn",
+      onSubmit: this.beginMission,
+      onSubmitParams: {
+        default_total_session_donation: "selectMaxDonationAmount"
+        // default_swipe_donation: "1"
+      }
+    }
+
     return (
       <Page clas="flow-page donator-flow-page">
         <Main>
@@ -64,9 +132,7 @@ export default class DonatorFlow extends Component {
         </Main>
 
         <Footer>
-          <Link to="/feed/donator" className="btn footer-btn feed-btn">
-            Start Mission
-          </Link>
+          <Submit {...buttonObj} />
         </Footer>
       </Page>
     )

@@ -33,7 +33,7 @@ class MiniMap extends Component {
   }
 
   mapClicked(mapProps, map, clickEvent) {
-    let json = {
+    const json = {
       data: {
         type: "users",
         id: 1,

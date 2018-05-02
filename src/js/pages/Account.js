@@ -25,7 +25,7 @@ export default class Account extends Component {
   createProfile = params => {
     let imageString = getBase64(params.avatar)
 
-    let json = {
+    const json = {
       data: {
         type: "users",
         attributes: {

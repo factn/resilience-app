@@ -407,7 +407,7 @@ export default class Scenario extends Component {
     const { scenario } = this.props
     const { donated, funding_goal } = scenario.attributes
 
-    let json = {
+    const json = {
       scenarioId: scenario.id
     }
 
@@ -437,7 +437,7 @@ export default class Scenario extends Component {
     const { transitionTiming } = this.state
     const { scenario, feedType, standardAmount } = this.props
 
-    let json = {
+    const json = {
       scenarioId: scenario.id
     }
 
@@ -517,7 +517,7 @@ export default class Scenario extends Component {
     return "3"
   }
   dismissScenario = params => {
-    let json = {
+    const json = {
       data: {
         type: "user_ad_interactions",
         attributes: {},
@@ -560,7 +560,7 @@ export default class Scenario extends Component {
       })
   }
   acceptScenario = params => {
-    let json = {
+    const json = {
       data: {
         type: "user_ad_interactions",
         attributes: {},
@@ -608,7 +608,7 @@ export default class Scenario extends Component {
       })
   }
   donate = params => {
-    let json = {
+    const json = {
       data: {
         type: "donations",
         attributes: {

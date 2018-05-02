@@ -30,7 +30,10 @@ export default class Info extends Component {
     this.state = {
       scenarioData: null,
       childrenScenarioData: null,
-      doerButton: null,
+      materialsDone: false,
+      transportDone: false,
+      roofCovered: false,
+      roofSecured: false,
       scenarioId: this.props.match.params.scenarioId || 1,
       role: this.props.match.params.role || "Info",
       tab: this.props.match.params.tab || "Overview",
@@ -68,14 +71,21 @@ export default class Info extends Component {
   }
 
   setChildrenScenarioData = list => {
-    let childrenScenarioData = []
+    let childrenScenarioData = {}
     let completedChildren = 0
 
     for (let i = 0, l = list.length; i < l; i++) {
-      Database.getScenario({ id: list[i].id })
+      childrenScenarioData[list[i].id] = {}
+    }
+
+    for (let id in childrenScenarioData) {
+      Database.getScenario({ id: id })
         .then(result => {
-          // console.info("Success getting child scenario:", result)
-          childrenScenarioData.push(result.body.data)
+          const { data } = result.body
+
+          // console.info("Success getting child scenario:", data)
+
+          childrenScenarioData[id] = data
           completedChildren++
         })
         .catch(error => {
@@ -107,7 +117,14 @@ export default class Info extends Component {
     })
   }
   callToActionBtn = () => {
-    const { role, doerButton } = this.state
+    const {
+      role,
+      materialsDone,
+      transportDone,
+      roofCovered,
+      roofSecured,
+      scenarioId
+    } = this.state
 
     if (role === "donator") {
       return (
@@ -116,16 +133,55 @@ export default class Info extends Component {
         </Link>
       )
     } else if (role === "doer") {
-      if (doerButton) {
-        return (
-          <Link to="/doer/confirmation" className="btn footer-btn feed-btn">
-            {doerButton}
-          </Link>
-        )
+      if (materialsDone) {
+        if (transportDone) {
+          if (roofCovered) {
+            if (roofSecured) {
+              return (
+                <Link
+                  to={`/${scenarioId}/doer/confirmation/fix/roof`}
+                  className="btn footer-btn feed-btn"
+                >
+                  Complete Mission
+                </Link>
+              )
+            } else {
+              return (
+                <Link
+                  to={`/${scenarioId}/doer/confirmation/fix/roof`}
+                  className="btn footer-btn feed-btn"
+                >
+                  Secure Roof
+                </Link>
+              )
+            }
+          } else {
+            return (
+              <Link
+                to={`/${scenarioId}/doer/confirmation/patch/roof`}
+                className="btn footer-btn feed-btn"
+              >
+                Cover Roof
+              </Link>
+            )
+          }
+        } else {
+          return (
+            <Link
+              to={`/${scenarioId}/doer/confirmation/get/transportation`}
+              className="btn footer-btn feed-btn"
+            >
+              Provide Transport
+            </Link>
+          )
+        }
       } else {
         return (
-          <Link to="/doer/confirmation" className="btn footer-btn feed-btn">
-            Complete Mission
+          <Link
+            to={`/${scenarioId}/doer/confirmation/get/materials`}
+            className="btn footer-btn feed-btn"
+          >
+            Bring Materials
           </Link>
         )
       }
@@ -206,53 +262,45 @@ export default class Info extends Component {
     return (
       <Fragment>
         {childrenScenarioData &&
-          childrenScenarioData.map(childScenario => {
+          Object.entries(childrenScenarioData).map(([key, childScenario]) => {
             const { noun, verb, is_complete } = childScenario.attributes
             let label, button
 
             if (noun === "materials" && verb === "get") {
               if (is_complete) {
                 label = "Materials on site"
+                this.setState({
+                  materialsDone: true
+                })
               } else {
                 label = "Can you bring materials?"
-                if (this.state.doerButton) {
-                  this.setState({
-                    doerButton: "Bring Materials"
-                  })
-                }
               }
             } else if (noun === "transportation" && verb === "get") {
               if (is_complete) {
                 label = "Workers on site"
+                this.setState({
+                  transportDone: true
+                })
               } else {
                 label = "Can you provide transport?"
-                if (this.state.doerButton) {
-                  this.setState({
-                    doerButton: "Provide transport"
-                  })
-                }
               }
             } else if (noun === "roof" && verb === "patch") {
               if (is_complete) {
                 label = "Roof covered"
+                this.setState({
+                  roofCovered: true
+                })
               } else {
                 label = "Can you cover the roof?"
-                if (this.state.doerButton) {
-                  this.setState({
-                    doerButton: "Cover roof"
-                  })
-                }
               }
             } else if (noun === "roof" && verb === "fix") {
               if (is_complete) {
                 label = "Roof fixed"
+                this.setState({
+                  roofSecured: true
+                })
               } else {
                 label = "Can you secure the roof?"
-                if (this.state.doerButton) {
-                  this.setState({
-                    doerButton: "Secure roof"
-                  })
-                }
               }
             }
 
@@ -267,7 +315,7 @@ export default class Info extends Component {
             }
 
             return (
-              <div className="card job-card" key={childScenario.id}>
+              <div className="card job-card" key={key}>
                 <div className="card-label">{label}</div>
                 {button}
               </div>
@@ -293,7 +341,7 @@ export default class Info extends Component {
         doerlon,
         noun,
         verb,
-        customMessage
+        custom_message
       } = scenarioData.attributes
 
       let mapPos = {
@@ -399,7 +447,7 @@ export default class Info extends Component {
                     </section>
 
                     <div className="scenario-description">
-                      {customMessage ||
+                      {custom_message ||
                         "My roof was blown off in Hurricane Katrina. I need your help to fix it. Can have more info here to help tell the story and convince people to do this."}
                     </div>
 

@@ -121,15 +121,16 @@ export default class RequesterFlow extends Component {
   }
 
   submitRequest = params => {
-    let imageString = getBase64(params.image)
+    const imageString = getBase64(params.image)
 
-    let json = {
+    const json = {
       // No where to put address info or custom message
       data: {
         type: "scenarios",
         attributes: {
           funding_goal: "1000",
-          image: imageString
+          image: imageString,
+          custom_message: params.custom_message || ""
         },
         relationships: {
           event: {
@@ -163,253 +164,11 @@ export default class RequesterFlow extends Component {
 
     Database.createScenario(json)
       .then(result => {
-        // console.log("Scenario successfully created:", result)
-        this.createChildrenScenario({
-          image: imageString,
-          event: "2", // "Hurricane Katrina", or title field based off of `params.event`
-          userId: Cookies.get("userId") || "1",
-          lat: params.lat,
-          lon: params.lon,
-          parentScenarioId: result.body.data.id,
-          address: params.address || "",
-          custom_message: params.custom_message || ""
-        })
-      })
-      .catch(error => {
-        // console.error("Error creating scenario:", error)
-      })
-  }
-  createChildrenScenario = params => {
-    // This should be rolled up into one endpoint
-    this.createGetMaterialsScenario(params)
-    this.createGetTransporationScenario(params)
-    this.createPatchRoofScenario(params)
-    this.createFixRoofScenario(params)
-
-    let waitForChildren = setInterval(() => {
-      if (this.state.completeChildren === 4) {
-        clearInterval(waitForChildren)
-
-        history.push(`/${params.parentScenarioId}/requester`)
-        window.location = `/${params.parentScenarioId}/requester`
-      }
-    })
-  }
-  createGetMaterialsScenario = params => {
-    const json = {
-      // No where to put address info or custom message
-      data: {
-        type: "scenarios",
-        attributes: {
-          funding_goal: "0",
-          image: params.image
-        },
-        relationships: {
-          parent_scenario: {
-            data: {
-              type: "scenarios",
-              id: params.parentScenarioId
-            }
-          },
-          event: {
-            data: {
-              type: "events",
-              id: params.event
-            }
-          },
-          noun: {
-            data: {
-              type: "nouns",
-              id: "7" // "materials"
-            }
-          },
-          verb: {
-            data: {
-              type: "verbs",
-              id: "1" // "get"
-            }
-          },
-          requester: {
-            data: {
-              type: "users",
-              id: params.userId
-            }
-          }
-        }
-      }
-    }
-
-    Database.createScenario(json)
-      .then(result => {
-        console.log("Scenario successfully created:", result)
-        this.setState({
-          completeChildren: this.state.completeChildren + 1
-        })
-      })
-      .catch(error => {
-        // console.error("Error creating scenario:", error)
-      })
-  }
-  createGetTransporationScenario = params => {
-    const json = {
-      // No where to put address info or custom message
-      data: {
-        type: "scenarios",
-        attributes: {
-          funding_goal: "0",
-          image: params.image
-        },
-        relationships: {
-          parent_scenario: {
-            data: {
-              type: "scenarios",
-              id: params.parentScenarioId
-            }
-          },
-          event: {
-            data: {
-              type: "events",
-              id: params.event
-            }
-          },
-          noun: {
-            data: {
-              type: "nouns",
-              id: "19" // "transportation"
-            }
-          },
-          verb: {
-            data: {
-              type: "verbs",
-              id: "1" // "get"
-            }
-          },
-          requester: {
-            data: {
-              type: "users",
-              id: params.userId
-            }
-          }
-        }
-      }
-    }
-
-    Database.createScenario(json)
-      .then(result => {
-        console.log("Scenario successfully created:", result)
-        this.setState({
-          completeChildren: this.state.completeChildren + 1
-        })
-      })
-      .catch(error => {
-        // console.error("Error creating scenario:", error)
-      })
-  }
-  createPatchRoofScenario = params => {
-    const json = {
-      // No where to put address info or custom message
-      data: {
-        type: "scenarios",
-        attributes: {
-          funding_goal: "0",
-          image: params.image
-        },
-        relationships: {
-          parent_scenario: {
-            data: {
-              type: "scenarios",
-              id: params.parentScenarioId
-            }
-          },
-          event: {
-            data: {
-              type: "events",
-              id: params.event
-            }
-          },
-          noun: {
-            data: {
-              type: "nouns",
-              id: "5" // "roof"
-            }
-          },
-          verb: {
-            data: {
-              type: "verbs",
-              id: "6" // "patch"
-            }
-          },
-          requester: {
-            data: {
-              type: "users",
-              id: params.userId
-            }
-          }
-        }
-      }
-    }
-
-    Database.createScenario(json)
-      .then(result => {
-        console.log("Scenario successfully created:", result)
-        this.setState({
-          completeChildren: this.state.completeChildren + 1
-        })
-      })
-      .catch(error => {
-        // console.error("Error creating scenario:", error)
-      })
-  }
-  createFixRoofScenario = params => {
-    const json = {
-      // No where to put address info or custom message
-      data: {
-        type: "scenarios",
-        attributes: {
-          funding_goal: "0",
-          image: params.image
-        },
-        relationships: {
-          parent_scenario: {
-            data: {
-              type: "scenarios",
-              id: params.parentScenarioId
-            }
-          },
-          event: {
-            data: {
-              type: "events",
-              id: params.event
-            }
-          },
-          noun: {
-            data: {
-              type: "nouns",
-              id: "5" // "roof"
-            }
-          },
-          verb: {
-            data: {
-              type: "verbs",
-              id: "5" // "fix"
-            }
-          },
-          requester: {
-            data: {
-              type: "users",
-              id: params.userId
-            }
-          }
-        }
-      }
-    }
-
-    Database.createScenario(json)
-      .then(result => {
-        console.log("Scenario successfully created:", result)
-        this.setState({
-          completeChildren: this.state.completeChildren + 1
-        })
+        const { data } = result.body
+        // console.log("Scenario successfully created:", data)
+        
+        history.push(`/${data.id}/requester`)
+        window.location = `/${data.id}/requester`
       })
       .catch(error => {
         // console.error("Error creating scenario:", error)
@@ -444,11 +203,12 @@ export default class RequesterFlow extends Component {
         event: "event",
         photo: "photo",
         requesterlat: "requestLocation_lat",
-        requesterlon: "requestLocation_lon"
+        requesterlon: "requestLocation_lon",
+        custom_message: "description"
       }
     }
     let textareaObj = {
-      id: "description"
+      inputID: "description"
     }
 
     return (

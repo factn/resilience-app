@@ -52,18 +52,18 @@ export default class App extends Component {
           <Route path="/donator" component={DonatorFlow} />
           <Route path="/doer" exact component={DoerFlow} />
           <Route path="/doer/confirmation" exact component={DoerConfirmation} />
+          <Route path="/:scenarioId/doer/confirmation" exact component={DoerConfirmation} />
+          <Route path="/:scenarioId/doer/confirmation/:verb/:noun" exact component={DoerConfirmation} />
           <Route path="/requester" component={RequesterFlow} />
           {/* <Route path="/verifier" component={VerifierFlow} /> */}
           <Route path="/feed/:type" component={Feed} />
-
-          {/* Account creation */}
-          <Route path="/account" exact component={Account} />
-          <Route path="/account/confirm-facebook" exact component={FBConfirm} />
-          <Route path="/account/verify-facebook" exact component={FBVerify} />
-
+          
           {/* Account */}
           <Route path="/login" component={Login} />
           <Route path="/profile" component={Profile} />
+          <Route path="/account" exact component={Account} />
+          <Route path="/account/confirm-facebook" exact component={FBConfirm} />
+          <Route path="/account/verify-facebook" exact component={FBVerify} />
 
           {/* Mission control */}
           <Route path="/missions" exact component={MissionControl} />

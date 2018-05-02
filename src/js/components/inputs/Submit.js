@@ -32,7 +32,7 @@ export default class Submit extends Component {
   
           for (let i in onSubmitParams) {
             field = document.getElementById(onSubmitParams[i])
-  
+
             if (field.type === "radio" || field.type === "checkbox") {
               values[i] = field.checked.toString()
             } else if (field.type === "file") {
