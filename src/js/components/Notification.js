@@ -37,10 +37,26 @@ export default class Notification extends Component {
         })
     }
   }
+  buildLink = () => {
+    const { toLink, id } = this.props
+    const { scenarioData } = this.state
+
+    if (toLink) {
+      return toLink
+    } else {
+      if (scenarioData) {
+        return `/${id}/doer/confirmation/${scenarioData.attributes.verb}/${
+          scenarioData.attributes.noun
+        }`
+      } else {
+        return "/"
+      }
+    }
+  }
   buildScenario = () => {
     if (this.state.scenarioData) {
       const { doer_firstname, noun, verb } = this.state.scenarioData.attributes
-  
+
       return (
         <div className="notification-content">
           Can you verify that {toFirstCap(doer_firstname)} {verb}ed {noun}
@@ -52,7 +68,7 @@ export default class Notification extends Component {
   }
 
   render() {
-    const { open, toLink, dismissal, id } = this.props
+    const { open, dismissal, id } = this.props
 
     // default to link will eventually go to confirm mission complete page from LION-86
 
@@ -64,7 +80,7 @@ export default class Notification extends Component {
       <section className={open ? "notification open" : "notification"}>
         {id && this.buildScenario()}
         <div className="button-row">
-          <Link className="btn view-btn" to={toLink || "/"}>
+          <Link className="btn view-btn" to={() => this.buildLink()}>
             View
           </Link>
           <button className="btn dismiss-btn" onClick={() => dismissal()}>
