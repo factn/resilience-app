@@ -8,6 +8,7 @@ import Page from "./Page"
 import Main from "../components/Main"
 import Scenario from "../components/Scenario"
 import Loader from "../components/Loader"
+import Thanks from "../components/Thanks"
 
 // Footer
 import Footer from "../components/Footer"
@@ -29,7 +30,8 @@ export default class Feed extends Component {
       type: this.props.match.params.type || 1,
       sessionTotal: null,
       perSwipeAmount: null,
-      donatedTotal: 0.0
+      donatedTotal: 0.0,
+      overlayOpen: false
     }
   }
 
@@ -91,11 +93,13 @@ export default class Feed extends Component {
         })
         if (directionSwiped === "right") {
           this.setState({
-            donatedTotal: donatedTotal + perSwipeAmount
+            donatedTotal: donatedTotal + perSwipeAmount,
+            overlayOpen: true
           })
         } else if (directionSwiped === "up") {
           this.setState({
-            donatedTotal: donatedTotal + fullFundAmount
+            donatedTotal: donatedTotal + fullFundAmount,
+            overlayOpen: true
           })
         }
       })
@@ -112,6 +116,11 @@ export default class Feed extends Component {
       previewDismissed: true
     })
   }
+  dismissOverlay = () => {
+    this.setState({
+      overlayOpen: false
+    })
+  }
 
   render() {
     const {
@@ -121,11 +130,13 @@ export default class Feed extends Component {
       type,
       sessionTotal,
       donatedTotal,
-      perSwipeAmount
+      perSwipeAmount,
+      overlayOpen
     } = this.state
 
     return (
       <Page clas={`feed-page ${type}-feed`}>
+        <Thanks open={overlayOpen} dismiss={this.dismissOverlay} />
         <Main>
           <section className={`scenario-feed-wrap ${type}-feed-wrap`}>
             {scenarioData ? (
