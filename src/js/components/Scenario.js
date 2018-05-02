@@ -236,11 +236,17 @@ export default class Scenario extends Component {
     if (feedType === "donator") {
       return (
         <footer className="scenario-footer">
-          <div className="funding-goal-label">
-            <span>To fully fund </span>
-            <span className="dollar-amount">
-              {moneyfy(funding_goal - donated)}
-            </span>
+          <div className="funding-top-row">
+            <div className="funding-doubler">
+              <span>Donations doubled by </span>
+              <span className="doubler-name">Home Depot</span>
+            </div>
+            <div className="funding-goal-label">
+              <span>To fully fund </span>
+              <span className="dollar-amount">
+                {moneyfy(funding_goal - donated)}
+              </span>
+            </div>
           </div>
           <div
             className="funding-progress-slider"
