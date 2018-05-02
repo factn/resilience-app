@@ -109,8 +109,8 @@ export default class DoerConfirmation extends Component {
         // const { data } = result.body
         // console.log("Proof successfully created:", data)
 
-        history.push("/feed/doer")
-        window.location = "/feed/doer"
+        history.push(`/${this.state.parentScenarioId}/doer/Instructions`)
+        window.location = `/${this.state.parentScenarioId}/doer/Instructions`
       })
       .catch(error => {
         // console.error("Error creating proof:", error)
