@@ -90,13 +90,13 @@ export default class Feed extends Component {
     const { directionSwiped, fullFundAmount } = params
 
     if (cardsOnPage === 1) {
-      Database.nextInFeed({ offset: feedOffset })
+      Database.nextInFeed({ offset: feedOffset + 1 })
         .then(result => {
           const { data } = result.body
           console.info("Next in feed call complete:", data)
 
           this.setState({
-            feedOffset: feedOffset + 1,
+            feedOffset: 0,
             scenarioData: data,
             cardsOnPage: 3
           })
