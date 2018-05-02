@@ -648,7 +648,7 @@ export default class Scenario extends Component {
 
   render() {
     const { style, firstChecked } = this.state
-    const { first, scenario } = this.props
+    const { first, second, scenario } = this.props
     const { id, attributes } = scenario
     const {
       event,
@@ -659,6 +659,7 @@ export default class Scenario extends Component {
       verb,
       customMessage
     } = attributes
+    let clas
 
     if (first && !firstChecked) {
       this.setState({
@@ -669,9 +670,19 @@ export default class Scenario extends Component {
       })
     }
 
+    if (first) {
+      clas = "scenario first"
+    } else {
+      if (second) {
+        clas = "scenario second"
+      } else {
+        clas = "scenario third"
+      }
+    }
+
     return (
       <article
-        className={first ? "scenario first" : "scenario"}
+        className={clas}
         id={`scenario_${id}`}
         style={style}
         onTouchStart={e => this.handleTouchStart(e)}

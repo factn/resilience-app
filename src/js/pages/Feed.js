@@ -130,12 +130,25 @@ export default class Feed extends Component {
           <section className={`scenario-feed-wrap ${type}-feed-wrap`}>
             {scenarioData ? (
               scenarioData.map((scenario, index) => {
-                if (index === feedOffset - 2) {
+                if (index === feedOffset - 3) {
                   return (
                     <Scenario
                       key={scenario.id}
                       scenario={scenario}
                       first
+                      nextItem={this.nextItem}
+                      previewDismissed={previewDismissed}
+                      dismissPreview={this.dismissPreview}
+                      feedType={type}
+                      standardAmount={perSwipeAmount}
+                    />
+                  )
+                } else if (index === feedOffset - 2) {
+                  return (
+                    <Scenario
+                      key={scenario.id}
+                      scenario={scenario}
+                      second
                       nextItem={this.nextItem}
                       previewDismissed={previewDismissed}
                       dismissPreview={this.dismissPreview}

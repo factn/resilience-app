@@ -11,13 +11,19 @@
   }
   &.first {
     top: 5rem;
-    z-index: 2;
+    z-index: 3;
     opacity: 1;
   }
-  &:not(.first) {
+  &.second {
     top: 7rem;
+    z-index: 2;
+    opacity: 0.6;
+    filter: blur(1px);
+  }
+  &.third {
+    top: 10rem;
     z-index: 1;
-    opacity: 0.5;
+    opacity: 0.25;
     filter: blur(2px);
   }
   .accept-scenario-btn {
