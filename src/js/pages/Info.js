@@ -17,6 +17,7 @@ import Main from "../components/Main"
 import Loader from "../components/Loader"
 import MiniMap from "../components/MiniMap"
 import Footer from "../components/Footer"
+import Notification from "../components/Notification"
 
 // Local JS Utilities
 import Database from "../resources/Database"
@@ -28,16 +29,19 @@ export default class Info extends Component {
     super(props)
 
     this.state = {
-      scenarioData: null,
-      childrenScenarioData: null,
-      buttonOverride: false,
-      materialsDone: false,
-      transportDone: false,
-      roofCovered: false,
-      roofSecured: false,
       scenarioId: this.props.match.params.scenarioId || 1,
       role: this.props.match.params.role || "Info",
       tab: this.props.match.params.tab || "Overview",
+      scenarioData: null,
+      childrenScenarioData: null,
+      buttonOverride: false,
+      materialsDone: null,
+      transportDone: null,
+      roofCovered: null,
+      roofSecured: null,
+      initialJobState: {},
+      notificationScenarioId: null,
+      notificationOpen: false,
       dataRefreshRate: 5000 // Every 5 seconds check for map pin changes
     }
   }
@@ -83,11 +87,29 @@ export default class Info extends Component {
       Database.getScenarioWithProofs({ id: id })
         .then(result => {
           const { data } = result.body
+          const { is_complete } = data.attributes
+          let tmp = this.state.initialJobState
 
           // console.info("Success getting child scenario:", data)
 
           childrenScenarioData[id] = data
           completedChildren++
+
+          if (typeof this.state.initialJobState[id] !== "undefined") {
+            if (is_complete !== this.state.initialJobState[id]) {
+              tmp[id] = is_complete
+              this.setState({
+                initialJobState: tmp,
+                notificationOpen: true,
+                notificationScenarioId: id
+              })
+            }
+          } else {
+            tmp[id] = is_complete
+            this.setState({
+              initialJobState: tmp
+            })
+          }
         })
         .catch(error => {
           // console.error("Error getting child scenario:", error)
@@ -340,7 +362,13 @@ export default class Info extends Component {
 
   render() {
     if (this.state.scenarioData) {
-      const { scenarioData, role, tab } = this.state
+      const {
+        scenarioData,
+        role,
+        tab,
+        notificationOpen,
+        notificationScenarioId
+      } = this.state
       const {
         event,
         image,
@@ -376,6 +404,15 @@ export default class Info extends Component {
 
       return (
         <Page>
+          <Notification
+            open={notificationOpen}
+            id={notificationScenarioId}
+            dismissal={() => {
+              this.setState({
+                notificationOpen: false
+              })
+            }}
+          />
           <Main>
             <div className={`scenario-content-wrap ${role}-scenario-content`}>
               {role === "requester" && (
