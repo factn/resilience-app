@@ -236,7 +236,7 @@ export default class RequesterFlow extends Component {
           </SessionSetting>
 
 
-          <SessionSetting headerLabel="Special Instructions?">
+          <SessionSetting headerLabel="Special Message?">
             <article className="card input-card message-card">
               <TextArea {...textareaObj} />
             </article>
