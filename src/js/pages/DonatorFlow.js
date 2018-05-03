@@ -75,7 +75,7 @@ export default class DonatorFlow extends Component {
 
   render() {
     let buttonObj = {
-      labelPhrase: "Start Mission",
+      labelPhrase: "View Missions",
       clas: "footer-btn feed-btn",
       onSubmit: this.beginMission,
       onSubmitParams: {
