@@ -1,19 +1,19 @@
 /*** IMPORTS ***/
 // Module imports
-import React, { Component, Fragment } from "react"
+import React, { Component } from "react"
 import Cookies from "js-cookie"
 import createHistory from "history/createBrowserHistory"
-import Icon from "@fortawesome/react-fontawesome"
-import { faAt, faKey, faSignInAlt } from "@fortawesome/fontawesome-free-solid"
+// import Icon from "@fortawesome/react-fontawesome"
+// import { faAt, faKey, faSignInAlt } from "@fortawesome/fontawesome-free-solid"
 
 // Components
 import Page from "./Page"
 import Main from "../components/Main"
-import Form from "../components/Form"
-import Loader from "../components/Loader"
+// import Form from "../components/Form"
+// import Loader from "../components/Loader"
 
 // Local JS Utilities
-import Database from "../resources/Database"
+// import Database from "../resources/Database"
 /*** [end of imports] ***/
 
 const history = createHistory()
@@ -28,10 +28,10 @@ export default class Login extends Component {
   }
 
   submitLogin = params => {
-    const json = {
-      email: params.email,
-      password: params.password
-    }
+    // const json = {
+    //   email: params.email,
+    //   password: params.password
+    // }
 
     this.setState({
       buttonPressed: true

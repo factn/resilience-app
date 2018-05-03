@@ -52,7 +52,7 @@ export default class Info extends Component {
   checkScenarioUpdates = () => {
     const { dataRefreshRate, scenarioId } = this.state
 
-    let autorefresh = setInterval(() => {
+    setInterval(() => {
       Database.getScenarioWithChildren({ id: scenarioId })
         .then(result => {
           // console.info("Success getting scenario:", result)
