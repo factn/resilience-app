@@ -185,7 +185,7 @@ export default class DoerFlow extends Component {
 
         <Footer>
           <Link to="/feed/doer" className="btn footer-btn feed-btn">
-            Start Mission
+            View Missions
           </Link>
         </Footer>
       </Page>
