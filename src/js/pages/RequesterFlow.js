@@ -198,7 +198,7 @@ export default class RequesterFlow extends Component {
       inputID: "noun_and_verb"
     }
     let buttonObj = {
-      labelPhrase: "Submit",
+      labelPhrase: "Send for help",
       clas: "footer-btn feed-btn",
       onSubmit: this.submitRequest,
       onSubmitParams: {
