@@ -220,18 +220,12 @@ export default class RequesterFlow extends Component {
             <article className="card input-card event-card">
               <Select {...eventSelectObj} />
             </article>
-          </SessionSetting>
-
-          <SessionSetting headerLabel="What help do you need?">
             <article className="card input-card title-card">
               <Select {...nounVerbSelectObj} />
             </article>
-            <article className="card input-card message-card">
-              <TextArea {...textareaObj} />
-            </article>
           </SessionSetting>
 
-          <SessionSetting headerLabel="Where is it?">
+          <SessionSetting headerLabel="Where is the issue?">
             <article className="card">
               <Location inputID="requestLocation" />
             </article>
@@ -241,36 +235,13 @@ export default class RequesterFlow extends Component {
             <Image />
           </SessionSetting>
 
-          <SessionSetting headerLabel="Tasks" clas="jobs-settings">
-            <article className="card btn-card job-card">
-              <h4 className="job-label">Get materials on site</h4>
-              <div className="plus-amount">+10</div>
-              <div className="take-action-icon">
-                <Icon icon={faChevronRight} />
-              </div>
-            </article>
-            <article className="card btn-card job-card">
-              <h4 className="job-label">Get to location</h4>
-              <div className="plus-amount">+5</div>
-              <div className="take-action-icon">
-                <Icon icon={faChevronRight} />
-              </div>
-            </article>
-            <article className="card btn-card job-card">
-              <h4 className="job-label">Cover roof</h4>
-              <div className="plus-amount">+20</div>
-              <div className="take-action-icon">
-                <Icon icon={faChevronRight} />
-              </div>
-            </article>
-            <article className="card btn-card job-card">
-              <h4 className="job-label">Secure roof</h4>
-              <div className="plus-amount">+15</div>
-              <div className="take-action-icon">
-                <Icon icon={faChevronRight} />
-              </div>
+
+          <SessionSetting headerLabel="Special Instructions?">
+            <article className="card input-card message-card">
+              <TextArea {...textareaObj} />
             </article>
           </SessionSetting>
+
         </Main>
 
         <Footer>
