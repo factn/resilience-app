@@ -159,11 +159,9 @@
   }
 }
 .scenario-image-wrap {
-  height: 10rem;
-  overflow: hidden;
   padding: 0.25rem;
   .scenario-image {
-    min-width: 100%;
+    height: 10rem;
     background: rgba($black, 0.5);
   }
 }
