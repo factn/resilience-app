@@ -1,6 +1,7 @@
 /*** IMPORTS ***/
 // Module imports
 import React, { Component } from "react"
+import { Link } from "react-router-dom"
 import Icon from "@fortawesome/react-fontawesome"
 import { faChevronRight } from "@fortawesome/fontawesome-free-solid"
 
@@ -19,18 +20,18 @@ export default class Home extends Component {
       <div className="page home-page">
         <Header>
           <div className="login-link">
-            <a className="bright-link" href="/login">
+            <Link className="bright-link" to="/login">
               Login
-            </a>
+            </Link>
             <span> / </span>
-            <a className="bright-link" href="/account">
+            <Link className="bright-link" to="/account">
               Sign up
-            </a>
+            </Link>
           </div>
           <div className="logo">
-            <a href="/">
+            <Link to="/">
               <img src={logo} alt="WAGL" />
-            </a>
+            </Link>
           </div>
         </Header>
 
@@ -42,32 +43,32 @@ export default class Home extends Component {
         <Main>
           <header className="home-header">Choose your mission</header>
           <div className="home-buttons">
-            <a href="/donator" className="btn home-btn square-btn donate-btn">
+            <Link to="/donator" className="btn home-btn square-btn donate-btn">
               <span>Donate</span>
               <div className="button-icon">
                 <Icon icon={faChevronRight} />
               </div>
-            </a>
-            <a href="/doer" className="btn home-btn square-btn do-btn">
+            </Link>
+            <Link to="/doer" className="btn home-btn square-btn do-btn">
               <span>Do a job</span>
               <div className="button-icon">
                 <Icon icon={faChevronRight} />
               </div>
-            </a>
-            <a href="/verifier" className="btn home-btn square-btn verify-btn">
+            </Link>
+            <Link to="/verifier" className="btn home-btn square-btn verify-btn">
               <span>Verify others</span>
               <div className="button-icon">
                 <Icon icon={faChevronRight} />
               </div>
-            </a>
+            </Link>
           </div>
         </Main>
 
         <Footer>
           <div className="button-label">Post a request</div>
-          <a href="/requester" className="btn footer-btn request-btn">
+          <Link to="/requester" className="btn footer-btn request-btn">
             Get Help
-          </a>
+          </Link>
         </Footer>
       </div>
     )

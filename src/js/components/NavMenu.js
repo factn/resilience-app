@@ -1,6 +1,7 @@
 /*** IMPORTS ***/
 // Module imports
 import React, { Component } from "react"
+import { Link } from "react-router-dom"
 import Icon from "@fortawesome/react-fontawesome"
 /*** [end of imports] ***/
 
@@ -68,9 +69,9 @@ export default class Header extends Component {
           <ul className="menu-list">
             {this.menuItems.map(item => (
               <li className="menu-item" key={item.label}>
-                <a href={item.link} className="menu-item-link">
+                <Link to={item.link} className="menu-item-link">
                   {item.label}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>

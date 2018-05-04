@@ -19,7 +19,7 @@ export default class NoPage extends Component {
             <h2>There's nothing here!</h2>
             <p>The page you are trying to reach does not exist.</p>
           </div>
-          <Link className="btn submit-btn neutral-response" to="/">
+          <Link to="/" className="btn submit-btn neutral-response">
             <span className="button-label">Go Home </span>
             <Icon icon={faHome} className="button-icon" />
           </Link>

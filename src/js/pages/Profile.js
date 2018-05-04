@@ -1,6 +1,7 @@
 /*** IMPORTS ***/
 // Module imports
 import React, { Component } from "react"
+import { Link } from "react-router-dom"
 import Cookies from "js-cookie"
 import Icon from "@fortawesome/react-fontawesome"
 import {
@@ -259,9 +260,9 @@ export default class Info extends Component {
           ) : (
             <div className="user-info-area">
               <Icon className="user-icon" icon="question" />
-              <a className="user-name not-signed-in" href="/login/">
+              <Link className="user-name not-signed-in" to="/login/">
                 Please sign in
-              </a>
+              </Link>
             </div>
           )}
           <section className="discovery-settings-area">
@@ -284,24 +285,24 @@ export default class Info extends Component {
                 <div className="scenario-tags">
                   <ul className="tag-list">
                     <li className="tag">
-                      <a href="" className="tag-link">
+                      <Link to="/" className="tag-link">
                         #Donations
-                      </a>
+                      </Link>
                     </li>
                     <li className="tag">
-                      <a href="" className="tag-link">
+                      <Link to="/" className="tag-link">
                         #Jobs
-                      </a>
+                      </Link>
                     </li>
                     <li className="tag">
-                      <a href="" className="tag-link">
+                      <Link to="/" className="tag-link">
                         #Painting
-                      </a>
+                      </Link>
                     </li>
                     <li className="tag">
-                      <a href="" className="tag-link">
+                      <Link to="/" className="tag-link">
                         #Roofing
-                      </a>
+                      </Link>
                     </li>
                   </ul>
                 </div>
@@ -314,9 +315,9 @@ export default class Info extends Component {
                 <div className="scenario-tags">
                   <ul className="tag-list">
                     <li className="tag">
-                      <a href="" className="tag-link">
+                      <Link to="/" className="tag-link">
                         #HurricaneKatrina
-                      </a>
+                      </Link>
                     </li>
                   </ul>
                 </div>
