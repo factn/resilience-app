@@ -267,6 +267,11 @@ export default class Scenario extends Component {
       return (
         <footer className="scenario-footer">
           <div className="tag-list-wrap">
+          <span className="dollar-amount">{moneyfy(funding_goal)}</span>
+            <br/> &nbsp;
+          </div>
+          <div className="tag-list-wrap">
+          
             <span className="tag-list-label">Work needed:</span>
             <ul className="tag-list">
               <li className="tag active-tag">#Roofing</li>
