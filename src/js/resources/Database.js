@@ -1,5 +1,11 @@
 import { buildApi, get, post, patch, destroy } from "redux-bees"
 
+const sharedScenarioBrowseBase = "/scenarios?sort=-parent_scenario_id,-created_at";
+// GOAL: sort with newest scenarios on top, and also filter so that sub-tasks are not shown
+// TODO: was not able to filter by (parent_scenario_id != null)..
+// ...in theory it should be: {"name":"parent_scenario_id","op":"ne","val":""}... but somewhere this path is being modified... :-( 
+// TODO: eventually use: ?sort=accepted-ratio-donator
+
 const apiEndpoints = {
 	// Nouns
 	getNouns: {
@@ -106,11 +112,11 @@ const apiEndpoints = {
 	},
 	scenarioFeed: {
 		method: get,
-		path: "/scenarios?page[limit]=3" // ?sort=accepted-ratio-donator
+		path: sharedScenarioBrowseBase + "&page[limit]=3" 
 	},
 	nextInFeed: {
 		method: get,
-		path: "/scenarios?page[limit]=3&page[offset]=:offset" // ?sort=accepted-ratio-donator
+		path: sharedScenarioBrowseBase + "&page[limit]=3&page[offset]=:offset"
 	},
 	getScenario: {
 		method: get,
@@ -222,7 +228,8 @@ let baseUrl
 
 if (window.location.hostname === "localhost") {
 	console.log("localhost detected, using dev URL")
-	baseUrl = "http://localhost:4000"
+	baseUrl = "http://localhost:4000" // for local server development
+	// baseUrl = "https://lion-uat.herokuapp.com", for local development onto remote server
 } else {
 	console.info("Live site, using production database")
 	baseUrl = "https://lion-uat.herokuapp.com"
