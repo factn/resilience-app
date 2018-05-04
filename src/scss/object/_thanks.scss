@@ -17,6 +17,41 @@
     top: 0;
     opacity: 1;
   }
+  .stars {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
+  .star {
+    position: absolute;
+    color: $yellow;
+    &:first-of-type {
+      font-size: 2rem;
+      left: 5%;
+    animation: 1s $cubic .1s infinite starfall;
+    }
+    &:nth-of-type(2) {
+      font-size: 2.5rem;
+      left: 25%;
+    animation: 1s $cubic .5s infinite starfall;
+    }
+    &:nth-of-type(3) {
+      font-size: 1.8rem;
+      left: 45%;
+    animation: 1s $cubic .25s infinite starfall;
+    }
+    &:nth-of-type(4) {
+      font-size: 2.2rem;
+      left: 65%;
+    animation: 1s $cubic .3s infinite starfall;
+    }
+    &:nth-of-type(5) {
+      font-size: 1.75rem;
+      left: 85%;
+    animation: 1s $cubic infinite starfall;
+    }
+  }
   h2,
   h3 {
     text-align: center;

@@ -102,8 +102,7 @@ export default class Feed extends Component {
           })
           if (directionSwiped === "right") {
             this.setState({
-              donatedTotal: donatedTotal + perSwipeAmount,
-              overlayOpen: true
+              donatedTotal: donatedTotal + perSwipeAmount
             })
           } else if (directionSwiped === "up") {
             this.setState({
@@ -126,8 +125,7 @@ export default class Feed extends Component {
       })
       if (directionSwiped === "right") {
         this.setState({
-          donatedTotal: donatedTotal + perSwipeAmount,
-          overlayOpen: true
+          donatedTotal: donatedTotal + perSwipeAmount
         })
       } else if (directionSwiped === "up") {
         this.setState({
