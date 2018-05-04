@@ -267,8 +267,8 @@ export default class Scenario extends Component {
       return (
         <footer className="scenario-footer">
           <div className="tag-list-wrap">
-          <span className="dollar-amount">{moneyfy(funding_goal)}</span>
-            <br/> &nbsp;
+            <center><span className="dollar-amount">{moneyfy(funding_goal)}</span></center>
+            <br/>
           </div>
           <div className="tag-list-wrap">
           
