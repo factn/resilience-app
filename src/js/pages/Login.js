@@ -2,7 +2,6 @@
 // Module imports
 import React, { Component } from "react"
 import Cookies from "js-cookie"
-import createHistory from "history/createBrowserHistory"
 // import Icon from "@fortawesome/react-fontawesome"
 // import { faAt, faKey, faSignInAlt } from "@fortawesome/fontawesome-free-solid"
 
@@ -15,8 +14,6 @@ import Main from "../components/Main"
 // Local JS Utilities
 // import Database from "../resources/Database"
 /*** [end of imports] ***/
-
-const history = createHistory()
 
 export default class Login extends Component {
   constructor(props) {
@@ -49,8 +46,7 @@ export default class Login extends Component {
   }
   setUserCookie = userId => {
     Cookies.set("userId", userId)
-    history.push("/")
-    window.location = "/"
+    this.props.history.push("/")
   }
 
   render() {

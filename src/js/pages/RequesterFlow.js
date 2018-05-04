@@ -2,7 +2,6 @@
 // Module imports
 import React, { Component } from "react"
 import Cookies from "js-cookie"
-import createHistory from "history/createBrowserHistory"
 import Icon from "@fortawesome/react-fontawesome"
 import { faChevronRight } from "@fortawesome/fontawesome-free-solid"
 
@@ -23,8 +22,6 @@ import Select from "../components/inputs/Select"
 import Database from "../resources/Database"
 import { getBase64, toFirstCap } from "../resources/Util"
 /*** [end of imports] ***/
-
-const history = createHistory()
 
 export default class RequesterFlow extends Component {
   constructor(props) {
@@ -169,8 +166,7 @@ export default class RequesterFlow extends Component {
         const { data } = result.body
         // console.log("Scenario successfully created:", data)
 
-        history.push(`/${data.id}/requester`)
-        window.location = `/${data.id}/requester`
+        this.props.history.push(`/${data.id}/requester`)
       })
       .catch(error => {
         // console.error("Error creating scenario:", error)

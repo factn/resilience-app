@@ -146,6 +146,10 @@ export default class Feed extends Component {
     })
   }
 
+  doerPageRoute = scenarioId => {
+    this.props.history.push(`/${scenarioId}/doer/Instructions`)
+  }
+
   render() {
     const {
       scenarioData,
@@ -177,6 +181,7 @@ export default class Feed extends Component {
                       dismissPreview={this.dismissPreview}
                       feedType={type}
                       standardAmount={perSwipeAmount}
+                      doerPageRoute={() => this.doerPageRoute(scenario.id)}
                     />
                   )
                 } else if (index === feedOffset + 1) {
@@ -190,6 +195,7 @@ export default class Feed extends Component {
                       dismissPreview={this.dismissPreview}
                       feedType={type}
                       standardAmount={perSwipeAmount}
+                      doerPageRoute={this.doerPageRoute}
                     />
                   )
                 } else if (index > feedOffset + 1) {
@@ -198,6 +204,7 @@ export default class Feed extends Component {
                       key={scenario.id}
                       scenario={scenario}
                       feedType={type}
+                      doerPageRoute={this.doerPageRoute}
                     />
                   )
                 }
