@@ -1,6 +1,7 @@
 /*** IMPORTS ***/
 // Module imports
 import React, { Component } from "react"
+import { Link } from "react-router-dom"
 import Icon from "@fortawesome/react-fontawesome"
 /*** [end of imports] ***/
 
@@ -11,9 +12,9 @@ export default class Action extends Component {
     return (
       <div className="action">
         <span className="action-label">{label}</span>
-        <a className="btn action-btn" href={link}>
+        <Link className="btn action-btn" to={link}>
           <Icon icon={icon} />
-        </a>
+        </Link>
       </div>
     )
   }

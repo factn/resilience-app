@@ -1,6 +1,7 @@
 /*** IMPORTS ***/
 // Module imports
 import React, { Component, Fragment } from "react"
+import { Link } from "react-router-dom"
 import createHistory from "history/createBrowserHistory"
 import Icon from "@fortawesome/react-fontawesome"
 import {
@@ -732,9 +733,9 @@ export default class Scenario extends Component {
 
           {this.footerBuild()}
         </div>
-        <a className="btn accept-scenario-btn" href={`/${id}/donator/`}>
+        <Link className="btn accept-scenario-btn" to={`/${id}/donator/`}>
           <Icon icon={faArrowAltCircleDown} />
-        </a>
+        </Link>
       </article>
     )
   }

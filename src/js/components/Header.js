@@ -1,6 +1,7 @@
 /*** IMPORTS ***/
 // Module imports
 import React, { Component, Fragment } from "react"
+import { Link } from "react-router-dom"
 import Cookies from "js-cookie"
 import Icon from "@fortawesome/react-fontawesome"
 import { faBullseye } from "@fortawesome/fontawesome-free-solid"
@@ -31,25 +32,25 @@ export default class Header extends Component {
             <Fragment>
               <NavMenu userId={userId} />
               <div className="logo">
-                <a href="/">
+                <Link to="/">
                   <img src={logo} alt="WAGL" />
-                </a>
+                </Link>
               </div>
               <div className="missions-btn">
-                <a href="/missions">
+                <Link to="/missions">
                   <Icon icon={faBullseye} />
-                </a>
+                </Link>
               </div>
             </Fragment>
           ) : (
             <div className="login-link">
-              <a className="bright-link" href="/login">
+              <Link className="bright-link" to="/login">
                 Login
-              </a>
+              </Link>
               <span> / </span>
-              <a className="bright-link" href="/account">
+              <Link className="bright-link" to="/account">
                 Sign up
-              </a>
+              </Link>
             </div>
           ))}
       </header>

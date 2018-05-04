@@ -26,9 +26,9 @@ export default class FBConfirm extends Component {
         
         <Main>
           <div className="logo">
-            <a href="/">
+            <Link to="/">
               <img src={logo} alt="WAGL" />
-            </a>
+            </Link>
           </div>
           <div className="or-line">Create your profile using your Facebook login</div>
           <section className="session-settings facebook-setting">
