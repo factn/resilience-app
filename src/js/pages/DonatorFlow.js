@@ -2,7 +2,6 @@
 // Module imports
 import React, { Component } from "react"
 import Cookies from "js-cookie"
-import createHistory from "history/createBrowserHistory"
 import { faDollarSign } from "@fortawesome/fontawesome-free-solid"
 
 // Page elements
@@ -18,8 +17,6 @@ import Submit from "../components/inputs/Submit"
 // Utilities
 import Database from "../resources/Database"
 /*** [end of imports] ***/
-
-const history = createHistory()
 
 export default class DonatorFlow extends Component {
   constructor(props) {
@@ -65,8 +62,7 @@ export default class DonatorFlow extends Component {
       .then(result => {
         // console.log("User successfully updated:", result)
 
-        history.push("/feed/donator")
-        window.location = "/feed/donator"
+        this.props.history.push("/feed/donator")
       })
       .catch(error => {
         // console.error("Error updating user:", error)

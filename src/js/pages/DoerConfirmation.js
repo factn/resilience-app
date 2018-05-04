@@ -2,7 +2,6 @@
 // Module imports
 import React, { Component } from "react"
 import Cookies from "js-cookie"
-import createHistory from "history/createBrowserHistory"
 
 // Page elements
 import Page from "./Page"
@@ -18,8 +17,6 @@ import Submit from "../components/inputs/Submit"
 import Database from "../resources/Database"
 import { getBase64 } from "../resources/Util"
 /*** [end of imports] ***/
-
-const history = createHistory()
 
 export default class DoerConfirmation extends Component {
   constructor(props) {
@@ -109,8 +106,7 @@ export default class DoerConfirmation extends Component {
         // const { data } = result.body
         // console.log("Proof successfully created:", data)
 
-        history.push(`/${this.state.parentScenarioId}/doer/Instructions`)
-        window.location = `/${this.state.parentScenarioId}/doer/Instructions`
+        this.props.history.push(`/${this.state.parentScenarioId}/doer/Instructions`)
       })
       .catch(error => {
         // console.error("Error creating proof:", error)

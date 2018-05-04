@@ -464,8 +464,7 @@ export default class Scenario extends Component {
 
     if (feedType === "doer") {
       setTimeout(() => {
-        history.push(`/${scenario.id}/doer/Instructions`)
-        window.location = `/${scenario.id}/doer/Instructions`
+        this.props.doerPageRoute()
       }, transitionTiming)
     } else {
       setTimeout(() => {

@@ -3,7 +3,6 @@
 import React, { Component } from "react"
 import Cookies from "js-cookie"
 import { Link } from "react-router-dom"
-import createHistory from "history/createBrowserHistory"
 
 // Page elements
 import Header from "../components/Header"
@@ -18,8 +17,6 @@ import Submit from "../components/inputs/Submit"
 import Database from "../resources/Database"
 import { getBase64 } from "../resources/Util"
 /*** [end of imports] ***/
-
-const history = createHistory()
 
 export default class Account extends Component {
   createProfile = params => {
@@ -42,8 +39,7 @@ export default class Account extends Component {
       .then(result => {
         // console.log("User successfully created:", result)
         Cookies.set("userId", result.body.data.id)
-        history.push("/profile")
-        window.location = "/profile"
+        this.props.history.push("/profile")
       })
       .catch(error => {
         // console.error("Error creating user:", error)
