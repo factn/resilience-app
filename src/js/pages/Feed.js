@@ -25,6 +25,7 @@ export default class Feed extends Component {
     this.state = {
       scenarioData: null,
       feedOffset: 0,
+      resultsOffset: 0,
       cardsOnPage: null,
       userId: Cookies.get("userId") || 1,
       previewDismissed: false,
@@ -82,6 +83,7 @@ export default class Feed extends Component {
   nextItem = params => {
     const {
       feedOffset,
+      resultsOffset,
       // scenarioData,
       perSwipeAmount,
       donatedTotal,
@@ -90,13 +92,14 @@ export default class Feed extends Component {
     const { directionSwiped, fullFundAmount } = params
 
     if (cardsOnPage === 1) {
-      Database.nextInFeed({ offset: feedOffset + 1 })
+      Database.nextInFeed({ offset: resultsOffset + 3 })
         .then(result => {
           const { data } = result.body
           console.info("Next in feed call complete:", data)
 
           this.setState({
             feedOffset: 0,
+            resultsOffset: resultsOffset + 3,
             scenarioData: data,
             cardsOnPage: 3
           })
