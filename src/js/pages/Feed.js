@@ -37,6 +37,49 @@ export default class Feed extends Component {
     }
   }
 
+  filterFeed = (result,offset) => {
+    // This function filters and sorts the missions into approriate feed order and count:
+    var data = result.body.data;
+    var tosort = [];
+    // First find all of the actual scenarios:
+    for (var ii in data) {
+      var r = data[ii];
+      var isValid = true;
+      if (r.attributes.parent_scenario_id != null) {
+        isValid = false;
+      }
+      if (r.attributes.is_complete) {
+        isValid = false;
+      }
+      // TODO: ( use type === "donator"/"doer" ) to adjust who sees funded/unfunded projects
+      var isFullyFunded = ((1 * r.attributes.donated) >= (1 * r.attributes.funding_goal));
+      if ((this.state.type == "donator") == (!isFullyFunded)) {
+        // donator's see non-fully-funded missions, doer's see fully funded missions
+      } else {
+        isValid = false;
+      }
+      if (isValid) {
+        tosort.push(r);
+      }
+    }
+    // Now sort by date created: (TODO: sort by relevance and date):
+    tosort.sort((a,b) => ( 
+      Date.parse( b.attributes.created_at ) -  Date.parse( a.attributes.created_at )
+    ));
+    // Now put top three (after offset) into the results:
+    if (offset >= tosort.length) {
+      offset %= tosort.length;
+    }
+    var betterList = [];
+    for (var ii in tosort) {
+      if ((ii >= offset) && (betterList.length < 3)) {
+        betterList.push(tosort[ii]);
+      }
+    }
+    // Replace the output list with this better list:
+    result.body.data = betterList;
+  }
+
   componentDidMount = () => {
     this.mountFeedScenarios()
     this.mountUserData()
@@ -44,6 +87,7 @@ export default class Feed extends Component {
   mountFeedScenarios = () => {
     Database.scenarioFeed()
       .then(result => {
+        this.filterFeed(result, 0);
         const { data } = result.body
         console.info("Database call complete:", data)
 
@@ -94,6 +138,7 @@ export default class Feed extends Component {
     if (cardsOnPage === 1) {
       Database.nextInFeed({ offset: resultsOffset + 3 })
         .then(result => {
+          this.filterFeed(result, resultsOffset + 3);
           const { data } = result.body
           console.info("Next in feed call complete:", data)
 
