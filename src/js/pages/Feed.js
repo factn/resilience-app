@@ -48,15 +48,28 @@ export default class Feed extends Component {
       if (r.attributes.parent_scenario_id != null) {
         isValid = false;
       }
-      if (r.attributes.is_complete) {
-        isValid = false;
-      }
+
       // TODO: ( use type === "donator"/"doer" ) to adjust who sees funded/unfunded projects
       var isFullyFunded = ((1 * r.attributes.donated) >= (1 * r.attributes.funding_goal));
-      if ((this.state.type == "donator") == (!isFullyFunded)) {
-        // donator's see non-fully-funded missions, doer's see fully funded missions
+      if (this.state.type == "donator") {
+        if (isFullyFunded) {
+          isValid = false;
+        }
+      }
+      if (this.state.type == "doer") {
+        if (!isFullyFunded) {
+          isValid = false;
+        }
+      }
+      if (this.state.type == "verifier") {
+        if (!r.attributes.is_complete) {
+          isValid = false;
+        }
       } else {
-        isValid = false;
+        // for everyone other than verifiers, don't show completed missions:
+        if (r.attributes.is_complete) {
+          isValid = false;
+        }
       }
       if (isValid) {
         tosort.push(r);

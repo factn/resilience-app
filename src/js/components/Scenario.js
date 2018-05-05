@@ -219,7 +219,74 @@ export default class Scenario extends Component {
         </Fragment>
       )
     } else if (feedType === "verifier") {
-      return <Fragment />
+      return (
+        <Fragment>
+          {first &&
+            !previewDismissed && (
+              <div className="pseudo-preview" style={previewStyle}>
+                <div className="action up-action">
+                  <div className="pseudo-main-text">WARN</div>
+                  <div className="pseudo-sub-text">legal flag</div>
+                  <div className="arrow arrow-up">
+                    <Icon icon={faCaretUp} />
+                  </div>
+                </div>
+                <div className="action right-action">
+                  <div className="pseudo-main-text">VALID</div>
+                  <div className="pseudo-sub-text">looks good</div>
+                  <div className="arrow arrow-right">
+                    <Icon icon={faCaretRight} />
+                  </div>
+                </div>
+                <div className="action left-action">
+                  <div className="pseudo-main-text">PASS</div>
+                  <div className="pseudo-sub-text">not sure</div>
+                  <div className="arrow arrow-left">
+                    <Icon icon={faCaretLeft} />
+                  </div>
+                </div>
+                <div className="touch-icon">
+                  <Icon icon={faHandPointUp} />
+                </div>
+                <div className="action down-action">
+                  <button
+                    className="btn preview-dismiss-btn"
+                    onClick={() => this.props.dismissPreview()}
+                  >
+                    Got it
+                  </button>
+                </div>
+              </div>
+            )}
+          <div className="pseudo-up" style={upStyle}>
+            <div className="action down-action">
+              <div className="pseudo-main-text">WARN</div>
+              <div className="pseudo-sub-text">legal flag</div>
+              <div className="arrow arrow-up">
+                <Icon icon={faCaretUp} />
+              </div>
+            </div>
+          </div>
+          <div className="pseudo-before" style={leftStyle}>
+            <div className="action left-action">
+              <div className="pseudo-main-text">VALID</div>
+              <div className="pseudo-sub-text">looks good</div>
+              <div className="arrow arrow-right">
+                <Icon icon={faCaretRight} />
+              </div>
+            </div>
+          </div>
+          <div className="pseudo-after" style={rightStyle}>
+            <div className="action right-action">
+              <div className="pseudo-main-text">PASS</div>
+              <div className="pseudo-sub-text">not sure</div>
+              <div className="arrow arrow-left">
+                <Icon icon={faCaretLeft} />
+              </div>
+            </div>
+          </div>
+        </Fragment>
+      )
     } else {
       return <Fragment />
     }
