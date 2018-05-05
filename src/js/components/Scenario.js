@@ -11,6 +11,7 @@ import {
   faHandPointUp,
   faArrowAltCircleDown,
   faCheck,
+  faQuestionCircle,
   faMapMarkerAlt
 } from "@fortawesome/fontawesome-free-solid"
 
@@ -469,8 +470,13 @@ export default class Scenario extends Component {
     let xDif = lastTouchX === 0 ? 0 : lastTouchX - touchStartX
     let yDif = lastTouchY === 0 ? 0 : lastTouchY - touchStartY
 
-    if (Math.abs(xDif) > swipeThreshold || yDif < upThreshold) {
-      if (yDif < upThreshold) {
+    // trying to avoid some false positives:
+    let dist = Math.sqrt((xDif * xDif) + (yDif * yDif));
+    let largeMove = (Math.abs(dist) >= Math.abs(upThreshold));
+    let isUpDown = (Math.abs(yDif) > Math.abs(xDif));
+
+    if (largeMove) {
+      if ((isUpDown) && (yDif < upThreshold)) {
         this.swipedUp()
       } else {
         if (touchStartX < lastTouchX) this.swipedRight()
@@ -778,7 +784,9 @@ export default class Scenario extends Component {
             <div className="user-info">
               <figure className="user-avatar" />
               <div className="user-name">
+                <Link to="/profile?user=2"> { /* TODO: Put requester id here, may require additional query oddly enough */ }
                 {requester_firstname} {requester_lastname}
+                </Link>
               </div>
               <div className="user-verified-status">
                 <Icon icon={faCheck} />
@@ -806,6 +814,11 @@ export default class Scenario extends Component {
         </div>
         <Link className="btn accept-scenario-btn" to={`/${id}/donator/`}>
           <Icon icon={faArrowAltCircleDown} />
+        </Link>
+        { /* I tried to put this link on the profile's name.. but can't get it to click on touch..
+            also we don't have the users id, without a seperate database query */ } 
+        <Link className="btn accept-scenario-btn check-profile-btn" to={`/profile?user=1`}>
+          <Icon icon={faQuestionCircle} />
         </Link>
       </article>
     )

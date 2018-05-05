@@ -24,6 +24,16 @@ export default class Info extends Component {
   constructor(props) {
     super(props)
 
+    // NOTE: Here we see if we want to show the profile for a different person:
+    // TODO: is there a better React way to do this?
+    var otherUser = window.location.search;
+    var otherUserPrefix = "?user=";
+    if (otherUser.startsWith(otherUserPrefix)) {
+      otherUser = otherUser.replace(otherUserPrefix,"");
+    } else {
+      otherUser = undefined;
+    }
+
     this.state = {
       scenarioId: this.props.match.params.scenarioId || 1,
       userDonations: null,
@@ -31,7 +41,8 @@ export default class Info extends Component {
       userRequests: null,
       userVerifications: null,
       currentUserData: null,
-      userId: Cookies.get("userId") || 1
+      userId: otherUser || Cookies.get("userId") || 1,
+      isMyProfile: (otherUser == undefined)
     }
   }
 
@@ -135,6 +146,30 @@ export default class Info extends Component {
       })
   }
 
+  createMiniList = (list) => {
+    var toShow = [];
+    var hidSome = false;
+    for (var ii in list) {
+      var sc = list[ii];
+      if (toShow.length < 7) {
+        toShow.push({ 
+          item:sc, 
+          isGood:(Math.random() > 0.1), // TODO: currently random
+        });
+      } else {
+        hidSome = true;
+      }
+    }
+    var good = String.fromCharCode(9786); // happy face 
+    var bad = String.fromCharCode(9785); // sad face
+    var middle = String.fromCharCode(9775); // ying-yang
+    // TODO: I was not able to get React to let me color these... :-(
+    return <h4>  
+      { toShow.map(k => (k.isGood?good:bad)) }
+      { (hidSome ? "..." : "") } 
+      </h4>
+  }
+
   profileArea = () => {
     const {
       userDonations,
@@ -154,11 +189,12 @@ export default class Info extends Component {
         <article className="profile-article">
           <header
             className="profile-article-header"
-            onClick={() => this.toggleArticle("donations")}
+            onClick={() => this.toggleArticle("donations")} // note, was crashing
           >
             <h4>Donations ({userDonations ? userDonations.length : 0})</h4>
             <Icon className="profile-icon" icon="caret-down" />
           </header>
+          {userDonations && this.createMiniList(userDonations)}
           {userDonations && (
             <div className="profile-content-wrap">
               {userDonations.map(scenario => (
@@ -176,6 +212,7 @@ export default class Info extends Component {
             <h4>Tasks ({userDos ? userDos.length : 0})</h4>
             <Icon className="profile-icon" icon="caret-down" />
           </header>
+          {userDos && this.createMiniList(userDos)}
           {userDos && (
             <div className="profile-content-wrap">
               {userDos.map(scenario => (
@@ -193,6 +230,7 @@ export default class Info extends Component {
             <h4>Requests ({userRequests ? userRequests.length : 0})</h4>
             <Icon className="profile-icon" icon="caret-down" />
           </header>
+          {userRequests && this.createMiniList(userRequests)}
           {userRequests && (
             <div className="profile-content-wrap">
               {userRequests.map(scenario => (
@@ -212,6 +250,7 @@ export default class Info extends Component {
             </h4>
             <Icon className="profile-icon" icon="caret-down" />
           </header>
+          {userVerifications && this.createMiniList(userVerifications)}
           {userVerifications && (
             <div className="profile-content-wrap">
               {userVerifications.map(scenario => (
@@ -224,12 +263,13 @@ export default class Info extends Component {
             </div>
           )}
         </article>
+        <br/>
       </section>
     )
   }
 
   render() {
-    const { currentUserData } = this.state
+    const { currentUserData, isMyProfile } = this.state
 
     return (
       <Page clas="profile-page">
@@ -265,7 +305,8 @@ export default class Info extends Component {
               </Link>
             </div>
           )}
-          <section className="discovery-settings-area">
+          {(!isMyProfile) && this.profileArea()}
+          {isMyProfile && (<section className="discovery-settings-area">
             <header className="discovery-settings-header">
               <h3>Discovery Settings</h3>
             </header>
@@ -323,7 +364,7 @@ export default class Info extends Component {
                 </div>
               </div>
             </article>
-          </section>
+        </section> )}
         </Main>
       </Page>
     )
