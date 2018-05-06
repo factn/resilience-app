@@ -6,7 +6,8 @@ body {
   width: 100%;
   min-height: 100vh;
   margin: 0;
-  overflow-x: hidden;
+  overflow: hidden;
+  overflow-y: auto;
   background: $body-bg;
   font: {
     size: 16px;

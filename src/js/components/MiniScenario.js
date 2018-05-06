@@ -43,10 +43,7 @@ export default class MiniScenario extends Component {
         )
       } else if (tab === "Finished") {
         return (
-          <Link
-            className="btn btn-lite mini-scenario-link"
-            to={`/${id}/info`}
-          >
+          <Link className="btn btn-lite mini-scenario-link" to={`/${id}/info`}>
             Post update
           </Link>
         )
@@ -106,7 +103,12 @@ export default class MiniScenario extends Component {
         className={verified ? "mini-scenario verified" : "mini-scenario"}
         id={id}
       >
-        <figure className="mini-scenario-image-wrap">
+        <figure
+          className="mini-scenario-image-wrap"
+          style={{
+            backgroundImage: `url("${imagethumb}")`
+          }}
+        >
           <img
             src={imagethumb}
             alt={`${toFirstCap(verb)} ${toFirstCap(

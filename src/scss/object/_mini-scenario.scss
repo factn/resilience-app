@@ -26,7 +26,9 @@
   flex-grow: 1;
   margin-right: 1rem;
   border: .25rem solid $orange;
+  background-size: cover;
   .mini-scenario-image {
+    display: none;
     max-width: initial;
     height: 4rem;
   }
