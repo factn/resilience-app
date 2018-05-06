@@ -44,7 +44,7 @@ export default class Feed extends Component {
     Database.scenarioFeed()
       .then(result => {
         const { data } = result.body
-        console.info("Database call complete:", data)
+        // console.info("Database call complete:", data)
 
         this.setState({
           scenarioData: data,
@@ -93,7 +93,7 @@ export default class Feed extends Component {
       Database.nextInFeed({ offset: feedOffset + 1 })
         .then(result => {
           const { data } = result.body
-          console.info("Next in feed call complete:", data)
+          // console.info("Next in feed call complete:", data)
 
           this.setState({
             feedOffset: 0,
@@ -161,7 +161,6 @@ export default class Feed extends Component {
       perSwipeAmount,
       overlayOpen
     } = this.state
-    console.log(this.state)
 
     return (
       <Page clas={`feed-page ${type}-feed`}>

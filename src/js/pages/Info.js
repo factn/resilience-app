@@ -456,11 +456,12 @@ export default class Info extends Component {
                   alt={event}
                   className="scenario-content-image"
                 />
+                <figcaption className="scenario-content-image-caption">
+                  <Link className="btn back-btn" to={this.getBackLink()}>
+                    <Icon icon={faArrowCircleUp} />
+                  </Link>
+                </figcaption>
               </figure>
-
-              <Link className="btn back-btn" to={this.getBackLink()}>
-                <Icon icon={faArrowCircleUp} />
-              </Link>
 
               <header className="scenario-content-header">
                 <h4 className="scenario-title">

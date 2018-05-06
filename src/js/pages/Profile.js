@@ -240,7 +240,12 @@ export default class Info extends Component {
           {currentUserData && currentUserData.firstname !== "" ? (
             <div className="user-info-area">
               {currentUserData.avatar ? (
-                <div className="user-image">
+                <div
+                  className="user-image"
+                  style={{
+                    backgroundImage: `url("${currentUserData.avatar}")`
+                  }}
+                >
                   <img
                     src={currentUserData.avatar}
                     alt={currentUserData.firstname}

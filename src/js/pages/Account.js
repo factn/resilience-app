@@ -26,11 +26,11 @@ export default class Account extends Component {
       data: {
         type: "users",
         attributes: {
-          firstname: params.firstname,
-          email: params.email,
+          firstname: params.firstname || "",
+          email: params.email || "",
           avatar: imageString,
-          password: params.password,
-          password_confirmation: params.password_confirmation
+          password: params.password || "password",
+          password_confirmation: params.password_confirmation || "password"
         }
       }
     }

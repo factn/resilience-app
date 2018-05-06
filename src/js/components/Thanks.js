@@ -2,14 +2,17 @@
 // Module imports
 import React, { Component } from "react"
 import Icon from "@fortawesome/react-fontawesome"
-import { faStar } from "@fortawesome/fontawesome-free-solid";
+import { faStar } from "@fortawesome/fontawesome-free-solid"
 /*** [end of imports] ***/
 
 export default class Thanks extends Component {
   render() {
     const { open, dismiss } = this.props
     return (
-      <section className={open ? "thank-you-modal open" : "thank-you-modal"}>
+      <section
+        className={open ? "thank-you-modal open" : "thank-you-modal"}
+        onClick={() => dismiss()}
+      >
         <div className="stars">
           <Icon className="star" icon={faStar} />
           <Icon className="star" icon={faStar} />

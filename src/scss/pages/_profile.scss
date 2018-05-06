@@ -50,6 +50,10 @@
   .user-image {
     margin: 0 auto;
     overflow: hidden;
+    background-size: cover;
+    img {
+      display: none;
+    }
   }
   .user-name {
     padding-top: 1rem;
