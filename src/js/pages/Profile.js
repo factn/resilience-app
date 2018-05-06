@@ -156,8 +156,8 @@ export default class Info extends Component {
         hidSome = true;
       }
     }
-    let good = <Icon icon={faSmile} /> ;
-    let bad = <Icon icon={faFrown} /> ; 
+    let good = <font color="green"><Icon icon={faSmile} /></font> ;
+    let bad = <font color="red"><Icon icon={faFrown} /></font> ; 
     let middle = String.fromCharCode(9775); // ying-yang
     // TODO: I was not able to get React to let me color these... :-(
     return <h4>  
