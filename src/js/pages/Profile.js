@@ -26,13 +26,7 @@ export default class Info extends Component {
 
     // NOTE: Here we see if we want to show the profile for a different person:
     // TODO: is there a better React way to do this?
-    var otherUser = window.location.search;
-    var otherUserPrefix = "?user=";
-    if (otherUser.startsWith(otherUserPrefix)) {
-      otherUser = otherUser.replace(otherUserPrefix,"");
-    } else {
-      otherUser = undefined;
-    }
+    let otherUser = this.props.match.params.otherUserId;
 
     this.state = {
       scenarioId: this.props.match.params.scenarioId || 1,
