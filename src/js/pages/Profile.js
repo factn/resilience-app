@@ -143,10 +143,10 @@ export default class Info extends Component {
   }
 
   createMiniList = (list) => {
-    var toShow = [];
-    var hidSome = false;
-    for (var ii in list) {
-      var sc = list[ii];
+    let toShow = [];
+    let hidSome = false;
+    for (let ii in list) {
+      let sc = list[ii];
       if (toShow.length < 7) {
         toShow.push({ 
           item:sc, 
@@ -156,9 +156,9 @@ export default class Info extends Component {
         hidSome = true;
       }
     }
-    var good = <Icon icon={faSmile} /> ;
-    var bad = <Icon icon={faFrown} /> ; 
-    var middle = String.fromCharCode(9775); // ying-yang
+    let good = <Icon icon={faSmile} /> ;
+    let bad = <Icon icon={faFrown} /> ; 
+    let middle = String.fromCharCode(9775); // ying-yang
     // TODO: I was not able to get React to let me color these... :-(
     return <h4>  
       { toShow.map(k => (k.isGood?good:bad)) }
