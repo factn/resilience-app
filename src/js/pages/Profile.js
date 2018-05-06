@@ -7,7 +7,9 @@ import Icon from "@fortawesome/react-fontawesome"
 import {
   faMapMarkerAlt,
   faPlusCircle,
-  faCheck
+  faCheck,
+  faSmile,
+  faFrown,
 } from "@fortawesome/fontawesome-free-solid"
 
 // Components
@@ -154,8 +156,8 @@ export default class Info extends Component {
         hidSome = true;
       }
     }
-    var good = String.fromCharCode(9786); // happy face 
-    var bad = String.fromCharCode(9785); // sad face
+    var good = <Icon icon={faSmile} /> ;
+    var bad = <Icon icon={faFrown} /> ; 
     var middle = String.fromCharCode(9775); // ying-yang
     // TODO: I was not able to get React to let me color these... :-(
     return <h4>  
