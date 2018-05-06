@@ -79,9 +79,10 @@
   }
   .dismiss-btn {
     position: absolute;
-    bottom: 1.5rem;
+    top: calc(100vh - 4rem);
     left: calc(50% - 5rem);
     font-size: 1.2rem;
     width: 10rem;
+    z-index: 21;
   }
 }

@@ -1,16 +1,5 @@
 .scenario-content-wrap {
   margin-top: 1em;
-  .back-btn {
-    position: absolute;
-    top: 16rem;
-    right: 1rem;
-    border-radius: 50%;
-    z-index: 2;
-    padding: 0.25rem;
-    font-size: 1.5rem;
-    width: 2.25rem;
-    text-align: center;
-  }
   .scenario-footer {
     margin: 0.5rem -1.5rem 0;
     padding: 0.5rem 1.5rem;
@@ -60,7 +49,23 @@
   max-height: 12rem;
   width: 100vw;
   margin: 0 -1.5rem;
-  overflow: hidden;
+}
+.scenario-content-image {
+  max-height: 12rem;
+}
+.scenario-content-image-caption {
+  position: absolute;
+  bottom: 0;
+  right: 1rem;
+  z-index: 2;
+  .back-btn {
+    display: block;
+    padding: 0.25rem;
+    font-size: 1.5rem;
+    text-align: center;
+    border-radius: 50%;
+    width: 2.25rem;
+  }
 }
 .scenario-image-caption {
   position: absolute;

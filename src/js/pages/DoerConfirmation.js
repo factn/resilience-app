@@ -74,7 +74,7 @@ export default class DoerConfirmation extends Component {
   }
 
   submitConfirmation = params => {
-    const { scenarioId, currentUser } = this.state
+    const { scenarioId, parentScenarioId, currentUser } = this.state
     const imageString = getBase64(params.image)
 
     const json = {
@@ -88,7 +88,7 @@ export default class DoerConfirmation extends Component {
           scenario: {
             data: {
               type: "scenarios",
-              id: scenarioId
+              id: scenarioId || parentScenarioId
             }
           },
           verifier: {
@@ -106,7 +106,9 @@ export default class DoerConfirmation extends Component {
         // const { data } = result.body
         // console.log("Proof successfully created:", data)
 
-        this.props.history.push(`/${this.state.parentScenarioId}/doer/Instructions`)
+        this.props.history.push(
+          `/${this.state.parentScenarioId}/doer/Instructions`
+        )
       })
       .catch(error => {
         // console.error("Error creating proof:", error)
