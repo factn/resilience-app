@@ -80,7 +80,7 @@ export default class DoerFlow extends Component {
           <SessionSetting headerLabel="Jobs I want">
             <article className="card trending-card">
               <h4 className="card-title">Description</h4>
-              <center>
+              <div style={{'textAlign':'center'}}>
               <ul className="tag-list">
                 <li className="tag active-tag tag-button">#Painting</li>
                 <li className="tag active-tag tag-button">#Roofing</li>
@@ -89,7 +89,7 @@ export default class DoerFlow extends Component {
                 <li className="tag inactive-tag tag-button">#FirstAid</li>
                 <li className="tag inactive-tag tag-button">#Childcare</li>
               </ul>
-              </center>
+              </div>
             </article>
             <br/>
 

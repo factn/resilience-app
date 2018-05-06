@@ -334,9 +334,8 @@ export default class Scenario extends Component {
     } else if (feedType === "doer") {
       return (
         <footer className="scenario-footer">
-          <div className="tag-list-wrap">
-            <center><span className="dollar-amount">{moneyfy(funding_goal)}</span></center>
-            <br/>
+          <div className="tag-list-wrap" style={{'textAlign':'center','padding':'10px'}} >
+            <span className="dollar-amount">{moneyfy(funding_goal)}</span>
           </div>
           <div className="tag-list-wrap">
           
