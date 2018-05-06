@@ -39,18 +39,18 @@ export default class Feed extends Component {
 
   filterFeed = (result,offset) => {
     // This function filters and sorts the missions into approriate feed order and count:
-    var data = result.body.data;
-    var tosort = [];
+    let data = result.body.data;
+    let tosort = [];
     // First find all of the actual scenarios:
-    for (var ii in data) {
-      var r = data[ii];
-      var isValid = true;
+    for (let dataIter in data) {
+      let r = data[dataIter];
+      let isValid = true;
       if (r.attributes.parent_scenario_id != null) {
         isValid = false;
       }
 
       // TODO: ( use type === "donator"/"doer" ) to adjust who sees funded/unfunded projects
-      var isFullyFunded = ((1 * r.attributes.donated) >= (1 * r.attributes.funding_goal));
+      let isFullyFunded = ((1 * r.attributes.donated) >= (1 * r.attributes.funding_goal));
       if (this.state.type == "donator") {
         if (isFullyFunded) {
           isValid = false;
@@ -83,10 +83,10 @@ export default class Feed extends Component {
     if (offset >= tosort.length) {
       offset %= tosort.length;
     }
-    var betterList = [];
-    for (var ii in tosort) {
-      if ((ii >= offset) && (betterList.length < 3)) {
-        betterList.push(tosort[ii]);
+    let betterList = [];
+    for (let sortedIter in tosort) {
+      if ((sortedIter >= offset) && (betterList.length < 3)) {
+        betterList.push(tosort[sortedIter]);
       }
     }
     // Replace the output list with this better list:
