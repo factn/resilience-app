@@ -166,6 +166,10 @@ export default class Info extends Component {
       </h4>
   }
 
+  toggleArticle = (section) => {
+    // TODO
+  }
+
   profileArea = () => {
     const {
       userDonations,
