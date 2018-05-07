@@ -159,9 +159,9 @@ export default class Info extends Component {
     }
     return <h4>  
       { toShow.map(k => (k.isGood?
-        <font color="green" key={k.key}><Icon icon={faSmile} /></font>
+        <font color="green" key={k.key}> <Icon icon={faSmile} /> </font>
         :
-        <font color="red" key={k.key}><Icon icon={faFrown} /></font>
+        <font color="red" key={k.key}> <Icon icon={faFrown} /> </font>
         )) }
       { (hidSome ? "..." : "") } 
       </h4>
