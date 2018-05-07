@@ -54,7 +54,7 @@ export default class Scenario extends Component {
         opacity: 0,
         zIndex: 0
       },
-      upThreshold: -64,
+      upThreshold: -128,
       swipeThreshold: 128,
       transitionTiming: 100
     }
@@ -370,7 +370,7 @@ export default class Scenario extends Component {
     })
   }
   handleTouchMove = e => {
-    const { touchStartX, touchStartY, upThreshold } = this.state
+    const { touchStartX, touchStartY, upThreshold, swipeThreshold } = this.state
     const { first, previewDismissed } = this.props
 
     if (previewDismissed) {
@@ -379,7 +379,7 @@ export default class Scenario extends Component {
       let xDif = currentTouchX - touchStartX
       let yDif = currentTouchY - touchStartY
 
-      if (yDif < upThreshold) {
+      if (Math.abs(yDif) > Math.abs(xDif)) {
         this.setState({
           xTransform: xDif,
           yTransform: yDif,
@@ -391,7 +391,7 @@ export default class Scenario extends Component {
             })`
           },
           upStyle: {
-            opacity: 1,
+            opacity: (yDif < upThreshold) ? 1 : (((-yDif / -upThreshold)*0.5)+0.5),
             zIndex: 5
           },
           leftStyle: {
@@ -420,7 +420,7 @@ export default class Scenario extends Component {
               zIndex: 0
             },
             leftStyle: {
-              opacity: 1,
+              opacity: (xDif > swipeThreshold) ? 1 : (((xDif / swipeThreshold)*0.5) + 0.5),
               zIndex: 5
             },
             rightStyle: {
@@ -448,7 +448,7 @@ export default class Scenario extends Component {
               zIndex: 0
             },
             rightStyle: {
-              opacity: 1,
+              opacity: (xDif < -swipeThreshold) ? 1 : (((-xDif < -swipeThreshold)*0.5)+0.5),
               zIndex: 5
             }
           })
