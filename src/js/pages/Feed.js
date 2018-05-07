@@ -149,7 +149,7 @@ export default class Feed extends Component {
     const { directionSwiped, fullFundAmount } = params
 
     if (cardsOnPage === 1) {
-      Database.nextInFeed({ offset: resultsOffset + 3 })
+      Database.nextInFeed()
         .then(result => {
           this.filterFeed(result, resultsOffset + 3);
           const { data } = result.body

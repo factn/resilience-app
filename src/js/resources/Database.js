@@ -1,8 +1,8 @@
 import { buildApi, get, post, patch, destroy } from "redux-bees"
 
 // NOTE: Filtering is now done in 'filterFeed' based on the whole list of scenarios.
-const sharedScenarioCore = "/scenarios";
-//const sharedScenarioBrowseBase = sharedScenarioCore + "?sort=-parent_scenario_id,-created_at";
+//const sharedScenarioCore = "/scenarios";
+const sharedScenarioCore = "/scenarios?sort=-parent_scenario_id,-created_at";
 // GOAL: sort with newest scenarios on top, and also filter so that sub-tasks are not shown
 // TODO: was not able to filter by (parent_scenario_id != null)..
 // ...in theory it should be: {"name":"parent_scenario_id","op":"ne","val":""}... but somewhere this path is being modified... :-( 
