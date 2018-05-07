@@ -768,7 +768,7 @@ export default class Scenario extends Component {
       >
         {this.actionsBuild()}
         <figure className="scenario-image-wrap">
-          <img src={image} alt={event} className="scenario-image" onError={(e)=>{e.target.src="https://cdn.pbrd.co/images/Hk0nCqB.jpg"}} />
+          <img src={image} alt={event} className="scenario-image" />
         </figure>
         <div className="scenario-body">
           <header className="scenario-header">

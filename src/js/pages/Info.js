@@ -468,7 +468,6 @@ export default class Info extends Component {
                   src={image}
                   alt={event}
                   className="scenario-content-image"
-                  onError={(e)=>{e.target.src="https://cdn.pbrd.co/images/Hk0nCqB.jpg"}}
                 />
               </figure>
 
