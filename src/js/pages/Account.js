@@ -48,7 +48,7 @@ export default class Account extends Component {
 
   render() {
     let buttonObj = {
-      labelPhrase: "Create Accout",
+      labelPhrase: "Create Account",
       clas: "footer-btn user-create-btn",
       onSubmit: this.createProfile,
       onSubmitParams: {
