@@ -150,18 +150,19 @@ export default class Info extends Component {
       if (toShow.length < 7) {
         toShow.push({ 
           item:sc, 
+          key:ii,
           isGood:(Math.random() > 0.1), // TODO: currently random
         });
       } else {
         hidSome = true;
       }
     }
-    let good = <font color="green"><Icon icon={faSmile} /></font> ;
-    let bad = <font color="red"><Icon icon={faFrown} /></font> ; 
-    let middle = String.fromCharCode(9775); // ying-yang
-    // TODO: I was not able to get React to let me color these... :-(
     return <h4>  
-      { toShow.map(k => (k.isGood?good:bad)) }
+      { toShow.map(k => (k.isGood?
+        <font color="green" key={k.key}><Icon icon={faSmile} /></font>
+        :
+        <font color="red" key={k.key}><Icon icon={faFrown} /></font>
+        )) }
       { (hidSome ? "..." : "") } 
       </h4>
   }
