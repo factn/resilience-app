@@ -11,6 +11,7 @@ import {
   faHandPointUp,
   faArrowAltCircleDown,
   faCheck,
+  faQuestionCircle,
   faMapMarkerAlt
 } from "@fortawesome/fontawesome-free-solid"
 
@@ -53,7 +54,7 @@ export default class Scenario extends Component {
         opacity: 0,
         zIndex: 0
       },
-      upThreshold: -64,
+      upThreshold: -128,
       swipeThreshold: 128,
       transitionTiming: 100
     }
@@ -219,7 +220,74 @@ export default class Scenario extends Component {
         </Fragment>
       )
     } else if (feedType === "verifier") {
-      return <Fragment />
+      return (
+        <Fragment>
+          {first &&
+            !previewDismissed && (
+              <div className="pseudo-preview" style={previewStyle}>
+                <div className="action up-action">
+                  <div className="pseudo-main-text">WARN</div>
+                  <div className="pseudo-sub-text">legal flag</div>
+                  <div className="arrow arrow-up">
+                    <Icon icon={faCaretUp} />
+                  </div>
+                </div>
+                <div className="action right-action">
+                  <div className="pseudo-main-text">VALID</div>
+                  <div className="pseudo-sub-text">looks good</div>
+                  <div className="arrow arrow-right">
+                    <Icon icon={faCaretRight} />
+                  </div>
+                </div>
+                <div className="action left-action">
+                  <div className="pseudo-main-text">PASS</div>
+                  <div className="pseudo-sub-text">not sure</div>
+                  <div className="arrow arrow-left">
+                    <Icon icon={faCaretLeft} />
+                  </div>
+                </div>
+                <div className="touch-icon">
+                  <Icon icon={faHandPointUp} />
+                </div>
+                <div className="action down-action">
+                  <button
+                    className="btn preview-dismiss-btn"
+                    onClick={() => this.props.dismissPreview()}
+                  >
+                    Got it
+                  </button>
+                </div>
+              </div>
+            )}
+          <div className="pseudo-up" style={upStyle}>
+            <div className="action down-action">
+              <div className="pseudo-main-text">WARN</div>
+              <div className="pseudo-sub-text">legal flag</div>
+              <div className="arrow arrow-up">
+                <Icon icon={faCaretUp} />
+              </div>
+            </div>
+          </div>
+          <div className="pseudo-before" style={leftStyle}>
+            <div className="action left-action">
+              <div className="pseudo-main-text">VALID</div>
+              <div className="pseudo-sub-text">looks good</div>
+              <div className="arrow arrow-right">
+                <Icon icon={faCaretRight} />
+              </div>
+            </div>
+          </div>
+          <div className="pseudo-after" style={rightStyle}>
+            <div className="action right-action">
+              <div className="pseudo-main-text">PASS</div>
+              <div className="pseudo-sub-text">not sure</div>
+              <div className="arrow arrow-left">
+                <Icon icon={faCaretLeft} />
+              </div>
+            </div>
+          </div>
+        </Fragment>
+      )
     } else {
       return <Fragment />
     }
@@ -266,7 +334,11 @@ export default class Scenario extends Component {
     } else if (feedType === "doer") {
       return (
         <footer className="scenario-footer">
+          <div className="tag-list-wrap tag-list-money"  >
+            <span className="dollar-amount">{moneyfy(funding_goal)}</span>
+          </div>
           <div className="tag-list-wrap">
+          
             <span className="tag-list-label">Work needed:</span>
             <ul className="tag-list">
               <li className="tag active-tag">#Roofing</li>
@@ -298,7 +370,7 @@ export default class Scenario extends Component {
     })
   }
   handleTouchMove = e => {
-    const { touchStartX, touchStartY, upThreshold } = this.state
+    const { touchStartX, touchStartY, upThreshold, swipeThreshold } = this.state
     const { first, previewDismissed } = this.props
 
     if (previewDismissed) {
@@ -307,7 +379,7 @@ export default class Scenario extends Component {
       let xDif = currentTouchX - touchStartX
       let yDif = currentTouchY - touchStartY
 
-      if (yDif < upThreshold) {
+      if (Math.abs(yDif) > Math.abs(xDif)) {
         this.setState({
           xTransform: xDif,
           yTransform: yDif,
@@ -319,7 +391,7 @@ export default class Scenario extends Component {
             })`
           },
           upStyle: {
-            opacity: 1,
+            opacity: (yDif < upThreshold) ? 1 : (((-yDif / -upThreshold)*0.5)+0.5),
             zIndex: 5
           },
           leftStyle: {
@@ -348,7 +420,7 @@ export default class Scenario extends Component {
               zIndex: 0
             },
             leftStyle: {
-              opacity: 1,
+              opacity: (xDif > swipeThreshold) ? 1 : (((xDif / swipeThreshold)*0.5) + 0.5),
               zIndex: 5
             },
             rightStyle: {
@@ -376,7 +448,7 @@ export default class Scenario extends Component {
               zIndex: 0
             },
             rightStyle: {
-              opacity: 1,
+              opacity: (xDif < -swipeThreshold) ? 1 : (((-xDif < -swipeThreshold)*0.5)+0.5),
               zIndex: 5
             }
           })
@@ -397,8 +469,13 @@ export default class Scenario extends Component {
     let xDif = lastTouchX === 0 ? 0 : lastTouchX - touchStartX
     let yDif = lastTouchY === 0 ? 0 : lastTouchY - touchStartY
 
-    if (Math.abs(xDif) > swipeThreshold || yDif < upThreshold) {
-      if (yDif < upThreshold) {
+    // trying to avoid some false positives:
+    let dist = Math.sqrt((xDif * xDif) + (yDif * yDif));
+    let largeMove = (Math.abs(dist) >= Math.abs(upThreshold));
+    let isUpDown = (Math.abs(yDif) > Math.abs(xDif));
+
+    if (largeMove) {
+      if ((isUpDown) && (yDif < upThreshold)) {
         this.swipedUp()
       } else {
         if (touchStartX < lastTouchX) this.swipedRight()
@@ -706,7 +783,9 @@ export default class Scenario extends Component {
             <div className="user-info">
               <figure className="user-avatar" />
               <div className="user-name">
+                <Link to="/reputation/2"> { /* TODO: Put requester id here, may require additional query oddly enough */ }
                 {requester_firstname} {requester_lastname}
+                </Link>
               </div>
               <div className="user-verified-status">
                 <Icon icon={faCheck} />
@@ -734,6 +813,11 @@ export default class Scenario extends Component {
         </div>
         <Link className="btn accept-scenario-btn" to={`/${id}/donator/`}>
           <Icon icon={faArrowAltCircleDown} />
+        </Link>
+        { /* I tried to put this link on the profile's name.. but can't get it to click on touch..
+            also we don't have the users id, without a seperate database query */ } 
+        <Link className="btn accept-scenario-btn check-profile-btn" to={`/reputation/1`}>
+          <Icon icon={faQuestionCircle} />
         </Link>
       </article>
     )

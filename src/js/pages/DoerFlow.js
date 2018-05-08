@@ -21,10 +21,10 @@ export default class DoerFlow extends Component {
 
     this.state = {
       timeFrame: "urgent", // "urgent" || "semi-urgent" || "important"
-      workFromHome: true,
+      workFromHome: false,
       workAbroad: false,
       workDistance: 40,
-      distanceMax: 1000
+      distanceMax: 100
     }
 
     this.setTimeframe = this.setTimeframe.bind(this)
@@ -77,74 +77,47 @@ export default class DoerFlow extends Component {
     return (
       <Page clas="flow-page doer-flow-page">
         <Main>
-          <SessionSetting headerLabel="Jobs I want to do">
+          <SessionSetting headerLabel="Jobs I want">
             <article className="card trending-card">
-              <h4 className="card-title">Select from trending jobs</h4>
+              <h4 className="card-title">Description</h4>
+              <div className="card-content">
               <ul className="tag-list">
-                <li className="tag inactive-tag">#Painting</li>
-                <li className="tag active-tag">#Roofing</li>
-                <li className="tag inactive-tag">#Transport</li>
-                <li className="tag inactive-tag">#Coding</li>
-                <li className="tag inactive-tag">#FirstAid</li>
-                <li className="tag inactive-tag">#Childcare</li>
+                <li className="tag active-tag tag-button">#Painting</li>
+                <li className="tag active-tag tag-button">#Roofing</li>
+                <li className="tag inactive-tag tag-button">#Transport</li>
+                <li className="tag inactive-tag tag-button">#Coding</li>
+                <li className="tag inactive-tag tag-button">#FirstAid</li>
+                <li className="tag inactive-tag tag-button">#Childcare</li>
+              </ul>
+              </div>
+            </article>
+            <br/>
+
+            <article className="card trending-card">
+              <h4 className="card-title">Time Frame</h4>
+              <ul className="tag-list">
+                  <li className="tag active-tag tag-button">#Urgent</li>
+                  <li className="tag active-tag tag-button">#Today</li>
+                  <li className="tag active-tag tag-button">#1-2Days</li>
+                  <li className="tag inactive-tag tag-button">#ThisWeek</li>
               </ul>
             </article>
-          </SessionSetting>
+            <br/>
 
-          <SessionSetting headerLabel="Time frame" clas="timeframe-settings">
-            <article
-              className={
-                timeFrame === "urgent"
-                  ? "card btn-card active"
-                  : "card btn-card"
-              }
-              onClick={() => this.setTimeframe("urgent")}
-            >
-              <h4>Urgent Jobs (next 24 hours)</h4>
-            </article>
-            <article
-              className={
-                timeFrame === "semi-urgent"
-                  ? "card btn-card active"
-                  : "card btn-card"
-              }
-              onClick={() => this.setTimeframe("semi-urgent")}
-            >
-              <h4>Semi-Urgent Jobs (next 1-2 days)</h4>
-            </article>
-            <article
-              className={
-                timeFrame === "important"
-                  ? "card btn-card active"
-                  : "card btn-card"
-              }
-              onClick={() => this.setTimeframe("important")}
-            >
-              <h4>Important Jobs (within the next week)</h4>
-            </article>
-          </SessionSetting>
-
-          <SessionSetting headerLabel="Location" clas="location-settings">
             <article className="card">
+            <h4 className="card-title">Distance</h4>
               <div className="card-area location-city">
-                <div className="location-label">Location</div>
+                <div className="location-label">From</div>
                 <div className="location-current">Pearlington, MI</div>
                 <div className="location-icon">
                   <Icon icon={faChevronRight} />
                 </div>
               </div>
+
               <div className="card-area home-and-abroad-toggle">
-                <div className="toggle-row">
-                  <div className="toggle-label">I want to work from home</div>
-                  <div
-                    className={workFromHome ? "toggle on" : "toggle"}
-                    onClick={() => this.toggleWorkFromHome()}
-                  >
-                    <div className="toggle-button" />
-                  </div>
-                </div>
-                <div className="toggle-row">
-                  <div className="toggle-label">I'm willing to travel</div>
+
+              <div className="toggle-row">
+                  <div className="toggle-label">Max Travel</div>
                   <div
                     className={workAbroad ? "toggle on" : "toggle"}
                     onClick={() => this.toggleWorkAbroad()}
@@ -152,20 +125,19 @@ export default class DoerFlow extends Component {
                     <div className="toggle-button" />
                   </div>
                 </div>
-              </div>
-              <div
-                className={
-                  workAbroad
-                    ? "card-area travel-distance"
-                    : "card-area travel-distance disabled-card-area"
-                }
-              >
-                <div className="travel-range-title">Distance I can travel</div>
+
+                <div
+                  className={
+                    (true)
+                      ? "card-area travel-distance"
+                      : "card-area travel-distance disabled-card-area"
+                  }
+                >
                 <label
                   className="travel-range-label range-label"
                   htmlFor="travelDistanceSlider"
                 >
-                  {workDistance}km
+                  {workDistance} miles
                 </label>
                 <input
                   type="range"
@@ -179,13 +151,18 @@ export default class DoerFlow extends Component {
                   style={sliderStyle}
                 />
               </div>
+
+
+              </div>
+
+
             </article>
           </SessionSetting>
         </Main>
 
         <Footer>
           <Link to="/feed/doer" className="btn footer-btn feed-btn">
-            View Missions
+            View Jobs
           </Link>
         </Footer>
       </Page>

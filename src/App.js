@@ -61,6 +61,7 @@ export default class App extends Component {
           {/* Account */}
           <Route path="/login" component={Login} />
           <Route path="/profile" component={Profile} />
+          <Route path="/reputation/:otherUserId" exact component={Profile} />
           <Route path="/account" exact component={Account} />
           <Route path="/account/confirm-facebook" exact component={FBConfirm} />
           <Route path="/account/verify-facebook" exact component={FBVerify} />

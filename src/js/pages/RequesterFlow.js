@@ -227,7 +227,7 @@ export default class RequesterFlow extends Component {
             </article>
           </SessionSetting>
 
-          <SessionSetting headerLabel="Add a photo">
+          <SessionSetting headerLabel="What does it look like?">
             <Image />
           </SessionSetting>
 

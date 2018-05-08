@@ -282,12 +282,13 @@ export default class Info extends Component {
   jobs = () => {
     const { childrenScenarioData, buttonOverride } = this.state
 
+    let hasShownDesc = false;
     return (
       <Fragment>
         {childrenScenarioData &&
           Object.entries(childrenScenarioData).map(([key, childScenario]) => {
             const { noun, verb, is_complete } = childScenario.attributes
-            let label, button
+            let label, button, detailDesc=""
 
             if (noun === "materials" && verb === "get") {
               if (is_complete) {
@@ -300,6 +301,7 @@ export default class Info extends Component {
                 }
               } else {
                 label = "Can you bring materials?"
+                detailDesc = "You'll need a 20ft square tarp and 8 zipties."
               }
             } else if (noun === "transportation" && verb === "get") {
               if (is_complete) {
@@ -312,6 +314,7 @@ export default class Info extends Component {
                 }
               } else {
                 label = "Can you provide transport?"
+                detailDesc = "See the location on the map"
               }
             } else if (noun === "roof" && verb === "patch") {
               if (is_complete) {
@@ -323,7 +326,8 @@ export default class Info extends Component {
                   })
                 }
               } else {
-                label = "Can you cover the roof?"
+                label = "Roof covered?"
+                detailDesc = "Ensure the tarp covers all areas and don't allow rain in."
               }
             } else if (noun === "roof" && verb === "fix") {
               if (is_complete) {
@@ -335,8 +339,16 @@ export default class Info extends Component {
                   })
                 }
               } else {
-                label = "Can you secure the roof?"
+                label = "Roof covering secured?"
+                detailDesc = "Ensure that the tarp is secured on all corners to protect against hurricane winds."
               }
+            }
+
+            if (detailDesc != "") {
+              if (hasShownDesc) {
+                detailDesc = "";
+              }
+              hasShownDesc = true;
             }
 
             if (is_complete) {
@@ -353,6 +365,7 @@ export default class Info extends Component {
               <div className="card job-card" key={key}>
                 <div className="card-label">{label}</div>
                 {button}
+                {detailDesc}
               </div>
             )
           })}
@@ -499,7 +512,7 @@ export default class Info extends Component {
 
                     <div className="scenario-description">
                       {custom_message ||
-                        "My roof was blown off in Hurricane Katrina. I need your help to fix it. Can have more info here to help tell the story and convince people to do this."}
+                        "My roof was damaged in Hurricane Katrina. I need your help to cover it. Can have more info here to help tell the story and convince people to do this."}
                     </div>
 
                     <section className="scenario-tags">
