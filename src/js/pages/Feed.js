@@ -41,6 +41,7 @@ export default class Feed extends Component {
     const { type } = this.state
     let unsortedList = []
     let sortedList = []
+    let result = []
     let current
     let isFullyFunded
     let isValid = true
@@ -82,21 +83,19 @@ export default class Feed extends Component {
       }
     }
 
-    unsortedList.sort(
+    sortedList = unsortedList.sort(
       (a, b) =>
         Date.parse(b.attributes.created_at) -
         Date.parse(a.attributes.created_at)
     )
 
-    for (let scenario = offset; scenario < 3 + offset; scenario++) {
-      if (unsortedList.indexOf(scenario) > -1) {
-        sortedList.push(unsortedList[scenario])
-      } else {
-        break
-      }
+    if (offset + 3 <= sortedList.length) {
+      result = sortedList.slice(offset, offset + 3)
+    } else if (offset <= sortedList.length) {
+      result = sortedList.slice(offset, sortedList.length)
     }
 
-    return sortedList
+    return result
   }
 
   componentDidMount = () => {
