@@ -282,13 +282,15 @@ export default class Info extends Component {
   jobs = () => {
     const { childrenScenarioData, buttonOverride } = this.state
 
-    let hasShownDesc = false;
+    let hasShownDesc = false
     return (
       <Fragment>
         {childrenScenarioData &&
           Object.entries(childrenScenarioData).map(([key, childScenario]) => {
             const { noun, verb, is_complete } = childScenario.attributes
-            let label, button, detailDesc=""
+            let label,
+              button,
+              detailDesc = ""
 
             if (noun === "materials" && verb === "get") {
               if (is_complete) {
@@ -327,7 +329,8 @@ export default class Info extends Component {
                 }
               } else {
                 label = "Roof covered?"
-                detailDesc = "Ensure the tarp covers all areas and don't allow rain in."
+                detailDesc =
+                  "Ensure the tarp covers all areas and don't allow rain in."
               }
             } else if (noun === "roof" && verb === "fix") {
               if (is_complete) {
@@ -340,15 +343,16 @@ export default class Info extends Component {
                 }
               } else {
                 label = "Roof covering secured?"
-                detailDesc = "Ensure that the tarp is secured on all corners to protect against hurricane winds."
+                detailDesc =
+                  "Ensure that the tarp is secured on all corners to protect against hurricane winds."
               }
             }
 
             if (detailDesc != "") {
               if (hasShownDesc) {
-                detailDesc = "";
+                detailDesc = ""
               }
-              hasShownDesc = true;
+              hasShownDesc = true
             }
 
             if (is_complete) {

@@ -1,4 +1,7 @@
 .doer-flow-page {
+  .card {
+    margin-bottom: 1rem;
+  }
   .location-city {
     @include inline-flex;
     .location-label,
@@ -26,7 +29,7 @@
     }
   }
   .tag-list-money {
-    text-align:center;
-    padding:10px;
+    text-align: center;
+    padding: 0.625rem;
   }
 }

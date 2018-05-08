@@ -9,12 +9,12 @@ import {
   faPlusCircle,
   faCheck,
   faSmile,
-  faFrown,
+  faFrown
 } from "@fortawesome/fontawesome-free-solid"
 
 // Components
 import Page from "./Page"
-import MiniScenario from "../components/MiniScenario"
+// import MiniScenario from "../components/MiniScenario"
 import Main from "../components/Main"
 
 // Utilities
@@ -26,10 +26,6 @@ export default class Info extends Component {
   constructor(props) {
     super(props)
 
-    // NOTE: Here we see if we want to show the profile for a different person:
-    // TODO: is there a better React way to do this?
-    let otherUser = this.props.match.params.otherUserId;
-
     this.state = {
       scenarioId: this.props.match.params.scenarioId || 1,
       userDonations: null,
@@ -37,8 +33,8 @@ export default class Info extends Component {
       userRequests: null,
       userVerifications: null,
       currentUserData: null,
-      userId: otherUser || Cookies.get("userId") || 1,
-      isMyProfile: (otherUser == undefined)
+      userId: this.props.match.params.otherUserId || Cookies.get("userId") || 1,
+      isMyProfile: typeof this.props.match.params.otherUserId === "undefined"
     }
   }
 
@@ -142,135 +138,49 @@ export default class Info extends Component {
       })
   }
 
-  createMiniList = (list) => {
-    let toShow = [];
-    let hidSome = false;
-    for (let ii in list) {
-      let sc = list[ii];
-      if (toShow.length < 7) {
-        toShow.push({ 
-          item:sc, 
-          key:ii,
-          isGood:(Math.random() > 0.1), // TODO: currently random
-        });
+  createMiniList = list => {
+    let proofs = []
+    let rest = false
+
+    for (let scenario = 0, l = list.length; scenario < l; scenario++) {
+      if (proofs.length < 7) {
+        proofs.push({
+          item: list[scenario],
+          positive: Math.random() > 0.1 // TODO: currently random, will be scenario.attributes.is_complete
+        })
       } else {
-        hidSome = true;
+        rest = true
+        break
       }
     }
-    return <h4>  
-      { toShow.map(k => (k.isGood?
-        <font color="green" key={k.key}> <Icon icon={faSmile} /> </font>
-        :
-        <font color="red" key={k.key}> <Icon icon={faFrown} /> </font>
-        )) }
-      { (hidSome ? "..." : "") } 
-      </h4>
-  }
-
-  toggleArticle = (section) => {
-    // TODO
-  }
-
-  profileArea = () => {
-    const {
-      userDonations,
-      userDos,
-      userRequests,
-      userVerifications
-    } = this.state
-
     return (
-      <section className="profile">
-        <article className="profile-article">
-          <header className="profile-article-header">
-            <h4>Honey</h4>
-            <Icon className="profile-icon" icon="caret-down" />
-          </header>
-        </article>
-        <article className="profile-article">
-          <header
-            className="profile-article-header"
-            onClick={() => this.toggleArticle("donations")} // note, was crashing
+      <div className="profile-proofs-wrap">
+        {proofs.map(proof => (
+          <div
+            key={proof.id}
+            className={proof.positive ? "proof positive" : "proof negative"}
           >
-            <h4>Donations ({userDonations ? userDonations.length : 0})</h4>
-            <Icon className="profile-icon" icon="caret-down" />
-          </header>
-          {userDonations && this.createMiniList(userDonations)}
-          {userDonations && (
-            <div className="profile-content-wrap">
-              {userDonations.map(scenario => (
-                <MiniScenario
-                  key={scenario.id}
-                  id={scenario.id}
-                  {...scenario.attributes}
-                />
-              ))}
-            </div>
-          )}
-        </article>
-        <article className="profile-article">
-          <header className="profile-article-header">
-            <h4>Tasks ({userDos ? userDos.length : 0})</h4>
-            <Icon className="profile-icon" icon="caret-down" />
-          </header>
-          {userDos && this.createMiniList(userDos)}
-          {userDos && (
-            <div className="profile-content-wrap">
-              {userDos.map(scenario => (
-                <MiniScenario
-                  key={scenario.id}
-                  id={scenario.id}
-                  {...scenario.attributes}
-                />
-              ))}
-            </div>
-          )}
-        </article>
-        <article className="profile-article">
-          <header className="profile-article-header">
-            <h4>Requests ({userRequests ? userRequests.length : 0})</h4>
-            <Icon className="profile-icon" icon="caret-down" />
-          </header>
-          {userRequests && this.createMiniList(userRequests)}
-          {userRequests && (
-            <div className="profile-content-wrap">
-              {userRequests.map(scenario => (
-                <MiniScenario
-                  key={scenario.id}
-                  id={scenario.id}
-                  {...scenario.attributes}
-                />
-              ))}
-            </div>
-          )}
-        </article>
-        <article className="profile-article">
-          <header className="profile-article-header">
-            <h4>
-              Verifications ({userVerifications ? userVerifications.length : 0})
-            </h4>
-            <Icon className="profile-icon" icon="caret-down" />
-          </header>
-          {userVerifications && this.createMiniList(userVerifications)}
-          {userVerifications && (
-            <div className="profile-content-wrap">
-              {userVerifications.map(scenario => (
-                <MiniScenario
-                  key={scenario.id}
-                  id={scenario.id}
-                  {...scenario.attributes}
-                />
-              ))}
-            </div>
-          )}
-        </article>
-        <br/>
-      </section>
+            <Icon icon={proof.positive ? faSmile : faFrown} />
+          </div>
+        ))}
+        <span className="hidden-indicator">{rest ? "..." : ""}</span>
+      </div>
     )
   }
 
+  toggleArticle = section => {
+    // TODO
+  }
+
   render() {
-    const { currentUserData, isMyProfile } = this.state
+    const {
+      currentUserData,
+      userDonations,
+      userDos,
+      userRequests,
+      userVerifications,
+      isMyProfile
+    } = this.state
 
     return (
       <Page clas="profile-page">
@@ -311,66 +221,157 @@ export default class Info extends Component {
               </Link>
             </div>
           )}
-          {(!isMyProfile) && this.profileArea()}
-          {isMyProfile && (<section className="discovery-settings-area">
-            <header className="discovery-settings-header">
-              <h3>Discovery Settings</h3>
-            </header>
-            <article className="discovery-settings card">
-              <div className="settings-box">
-                <div className="setting-icon">
-                  <Icon icon={faMapMarkerAlt} />
+          {isMyProfile ? (
+            <section className="discovery-settings-area">
+              <header className="discovery-settings-header">
+                <h3>Discovery Settings</h3>
+              </header>
+              <article className="discovery-settings card">
+                <div className="settings-box">
+                  <div className="setting-icon">
+                    <Icon icon={faMapMarkerAlt} />
+                  </div>
+                  <h4 className="setting-label">Location</h4>
+                  <div className="location-setting">Wellington, NZ</div>
                 </div>
-                <h4 className="setting-label">Location</h4>
-                <div className="location-setting">Wellington, NZ</div>
-              </div>
-              <div className="settings-box">
-                <div className="setting-icon">
-                  <Icon icon={faPlusCircle} />
+                <div className="settings-box">
+                  <div className="setting-icon">
+                    <Icon icon={faPlusCircle} />
+                  </div>
+                  <h4 className="setting-label">I want to do</h4>
+                  <div className="scenario-tags">
+                    <ul className="tag-list">
+                      <li className="tag">
+                        <Link to="/" className="tag-link">
+                          #Donations
+                        </Link>
+                      </li>
+                      <li className="tag">
+                        <Link to="/" className="tag-link">
+                          #Jobs
+                        </Link>
+                      </li>
+                      <li className="tag">
+                        <Link to="/" className="tag-link">
+                          #Painting
+                        </Link>
+                      </li>
+                      <li className="tag">
+                        <Link to="/" className="tag-link">
+                          #Roofing
+                        </Link>
+                      </li>
+                    </ul>
+                  </div>
                 </div>
-                <h4 className="setting-label">I want to do</h4>
-                <div className="scenario-tags">
-                  <ul className="tag-list">
-                    <li className="tag">
-                      <Link to="/" className="tag-link">
-                        #Donations
-                      </Link>
-                    </li>
-                    <li className="tag">
-                      <Link to="/" className="tag-link">
-                        #Jobs
-                      </Link>
-                    </li>
-                    <li className="tag">
-                      <Link to="/" className="tag-link">
-                        #Painting
-                      </Link>
-                    </li>
-                    <li className="tag">
-                      <Link to="/" className="tag-link">
-                        #Roofing
-                      </Link>
-                    </li>
-                  </ul>
+                <div className="settings-box">
+                  <div className="setting-icon">
+                    <Icon icon={faPlusCircle} />
+                  </div>
+                  <h4 className="setting-label">Events I follow</h4>
+                  <div className="scenario-tags">
+                    <ul className="tag-list">
+                      <li className="tag">
+                        <Link to="/" className="tag-link">
+                          #HurricaneKatrina
+                        </Link>
+                      </li>
+                    </ul>
+                  </div>
                 </div>
-              </div>
-              <div className="settings-box">
-                <div className="setting-icon">
-                  <Icon icon={faPlusCircle} />
-                </div>
-                <h4 className="setting-label">Events I follow</h4>
-                <div className="scenario-tags">
-                  <ul className="tag-list">
-                    <li className="tag">
-                      <Link to="/" className="tag-link">
-                        #HurricaneKatrina
-                      </Link>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </article>
-        </section> )}
+              </article>
+            </section>
+          ) : (
+            <section className="profile">
+              <article className="profile-article">
+                <header className="profile-article-header">
+                  <h4>Honey</h4>
+                  <Icon className="profile-icon" icon="caret-down" />
+                </header>
+              </article>
+              <article className="profile-article">
+                <header
+                  className="profile-article-header"
+                  onClick={() => this.toggleArticle("donations")}
+                >
+                  <h4>
+                    Donations ({userDonations ? userDonations.length : 0})
+                  </h4>
+                  <Icon className="profile-icon" icon="caret-down" />
+                </header>
+                {userDonations && this.createMiniList(userDonations)}
+                {/* {userDonations && (
+                      <div className="profile-content-wrap">
+                        {userDonations.map(scenario => (
+                          <MiniScenario
+                            key={scenario.id}
+                            id={scenario.id}
+                            {...scenario.attributes}
+                          />
+                        ))}
+                      </div>
+                    )} */}
+              </article>
+              <article className="profile-article">
+                <header className="profile-article-header">
+                  <h4>Tasks ({userDos ? userDos.length : 0})</h4>
+                  <Icon className="profile-icon" icon="caret-down" />
+                </header>
+                {userDos && this.createMiniList(userDos)}
+                {/* {userDos && (
+                      <div className="profile-content-wrap">
+                        {userDos.map(scenario => (
+                          <MiniScenario
+                            key={scenario.id}
+                            id={scenario.id}
+                            {...scenario.attributes}
+                          />
+                        ))}
+                      </div>
+                    )} */}
+              </article>
+              <article className="profile-article">
+                <header className="profile-article-header">
+                  <h4>Requests ({userRequests ? userRequests.length : 0})</h4>
+                  <Icon className="profile-icon" icon="caret-down" />
+                </header>
+                {userRequests && this.createMiniList(userRequests)}
+                {/* {userRequests && (
+                      <div className="profile-content-wrap">
+                        {userRequests.map(scenario => (
+                          <MiniScenario
+                            key={scenario.id}
+                            id={scenario.id}
+                            {...scenario.attributes}
+                          />
+                        ))}
+                      </div>
+                    )} */}
+              </article>
+              <article className="profile-article">
+                <header className="profile-article-header">
+                  <h4>
+                    Verifications ({userVerifications
+                      ? userVerifications.length
+                      : 0})
+                  </h4>
+                  <Icon className="profile-icon" icon="caret-down" />
+                </header>
+                {userVerifications && this.createMiniList(userVerifications)}
+                {/* {userVerifications && (
+                      <div className="profile-content-wrap">
+                        {userVerifications.map(scenario => (
+                          <MiniScenario
+                            key={scenario.id}
+                            id={scenario.id}
+                            {...scenario.attributes}
+                          />
+                        ))}
+                      </div>
+                    )} */}
+              </article>
+            </section>
+          )}
         </Main>
       </Page>
     )

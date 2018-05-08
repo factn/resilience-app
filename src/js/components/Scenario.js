@@ -2,7 +2,6 @@
 // Module imports
 import React, { Component, Fragment } from "react"
 import { Link } from "react-router-dom"
-import createHistory from "history/createBrowserHistory"
 import Icon from "@fortawesome/react-fontawesome"
 import {
   faCaretUp,
@@ -19,8 +18,6 @@ import {
 import Database from "../resources/Database"
 import { toFirstCap, moneyfy, gradientStyle } from "../resources/Util"
 /*** [end of imports] ***/
-
-const history = createHistory()
 
 export default class Scenario extends Component {
   constructor(props) {
@@ -334,11 +331,10 @@ export default class Scenario extends Component {
     } else if (feedType === "doer") {
       return (
         <footer className="scenario-footer">
-          <div className="tag-list-wrap tag-list-money"  >
+          <div className="tag-list-money">
             <span className="dollar-amount">{moneyfy(funding_goal)}</span>
           </div>
           <div className="tag-list-wrap">
-          
             <span className="tag-list-label">Work needed:</span>
             <ul className="tag-list">
               <li className="tag active-tag">#Roofing</li>
@@ -391,7 +387,7 @@ export default class Scenario extends Component {
             })`
           },
           upStyle: {
-            opacity: (yDif < upThreshold) ? 1 : (((-yDif / -upThreshold)*0.5)+0.5),
+            opacity: yDif < upThreshold ? 1 : -yDif / -upThreshold * 0.5 + 0.5,
             zIndex: 5
           },
           leftStyle: {
@@ -420,7 +416,8 @@ export default class Scenario extends Component {
               zIndex: 0
             },
             leftStyle: {
-              opacity: (xDif > swipeThreshold) ? 1 : (((xDif / swipeThreshold)*0.5) + 0.5),
+              opacity:
+                xDif > swipeThreshold ? 1 : xDif / swipeThreshold * 0.5 + 0.5,
               zIndex: 5
             },
             rightStyle: {
@@ -448,7 +445,10 @@ export default class Scenario extends Component {
               zIndex: 0
             },
             rightStyle: {
-              opacity: (xDif < -swipeThreshold) ? 1 : (((-xDif < -swipeThreshold)*0.5)+0.5),
+              opacity:
+                xDif < -swipeThreshold
+                  ? 1
+                  : (-xDif < -swipeThreshold) * 0.5 + 0.5,
               zIndex: 5
             }
           })
@@ -470,12 +470,12 @@ export default class Scenario extends Component {
     let yDif = lastTouchY === 0 ? 0 : lastTouchY - touchStartY
 
     // trying to avoid some false positives:
-    let dist = Math.sqrt((xDif * xDif) + (yDif * yDif));
-    let largeMove = (Math.abs(dist) >= Math.abs(upThreshold));
-    let isUpDown = (Math.abs(yDif) > Math.abs(xDif));
+    let dist = Math.sqrt(xDif * xDif + yDif * yDif)
+    let largeMove = Math.abs(dist) >= Math.abs(upThreshold)
+    let isUpDown = Math.abs(yDif) > Math.abs(xDif)
 
     if (largeMove) {
-      if ((isUpDown) && (yDif < upThreshold)) {
+      if (isUpDown && yDif < upThreshold) {
         this.swipedUp()
       } else {
         if (touchStartX < lastTouchX) this.swipedRight()
@@ -783,8 +783,10 @@ export default class Scenario extends Component {
             <div className="user-info">
               <figure className="user-avatar" />
               <div className="user-name">
-                <Link to="/reputation/2"> { /* TODO: Put requester id here, may require additional query oddly enough */ }
-                {requester_firstname} {requester_lastname}
+                <Link to="/reputation/2">
+                  {" "}
+                  {/* TODO: Put requester id here, may require additional query oddly enough */}
+                  {requester_firstname} {requester_lastname}
                 </Link>
               </div>
               <div className="user-verified-status">
@@ -811,12 +813,15 @@ export default class Scenario extends Component {
 
           {this.footerBuild()}
         </div>
-        <Link className="btn accept-scenario-btn" to={`/${id}/donator/`}>
+        <Link className="btn scenario-footer-btn accept-scenario-btn" to={`/${id}/donator/`}>
           <Icon icon={faArrowAltCircleDown} />
         </Link>
-        { /* I tried to put this link on the profile's name.. but can't get it to click on touch..
-            also we don't have the users id, without a seperate database query */ } 
-        <Link className="btn accept-scenario-btn check-profile-btn" to={`/reputation/1`}>
+        {/* I tried to put this link on the profile's name.. but can't get it to click on touch..
+            also we don't have the users id, without a seperate database query */}
+        <Link
+          className="btn scenario-footer-btn check-profile-btn"
+          to="/reputation/1"
+        >
           <Icon icon={faQuestionCircle} />
         </Link>
       </article>
