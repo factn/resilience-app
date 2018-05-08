@@ -18,13 +18,14 @@ import Database from "../resources/Database"
 import { getBase64 } from "../resources/Util"
 /*** [end of imports] ***/
 
-export default class DoerConfirmation extends Component {
+export default class Confirmation extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
       parentScenarioId: this.props.match.params.scenarioId || "1",
       scenarioId: null,
+      role: this.props.match.params.role || "doer",
       verb: this.props.match.params.verb || "fix",
       noun: this.props.match.params.noun || "roof",
       currentUser: Cookies.get("userId") || "1"

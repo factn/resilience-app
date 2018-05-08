@@ -44,7 +44,7 @@ export default class Notification extends Component {
     if (toLink) {
       return toLink
     } else if (!toLink && scenarioData) {
-      return `/${id}/doer/confirmation/${scenarioData.attributes.verb}/${
+      return `/${id}/requester/confirmation/${scenarioData.attributes.verb}/${
         scenarioData.attributes.noun
       }`
     }
@@ -75,9 +75,11 @@ export default class Notification extends Component {
 
     return (
       <section className={open ? "notification open" : "notification"}>
-        {id && this.buildScenario()}
+        <div className="notification-content">
+          Work has been done on your project! Can you help us verify it's been done correctly?
+        </div>
         <div className="button-row">
-          <Link className="btn view-btn" to={() => this.buildLink()}>
+          <Link className="btn view-btn" to={this.buildLink()}>
             View
           </Link>
           <button className="btn dismiss-btn" onClick={() => dismissal()}>
