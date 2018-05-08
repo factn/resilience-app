@@ -211,7 +211,7 @@ export default class Feed extends Component {
   }
 
   doerPageRoute = scenarioId => {
-    this.props.history.push(`/${scenarioId}/doer/Instructions`)
+    this.props.history.push(`/${scenarioId}/doer/instructions`)
   }
 
   render() {

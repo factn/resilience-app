@@ -75,7 +75,7 @@ export default class Confirmation extends Component {
   }
 
   submitConfirmation = params => {
-    const { scenarioId, parentScenarioId, currentUser } = this.state
+    const { scenarioId, parentScenarioId, currentUser, role } = this.state
     const imageString = getBase64(params.image)
 
     const json = {
@@ -107,9 +107,7 @@ export default class Confirmation extends Component {
         // const { data } = result.body
         // console.log("Proof successfully created:", data)
 
-        this.props.history.push(
-          `/${this.state.parentScenarioId}/doer/Instructions`
-        )
+        this.props.history.push(`/${parentScenarioId}/${role}/instructions`)
       })
       .catch(error => {
         // console.error("Error creating proof:", error)
@@ -117,6 +115,7 @@ export default class Confirmation extends Component {
   }
 
   render() {
+    const { role } = this.state
     let buttonObj = {
       labelPhrase: "Send Confirmation",
       clas: "footer-btn feed-btn",
@@ -133,6 +132,11 @@ export default class Confirmation extends Component {
     return (
       <Page clas="flow-page doer-flow-page">
         <Main>
+          <h2 className="confirmation-header">
+            {role === "doer"
+              ? "Help verify your work"
+              : "Verify the work is complete"}
+          </h2>
           <section className="session-settings">
             <header className="settings-header">
               <h3>Add a photo</h3>
