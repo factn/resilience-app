@@ -138,32 +138,21 @@ export default class Info extends Component {
       })
   }
 
-  createMiniList = list => {
-    let proofs = []
-    let rest = false
-
-    for (let scenario = 0, l = list.length; scenario < l; scenario++) {
-      if (proofs.length < 7) {
-        proofs.push({
-          item: list[scenario],
-          positive: Math.random() > 0.1 // TODO: currently random, will be scenario.attributes.is_complete
-        })
-      } else {
-        rest = true
-        break
-      }
-    }
+  createMiniList = proofs => {
     return (
       <div className="profile-proofs-wrap">
-        {proofs.map(proof => (
-          <div
-            key={proof.id}
-            className={proof.positive ? "proof positive" : "proof negative"}
-          >
-            <Icon icon={proof.positive ? faSmile : faFrown} />
-          </div>
-        ))}
-        <span className="hidden-indicator">{rest ? "..." : ""}</span>
+        {proofs &&
+          proofs.map(proof => {
+            let positive = Math.random() > 0.1 // TODO: currently random, will be scenario.attributes.is_complete
+            return (
+              <div
+                key={proof.id}
+                className={positive ? "proof positive" : "proof negative"}
+              >
+                <Icon icon={positive ? faSmile : faFrown} />
+              </div>
+            )
+          })}
       </div>
     )
   }
