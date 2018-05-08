@@ -20,29 +20,15 @@ export default class DoerFlow extends Component {
     super(props)
 
     this.state = {
-      timeFrame: "urgent", // "urgent" || "semi-urgent" || "important"
-      workFromHome: false,
       workAbroad: false,
       workDistance: 40,
       distanceMax: 100
     }
 
-    this.setTimeframe = this.setTimeframe.bind(this)
-    this.toggleWorkFromHome = this.toggleWorkFromHome.bind(this)
     this.toggleWorkAbroad = this.toggleWorkAbroad.bind(this)
     this.setWorkdistance = this.setWorkdistance.bind(this)
   }
 
-  setTimeframe = timeFrame => {
-    this.setState({
-      timeFrame
-    })
-  }
-  toggleWorkFromHome = () => {
-    this.setState({
-      workFromHome: !this.state.workFromHome
-    })
-  }
   toggleWorkAbroad = () => {
     this.setState({
       workAbroad: !this.state.workAbroad
@@ -60,8 +46,6 @@ export default class DoerFlow extends Component {
 
   render() {
     const {
-      timeFrame,
-      workFromHome,
       workAbroad,
       workDistance,
       distanceMax

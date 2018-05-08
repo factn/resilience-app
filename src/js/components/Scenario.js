@@ -51,7 +51,6 @@ export default class Scenario extends Component {
         opacity: 0,
         zIndex: 0
       },
-      upThreshold: -128,
       swipeThreshold: 128,
       transitionTiming: 100
     }
@@ -366,7 +365,7 @@ export default class Scenario extends Component {
     })
   }
   handleTouchMove = e => {
-    const { touchStartX, touchStartY, upThreshold, swipeThreshold } = this.state
+    const { touchStartX, touchStartY } = this.state
     const { first, previewDismissed } = this.props
 
     if (previewDismissed) {
@@ -387,7 +386,7 @@ export default class Scenario extends Component {
             })`
           },
           upStyle: {
-            opacity: yDif < upThreshold ? 1 : -yDif / -upThreshold * 0.5 + 0.5,
+            opacity: yDif < 1,
             zIndex: 5
           },
           leftStyle: {
@@ -416,8 +415,7 @@ export default class Scenario extends Component {
               zIndex: 0
             },
             leftStyle: {
-              opacity:
-                xDif > swipeThreshold ? 1 : xDif / swipeThreshold * 0.5 + 0.5,
+              opacity: 1,
               zIndex: 5
             },
             rightStyle: {
@@ -445,10 +443,7 @@ export default class Scenario extends Component {
               zIndex: 0
             },
             rightStyle: {
-              opacity:
-                xDif < -swipeThreshold
-                  ? 1
-                  : (-xDif < -swipeThreshold) * 0.5 + 0.5,
+              opacity: 1,
               zIndex: 5
             }
           })
@@ -462,8 +457,7 @@ export default class Scenario extends Component {
       touchStartY,
       lastTouchX,
       lastTouchY,
-      swipeThreshold,
-      upThreshold
+      swipeThreshold
     } = this.state
 
     let xDif = lastTouchX === 0 ? 0 : lastTouchX - touchStartX
@@ -471,11 +465,11 @@ export default class Scenario extends Component {
 
     // trying to avoid some false positives:
     let dist = Math.sqrt(xDif * xDif + yDif * yDif)
-    let largeMove = Math.abs(dist) >= Math.abs(upThreshold)
+    let largeMove = Math.abs(dist) >= swipeThreshold
     let isUpDown = Math.abs(yDif) > Math.abs(xDif)
 
     if (largeMove) {
-      if (isUpDown && yDif < upThreshold) {
+      if (isUpDown && yDif < swipeThreshold) {
         this.swipedUp()
       } else {
         if (touchStartX < lastTouchX) this.swipedRight()

@@ -5,7 +5,6 @@ import { Link } from "react-router-dom"
 
 // Local JS Utilities
 import Database from "../resources/Database"
-import { toFirstCap } from "../resources/Util"
 /*** [end of imports] ***/
 
 export default class Notification extends Component {
