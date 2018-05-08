@@ -26,10 +26,9 @@
     opacity: 0.25;
     filter: blur(2px);
   }
-  .accept-scenario-btn {
+  .scenario-footer-btn {
     position: absolute;
     bottom: -1rem;
-    right: 0.5rem;
     width: 2.25rem;
     height: 2.25rem;
     padding: 0.1875rem; // 3px
@@ -46,7 +45,9 @@
   }
   .check-profile-btn {
     left: 0.5rem;
-    
+  }
+  .accept-scenario-btn {
+    right: 0.5rem;
   }
   .pseudo-preview,
   .pseudo-up,

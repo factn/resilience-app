@@ -81,31 +81,29 @@ export default class DoerFlow extends Component {
             <article className="card trending-card">
               <h4 className="card-title">Description</h4>
               <div className="card-content">
-              <ul className="tag-list">
-                <li className="tag active-tag tag-button">#Painting</li>
-                <li className="tag active-tag tag-button">#Roofing</li>
-                <li className="tag inactive-tag tag-button">#Transport</li>
-                <li className="tag inactive-tag tag-button">#Coding</li>
-                <li className="tag inactive-tag tag-button">#FirstAid</li>
-                <li className="tag inactive-tag tag-button">#Childcare</li>
-              </ul>
+                <ul className="tag-list">
+                  <li className="tag active-tag tag-button">#Painting</li>
+                  <li className="tag active-tag tag-button">#Roofing</li>
+                  <li className="tag inactive-tag tag-button">#Transport</li>
+                  <li className="tag inactive-tag tag-button">#Coding</li>
+                  <li className="tag inactive-tag tag-button">#FirstAid</li>
+                  <li className="tag inactive-tag tag-button">#Childcare</li>
+                </ul>
               </div>
             </article>
-            <br/>
 
             <article className="card trending-card">
               <h4 className="card-title">Time Frame</h4>
               <ul className="tag-list">
-                  <li className="tag active-tag tag-button">#Urgent</li>
-                  <li className="tag active-tag tag-button">#Today</li>
-                  <li className="tag active-tag tag-button">#1-2Days</li>
-                  <li className="tag inactive-tag tag-button">#ThisWeek</li>
+                <li className="tag active-tag tag-button">#Urgent</li>
+                <li className="tag active-tag tag-button">#Today</li>
+                <li className="tag active-tag tag-button">#1-2Days</li>
+                <li className="tag inactive-tag tag-button">#ThisWeek</li>
               </ul>
             </article>
-            <br/>
 
             <article className="card">
-            <h4 className="card-title">Distance</h4>
+              <h4 className="card-title">Distance</h4>
               <div className="card-area location-city">
                 <div className="location-label">From</div>
                 <div className="location-current">Pearlington, MI</div>
@@ -115,8 +113,7 @@ export default class DoerFlow extends Component {
               </div>
 
               <div className="card-area home-and-abroad-toggle">
-
-              <div className="toggle-row">
+                <div className="toggle-row">
                   <div className="toggle-label">Max Travel</div>
                   <div
                     className={workAbroad ? "toggle on" : "toggle"}
@@ -128,34 +125,30 @@ export default class DoerFlow extends Component {
 
                 <div
                   className={
-                    (true)
+                    true
                       ? "card-area travel-distance"
                       : "card-area travel-distance disabled-card-area"
                   }
                 >
-                <label
-                  className="travel-range-label range-label"
-                  htmlFor="travelDistanceSlider"
-                >
-                  {workDistance} miles
-                </label>
-                <input
-                  type="range"
-                  className="range-slider"
-                  id="travelDistanceSlider"
-                  min="0"
-                  max={distanceMax}
-                  step="10"
-                  value={workDistance}
-                  onChange={e => this.setWorkdistance(e)}
-                  style={sliderStyle}
-                />
+                  <label
+                    className="travel-range-label range-label"
+                    htmlFor="travelDistanceSlider"
+                  >
+                    {workDistance} miles
+                  </label>
+                  <input
+                    type="range"
+                    className="range-slider"
+                    id="travelDistanceSlider"
+                    min="0"
+                    max={distanceMax}
+                    step="10"
+                    value={workDistance}
+                    onChange={e => this.setWorkdistance(e)}
+                    style={sliderStyle}
+                  />
+                </div>
               </div>
-
-
-              </div>
-
-
             </article>
           </SessionSetting>
         </Main>
