@@ -348,7 +348,7 @@ export default class Info extends Component {
               }
             }
 
-            if (detailDesc != "") {
+            if (detailDesc !== "") {
               if (hasShownDesc) {
                 detailDesc = ""
               }

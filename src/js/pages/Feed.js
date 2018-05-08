@@ -37,63 +37,66 @@ export default class Feed extends Component {
     }
   }
 
-  filterFeed = (result, offset) => {
-    // This function filters and sorts the missions into approriate feed order and count:
-    let data = result.body.data
-    let tosort = []
-    // First find all of the actual scenarios:
-    for (let dataIter in data) {
-      let r = data[dataIter]
-      let isValid = true
-      if (r.attributes.parent_scenario_id != null) {
+  filterFeed = (data, offset) => {
+    const { type } = this.state
+    let unsortedList = []
+    let sortedList = []
+    let current
+    let isFullyFunded
+    let isValid = true
+
+    for (let scenario = 0, l = data.length; scenario < l; scenario++) {
+      current = data[scenario]
+      isValid = true
+      isFullyFunded =
+        current.attributes.donated >= current.attributes.funding_goal
+
+      if (current.attributes.parent_scenario_id) {
         isValid = false
+      } else {
+        // TODO: ( use type === "donator"/"doer" ) to adjust who sees funded/unfunded projects
+        if (type === "donator") {
+          if (isFullyFunded) {
+            isValid = false
+          }
+        }
+        if (type === "doer") {
+          if (!isFullyFunded) {
+            isValid = false
+          }
+        }
+        if (type === "verifier") {
+          if (!current.attributes.is_complete) {
+            isValid = false
+          }
+        } else {
+          // for everyone other than verifiers, don't show completed missions:
+          if (current.attributes.is_complete) {
+            isValid = false
+          }
+        }
       }
 
-      // TODO: ( use type === "donator"/"doer" ) to adjust who sees funded/unfunded projects
-      let isFullyFunded =
-        1 * r.attributes.donated >= 1 * r.attributes.funding_goal
-      if (this.state.type == "donator") {
-        if (isFullyFunded) {
-          isValid = false
-        }
-      }
-      if (this.state.type == "doer") {
-        if (!isFullyFunded) {
-          isValid = false
-        }
-      }
-      if (this.state.type == "verifier") {
-        if (!r.attributes.is_complete) {
-          isValid = false
-        }
-      } else {
-        // for everyone other than verifiers, don't show completed missions:
-        if (r.attributes.is_complete) {
-          isValid = false
-        }
-      }
       if (isValid) {
-        tosort.push(r)
+        unsortedList.push(current)
       }
     }
-    // Now sort by date created: (TODO: sort by relevance and date):
-    tosort.sort(
+
+    unsortedList.sort(
       (a, b) =>
         Date.parse(b.attributes.created_at) -
         Date.parse(a.attributes.created_at)
     )
-    // Now put top three (after offset) into the results:
-    if (offset >= tosort.length) {
-      offset %= tosort.length
-    }
-    let betterList = []
-    for (let sortedIter in tosort) {
-      if (sortedIter >= offset && betterList.length < 3) {
-        betterList.push(tosort[sortedIter])
+
+    for (let scenario = offset; scenario < 3 + offset; scenario++) {
+      if (unsortedList.indexOf(scenario) > -1) {
+        sortedList.push(unsortedList[scenario])
+      } else {
+        break
       }
     }
-    // Replace the output list with this better list:
-    result.body.data = betterList
+
+    return sortedList
   }
 
   componentDidMount = () => {
@@ -103,13 +106,12 @@ export default class Feed extends Component {
   mountFeedScenarios = () => {
     Database.scenarioFeed()
       .then(result => {
-        this.filterFeed(result, 0)
         const { data } = result.body
         // console.info("Database call complete:", data)
 
         this.setState({
-          scenarioData: data,
-          cardsOnPage: data.length
+          scenarioData: this.filterFeed(data, 0),
+          cardsOnPage: 3
         })
       })
       .catch(error => {
@@ -144,7 +146,6 @@ export default class Feed extends Component {
     const {
       feedOffset,
       resultsOffset,
-      // scenarioData,
       perSwipeAmount,
       donatedTotal,
       cardsOnPage
@@ -154,14 +155,13 @@ export default class Feed extends Component {
     if (cardsOnPage === 1) {
       Database.nextInFeed()
         .then(result => {
-          this.filterFeed(result, resultsOffset + 3)
           const { data } = result.body
           // console.info("Next in feed call complete:", data)
 
           this.setState({
             feedOffset: 0,
             resultsOffset: resultsOffset + 3,
-            scenarioData: data,
+            scenarioData: this.filterFeed(data, resultsOffset + 3),
             cardsOnPage: 3
           })
           if (directionSwiped === "right") {
