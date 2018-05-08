@@ -18,12 +18,13 @@ export default class Notification extends Component {
   }
 
   getScenarioData = () => {
-    const { id } = this.props
-    if (id) {
-      Database.getScenario({ id })
+    const { childId } = this.props
+
+    if (childId) {
+      Database.getScenario({ id: childId })
         .then(result => {
           const { data } = result.body
-          console.info("Success getting scenario:", data)
+          // console.info("Success getting scenario:", data)
 
           this.setState({
             scenarioData: data
@@ -38,46 +39,36 @@ export default class Notification extends Component {
     }
   }
   buildLink = () => {
-    const { toLink, id } = this.props
+    const { toLink, parentId } = this.props
     const { scenarioData } = this.state
 
     if (toLink) {
       return toLink
     } else if (!toLink && scenarioData) {
-      return `/${id}/doer/confirmation/${scenarioData.attributes.verb}/${
-        scenarioData.attributes.noun
-      }`
+      return `/${parentId}/requester/confirmation/${
+        scenarioData.attributes.verb
+      }/${scenarioData.attributes.noun}`
     }
     return "/"
   }
-  buildScenario = () => {
-    if (this.state.scenarioData) {
-      const { doer_firstname, noun, verb } = this.state.scenarioData.attributes
-
-      return (
-        <div className="notification-content">
-          Can you verify that {toFirstCap(doer_firstname)} {verb}ed {noun}
-        </div>
-      )
-    } else {
-      return <span />
-    }
-  }
 
   render() {
-    const { open, dismissal, id } = this.props
+    const { open, dismissal, childId } = this.props
 
     // default to link will eventually go to confirm mission complete page from LION-86
 
-    if (id && !this.state.scenarioData) {
+    if (childId && !this.state.scenarioData) {
       this.getScenarioData()
     }
 
     return (
       <section className={open ? "notification open" : "notification"}>
-        {id && this.buildScenario()}
+        <div className="notification-content">
+          Work has been done on your project! Can you help us verify it's been
+          done correctly?
+        </div>
         <div className="button-row">
-          <Link className="btn view-btn" to={() => this.buildLink()}>
+          <Link className="btn view-btn" to={this.buildLink()}>
             View
           </Link>
           <button className="btn dismiss-btn" onClick={() => dismissal()}>

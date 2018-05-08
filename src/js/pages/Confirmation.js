@@ -18,13 +18,14 @@ import Database from "../resources/Database"
 import { getBase64 } from "../resources/Util"
 /*** [end of imports] ***/
 
-export default class DoerConfirmation extends Component {
+export default class Confirmation extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
       parentScenarioId: this.props.match.params.scenarioId || "1",
       scenarioId: null,
+      role: this.props.match.params.role || "doer",
       verb: this.props.match.params.verb || "fix",
       noun: this.props.match.params.noun || "roof",
       currentUser: Cookies.get("userId") || "1"
@@ -74,7 +75,7 @@ export default class DoerConfirmation extends Component {
   }
 
   submitConfirmation = params => {
-    const { scenarioId, parentScenarioId, currentUser } = this.state
+    const { scenarioId, parentScenarioId, currentUser, role } = this.state
     const imageString = getBase64(params.image)
 
     const json = {
@@ -106,9 +107,7 @@ export default class DoerConfirmation extends Component {
         // const { data } = result.body
         // console.log("Proof successfully created:", data)
 
-        this.props.history.push(
-          `/${this.state.parentScenarioId}/doer/Instructions`
-        )
+        this.props.history.push(`/${parentScenarioId}/${role}/instructions`)
       })
       .catch(error => {
         // console.error("Error creating proof:", error)
@@ -116,6 +115,7 @@ export default class DoerConfirmation extends Component {
   }
 
   render() {
+    const { role } = this.state
     let buttonObj = {
       labelPhrase: "Send Confirmation",
       clas: "footer-btn feed-btn",
@@ -132,6 +132,11 @@ export default class DoerConfirmation extends Component {
     return (
       <Page clas="flow-page doer-flow-page">
         <Main>
+          <h2 className="confirmation-header">
+            {role === "doer"
+              ? "Help verify your work"
+              : "Verify the work is complete"}
+          </h2>
           <section className="session-settings">
             <header className="settings-header">
               <h3>Add a photo</h3>

@@ -30,8 +30,8 @@ export default class Info extends Component {
 
     this.state = {
       scenarioId: this.props.match.params.scenarioId || 1,
-      role: this.props.match.params.role || "Info",
-      tab: this.props.match.params.tab || "Overview",
+      role: this.props.match.params.role || "info",
+      tab: this.props.match.params.tab || "overview",
       scenarioData: null,
       childrenScenarioData: null,
       buttonOverride: false,
@@ -235,20 +235,20 @@ export default class Info extends Component {
       return (
         <ul className="tab-list">
           <li
-            className={tab === "Overview" ? "tab-link active" : "tab-link"}
-            onClick={() => this.changeTab("Overview")}
+            className={tab === "overview" ? "tab-link active" : "tab-link"}
+            onClick={() => this.changeTab("overview")}
           >
             Overview
           </li>
           <li
-            className={tab === "Instructions" ? "tab-link active" : "tab-link"}
-            onClick={() => this.changeTab("Instructions")}
+            className={tab === "instructions" ? "tab-link active" : "tab-link"}
+            onClick={() => this.changeTab("instructions")}
           >
             Instructions
           </li>
           <li
-            className={tab === "Verifiers" ? "tab-link active" : "tab-link"}
-            onClick={() => this.changeTab("Verifiers")}
+            className={tab === "verifiers" ? "tab-link active" : "tab-link"}
+            onClick={() => this.changeTab("verifiers")}
           >
             Verifiers
           </li>
@@ -258,20 +258,20 @@ export default class Info extends Component {
       return (
         <ul className="tab-list">
           <li
-            className={tab === "Overview" ? "tab-link active" : "tab-link"}
-            onClick={() => this.changeTab("Overview")}
+            className={tab === "overview" ? "tab-link active" : "tab-link"}
+            onClick={() => this.changeTab("overview")}
           >
             Overview
           </li>
           <li
-            className={tab === "Instructions" ? "tab-link active" : "tab-link"}
-            onClick={() => this.changeTab("Instructions")}
+            className={tab === "instructions" ? "tab-link active" : "tab-link"}
+            onClick={() => this.changeTab("instructions")}
           >
             Instructions
           </li>
           <li
-            className={tab === "Updates" ? "tab-link active" : "tab-link"}
-            onClick={() => this.changeTab("Updates")}
+            className={tab === "updates" ? "tab-link active" : "tab-link"}
+            onClick={() => this.changeTab("updates")}
           >
             Updates
           </li>
@@ -348,7 +348,7 @@ export default class Info extends Component {
               }
             }
 
-            if (detailDesc != "") {
+            if (detailDesc !== "") {
               if (hasShownDesc) {
                 detailDesc = ""
               }
@@ -380,6 +380,7 @@ export default class Info extends Component {
   render() {
     if (this.state.scenarioData) {
       const {
+        scenarioId,
         scenarioData,
         role,
         tab,
@@ -423,7 +424,8 @@ export default class Info extends Component {
         <Page>
           <Notification
             open={notificationOpen}
-            id={notificationScenarioId}
+            parentId={scenarioId}
+            childId={notificationScenarioId}
             dismissal={() => {
               this.setState({
                 notificationOpen: false
@@ -492,7 +494,7 @@ export default class Info extends Component {
                 {this.tabs()}
                 <div className="tab-wrap scenario-tab-wrap">
                   <article
-                    className={tab === "Overview" ? "tab active" : "tab"}
+                    className={tab === "overview" ? "tab active" : "tab"}
                   >
                     <section className="scenario-subheader">
                       <div className="user-info">
@@ -525,7 +527,7 @@ export default class Info extends Component {
                     </section>
                   </article>
                   <article
-                    className={tab === "Instructions" ? "tab active" : "tab"}
+                    className={tab === "instructions" ? "tab active" : "tab"}
                   >
                     <header className="job-status-header">
                       <h4>
@@ -535,11 +537,11 @@ export default class Info extends Component {
                     </header>
                     {this.jobs()}
                   </article>
-                  <article className={tab === "Updates" ? "tab active" : "tab"}>
+                  <article className={tab === "updates" ? "tab active" : "tab"}>
                     Updates
                   </article>
                   <article
-                    className={tab === "Verifiers" ? "tab active" : "tab"}
+                    className={tab === "verifiers" ? "tab active" : "tab"}
                   >
                     Verifiers
                   </article>

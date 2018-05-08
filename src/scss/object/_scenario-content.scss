@@ -55,7 +55,7 @@
 }
 .scenario-content-image-caption {
   position: absolute;
-  bottom: 0;
+  bottom: -1.25rem;
   right: 1rem;
   z-index: 2;
   .back-btn {
@@ -126,6 +126,7 @@
   .do-job-btn {
     min-width: 4rem;
     margin-top: -1.35rem;
+    padding: 0.25rem;
   }
 }
 
