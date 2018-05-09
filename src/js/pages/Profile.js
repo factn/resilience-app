@@ -142,16 +142,20 @@ export default class Info extends Component {
     return (
       <div className="profile-proofs-wrap">
         {proofs &&
-          proofs.map(proof => {
-            let positive = Math.random() > 0.1 // TODO: currently random, will be scenario.attributes.is_complete
-            return (
-              <div
-                key={proof.id}
-                className={positive ? "proof positive" : "proof negative"}
-              >
-                <Icon icon={positive ? faSmile : faFrown} />
-              </div>
-            )
+          proofs.map((proof, index) => {
+            if (index < 9) {
+              let positive = Math.random() > 0.1 // TODO: currently random, will be scenario.attributes.is_complete
+              return (
+                <div
+                  key={proof.id}
+                  className={positive ? "proof positive" : "proof negative"}
+                >
+                  <Icon icon={positive ? faSmile : faFrown} />
+                </div>
+              )
+            } else if (index === 9) {
+              return <span className="rest">...</span>
+            }
           })}
       </div>
     )
