@@ -1,46 +1,16 @@
 /*** IMPORTS ***/
 // Module imports
 import React, { Component } from "react"
+import Icon from "@fortawesome/react-fontawesome"
+import { faArrowRight } from "@fortawesome/fontawesome-free-solid";
 
 // Components
 import Stars from "./Stars"
-
-// Local JS Utilities
-import Database from "../resources/Database"
 /*** [end of imports] ***/
 
 export default class MissionComplete extends Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      scenarioData: null
-    }
-  }
-
-  getScenarioData = () => {
-    const { parentId } = this.props
-
-    Database.getScenario({ id: parentId })
-      .then(result => {
-        const { data } = result.body
-        // console.info("Success getting scenario:", data)
-
-        this.setState({
-          scenarioData: data
-        })
-      })
-      .catch(error => {
-        // console.error("Error getting scenarios:", error)
-        this.setState({
-          scenarioData: null
-        })
-      })
-  }
-
   render() {
-    const { open, dismiss } = this.props
-    console.log(this.state.scenarioData)
+    const { open, dismiss, beforeImage, afterImage } = this.props
 
     return (
       <section
@@ -53,6 +23,23 @@ export default class MissionComplete extends Component {
       >
         <Stars />
         <h2>We did it!</h2>
+        <div className="before-and-after-wrap">
+          <figure className="before-image-wrap image-wrap">
+            <img src={beforeImage || ""} alt="Before" className="image before-image"/>
+            <figcaption className="image-caption before-image-caption">
+              <div className="caption-label">Before</div>
+            </figcaption>
+          </figure>
+          <figure className="after-image-wrap image-wrap">
+            <img src={afterImage || ""} alt="After" className="image after-image"/>
+            <figcaption className="image-caption after-image-caption">
+              <div className="caption-label">After</div>
+            </figcaption>
+          </figure>
+        </div>
+        <div className="from-to-icon">
+          <Icon icon={faArrowRight} />
+        </div>
         <h3>You just made a huge difference</h3>
         <div className="social-share-area">
           <div className="social-share-label">Tell your friends:</div>

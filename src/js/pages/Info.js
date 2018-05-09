@@ -470,8 +470,8 @@ export default class Info extends Component {
             }}
           />
           <MissionComplete
-            parentId={scenarioId}
-            childId={notificationScenarioId}
+            beforeImage={scenarioData.attributes.image}
+            afterImage={scenarioData.attributes.image}
             open={overlayOpen}
             dismiss={this.dismissOverlay}
           />
