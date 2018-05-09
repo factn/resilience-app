@@ -161,10 +161,6 @@ export default class Info extends Component {
     )
   }
 
-  toggleArticle = section => {
-    // TODO
-  }
-
   render() {
     const {
       currentUserData,
@@ -279,67 +275,27 @@ export default class Info extends Component {
               <article className="profile-article">
                 <header className="profile-article-header">
                   <h4>Honey</h4>
-                  <Icon className="profile-icon" icon="caret-down" />
                 </header>
               </article>
               <article className="profile-article">
-                <header
-                  className="profile-article-header"
-                  onClick={() => this.toggleArticle("donations")}
-                >
+                <header className="profile-article-header">
                   <h4>
                     Donations ({userDonations ? userDonations.length : 0})
                   </h4>
-                  <Icon className="profile-icon" icon="caret-down" />
                 </header>
                 {userDonations && this.createMiniList(userDonations)}
-                {/* {userDonations && (
-                      <div className="profile-content-wrap">
-                        {userDonations.map(scenario => (
-                          <MiniScenario
-                            key={scenario.id}
-                            id={scenario.id}
-                            {...scenario.attributes}
-                          />
-                        ))}
-                      </div>
-                    )} */}
               </article>
               <article className="profile-article">
                 <header className="profile-article-header">
                   <h4>Tasks ({userDos ? userDos.length : 0})</h4>
-                  <Icon className="profile-icon" icon="caret-down" />
                 </header>
                 {userDos && this.createMiniList(userDos)}
-                {/* {userDos && (
-                      <div className="profile-content-wrap">
-                        {userDos.map(scenario => (
-                          <MiniScenario
-                            key={scenario.id}
-                            id={scenario.id}
-                            {...scenario.attributes}
-                          />
-                        ))}
-                      </div>
-                    )} */}
               </article>
               <article className="profile-article">
                 <header className="profile-article-header">
                   <h4>Requests ({userRequests ? userRequests.length : 0})</h4>
-                  <Icon className="profile-icon" icon="caret-down" />
                 </header>
                 {userRequests && this.createMiniList(userRequests)}
-                {/* {userRequests && (
-                      <div className="profile-content-wrap">
-                        {userRequests.map(scenario => (
-                          <MiniScenario
-                            key={scenario.id}
-                            id={scenario.id}
-                            {...scenario.attributes}
-                          />
-                        ))}
-                      </div>
-                    )} */}
               </article>
               <article className="profile-article">
                 <header className="profile-article-header">
@@ -348,20 +304,8 @@ export default class Info extends Component {
                       ? userVerifications.length
                       : 0})
                   </h4>
-                  <Icon className="profile-icon" icon="caret-down" />
                 </header>
                 {userVerifications && this.createMiniList(userVerifications)}
-                {/* {userVerifications && (
-                      <div className="profile-content-wrap">
-                        {userVerifications.map(scenario => (
-                          <MiniScenario
-                            key={scenario.id}
-                            id={scenario.id}
-                            {...scenario.attributes}
-                          />
-                        ))}
-                      </div>
-                    )} */}
               </article>
             </section>
           )}
