@@ -208,11 +208,11 @@ export default class Feed extends Component {
           })
           if (directionSwiped === "right") {
             this.setState({
-              donatedTotal: donatedTotal + perSwipeAmount
+              donatedTotal: parseInt(donatedTotal) + parseInt(perSwipeAmount)
             })
           } else if (directionSwiped === "up") {
             this.setState({
-              donatedTotal: donatedTotal + fullFundAmount,
+              donatedTotal: parseInt(donatedTotal) + parseInt(fullFundAmount),
               overlayOpen: true
             })
           }
@@ -231,11 +231,11 @@ export default class Feed extends Component {
       })
       if (directionSwiped === "right") {
         this.setState({
-          donatedTotal: donatedTotal + perSwipeAmount
+          donatedTotal: parseInt(donatedTotal) + parseInt(perSwipeAmount)
         })
       } else if (directionSwiped === "up") {
         this.setState({
-          donatedTotal: donatedTotal + fullFundAmount,
+          donatedTotal: parseInt(donatedTotal) + parseInt(fullFundAmount),
           overlayOpen: true
         })
       }
@@ -284,13 +284,15 @@ export default class Feed extends Component {
           <Footer>
             <div className="footer-left">
               <div className="dollar-amount">
-                {sessionTotal ? moneyfy(sessionTotal) : "0"}
+                {sessionTotal && sessionTotal - donatedTotal > 0
+                  ? moneyfy(sessionTotal - donatedTotal)
+                  : "$0"}
               </div>
               <h4 className="dollar-amount-label">To spend</h4>
             </div>
             <div className="footer-right">
               <div className="dollar-amount">
-                {donatedTotal ? moneyfy(donatedTotal) : "0"}
+                {donatedTotal ? moneyfy(donatedTotal) : "$0"}
               </div>
               <h4 className="dollar-amount-label">Donated</h4>
             </div>
