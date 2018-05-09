@@ -97,6 +97,49 @@ export default class Feed extends Component {
 
     return result
   }
+  feedScenario = params => {
+    const { feedOffset, previewDismissed, type, perSwipeAmount } = this.state
+    const { scenario, index } = params
+
+    if (index === feedOffset) {
+      return (
+        <Scenario
+          key={scenario.id}
+          scenario={scenario}
+          first
+          nextItem={this.nextItem}
+          previewDismissed={previewDismissed}
+          dismissPreview={this.dismissPreview}
+          feedType={type}
+          standardAmount={perSwipeAmount}
+          doerPageRoute={() => this.doerPageRoute(scenario.id)}
+        />
+      )
+    } else if (index === feedOffset + 1) {
+      return (
+        <Scenario
+          key={scenario.id}
+          scenario={scenario}
+          second
+          nextItem={this.nextItem}
+          previewDismissed={previewDismissed}
+          dismissPreview={this.dismissPreview}
+          feedType={type}
+          standardAmount={perSwipeAmount}
+          doerPageRoute={this.doerPageRoute}
+        />
+      )
+    } else if (index > feedOffset + 1) {
+      return (
+        <Scenario
+          key={scenario.id}
+          scenario={scenario}
+          feedType={type}
+          doerPageRoute={this.doerPageRoute}
+        />
+      )
+    }
+  }
 
   componentDidMount = () => {
     this.mountFeedScenarios()
@@ -216,12 +259,9 @@ export default class Feed extends Component {
   render() {
     const {
       scenarioData,
-      feedOffset,
-      previewDismissed,
       type,
       sessionTotal,
       donatedTotal,
-      perSwipeAmount,
       overlayOpen
     } = this.state
 
@@ -231,46 +271,9 @@ export default class Feed extends Component {
         <Main>
           <section className={`scenario-feed-wrap ${type}-feed-wrap`}>
             {scenarioData ? (
-              scenarioData.map((scenario, index) => {
-                if (index === feedOffset) {
-                  return (
-                    <Scenario
-                      key={scenario.id}
-                      scenario={scenario}
-                      first
-                      nextItem={this.nextItem}
-                      previewDismissed={previewDismissed}
-                      dismissPreview={this.dismissPreview}
-                      feedType={type}
-                      standardAmount={perSwipeAmount}
-                      doerPageRoute={() => this.doerPageRoute(scenario.id)}
-                    />
-                  )
-                } else if (index === feedOffset + 1) {
-                  return (
-                    <Scenario
-                      key={scenario.id}
-                      scenario={scenario}
-                      second
-                      nextItem={this.nextItem}
-                      previewDismissed={previewDismissed}
-                      dismissPreview={this.dismissPreview}
-                      feedType={type}
-                      standardAmount={perSwipeAmount}
-                      doerPageRoute={this.doerPageRoute}
-                    />
-                  )
-                } else if (index > feedOffset + 1) {
-                  return (
-                    <Scenario
-                      key={scenario.id}
-                      scenario={scenario}
-                      feedType={type}
-                      doerPageRoute={this.doerPageRoute}
-                    />
-                  )
-                }
-              })
+              scenarioData.map((scenario, index) =>
+                this.feedScenario({ scenario, index })
+              )
             ) : (
               <Loader />
             )}

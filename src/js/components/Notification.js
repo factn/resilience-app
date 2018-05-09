@@ -5,7 +5,6 @@ import { Link } from "react-router-dom"
 
 // Local JS Utilities
 import Database from "../resources/Database"
-import { toFirstCap } from "../resources/Util"
 /*** [end of imports] ***/
 
 export default class Notification extends Component {
@@ -64,8 +63,8 @@ export default class Notification extends Component {
     return (
       <section className={open ? "notification open" : "notification"}>
         <div className="notification-content">
-          Work has been done on your project! Can you help us verify it's been
-          done correctly?
+          <div>Work has been done on your project!</div>
+          <div>Help us verify it's been done correctly.</div>
         </div>
         <div className="button-row">
           <Link className="btn view-btn" to={this.buildLink()}>

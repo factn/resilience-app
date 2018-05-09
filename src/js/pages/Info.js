@@ -18,6 +18,7 @@ import Loader from "../components/Loader"
 import MiniMap from "../components/MiniMap"
 import Footer from "../components/Footer"
 import Notification from "../components/Notification"
+import MissionComplete from "../components/MissionComplete"
 
 // Local JS Utilities
 import Database from "../resources/Database"
@@ -42,6 +43,8 @@ export default class Info extends Component {
       initialJobState: {},
       notificationScenarioId: null,
       notificationOpen: false,
+      missionComplete: false,
+      overlayOpen: false,
       dataRefreshRate: 5000 // Every 5 seconds check for map pin changes
     }
   }
@@ -63,6 +66,7 @@ export default class Info extends Component {
           this.setChildrenScenarioData(
             result.body.data.relationships.children_scenario.data
           )
+          this.checkForMissionComplete()
 
           invalidateRequests(Database.getScenario)
         })
@@ -87,17 +91,22 @@ export default class Info extends Component {
       Database.getScenarioWithProofs({ id: id })
         .then(result => {
           const { data } = result.body
-          const { is_complete } = data.attributes
-          let tmp = this.state.initialJobState
+          const { verb, noun, is_complete } = data.attributes
+          const { initialJobState } = this.state
+          let tmp = initialJobState
 
           // console.info("Success getting child scenario:", data)
 
           childrenScenarioData[id] = data
           completedChildren++
 
-          if (typeof this.state.initialJobState[id] !== "undefined") {
-            if (is_complete !== this.state.initialJobState[id]) {
-              tmp[id] = is_complete
+          if (typeof initialJobState[id] !== "undefined") {
+            if (is_complete !== initialJobState[id].complete) {
+              tmp[id] = {
+                verb: verb,
+                noun: noun,
+                complete: is_complete
+              }
               this.setState({
                 initialJobState: tmp,
                 notificationOpen: true,
@@ -105,7 +114,11 @@ export default class Info extends Component {
               })
             }
           } else {
-            tmp[id] = is_complete
+            tmp[id] = {
+              verb: verb,
+              noun: noun,
+              complete: is_complete
+            }
             this.setState({
               initialJobState: tmp
             })
@@ -376,6 +389,28 @@ export default class Info extends Component {
       </Fragment>
     )
   }
+  checkForMissionComplete = () => {
+    const { initialJobState, missionComplete } = this.state
+    let completeCount = 0
+
+    for (let job in initialJobState) {
+      if (initialJobState[job].complete) {
+        completeCount++
+      }
+    }
+
+    if (completeCount >= 4 && !missionComplete) {
+      this.setState({
+        missionComplete: true,
+        overlayOpen: true
+      })
+    }
+  }
+  dismissOverlay = () => {
+    this.setState({
+      overlayOpen: false
+    })
+  }
 
   render() {
     if (this.state.scenarioData) {
@@ -385,8 +420,10 @@ export default class Info extends Component {
         role,
         tab,
         notificationOpen,
-        notificationScenarioId
+        notificationScenarioId,
+        overlayOpen
       } = this.state
+
       const {
         event,
         image,
@@ -432,6 +469,7 @@ export default class Info extends Component {
               })
             }}
           />
+          <MissionComplete open={overlayOpen} dismiss={this.dismissOverlay} />
           <Main>
             <div className={`scenario-content-wrap ${role}-scenario-content`}>
               {role === "requester" && (

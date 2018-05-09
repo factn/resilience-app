@@ -2,8 +2,6 @@
 // Module imports
 import React, { Component } from "react"
 import Cookies from "js-cookie"
-import Icon from "@fortawesome/react-fontawesome"
-import { faChevronRight } from "@fortawesome/fontawesome-free-solid"
 
 // Page elements
 import Page from "./Page"
