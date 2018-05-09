@@ -14,7 +14,7 @@ import fixedRoof from "../../img/fixed-roof.jpg"
 
 export default class MissionComplete extends Component {
   render() {
-    const { open, dismiss, beforeImage, afterImage } = this.props
+    const { open, dismiss, beforeImage } = this.props
 
     return (
       <section

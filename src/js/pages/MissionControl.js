@@ -21,35 +21,11 @@ export default class MissionControl extends Component {
       role: this.props.match.params.role || "Missions",
       tab: this.props.match.params.tab || "Donating",
       userId: Cookies.get("userId") || 1,
-      userDonations: null,
       userDos: null
     }
   }
 
   componentDidMount = () => {
-    this.userDonationsMount()
-    this.userDosMount()
-  }
-  userDonationsMount = () => {
-    const json = { id: this.state.userId }
-
-    Database.getUserDonations(json)
-      .then(result => {
-        const { data } = result.body
-        // console.info("Donations call complete:", data)
-
-        this.setState({
-          userDonations: data
-        })
-      })
-      .catch(error => {
-        // console.error("Error getting donations:", error)
-        this.setState({
-          userDonations: null
-        })
-      })
-  }
-  userDosMount = () => {
     const json = { id: this.state.userId }
 
     Database.getUserDos(json)

@@ -30,8 +30,8 @@ export default class Feed extends Component {
       userId: Cookies.get("userId") || 1,
       previewDismissed: false,
       type: this.props.match.params.type || 1,
-      sessionTotal: null,
-      perSwipeAmount: null,
+      default_total_session_donation: null,
+      default_swipe_donation: null,
       donatedTotal: 0.0,
       overlayOpen: false
     }
@@ -98,7 +98,12 @@ export default class Feed extends Component {
     return result
   }
   feedScenario = params => {
-    const { feedOffset, previewDismissed, type, perSwipeAmount } = this.state
+    const {
+      feedOffset,
+      previewDismissed,
+      type,
+      default_swipe_donation
+    } = this.state
     const { scenario, index } = params
 
     if (index === feedOffset) {
@@ -111,7 +116,7 @@ export default class Feed extends Component {
           previewDismissed={previewDismissed}
           dismissPreview={this.dismissPreview}
           feedType={type}
-          standardAmount={perSwipeAmount}
+          standardAmount={default_swipe_donation}
           doerPageRoute={() => this.doerPageRoute(scenario.id)}
         />
       )
@@ -125,7 +130,7 @@ export default class Feed extends Component {
           previewDismissed={previewDismissed}
           dismissPreview={this.dismissPreview}
           feedType={type}
-          standardAmount={perSwipeAmount}
+          standardAmount={default_swipe_donation}
           doerPageRoute={this.doerPageRoute}
         />
       )
@@ -168,18 +173,22 @@ export default class Feed extends Component {
   mountUserData = () => {
     Database.getUserById({ id: this.state.userId })
       .then(result => {
-        // console.log("User successfully found:", result)
+        const {
+          default_total_session_donation,
+          default_swipe_donation
+        } = result.body.data.attributes
+        // console.log("User successfully found:", result.body.data)
+
         this.setState({
-          sessionTotal:
-            result.body.data.attributes.default_total_session_donation,
-          perSwipeAmount: result.body.data.attributes.default_swipe_donation
+          default_total_session_donation,
+          default_swipe_donation
         })
       })
       .catch(error => {
         // console.error("Error getting user:", error)
         this.setState({
-          sessionTotal: null,
-          perSwipeAmount: null
+          default_total_session_donation: null,
+          default_swipe_donation: null
         })
       })
   }
@@ -188,7 +197,7 @@ export default class Feed extends Component {
     const {
       feedOffset,
       resultsOffset,
-      perSwipeAmount,
+      default_swipe_donation,
       donatedTotal,
       cardsOnPage
     } = this.state
@@ -209,7 +218,8 @@ export default class Feed extends Component {
           if (directionSwiped === "right") {
             this.setState({
               donatedTotal:
-                parseInt(donatedTotal, 10) + parseInt(perSwipeAmount, 10)
+                parseInt(donatedTotal, 10) +
+                parseInt(default_swipe_donation, 10)
             })
           } else if (directionSwiped === "up") {
             this.setState({
@@ -234,7 +244,7 @@ export default class Feed extends Component {
       if (directionSwiped === "right") {
         this.setState({
           donatedTotal:
-            parseInt(donatedTotal, 10) + parseInt(perSwipeAmount, 10)
+            parseInt(donatedTotal, 10) + parseInt(default_swipe_donation, 10)
         })
       } else if (directionSwiped === "up") {
         this.setState({
@@ -275,7 +285,7 @@ export default class Feed extends Component {
     const {
       scenarioData,
       type,
-      sessionTotal,
+      default_total_session_donation,
       donatedTotal,
       overlayOpen
     } = this.state
@@ -299,8 +309,9 @@ export default class Feed extends Component {
           <Footer>
             <div className="footer-left">
               <div className="dollar-amount">
-                {sessionTotal && sessionTotal - donatedTotal > 0
-                  ? moneyfy(sessionTotal - donatedTotal)
+                {default_total_session_donation &&
+                default_total_session_donation - donatedTotal > 0
+                  ? moneyfy(default_total_session_donation - donatedTotal)
                   : "$0"}
               </div>
               <h4 className="dollar-amount-label">To spend</h4>

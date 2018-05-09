@@ -17,10 +17,6 @@ export default class Header extends Component {
         label: "Get Help",
         link: "/requester"
       },
-      // {
-      //   label: "Stories",
-      //   link: "/"
-      // },
       {
         label: "Profile",
         link: "/profile"
