@@ -26,6 +26,7 @@ import FBVerify from "./js/pages/FBVerify"
 //  - Account
 import Login from "./js/pages/Login"
 import Profile from "./js/pages/Profile"
+import Reputation from "./js/pages/Reputation"
 import MissionControl from "./js/pages/MissionControl"
 
 //  - Info Pages
@@ -59,7 +60,7 @@ export default class App extends Component {
           {/* Account */}
           <Route path="/login" component={Login} />
           <Route path="/profile" component={Profile} />
-          <Route path="/reputation/:otherUserId" exact component={Profile} />
+          <Route path="/reputation/:otherUserId" exact component={Reputation} />
           <Route path="/account" exact component={Account} />
           <Route path="/account/confirm-facebook" exact component={FBConfirm} />
           <Route path="/account/verify-facebook" exact component={FBVerify} />
