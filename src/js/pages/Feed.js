@@ -195,7 +195,7 @@ export default class Feed extends Component {
     const { directionSwiped, fullFundAmount } = params
 
     if (cardsOnPage === 1) {
-      Database.nextInFeed()
+      Database.scenarioFeed()
         .then(result => {
           const { data } = result.body
           // console.info("Next in feed call complete:", data)

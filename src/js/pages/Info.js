@@ -301,9 +301,8 @@ export default class Info extends Component {
         {childrenScenarioData &&
           Object.entries(childrenScenarioData).map(([key, childScenario]) => {
             const { noun, verb, is_complete } = childScenario.attributes
-            let label,
-              button,
-              detailDesc = ""
+            let label
+            let detailDesc = ""
 
             if (noun === "materials" && verb === "get") {
               if (is_complete) {
@@ -368,20 +367,14 @@ export default class Info extends Component {
               hasShownDesc = true
             }
 
-            if (is_complete) {
-              button = (
-                <div className="done-job-icon">
-                  <Icon icon={faCheck} />
-                </div>
-              )
-            } else {
-              button = <button className="btn btn-lite do-job-btn">Yes</button>
-            }
-
             return (
               <div className="card job-card" key={key}>
                 <div className="card-label">{label}</div>
-                {button}
+                {is_complete && (
+                  <div className="done-job-icon">
+                    <Icon icon={faCheck} />
+                  </div>
+                )}
                 {detailDesc}
               </div>
             )
@@ -585,9 +578,7 @@ export default class Info extends Component {
                   </article>
                   <article
                     className={tab === "verifiers" ? "tab active" : "tab"}
-                  >
-                    Verifiers
-                  </article>
+                  />
                 </div>
               </section>
 

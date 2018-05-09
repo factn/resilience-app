@@ -114,11 +114,7 @@ const apiEndpoints = {
 	},
 	scenarioFeed: {
 		method: get,
-		path: "/scenarios?sort=-parent_scenario_id,-created_at" 
-	},
-	nextInFeed: {
-		method: get,
-		path: "/scenarios?sort=-parent_scenario_id,-created_at"
+		path: "/scenarios?sort=-parent_scenario_id,-created_at&page[limit]=21" 
 	},
 	getScenario: {
 		method: get,
@@ -226,18 +222,20 @@ const apiEndpoints = {
 	}
 }
 
-let baseUrl
+// Removing the test URL for the demo. This will go back in, but we're close enough that we should be able to use the live database
 
-if (window.location.hostname === "localhost") {
-	console.log("localhost detected, using dev URL")
-	baseUrl = "http://localhost:4000"
-} else {
-	console.info("Live site, using production database")
-	baseUrl = "https://lion-uat.herokuapp.com"
-}
+// let baseUrl
+
+// if (window.location.hostname === "localhost") {
+// 	console.log("Local host detected, using dev URL")
+// 	baseUrl = "http://localhost:4000"
+// } else {
+// 	console.info("Live site, using production database")
+// 	baseUrl = "https://lion-uat.herokuapp.com"
+// }
 
 const config = {
-	baseUrl: baseUrl
+	baseUrl: "https://lion-uat.herokuapp.com" // baseUrl
 }
 
 export default buildApi(apiEndpoints, config)

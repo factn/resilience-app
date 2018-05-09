@@ -9,8 +9,11 @@ textarea {
   max-width: 100%;
   padding: 0.125rem 0.25rem;
   background: rgba($black, 0.1);
-  font-family: "Lato", arial, sans-serif;
   border: 0.0625em solid $orange;
+  font: {
+    size: 1rem;
+    family: "Lato", arial, sans-serif;
+  }
   transition: {
     property: background, border-color;
     duration: $fast;
