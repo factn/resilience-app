@@ -5,12 +5,12 @@ import Icon from "@fortawesome/react-fontawesome"
 import { faStar } from "@fortawesome/fontawesome-free-solid"
 /*** [end of imports] ***/
 
-export default class Thanks extends Component {
+export default class MissionComplete extends Component {
   render() {
     const { open, dismiss } = this.props
     return (
       <section
-        className={open ? "modal thank-you-modal open" : "modal thank-you-modal"}
+        className={open ? "modal mission-complete-modal open" : "modal mission-complete-modal"}
         onClick={() => dismiss()}
       >
         <div className="stars">
@@ -20,7 +20,7 @@ export default class Thanks extends Component {
           <Icon className="star" icon={faStar} />
           <Icon className="star" icon={faStar} />
         </div>
-        <h2>Thanks!</h2>
+        <h2>We did it!</h2>
         <h3>You just made a huge difference</h3>
         <div className="social-share-area">
           <div className="social-share-label">Tell your friends:</div>

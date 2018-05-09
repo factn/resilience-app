@@ -63,8 +63,8 @@ export default class Notification extends Component {
     return (
       <section className={open ? "notification open" : "notification"}>
         <div className="notification-content">
-          Work has been done on your project! Can you help us verify it's been
-          done correctly?
+          <div>Work has been done on your project!</div>
+          <div>Help us verify it's been done correctly.</div>
         </div>
         <div className="button-row">
           <Link className="btn view-btn" to={this.buildLink()}>
