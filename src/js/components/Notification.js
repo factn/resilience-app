@@ -43,10 +43,11 @@ export default class Notification extends Component {
 
     if (toLink) {
       return toLink
-    } else if (!toLink && scenarioData) {
-      return `/${parentId}/requester/confirmation/${
-        scenarioData.attributes.verb
-      }/${scenarioData.attributes.noun}`
+    } else {
+      if (scenarioData) {
+        const { verb, noun } = scenarioData.attributes
+        return `/${parentId}/requester/confirmation/${verb}/${noun}`
+      }
     }
     return "/"
   }

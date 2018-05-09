@@ -142,23 +142,23 @@ export default class Info extends Component {
     return (
       <div className="profile-proofs-wrap">
         {proofs &&
-          proofs.map(proof => {
-            let positive = Math.random() > 0.1 // TODO: currently random, will be scenario.attributes.is_complete
-            return (
-              <div
-                key={proof.id}
-                className={positive ? "proof positive" : "proof negative"}
-              >
-                <Icon icon={positive ? faSmile : faFrown} />
-              </div>
-            )
+          proofs.map((proof, index) => {
+            if (index < 9) {
+              let positive = Math.random() > 0.1 // TODO: currently random, will be scenario.attributes.is_complete
+              return (
+                <div
+                  key={proof.id}
+                  className={positive ? "proof positive" : "proof negative"}
+                >
+                  <Icon icon={positive ? faSmile : faFrown} />
+                </div>
+              )
+            } else if (index === 9) {
+              return <span className="rest">...</span>
+            }
           })}
       </div>
     )
-  }
-
-  toggleArticle = section => {
-    // TODO
   }
 
   render() {
@@ -275,67 +275,27 @@ export default class Info extends Component {
               <article className="profile-article">
                 <header className="profile-article-header">
                   <h4>Honey</h4>
-                  <Icon className="profile-icon" icon="caret-down" />
                 </header>
               </article>
               <article className="profile-article">
-                <header
-                  className="profile-article-header"
-                  onClick={() => this.toggleArticle("donations")}
-                >
+                <header className="profile-article-header">
                   <h4>
                     Donations ({userDonations ? userDonations.length : 0})
                   </h4>
-                  <Icon className="profile-icon" icon="caret-down" />
                 </header>
                 {userDonations && this.createMiniList(userDonations)}
-                {/* {userDonations && (
-                      <div className="profile-content-wrap">
-                        {userDonations.map(scenario => (
-                          <MiniScenario
-                            key={scenario.id}
-                            id={scenario.id}
-                            {...scenario.attributes}
-                          />
-                        ))}
-                      </div>
-                    )} */}
               </article>
               <article className="profile-article">
                 <header className="profile-article-header">
                   <h4>Tasks ({userDos ? userDos.length : 0})</h4>
-                  <Icon className="profile-icon" icon="caret-down" />
                 </header>
                 {userDos && this.createMiniList(userDos)}
-                {/* {userDos && (
-                      <div className="profile-content-wrap">
-                        {userDos.map(scenario => (
-                          <MiniScenario
-                            key={scenario.id}
-                            id={scenario.id}
-                            {...scenario.attributes}
-                          />
-                        ))}
-                      </div>
-                    )} */}
               </article>
               <article className="profile-article">
                 <header className="profile-article-header">
                   <h4>Requests ({userRequests ? userRequests.length : 0})</h4>
-                  <Icon className="profile-icon" icon="caret-down" />
                 </header>
                 {userRequests && this.createMiniList(userRequests)}
-                {/* {userRequests && (
-                      <div className="profile-content-wrap">
-                        {userRequests.map(scenario => (
-                          <MiniScenario
-                            key={scenario.id}
-                            id={scenario.id}
-                            {...scenario.attributes}
-                          />
-                        ))}
-                      </div>
-                    )} */}
               </article>
               <article className="profile-article">
                 <header className="profile-article-header">
@@ -344,20 +304,8 @@ export default class Info extends Component {
                       ? userVerifications.length
                       : 0})
                   </h4>
-                  <Icon className="profile-icon" icon="caret-down" />
                 </header>
                 {userVerifications && this.createMiniList(userVerifications)}
-                {/* {userVerifications && (
-                      <div className="profile-content-wrap">
-                        {userVerifications.map(scenario => (
-                          <MiniScenario
-                            key={scenario.id}
-                            id={scenario.id}
-                            {...scenario.attributes}
-                          />
-                        ))}
-                      </div>
-                    )} */}
               </article>
             </section>
           )}

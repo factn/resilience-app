@@ -2,30 +2,49 @@
 // Module imports
 import React, { Component } from "react"
 import Icon from "@fortawesome/react-fontawesome"
-import { faCamera } from "@fortawesome/fontawesome-free-solid"
+import { faCamera, faCheckCircle } from "@fortawesome/fontawesome-free-solid"
 
 // Local JS
 import { prepareFileReader } from "../../resources/Util"
 /*** [end of imports] ***/
 
 export default class File extends Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      photoInField: false
+    }
+  }
+
+  photoObjectChange = () => {
+    this.setState({
+      photoInField: true
+    })
+    prepareFileReader(document.getElementById("photo").files[0])
+  }
+
   render() {
+    const { photoInField } = this.state
+
     return (
       <article className="photo-card">
-        <div className="photo-icon">
-          <Icon icon={faCamera} />
-        </div>
+        {photoInField ? (
+          <div className="photo-icon">
+            <Icon icon={faCheckCircle} />
+          </div>
+        ) : (
+          <div className="photo-icon">
+            <Icon icon={faCamera} />
+          </div>
+        )}
 
         <input
           className="form-input"
           id="photo"
           type="file"
           accept="image/*"
-          onChange={() => {
-            prepareFileReader(
-              document.getElementById("photo").files[0]
-            )
-          }}
+          onChange={() => this.photoObjectChange()}
         />
 
         <div className="button-row">

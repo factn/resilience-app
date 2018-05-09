@@ -2,25 +2,47 @@
 // Module imports
 import React, { Component } from "react"
 import Icon from "@fortawesome/react-fontawesome"
-import { faStar } from "@fortawesome/fontawesome-free-solid"
+import { faArrowRight } from "@fortawesome/fontawesome-free-solid";
+
+// Components
+import Stars from "./Stars"
+
+// Image
+import stubImage from "../../img/stub-image.png"
 /*** [end of imports] ***/
 
 export default class MissionComplete extends Component {
   render() {
-    const { open, dismiss } = this.props
+    const { open, dismiss, beforeImage, afterImage } = this.props
+
     return (
       <section
-        className={open ? "modal mission-complete-modal open" : "modal mission-complete-modal"}
+        className={
+          open
+            ? "modal mission-complete-modal open"
+            : "modal mission-complete-modal"
+        }
         onClick={() => dismiss()}
       >
-        <div className="stars">
-          <Icon className="star" icon={faStar} />
-          <Icon className="star" icon={faStar} />
-          <Icon className="star" icon={faStar} />
-          <Icon className="star" icon={faStar} />
-          <Icon className="star" icon={faStar} />
-        </div>
+        <Stars />
         <h2>We did it!</h2>
+        <div className="before-and-after-wrap">
+          <figure className="before-image-wrap image-wrap">
+            <img src={beforeImage || ""} alt="Before" className="image before-image"/>
+            <figcaption className="image-caption before-image-caption">
+              <div className="caption-label">Before</div>
+            </figcaption>
+          </figure>
+          <figure className="after-image-wrap image-wrap">
+            <img src={afterImage || stubImage} alt="After" className="image after-image"/>
+            <figcaption className="image-caption after-image-caption">
+              <div className="caption-label">After</div>
+            </figcaption>
+          </figure>
+        </div>
+        <div className="from-to-icon">
+          <Icon icon={faArrowRight} />
+        </div>
         <h3>You just made a huge difference</h3>
         <div className="social-share-area">
           <div className="social-share-label">Tell your friends:</div>

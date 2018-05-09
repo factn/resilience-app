@@ -469,7 +469,12 @@ export default class Info extends Component {
               })
             }}
           />
-          <MissionComplete open={overlayOpen} dismiss={this.dismissOverlay} />
+          <MissionComplete
+            beforeImage={scenarioData.attributes.image}
+            afterImage={scenarioData.attributes.image}
+            open={overlayOpen}
+            dismiss={this.dismissOverlay}
+          />
           <Main>
             <div className={`scenario-content-wrap ${role}-scenario-content`}>
               {role === "requester" && (

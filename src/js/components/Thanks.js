@@ -1,8 +1,9 @@
 /*** IMPORTS ***/
 // Module imports
 import React, { Component } from "react"
-import Icon from "@fortawesome/react-fontawesome"
-import { faStar } from "@fortawesome/fontawesome-free-solid"
+
+// Components
+import Stars from "./Stars"
 /*** [end of imports] ***/
 
 export default class Thanks extends Component {
@@ -10,16 +11,12 @@ export default class Thanks extends Component {
     const { open, dismiss } = this.props
     return (
       <section
-        className={open ? "modal thank-you-modal open" : "modal thank-you-modal"}
+        className={
+          open ? "modal thank-you-modal open" : "modal thank-you-modal"
+        }
         onClick={() => dismiss()}
       >
-        <div className="stars">
-          <Icon className="star" icon={faStar} />
-          <Icon className="star" icon={faStar} />
-          <Icon className="star" icon={faStar} />
-          <Icon className="star" icon={faStar} />
-          <Icon className="star" icon={faStar} />
-        </div>
+        <Stars />
         <h2>Thanks!</h2>
         <h3>You just made a huge difference</h3>
         <div className="social-share-area">
