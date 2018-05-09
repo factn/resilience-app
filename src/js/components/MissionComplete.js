@@ -6,6 +6,9 @@ import { faArrowRight } from "@fortawesome/fontawesome-free-solid";
 
 // Components
 import Stars from "./Stars"
+
+// Image
+import stubImage from "../../img/stub-image.png"
 /*** [end of imports] ***/
 
 export default class MissionComplete extends Component {
@@ -31,7 +34,7 @@ export default class MissionComplete extends Component {
             </figcaption>
           </figure>
           <figure className="after-image-wrap image-wrap">
-            <img src={afterImage || ""} alt="After" className="image after-image"/>
+            <img src={afterImage || stubImage} alt="After" className="image after-image"/>
             <figcaption className="image-caption after-image-caption">
               <div className="caption-label">After</div>
             </figcaption>

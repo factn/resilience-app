@@ -16,6 +16,9 @@ import Submit from "../components/inputs/Submit"
 // Local JS Utilities
 import Database from "../resources/Database"
 import { getBase64 } from "../resources/Util"
+
+// Image
+import stubImage from "../../img/stub-image.png"
 /*** [end of imports] ***/
 
 export default class Confirmation extends Component {
@@ -23,6 +26,7 @@ export default class Confirmation extends Component {
     super(props)
 
     this.state = {
+      scenarioData: null,
       parentScenarioId: this.props.match.params.scenarioId || "1",
       scenarioId: null,
       role: this.props.match.params.role || "doer",
@@ -64,6 +68,7 @@ export default class Confirmation extends Component {
 
           if (noun === this.state.noun && verb === this.state.verb) {
             this.setState({
+              scenarioData: data,
               scenarioId: list[i]
             })
           }
@@ -130,13 +135,31 @@ export default class Confirmation extends Component {
     }
 
     return (
-      <Page clas="flow-page doer-flow-page">
+      <Page clas={`flow-page ${role}-flow-page`}>
         <Main>
           <h2 className="confirmation-header">
             {role === "doer"
               ? "Help verify your work"
               : "Verify the work is complete"}
           </h2>
+          {role === "requester" && (
+            <section className="session-settings verify-settings">
+              <article className="card verify-card">
+                <h4 className="card-title">Work to verify</h4>
+                <figure className="verify-wrap">
+                  <div className="verify-image-wrap">
+                    <img src={stubImage} alt="Work" className="verify-image" />
+                  </div>
+                  <figcaption className="verify-image-caption">
+                    <div className="verify-message">
+                      We worked hard and I feel we did a good job. Good luck
+                      with the rest of the repairs.
+                    </div>
+                  </figcaption>
+                </figure>
+              </article>
+            </section>
+          )}
           <section className="session-settings">
             <header className="settings-header">
               <h3>Add a photo</h3>
