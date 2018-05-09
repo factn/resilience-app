@@ -208,11 +208,13 @@ export default class Feed extends Component {
           })
           if (directionSwiped === "right") {
             this.setState({
-              donatedTotal: parseInt(donatedTotal) + parseInt(perSwipeAmount)
+              donatedTotal:
+                parseInt(donatedTotal, 10) + parseInt(perSwipeAmount, 10)
             })
           } else if (directionSwiped === "up") {
             this.setState({
-              donatedTotal: parseInt(donatedTotal) + parseInt(fullFundAmount),
+              donatedTotal:
+                parseInt(donatedTotal, 10) + parseInt(fullFundAmount, 10),
               overlayOpen: true
             })
           }
@@ -231,11 +233,13 @@ export default class Feed extends Component {
       })
       if (directionSwiped === "right") {
         this.setState({
-          donatedTotal: parseInt(donatedTotal) + parseInt(perSwipeAmount)
+          donatedTotal:
+            parseInt(donatedTotal, 10) + parseInt(perSwipeAmount, 10)
         })
       } else if (directionSwiped === "up") {
         this.setState({
-          donatedTotal: parseInt(donatedTotal) + parseInt(fullFundAmount),
+          donatedTotal:
+            parseInt(donatedTotal, 10) + parseInt(fullFundAmount, 10),
           overlayOpen: true
         })
       }
