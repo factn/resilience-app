@@ -214,9 +214,9 @@ export default class Feed extends Component {
           } else if (directionSwiped === "up") {
             this.setState({
               donatedTotal:
-                parseInt(donatedTotal, 10) + parseInt(fullFundAmount, 10),
-              overlayOpen: true
+                parseInt(donatedTotal, 10) + parseInt(fullFundAmount, 10)
             })
+            this.openOverlay()
           }
         })
         .catch(error => {
@@ -239,9 +239,9 @@ export default class Feed extends Component {
       } else if (directionSwiped === "up") {
         this.setState({
           donatedTotal:
-            parseInt(donatedTotal, 10) + parseInt(fullFundAmount, 10),
-          overlayOpen: true
+            parseInt(donatedTotal, 10) + parseInt(fullFundAmount, 10)
         })
+        this.openOverlay()
       }
     }
   }
@@ -249,6 +249,17 @@ export default class Feed extends Component {
     this.setState({
       previewDismissed: true
     })
+  }
+  openOverlay = () => {
+    this.setState({
+      overlayOpen: true
+    })
+
+    setTimeout(() => {
+      this.setState({
+        overlayOpen: false
+      })
+    }, 2000)
   }
   dismissOverlay = () => {
     this.setState({

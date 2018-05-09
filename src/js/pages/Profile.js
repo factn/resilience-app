@@ -168,7 +168,8 @@ export default class Info extends Component {
       userDos,
       userRequests,
       userVerifications,
-      isMyProfile
+      isMyProfile,
+      userId
     } = this.state
 
     return (
@@ -200,6 +201,7 @@ export default class Info extends Component {
                 <span className="user-verified-icon">
                   <Icon icon={faCheck} />
                 </span>
+                <Link className="reputation-link" to={`/reputation/${userId}`}> See reputation</Link>
               </div>
             </div>
           ) : (
