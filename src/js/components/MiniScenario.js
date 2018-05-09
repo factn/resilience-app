@@ -61,7 +61,7 @@ export default class MiniScenario extends Component {
         )
       } else if (tab === "In Progress") {
         return (
-          <Link className="btn btn-lite mini-scenario-link" to={`/${id}/doer`}>
+          <Link className="btn btn-lite mini-scenario-link" to={`/${id}/doer/instructions`}>
             Do a task
           </Link>
         )
@@ -69,7 +69,7 @@ export default class MiniScenario extends Component {
         return (
           <Link
             className="btn btn-lite mini-scenario-link"
-            to={`/${id}/info/Updates`}
+            to={`/${id}/info`}
           >
             Review Story
           </Link>
