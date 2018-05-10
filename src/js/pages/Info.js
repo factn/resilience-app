@@ -72,7 +72,7 @@ export default class Info extends Component {
   }
 
   createRefresh = () => {
-    const { dataRefreshRate, scenarioId } = this.state
+    const { dataRefreshRate, scenarioId, scenarioData } = this.state
 
     let autoRefresh = setInterval(() => {
       if (!this.checkForMissionComplete()) {
@@ -92,9 +92,6 @@ export default class Info extends Component {
           })
           .catch(error => {
             // console.error("Error getting scenarios:", error)
-            this.setState({
-              scenarioData: null
-            })
           })
       } else {
         clearInterval(autoRefresh)
@@ -153,7 +150,7 @@ export default class Info extends Component {
     }
 
     let checkCompletedChildren = setInterval(() => {
-      if (completedChildren === 4) {
+      if (completedChildren >= 4) {
         clearInterval(checkCompletedChildren)
 
         this.setState({
