@@ -50,32 +50,52 @@ export default class Info extends Component {
   }
 
   componentDidMount = () => {
-    this.checkScenarioUpdates()
+    Database.getScenarioWithChildren({ id: this.state.scenarioId })
+      .then(result => {
+        const { data } = result.body
+        // console.info("Success getting scenario:", data)
+
+        this.setState({
+          scenarioData: data
+        })
+        this.setChildrenScenarioData(data.relationships.children_scenario.data)
+        this.createRefresh()
+
+        invalidateRequests(Database.getScenarioWithChildren)
+      })
+      .catch(error => {
+        // console.error("Error getting scenarios:", error)
+        this.setState({
+          scenarioData: null
+        })
+      })
   }
-  checkScenarioUpdates = () => {
-    const { dataRefreshRate, scenarioId } = this.state
 
-    setInterval(() => {
-      Database.getScenarioWithChildren({ id: scenarioId })
-        .then(result => {
-          // console.info("Success getting scenario:", result)
+  createRefresh = () => {
+    const { dataRefreshRate, scenarioId, scenarioData } = this.state
 
-          this.setState({
-            scenarioData: result.body.data
+    let autoRefresh = setInterval(() => {
+      if (!this.checkForMissionComplete()) {
+        Database.getScenarioWithChildren({ id: scenarioId })
+          .then(result => {
+            const { data } = result.body
+            // console.info("Success getting scenario:", data)
+
+            this.setState({
+              scenarioData: data
+            })
+            this.setChildrenScenarioData(
+              data.relationships.children_scenario.data
+            )
+
+            invalidateRequests(Database.getScenarioWithChildren)
           })
-          this.setChildrenScenarioData(
-            result.body.data.relationships.children_scenario.data
-          )
-          this.checkForMissionComplete()
-
-          invalidateRequests(Database.getScenario)
-        })
-        .catch(error => {
-          // console.error("Error getting scenarios:", error)
-          this.setState({
-            scenarioData: null
+          .catch(error => {
+            // console.error("Error getting scenarios:", error)
           })
-        })
+      } else {
+        clearInterval(autoRefresh)
+      }
     }, dataRefreshRate)
   }
 
@@ -130,7 +150,7 @@ export default class Info extends Component {
     }
 
     let checkCompletedChildren = setInterval(() => {
-      if (completedChildren === 4) {
+      if (completedChildren >= 4) {
         clearInterval(checkCompletedChildren)
 
         this.setState({
@@ -241,69 +261,17 @@ export default class Info extends Component {
       )
     }
   }
-  tabs = () => {
-    const { role, tab } = this.state
-
-    if (role === "donator" || role === "info" || role === "requester") {
-      return (
-        <ul className="tab-list">
-          <li
-            className={tab === "overview" ? "tab-link active" : "tab-link"}
-            onClick={() => this.changeTab("overview")}
-          >
-            Overview
-          </li>
-          <li
-            className={tab === "instructions" ? "tab-link active" : "tab-link"}
-            onClick={() => this.changeTab("instructions")}
-          >
-            Instructions
-          </li>
-          <li
-            className={tab === "verifiers" ? "tab-link active" : "tab-link"}
-            onClick={() => this.changeTab("verifiers")}
-          >
-            Verifiers
-          </li>
-        </ul>
-      )
-    } else if (role === "doer" || role === "verifier") {
-      return (
-        <ul className="tab-list">
-          <li
-            className={tab === "overview" ? "tab-link active" : "tab-link"}
-            onClick={() => this.changeTab("overview")}
-          >
-            Overview
-          </li>
-          <li
-            className={tab === "instructions" ? "tab-link active" : "tab-link"}
-            onClick={() => this.changeTab("instructions")}
-          >
-            Instructions
-          </li>
-          <li
-            className={tab === "updates" ? "tab-link active" : "tab-link"}
-            onClick={() => this.changeTab("updates")}
-          >
-            Updates
-          </li>
-        </ul>
-      )
-    }
-  }
   jobs = () => {
     const { childrenScenarioData, buttonOverride } = this.state
 
     let hasShownDesc = false
     return (
       <Fragment>
-        {childrenScenarioData &&
+        {childrenScenarioData ? (
           Object.entries(childrenScenarioData).map(([key, childScenario]) => {
             const { noun, verb, is_complete } = childScenario.attributes
-            let label,
-              button,
-              detailDesc = ""
+            let label
+            let detailDesc = ""
 
             if (noun === "materials" && verb === "get") {
               if (is_complete) {
@@ -368,24 +336,21 @@ export default class Info extends Component {
               hasShownDesc = true
             }
 
-            if (is_complete) {
-              button = (
-                <div className="done-job-icon">
-                  <Icon icon={faCheck} />
-                </div>
-              )
-            } else {
-              button = <button className="btn btn-lite do-job-btn">Yes</button>
-            }
-
             return (
               <div className="card job-card" key={key}>
                 <div className="card-label">{label}</div>
-                {button}
+                {is_complete && (
+                  <div className="done-job-icon">
+                    <Icon icon={faCheck} />
+                  </div>
+                )}
                 {detailDesc}
               </div>
             )
-          })}
+          })
+        ) : (
+          <Loader />
+        )}
       </Fragment>
     )
   }
@@ -404,7 +369,9 @@ export default class Info extends Component {
         missionComplete: true,
         overlayOpen: true
       })
+      return true
     }
+    return false
   }
   dismissOverlay = () => {
     this.setState({
@@ -471,7 +438,6 @@ export default class Info extends Component {
           />
           <MissionComplete
             beforeImage={scenarioData.attributes.image}
-            afterImage={scenarioData.attributes.image}
             open={overlayOpen}
             dismiss={this.dismissOverlay}
           />
@@ -534,7 +500,33 @@ export default class Info extends Component {
               </header>
 
               <section className="scenario-content-body">
-                {this.tabs()}
+                <ul className="tab-list">
+                  <li
+                    className={
+                      tab === "overview" ? "tab-link active" : "tab-link"
+                    }
+                    onClick={() => this.changeTab("overview")}
+                  >
+                    Overview
+                  </li>
+                  <li
+                    className={
+                      tab === "instructions" ? "tab-link active" : "tab-link"
+                    }
+                    onClick={() => this.changeTab("instructions")}
+                  >
+                    Instructions
+                  </li>
+                  <li
+                    className={
+                      tab === "updates" ? "tab-link active" : "tab-link"
+                    }
+                    onClick={() => this.changeTab("updates")}
+                  >
+                    Updates
+                  </li>
+                </ul>
+
                 <div className="tab-wrap scenario-tab-wrap">
                   <article
                     className={tab === "overview" ? "tab active" : "tab"}
@@ -580,14 +572,12 @@ export default class Info extends Component {
                     </header>
                     {this.jobs()}
                   </article>
-                  <article className={tab === "updates" ? "tab active" : "tab"}>
-                    Updates
-                  </article>
+                  <article
+                    className={tab === "updates" ? "tab active" : "tab"}
+                  />
                   <article
                     className={tab === "verifiers" ? "tab active" : "tab"}
-                  >
-                    Verifiers
-                  </article>
+                  />
                 </div>
               </section>
 

@@ -23,25 +23,8 @@ export default class DonatorFlow extends Component {
     super(props)
 
     this.state = {
-      userId: Cookies.get("userId") || 1,
-      userData: null
+      userId: Cookies.get("userId") || 1
     }
-  }
-
-  componentDidMount = () => {
-    Database.getUserById({ id: this.state.userId })
-      .then(result => {
-        // console.log("User successfully found:", result)
-        this.setState({
-          currentUserData: result.body.data.attributes
-        })
-      })
-      .catch(error => {
-        // console.error("Error getting user:", error)
-        this.setState({
-          currentUserData: null
-        })
-      })
   }
 
   beginMission = params => {

@@ -2,18 +2,19 @@
 // Module imports
 import React, { Component } from "react"
 import Icon from "@fortawesome/react-fontawesome"
-import { faArrowRight } from "@fortawesome/fontawesome-free-solid";
+import { faArrowRight } from "@fortawesome/fontawesome-free-solid"
 
 // Components
 import Stars from "./Stars"
 
 // Image
 import stubImage from "../../img/stub-image.png"
+import fixedRoof from "../../img/fixed-roof.jpg"
 /*** [end of imports] ***/
 
 export default class MissionComplete extends Component {
   render() {
-    const { open, dismiss, beforeImage, afterImage } = this.props
+    const { open, dismiss, beforeImage } = this.props
 
     return (
       <section
@@ -28,13 +29,17 @@ export default class MissionComplete extends Component {
         <h2>We did it!</h2>
         <div className="before-and-after-wrap">
           <figure className="before-image-wrap image-wrap">
-            <img src={beforeImage || ""} alt="Before" className="image before-image"/>
+            <img
+              src={beforeImage || stubImage}
+              alt="Before"
+              className="image before-image"
+            />
             <figcaption className="image-caption before-image-caption">
               <div className="caption-label">Before</div>
             </figcaption>
           </figure>
           <figure className="after-image-wrap image-wrap">
-            <img src={afterImage || stubImage} alt="After" className="image after-image"/>
+            <img src={fixedRoof} alt="After" className="image after-image" />
             <figcaption className="image-caption after-image-caption">
               <div className="caption-label">After</div>
             </figcaption>
