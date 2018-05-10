@@ -72,7 +72,7 @@ export default class Info extends Component {
   }
 
   createRefresh = () => {
-    const { dataRefreshRate, scenarioId, scenarioData } = this.state
+    const { dataRefreshRate, scenarioId } = this.state
 
     let autoRefresh = setInterval(() => {
       if (!this.checkForMissionComplete()) {
