@@ -70,11 +70,14 @@ export default class Info extends Component {
         })
       })
   }
+  componentWillUnmount = () => {
+    clearInterval(this.autoRefresh)
+  }
 
   createRefresh = () => {
-    const { dataRefreshRate, scenarioId, scenarioData } = this.state
+    const { dataRefreshRate, scenarioId } = this.state
 
-    let autoRefresh = setInterval(() => {
+    this.autoRefresh = setInterval(() => {
       if (!this.checkForMissionComplete()) {
         Database.getScenarioWithChildren({ id: scenarioId })
           .then(result => {
@@ -94,7 +97,7 @@ export default class Info extends Component {
             // console.error("Error getting scenarios:", error)
           })
       } else {
-        clearInterval(autoRefresh)
+        clearInterval(this.autoRefresh)
       }
     }, dataRefreshRate)
   }
