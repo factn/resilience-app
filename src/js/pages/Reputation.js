@@ -14,6 +14,10 @@ import Main from "../components/Main"
 // Utilities
 import Database from "../resources/Database"
 import { toFirstCap } from "../resources/Util"
+
+// Icons
+import catRed from "../../img/cat-red.svg"
+import catGreen from "../../img/cat-green.svg"
 /*** [end of imports] ***/
 
 export default class Reputation extends Component {
@@ -142,7 +146,8 @@ export default class Reputation extends Component {
                   key={proof.id}
                   className={positive ? "proof positive" : "proof negative"}
                 >
-                  <Icon icon={positive ? faSmile : faFrown} />
+                <img src={positive ? catGreen : catRed} alt="cat" />
+                  {/* <Icon icon={positive ? faSmile : faFrown} /> */}
                 </div>
               )
             } else if (index === 9) {

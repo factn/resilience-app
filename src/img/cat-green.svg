@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="27px" height="30px" viewBox="0 0 27 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 50 (54983) - http://www.bohemiancoding.com/sketch -->
+    <title>sharp-corners_purr</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="sharp-corners_purr" fill="#04861C" fill-rule="nonzero">
+            <path d="M26.733,22 L23,22 L23,21 L26.7,21 L26.633,19 L23,19 L23,18 L26.6,18 L26.533,16 L23,16 L23,15 L26.5,15 L26,0 L21,5 L15,5 L10,0 L9.5,15 L13,15 L13,16 L9.467,16 L9.4,18 L13,18 L13,19 L9.367,19 L9.3,21 L13,21 L13,22 L9.267,22 L9.134,26 L7,26 C5.346,26 4,24.654 4,23 L4,22.397 C4,21 4.744,19.686 5.943,18.966 L6.169,18.831 C7.915,17.784 9,15.867 9,13.83 C9,10.615 6.385,8 3.17,8 L2,8 L2,12 L3.17,12 C4.179,12 5,12.821 5,13.831 C5,14.471 4.66,15.071 4.11,15.401 L3.883,15.537 C1.488,16.975 0,19.604 0,22.397 L0,23 C0,26.859 3.141,30 7,30 L27,30 L26.733,22 Z M16,11 C16,10.448 15.552,10 15,10 C14.448,10 14,10.448 14,11 L13,11 C13,9.895 13.895,9 15,9 C16.105,9 17,9.895 17,11 L16,11 Z M21,10 C20.448,10 20,10.448 20,11 L19,11 C19,9.895 19.895,9 21,9 C22.105,9 23,9.895 23,11 L22,11 C22,10.448 21.552,10 21,10 Z" id="Shape"></path>
+        </g>
+    </g>
+</svg>

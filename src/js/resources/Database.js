@@ -178,19 +178,19 @@ const apiEndpoints = {
 	// Scenarios related to users
 	getUserDonations: {
 		method: get,
-		path: "/users/:id/donated"
+		path: "/users/:id/donated?page[limit]=10"
 	},
 	getUserDos: {
 		method: get,
-		path: "/users/:id/done"
+		path: "/users/:id/done?page[limit]=10"
 	},
 	getUserRequests: {
 		method: get,
-		path: "/users/:id/requested?filter[is_parent]=true"
+		path: "/users/:id/requested?filter[is_parent]=true&page[limit]=10"
 	},
 	getUserVerifications: {
 		method: get,
-		path: "/users/:id/verified"
+		path: "/users/:id/verified?page[limit]=10"
 	},
 
 	// Login
