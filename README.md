@@ -42,6 +42,52 @@ npm i
 npm start
 ```
 
+## Code change process
+
+* Checkout a new branch by choosing a simple name that expresses the individual issue you're addressing and the number on the Jira board that your branch should complete.
+
+```
+git checkout -b my-feature-28
+```
+
+* Do your work in the branch
+* Check that your changes are present by checking the status
+
+```
+git status
+```
+
+* Add your changes to the branch
+
+```
+git add .
+```
+
+* Add a commit message that explains the work that's complete, the way you did it, and any other notes you might want to leave for code reviewers
+
+```
+git commit -m "My feature is now working on the front page. I noticed that there might be a typo in a public function. You'll see the code comment."
+```
+
+* Push your work into the branch origin
+
+```
+git push -u origin my-feature-28
+```
+
+* Create a pull request and assign at least [jakerabid](https://bitbucket.org/jakerabid/) and [danieljauch_rabid](https://bitbucket.org/danieljauch_rabid/) as reviewers
+* Once all issues are addressed and you have at least two approvals, merge your changes to master and deploy.
+
+**All commands in one clipboard:**
+
+```
+git checkout -b [branch name]
+git status
+git add .
+git commit -m "[commit message]"
+git push -u origin [branch name]
+```
+
 ## Heroku Deployment
 
 * Login into Heroku with Email and Password:
