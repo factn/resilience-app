@@ -21,17 +21,13 @@ import catGreen from "../../img/cat-green.svg"
 /*** [end of imports] ***/
 
 export default class Reputation extends Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      userDonations: null,
-      userDos: null,
-      userRequests: null,
-      userVerifications: null,
-      currentUserData: null,
-      userId: this.props.match.params.otherUserId || Cookies.get("userId") || 1
-    }
+  state = {
+    userDonations: null,
+    userDos: null,
+    userRequests: null,
+    userVerifications: null,
+    currentUserData: null,
+    userId: this.props.match.params.otherUserId || Cookies.get("userId") || 1
   }
 
   componentDidMount = () => {

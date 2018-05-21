@@ -9,6 +9,7 @@ import Stars from "./Stars"
 export default class Thanks extends Component {
   render() {
     const { open, dismiss } = this.props
+    
     return (
       <section
         className={

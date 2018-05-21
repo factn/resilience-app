@@ -14,14 +14,11 @@ import logo from "../../img/logo.svg"
 /*** [end of imports] ***/
 
 export default class Header extends Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      loggedIn: this.props.loggedIn || true,
-      userId: Cookies.get("userId") || 1
-    }
+  state = {
+    loggedIn: this.props.loggedIn || true,
+    userId: Cookies.get("userId") || 1
   }
+  
   render() {
     const { loggedIn, userId } = this.state
 

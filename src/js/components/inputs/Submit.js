@@ -9,12 +9,8 @@ import { getBase64 } from "../../resources/Util"
 /*** [end of imports] ***/
 
 export default class Submit extends Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      buttonPressed: false
-    }
+  state = {
+    buttonPressed: false
   }
 
   pressButton = () => {

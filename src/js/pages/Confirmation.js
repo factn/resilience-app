@@ -22,18 +22,14 @@ import stubImage from "../../img/stub-image.png"
 /*** [end of imports] ***/
 
 export default class Confirmation extends Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      scenarioData: null,
-      parentScenarioId: this.props.match.params.scenarioId || "1",
-      scenarioId: null,
-      role: this.props.match.params.role || "doer",
-      verb: this.props.match.params.verb || "fix",
-      noun: this.props.match.params.noun || "roof",
-      currentUser: Cookies.get("userId") || "1"
-    }
+  state = {
+    scenarioData: null,
+    parentScenarioId: this.props.match.params.scenarioId || "1",
+    scenarioId: null,
+    role: this.props.match.params.role || "doer",
+    verb: this.props.match.params.verb || "fix",
+    noun: this.props.match.params.noun || "roof",
+    currentUser: Cookies.get("userId") || "1"
   }
 
   componentDidMount = () => {

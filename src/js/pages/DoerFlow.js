@@ -16,17 +16,10 @@ import { gradientStyle } from "../resources/Util"
 /*** [end of imports] ***/
 
 export default class DoerFlow extends Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      workAbroad: false,
-      workDistance: 40,
-      distanceMax: 100
-    }
-
-    this.toggleWorkAbroad = this.toggleWorkAbroad.bind(this)
-    this.setWorkdistance = this.setWorkdistance.bind(this)
+  state = {
+    workAbroad: false,
+    workDistance: 40,
+    distanceMax: 100
   }
 
   toggleWorkAbroad = () => {

@@ -4,13 +4,9 @@ import React, { Component } from "react"
 /*** [end of imports] ***/
 
 export default class TextArea extends Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      maxCharacterCount: 140,
-      remainingCharacterCount: 140
-    }
+  state = {
+    maxCharacterCount: 140,
+    remainingCharacterCount: 140
   }
 
   updateCharacterCount = e => {

@@ -21,13 +21,9 @@ import { toFirstCap } from "../resources/Util"
 /*** [end of imports] ***/
 
 export default class Profile extends Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      currentUserData: null,
-      userId: Cookies.get("userId") || 1
-    }
+  state = {
+    currentUserData: null,
+    userId: Cookies.get("userId") || 1
   }
 
   componentDidMount = () => {

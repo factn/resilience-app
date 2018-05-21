@@ -19,24 +19,21 @@ import Database from "../resources/Database"
 /*** [end of imports] ***/
 
 export default class DonatorFlow extends Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      userId: Cookies.get("userId") || 1
-    }
+  state = {
+    userId: Cookies.get("userId") || 1
   }
 
   beginMission = params => {
     const { userId } = this.state
+    const { default_total_session_donation, default_swipe_donation } = params
     const json = {
       // No where to put address info or custom message
       data: {
         type: "users",
         id: userId,
         attributes: {
-          default_total_session_donation: params.default_total_session_donation,
-          default_swipe_donation: "1" // params.default_swipe_donation
+          default_total_session_donation,
+          default_swipe_donation
         }
       }
     }
@@ -58,8 +55,8 @@ export default class DonatorFlow extends Component {
       clas: "footer-btn feed-btn",
       onSubmit: this.beginMission,
       onSubmitParams: {
-        default_total_session_donation: "selectMaxDonationAmount"
-        // default_swipe_donation: "1"
+        default_total_session_donation: "selectMaxDonationAmount",
+        default_swipe_donation: "1"
       }
     }
 

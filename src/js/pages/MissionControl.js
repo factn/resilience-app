@@ -14,15 +14,11 @@ import Database from "../resources/Database"
 /*** [end of imports] ***/
 
 export default class MissionControl extends Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      role: this.props.match.params.role || "Missions",
-      tab: this.props.match.params.tab || "Donating",
-      userId: Cookies.get("userId") || 1,
-      userDos: null
-    }
+  state = {
+    role: this.props.match.params.role || "Missions",
+    tab: this.props.match.params.tab || "Donating",
+    userId: Cookies.get("userId") || 1,
+    userDos: null
   }
 
   componentDidMount = () => {

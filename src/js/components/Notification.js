@@ -8,12 +8,8 @@ import Database from "../resources/Database"
 /*** [end of imports] ***/
 
 export default class Notification extends Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      scenarioData: null
-    }
+  state = {
+    scenarioData: null
   }
 
   getScenarioData = () => {

@@ -6,31 +6,23 @@ import Icon from "@fortawesome/react-fontawesome"
 /*** [end of imports] ***/
 
 export default class Header extends Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      menuIsOpen: false
-    }
-    this.menuItems = [
-      {
-        label: "Get Help",
-        link: "/requester"
-      },
-      {
-        label: "Profile",
-        link: "/profile"
-      },
-      {
-        label: "Log Out",
-        link: "/"
-      }
-    ]
-
-    // Bindings
-    this.openMenu = this.openMenu.bind(this)
-    this.closeMenu = this.closeMenu.bind(this)
+  state = {
+    menuIsOpen: false
   }
+  menuItems = [
+    {
+      label: "Get Help",
+      link: "/requester"
+    },
+    {
+      label: "Profile",
+      link: "/profile"
+    },
+    {
+      label: "Log Out",
+      link: "/"
+    }
+  ]
 
   openMenu = () => {
     this.setState({

@@ -16,12 +16,8 @@ import Main from "../components/Main"
 /*** [end of imports] ***/
 
 export default class Login extends Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      buttonPressed: false
-    }
+  state = {
+    buttonPressed: false
   }
 
   submitLogin = params => {

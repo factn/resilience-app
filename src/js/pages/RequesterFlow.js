@@ -22,20 +22,16 @@ import { getBase64, toFirstCap } from "../resources/Util"
 /*** [end of imports] ***/
 
 export default class RequesterFlow extends Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      scenarioId: this.props.match.params.scenarioId || 1,
-      scenarioData: null,
-      eventData: [],
-      nounData: [],
-      verbData: [],
-      defaultEvent: "Hurricane Katrina",
-      defaultNoun: "roof",
-      defaultVerb: "fix",
-      completeChildren: 0
-    }
+  state = {
+    scenarioId: this.props.match.params.scenarioId || 1,
+    scenarioData: null,
+    eventData: [],
+    nounData: [],
+    verbData: [],
+    defaultEvent: "Hurricane Katrina",
+    defaultNoun: "roof",
+    defaultVerb: "fix",
+    completeChildren: 0
   }
 
   componentDidMount = () => {

@@ -20,44 +20,36 @@ import { toFirstCap, moneyfy, gradientStyle } from "../resources/Util"
 /*** [end of imports] ***/
 
 export default class Scenario extends Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      xTransform: 0,
-      yTransform: 0,
-      touchStartX: 0,
-      touchStartY: 0,
-      lastTouchX: 0,
-      lastTouchY: 0,
-      style: {
-        transform: `translateX(0) translateY(0) scale(${
-          this.props.first ? 1 : 0.9
-        })`
-      },
-      previewStyle: {
-        opacity: 1,
-        zIndex: 5
-      },
-      upStyle: {
-        opacity: 0,
-        zIndex: 0
-      },
-      leftStyle: {
-        opacity: 0,
-        zIndex: 0
-      },
-      rightStyle: {
-        opacity: 0,
-        zIndex: 0
-      },
-      swipeThreshold: 128,
-      transitionTiming: 100
-    }
-
-    this.handleTouchStart = this.handleTouchStart.bind(this)
-    this.handleTouchMove = this.handleTouchMove.bind(this)
-    this.handleTouchEnd = this.handleTouchEnd.bind(this)
+  state = {
+    xTransform: 0,
+    yTransform: 0,
+    touchStartX: 0,
+    touchStartY: 0,
+    lastTouchX: 0,
+    lastTouchY: 0,
+    style: {
+      transform: `translateX(0) translateY(0) scale(${
+        this.props.first ? 1 : 0.9
+      })`
+    },
+    previewStyle: {
+      opacity: 1,
+      zIndex: 5
+    },
+    upStyle: {
+      opacity: 0,
+      zIndex: 0
+    },
+    leftStyle: {
+      opacity: 0,
+      zIndex: 0
+    },
+    rightStyle: {
+      opacity: 0,
+      zIndex: 0
+    },
+    swipeThreshold: 128,
+    transitionTiming: 100
   }
 
   componentDidMount = () => {

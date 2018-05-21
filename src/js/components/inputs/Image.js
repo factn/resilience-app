@@ -9,12 +9,8 @@ import { prepareFileReader } from "../../resources/Util"
 /*** [end of imports] ***/
 
 export default class File extends Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      photoInField: false
-    }
+  state = {
+    photoInField: false
   }
 
   photoObjectChange = () => {
