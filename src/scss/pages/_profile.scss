@@ -129,7 +129,7 @@
   padding: 1rem;
 
   &:not(:last-of-type) {
-    border-bottom: 1px solid rgba($black, 0.5);
+    border-bottom: 0.0625rem solid rgba($black, 0.5);
   }
 }
 

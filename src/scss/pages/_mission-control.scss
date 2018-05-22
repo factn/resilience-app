@@ -45,7 +45,7 @@
     }
 
     &:not(:last-of-type) {
-      border-right: 1px solid rgba($black, 0.5);
+      border-right: 0.0625rem solid rgba($black, 0.5);
     }
   }
 

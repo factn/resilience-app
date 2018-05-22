@@ -26,12 +26,15 @@
   @include pseudo-list;
   li {
     padding: 0.25rem 0.5rem;
+
     &:not(:last-of-type) {
-      border-bottom: 1px solid rgba($black, 0.1);
+      border-bottom: 0.0625rem solid rgba($black, 0.1);
     }
+
     &:nth-of-type(odd) {
       background: rgba($white, 0.05);
     }
+
     &:nth-of-type(even) {
       background: rgba($black, 0.05);
     }
@@ -65,13 +68,19 @@
   pointer-events: none;
 }
 
-@mixin spacer-with-border ($direction, $spacer-width, $border-width, $border-color, $border-style: "solid") {
+@mixin spacer-with-border(
+  $direction,
+  $spacer-width,
+  $border-width,
+  $border-color,
+  $border-style: "solid"
+) {
   padding-#{$direction}: $spacer-width;
   border-#{$direction}: $border-width $border-style $border-color;
   margin-#{$direction}: $spacer-width;
 }
 
-@mixin star ($font-size, $left, $animation-offset: 0s) {
+@mixin star($font-size, $left, $animation-offset: 0s) {
   font-size: $font-size;
   left: $left;
   animation: 1s $cubic $animation-offset infinite starfall;
