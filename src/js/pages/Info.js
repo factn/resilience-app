@@ -26,27 +26,23 @@ import { toFirstCap, moneyfy, gradientStyle } from "../resources/Util"
 /*** [end of imports] ***/
 
 export default class Info extends Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      scenarioId: this.props.match.params.scenarioId || 1,
-      role: this.props.match.params.role || "info",
-      tab: this.props.match.params.tab || "overview",
-      scenarioData: null,
-      childrenScenarioData: null,
-      buttonOverride: false,
-      materialsDone: null,
-      transportDone: null,
-      roofCovered: null,
-      roofSecured: null,
-      initialJobState: {},
-      notificationScenarioId: null,
-      notificationOpen: false,
-      missionComplete: false,
-      overlayOpen: false,
-      dataRefreshRate: 5000 // Every 5 seconds check for map pin changes
-    }
+  state = {
+    scenarioId: this.props.match.params.scenario_id || 1,
+    role: this.props.match.params.role || "info",
+    tab: this.props.match.params.tab || "overview",
+    scenarioData: null,
+    childrenScenarioData: null,
+    buttonOverride: false,
+    materialsDone: null,
+    transportDone: null,
+    roofCovered: null,
+    roofSecured: null,
+    initialJobState: {},
+    notificationScenarioId: null,
+    notificationOpen: false,
+    missionComplete: false,
+    overlayOpen: false,
+    dataRefreshRate: 5000 // Every 5 seconds check for map pin changes
   }
 
   componentDidMount = () => {

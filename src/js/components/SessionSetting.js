@@ -1,21 +1,21 @@
 /*** IMPORTS ***/
 // Module imports
-import React, { Component } from "react"
+import React from "react"
 /*** [end of imports] ***/
 
-export default class SessionSetting extends Component {
-  render() {
-    const { clas, headerLabel, children } = this.props
+const SessionSetting = props => (
+  <section
+    className={
+      props.clas ? `session-settings ${props.clas}` : "session-settings"
+    }
+  >
+    {props.headerLabel && (
+      <header className="settings-header">
+        <h3 className="settings-header-label">{props.headerLabel}</h3>
+      </header>
+    )}
+    {props.children}
+  </section>
+)
 
-    return (
-      <section
-        className={clas ? `session-settings ${clas}` : "session-settings"}
-      >
-        <header className="settings-header">
-          <h3>{headerLabel}</h3>
-        </header>
-        {children}
-      </section>
-    )
-  }
-}
+export default SessionSetting

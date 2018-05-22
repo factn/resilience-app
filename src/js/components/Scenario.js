@@ -10,7 +10,6 @@ import {
   faHandPointUp,
   faArrowAltCircleDown,
   faCheck,
-  faQuestionCircle,
   faMapMarkerAlt
 } from "@fortawesome/fontawesome-free-solid"
 
@@ -20,44 +19,36 @@ import { toFirstCap, moneyfy, gradientStyle } from "../resources/Util"
 /*** [end of imports] ***/
 
 export default class Scenario extends Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      xTransform: 0,
-      yTransform: 0,
-      touchStartX: 0,
-      touchStartY: 0,
-      lastTouchX: 0,
-      lastTouchY: 0,
-      style: {
-        transform: `translateX(0) translateY(0) scale(${
-          this.props.first ? 1 : 0.9
-        })`
-      },
-      previewStyle: {
-        opacity: 1,
-        zIndex: 5
-      },
-      upStyle: {
-        opacity: 0,
-        zIndex: 0
-      },
-      leftStyle: {
-        opacity: 0,
-        zIndex: 0
-      },
-      rightStyle: {
-        opacity: 0,
-        zIndex: 0
-      },
-      swipeThreshold: 128,
-      transitionTiming: 100
-    }
-
-    this.handleTouchStart = this.handleTouchStart.bind(this)
-    this.handleTouchMove = this.handleTouchMove.bind(this)
-    this.handleTouchEnd = this.handleTouchEnd.bind(this)
+  state = {
+    xTransform: 0,
+    yTransform: 0,
+    touchStartX: 0,
+    touchStartY: 0,
+    lastTouchX: 0,
+    lastTouchY: 0,
+    style: {
+      transform: `translateX(0) translateY(0) scale(${
+        this.props.first ? 1 : 0.9
+      })`
+    },
+    previewStyle: {
+      opacity: 1,
+      zIndex: 5
+    },
+    upStyle: {
+      opacity: 0,
+      zIndex: 0
+    },
+    leftStyle: {
+      opacity: 0,
+      zIndex: 0
+    },
+    rightStyle: {
+      opacity: 0,
+      zIndex: 0
+    },
+    swipeThreshold: 128,
+    transitionTiming: 100
   }
 
   componentDidMount = () => {
@@ -99,67 +90,43 @@ export default class Scenario extends Component {
           {first &&
             !previewDismissed && (
               <div className="pseudo-preview" style={previewStyle}>
-                <div className="action up-action">
-                  <div className="pseudo-main-text">Fund</div>
-                  <div className="pseudo-sub-text">full amount</div>
-                  <div className="arrow arrow-up">
-                    <Icon icon={faCaretUp} />
-                  </div>
-                </div>
-                <div className="action right-action">
-                  <div className="pseudo-main-text">Donate</div>
-                  <div className="pseudo-sub-text">$1.00</div>
-                  <div className="arrow arrow-right">
-                    <Icon icon={faCaretRight} />
-                  </div>
-                </div>
-                <div className="action left-action">
-                  <div className="pseudo-main-text">Dismiss</div>
-                  <div className="pseudo-sub-text">don't fund</div>
-                  <div className="arrow arrow-left">
-                    <Icon icon={faCaretLeft} />
-                  </div>
-                </div>
-                <div className="touch-icon">
-                  <Icon icon={faHandPointUp} />
-                </div>
-                <div className="action down-action">
-                  <button
-                    className="btn preview-dismiss-btn"
-                    onClick={() => this.props.dismissPreview()}
-                  >
-                    Got it
-                  </button>
-                </div>
+                <PreviewAction
+                  direction="up"
+                  mainText="Fund"
+                  subText="full amount"
+                />
+                <PreviewAction
+                  direction="right"
+                  mainText="Donate"
+                  subText="$1.00"
+                />
+                <PreviewAction
+                  direction="left"
+                  mainText="Dismiss"
+                  subText="don't fund"
+                />
+                <TouchIcon />
+                <DismissButton dismissPreview={dismissPreview} />
               </div>
             )}
-          <div className="pseudo-up" style={upStyle}>
-            <div className="action down-action">
-              <div className="pseudo-main-text">Fund</div>
-              <div className="pseudo-sub-text">full amount</div>
-              <div className="arrow arrow-up">
-                <Icon icon={faCaretUp} />
-              </div>
-            </div>
-          </div>
-          <div className="pseudo-before" style={leftStyle}>
-            <div className="action left-action">
-              <div className="pseudo-main-text">Donate</div>
-              <div className="pseudo-sub-text">$1.00</div>
-              <div className="arrow arrow-right">
-                <Icon icon={faCaretRight} />
-              </div>
-            </div>
-          </div>
-          <div className="pseudo-after" style={rightStyle}>
-            <div className="action right-action">
-              <div className="pseudo-main-text">Dismiss</div>
-              <div className="pseudo-sub-text">don't fund</div>
-              <div className="arrow arrow-left">
-                <Icon icon={faCaretLeft} />
-              </div>
-            </div>
-          </div>
+          <PseudoAction
+            direction="up"
+            style={upStyle}
+            mainText="Fund"
+            subText="full amount"
+          />
+          <PseudoAction
+            direction="before"
+            style={leftStyle}
+            mainText="Donate"
+            subText="$1.00"
+          />
+          <PseudoAction
+            direction="after"
+            style={rightStyle}
+            mainText="Dismiss"
+            subText="don't fund"
+          />
         </Fragment>
       )
     } else if (feedType === "doer") {
@@ -168,51 +135,32 @@ export default class Scenario extends Component {
           {first &&
             !previewDismissed && (
               <div className="pseudo-preview" style={previewStyle}>
-                <div className="action right-action">
-                  <div className="pseudo-main-text">Accept</div>
-                  <div className="pseudo-sub-text">do this job</div>
-                  <div className="arrow arrow-right">
-                    <Icon icon={faCaretRight} />
-                  </div>
-                </div>
-                <div className="action left-action">
-                  <div className="pseudo-main-text">Dismiss</div>
-                  <div className="pseudo-sub-text">don't do job</div>
-                  <div className="arrow arrow-left">
-                    <Icon icon={faCaretLeft} />
-                  </div>
-                </div>
-                <div className="touch-icon">
-                  <Icon icon={faHandPointUp} />
-                </div>
-                <div className="action down-action">
-                  <button
-                    className="btn preview-dismiss-btn"
-                    onClick={() => dismissPreview()}
-                  >
-                    Got it
-                  </button>
-                </div>
+                <PreviewAction
+                  direction="right"
+                  mainText="Accept"
+                  subText="do this job"
+                />
+                <PreviewAction
+                  direction="left"
+                  mainText="Dismiss"
+                  subText="don't do job"
+                />
+                <TouchIcon />
+                <DismissButton dismissPreview={dismissPreview} />
               </div>
             )}
-          <div className="pseudo-before" style={leftStyle}>
-            <div className="action left-action">
-              <div className="pseudo-main-text">Accept</div>
-              <div className="pseudo-sub-text">do this job</div>
-              <div className="arrow arrow-right">
-                <Icon icon={faCaretRight} />
-              </div>
-            </div>
-          </div>
-          <div className="pseudo-after" style={rightStyle}>
-            <div className="action right-action">
-              <div className="pseudo-main-text">Dismiss</div>
-              <div className="pseudo-sub-text">don't do job</div>
-              <div className="arrow arrow-left">
-                <Icon icon={faCaretLeft} />
-              </div>
-            </div>
-          </div>
+          <PseudoAction
+            direction="before"
+            style={leftStyle}
+            mainText="Accept"
+            subText="do this job"
+          />
+          <PseudoAction
+            direction="after"
+            style={rightStyle}
+            mainText="Dismiss"
+            subText="don't do job"
+          />
         </Fragment>
       )
     } else if (feedType === "verifier") {
@@ -221,67 +169,43 @@ export default class Scenario extends Component {
           {first &&
             !previewDismissed && (
               <div className="pseudo-preview" style={previewStyle}>
-                <div className="action up-action">
-                  <div className="pseudo-main-text">WARN</div>
-                  <div className="pseudo-sub-text">legal flag</div>
-                  <div className="arrow arrow-up">
-                    <Icon icon={faCaretUp} />
-                  </div>
-                </div>
-                <div className="action right-action">
-                  <div className="pseudo-main-text">VALID</div>
-                  <div className="pseudo-sub-text">looks good</div>
-                  <div className="arrow arrow-right">
-                    <Icon icon={faCaretRight} />
-                  </div>
-                </div>
-                <div className="action left-action">
-                  <div className="pseudo-main-text">PASS</div>
-                  <div className="pseudo-sub-text">not sure</div>
-                  <div className="arrow arrow-left">
-                    <Icon icon={faCaretLeft} />
-                  </div>
-                </div>
-                <div className="touch-icon">
-                  <Icon icon={faHandPointUp} />
-                </div>
-                <div className="action down-action">
-                  <button
-                    className="btn preview-dismiss-btn"
-                    onClick={() => this.props.dismissPreview()}
-                  >
-                    Got it
-                  </button>
-                </div>
+                <PreviewAction
+                  direction="up"
+                  mainText="Warn Us"
+                  subText="legal flag"
+                />
+                <PreviewAction
+                  direction="right"
+                  mainText="Validate"
+                  subText="looks good"
+                />
+                <PreviewAction
+                  direction="left"
+                  mainText="Dismiss"
+                  subText="not sure"
+                />
+                <TouchIcon />
+                <DismissButton dismissPreview={dismissPreview} />
               </div>
             )}
-          <div className="pseudo-up" style={upStyle}>
-            <div className="action down-action">
-              <div className="pseudo-main-text">WARN</div>
-              <div className="pseudo-sub-text">legal flag</div>
-              <div className="arrow arrow-up">
-                <Icon icon={faCaretUp} />
-              </div>
-            </div>
-          </div>
-          <div className="pseudo-before" style={leftStyle}>
-            <div className="action left-action">
-              <div className="pseudo-main-text">VALID</div>
-              <div className="pseudo-sub-text">looks good</div>
-              <div className="arrow arrow-right">
-                <Icon icon={faCaretRight} />
-              </div>
-            </div>
-          </div>
-          <div className="pseudo-after" style={rightStyle}>
-            <div className="action right-action">
-              <div className="pseudo-main-text">PASS</div>
-              <div className="pseudo-sub-text">not sure</div>
-              <div className="arrow arrow-left">
-                <Icon icon={faCaretLeft} />
-              </div>
-            </div>
-          </div>
+          <PseudoAction
+            direction="up"
+            style={upStyle}
+            mainText="Warn Us"
+            subText="legal flag"
+          />
+          <PseudoAction
+            direction="before"
+            style={leftStyle}
+            mainText="Validate"
+            subText="looks good"
+          />
+          <PseudoAction
+            direction="after"
+            style={rightStyle}
+            mainText="Dismiss"
+            subText="not sure"
+          />
         </Fragment>
       )
     } else {
@@ -330,9 +254,6 @@ export default class Scenario extends Component {
     } else if (feedType === "doer") {
       return (
         <footer className="scenario-footer">
-          <div className="tag-list-money">
-            <span className="dollar-amount">{moneyfy(funding_goal)}</span>
-          </div>
           <div className="tag-list-wrap">
             <span className="tag-list-label">Work needed:</span>
             <ul className="tag-list">
@@ -489,7 +410,10 @@ export default class Scenario extends Component {
       scenarioId: scenario.id
     }
 
-    if (this.adType() === "3") json["amount"] = funding_goal - donated
+    if (this.adType() === "3") {
+      // Donations
+      json["amount"] = funding_goal - donated
+    }
 
     this.setState({
       style: {
@@ -807,18 +731,88 @@ export default class Scenario extends Component {
 
           {this.footerBuild()}
         </div>
-        <Link className="btn scenario-footer-btn accept-scenario-btn" to={`/${id}/donator/`}>
-          <Icon icon={faArrowAltCircleDown} />
-        </Link>
-        {/* I tried to put this link on the profile's name.. but can't get it to click on touch..
-            also we don't have the users id, without a seperate database query */}
         <Link
-          className="btn scenario-footer-btn check-profile-btn"
-          to="/reputation/1"
+          className="btn scenario-footer-btn accept-scenario-btn"
+          to={`/${id}/donator/`}
         >
-          <Icon icon={faQuestionCircle} />
+          <Icon icon={faArrowAltCircleDown} />
         </Link>
       </article>
     )
   }
 }
+
+/* Actions */
+
+const PreviewAction = props => (
+  <div className={`action ${props.direction}-action`}>
+    <div className="pseudo-main-text">{props.mainText}</div>
+    <div className="pseudo-sub-text">{props.subText}</div>
+    <div className={`arrow arrow-${props.direction}`}>
+      {props.direction === "up" && <Icon icon={faCaretUp} />}
+      {props.direction === "right" && <Icon icon={faCaretRight} />}
+      {props.direction === "left" && <Icon icon={faCaretLeft} />}
+    </div>
+  </div>
+)
+
+class PseudoAction extends Component {
+  render() {
+    const { direction, style, mainText, subText } = this.props
+
+    let actionType
+    let arrow
+
+    if (direction === "up") {
+      actionType = "down"
+      arrow = (
+        <div className="arrow arrow-up">
+          <Icon icon={faCaretUp} />
+        </div>
+      )
+    } else if (direction === "before") {
+      actionType = "left"
+      arrow = (
+        <div className="arrow arrow-right">
+          <Icon icon={faCaretRight} />
+        </div>
+      )
+    } else if (direction === "after") {
+      actionType = "right"
+      arrow = (
+        <div className="arrow arrow-left">
+          <Icon icon={faCaretLeft} />
+        </div>
+      )
+    }
+
+    return (
+      <div className={`pseudo-${direction}`} style={style}>
+        <div className={`action ${actionType}-action`}>
+          <div className="pseudo-main-text">{mainText}</div>
+          <div className="pseudo-sub-text">{subText}</div>
+          {arrow}
+        </div>
+      </div>
+    )
+  }
+}
+
+const DismissButton = props => (
+  <div className="action down-action">
+    <button
+      className="btn preview-dismiss-btn"
+      onClick={() => props.dismissPreview()}
+    >
+      Got it
+    </button>
+  </div>
+)
+
+const TouchIcon = () => (
+  <div className="touch-icon">
+    <Icon icon={faHandPointUp} />
+  </div>
+)
+
+/* [ end Actions ] */

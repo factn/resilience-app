@@ -14,15 +14,11 @@ import Database from "../resources/Database"
 /*** [end of imports] ***/
 
 export default class MissionControl extends Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      role: this.props.match.params.role || "Missions",
-      tab: this.props.match.params.tab || "Donating",
-      userId: Cookies.get("userId") || 1,
-      userDos: null
-    }
+  state = {
+    role: this.props.match.params.role || "Missions",
+    tab: this.props.match.params.tab || "Donating",
+    userId: Cookies.get("userId") || 1,
+    userDos: null
   }
 
   componentDidMount = () => {
@@ -62,104 +58,61 @@ export default class MissionControl extends Component {
     return (
       <Page clas="feed-page mission-control-page">
         <div className="mission-control-subheader">
-          <h4
-            className={
-              role === "Requests"
-                ? "sub-header-option active"
-                : "sub-header-option"
-            }
-            onClick={() => this.changeFlow("Requests")}
-          >
-            Requests
-          </h4>
-          <h4
-            className={
-              role === "Missions"
-                ? "sub-header-option active"
-                : "sub-header-option"
-            }
-            onClick={() => this.changeFlow("Missions")}
-          >
-            Missions
-          </h4>
+          <Role
+            active={role === "Requests"}
+            roleName="Requests"
+            changeFlow={this.changeFlow}
+          />
+          <Role
+            active={role === "Missions"}
+            roleName="Missions"
+            changeFlow={this.changeFlow}
+          />
         </div>
 
         <Main>
           <section className="mission-area">
             <header className="tab-list-wrap">
               <ul className="tab-list">
-                <li
-                  className={
-                    tab === "Donating" ? "tab-link active" : "tab-link"
-                  }
-                  onClick={() => this.changeTab("Donating")}
-                >
-                  Donating
-                </li>
-                <li
-                  className={
-                    tab === "In Progress" ? "tab-link active" : "tab-link"
-                  }
-                  onClick={() => this.changeTab("In Progress")}
-                >
-                  In Progress
-                </li>
-                <li
-                  className={
-                    tab === "Finished" ? "tab-link active" : "tab-link"
-                  }
-                  onClick={() => this.changeTab("Finished")}
-                >
-                  Finished
-                </li>
+                <Tab
+                  active={tab === "Donating"}
+                  tabName="Donating"
+                  changeTab={this.changeTab}
+                />
+                <Tab
+                  active={tab === "In Progress"}
+                  tabName="In Progress"
+                  changeTab={this.changeTab}
+                />
+                <Tab
+                  active={tab === "Finished"}
+                  tabName="Finished"
+                  changeTab={this.changeTab}
+                />
               </ul>
             </header>
+
             <div className="tab-wrap missions-tab-wrap">
-              <article className={tab === "Donating" ? "tab active" : "tab"}>
-                {userDos ? (
-                  userDos.map(scenario => (
-                    <MiniScenario
-                      key={scenario.id}
-                      id={scenario.id}
-                      role={role}
-                      tab={tab}
-                      {...scenario.attributes}
-                    />
-                  ))
-                ) : (
-                  <Loader />
-                )}
-              </article>
-              <article className={tab === "In Progress" ? "tab active" : "tab"}>
-                {userDos ? (
-                  userDos.map(scenario => (
-                    <MiniScenario
-                      key={scenario.id}
-                      id={scenario.id}
-                      role={role}
-                      tab={tab}
-                      {...scenario.attributes}
-                    />
-                  ))
-                ) : (
-                  <Loader />
-                )}
-              </article>
-              <article className={tab === "Finished" ? "tab active" : "tab"}>
-                {userDos ? (
-                  userDos.map(scenario => (
-                    <MiniScenario
-                      key={scenario.id}
-                      id={scenario.id}
-                      role={role}
-                      tab={tab}
-                      {...scenario.attributes}
-                    />
-                  ))
-                ) : (
-                  <Loader />
-                )}
-              </article>
+              <TabContent
+                tabName={"Donating"}
+                content={userDos}
+                role={role}
+                tab={tab}
+              />
+
+              <TabContent
+                tabName={"In Progress"}
+                content={userDos}
+                role={role}
+                tab={tab}
+              />
+
+              <TabContent
+                tabName={"Finished"}
+                content={userDos}
+                role={role}
+                tab={tab}
+              />
             </div>
           </section>
         </Main>
@@ -167,3 +120,39 @@ export default class MissionControl extends Component {
     )
   }
 }
+
+const Role = props => (
+  <h4
+    className={props.active ? "sub-header-option active" : "sub-header-option"}
+    onClick={() => props.changeFlow(props.roleName)}
+  >
+    {props.roleName}
+  </h4>
+)
+
+const Tab = props => (
+  <li
+    className={props.active ? "tab-link active" : "tab-link"}
+    onClick={() => props.changeTab(props.tabName)}
+  >
+    {props.tabName}
+  </li>
+)
+
+const TabContent = props => (
+  <article className={props.tab === props.tabName ? "tab active" : "tab"}>
+    {props.content ? (
+      props.content.map(scenario => (
+        <MiniScenario
+          key={scenario.id}
+          id={scenario.id}
+          role={props.role}
+          tab={props.tab}
+          {...scenario.attributes}
+        />
+      ))
+    ) : (
+      <Loader />
+    )}
+  </article>
+)

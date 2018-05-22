@@ -52,15 +52,15 @@ export default class App extends Component {
           <Route path="/donator" component={DonatorFlow} />
           <Route path="/doer" exact component={DoerFlow} />
           <Route path="/:role/confirmation" exact component={Confirmation} />
-          <Route path="/:scenarioId/:role/confirmation" exact component={Confirmation} />
-          <Route path="/:scenarioId/:role/confirmation/:verb/:noun" exact component={Confirmation} />
+          <Route path="/:scenario_id/:role/confirmation" exact component={Confirmation} />
+          <Route path="/:scenario_id/:role/confirmation/:verb/:noun" exact component={Confirmation} />
           <Route path="/requester" component={RequesterFlow} />
           <Route path="/feed/:type" component={Feed} />
           
           {/* Account */}
           <Route path="/login" component={Login} />
           <Route path="/profile" component={Profile} />
-          <Route path="/reputation/:otherUserId" exact component={Reputation} />
+          <Route path="/reputation/:user_id" exact component={Reputation} />
           <Route path="/account" exact component={Account} />
           <Route path="/account/confirm-facebook" exact component={FBConfirm} />
           <Route path="/account/verify-facebook" exact component={FBVerify} />
@@ -71,9 +71,9 @@ export default class App extends Component {
           <Route path="/missions/:role/:tab" exact component={MissionControl} />
 
           {/* Scenario full-page */}
-          <Route path="/:scenarioId/" exact component={Info} />
-          <Route path="/:scenarioId/:role/" exact component={Info} />
-          <Route path="/:scenarioId/:role/:tab" exact component={Info} />
+          <Route path="/:scenario_id/" exact component={Info} />
+          <Route path="/:scenario_id/:role/" exact component={Info} />
+          <Route path="/:scenario_id/:role/:tab" exact component={Info} />
 
           {/* 404 */}
           <Route component={NoPage} />

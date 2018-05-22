@@ -19,22 +19,18 @@ import { moneyfy } from "../resources/Util"
 /*** [end of imports] ***/
 
 export default class Feed extends Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      scenarioData: null,
-      feedOffset: 0,
-      resultsOffset: 0,
-      cardsOnPage: null,
-      userId: Cookies.get("userId") || 1,
-      previewDismissed: false,
-      type: this.props.match.params.type || 1,
-      default_total_session_donation: null,
-      default_swipe_donation: null,
-      donatedTotal: 0.0,
-      overlayOpen: false
-    }
+  state = {
+    scenarioData: null,
+    feedOffset: 0,
+    resultsOffset: 0,
+    cardsOnPage: null,
+    userId: Cookies.get("userId") || 1,
+    previewDismissed: false,
+    type: this.props.match.params.type || 1,
+    default_total_session_donation: null,
+    default_swipe_donation: null,
+    donatedTotal: 0.0,
+    overlayOpen: false
   }
 
   filterFeed = (data, offset) => {
@@ -316,6 +312,7 @@ export default class Feed extends Component {
               </div>
               <h4 className="dollar-amount-label">To spend</h4>
             </div>
+
             <div className="footer-right">
               <div className="dollar-amount">
                 {donatedTotal ? moneyfy(donatedTotal) : "$0"}

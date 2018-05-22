@@ -8,17 +8,20 @@
   padding: .5em 1em 2em;
   text-align: center;
   z-index: 10;
+
   .button-label {
     margin: 0 0 0.5rem;
     font-style: italic;
   }
 }
+
 .footer-btn {
   display: inline-block;
   margin: 0 auto;
   padding: 0.5rem 2rem;
   font-size: 1rem;
   min-width: 10rem;
+
   .loader-icon {
     font-size: 0.75rem;
   }

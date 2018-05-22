@@ -9,6 +9,7 @@ import Page from "./Page"
 import Main from "../components/Main"
 import Footer from "../components/Footer"
 import SessionSetting from "../components/SessionSetting"
+import SessionCard from "../components/SessionCard"
 
 // Inputs
 import InputIconWrap from "../components/inputs/InputIconWrap"
@@ -19,24 +20,21 @@ import Database from "../resources/Database"
 /*** [end of imports] ***/
 
 export default class DonatorFlow extends Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      userId: Cookies.get("userId") || 1
-    }
+  state = {
+    userId: Cookies.get("userId") || 1
   }
 
   beginMission = params => {
     const { userId } = this.state
+    const { default_total_session_donation, default_swipe_donation } = params
     const json = {
       // No where to put address info or custom message
       data: {
         type: "users",
         id: userId,
         attributes: {
-          default_total_session_donation: params.default_total_session_donation,
-          default_swipe_donation: "1" // params.default_swipe_donation
+          default_total_session_donation,
+          default_swipe_donation: default_swipe_donation || "1"
         }
       }
     }
@@ -67,8 +65,7 @@ export default class DonatorFlow extends Component {
       <Page clas="flow-page donator-flow-page">
         <Main>
           <SessionSetting headerLabel="Total I want to spend">
-            <article className="card session-card">
-              <h4 className="card-title">In this session</h4>
+            <SessionCard clas="session-card" cardTitle="In this session">
               <InputIconWrap id="selectMaxDonationAmount" icon={faDollarSign}>
                 <input
                   className="input-field"
@@ -83,11 +80,11 @@ export default class DonatorFlow extends Component {
                   Unlimited Amount
                 </button>
               </div>
-            </article>
+            </SessionCard>
           </SessionSetting>
 
           <SessionSetting headerLabel="Donate" clas="donation-settings">
-            <article className="card donation-card">
+            <SessionCard clas="donation-card">
               <div className="button-grid">
                 <button className="btn square-btn">$0.20</button>
                 <button className="btn square-btn">$1.00</button>
@@ -97,7 +94,7 @@ export default class DonatorFlow extends Component {
               <div className="donation-clarification">
                 To each mission I swipe right on
               </div>
-            </article>
+            </SessionCard>
           </SessionSetting>
 
           {/* <SessionSetting clas="user-settings">

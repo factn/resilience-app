@@ -8,6 +8,8 @@ import { Link } from "react-router-dom"
 import Header from "../components/Header"
 import Main from "../components/Main"
 import Footer from "../components/Footer"
+import SessionSetting from "../components/SessionSetting"
+import SessionCard from "../components/SessionCard"
 
 // Inputs
 import Image from "../components/inputs/Image"
@@ -67,56 +69,50 @@ export default class Account extends Component {
         </Header>
 
         <Main>
-          <section className="session-settings facebook-setting">
+          <SessionSetting clas="facebook-setting">
             <Link
               className="btn facebook-connect-btn"
               to="/account/confirm-facebook"
             >
               Sign up with Facebook
             </Link>
-          </section>
+          </SessionSetting>
+
           <div className="or-line">or enter your details</div>
-          <section className="session-settings name-settings">
-            <header className="settings-header">
-              <h3>Name</h3>
-            </header>
-            <article className="card input-card name-card">
+
+          <SessionSetting clas="name-setting" headerLabel="Name">
+            <SessionCard clas="input-card name-card">
               <input type="text" placeholder="Enter a name" id="firstname" />
-            </article>
-          </section>
-          <section className="session-settings email-settings">
-            <header className="settings-header">
-              <h3>Email</h3>
-            </header>
-            <article className="card input-card email-card">
+            </SessionCard>
+          </SessionSetting>
+
+          <SessionSetting clas="email-setting" headerLabel="Email">
+            <SessionCard clas="input-card email-card">
               <input type="email" placeholder="Enter your email" id="email" />
-            </article>
-          </section>
-          <section className="session-settings password-settings">
-            <header className="settings-header">
-              <h3>Password</h3>
-            </header>
-            <article className="card input-card password-card">
+            </SessionCard>
+          </SessionSetting>
+
+          <SessionSetting clas="password-setting" headerLabel="Password">
+            <SessionCard clas="input-card password-card">
               <input
                 type="password"
                 placeholder="Choose a password"
                 id="password"
               />
-            </article>
-            <article className="card input-card password-confirm-card">
+            </SessionCard>
+
+            <SessionCard clas="input-card password-confirm-card">
               <input
                 type="password"
                 placeholder="Confirm your password"
                 id="password_confirmation"
               />
-            </article>
-          </section>
-          <section className="session-settings">
-            <header className="settings-header">
-              <h3>Add a photo</h3>
-            </header>
+            </SessionCard>
+          </SessionSetting>
+
+          <SessionSetting headerLabel="Add a photo">
             <Image />
-          </section>
+          </SessionSetting>
         </Main>
 
         <Footer>

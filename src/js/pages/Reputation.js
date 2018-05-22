@@ -4,7 +4,7 @@ import React, { Component } from "react"
 import { Link } from "react-router-dom"
 import Cookies from "js-cookie"
 import Icon from "@fortawesome/react-fontawesome"
-import { faCheck, faSmile, faFrown } from "@fortawesome/fontawesome-free-solid"
+import { faCheck } from "@fortawesome/fontawesome-free-solid"
 
 // Components
 import Page from "./Page"
@@ -21,17 +21,13 @@ import catGreen from "../../img/cat-green.svg"
 /*** [end of imports] ***/
 
 export default class Reputation extends Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      userDonations: null,
-      userDos: null,
-      userRequests: null,
-      userVerifications: null,
-      currentUserData: null,
-      userId: this.props.match.params.otherUserId || Cookies.get("userId") || 1
-    }
+  state = {
+    userDonations: null,
+    userDos: null,
+    userRequests: null,
+    userVerifications: null,
+    currentUserData: null,
+    userId: this.props.match.params.user_id || Cookies.get("userId") || 1
   }
 
   componentDidMount = () => {
@@ -134,30 +130,6 @@ export default class Reputation extends Component {
       })
   }
 
-  createMiniList = proofs => {
-    return (
-      <div className="profile-proofs-wrap">
-        {proofs &&
-          proofs.map((proof, index) => {
-            if (index < 9) {
-              let positive = Math.random() > 0.1 // TODO: currently random, will be scenario.attributes.is_complete
-              return (
-                <div
-                  key={proof.id}
-                  className={positive ? "proof positive" : "proof negative"}
-                >
-                <img src={positive ? catGreen : catRed} alt="cat" />
-                  {/* <Icon icon={positive ? faSmile : faFrown} /> */}
-                </div>
-              )
-            } else if (index === 9) {
-              return <span className="rest" key="last">...</span>
-            }
-          })}
-      </div>
-    )
-  }
-
   render() {
     const {
       currentUserData,
@@ -173,6 +145,7 @@ export default class Reputation extends Component {
           <header className="settings-header">
             <h3>Reputation</h3>
           </header>
+
           {currentUserData && currentUserData.firstname !== "" ? (
             <div className="user-info-area">
               {currentUserData.avatar ? (
@@ -206,43 +179,57 @@ export default class Reputation extends Component {
               </Link>
             </div>
           )}
+
           <section className="profile">
-            <article className="profile-article">
-              <header className="profile-article-header">
-                <h4>Honey</h4>
-              </header>
-            </article>
-            <article className="profile-article">
-              <header className="profile-article-header">
-                <h4>Donations ({userDonations ? userDonations.length : 0})</h4>
-              </header>
-              {userDonations && this.createMiniList(userDonations)}
-            </article>
-            <article className="profile-article">
-              <header className="profile-article-header">
-                <h4>Tasks ({userDos ? userDos.length : 0})</h4>
-              </header>
-              {userDos && this.createMiniList(userDos)}
-            </article>
-            <article className="profile-article">
-              <header className="profile-article-header">
-                <h4>Requests ({userRequests ? userRequests.length : 0})</h4>
-              </header>
-              {userRequests && this.createMiniList(userRequests)}
-            </article>
-            <article className="profile-article">
-              <header className="profile-article-header">
-                <h4>
-                  Verifications ({userVerifications
-                    ? userVerifications.length
-                    : 0})
-                </h4>
-              </header>
-              {userVerifications && this.createMiniList(userVerifications)}
-            </article>
+            <ProfileArticle headerLabel={"Honey"} content={null} />
+            <ProfileArticle headerLabel={"Donations"} content={userDonations} />
+            <ProfileArticle headerLabel={"Tasks"} content={userDos} />
+            <ProfileArticle headerLabel={"Requests"} content={userRequests} />
+            <ProfileArticle
+              headerLabel={"Verifications"}
+              content={userVerifications}
+            />
           </section>
         </Main>
       </Page>
     )
   }
 }
+
+const ProfileArticle = props => (
+  <article className="profile-article">
+    <header className="profile-article-header">
+      <h4>
+        {props.headerLabel} ({props.content ? props.content.length : 0})
+      </h4>
+    </header>
+    {props.content && <MiniList proofs={props.content} />}
+  </article>
+)
+
+const MiniList = props => (
+  <div className="profile-proofs-wrap">
+    {props.proofs &&
+      props.proofs.map((proof, index) => {
+        if (index < 9) {
+          let positive = Math.random() > 0.1 // TODO: currently random, will be scenario.attributes.is_complete
+
+          return (
+            <div
+              key={proof.id}
+              className={positive ? "proof positive" : "proof negative"}
+            >
+              <img src={positive ? catGreen : catRed} alt="cat" />
+              {/* <Icon icon={positive ? faSmile : faFrown} /> */}
+            </div>
+          )
+        } else if (index === 9) {
+          return (
+            <span className="rest" key="last">
+              ...
+            </span>
+          )
+        }
+      })}
+  </div>
+)

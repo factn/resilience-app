@@ -1,8 +1,7 @@
 .mini-scenario {
   @include inline-flex;
-  padding-bottom: 1rem;
-  border-bottom: 0.125rem solid rgba($black, 0.25);
-  margin-bottom: 1rem;
+  @include spacer-with-border("bottom", 1rem, 0.125rem, rgba($black, 0.25));
+
   .status-btn {
     font-size: 0.8rem;
     color: $black;
@@ -10,33 +9,44 @@
     margin-top: 2rem;
     text-align: center;
     padding: 0.5rem;
+
     &.verified {
       background: $progress-green;
     }
   }
+
   &.verified {
     .mini-scenario-image-wrap {
       border: .25rem solid $progress-green;
     }
   }
 }
+
 .mini-scenario-image-wrap {
   @include circle-photo-wrap(4rem);
-  flex-basis: 4rem;
-  flex-grow: 1;
   margin-right: 1rem;
   border: .25rem solid $orange;
   background-size: cover;
+
+  flex: {
+    basis: 4rem;
+    grow: 1;
+  }
+
   .mini-scenario-image {
     display: none;
     max-width: initial;
     height: 4rem;
   }
 }
+
 .mini-scenario-right {
-  flex-basis: 80%;
-  flex-grow: 5;
+  flex: {
+    basis: 80%;
+    grow: 5;
+  }
 }
+
 .mini-scenario-title {
   font-weight: bold;
 }

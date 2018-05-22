@@ -6,31 +6,24 @@ import Icon from "@fortawesome/react-fontawesome"
 /*** [end of imports] ***/
 
 export default class Header extends Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      menuIsOpen: false
-    }
-    this.menuItems = [
-      {
-        label: "Get Help",
-        link: "/requester"
-      },
-      {
-        label: "Profile",
-        link: "/profile"
-      },
-      {
-        label: "Log Out",
-        link: "/"
-      }
-    ]
-
-    // Bindings
-    this.openMenu = this.openMenu.bind(this)
-    this.closeMenu = this.closeMenu.bind(this)
+  state = {
+    copyDate: new Date().getFullYear(),
+    menuIsOpen: false
   }
+  menuItems = [
+    {
+      label: "Get Help",
+      link: "/requester"
+    },
+    {
+      label: "Profile",
+      link: "/profile"
+    },
+    {
+      label: "Log Out",
+      link: "/"
+    }
+  ]
 
   openMenu = () => {
     this.setState({
@@ -44,7 +37,7 @@ export default class Header extends Component {
   }
 
   render() {
-    const { menuIsOpen } = this.state
+    const { menuIsOpen, copyDate } = this.state
 
     return (
       <nav className="menu">
@@ -73,7 +66,7 @@ export default class Header extends Component {
           </ul>
 
           <div className="subheader-content">
-            <div className="copy">&copy; {new Date().getFullYear()}</div>
+            <div className="copy">&copy; {copyDate}</div>
             <div className="version">0.1.0</div>
           </div>
         </section>

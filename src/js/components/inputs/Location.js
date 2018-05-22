@@ -13,19 +13,12 @@ import GoogleMaps from "../GoogleMaps"
 /*** [end of imports] ***/
 
 export default class Location extends Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      address: "",
-      latLng: {
-        lat: this.props.lat || -41.280789,
-        lng: this.props.lon || 174.775187
-      }
+  state = {
+    address: "",
+    latLng: {
+      lat: this.props.lat || -41.280789,
+      lng: this.props.lon || 174.775187
     }
-
-    this.handleLatChange = this.handleLatChange.bind(this)
-    this.handleLonChange = this.handleLonChange.bind(this)
   }
 
   handleChange = address => {

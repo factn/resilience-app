@@ -1,28 +1,39 @@
 .places-autocomplete {
   position: relative;
+
   .input-field {
-    font-size: 1rem;
     border: 0;
-    font-weight: 300;
+
+    font: {
+      size: 1rem;
+      weight: 300;
+    }
   }
+
   .autocomplete-dropdown-container {
     position: absolute;
     top: -100vh;
-    left: -1px;
+    left: -0.0625rem;
+
     &:not(:empty) {
       top: 2rem;
-      width: calc(100% + 2px);
+      width: calc(100% + 0.125rem);
       max-height: 10rem;
       background: $white;
       overflow: auto;
       z-index: 10;
-      border: 1px solid rgba($black, 0.5);
+      border: 0.0625rem solid rgba($black, 0.5);
     }
   }
+
   .sugestion-item {
-    font-size: 0.8rem;
-    font-weight: 300;
     cursor: pointer;
+    
+    font: {
+      size: .8rem;
+      weight: 300;
+    }
+    
     &.active,
     &:active,
     &:hover {

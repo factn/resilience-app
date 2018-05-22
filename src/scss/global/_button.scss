@@ -7,25 +7,30 @@ button,
   border: 0;
   border-radius: 0.5em;
   text-transform: uppercase;
+
   transition: {
     property: color;
     duration: $fast;
     timing-function: $cubic;
   }
+
   a,
   a:visited,
   &:visited {
     color: $white;
   }
+
   &:focus,
   &:hover {
     color: $white;
+
     a,
     a:hover,
     a:focus {
       color: $white;
     }
   }
+
   &:active,
   &.active {
     a,
@@ -33,15 +38,18 @@ button,
       color: $white;
     }
   }
+
   &.square-btn {
     border-radius: 0;
   }
 }
+
 .btn-lite {
   background: $white;
   color: $blue;
-  border: 1px solid $orange;
+  border: 0.0625rem solid $orange;
   cursor: pointer;
+  
   &:hover,
   &:focus,
   &:active {

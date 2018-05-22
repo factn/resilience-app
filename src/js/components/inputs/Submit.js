@@ -9,17 +9,12 @@ import { getBase64 } from "../../resources/Util"
 /*** [end of imports] ***/
 
 export default class Submit extends Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      buttonPressed: false
-    }
+  state = {
+    buttonPressed: false
   }
 
   pressButton = () => {
     const { onSubmit, onSubmitParams } = this.props
-    let values = {}
 
     if (!this.state.buttonPressed) {
       this.setState({
@@ -29,7 +24,8 @@ export default class Submit extends Component {
       if (onSubmit) {
         if (onSubmitParams) {
           let field
-  
+          let values = {}
+
           for (let i in onSubmitParams) {
             field = document.getElementById(onSubmitParams[i])
 
@@ -41,7 +37,7 @@ export default class Submit extends Component {
               values[i] = field.value.toString()
             }
           }
-  
+
           onSubmit(values)
         } else {
           onSubmit()

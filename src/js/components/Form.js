@@ -1,10 +1,8 @@
 /*** IMPORTS ***/
 // Module imports
-import React, { Component } from "react"
+import React from "react"
 /*** [end of imports] ***/
 
-export default class Form extends Component {
-  render() {
-    return <div className="page-form">{this.props.children}</div>
-  }
-}
+const Form = ({ children }) => <div className="page-form">{children}</div>
+
+export default Form

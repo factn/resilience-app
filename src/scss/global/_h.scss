@@ -5,19 +5,18 @@ h4,
 h5,
 h6 {
   color: $blue;
-  font-family: "Montserrat", arial, sans-serif;
   margin: 0;
+
+  font: {
+    family: "Montserrat", arial, sans-serif;
+    weight: $h2-weight;
+  }
+
   b {
     font-weight: $bold-weight;
   }
 }
+
 h1 {
   font-weight: $h1-weight;
-}
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-weight: $h2-weight;
 }

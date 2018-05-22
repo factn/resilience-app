@@ -1,5 +1,6 @@
 .app-header {
   position: relative;
+
   h1,
   h2,
   h3 {
@@ -8,15 +9,22 @@
     text-align: center;
   }
 }
+
 .logo {
   min-height: 3rem;
+
   img {
     max-height: 3rem;
   }
 }
+
 .menu {
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 2;
+  z-index: 15;
+}
+
+.missions-btn svg {
+  color: darken($white, 25%);
 }

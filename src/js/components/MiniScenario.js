@@ -8,76 +8,6 @@ import { toFirstCap, moneyfy, gradientStyle } from "../resources/Util"
 /*** [end of imports] ***/
 
 export default class MiniScenario extends Component {
-  actionBtn = () => {
-    const { id, role, tab, verified } = this.props
-
-    if (role === "Requests") {
-      if (tab === "Donating") {
-        if (verified) {
-          return (
-            <Link
-              className="btn btn-lite mini-scenario-link"
-              to={`/${id}/requester`}
-            >
-              Post update
-            </Link>
-          )
-        } else {
-          return (
-            <Link
-              className="btn btn-lite mini-scenario-link"
-              to={`/${id}/requester`}
-            >
-              Edit request
-            </Link>
-          )
-        }
-      } else if (tab === "In Progress") {
-        return (
-          <Link
-            className="btn btn-lite mini-scenario-link"
-            to={`/${id}/requester`}
-          >
-            Post update
-          </Link>
-        )
-      } else if (tab === "Finished") {
-        return (
-          <Link className="btn btn-lite mini-scenario-link" to={`/${id}/info`}>
-            Post update
-          </Link>
-        )
-      }
-    } else {
-      // role === "Missions" or other
-      if (tab === "Donating") {
-        return (
-          <Link
-            className="btn btn-lite mini-scenario-link"
-            to={`/${id}/donator`}
-          >
-            Fund the rest
-          </Link>
-        )
-      } else if (tab === "In Progress") {
-        return (
-          <Link className="btn btn-lite mini-scenario-link" to={`/${id}/doer/instructions`}>
-            Do a task
-          </Link>
-        )
-      } else if (tab === "Finished") {
-        return (
-          <Link
-            className="btn btn-lite mini-scenario-link"
-            to={`/${id}/info`}
-          >
-            Review Story
-          </Link>
-        )
-      }
-    }
-  }
-
   render() {
     const {
       role,
@@ -132,7 +62,9 @@ export default class MiniScenario extends Component {
             </span>
             <span> To fund</span>
           </div>
-          {this.actionBtn()}
+
+          <ActionBtn {...this.props} />
+
           {role === "Requests" &&
             tab === "Donating" &&
             !verified && (
@@ -146,5 +78,72 @@ export default class MiniScenario extends Component {
         </div>
       </section>
     )
+  }
+}
+
+const ActionBtn = props => {
+  const { id, role, tab, verified } = props
+
+  if (role === "Requests") {
+    if (tab === "Donating") {
+      if (verified) {
+        return (
+          <Link
+            className="btn btn-lite mini-scenario-link"
+            to={`/${id}/requester`}
+          >
+            Post update
+          </Link>
+        )
+      } else {
+        return (
+          <Link
+            className="btn btn-lite mini-scenario-link"
+            to={`/${id}/requester`}
+          >
+            Edit request
+          </Link>
+        )
+      }
+    } else if (tab === "In Progress") {
+      return (
+        <Link
+          className="btn btn-lite mini-scenario-link"
+          to={`/${id}/requester`}
+        >
+          Post update
+        </Link>
+      )
+    } else if (tab === "Finished") {
+      return (
+        <Link className="btn btn-lite mini-scenario-link" to={`/${id}/info`}>
+          Post update
+        </Link>
+      )
+    }
+  } else {
+    // role === "Missions" or other
+    if (tab === "Donating") {
+      return (
+        <Link className="btn btn-lite mini-scenario-link" to={`/${id}/donator`}>
+          Fund the rest
+        </Link>
+      )
+    } else if (tab === "In Progress") {
+      return (
+        <Link
+          className="btn btn-lite mini-scenario-link"
+          to={`/${id}/doer/instructions`}
+        >
+          Do a task
+        </Link>
+      )
+    } else if (tab === "Finished") {
+      return (
+        <Link className="btn btn-lite mini-scenario-link" to={`/${id}/info`}>
+          Review Story
+        </Link>
+      )
+    }
   }
 }

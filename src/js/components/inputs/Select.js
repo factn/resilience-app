@@ -1,6 +1,6 @@
 /*** IMPORTS ***/
 // Module imports
-import React, { Component } from "react"
+import React from "react"
 import Icon from "@fortawesome/react-fontawesome"
 import { faChevronDown } from "@fortawesome/fontawesome-free-solid"
 
@@ -8,56 +8,47 @@ import { faChevronDown } from "@fortawesome/fontawesome-free-solid"
 import { valuify } from "../../resources/Util"
 /*** [end of imports] ***/
 
-export default class Select extends Component {
-  render() {
-    const {
-      options,
-      preselectedOption,
-      inputID,
-      requiredField,
-      disabledField
-    } = this.props
+const Select = props => (
+  <div
+    className={
+      props.disabledField
+        ? "input-wrap disabled-input select-wrap"
+        : "input-wrap select-wrap"
+    }
+  >
+    <select
+      className="form-input"
+      id={props.inputID}
+      required={props.requiredField}
+      disabled={props.disabledField}
+    >
+      {props.preselectedOption ? (
+        <Option value={props.preselectedOption} />
+      ) : (
+        <Option />
+      )}
 
-    return (
-      <div
-        className={
-          disabledField
-            ? "input-wrap disabled-input select-wrap"
-            : "input-wrap select-wrap"
-        }
-      >
-        <select
-          className="form-input"
-          id={inputID}
-          required={requiredField}
-          disabled={disabledField}
-        >
-          {preselectedOption ? (
-            <option value={valuify(preselectedOption)}>
-              {preselectedOption}
-            </option>
-          ) : (
-            <option>[Select]</option>
-          )}
+      {props.options &&
+        props.options.map((_option, _index) => {
+          if (_option.attributes.description !== props.preselectedOption) {
+            return (
+              <Option value={_option.attributes.description} key={_index} />
+            )
+          }
+          return false
+        })}
+    </select>
 
-          {options &&
-            options.map((_option, _index) => {
-              if (_option.attributes.description !== preselectedOption) {
-                return (
-                  <option
-                    value={valuify(_option.attributes.description)}
-                    key={_index}
-                  >
-                    {_option.attributes.description}
-                  </option>
-                )
-              } else return false
-            })}
-        </select>
-        <label className="drop-down-icon" htmlFor={inputID}>
-          <Icon icon={faChevronDown} />
-        </label>
-      </div>
-    )
-  }
-}
+    <label className="drop-down-icon" htmlFor={props.inputID}>
+      <Icon icon={faChevronDown} />
+    </label>
+  </div>
+)
+
+const Option = props => (
+  <option value={valuify(props.value) || ""}>
+    {props.value || "[Select]"}
+  </option>
+)
+
+export default Select

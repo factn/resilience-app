@@ -1,21 +1,18 @@
 /*** IMPORTS ***/
 // Module imports
-import React, { Component } from "react"
+import React from "react"
 import { Link } from "react-router-dom"
 import Icon from "@fortawesome/react-fontawesome"
 /*** [end of imports] ***/
 
-export default class Action extends Component {
-  render() {
-    const { label, link, icon } = this.props
+const Action = props => (
+  <div className="action">
+    <span className="action-label">{props.label}</span>
 
-    return (
-      <div className="action">
-        <span className="action-label">{label}</span>
-        <Link className="btn action-btn" to={link}>
-          <Icon icon={icon} />
-        </Link>
-      </div>
-    )
-  }
-}
+    <Link className="btn action-btn" to={props.link}>
+      <Icon icon={props.icon} />
+    </Link>
+  </div>
+)
+
+export default Action

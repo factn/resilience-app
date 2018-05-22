@@ -2,25 +2,31 @@
   background: $white;
   box-shadow: $card-shadow;
   padding: 1rem;
+
   .card-title {
     text-align: center;
     margin-bottom: 1rem;
   }
+
   .card-content {
     text-align: center;
   }
+
   .card-area {
     max-height: 10rem;
     opacity: 1;
+
     transition: {
       property: opacity, max-height, padding-bottom;
       duration: $medium;
       timing-function: $cubic;
     }
+
     &:not(:last-of-type) {
       padding-bottom: 0.5rem;
       border-bottom: 0.125rem solid rgba($black, 0.1);
     }
+
     &.disabled-card-area {
       max-height: 0;
       opacity: 0;
@@ -28,24 +34,32 @@
       padding-bottom: 0;
     }
   }
+
   &.btn-card {
     margin-bottom: 1rem;
+
     transition: {
       property: background;
       duration: $fast;
       timing-function: $cubic;
     }
+
     h4 {
       font-weight: bold;
       margin: 0;
     }
+
     &.active {
       background: $orange;
     }
   }
+
   &.input-card {
     box-shadow: inset $card-shadow;
-    input, select, textarea {
+
+    input,
+    select,
+    textarea {
       background: transparent;
       border: 0;
       border-radius: 0;

@@ -2,47 +2,45 @@
 // Module imports
 import React, { Component } from "react"
 import Cookies from "js-cookie"
-// import Icon from "@fortawesome/react-fontawesome"
-// import { faAt, faKey, faSignInAlt } from "@fortawesome/fontawesome-free-solid"
+import Icon from "@fortawesome/react-fontawesome"
+import { faAt, faKey } from "@fortawesome/fontawesome-free-solid"
 
 // Components
 import Page from "./Page"
 import Main from "../components/Main"
-// import Form from "../components/Form"
-// import Loader from "../components/Loader"
+import Form from "../components/Form"
+import Submit from "../components/inputs/Submit"
 
 // Local JS Utilities
-// import Database from "../resources/Database"
+import Database from "../resources/Database"
 /*** [end of imports] ***/
 
 export default class Login extends Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      buttonPressed: false
-    }
+  state = {
+    buttonPressed: false
   }
 
   submitLogin = params => {
-    // const json = {
-    //   email: params.email,
-    //   password: params.password
-    // }
+    if (!this.state.buttonPressed) {
+      const json = {
+        email: params.email,
+        password: params.password
+      }
 
-    this.setState({
-      buttonPressed: true
-    })
+      this.setState({
+        buttonPressed: true
+      })
 
-    // Database.attemptLogin(json)
-    //   .then(result => {
-    //     // console.log("Login complete:", result)
+      Database.attemptLogin(json)
+        .then(result => {
+          // console.log("Login complete:", result)
 
-    //     this.setUserCookie(result)
-    //   })
-    //   .catch(error => {
-    //     // console.error("Error getting user:", error)
-    //   })
+          this.setUserCookie(result)
+        })
+        .catch(error => {
+          // console.error("Error getting user:", error)
+        })
+    }
   }
   setUserCookie = userId => {
     Cookies.set("userId", userId)
@@ -50,38 +48,19 @@ export default class Login extends Component {
   }
 
   render() {
+    let buttonObj = {
+      labelPhrase: "Sign In",
+      clas: "neutral-response",
+      onSubmit: this.submitLogin,
+      onSubmitParams: {
+        login_email: "login_email",
+        login_password: "login_password"
+      }
+    }
+
     return (
       <Page clas="flow-page login-page">
         <Main>
-          <section className="user-select-wrap">
-            <button
-              className="btn user-btn"
-              onClick={() => this.setUserCookie("1")}
-            >
-              User #1
-            </button>
-            <button
-              className="btn user-btn"
-              onClick={() => this.setUserCookie("2")}
-            >
-              User #2
-            </button>
-            <button
-              className="btn user-btn"
-              onClick={() => this.setUserCookie("3")}
-            >
-              User #3
-            </button>
-            <button
-              className="btn user-btn"
-              onClick={() => this.setUserCookie("4")}
-            >
-              User #4
-            </button>
-          </section>
-
-          {/* This is the real login form, commenting for now, but it will go back to this
-          
           <Form>
             <div className="input-wrap">
               <label className="input-label" htmlFor="login_email">
@@ -103,31 +82,8 @@ export default class Login extends Component {
               />
             </div>
 
-            <button
-              className="btn submit-btn neutral-response"
-              onClick={() => {
-                if (!this.state.buttonPressed) {
-                  this.submitLogin({
-                    email: document
-                      .getElementById("login_email")
-                      .value.toString(),
-                    password: document
-                      .getElementById("login_password")
-                      .value.toString()
-                  })
-                }
-              }}
-            >
-              {this.state.buttonPressed ? (
-                <Loader />
-              ) : (
-                <Fragment>
-                  <span className="button-label">Sign In </span>
-                  <Icon icon={faSignInAlt} className="button-icon" />
-                </Fragment>
-              )}
-            </button>
-          </Form> */}
+            <Submit {...buttonObj} />
+          </Form>
         </Main>
       </Page>
     )
