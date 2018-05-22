@@ -9,7 +9,7 @@ import { faAt, faKey } from "@fortawesome/fontawesome-free-solid"
 import Page from "./Page"
 import Main from "../components/Main"
 import Form from "../components/Form"
-import Submit from "../components/input/Submit"
+import Submit from "../components/inputs/Submit"
 
 // Local JS Utilities
 import Database from "../resources/Database"

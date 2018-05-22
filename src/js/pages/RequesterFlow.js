@@ -8,6 +8,7 @@ import Page from "./Page"
 import Main from "../components/Main"
 import Footer from "../components/Footer"
 import SessionSetting from "../components/SessionSetting"
+import SessionCard from "../components/SessionCard"
 
 // Inputs
 import Image from "../components/inputs/Image"
@@ -207,31 +208,29 @@ export default class RequesterFlow extends Component {
       <Page clas="flow-page requester-flow-page">
         <Main>
           <SessionSetting headerLabel="Event">
-            <article className="card input-card event-card">
+            <SessionCard clas="input-card event-card">
               <Select {...eventSelectObj} />
-            </article>
-            <article className="card input-card title-card">
+            </SessionCard>
+            <SessionCard clas="input-card title-card">
               <Select {...nounVerbSelectObj} />
-            </article>
+            </SessionCard>
           </SessionSetting>
 
           <SessionSetting headerLabel="Where is the issue?">
-            <article className="card">
+            <SessionCard>
               <Location inputID="requestLocation" />
-            </article>
+            </SessionCard>
           </SessionSetting>
 
           <SessionSetting headerLabel="What does it look like?">
             <Image />
           </SessionSetting>
 
-
           <SessionSetting headerLabel="Special Message?">
-            <article className="card input-card message-card">
+            <SessionCard clas="input-card message-card">
               <TextArea {...textareaObj} />
-            </article>
+            </SessionCard>
           </SessionSetting>
-
         </Main>
 
         <Footer>

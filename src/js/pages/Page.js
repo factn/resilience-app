@@ -1,20 +1,16 @@
 /*** IMPORTS ***/
 // Module imports
-import React, { Component } from "react"
+import React from "react"
 
 // Components
 import Header from "../components/Header"
 /*** [end of imports] ***/
 
-export default class Page extends Component {
-  render() {
-    const { clas } = this.props
+const Page = props => (
+  <div className={props.clas ? `page ${props.clas}` : "page"}>
+    <Header />
+    {props.children}
+  </div>
+)
 
-    return (
-      <div className={clas ? `page ${clas}` : "page"}>
-        <Header />
-        {this.props.children}
-      </div>
-    )
-  }
-}
+export default Page

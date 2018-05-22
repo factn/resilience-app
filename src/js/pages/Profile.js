@@ -51,6 +51,7 @@ export default class Profile extends Component {
           <header className="settings-header">
             <h3>Profile</h3>
           </header>
+
           {currentUserData && currentUserData.firstname !== "" ? (
             <div className="user-info-area">
               {currentUserData.avatar ? (
@@ -93,6 +94,7 @@ export default class Profile extends Component {
               </Link>
             </div>
           )}
+
           <section className="discovery-settings-area">
             <header className="discovery-settings-header">
               <h3>Discovery Settings</h3>
