@@ -27,7 +27,7 @@ export default class Reputation extends Component {
     userRequests: null,
     userVerifications: null,
     currentUserData: null,
-    userId: this.props.match.params.otherUserId || Cookies.get("userId") || 1
+    userId: this.props.match.params.user_id || Cookies.get("userId") || 1
   }
 
   componentDidMount = () => {

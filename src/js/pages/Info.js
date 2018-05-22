@@ -27,7 +27,7 @@ import { toFirstCap, moneyfy, gradientStyle } from "../resources/Util"
 
 export default class Info extends Component {
   state = {
-    scenarioId: this.props.match.params.scenarioId || 1,
+    scenarioId: this.props.match.params.scenario_id || 1,
     role: this.props.match.params.role || "info",
     tab: this.props.match.params.tab || "overview",
     scenarioData: null,

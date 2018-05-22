@@ -24,7 +24,7 @@ import stubImage from "../../img/stub-image.png"
 export default class Confirmation extends Component {
   state = {
     scenarioData: null,
-    parentScenarioId: this.props.match.params.scenarioId || "1",
+    parentScenarioId: this.props.match.params.scenario_id || "1",
     scenarioId: null,
     role: this.props.match.params.role || "doer",
     verb: this.props.match.params.verb || "fix",
