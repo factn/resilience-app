@@ -8,105 +8,120 @@
   background: rgba(darken($white, 5%), 0.9);
   z-index: 20;
   opacity: 0;
+
   transition: {
     property: opacity;
     duration: $medium;
     timing-function: $cubic;
   }
+
   &.open {
     top: 0;
     opacity: 1;
   }
+
   .stars {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
   }
+
   .star {
     position: absolute;
     color: $yellow;
+
     &:first-of-type {
-      font-size: 2rem;
-      left: 5%;
-      animation: 1s $cubic 0.1s infinite starfall;
+      @include star(2rem, 5%, 0.1s);
     }
+
     &:nth-of-type(2) {
-      font-size: 2.5rem;
-      left: 25%;
-      animation: 1s $cubic 0.5s infinite starfall;
+      @include star(2.5rem, 25%, 0.5s);
     }
+
     &:nth-of-type(3) {
-      font-size: 1.8rem;
-      left: 45%;
-      animation: 1s $cubic 0.25s infinite starfall;
+      @include star(1.8rem, 45%, 0.25s);
     }
+
     &:nth-of-type(4) {
-      font-size: 2.2rem;
-      left: 65%;
-      animation: 1s $cubic 0.3s infinite starfall;
+      @include star(2.2rem, 65%, 0.3s);
     }
+
     &:nth-of-type(5) {
-      font-size: 1.75rem;
-      left: 85%;
-      animation: 1s $cubic infinite starfall;
+      @include star(1.75rem, 85%);
     }
   }
+
   h2,
   h3 {
     text-align: center;
   }
+
   h2 {
     color: $blue;
     margin-bottom: 1rem;
     font-size: 3rem;
   }
+
   h3 {
     color: rgba($black, 0.75);
     margin-bottom: 0.5rem;
     font-size: 2rem;
   }
+
   .social-share-area {
     margin-bottom: 1rem;
   }
+
   .social-share-label {
     text-align: center;
     margin-bottom: 0.5rem;
   }
+
   .add-this-wrap {
     margin: 0 auto;
     width: 10rem;
   }
+
   .dismiss-btn {
     display: block;
     margin: 0.5rem auto;
     font-size: 1.2rem;
     width: 10rem;
   }
+
   .before-and-after-wrap {
     @include inline-flex;
     height: 8rem;
     margin-bottom: 1rem;
   }
+
   .image-wrap {
-    flex-basis: 50%;
-    flex-grow: 1;
+    flex: {
+      basis: 50%;
+      grow: 1;
+    }
+
     .image {
       max-height: 6rem;
     }
   }
+
   .before-image-wrap {
     margin-right: 1rem;
     background: rgba($red, 0.5);
   }
+
   .after-image-wrap {
     background: rgba($green, 0.5);
   }
+
   .image-caption {
     text-align: center;
     color: rgba($white, 0.9);
     margin: 0.25rem 0;
   }
+
   .from-to-icon {
     position: absolute;
     top: 17rem;

@@ -34,7 +34,7 @@ export default class DonatorFlow extends Component {
         id: userId,
         attributes: {
           default_total_session_donation,
-          default_swipe_donation
+          default_swipe_donation: default_swipe_donation || "1"
         }
       }
     }
@@ -56,8 +56,8 @@ export default class DonatorFlow extends Component {
       clas: "footer-btn feed-btn",
       onSubmit: this.beginMission,
       onSubmitParams: {
-        default_total_session_donation: "selectMaxDonationAmount",
-        default_swipe_donation: "1"
+        default_total_session_donation: "selectMaxDonationAmount"
+        // default_swipe_donation: "1"
       }
     }
 

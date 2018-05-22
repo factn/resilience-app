@@ -1,6 +1,7 @@
 .tag-list {
   @include inline-list;
 }
+
 .tag {
   background: $green-dark;
   color: $white;
@@ -8,20 +9,30 @@
   margin: 0 0.5rem 0.25rem 0;
   border-radius: 0.5em;
   cursor: pointer;
-  font-style: italic;
-  font-size: 0.8em;
+
+  font: {
+    style: italic;
+    size: 0.8em;
+  }
+
   .tag-link {
     color: $white;
   }
+
+  &.active-tag,
+  &.inactive-tag {
+    color: $black;
+  }
+
   &.inactive-tag {
     background: darken($white, 25%);
-    color: $black;
   }
+
   &.active-tag {
     background: $orange;
-    color: $black;
   }
 }
+
 .tag-button {
   border-radius: 0.75em;
   padding: 0.4em 0.5em;

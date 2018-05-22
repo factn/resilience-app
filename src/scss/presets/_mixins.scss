@@ -3,21 +3,25 @@
   padding: 0;
   list-style-type: none;
 }
+
 @mixin inline-list {
   @include pseudo-list;
   li {
     display: inline-block;
   }
 }
+
 @mixin inline-flex {
   display: inline-flex;
   justify-content: space-between;
   width: 100%;
 }
+
 @mixin inline-flex-list {
   @include pseudo-list;
   @include inline-flex;
 }
+
 @mixin alternating-list {
   @include pseudo-list;
   li {
@@ -33,19 +37,23 @@
     }
   }
 }
+
 @mixin circle($dim) {
   width: $dim;
   height: $dim;
   border-radius: 50%;
 }
+
 @mixin circle-photo-wrap($dim) {
   @include circle($dim);
   overflow: hidden;
 }
+
 @mixin menu-back {
   background: $menu-background;
   box-shadow: $menu-shadow;
 }
+
 @mixin do-not-show {
   position: absolute;
   top: -1000vh;
@@ -56,6 +64,19 @@
   visibility: hidden;
   pointer-events: none;
 }
+
+@mixin spacer-with-border ($direction, $spacer-width, $border-width, $border-color, $border-style: "solid") {
+  padding-#{$direction}: $spacer-width;
+  border-#{$direction}: $border-width $border-style $border-color;
+  margin-#{$direction}: $spacer-width;
+}
+
+@mixin star ($font-size, $left, $animation-offset: 0s) {
+  font-size: $font-size;
+  left: $left;
+  animation: 1s $cubic $animation-offset infinite starfall;
+}
+
 @mixin breakpoint($width) {
   @media only screen and (min-width: $width) {
     @content;

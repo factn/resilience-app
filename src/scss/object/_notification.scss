@@ -9,24 +9,27 @@
   border-radius: 0 0 1rem 1rem;
   z-index: 20;
   opacity: 0;
+
   transition: {
     property: opacity, top;
     duration: $medium;
     timing-function: $cubic;
   }
+
   &.open {
     top: 0;
     opacity: 1;
   }
+
   .notification-content {
+    @include spacer-with-border("bottom", 0.5rem, 0.125rem, rgba($black, 0.1));
     text-align: center;
-    padding-bottom: 0.5rem;
-    border-bottom: 0.125rem solid rgba($black, 0.1);
-    margin-bottom: 0.5rem;
   }
+
   .button-row {
     @include inline-flex;
   }
+  
   .btn {
     font-size: 1rem;
   }

@@ -1,13 +1,15 @@
 .app-main {
   opacity: 1;
   filter: blur(0);
+
   transition: {
     property: opacity;
     duration: $fast;
     timing-function: $cubic;
   }
+  
   &.fade-out {
-    opacity: .5;
+    opacity: 0.5;
     filter: blur(1px);
   }
 }
