@@ -1,13 +1,5 @@
 import { buildApi, get, post, patch, destroy } from "redux-bees"
 
-// NOTE: Filtering is now done in 'filterFeed' based on the whole list of scenarios.
-// const sharedScenarioCore = "/scenarios";
-// const sharedScenarioCore = "/scenarios?sort=-parent_scenario_id,-created_at";
-// GOAL: sort with newest scenarios on top, and also filter so that sub-tasks are not shown
-// TODO: was not able to filter by (parent_scenario_id != null)..
-// ...in theory it should be: {"name":"parent_scenario_id","op":"ne","val":""}... but somewhere this path is being modified... :-( 
-// TODO: eventually use: ?sort=accepted-ratio-donator
-
 const apiEndpoints = {
 	// Nouns
 	getNouns: {
@@ -222,20 +214,18 @@ const apiEndpoints = {
 	}
 }
 
-// Removing the test URL for the demo. This will go back in, but we're close enough that we should be able to use the live database
+let baseUrl
 
-// let baseUrl
-
-// if (window.location.hostname === "localhost") {
-// 	console.log("Local host detected, using dev URL")
-// 	baseUrl = "http://localhost:4000"
-// } else {
-// 	console.info("Live site, using production database")
-// 	baseUrl = "https://lion-uat.herokuapp.com"
-// }
+if (window.location.hostname === "localhost") {
+	console.log("Local host detected, using dev URL")
+	baseUrl = "http://localhost:4000"
+} else {
+	console.info("Live site, using production database")
+	baseUrl = "https://lion-uat.herokuapp.com"
+}
 
 const config = {
-	baseUrl: "https://lion-uat.herokuapp.com" // baseUrl
+	baseUrl: baseUrl
 }
 
 export default buildApi(apiEndpoints, config)
