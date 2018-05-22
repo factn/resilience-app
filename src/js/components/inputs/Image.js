@@ -17,6 +17,7 @@ export default class File extends Component {
     this.setState({
       photoInField: true
     })
+
     prepareFileReader(document.getElementById("photo").files[0])
   }
 
@@ -25,15 +26,13 @@ export default class File extends Component {
 
     return (
       <article className="photo-card">
-        {photoInField ? (
-          <div className="photo-icon">
+        <div className="photo-icon">
+          {photoInField ? (
             <Icon icon={faCheckCircle} />
-          </div>
-        ) : (
-          <div className="photo-icon">
+          ) : (
             <Icon icon={faCamera} />
-          </div>
-        )}
+          )}
+        </div>
 
         <input
           className="form-input"

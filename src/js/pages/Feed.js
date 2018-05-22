@@ -312,6 +312,7 @@ export default class Feed extends Component {
               </div>
               <h4 className="dollar-amount-label">To spend</h4>
             </div>
+
             <div className="footer-right">
               <div className="dollar-amount">
                 {donatedTotal ? moneyfy(donatedTotal) : "$0"}

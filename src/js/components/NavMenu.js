@@ -7,6 +7,7 @@ import Icon from "@fortawesome/react-fontawesome"
 
 export default class Header extends Component {
   state = {
+    copyDate: new Date().getFullYear(),
     menuIsOpen: false
   }
   menuItems = [
@@ -36,7 +37,7 @@ export default class Header extends Component {
   }
 
   render() {
-    const { menuIsOpen } = this.state
+    const { menuIsOpen, copyDate } = this.state
 
     return (
       <nav className="menu">
@@ -65,7 +66,7 @@ export default class Header extends Component {
           </ul>
 
           <div className="subheader-content">
-            <div className="copy">&copy; {new Date().getFullYear()}</div>
+            <div className="copy">&copy; {copyDate}</div>
             <div className="version">0.1.0</div>
           </div>
         </section>

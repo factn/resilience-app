@@ -5,8 +5,8 @@ import React, { Component } from "react"
 
 export default class TextArea extends Component {
   state = {
-    maxCharacterCount: 140,
-    remainingCharacterCount: 140
+    maxCharacterCount: this.props.maxCharacterCount || 140,
+    remainingCharacterCount: this.props.remainingCharacterCount || 140
   }
 
   updateCharacterCount = e => {
@@ -19,7 +19,6 @@ export default class TextArea extends Component {
 
   render() {
     const { maxCharacterCount, remainingCharacterCount } = this.state
-
     const { labelPhrase, inputID, requiredField, disabledField } = this.props
 
     return (
@@ -34,6 +33,7 @@ export default class TextArea extends Component {
           onChange={e => this.updateCharacterCount(e)}
           required={requiredField}
         />
+
         <div className="remaining-character-count">
           {remainingCharacterCount} characters left
         </div>

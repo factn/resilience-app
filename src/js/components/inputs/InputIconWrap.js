@@ -1,20 +1,16 @@
 /*** IMPORTS ***/
 // Module imports
-import React, { Component } from "react"
+import React from "react"
 import Icon from "@fortawesome/react-fontawesome"
 /*** [end of imports] ***/
 
-export default class InputIconWrap extends Component {
-  render() {
-    const { children, id, icon } = this.props
+const InputIconWrap = props => (
+  <div className="input-with-icon-wrap">
+    <label className="input-icon" htmlFor={props.id}>
+      <Icon icon={props.icon} />
+    </label>
+    {props.children}
+  </div>
+)
 
-    return (
-      <div className="input-with-icon-wrap">
-        <label className="input-icon" htmlFor={id}>
-          <Icon icon={icon} />
-        </label>
-        {children}
-      </div>
-    )
-  }
-}
+export default InputIconWrap

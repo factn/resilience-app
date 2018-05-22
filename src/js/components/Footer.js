@@ -1,10 +1,8 @@
 /*** IMPORTS ***/
 // Module imports
-import React, { Component } from "react"
+import React from "react"
 /*** [end of imports] ***/
 
-export default class Footer extends Component {
-  render() {
-    return <footer className="app-footer">{this.props.children}</footer>
-  }
-}
+const Footer = ({ children }) => <div className="app-footer">{children}</div>
+
+export default Footer

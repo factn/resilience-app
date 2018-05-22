@@ -8,6 +8,7 @@ import { faFacebook } from "@fortawesome/fontawesome-free-brands"
 // Page elements
 import Header from "../components/Header"
 import Main from "../components/Main"
+import SessionSetting from "../components/SessionSetting"
 
 // Logo image
 import logo from "../../img/logo.svg"
@@ -23,22 +24,24 @@ export default class FBConfirm extends Component {
           </div>
           <h2>Confirm Login</h2>
         </Header>
-        
+
         <Main>
           <div className="logo">
             <Link to="/">
               <img src={logo} alt="WAGL" />
             </Link>
           </div>
-          <div className="or-line">Create your profile using your Facebook login</div>
-          <section className="session-settings facebook-setting">
+          <div className="or-line">
+            Create your profile using your Facebook login
+          </div>
+          <SessionSetting clas="facebook-setting">
             <Link
               className="btn facebook-connect-btn"
               to="/account/verify-facebook"
             >
               Continue
             </Link>
-          </section>
+          </SessionSetting>
         </Main>
       </div>
     )

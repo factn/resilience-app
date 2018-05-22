@@ -14,16 +14,7 @@ import customMapPin from "../../img/custom-map-pin.svg"
 class MiniMap extends Component {
   state = {
     markerShown: false,
-    markerPos: {
-      lat: this.props.initialCenter.lat,
-      lng: this.props.initialCenter.lng
-    }
-  }
-
-  componentDidMount = () => {
-    this.setState({
-      markerPos: this.props.initialCenter
-    })
+    markerPos: this.props.initialCenter
   }
 
   mapClicked(mapProps, map, clickEvent) {

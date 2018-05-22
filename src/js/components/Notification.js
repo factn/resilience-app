@@ -12,11 +12,11 @@ export default class Notification extends Component {
     scenarioData: null
   }
 
-  getScenarioData = () => {
-    const { childId } = this.props
+  componentDidMount = () => {
+    const id = this.props.childId
 
-    if (childId) {
-      Database.getScenario({ id: childId })
+    if (id && !this.state.scenarioData) {
+      Database.getScenario({ id })
         .then(result => {
           const { data } = result.body
           // console.info("Success getting scenario:", data)
@@ -33,6 +33,7 @@ export default class Notification extends Component {
         })
     }
   }
+
   buildLink = () => {
     const { toLink, parentId } = this.props
     const { scenarioData } = this.state
@@ -49,13 +50,7 @@ export default class Notification extends Component {
   }
 
   render() {
-    const { open, dismissal, childId } = this.props
-
-    // default to link will eventually go to confirm mission complete page from LION-86
-
-    if (childId && !this.state.scenarioData) {
-      this.getScenarioData()
-    }
+    const { open, dismissal } = this.props
 
     return (
       <section className={open ? "notification open" : "notification"}>

@@ -1,10 +1,8 @@
 /*** IMPORTS ***/
 // Module imports
-import React, { Component } from "react"
+import React from "react"
 /*** [end of imports] ***/
 
-export default class Main extends Component {
-  render() {
-    return <main className="app-main">{this.props.children}</main>
-  }
-}
+const Main = ({ children }) => <div className="app-main">{children}</div>
+
+export default Main

@@ -7,6 +7,8 @@ import Cookies from "js-cookie"
 import Page from "./Page"
 import Main from "../components/Main"
 import Footer from "../components/Footer"
+import SessionSetting from "../components/SessionSetting"
+import SessionCard from "../components/SessionCard"
 
 // Inputs
 import Image from "../components/inputs/Image"
@@ -117,6 +119,7 @@ export default class Confirmation extends Component {
 
   render() {
     const { role } = this.state
+
     let buttonObj = {
       labelPhrase: "Send Confirmation",
       clas: "footer-btn feed-btn",
@@ -139,9 +142,8 @@ export default class Confirmation extends Component {
               : "Verify the work is complete"}
           </h2>
           {role === "requester" && (
-            <section className="session-settings verify-settings">
-              <article className="card verify-card">
-                <h4 className="card-title">Work to verify</h4>
+            <SessionSetting clas="verify-settings">
+              <SessionCard clas="verify-card" cardTitle="Work to verify">
                 <figure className="verify-wrap">
                   <div className="verify-image-wrap">
                     <img src={stubImage} alt="Work" className="verify-image" />
@@ -153,23 +155,19 @@ export default class Confirmation extends Component {
                     </div>
                   </figcaption>
                 </figure>
-              </article>
-            </section>
+              </SessionCard>
+            </SessionSetting>
           )}
-          <section className="session-settings">
-            <header className="settings-header">
-              <h3>Add a photo</h3>
-            </header>
+
+          <SessionSetting headerLabel="Add a photo">
             <Image />
-          </section>
-          <section className="session-settings">
-            <header className="settings-header">
-              <h3>Include a message</h3>
-            </header>
-            <article className="card input-card message-card">
+          </SessionSetting>
+
+          <SessionSetting headerLabel="Include a message">
+            <SessionCard clas="input-card message-card">
               <TextArea {...textareaObj} />
-            </article>
-          </section>
+            </SessionCard>
+          </SessionSetting>
         </Main>
 
         <Footer>

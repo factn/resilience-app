@@ -15,7 +15,6 @@ export default class Submit extends Component {
 
   pressButton = () => {
     const { onSubmit, onSubmitParams } = this.props
-    let values = {}
 
     if (!this.state.buttonPressed) {
       this.setState({
@@ -25,8 +24,11 @@ export default class Submit extends Component {
       if (onSubmit) {
         if (onSubmitParams) {
           let field
-  
+          let values = {}
+
           for (let i in onSubmitParams) {
+            console.log(onSubmitParams[i]);
+            
             field = document.getElementById(onSubmitParams[i])
 
             if (field.type === "radio" || field.type === "checkbox") {
@@ -37,7 +39,7 @@ export default class Submit extends Component {
               values[i] = field.value.toString()
             }
           }
-  
+
           onSubmit(values)
         } else {
           onSubmit()

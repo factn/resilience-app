@@ -10,6 +10,7 @@ import Page from "./Page"
 import Main from "../components/Main"
 import Footer from "../components/Footer"
 import SessionSetting from "../components/SessionSetting"
+import SessionCard from "../components/SessionCard"
 
 // Utilities
 import { gradientStyle } from "../resources/Util"
@@ -38,11 +39,7 @@ export default class DoerFlow extends Component {
   }
 
   render() {
-    const {
-      workAbroad,
-      workDistance,
-      distanceMax
-    } = this.state
+    const { workAbroad, workDistance, distanceMax } = this.state
 
     let sliderStyle = gradientStyle({
       dividend: workDistance,
@@ -55,8 +52,7 @@ export default class DoerFlow extends Component {
       <Page clas="flow-page doer-flow-page">
         <Main>
           <SessionSetting headerLabel="Jobs I want">
-            <article className="card trending-card">
-              <h4 className="card-title">Description</h4>
+            <SessionCard clas="trending-card" cardTitle="Description">
               <div className="card-content">
                 <ul className="tag-list">
                   <li className="tag active-tag tag-button">#Painting</li>
@@ -67,20 +63,18 @@ export default class DoerFlow extends Component {
                   <li className="tag inactive-tag tag-button">#Childcare</li>
                 </ul>
               </div>
-            </article>
+            </SessionCard>
 
-            <article className="card trending-card">
-              <h4 className="card-title">Time Frame</h4>
+            <SessionCard clas="trending-card" cardTitle="Time Frame">
               <ul className="tag-list">
                 <li className="tag active-tag tag-button">#Urgent</li>
                 <li className="tag active-tag tag-button">#Today</li>
                 <li className="tag active-tag tag-button">#1-2Days</li>
                 <li className="tag inactive-tag tag-button">#ThisWeek</li>
               </ul>
-            </article>
+            </SessionCard>
 
-            <article className="card">
-              <h4 className="card-title">Distance</h4>
+            <SessionCard cardTitle="Distance">
               <div className="card-area location-city">
                 <div className="location-label">From</div>
                 <div className="location-current">Pearlington, MI</div>
@@ -126,7 +120,7 @@ export default class DoerFlow extends Component {
                   />
                 </div>
               </div>
-            </article>
+            </SessionCard>
           </SessionSetting>
         </Main>
 

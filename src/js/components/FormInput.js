@@ -15,20 +15,25 @@ export default class FormInput extends Component {
     const { openMapPicker, lat, lon, scenarioId, inputObj } = this.props
     const { inputType } = inputObj
 
-    if (inputType === "image") return <Image />
-    else if (inputType === "location") {
+    if (inputType === "image") {
+      return <Image />
+    } else if (inputType === "select") {
+      return <Select {...inputObj} />
+    } else if (inputType === "submit") {
+      return <Submit scenarioId={scenarioId} {...inputObj} />
+    } else if (inputType === "hr") {
+      return <hr />
+    } else if (inputType === "location") {
       return (
         <Location
-          inputObj={inputObj}
           openMapPicker={openMapPicker}
           lat={lat}
           lon={lon}
+          {...inputObj}
         />
       )
-    } else if (inputType === "select") return <Select inputObj={inputObj} />
-    else if (inputType === "submit")
-      return <Submit inputObj={inputObj} scenarioId={scenarioId} />
-    else if (inputType === "hr") return <hr />
-    else return <Text inputObj={inputObj} />
+    }
+
+    return <Text {...inputObj} />
   }
 }
