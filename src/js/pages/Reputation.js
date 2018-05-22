@@ -4,7 +4,7 @@ import React, { Component } from "react"
 import { Link } from "react-router-dom"
 import Cookies from "js-cookie"
 import Icon from "@fortawesome/react-fontawesome"
-import { faCheck, faSmile, faFrown } from "@fortawesome/fontawesome-free-solid"
+import { faCheck } from "@fortawesome/fontawesome-free-solid"
 
 // Components
 import Page from "./Page"

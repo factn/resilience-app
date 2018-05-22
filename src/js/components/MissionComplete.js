@@ -1,6 +1,6 @@
 /*** IMPORTS ***/
 // Module imports
-import React, { Component } from "react"
+import React from "react"
 import Icon from "@fortawesome/react-fontawesome"
 import { faArrowRight } from "@fortawesome/fontawesome-free-solid"
 
