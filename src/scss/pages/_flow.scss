@@ -44,7 +44,7 @@
 
   .input-with-icon-wrap {
     @include inline-flex;
-    border: 1px solid $orange;
+    border: 0.0625rem solid $orange;
     font-size: 1.5rem;
 
     .input-icon {

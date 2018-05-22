@@ -58,17 +58,37 @@ export default class MissionControl extends Component {
     return (
       <Page clas="feed-page mission-control-page">
         <div className="mission-control-subheader">
-          <Role active={role === "Requests"} roleName="Requests" />
-          <Role active={role === "Missions"} roleName="Missions" />
+          <Role
+            active={role === "Requests"}
+            roleName="Requests"
+            changeFlow={this.changeFlow}
+          />
+          <Role
+            active={role === "Missions"}
+            roleName="Missions"
+            changeFlow={this.changeFlow}
+          />
         </div>
 
         <Main>
           <section className="mission-area">
             <header className="tab-list-wrap">
               <ul className="tab-list">
-                <Tab active={tab === "Donating"} tabName="Donating" />
-                <Tab active={tab === "In Progress"} tabName="In Progress" />
-                <Tab active={tab === "Finished"} tabName="Finished" />
+                <Tab
+                  active={tab === "Donating"}
+                  tabName="Donating"
+                  changeTab={this.changeTab}
+                />
+                <Tab
+                  active={tab === "In Progress"}
+                  tabName="In Progress"
+                  changeTab={this.changeTab}
+                />
+                <Tab
+                  active={tab === "Finished"}
+                  tabName="Finished"
+                  changeTab={this.changeTab}
+                />
               </ul>
             </header>
 
@@ -104,7 +124,7 @@ export default class MissionControl extends Component {
 const Role = props => (
   <h4
     className={props.active ? "sub-header-option active" : "sub-header-option"}
-    onClick={() => this.changeFlow(props.roleName)}
+    onClick={() => props.changeFlow(props.roleName)}
   >
     {props.roleName}
   </h4>
@@ -113,7 +133,7 @@ const Role = props => (
 const Tab = props => (
   <li
     className={props.active ? "tab-link active" : "tab-link"}
-    onClick={() => this.changeTab(props.tabName)}
+    onClick={() => props.changeTab(props.tabName)}
   >
     {props.tabName}
   </li>

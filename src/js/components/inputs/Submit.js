@@ -27,8 +27,6 @@ export default class Submit extends Component {
           let values = {}
 
           for (let i in onSubmitParams) {
-            console.log(onSubmitParams[i]);
-            
             field = document.getElementById(onSubmitParams[i])
 
             if (field.type === "radio" || field.type === "checkbox") {
