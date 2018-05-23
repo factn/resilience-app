@@ -22,9 +22,7 @@ export default class TextArea extends Component {
     const { labelPhrase, inputID, requiredField, disabledField } = this.props
 
     return (
-      <div
-        className={disabledField ? "input-wrap disabled-input" : "input-wrap"}
-      >
+      <div className={disabledField ? "input-wrap disabled-input" : "input-wrap"}>
         <textarea
           placeholder={labelPhrase || "Enter a description"}
           id={inputID}
@@ -34,9 +32,7 @@ export default class TextArea extends Component {
           required={requiredField}
         />
 
-        <div className="remaining-character-count">
-          {remainingCharacterCount} characters left
-        </div>
+        <div className="remaining-character-count">{remainingCharacterCount} characters left</div>
       </div>
     )
   }

@@ -45,9 +45,7 @@ export default class Header extends Component {
           <Icon icon="bars" />
         </div>
 
-        <section
-          className={menuIsOpen ? "menu-drawer open-drawer" : "menu-drawer"}
-        >
+        <section className={menuIsOpen ? "menu-drawer open-drawer" : "menu-drawer"}>
           <header className="menu-header">
             <h2 className="menu-header-title">Menu</h2>
             <div className="menu-close-btn" onClick={this.closeMenu}>

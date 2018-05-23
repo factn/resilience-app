@@ -24,14 +24,7 @@ export default class FormInput extends Component {
     } else if (inputType === "hr") {
       return <hr />
     } else if (inputType === "location") {
-      return (
-        <Location
-          openMapPicker={openMapPicker}
-          lat={lat}
-          lon={lon}
-          {...inputObj}
-        />
-      )
+      return <Location openMapPicker={openMapPicker} lat={lat} lon={lon} {...inputObj} />
     }
 
     return <Text {...inputObj} />

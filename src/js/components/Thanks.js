@@ -7,12 +7,7 @@ import Stars from "./Stars"
 /*** [end of imports] ***/
 
 const Thanks = props => (
-  <section
-    className={
-      props.open ? "modal thank-you-modal open" : "modal thank-you-modal"
-    }
-    onClick={() => props.dismiss()}
-  >
+  <section className={props.open ? "modal thank-you-modal open" : "modal thank-you-modal"} onClick={() => props.dismiss()}>
     <Stars />
 
     <h2>Thanks!</h2>
