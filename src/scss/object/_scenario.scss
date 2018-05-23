@@ -215,7 +215,7 @@
   z-index: 2;
 
   .scenario-title {
-    @include spacer-with-border("bottom", 0.5rem, 0.0625rem, $orange, "dashed");
+    @include spacer-with-border("bottom", 0.5rem, 0.0625rem, $orange, dashed);
     font-weight: bold;
     text-transform: uppercase;
     display: inline-block;

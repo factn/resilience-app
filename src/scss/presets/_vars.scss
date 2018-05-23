@@ -2,19 +2,24 @@
 $black: #000;
 $white: #fff;
 
+// color palate
 $red: #d35400;
 $orange-bright: #f1c40e;
 $orange: #f39c12;
 $orange-dark: #e67d23;
+$yellow: #e9da0d;
 $progress-green: #24e051;
 $green-bright: #1bbc9c;
 $green: #04861c;
 $green-dark: #17a084;
 $blue: #2c3e50;
-$yellow: #e9da0d;
 
+// brand colors
 $fb-blue: #4165b2;
+
+// area colors
 $body-bg: #f8fafb;
+$flow-page-bg: darken($white, 10%);
 
 // timing functions
 $cubic: cubic-bezier(0.73, 0.2, 0.43, 1);

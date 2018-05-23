@@ -1,11 +1,6 @@
 .profile-article {
   &:not(:last-of-type) {
-    @include spacer-with-border(
-      "bottom",
-      0.5rem,
-      0.0625rem,
-      rgba($black, 0.25)
-    );
+    @include spacer-with-border("bottom", 0.5rem, 0.0625rem, rgba($black, 0.25));
   }
 
   &.open {
@@ -80,7 +75,6 @@
   .user-image {
     @include circle-photo-wrap(8rem);
     color: $white;
-    background: rgba($black, 0.1);
     border: 0.125rem solid rgba($black, 0.25);
   }
 
@@ -91,7 +85,11 @@
   .user-image {
     margin: 0 auto;
     overflow: hidden;
-    background-size: cover;
+
+    background: {
+      color: rgba($black, 0.1);
+      size: cover;
+    }
 
     img {
       display: none;

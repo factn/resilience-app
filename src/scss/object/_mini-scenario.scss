@@ -26,7 +26,11 @@
   @include circle-photo-wrap(4rem);
   margin-right: 1rem;
   border: .25rem solid $orange;
-  background-size: cover;
+
+  background: {
+    color: rgba($black, 0.1);
+    size: cover;
+  }
 
   flex: {
     basis: 4rem;

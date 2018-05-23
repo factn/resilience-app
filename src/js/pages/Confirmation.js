@@ -9,6 +9,7 @@ import Main from "../components/Main"
 import Footer from "../components/Footer"
 import SessionSetting from "../components/SessionSetting"
 import SessionCard from "../components/SessionCard"
+import StarRating from "../components/StarRating"
 
 // Inputs
 import Image from "../components/inputs/Image"
@@ -126,7 +127,8 @@ export default class Confirmation extends Component {
       onSubmit: this.submitConfirmation,
       onSubmitParams: {
         photo: "photo",
-        custom_message: "description"
+        custom_message: "description",
+        star_rating: "star_rating"
       }
     }
     let textareaObj = {
@@ -137,9 +139,7 @@ export default class Confirmation extends Component {
       <Page clas={`flow-page ${role}-flow-page`}>
         <Main>
           <h2 className="confirmation-header">
-            {role === "doer"
-              ? "Help verify your work"
-              : "Verify the work is complete"}
+            {role === "doer" ? "Help verify your work" : "Verify the work is complete"}
           </h2>
           {role === "requester" && (
             <SessionSetting clas="verify-settings">
@@ -150,8 +150,7 @@ export default class Confirmation extends Component {
                   </div>
                   <figcaption className="verify-image-caption">
                     <div className="verify-message">
-                      We worked hard and I feel we did a good job. Good luck
-                      with the rest of the repairs.
+                      We worked hard and I feel we did a good job. Good luck with the rest of the repairs.
                     </div>
                   </figcaption>
                 </figure>
@@ -168,6 +167,8 @@ export default class Confirmation extends Component {
               <TextArea {...textareaObj} />
             </SessionCard>
           </SessionSetting>
+
+          {role === "requester" && <StarRating />}
         </Main>
 
         <Footer>

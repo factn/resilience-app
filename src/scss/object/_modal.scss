@@ -1,3 +1,9 @@
+@mixin star($font-size, $left, $animation-offset: 0s) {
+  font-size: $font-size;
+  left: $left;
+  animation: 1s $cubic $animation-offset infinite starfall;
+}
+
 .modal {
   position: fixed;
   top: -100vh;

@@ -1,7 +1,21 @@
-header,
-footer,
-section,
 article,
-aside {
+aside,
+details,
+figure,
+figcaption,
+footer,
+header,
+main,
+menu,
+nav,
+section,
+summary {
   display: block;
+}
+
+audio,
+canvas,
+progress,
+video {
+  display: inline-block;
 }

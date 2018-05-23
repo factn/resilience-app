@@ -15,6 +15,7 @@ textarea {
     size: 1rem;
     family: "Lato", arial, sans-serif;
   }
+
   transition: {
     property: background, border-color;
     duration: $fast;
@@ -92,6 +93,10 @@ input[type="range"]::-ms-fill-upper {
   background: rgba($black, 0.1);
 }
 
+input[type="hidden"] {
+  @include do-not-show;
+}
+
 textarea {
   resize: vertical;
   max-height: 11.5rem;
@@ -108,7 +113,7 @@ label {
     position: relative;
     z-index: 2;
   }
-  
+
   .drop-down-icon {
     position: relative;
     z-index: 1;
