@@ -80,7 +80,6 @@
   .user-image {
     @include circle-photo-wrap(8rem);
     color: $white;
-    background: rgba($black, 0.1);
     border: 0.125rem solid rgba($black, 0.25);
   }
 
@@ -91,7 +90,11 @@
   .user-image {
     margin: 0 auto;
     overflow: hidden;
-    background-size: cover;
+
+    background: {
+      color: rgba($black, 0.1);
+      size: cover;
+    }
 
     img {
       display: none;
