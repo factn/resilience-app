@@ -1,11 +1,6 @@
 .profile-article {
   &:not(:last-of-type) {
-    @include spacer-with-border(
-      "bottom",
-      0.5rem,
-      0.0625rem,
-      rgba($black, 0.25)
-    );
+    @include spacer-with-border("bottom", 0.5rem, 0.0625rem, rgba($black, 0.25));
   }
 
   &.open {

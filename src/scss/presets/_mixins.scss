@@ -1,21 +1,15 @@
 // Sizing
-@mixin size ($width: 100%, $height: auto) {
+@mixin size($width: 100%, $height: auto) {
   width: $width;
   height: $height;
 }
 
-@mixin space ($padding: 0, $margin: 0 auto) {
+@mixin space($padding: 0, $margin: 0 auto) {
   padding: $padding;
   margin: $margin;
 }
 
-@mixin spacer-with-border(
-  $direction,
-  $spacer-width,
-  $border-width,
-  $border-color,
-  $border-style: "solid"
-) {
+@mixin spacer-with-border($direction, $spacer-width, $border-width, $border-color, $border-style: solid) {
   padding-#{$direction}: $spacer-width;
   border-#{$direction}: $border-width $border-style $border-color;
   margin-#{$direction}: $spacer-width;

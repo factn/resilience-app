@@ -9,6 +9,7 @@ import Main from "../components/Main"
 import Footer from "../components/Footer"
 import SessionSetting from "../components/SessionSetting"
 import SessionCard from "../components/SessionCard"
+import StarRating from "../components/StarRating"
 
 // Inputs
 import Image from "../components/inputs/Image"
@@ -168,6 +169,10 @@ export default class Confirmation extends Component {
               <TextArea {...textareaObj} />
             </SessionCard>
           </SessionSetting>
+
+          {role === "requester" && (
+            <StarRating />
+          )}
         </Main>
 
         <Footer>
