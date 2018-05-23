@@ -31,9 +31,11 @@ export default class StarRating extends Component {
               id={`star${num}`}
               icon={faStar}
               onClick={() => this.setRating(num)}
+              key={`star${num}`}
             />
           ))}
         </div>
+        <input type="hidden" value={rating} id="star_rating" disabled />
       </SessionSetting>
     )
   }
