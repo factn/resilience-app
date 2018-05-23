@@ -136,14 +136,14 @@ export default class Confirmation extends Component {
     }
 
     return (
-      <Page clas={`flow-page ${role}-flow-page`}>
+      <Page className={`flow-page ${role}-flow-page`}>
         <Main>
           <h2 className="confirmation-header">
             {role === "doer" ? "Help verify your work" : "Verify the work is complete"}
           </h2>
           {role === "requester" && (
-            <SessionSetting clas="verify-settings">
-              <SessionCard clas="verify-card" cardTitle="Work to verify">
+            <SessionSetting className="verify-settings">
+              <SessionCard className="verify-card" cardTitle="Work to verify">
                 <figure className="verify-wrap">
                   <div className="verify-image-wrap">
                     <img src={stubImage} alt="Work" className="verify-image" />
@@ -163,7 +163,7 @@ export default class Confirmation extends Component {
           </SessionSetting>
 
           <SessionSetting headerLabel="Include a message">
-            <SessionCard clas="input-card message-card">
+            <SessionCard className="input-card message-card">
               <TextArea {...textareaObj} />
             </SessionCard>
           </SessionSetting>

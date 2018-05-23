@@ -134,7 +134,7 @@ export default class Reputation extends Component {
     const { currentUserData, userDonations, userDos, userRequests, userVerifications } = this.state
 
     return (
-      <Page clas="profile-page">
+      <Page className="profile-page">
         <Main>
           <header className="settings-header">
             <h3>Reputation</h3>

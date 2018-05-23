@@ -62,10 +62,10 @@ export default class DonatorFlow extends Component {
     }
 
     return (
-      <Page clas="flow-page donator-flow-page">
+      <Page className="flow-page donator-flow-page">
         <Main>
           <SessionSetting headerLabel="Total I want to spend">
-            <SessionCard clas="session-card" cardTitle="In this session">
+            <SessionCard className="session-card" cardTitle="In this session">
               <InputIconWrap id="selectMaxDonationAmount" icon={faDollarSign}>
                 <input
                   className="input-field"
@@ -83,8 +83,8 @@ export default class DonatorFlow extends Component {
             </SessionCard>
           </SessionSetting>
 
-          <SessionSetting headerLabel="Donate" clas="donation-settings">
-            <SessionCard clas="donation-card">
+          <SessionSetting headerLabel="Donate" className="donation-settings">
+            <SessionCard className="donation-card">
               <div className="button-grid">
                 <button className="btn square-btn">$0.20</button>
                 <button className="btn square-btn">$1.00</button>
@@ -97,7 +97,7 @@ export default class DonatorFlow extends Component {
             </SessionCard>
           </SessionSetting>
 
-          {/* <SessionSetting clas="user-settings">
+          {/* <SessionSetting className="user-settings">
             <div className="future-setting">
               <input className="setting-input" type="checkbox" id="saveFutureDonationSettings" />
               <label className="setting-label" htmlFor="saveFutureDonationSettings">

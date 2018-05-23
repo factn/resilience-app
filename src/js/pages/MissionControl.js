@@ -56,7 +56,7 @@ export default class MissionControl extends Component {
     const { role, tab, userDos } = this.state
 
     return (
-      <Page clas="feed-page mission-control-page">
+      <Page className="feed-page mission-control-page">
         <div className="mission-control-subheader">
           <Role active={role === "Requests"} roleName="Requests" changeFlow={this.changeFlow} />
           <Role active={role === "Missions"} roleName="Missions" changeFlow={this.changeFlow} />

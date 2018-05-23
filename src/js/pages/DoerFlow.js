@@ -95,16 +95,16 @@ export default class DoerFlow extends Component {
     ]
 
     return (
-      <Page clas="flow-page doer-flow-page">
+      <Page className="flow-page doer-flow-page">
         <Main>
           <SessionSetting headerLabel="Jobs I want">
-            <SessionCard clas="trending-card" cardTitle="Description">
+            <SessionCard className="trending-card" cardTitle="Description">
               <div className="card-content">
                 <TagList list={exampleTagList1} />
               </div>
             </SessionCard>
 
-            <SessionCard clas="trending-card" cardTitle="Time Frame">
+            <SessionCard className="trending-card" cardTitle="Time Frame">
               <TagList list={exampleTagList2} />
             </SessionCard>
 

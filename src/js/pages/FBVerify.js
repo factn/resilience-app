@@ -33,7 +33,7 @@ const FBVerify = props => (
         </div>
       </div>
       <section className="friends-list-wrap">
-        <SessionCard clas="input-card">
+        <SessionCard className="input-card">
           <input type="text" className="search-friends-input" placeholder="Search your friends" />
         </SessionCard>
 

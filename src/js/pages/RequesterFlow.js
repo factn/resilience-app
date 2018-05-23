@@ -205,13 +205,13 @@ export default class RequesterFlow extends Component {
     }
 
     return (
-      <Page clas="flow-page requester-flow-page">
+      <Page className="flow-page requester-flow-page">
         <Main>
           <SessionSetting headerLabel="Event">
-            <SessionCard clas="input-card event-card">
+            <SessionCard className="input-card event-card">
               <Select {...eventSelectObj} />
             </SessionCard>
-            <SessionCard clas="input-card title-card">
+            <SessionCard className="input-card title-card">
               <Select {...nounVerbSelectObj} />
             </SessionCard>
           </SessionSetting>
@@ -227,7 +227,7 @@ export default class RequesterFlow extends Component {
           </SessionSetting>
 
           <SessionSetting headerLabel="Special Message?">
-            <SessionCard clas="input-card message-card">
+            <SessionCard className="input-card message-card">
               <TextArea {...textareaObj} />
             </SessionCard>
           </SessionSetting>

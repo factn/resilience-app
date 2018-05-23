@@ -67,7 +67,7 @@ export default class Profile extends Component {
     ]
 
     return (
-      <Page clas="profile-page">
+      <Page className="profile-page">
         <Main>
           <header className="settings-header">
             <h3>Profile</h3>

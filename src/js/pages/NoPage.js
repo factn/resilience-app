@@ -11,7 +11,7 @@ import Main from "../components/Main"
 /*** [end of imports] ***/
 
 const NoPage = () => (
-  <Page clas="no-page-404">
+  <Page className="no-page-404">
     <Main>
       <div className="custom-content">
         <h2>There's nothing here!</h2>

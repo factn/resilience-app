@@ -287,7 +287,7 @@ export default class Feed extends Component {
     } = this.state
 
     return (
-      <Page clas={`feed-page ${type}-feed`}>
+      <Page className={`feed-page ${type}-feed`}>
         <Thanks open={overlayOpen} dismiss={this.dismissOverlay} />
         <Main>
           <section className={`scenario-feed-wrap ${type}-feed-wrap`}>

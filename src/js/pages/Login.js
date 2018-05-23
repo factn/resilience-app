@@ -59,7 +59,7 @@ export default class Login extends Component {
     }
 
     return (
-      <Page clas="flow-page login-page">
+      <Page className="flow-page login-page">
         <Main>
           <Form>
             <div className="input-wrap">

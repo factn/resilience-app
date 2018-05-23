@@ -34,7 +34,7 @@ export default class FBConfirm extends Component {
           <div className="or-line">
             Create your profile using your Facebook login
           </div>
-          <SessionSetting clas="facebook-setting">
+          <SessionSetting className="facebook-setting">
             <Link
               className="btn facebook-connect-btn"
               to="/account/verify-facebook"

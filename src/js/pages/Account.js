@@ -69,7 +69,7 @@ export default class Account extends Component {
         </Header>
 
         <Main>
-          <SessionSetting clas="facebook-setting">
+          <SessionSetting className="facebook-setting">
             <Link className="btn facebook-connect-btn" to="/account/confirm-facebook">
               Sign up with Facebook
             </Link>
@@ -77,24 +77,24 @@ export default class Account extends Component {
 
           <div className="or-line">or enter your details</div>
 
-          <SessionSetting clas="name-setting" headerLabel="Name">
-            <SessionCard clas="input-card name-card">
+          <SessionSetting className="name-setting" headerLabel="Name">
+            <SessionCard className="input-card name-card">
               <input type="text" placeholder="Enter a name" id="firstname" />
             </SessionCard>
           </SessionSetting>
 
-          <SessionSetting clas="email-setting" headerLabel="Email">
-            <SessionCard clas="input-card email-card">
+          <SessionSetting className="email-setting" headerLabel="Email">
+            <SessionCard className="input-card email-card">
               <input type="email" placeholder="Enter your email" id="email" />
             </SessionCard>
           </SessionSetting>
 
-          <SessionSetting clas="password-setting" headerLabel="Password">
-            <SessionCard clas="input-card password-card">
+          <SessionSetting className="password-setting" headerLabel="Password">
+            <SessionCard className="input-card password-card">
               <input type="password" placeholder="Choose a password" id="password" />
             </SessionCard>
 
-            <SessionCard clas="input-card password-confirm-card">
+            <SessionCard className="input-card password-confirm-card">
               <input type="password" placeholder="Confirm your password" id="password_confirmation" />
             </SessionCard>
           </SessionSetting>
