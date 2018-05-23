@@ -13,6 +13,9 @@ import {
   faMapMarkerAlt
 } from "@fortawesome/fontawesome-free-solid"
 
+// Page elements
+import TagList from "./TagList"
+
 // Local JS
 import Database from "../resources/Database"
 import { toFirstCap, moneyfy, gradientStyle } from "../resources/Util"
@@ -27,9 +30,7 @@ export default class Scenario extends Component {
     lastTouchX: 0,
     lastTouchY: 0,
     style: {
-      transform: `translateX(0) translateY(0) scale(${
-        this.props.first ? 1 : 0.9
-      })`
+      transform: `translateX(0) translateY(0) scale(${this.props.first ? 1 : 0.9})`
     },
     previewStyle: {
       opacity: 1,
@@ -60,9 +61,7 @@ export default class Scenario extends Component {
       lastTouchX: 0,
       lastTouchY: 0,
       style: {
-        transform: `translateX(0) translateY(0) scale(${
-          this.props.first ? 1 : 0.9
-        })`
+        transform: `translateX(0) translateY(0) scale(${this.props.first ? 1 : 0.9})`
       },
       upStyle: {
         opacity: 0,
@@ -90,43 +89,16 @@ export default class Scenario extends Component {
           {first &&
             !previewDismissed && (
               <div className="pseudo-preview" style={previewStyle}>
-                <PreviewAction
-                  direction="up"
-                  mainText="Fund"
-                  subText="full amount"
-                />
-                <PreviewAction
-                  direction="right"
-                  mainText="Donate"
-                  subText="$1.00"
-                />
-                <PreviewAction
-                  direction="left"
-                  mainText="Dismiss"
-                  subText="don't fund"
-                />
+                <PreviewAction direction="up" mainText="Fund" subText="full amount" />
+                <PreviewAction direction="right" mainText="Donate" subText="$1.00" />
+                <PreviewAction direction="left" mainText="Dismiss" subText="don't fund" />
                 <TouchIcon />
                 <DismissButton dismissPreview={dismissPreview} />
               </div>
             )}
-          <PseudoAction
-            direction="up"
-            style={upStyle}
-            mainText="Fund"
-            subText="full amount"
-          />
-          <PseudoAction
-            direction="before"
-            style={leftStyle}
-            mainText="Donate"
-            subText="$1.00"
-          />
-          <PseudoAction
-            direction="after"
-            style={rightStyle}
-            mainText="Dismiss"
-            subText="don't fund"
-          />
+          <PseudoAction direction="up" style={upStyle} mainText="Fund" subText="full amount" />
+          <PseudoAction direction="before" style={leftStyle} mainText="Donate" subText="$1.00" />
+          <PseudoAction direction="after" style={rightStyle} mainText="Dismiss" subText="don't fund" />
         </Fragment>
       )
     } else if (feedType === "doer") {
@@ -135,32 +107,14 @@ export default class Scenario extends Component {
           {first &&
             !previewDismissed && (
               <div className="pseudo-preview" style={previewStyle}>
-                <PreviewAction
-                  direction="right"
-                  mainText="Accept"
-                  subText="do this job"
-                />
-                <PreviewAction
-                  direction="left"
-                  mainText="Dismiss"
-                  subText="don't do job"
-                />
+                <PreviewAction direction="right" mainText="Accept" subText="do this job" />
+                <PreviewAction direction="left" mainText="Dismiss" subText="don't do job" />
                 <TouchIcon />
                 <DismissButton dismissPreview={dismissPreview} />
               </div>
             )}
-          <PseudoAction
-            direction="before"
-            style={leftStyle}
-            mainText="Accept"
-            subText="do this job"
-          />
-          <PseudoAction
-            direction="after"
-            style={rightStyle}
-            mainText="Dismiss"
-            subText="don't do job"
-          />
+          <PseudoAction direction="before" style={leftStyle} mainText="Accept" subText="do this job" />
+          <PseudoAction direction="after" style={rightStyle} mainText="Dismiss" subText="don't do job" />
         </Fragment>
       )
     } else if (feedType === "verifier") {
@@ -169,43 +123,16 @@ export default class Scenario extends Component {
           {first &&
             !previewDismissed && (
               <div className="pseudo-preview" style={previewStyle}>
-                <PreviewAction
-                  direction="up"
-                  mainText="Warn Us"
-                  subText="legal flag"
-                />
-                <PreviewAction
-                  direction="right"
-                  mainText="Validate"
-                  subText="looks good"
-                />
-                <PreviewAction
-                  direction="left"
-                  mainText="Dismiss"
-                  subText="not sure"
-                />
+                <PreviewAction direction="up" mainText="Warn Us" subText="legal flag" />
+                <PreviewAction direction="right" mainText="Validate" subText="looks good" />
+                <PreviewAction direction="left" mainText="Dismiss" subText="not sure" />
                 <TouchIcon />
                 <DismissButton dismissPreview={dismissPreview} />
               </div>
             )}
-          <PseudoAction
-            direction="up"
-            style={upStyle}
-            mainText="Warn Us"
-            subText="legal flag"
-          />
-          <PseudoAction
-            direction="before"
-            style={leftStyle}
-            mainText="Validate"
-            subText="looks good"
-          />
-          <PseudoAction
-            direction="after"
-            style={rightStyle}
-            mainText="Dismiss"
-            subText="not sure"
-          />
+          <PseudoAction direction="up" style={upStyle} mainText="Warn Us" subText="legal flag" />
+          <PseudoAction direction="before" style={leftStyle} mainText="Validate" subText="looks good" />
+          <PseudoAction direction="after" style={rightStyle} mainText="Dismiss" subText="not sure" />
         </Fragment>
       )
     } else {
@@ -232,37 +159,45 @@ export default class Scenario extends Component {
             </div>
             <div className="funding-goal-label">
               <span>To fully fund </span>
-              <span className="dollar-amount">
-                {moneyfy(funding_goal - donated)}
-              </span>
+              <span className="dollar-amount">{moneyfy(funding_goal - donated)}</span>
             </div>
           </div>
-          <div
-            className="funding-progress-slider"
-            id={`${event}_fundingGoal`}
-            style={fundingGoalSliderStyle}
-          />
+          <div className="funding-progress-slider" id={`${event}_fundingGoal`} style={fundingGoalSliderStyle} />
           <div className="funding-goal-label">
-            Target{" "}
-            <span className="dollar-amount">{moneyfy(funding_goal)}</span>
+            Target <span className="dollar-amount">{moneyfy(funding_goal)}</span>
           </div>
-          <div className="funding-goal-summary">
-            1 donator(s), {moneyfy(donated)} donated
-          </div>
+          <div className="funding-goal-summary">1 donator(s), {moneyfy(donated)} donated</div>
         </footer>
       )
     } else if (feedType === "doer") {
+      const list = [
+        {
+          label: "Roofing",
+          active: true
+        },
+        {
+          label: "Labor",
+          active: false
+        },
+        {
+          label: "Painting",
+          active: false
+        },
+        {
+          label: "Transport",
+          active: false
+        },
+        {
+          label: "Building",
+          active: false
+        }
+      ]
+
       return (
         <footer className="scenario-footer">
           <div className="tag-list-wrap">
             <span className="tag-list-label">Work needed:</span>
-            <ul className="tag-list">
-              <li className="tag active-tag">#Roofing</li>
-              <li className="tag inactive-tag">#Labor</li>
-              <li className="tag inactive-tag">#Painting</li>
-              <li className="tag inactive-tag">#Transport</li>
-              <li className="tag inactive-tag">#Building</li>
-            </ul>
+            <TagList list={list} />
           </div>
         </footer>
       )
@@ -278,9 +213,7 @@ export default class Scenario extends Component {
       touchStartX: e.targetTouches[0].clientX,
       touchStartY: e.targetTouches[0].clientY,
       style: {
-        transform: `translateX(0) translateY(0) scale(${
-          this.props.first ? 1 : 0.9
-        })`,
+        transform: `translateX(0) translateY(0) scale(${this.props.first ? 1 : 0.9})`,
         zIndex: 10
       }
     })
@@ -302,9 +235,7 @@ export default class Scenario extends Component {
           lastTouchX: currentTouchX,
           lastTouchY: currentTouchY,
           style: {
-            transform: `translateX(${xDif}px) translateY(${yDif}px) scale(${
-              first ? 1 : 0.9
-            })`
+            transform: `translateX(${xDif}px) translateY(${yDif}px) scale(${first ? 1 : 0.9})`
           },
           upStyle: {
             opacity: yDif < 1,
@@ -327,9 +258,7 @@ export default class Scenario extends Component {
             lastTouchX: currentTouchX,
             lastTouchY: currentTouchY,
             style: {
-              transform: `translateX(${xDif}px) translateY(${yDif}px) scale(${
-                first ? 1 : 0.9
-              })`
+              transform: `translateX(${xDif}px) translateY(${yDif}px) scale(${first ? 1 : 0.9})`
             },
             upStyle: {
               opacity: 0,
@@ -351,9 +280,7 @@ export default class Scenario extends Component {
             lastTouchX: currentTouchX,
             lastTouchY: currentTouchY,
             style: {
-              transform: `translateX(${xDif}px) translateY(${yDif}px) scale(${
-                first ? 1 : 0.9
-              })`
+              transform: `translateX(${xDif}px) translateY(${yDif}px) scale(${first ? 1 : 0.9})`
             },
             upStyle: {
               opacity: 0,
@@ -373,13 +300,7 @@ export default class Scenario extends Component {
     }
   }
   handleTouchEnd = e => {
-    const {
-      touchStartX,
-      touchStartY,
-      lastTouchX,
-      lastTouchY,
-      swipeThreshold
-    } = this.state
+    const { touchStartX, touchStartY, lastTouchX, lastTouchY, swipeThreshold } = this.state
 
     let xDif = lastTouchX === 0 ? 0 : lastTouchX - touchStartX
     let yDif = lastTouchY === 0 ? 0 : lastTouchY - touchStartY
@@ -418,9 +339,7 @@ export default class Scenario extends Component {
     this.setState({
       style: {
         transitionProperty: "transform margin, opacity, top, filter",
-        transform: `translateX(0) translateY(-80vh) scale(${
-          this.props.first ? 1 : 0.9
-        })`,
+        transform: `translateX(0) translateY(-80vh) scale(${this.props.first ? 1 : 0.9})`,
         opacity: 0
       }
     })
@@ -448,9 +367,7 @@ export default class Scenario extends Component {
     this.setState({
       style: {
         transitionProperty: "transform margin, opacity, top, filter",
-        transform: `translateX(100%) translateY(0) scale(${
-          this.props.first ? 1 : 0.9
-        })`,
+        transform: `translateX(100%) translateY(0) scale(${this.props.first ? 1 : 0.9})`,
         opacity: 0
       }
     })
@@ -488,9 +405,7 @@ export default class Scenario extends Component {
   resetSwipePos = () => {
     this.setState({
       style: {
-        transform: `translateX(0) translateY(0) scale(${
-          this.props.first ? 1 : 0.9
-        })`,
+        transform: `translateX(0) translateY(0) scale(${this.props.first ? 1 : 0.9})`,
         zIndex: 10
       },
       upStyle: {
@@ -645,15 +560,7 @@ export default class Scenario extends Component {
     const { style, firstChecked } = this.state
     const { first, second, scenario } = this.props
     const { id, attributes } = scenario
-    const {
-      event,
-      image,
-      requester_firstname,
-      requester_lastname,
-      noun,
-      verb,
-      customMessage
-    } = attributes
+    const { event, image, requester_firstname, requester_lastname, noun, verb, customMessage } = attributes
     let clas
 
     if (first && !firstChecked) {
@@ -682,19 +589,14 @@ export default class Scenario extends Component {
         style={style}
         onTouchStart={e => this.handleTouchStart(e)}
         onTouchMove={e => this.handleTouchMove(e)}
-        onTouchEnd={e => this.handleTouchEnd(e)}
-      >
+        onTouchEnd={e => this.handleTouchEnd(e)}>
         {this.actionsBuild()}
         <figure className="scenario-image-wrap">
           <img src={image} alt={event} className="scenario-image" />
         </figure>
         <div className="scenario-body">
           <header className="scenario-header">
-            <h4 className="scenario-title">
-              {`${toFirstCap(verb)} ${toFirstCap(
-                requester_firstname
-              )}'s ${noun}`}
-            </h4>
+            <h4 className="scenario-title">{`${toFirstCap(verb)} ${toFirstCap(requester_firstname)}'s ${noun}`}</h4>
           </header>
 
           <section className="scenario-subheader">
@@ -731,10 +633,7 @@ export default class Scenario extends Component {
 
           {this.footerBuild()}
         </div>
-        <Link
-          className="btn scenario-footer-btn accept-scenario-btn"
-          to={`/${id}/donator/`}
-        >
+        <Link className="btn scenario-footer-btn accept-scenario-btn" to={`/${id}/donator/`}>
           <Icon icon={faArrowAltCircleDown} />
         </Link>
       </article>
@@ -800,10 +699,7 @@ class PseudoAction extends Component {
 
 const DismissButton = props => (
   <div className="action down-action">
-    <button
-      className="btn preview-dismiss-btn"
-      onClick={() => props.dismissPreview()}
-    >
+    <button className="btn preview-dismiss-btn" onClick={() => props.dismissPreview()}>
       Got it
     </button>
   </div>

@@ -58,61 +58,24 @@ export default class MissionControl extends Component {
     return (
       <Page clas="feed-page mission-control-page">
         <div className="mission-control-subheader">
-          <Role
-            active={role === "Requests"}
-            roleName="Requests"
-            changeFlow={this.changeFlow}
-          />
-          <Role
-            active={role === "Missions"}
-            roleName="Missions"
-            changeFlow={this.changeFlow}
-          />
+          <Role active={role === "Requests"} roleName="Requests" changeFlow={this.changeFlow} />
+          <Role active={role === "Missions"} roleName="Missions" changeFlow={this.changeFlow} />
         </div>
 
         <Main>
           <section className="mission-area">
             <header className="tab-list-wrap">
               <ul className="tab-list">
-                <Tab
-                  active={tab === "Donating"}
-                  tabName="Donating"
-                  changeTab={this.changeTab}
-                />
-                <Tab
-                  active={tab === "In Progress"}
-                  tabName="In Progress"
-                  changeTab={this.changeTab}
-                />
-                <Tab
-                  active={tab === "Finished"}
-                  tabName="Finished"
-                  changeTab={this.changeTab}
-                />
+                <Tab active={tab === "Donating"} tabName="Donating" changeTab={this.changeTab} />
+                <Tab active={tab === "In Progress"} tabName="In Progress" changeTab={this.changeTab} />
+                <Tab active={tab === "Finished"} tabName="Finished" changeTab={this.changeTab} />
               </ul>
             </header>
 
             <div className="tab-wrap missions-tab-wrap">
-              <TabContent
-                tabName={"Donating"}
-                content={userDos}
-                role={role}
-                tab={tab}
-              />
-
-              <TabContent
-                tabName={"In Progress"}
-                content={userDos}
-                role={role}
-                tab={tab}
-              />
-
-              <TabContent
-                tabName={"Finished"}
-                content={userDos}
-                role={role}
-                tab={tab}
-              />
+              <TabContent tabName={"Donating"} content={userDos} role={role} tab={tab} />
+              <TabContent tabName={"In Progress"} content={userDos} role={role} tab={tab} />
+              <TabContent tabName={"Finished"} content={userDos} role={role} tab={tab} />
             </div>
           </section>
         </Main>
@@ -122,19 +85,13 @@ export default class MissionControl extends Component {
 }
 
 const Role = props => (
-  <h4
-    className={props.active ? "sub-header-option active" : "sub-header-option"}
-    onClick={() => props.changeFlow(props.roleName)}
-  >
+  <h4 className={props.active ? "sub-header-option active" : "sub-header-option"} onClick={() => props.changeFlow(props.roleName)}>
     {props.roleName}
   </h4>
 )
 
 const Tab = props => (
-  <li
-    className={props.active ? "tab-link active" : "tab-link"}
-    onClick={() => props.changeTab(props.tabName)}
-  >
+  <li className={props.active ? "tab-link active" : "tab-link"} onClick={() => props.changeTab(props.tabName)}>
     {props.tabName}
   </li>
 )
@@ -143,13 +100,7 @@ const TabContent = props => (
   <article className={props.tab === props.tabName ? "tab active" : "tab"}>
     {props.content ? (
       props.content.map(scenario => (
-        <MiniScenario
-          key={scenario.id}
-          id={scenario.id}
-          role={props.role}
-          tab={props.tab}
-          {...scenario.attributes}
-        />
+        <MiniScenario key={scenario.id} id={scenario.id} role={props.role} tab={props.tab} {...scenario.attributes} />
       ))
     ) : (
       <Loader />

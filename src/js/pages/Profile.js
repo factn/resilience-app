@@ -4,16 +4,12 @@ import React, { Component } from "react"
 import { Link } from "react-router-dom"
 import Cookies from "js-cookie"
 import Icon from "@fortawesome/react-fontawesome"
-import {
-  faMapMarkerAlt,
-  faPlusCircle,
-  faCheck
-} from "@fortawesome/fontawesome-free-solid"
+import { faMapMarkerAlt, faPlusCircle, faCheck } from "@fortawesome/fontawesome-free-solid"
 
 // Components
 import Page from "./Page"
-// import MiniScenario from "../components/MiniScenario"
 import Main from "../components/Main"
+import TagList from "../components/TagList"
 
 // Utilities
 import Database from "../resources/Database"
@@ -45,6 +41,31 @@ export default class Profile extends Component {
   render() {
     const { currentUserData, userId } = this.state
 
+    let exampleTagList1 = [
+      {
+        label: "Donations",
+        active: false
+      },
+      {
+        label: "Jobs",
+        active: false
+      },
+      {
+        label: "Painting",
+        active: false
+      },
+      {
+        label: "Roofing",
+        active: false
+      }
+    ]
+    let exampleTagList2 = [
+      {
+        label: "HurricaneKatrina",
+        active: false
+      }
+    ]
+
     return (
       <Page clas="profile-page">
         <Main>
@@ -59,12 +80,8 @@ export default class Profile extends Component {
                   className="user-image"
                   style={{
                     backgroundImage: `url("${currentUserData.avatar}")`
-                  }}
-                >
-                  <img
-                    src={currentUserData.avatar}
-                    alt={currentUserData.firstname}
-                  />
+                  }}>
+                  <img src={currentUserData.avatar} alt={currentUserData.firstname} />
                 </div>
               ) : (
                 <Icon className="user-icon" icon="user" />
@@ -76,10 +93,7 @@ export default class Profile extends Component {
                   <Icon icon={faCheck} />
                 </span>
                 <div>
-                  <Link
-                    className="reputation-link"
-                    to={`/reputation/${userId}`}
-                  >
+                  <Link className="reputation-link" to={`/reputation/${userId}`}>
                     {" "}
                     See reputation
                   </Link>
@@ -113,28 +127,7 @@ export default class Profile extends Component {
                 </div>
                 <h4 className="setting-label">I want to do</h4>
                 <div className="scenario-tags">
-                  <ul className="tag-list">
-                    <li className="tag">
-                      <Link to="/" className="tag-link">
-                        #Donations
-                      </Link>
-                    </li>
-                    <li className="tag">
-                      <Link to="/" className="tag-link">
-                        #Jobs
-                      </Link>
-                    </li>
-                    <li className="tag">
-                      <Link to="/" className="tag-link">
-                        #Painting
-                      </Link>
-                    </li>
-                    <li className="tag">
-                      <Link to="/" className="tag-link">
-                        #Roofing
-                      </Link>
-                    </li>
-                  </ul>
+                  <TagList list={exampleTagList1} />
                 </div>
               </div>
               <div className="settings-box">
@@ -143,13 +136,7 @@ export default class Profile extends Component {
                 </div>
                 <h4 className="setting-label">Events I follow</h4>
                 <div className="scenario-tags">
-                  <ul className="tag-list">
-                    <li className="tag">
-                      <Link to="/" className="tag-link">
-                        #HurricaneKatrina
-                      </Link>
-                    </li>
-                  </ul>
+                  <TagList list={exampleTagList2} />
                 </div>
               </div>
             </article>

@@ -2,10 +2,7 @@
 // Module imports
 import React, { Component, Fragment } from "react"
 import { faMapMarkerAlt } from "@fortawesome/fontawesome-free-solid"
-import PlacesAutocomplete, {
-  geocodeByAddress,
-  getLatLng
-} from "react-places-autocomplete"
+import PlacesAutocomplete, { geocodeByAddress, getLatLng } from "react-places-autocomplete"
 
 // Local component
 import InputIconWrap from "./InputIconWrap"
@@ -63,20 +60,13 @@ export default class Location extends Component {
     return (
       <Fragment>
         <InputIconWrap id={inputID} icon={faMapMarkerAlt}>
-          <div
-            className={
-              disabledField
-                ? "input-wrap disabled-input places-autocomplete"
-                : "input-wrap places-autocomplete"
-            }
-          >
+          <div className={disabledField ? "input-wrap disabled-input places-autocomplete" : "input-wrap places-autocomplete"}>
             <PlacesAutocomplete
               value={this.state.address}
               onChange={this.handleChange}
               onSelect={this.handleSelect}
               id={inputID}
-              highlightFirstSuggestion={true}
-            >
+              highlightFirstSuggestion={true}>
               {({ getInputProps, suggestions, getSuggestionItemProps }) => (
                 <Fragment>
                   <input
@@ -90,12 +80,9 @@ export default class Location extends Component {
                     {suggestions.map(suggestion => (
                       <div
                         {...getSuggestionItemProps(suggestion, {
-                          className: suggestion.active
-                            ? "suggestion-item active"
-                            : "suggestion-item",
+                          className: suggestion.active ? "suggestion-item active" : "suggestion-item",
                           style: suggestion.active ? activeStyle : inactiveStyle
-                        })}
-                      >
+                        })}>
                         {suggestion.description}
                       </div>
                     ))}

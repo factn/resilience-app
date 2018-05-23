@@ -75,11 +75,7 @@ export default class Login extends Component {
                 <span className="input-label-phrase">Password</span>
                 <Icon icon={faKey} className="input-label-icon" />
               </label>
-              <input
-                className="form-input"
-                type="password"
-                id="login_password"
-              />
+              <input className="form-input" type="password" id="login_password" />
             </div>
 
             <Submit {...buttonObj} />

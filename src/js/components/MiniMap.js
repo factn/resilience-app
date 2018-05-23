@@ -50,20 +50,9 @@ class MiniMap extends Component {
 
     return (
       <section className="mini-map-wrap">
-        <Map
-          google={google}
-          zoom={pins ? 12 : 14}
-          initialCenter={initialCenter}
-          onClick={this.mapClicked}
-        >
-          <Marker
-            position={this.state.markerPos}
-            options={{ icon: mapMarkerAlt }}
-          />
-          {pins &&
-            pins.map((_pin, _index) => (
-              <Marker key={_index} position={_pin} options={{ icon: customMapPin }} />
-            ))}
+        <Map google={google} zoom={pins ? 12 : 14} initialCenter={initialCenter} onClick={this.mapClicked}>
+          <Marker position={this.state.markerPos} options={{ icon: mapMarkerAlt }} />
+          {pins && pins.map((_pin, _index) => <Marker key={_index} position={_pin} options={{ icon: customMapPin }} />)}
         </Map>
       </section>
     )

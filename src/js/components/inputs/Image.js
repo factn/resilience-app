@@ -26,21 +26,9 @@ export default class File extends Component {
 
     return (
       <article className="photo-card">
-        <div className="photo-icon">
-          {photoInField ? (
-            <Icon icon={faCheckCircle} />
-          ) : (
-            <Icon icon={faCamera} />
-          )}
-        </div>
+        <div className="photo-icon">{photoInField ? <Icon icon={faCheckCircle} /> : <Icon icon={faCamera} />}</div>
 
-        <input
-          className="form-input"
-          id="photo"
-          type="file"
-          accept="image/*"
-          onChange={() => this.photoObjectChange()}
-        />
+        <input className="form-input" id="photo" type="file" accept="image/*" onChange={() => this.photoObjectChange()} />
 
         <div className="button-row">
           <label className="input-label btn" htmlFor="photo">

@@ -6,12 +6,7 @@ import { Map, Marker, GoogleApiWrapper } from "google-maps-react" // https://git
 
 const MapContainer = props => (
   <section className="map-wrap">
-    <Map
-      google={props.google}
-      zoom={props.zoomLevel}
-      initialCenter={props.marker}
-      center={props.marker}
-    >
+    <Map google={props.google} zoom={props.zoomLevel} initialCenter={props.marker} center={props.marker}>
       <Marker position={props.marker} />
     </Map>
   </section>

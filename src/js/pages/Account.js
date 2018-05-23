@@ -70,10 +70,7 @@ export default class Account extends Component {
 
         <Main>
           <SessionSetting clas="facebook-setting">
-            <Link
-              className="btn facebook-connect-btn"
-              to="/account/confirm-facebook"
-            >
+            <Link className="btn facebook-connect-btn" to="/account/confirm-facebook">
               Sign up with Facebook
             </Link>
           </SessionSetting>
@@ -94,19 +91,11 @@ export default class Account extends Component {
 
           <SessionSetting clas="password-setting" headerLabel="Password">
             <SessionCard clas="input-card password-card">
-              <input
-                type="password"
-                placeholder="Choose a password"
-                id="password"
-              />
+              <input type="password" placeholder="Choose a password" id="password" />
             </SessionCard>
 
             <SessionCard clas="input-card password-confirm-card">
-              <input
-                type="password"
-                placeholder="Confirm your password"
-                id="password_confirmation"
-              />
+              <input type="password" placeholder="Confirm your password" id="password_confirmation" />
             </SessionCard>
           </SessionSetting>
 

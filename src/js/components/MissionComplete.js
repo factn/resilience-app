@@ -13,23 +13,12 @@ import fixedRoof from "../../img/fixed-roof.jpg"
 /*** [end of imports] ***/
 
 const MissionComplete = props => (
-  <section
-    className={
-      props.open
-        ? "modal mission-complete-modal open"
-        : "modal mission-complete-modal"
-    }
-    onClick={() => props.dismiss()}
-  >
+  <section className={props.open ? "modal mission-complete-modal open" : "modal mission-complete-modal"} onClick={() => props.dismiss()}>
     <Stars />
     <h2>We did it!</h2>
     <div className="before-and-after-wrap">
       <figure className="before-image-wrap image-wrap">
-        <img
-          src={props.beforeImage || stubImage}
-          alt="Before"
-          className="image before-image"
-        />
+        <img src={props.beforeImage || stubImage} alt="Before" className="image before-image" />
         <figcaption className="image-caption before-image-caption">
           <div className="caption-label">Before</div>
         </figcaption>

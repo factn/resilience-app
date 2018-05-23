@@ -11,6 +11,7 @@ import Main from "../components/Main"
 import Footer from "../components/Footer"
 import SessionSetting from "../components/SessionSetting"
 import SessionCard from "../components/SessionCard"
+import TagList from "../components/TagList"
 
 // Utilities
 import { gradientStyle } from "../resources/Util"
@@ -48,30 +49,63 @@ export default class DoerFlow extends Component {
       endColor: "rgba(0, 0, 0, 0.1)"
     })
 
+    let exampleTagList1 = [
+      {
+        label: "Painting",
+        active: true
+      },
+      {
+        label: "Roofing",
+        active: true
+      },
+      {
+        label: "Transport",
+        active: false
+      },
+      {
+        label: "Coding",
+        active: false
+      },
+      {
+        label: "FirstAid",
+        active: false
+      },
+      {
+        label: "Childcare",
+        active: false
+      }
+    ]
+    let exampleTagList2 = [
+      {
+        label: "Urgent",
+        active: true
+      },
+      {
+        label: "Today",
+        active: true
+      },
+      {
+        label: "1-2Days",
+        active: true
+      },
+      {
+        label: "ThisWeek",
+        active: false
+      }
+    ]
+
     return (
       <Page clas="flow-page doer-flow-page">
         <Main>
           <SessionSetting headerLabel="Jobs I want">
             <SessionCard clas="trending-card" cardTitle="Description">
               <div className="card-content">
-                <ul className="tag-list">
-                  <li className="tag active-tag tag-button">#Painting</li>
-                  <li className="tag active-tag tag-button">#Roofing</li>
-                  <li className="tag inactive-tag tag-button">#Transport</li>
-                  <li className="tag inactive-tag tag-button">#Coding</li>
-                  <li className="tag inactive-tag tag-button">#FirstAid</li>
-                  <li className="tag inactive-tag tag-button">#Childcare</li>
-                </ul>
+                <TagList list={exampleTagList1} />
               </div>
             </SessionCard>
 
             <SessionCard clas="trending-card" cardTitle="Time Frame">
-              <ul className="tag-list">
-                <li className="tag active-tag tag-button">#Urgent</li>
-                <li className="tag active-tag tag-button">#Today</li>
-                <li className="tag active-tag tag-button">#1-2Days</li>
-                <li className="tag inactive-tag tag-button">#ThisWeek</li>
-              </ul>
+              <TagList list={exampleTagList2} />
             </SessionCard>
 
             <SessionCard cardTitle="Distance">
@@ -86,25 +120,13 @@ export default class DoerFlow extends Component {
               <div className="card-area home-and-abroad-toggle">
                 <div className="toggle-row">
                   <div className="toggle-label">Max Travel</div>
-                  <div
-                    className={workAbroad ? "toggle on" : "toggle"}
-                    onClick={() => this.toggleWorkAbroad()}
-                  >
+                  <div className={workAbroad ? "toggle on" : "toggle"} onClick={() => this.toggleWorkAbroad()}>
                     <div className="toggle-button" />
                   </div>
                 </div>
 
-                <div
-                  className={
-                    true
-                      ? "card-area travel-distance"
-                      : "card-area travel-distance disabled-card-area"
-                  }
-                >
-                  <label
-                    className="travel-range-label range-label"
-                    htmlFor="travelDistanceSlider"
-                  >
+                <div className={true ? "card-area travel-distance" : "card-area travel-distance disabled-card-area"}>
+                  <label className="travel-range-label range-label" htmlFor="travelDistanceSlider">
                     {workDistance} miles
                   </label>
                   <input

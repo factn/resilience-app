@@ -131,13 +131,7 @@ export default class Reputation extends Component {
   }
 
   render() {
-    const {
-      currentUserData,
-      userDonations,
-      userDos,
-      userRequests,
-      userVerifications
-    } = this.state
+    const { currentUserData, userDonations, userDos, userRequests, userVerifications } = this.state
 
     return (
       <Page clas="profile-page">
@@ -153,12 +147,8 @@ export default class Reputation extends Component {
                   className="user-image"
                   style={{
                     backgroundImage: `url("${currentUserData.avatar}")`
-                  }}
-                >
-                  <img
-                    src={currentUserData.avatar}
-                    alt={currentUserData.firstname}
-                  />
+                  }}>
+                  <img src={currentUserData.avatar} alt={currentUserData.firstname} />
                 </div>
               ) : (
                 <Icon className="user-icon" icon="user" />
@@ -185,10 +175,7 @@ export default class Reputation extends Component {
             <ProfileArticle headerLabel={"Donations"} content={userDonations} />
             <ProfileArticle headerLabel={"Tasks"} content={userDos} />
             <ProfileArticle headerLabel={"Requests"} content={userRequests} />
-            <ProfileArticle
-              headerLabel={"Verifications"}
-              content={userVerifications}
-            />
+            <ProfileArticle headerLabel={"Verifications"} content={userVerifications} />
           </section>
         </Main>
       </Page>
@@ -215,10 +202,7 @@ const MiniList = props => (
           let positive = Math.random() > 0.1 // TODO: currently random, will be scenario.attributes.is_complete
 
           return (
-            <div
-              key={proof.id}
-              className={positive ? "proof positive" : "proof negative"}
-            >
+            <div key={proof.id} className={positive ? "proof positive" : "proof negative"}>
               <img src={positive ? catGreen : catRed} alt="cat" />
               {/* <Icon icon={positive ? faSmile : faFrown} /> */}
             </div>
