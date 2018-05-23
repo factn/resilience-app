@@ -21,35 +21,40 @@ export default class Header extends Component {
 
   render() {
     const { loggedIn, userId } = this.state
+    const { children } = this.props
 
-    if (loggedIn) {
-      return (
-        <header className="app-header">
-          <NavMenu userId={userId} />
-
-          <Link className="logo" to="/">
-            <img src={logo} alt="WAGL" />
-          </Link>
-
-          <Link className="missions-btn" to="/missions">
-            <Icon icon={faBullseye} />
-          </Link>
-        </header>
-      )
+    if (children) {
+      return <header className="app-header">{children}</header>
     } else {
-      return (
-        <header className="app-header">
-          <div className="login-link">
-            <Link className="bright-link" to="/login">
-              Login
+      if (loggedIn) {
+        return (
+          <header className="app-header">
+            <NavMenu userId={userId} />
+
+            <Link className="logo" to="/">
+              <img src={logo} alt="WAGL" />
             </Link>
-            <span> / </span>
-            <Link className="bright-link" to="/account">
-              Sign up
+
+            <Link className="missions-btn" to="/missions">
+              <Icon icon={faBullseye} />
             </Link>
-          </div>
-        </header>
-      )
+          </header>
+        )
+      } else {
+        return (
+          <header className="app-header">
+            <div className="login-link">
+              <Link className="bright-link" to="/login">
+                Login
+              </Link>
+              <span> / </span>
+              <Link className="bright-link" to="/account">
+                Sign up
+              </Link>
+            </div>
+          </header>
+        )
+      }
     }
   }
 }

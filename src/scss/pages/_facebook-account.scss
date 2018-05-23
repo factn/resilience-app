@@ -1,6 +1,7 @@
 .confirm-facebook-page,
 .verify-facebook-page {
   .app-header {
+    position: relative;
     background: $fb-blue;
 
     h1,
@@ -8,12 +9,18 @@
     h3 {
       color: $white;
     }
+
+    h2 {
+      font-size: 1.2rem;
+    }
   }
 
   .facebook-icon {
+    position: absolute;
+    top: 0.5rem;
+    left: 1rem;
     color: $white;
-    float: left;
-    font-size: 1.5rem;
+    font-size: 2rem;
   }
 }
 
@@ -33,7 +40,7 @@
 
 .confirm-facebook-page {
   .logo {
-    margin-bottom: 1rem;
+    margin: 5rem auto 1rem;
 
     img {
       max-height: 5rem;
@@ -48,12 +55,17 @@
 .verify-facebook-page {
   background: $white;
 
-  .or-line {
+  .or-line-wrap {
     margin-bottom: 1rem;
-    color: rgba($black, 0.5);
+  }
 
-    &:first-of-type {
-      font-size: 1.1em;
+  .or-line {
+    color: rgba($black, 0.25);
+    margin-top: 1rem;
+
+    &.large-or-line {
+      margin: 0;
+      font-size: 0.9em;
       color: $black;
     }
   }
@@ -79,5 +91,10 @@
 
   .friend-photo-wrap {
     @include circle-photo-wrap(3rem);
+  }
+
+  .friend-name,
+  .verification-btn-wrap {
+    padding: 0.75rem 0;
   }
 }
