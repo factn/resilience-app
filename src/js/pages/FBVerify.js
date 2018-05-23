@@ -25,18 +25,16 @@ const FBVerify = props => (
     </Header>
 
     <Main>
-      <div className="or-line">Choose a friend to verify who you are</div>
-      <div className="or-line">
-        If you select a friend, we will send them a message to verify your
-        identity
+      <div className="or-line-wrap">
+        <div className="or-line large-or-line">We weren't able to verify you through your J4R.</div>
+        <div className="or-line large-or-line">Choose a friend to verify your identity.</div>
+        <div className="or-line">
+          If you select a friend, we will send them a message asking them to verify who you are.
+        </div>
       </div>
       <section className="friends-list-wrap">
         <SessionCard clas="input-card">
-          <input
-            type="text"
-            className="search-friends-input"
-            placeholder="Search your friends"
-          />
+          <input type="text" className="search-friends-input" placeholder="Search your friends" />
         </SessionCard>
 
         <ul className="friends-list">
@@ -61,14 +59,12 @@ const FBVerify = props => (
 const Friend = props => (
   <li className="friend">
     <figure className="friend-photo-wrap">
-      <img
-        src={FBProfilePic}
-        alt="Alice Smith"
-        className="friend-profile-photo"
-      />
+      <img src={FBProfilePic} alt="Alice Smith" className="friend-profile-photo" />
     </figure>
     <div className="friend-name">Alice Smith</div>
-    <button className="btn btn-lite verification-btn">Verify me</button>
+    <div className="verification-btn-wrap">
+      <button className="btn btn-lite verification-btn">Verify me</button>
+    </div>
   </li>
 )
 
