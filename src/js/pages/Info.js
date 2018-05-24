@@ -16,6 +16,9 @@ import MiniMap from "../components/MiniMap"
 // Local JS Utilities
 import Database from "../resources/Database"
 import { toFirstCap, moneyfy, gradientStyle } from "../resources/Util"
+
+// Images
+import genericAvatar from "../../img/fb-profile.jpg"
 /*** [end of imports] ***/
 
 export default class Info extends Component {
@@ -42,7 +45,7 @@ export default class Info extends Component {
     Database.getScenarioWithChildren({ id: this.state.scenarioId })
       .then(result => {
         const { data } = result.body
-        // console.info("Success getting scenario:", data)
+        console.info("Success getting scenario:", data)
 
         this.setState({
           scenarioData: data
@@ -409,6 +412,35 @@ export default class Info extends Component {
         dismissMissionComplete: this.dismissMissionComplete
       }
 
+      let updates = [
+        {
+          role: "requester",
+          firstName: "Alice",
+          avatar: genericAvatar,
+          message: "Nisi aute do ad laboris.",
+          timestamp: new Date().toDateString() // get timestamp
+        },
+        {
+          role: "doer",
+          firstName: "Caroline",
+          avatar: genericAvatar,
+          message: "Laborum veniam anim commodo ad.",
+          timestamp: new Date().toDateString() // get timestamp
+        },
+        {
+          role: "requester",
+          firstName: "Alice",
+          avatar: genericAvatar,
+          message: "Laboris ad veniam officia voluptate.",
+          timestamp: new Date().toDateString() // get timestamp
+        },
+        {
+          role: "system",
+          message: "Do ipsum officia reprehenderit magna commodo excepteur elit dolore nisi sit.",
+          timestamp: new Date().toDateString() // get timestamp
+        }
+      ]
+
       return (
         <Page {...notificationProps} {...missionCompleteProps} footer={this.callToActionBtn()}>
           <div className={`scenario-content-wrap ${role}-scenario-content`}>
@@ -503,6 +535,7 @@ export default class Info extends Component {
                     <div className="scenario-severity">Urgent</div>
                   </section>
                 </article>
+
                 <article className={tab === "instructions" ? "tab active" : "tab"}>
                   <header className="job-status-header">
                     <h4>
@@ -512,7 +545,11 @@ export default class Info extends Component {
                   </header>
                   {this.jobs()}
                 </article>
-                <article className={tab === "updates" ? "tab active" : "tab"} />
+
+                <article className={tab === "updates" ? "updates-wrap tab active" : "updates-wrap tab"}>
+                  {updates.map((update, _index) => <Update {...update} key={`update${_index}`} />)}
+                </article>
+
                 <article className={tab === "verifiers" ? "tab active" : "tab"} />
               </div>
             </section>
@@ -542,3 +579,19 @@ export default class Info extends Component {
     }
   }
 }
+
+const Update = props => (
+  <article className={`update ${props.role}-update`}>
+    <aside className="update-avatar-wrap">
+      <div className="update-user-info">
+        <div className="user-avatar" style={{ backgroundImage: `url("${props.avatar || genericAvatar}")` }} />
+        <div className="user-name">{props.firstName}</div>
+      </div>
+    </aside>
+    <section className="update-message">
+      <div className="message-pin" />
+      <div className="message-content">{props.message}</div>
+      <div className="message-timestamp">{props.timestamp}</div>
+    </section>
+  </article>
+)
