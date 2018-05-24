@@ -69,12 +69,13 @@ export default class Notification extends Component {
           <div className="notification-message">{doerName || "A worker bee"} has finished one of their tasks.</div>
         </div>
         <div className="button-row">
-          <Link className="btn view-btn" to={this.buildLink()}>
-            Verify their work
-          </Link>
           <button className="btn dismiss-btn" onClick={() => dismiss()}>
             Dismiss
           </button>
+          
+          <Link className="btn view-btn" to={this.buildLink()}>
+            Verify their work
+          </Link>
         </div>
       </section>
     )
