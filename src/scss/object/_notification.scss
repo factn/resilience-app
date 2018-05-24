@@ -4,9 +4,9 @@
   left: 1rem;
   width: calc(100% - 2rem);
   padding: 1.5rem 1rem 1rem;
-  background: rgba(darken($white, 5%), 0.9);
-  box-shadow: $card-shadow;
-  border-radius: 0 0 1rem 1rem;
+  background: $white;
+  box-shadow: $taper-shadow;
+  border-radius: 1rem;
   z-index: 20;
   opacity: 0;
 
@@ -17,19 +17,29 @@
   }
 
   &.open {
-    top: 0;
+    top: 0.5rem;
     opacity: 1;
   }
 
   .notification-content {
+    @include inline-flex;
     @include spacer-with-border("bottom", 0.5rem, 0.125rem, rgba($black, 0.1));
-    text-align: center;
+  }
+
+  .notification-avatar {
+    @include circle-photo-wrap(3rem);
+    margin-right: 1rem;
+
+    background: {
+      color: rgba($black, 0.1);
+      size: cover;
+    }
   }
 
   .button-row {
     @include inline-flex;
   }
-  
+
   .btn {
     font-size: 1rem;
   }
