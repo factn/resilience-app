@@ -127,8 +127,8 @@ export default class Confirmation extends Component {
       onSubmit: this.submitConfirmation,
       onSubmitParams: {
         photo: "photo",
-        custom_message: "description",
-        star_rating: "star_rating"
+        custom_message: "description"
+        // star_rating: "star_rating"
       }
     }
     let textareaObj = {

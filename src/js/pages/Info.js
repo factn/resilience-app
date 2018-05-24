@@ -44,21 +44,23 @@ export default class Info extends Component {
   componentDidMount = () => {
     Database.getScenarioWithChildren({ id: this.state.scenarioId })
       .then(result => {
-        const { data } = result.body
-        console.info("Success getting scenario:", data)
+        const { data, included } = result.body
+        // console.info("Success getting scenario:", data, included)
 
         this.setState({
-          scenarioData: data
+          scenarioData: data,
+          childrenScenarioData: included
         })
-        this.setChildrenScenarioData(data.relationships.children_scenario.data)
         this.createRefresh()
 
         invalidateRequests(Database.getScenarioWithChildren)
       })
       .catch(error => {
         // console.error("Error getting scenarios:", error)
+
         this.setState({
-          scenarioData: null
+          scenarioData: null,
+          childrenScenarioData: null
         })
       })
   }
@@ -73,18 +75,23 @@ export default class Info extends Component {
       if (!this.checkForMissionComplete()) {
         Database.getScenarioWithChildren({ id: scenarioId })
           .then(result => {
-            const { data } = result.body
-            // console.info("Success getting scenario:", data)
+            const { data, included } = result.body
+            // console.info("Success getting scenario:", data, included)
 
             this.setState({
-              scenarioData: data
+              scenarioData: data,
+              childrenScenarioData: included
             })
-            this.setChildrenScenarioData(data.relationships.children_scenario.data)
 
             invalidateRequests(Database.getScenarioWithChildren)
           })
           .catch(error => {
             // console.error("Error getting scenarios:", error)
+
+            this.setState({
+              scenarioData: null,
+              childrenScenarioData: null
+            })
           })
       } else {
         clearInterval(this.autoRefresh)
@@ -92,66 +99,6 @@ export default class Info extends Component {
     }, dataRefreshRate)
   }
 
-  setChildrenScenarioData = list => {
-    let childrenScenarioData = {}
-    let completedChildren = 0
-
-    for (let i = 0, l = list.length; i < l; i++) {
-      childrenScenarioData[list[i].id] = {}
-    }
-
-    for (let id in childrenScenarioData) {
-      Database.getScenarioWithProofs({ id: id })
-        .then(result => {
-          const { data } = result.body
-          const { verb, noun, is_complete } = data.attributes
-          const { initialJobState } = this.state
-          let tmp = initialJobState
-
-          // console.info("Success getting child scenario:", data)
-
-          childrenScenarioData[id] = data
-          completedChildren++
-
-          if (typeof initialJobState[id] !== "undefined") {
-            if (is_complete !== initialJobState[id].complete) {
-              tmp[id] = {
-                verb: verb,
-                noun: noun,
-                complete: is_complete
-              }
-              this.setState({
-                initialJobState: tmp,
-                notificationOpen: true,
-                notificationScenarioId: id
-              })
-            }
-          } else {
-            tmp[id] = {
-              verb: verb,
-              noun: noun,
-              complete: is_complete
-            }
-            this.setState({
-              initialJobState: tmp
-            })
-          }
-        })
-        .catch(error => {
-          // console.error("Error getting child scenario:", error)
-        })
-    }
-
-    let checkCompletedChildren = setInterval(() => {
-      if (completedChildren >= 4) {
-        clearInterval(checkCompletedChildren)
-
-        this.setState({
-          childrenScenarioData
-        })
-      }
-    })
-  }
   getBackLink = () => {
     const { role } = this.state
 
@@ -351,6 +298,42 @@ export default class Info extends Component {
       notificationOpen: false
     })
   }
+  buildUpdates = () => {
+    const { scenarioData, childrenScenarioData, missionComplete } = this.state
+    const { created_at, requester_firstname, doer_firstname, is_complete, updated_at } = scenarioData.attributes
+
+    let updates = []
+
+    updates.push({
+      role: "requester",
+      firstName: toFirstCap(requester_firstname),
+      avatar: genericAvatar,
+      message: "Mission started",
+      timestamp: new Date(created_at).toDateString()
+    })
+
+    for (let update = 0, len = childrenScenarioData.length; update < len; update++) {
+      if (childrenScenarioData[update].attributes.is_complete) {
+        updates.push({
+          role: "doer",
+          firstName: toFirstCap(doer_firstname),
+          avatar: genericAvatar,
+          message: "Task complete",
+          timestamp: new Date(childrenScenarioData[update].attributes.updated_at).toDateString()
+        })
+      }
+    }
+
+    if (missionComplete || is_complete) {
+      updates.push({
+        role: "system",
+        message: "Mission complete!",
+        timestamp: new Date(updated_at).toDateString()
+      })
+    }
+
+    return updates
+  }
 
   render() {
     if (this.state.scenarioData) {
@@ -411,35 +394,6 @@ export default class Info extends Component {
         missionCompleteOpen,
         dismissMissionComplete: this.dismissMissionComplete
       }
-
-      let updates = [
-        {
-          role: "requester",
-          firstName: "Alice",
-          avatar: genericAvatar,
-          message: "Nisi aute do ad laboris.",
-          timestamp: new Date().toDateString() // get timestamp
-        },
-        {
-          role: "doer",
-          firstName: "Caroline",
-          avatar: genericAvatar,
-          message: "Laborum veniam anim commodo ad.",
-          timestamp: new Date().toDateString() // get timestamp
-        },
-        {
-          role: "requester",
-          firstName: "Alice",
-          avatar: genericAvatar,
-          message: "Laboris ad veniam officia voluptate.",
-          timestamp: new Date().toDateString() // get timestamp
-        },
-        {
-          role: "system",
-          message: "Do ipsum officia reprehenderit magna commodo excepteur elit dolore nisi sit.",
-          timestamp: new Date().toDateString() // get timestamp
-        }
-      ]
 
       return (
         <Page {...notificationProps} {...missionCompleteProps} footer={this.callToActionBtn()}>
@@ -547,7 +501,7 @@ export default class Info extends Component {
                 </article>
 
                 <article className={tab === "updates" ? "updates-wrap tab active" : "updates-wrap tab"}>
-                  {updates.map((update, _index) => <Update {...update} key={`update${_index}`} />)}
+                  {this.buildUpdates().map((update, _index) => <Update {...update} key={`update${_index}`} />)}
                 </article>
 
                 <article className={tab === "verifiers" ? "tab active" : "tab"} />
