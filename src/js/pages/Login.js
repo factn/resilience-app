@@ -2,14 +2,15 @@
 // Module imports
 import React, { Component } from "react"
 import Cookies from "js-cookie"
-import Icon from "@fortawesome/react-fontawesome"
-import { faAt, faKey } from "@fortawesome/fontawesome-free-solid"
 
 // Components
 import Page from "./Page"
 import Main from "../components/Main"
+import Footer from "../components/Footer"
 import Form from "../components/Form"
 import Submit from "../components/inputs/Submit"
+import SessionSetting from "../components/SessionSetting"
+import SessionCard from "../components/SessionCard"
 
 // Local JS Utilities
 import Database from "../resources/Database"
@@ -50,11 +51,11 @@ export default class Login extends Component {
   render() {
     let buttonObj = {
       labelPhrase: "Sign In",
-      clas: "neutral-response",
+      clas: "footer-btn user-login-btn",
       onSubmit: this.submitLogin,
       onSubmitParams: {
-        login_email: "login_email",
-        login_password: "login_password"
+        email: "username",
+        password: "password"
       }
     }
 
@@ -62,23 +63,19 @@ export default class Login extends Component {
       <Page clas="flow-page login-page">
         <Main>
           <Form>
-            <div className="input-wrap">
-              <label className="input-label" htmlFor="login_email">
-                <span className="input-label-phrase">Email</span>
-                <Icon icon={faAt} className="input-label-icon" />
-              </label>
-              <input className="form-input" type="email" id="login_email" />
-            </div>
+            <SessionSetting clas="login-settings" headerLabel="Log In">
+              <SessionCard clas="input-card email-card">
+                <input type="text" placeholder="Enter your email" id="username" />
+              </SessionCard>
 
-            <div className="input-wrap">
-              <label className="input-label" htmlFor="login_password">
-                <span className="input-label-phrase">Password</span>
-                <Icon icon={faKey} className="input-label-icon" />
-              </label>
-              <input className="form-input" type="password" id="login_password" />
-            </div>
+              <SessionCard clas="input-card password-card">
+                <input type="password" placeholder="Enter your password" id="password" />
+              </SessionCard>
+            </SessionSetting>
 
-            <Submit {...buttonObj} />
+            <Footer>
+              <Submit {...buttonObj} />
+            </Footer>
           </Form>
         </Main>
       </Page>
