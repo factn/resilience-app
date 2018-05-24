@@ -1,59 +1,65 @@
 /*** IMPORTS ***/
 // Module imports
-import React from "react"
+import React, { Component, Fragment } from "react"
 import { Link } from "react-router-dom"
 import Icon from "@fortawesome/react-fontawesome"
 import { faFacebook } from "@fortawesome/fontawesome-free-brands"
 
+// Page wrapper
+import Page from "./Page"
+
 // Page elements
-import Header from "../components/Header"
-import Main from "../components/Main"
-import Footer from "../components/Footer"
 import SessionCard from "../components/SessionCard"
 
 // Images
 import FBProfilePic from "../../img/fb-profile.jpg"
 /*** [end of imports] ***/
 
-const FBVerify = props => (
-  <div className="page flow-page verify-facebook-page">
-    <Header>
-      <div className="facebook-icon">
-        <Icon icon={faFacebook} />
-      </div>
-      <h2>Get verified</h2>
-    </Header>
-
-    <Main>
-      <div className="or-line-wrap">
-        <div className="or-line large-or-line">We weren't able to verify you through your J4R.</div>
-        <div className="or-line large-or-line">Choose a friend to verify your identity.</div>
-        <div className="or-line">
-          If you select a friend, we will send them a message asking them to verify who you are.
+export default class FBVerify extends Component {
+  render() {
+    const header = (
+      <Fragment>
+        <div className="facebook-icon">
+          <Icon icon={faFacebook} />
         </div>
-      </div>
-      <section className="friends-list-wrap">
-        <SessionCard className="input-card">
-          <input type="text" className="search-friends-input" placeholder="Search your friends" />
-        </SessionCard>
+        <h2>Get verified</h2>
+      </Fragment>
+    )
 
-        <ul className="friends-list">
-          <Friend />
-          <Friend />
-          <Friend />
-          <Friend />
-          <Friend />
-        </ul>
-      </section>
-    </Main>
+    const footer = (
+      <Fragment>
+        <div className="button-label">Send message</div>
+        <Link to="/profile" className="btn footer-btn feed-btn">
+          Get Verified
+        </Link>
+      </Fragment>
+    )
 
-    <Footer>
-      <div className="button-label">Send message</div>
-      <Link to="/profile" className="btn footer-btn feed-btn">
-        Get Verified
-      </Link>
-    </Footer>
-  </div>
+    let friends = [1, 2, 3, 4, 5]
+
+    return (
+      <Page className="flow-page verify-facebook-page" header={header} footer={footer}>
+        <div className="or-line-wrap">
+          <div className="or-line large-or-line">We weren't able to verify you through your J4R.</div>
+          <div className="or-line large-or-line">Choose a friend to verify your identity.</div>
+          <div className="or-line">
+            If you select a friend, we will send them a message asking them to verify who you are.
+          </div>
+        </div>
+        <section className="friends-list-wrap">
+          <SessionCard className="input-card">
+            <input type="text" className="search-friends-input" placeholder="Search your friends" />
+          </SessionCard>
+
+          <FriendsList friends={friends} />
+        </section>
+      </Page>
+    )
+  }
+}
+
+const FriendsList = ({ friends }) => (
+  <ul className="friends-list">{friends && friends.map(name => <Friend key={`fb_friend_${name}`} />)}</ul>
 )
 
 const Friend = props => (
@@ -67,5 +73,3 @@ const Friend = props => (
     </div>
   </li>
 )
-
-export default FBVerify

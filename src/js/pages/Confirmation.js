@@ -3,10 +3,10 @@
 import React, { Component } from "react"
 import Cookies from "js-cookie"
 
-// Page elements
+// Page wrapper
 import Page from "./Page"
-import Main from "../components/Main"
-import Footer from "../components/Footer"
+
+// Page elements
 import SessionSetting from "../components/SessionSetting"
 import SessionCard from "../components/SessionCard"
 import StarRating from "../components/StarRating"
@@ -135,45 +135,41 @@ export default class Confirmation extends Component {
       inputID: "description"
     }
 
+    const footer = <Submit {...buttonObj} />
+
     return (
-      <Page className={`flow-page ${role}-flow-page`}>
-        <Main>
-          <h2 className="confirmation-header">
-            {role === "doer" ? "Help verify your work" : "Verify the work is complete"}
-          </h2>
-          {role === "requester" && (
-            <SessionSetting className="verify-settings">
-              <SessionCard className="verify-card" cardTitle="Work to verify">
-                <figure className="verify-wrap">
-                  <div className="verify-image-wrap">
-                    <img src={stubImage} alt="Work" className="verify-image" />
+      <Page className={`flow-page ${role}-flow-page`} footer={footer}>
+        <h2 className="confirmation-header">
+          {role === "doer" ? "Help verify your work" : "Verify the work is complete"}
+        </h2>
+        {role === "requester" && (
+          <SessionSetting className="verify-settings">
+            <SessionCard className="verify-card" cardTitle="Work to verify">
+              <figure className="verify-wrap">
+                <div className="verify-image-wrap">
+                  <img src={stubImage} alt="Work" className="verify-image" />
+                </div>
+                <figcaption className="verify-image-caption">
+                  <div className="verify-message">
+                    We worked hard and I feel we did a good job. Good luck with the rest of the repairs.
                   </div>
-                  <figcaption className="verify-image-caption">
-                    <div className="verify-message">
-                      We worked hard and I feel we did a good job. Good luck with the rest of the repairs.
-                    </div>
-                  </figcaption>
-                </figure>
-              </SessionCard>
-            </SessionSetting>
-          )}
-
-          <SessionSetting headerLabel="Add a photo">
-            <Image />
-          </SessionSetting>
-
-          <SessionSetting headerLabel="Include a message">
-            <SessionCard className="input-card message-card">
-              <TextArea {...textareaObj} />
+                </figcaption>
+              </figure>
             </SessionCard>
           </SessionSetting>
+        )}
 
-          {role === "requester" && <StarRating />}
-        </Main>
+        <SessionSetting headerLabel="Add a photo">
+          <Image />
+        </SessionSetting>
 
-        <Footer>
-          <Submit {...buttonObj} />
-        </Footer>
+        <SessionSetting headerLabel="Include a message">
+          <SessionCard className="input-card message-card">
+            <TextArea {...textareaObj} />
+          </SessionCard>
+        </SessionSetting>
+
+        {role === "requester" && <StarRating />}
       </Page>
     )
   }

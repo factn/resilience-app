@@ -13,7 +13,9 @@ import Footer from "../components/Footer"
 
 const Page = props => (
   <div className={props.className ? `page ${props.className}` : "page"}>
-    <Header />
+    {props.header ? <Header>{props.header}</Header> : <Header />}
+
+    {props.subheader}
 
     {props.notification && (
       <Notification
