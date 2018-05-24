@@ -1,12 +1,12 @@
 /*** IMPORTS ***/
 // Module imports
-import React, { Component } from "react"
+import React, { Component, Fragment } from "react"
 import Cookies from "js-cookie"
 
-// Page elements
+// Page wrapper
 import Page from "./Page"
-import Main from "../components/Main"
-import Footer from "../components/Footer"
+
+// Page elements
 import SessionSetting from "../components/SessionSetting"
 import SessionCard from "../components/SessionCard"
 
@@ -204,39 +204,39 @@ export default class RequesterFlow extends Component {
       inputID: "description"
     }
 
+    const footer = (
+      <Fragment>
+        <div className="button-label">Post your request</div>
+        <Submit {...buttonObj} />
+      </Fragment>
+    )
+
     return (
-      <Page className="flow-page requester-flow-page">
-        <Main>
-          <SessionSetting headerLabel="Event">
-            <SessionCard className="input-card event-card">
-              <Select {...eventSelectObj} />
-            </SessionCard>
-            <SessionCard className="input-card title-card">
-              <Select {...nounVerbSelectObj} />
-            </SessionCard>
-          </SessionSetting>
+      <Page className="flow-page requester-flow-page" footer={footer}>
+        <SessionSetting headerLabel="Event">
+          <SessionCard className="input-card event-card">
+            <Select {...eventSelectObj} />
+          </SessionCard>
+          <SessionCard className="input-card title-card">
+            <Select {...nounVerbSelectObj} />
+          </SessionCard>
+        </SessionSetting>
 
-          <SessionSetting headerLabel="Where is the issue?">
-            <SessionCard>
-              <Location inputID="requestLocation" />
-            </SessionCard>
-          </SessionSetting>
+        <SessionSetting headerLabel="Where is the issue?">
+          <SessionCard>
+            <Location inputID="requestLocation" />
+          </SessionCard>
+        </SessionSetting>
 
-          <SessionSetting headerLabel="What does it look like?">
-            <Image />
-          </SessionSetting>
+        <SessionSetting headerLabel="What does it look like?">
+          <Image />
+        </SessionSetting>
 
-          <SessionSetting headerLabel="Special Message?">
-            <SessionCard className="input-card message-card">
-              <TextArea {...textareaObj} />
-            </SessionCard>
-          </SessionSetting>
-        </Main>
-
-        <Footer>
-          <div className="button-label">Post your request</div>
-          <Submit {...buttonObj} />
-        </Footer>
+        <SessionSetting headerLabel="Special Message?">
+          <SessionCard className="input-card message-card">
+            <TextArea {...textareaObj} />
+          </SessionCard>
+        </SessionSetting>
       </Page>
     )
   }

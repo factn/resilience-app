@@ -3,10 +3,11 @@
 import React, { Component } from "react"
 import Cookies from "js-cookie"
 
-// Components
+// Page wrapper
 import Page from "./Page"
+
+// Page elements
 import MiniScenario from "../components/MiniScenario"
-import Main from "../components/Main"
 import Loader from "../components/Loader"
 
 // Utilities
@@ -55,37 +56,39 @@ export default class MissionControl extends Component {
   render() {
     const { role, tab, userDos } = this.state
 
+    const subheader = (
+      <div className="mission-control-subheader">
+        <Role active={role === "Requests"} roleName="Requests" changeFlow={this.changeFlow} />
+        <Role active={role === "Missions"} roleName="Missions" changeFlow={this.changeFlow} />
+      </div>
+    )
+
     return (
-      <Page className="feed-page mission-control-page">
-        <div className="mission-control-subheader">
-          <Role active={role === "Requests"} roleName="Requests" changeFlow={this.changeFlow} />
-          <Role active={role === "Missions"} roleName="Missions" changeFlow={this.changeFlow} />
-        </div>
+      <Page className="feed-page mission-control-page" subheader={subheader}>
+        <section className="mission-area">
+          <header className="tab-list-wrap">
+            <ul className="tab-list">
+              <Tab active={tab === "Donating"} tabName="Donating" changeTab={this.changeTab} />
+              <Tab active={tab === "In Progress"} tabName="In Progress" changeTab={this.changeTab} />
+              <Tab active={tab === "Finished"} tabName="Finished" changeTab={this.changeTab} />
+            </ul>
+          </header>
 
-        <Main>
-          <section className="mission-area">
-            <header className="tab-list-wrap">
-              <ul className="tab-list">
-                <Tab active={tab === "Donating"} tabName="Donating" changeTab={this.changeTab} />
-                <Tab active={tab === "In Progress"} tabName="In Progress" changeTab={this.changeTab} />
-                <Tab active={tab === "Finished"} tabName="Finished" changeTab={this.changeTab} />
-              </ul>
-            </header>
-
-            <div className="tab-wrap missions-tab-wrap">
-              <TabContent tabName={"Donating"} content={userDos} role={role} tab={tab} />
-              <TabContent tabName={"In Progress"} content={userDos} role={role} tab={tab} />
-              <TabContent tabName={"Finished"} content={userDos} role={role} tab={tab} />
-            </div>
-          </section>
-        </Main>
+          <div className="tab-wrap missions-tab-wrap">
+            <TabContent tabName={"Donating"} content={userDos} role={role} tab={tab} />
+            <TabContent tabName={"In Progress"} content={userDos} role={role} tab={tab} />
+            <TabContent tabName={"Finished"} content={userDos} role={role} tab={tab} />
+          </div>
+        </section>
       </Page>
     )
   }
 }
 
 const Role = props => (
-  <h4 className={props.active ? "sub-header-option active" : "sub-header-option"} onClick={() => props.changeFlow(props.roleName)}>
+  <h4
+    className={props.active ? "sub-header-option active" : "sub-header-option"}
+    onClick={() => props.changeFlow(props.roleName)}>
     {props.roleName}
   </h4>
 )

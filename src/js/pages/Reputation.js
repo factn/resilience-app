@@ -6,10 +6,11 @@ import Cookies from "js-cookie"
 import Icon from "@fortawesome/react-fontawesome"
 import { faCheck } from "@fortawesome/fontawesome-free-solid"
 
-// Components
+// Page wrapper
 import Page from "./Page"
-// import MiniScenario from "../components/MiniScenario"
-import Main from "../components/Main"
+
+// Page elements
+import Loader from "../components/Loader"
 
 // Utilities
 import Database from "../resources/Database"
@@ -133,51 +134,68 @@ export default class Reputation extends Component {
   render() {
     const { currentUserData, userDonations, userDos, userRequests, userVerifications } = this.state
 
+    let articles = [
+      {
+        headerLabel: "Honey",
+        content: null
+      },
+      {
+        headerLabel: "Donations",
+        content: userDonations
+      },
+      {
+        headerLabel: "Tasks",
+        content: userDos
+      },
+      {
+        headerLabel: "Requests",
+        content: userRequests
+      },
+      {
+        headerLabel: "Verifications",
+        content: userVerifications
+      }
+    ]
+
     return (
       <Page className="profile-page">
-        <Main>
-          <header className="settings-header">
-            <h3>Reputation</h3>
-          </header>
+        <header className="settings-header">
+          <h3>Reputation</h3>
+        </header>
 
-          {currentUserData && currentUserData.firstname !== "" ? (
-            <div className="user-info-area">
-              {currentUserData.avatar ? (
-                <div
-                  className="user-image"
-                  style={{
-                    backgroundImage: `url("${currentUserData.avatar}")`
-                  }}>
-                  <img src={currentUserData.avatar} alt={currentUserData.firstname} />
-                </div>
-              ) : (
-                <Icon className="user-icon" icon="user" />
-              )}
-
-              <div className="user-name">
-                <span>{toFirstCap(currentUserData.firstname)}</span>
-                <span className="user-verified-icon">
-                  <Icon icon={faCheck} />
-                </span>
+        {currentUserData && currentUserData.firstname !== "" ? (
+          <div className="user-info-area">
+            {currentUserData.avatar ? (
+              <div
+                className="user-image"
+                style={{
+                  backgroundImage: `url("${currentUserData.avatar}")`
+                }}>
+                <img src={currentUserData.avatar} alt={currentUserData.firstname} />
               </div>
-            </div>
-          ) : (
-            <div className="user-info-area">
-              <Icon className="user-icon" icon="question" />
-              <Link className="user-name not-signed-in" to="/login/">
-                Please sign in
-              </Link>
-            </div>
-          )}
+            ) : (
+              <Icon className="user-icon" icon="user" />
+            )}
 
-          <section className="profile">
-            <ProfileArticle headerLabel={"Honey"} content={null} />
-            <ProfileArticle headerLabel={"Donations"} content={userDonations} />
-            <ProfileArticle headerLabel={"Tasks"} content={userDos} />
-            <ProfileArticle headerLabel={"Requests"} content={userRequests} />
-            <ProfileArticle headerLabel={"Verifications"} content={userVerifications} />
-          </section>
-        </Main>
+            <div className="user-name">
+              <span>{toFirstCap(currentUserData.firstname)}</span>
+              <span className="user-verified-icon">
+                <Icon icon={faCheck} />
+              </span>
+            </div>
+          </div>
+        ) : (
+          <div className="user-info-area">
+            <Icon className="user-icon" icon="question" />
+            <Link className="user-name not-signed-in" to="/login/">
+              Please sign in
+            </Link>
+          </div>
+        )}
+
+        <section className="profile">
+          {articles.map((articleObj, _index) => <ProfileArticle {...articleObj} key={`article#${_index}`} />)}
+        </section>
       </Page>
     )
   }
@@ -196,7 +214,7 @@ const ProfileArticle = props => (
 
 const MiniList = props => (
   <div className="profile-proofs-wrap">
-    {props.proofs &&
+    {props.proofs ? (
       props.proofs.map((proof, index) => {
         if (index < 9) {
           let positive = Math.random() > 0.1 // TODO: currently random, will be scenario.attributes.is_complete
@@ -214,6 +232,11 @@ const MiniList = props => (
             </span>
           )
         }
-      })}
+      })
+    ) : (
+      <div className="proof">
+        <Loader />
+      </div>
+    )}
   </div>
 )

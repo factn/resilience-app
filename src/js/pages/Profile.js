@@ -6,9 +6,10 @@ import Cookies from "js-cookie"
 import Icon from "@fortawesome/react-fontawesome"
 import { faMapMarkerAlt, faPlusCircle, faCheck } from "@fortawesome/fontawesome-free-solid"
 
-// Components
+// Page wrapper
 import Page from "./Page"
-import Main from "../components/Main"
+
+// Page elements
 import TagList from "../components/TagList"
 
 // Utilities
@@ -68,80 +69,78 @@ export default class Profile extends Component {
 
     return (
       <Page className="profile-page">
-        <Main>
-          <header className="settings-header">
-            <h3>Profile</h3>
+        <header className="settings-header">
+          <h3>Profile</h3>
+        </header>
+
+        {currentUserData && currentUserData.firstname !== "" ? (
+          <div className="user-info-area">
+            {currentUserData.avatar ? (
+              <div
+                className="user-image"
+                style={{
+                  backgroundImage: `url("${currentUserData.avatar}")`
+                }}>
+                <img src={currentUserData.avatar} alt={currentUserData.firstname} />
+              </div>
+            ) : (
+              <Icon className="user-icon" icon="user" />
+            )}
+
+            <div className="user-name">
+              <span>{toFirstCap(currentUserData.firstname)}</span>
+              <span className="user-verified-icon">
+                <Icon icon={faCheck} />
+              </span>
+              <div>
+                <Link className="reputation-link" to={`/reputation/${userId}`}>
+                  {" "}
+                  See reputation
+                </Link>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className="user-info-area">
+            <Icon className="user-icon" icon="question" />
+            <Link className="user-name not-signed-in" to="/login/">
+              Please sign in
+            </Link>
+          </div>
+        )}
+
+        <section className="discovery-settings-area">
+          <header className="discovery-settings-header">
+            <h3>Discovery Settings</h3>
           </header>
-
-          {currentUserData && currentUserData.firstname !== "" ? (
-            <div className="user-info-area">
-              {currentUserData.avatar ? (
-                <div
-                  className="user-image"
-                  style={{
-                    backgroundImage: `url("${currentUserData.avatar}")`
-                  }}>
-                  <img src={currentUserData.avatar} alt={currentUserData.firstname} />
-                </div>
-              ) : (
-                <Icon className="user-icon" icon="user" />
-              )}
-
-              <div className="user-name">
-                <span>{toFirstCap(currentUserData.firstname)}</span>
-                <span className="user-verified-icon">
-                  <Icon icon={faCheck} />
-                </span>
-                <div>
-                  <Link className="reputation-link" to={`/reputation/${userId}`}>
-                    {" "}
-                    See reputation
-                  </Link>
-                </div>
+          <article className="discovery-settings card">
+            <div className="settings-box">
+              <div className="setting-icon">
+                <Icon icon={faMapMarkerAlt} />
+              </div>
+              <h4 className="setting-label">Location</h4>
+              <div className="location-setting">Wellington, NZ</div>
+            </div>
+            <div className="settings-box">
+              <div className="setting-icon">
+                <Icon icon={faPlusCircle} />
+              </div>
+              <h4 className="setting-label">I want to do</h4>
+              <div className="scenario-tags">
+                <TagList list={exampleTagList1} />
               </div>
             </div>
-          ) : (
-            <div className="user-info-area">
-              <Icon className="user-icon" icon="question" />
-              <Link className="user-name not-signed-in" to="/login/">
-                Please sign in
-              </Link>
+            <div className="settings-box">
+              <div className="setting-icon">
+                <Icon icon={faPlusCircle} />
+              </div>
+              <h4 className="setting-label">Events I follow</h4>
+              <div className="scenario-tags">
+                <TagList list={exampleTagList2} />
+              </div>
             </div>
-          )}
-
-          <section className="discovery-settings-area">
-            <header className="discovery-settings-header">
-              <h3>Discovery Settings</h3>
-            </header>
-            <article className="discovery-settings card">
-              <div className="settings-box">
-                <div className="setting-icon">
-                  <Icon icon={faMapMarkerAlt} />
-                </div>
-                <h4 className="setting-label">Location</h4>
-                <div className="location-setting">Wellington, NZ</div>
-              </div>
-              <div className="settings-box">
-                <div className="setting-icon">
-                  <Icon icon={faPlusCircle} />
-                </div>
-                <h4 className="setting-label">I want to do</h4>
-                <div className="scenario-tags">
-                  <TagList list={exampleTagList1} />
-                </div>
-              </div>
-              <div className="settings-box">
-                <div className="setting-icon">
-                  <Icon icon={faPlusCircle} />
-                </div>
-                <h4 className="setting-label">Events I follow</h4>
-                <div className="scenario-tags">
-                  <TagList list={exampleTagList2} />
-                </div>
-              </div>
-            </article>
-          </section>
-        </Main>
+          </article>
+        </section>
       </Page>
     )
   }

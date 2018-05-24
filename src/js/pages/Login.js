@@ -5,9 +5,10 @@ import Cookies from "js-cookie"
 import Icon from "@fortawesome/react-fontawesome"
 import { faAt, faKey } from "@fortawesome/fontawesome-free-solid"
 
-// Components
+// Page wrapper
 import Page from "./Page"
-import Main from "../components/Main"
+
+// Page elements
 import Form from "../components/Form"
 import Submit from "../components/inputs/Submit"
 
@@ -60,27 +61,25 @@ export default class Login extends Component {
 
     return (
       <Page className="flow-page login-page">
-        <Main>
-          <Form>
-            <div className="input-wrap">
-              <label className="input-label" htmlFor="login_email">
-                <span className="input-label-phrase">Email</span>
-                <Icon icon={faAt} className="input-label-icon" />
-              </label>
-              <input className="form-input" type="email" id="login_email" />
-            </div>
+        <Form>
+          <div className="input-wrap">
+            <label className="input-label" htmlFor="login_email">
+              <span className="input-label-phrase">Email</span>
+              <Icon icon={faAt} className="input-label-icon" />
+            </label>
+            <input className="form-input" type="email" id="login_email" />
+          </div>
 
-            <div className="input-wrap">
-              <label className="input-label" htmlFor="login_password">
-                <span className="input-label-phrase">Password</span>
-                <Icon icon={faKey} className="input-label-icon" />
-              </label>
-              <input className="form-input" type="password" id="login_password" />
-            </div>
+          <div className="input-wrap">
+            <label className="input-label" htmlFor="login_password">
+              <span className="input-label-phrase">Password</span>
+              <Icon icon={faKey} className="input-label-icon" />
+            </label>
+            <input className="form-input" type="password" id="login_password" />
+          </div>
 
-            <Submit {...buttonObj} />
-          </Form>
-        </Main>
+          <Submit {...buttonObj} />
+        </Form>
       </Page>
     )
   }
