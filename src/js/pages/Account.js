@@ -1,13 +1,13 @@
 /*** IMPORTS ***/
 // Module imports
-import React, { Component } from "react"
+import React, { Component, Fragment } from "react"
 import Cookies from "js-cookie"
 import { Link } from "react-router-dom"
 
+// Page wrapper
+import Page from "./Page"
+
 // Page elements
-import Header from "../components/Header"
-import Main from "../components/Main"
-import Footer from "../components/Footer"
 import SessionSetting from "../components/SessionSetting"
 import SessionCard from "../components/SessionCard"
 
@@ -62,53 +62,51 @@ export default class Account extends Component {
       }
     }
 
+    const header = <h2>Create your profile</h2>
+
+    const footer = (
+      <Fragment>
+        <div className="button-label">Create your profile</div>
+        <Submit {...buttonObj} />
+      </Fragment>
+    )
+
     return (
-      <div className="page flow-page create-account-page">
-        <Header>
-          <h2>Create your profile</h2>
-        </Header>
+      <Page className="flow-page create-account-page" header={header} footer={footer}>
+        <SessionSetting className="facebook-setting">
+          <Link className="btn facebook-connect-btn" to="/account/confirm-facebook">
+            Sign up with Facebook
+          </Link>
+        </SessionSetting>
 
-        <Main>
-          <SessionSetting clas="facebook-setting">
-            <Link className="btn facebook-connect-btn" to="/account/confirm-facebook">
-              Sign up with Facebook
-            </Link>
-          </SessionSetting>
+        <div className="or-line">or enter your details</div>
 
-          <div className="or-line">or enter your details</div>
+        <SessionSetting className="name-setting" headerLabel="Name">
+          <SessionCard className="input-card name-card">
+            <input type="text" placeholder="Enter a name" id="firstname" />
+          </SessionCard>
+        </SessionSetting>
 
-          <SessionSetting clas="name-setting" headerLabel="Name">
-            <SessionCard clas="input-card name-card">
-              <input type="text" placeholder="Enter a name" id="firstname" />
-            </SessionCard>
-          </SessionSetting>
+        <SessionSetting className="email-setting" headerLabel="Email">
+          <SessionCard className="input-card email-card">
+            <input type="email" placeholder="Enter your email" id="email" />
+          </SessionCard>
+        </SessionSetting>
 
-          <SessionSetting clas="email-setting" headerLabel="Email">
-            <SessionCard clas="input-card email-card">
-              <input type="email" placeholder="Enter your email" id="email" />
-            </SessionCard>
-          </SessionSetting>
+        <SessionSetting className="password-setting" headerLabel="Password">
+          <SessionCard className="input-card password-card">
+            <input type="password" placeholder="Choose a password" id="password" />
+          </SessionCard>
 
-          <SessionSetting clas="password-setting" headerLabel="Password">
-            <SessionCard clas="input-card password-card">
-              <input type="password" placeholder="Choose a password" id="password" />
-            </SessionCard>
+          <SessionCard className="input-card password-confirm-card">
+            <input type="password" placeholder="Confirm your password" id="password_confirmation" />
+          </SessionCard>
+        </SessionSetting>
 
-            <SessionCard clas="input-card password-confirm-card">
-              <input type="password" placeholder="Confirm your password" id="password_confirmation" />
-            </SessionCard>
-          </SessionSetting>
-
-          <SessionSetting headerLabel="Add a photo">
-            <Image />
-          </SessionSetting>
-        </Main>
-
-        <Footer>
-          <div className="button-label">Create your profile</div>
-          <Submit {...buttonObj} />
-        </Footer>
-      </div>
+        <SessionSetting headerLabel="Add a photo">
+          <Image />
+        </SessionSetting>
+      </Page>
     )
   }
 }

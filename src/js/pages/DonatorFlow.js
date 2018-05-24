@@ -4,10 +4,10 @@ import React, { Component } from "react"
 import Cookies from "js-cookie"
 import { faDollarSign } from "@fortawesome/fontawesome-free-solid"
 
-// Page elements
+// Page wrapper
 import Page from "./Page"
-import Main from "../components/Main"
-import Footer from "../components/Footer"
+
+// Page elements
 import SessionSetting from "../components/SessionSetting"
 import SessionCard from "../components/SessionCard"
 
@@ -61,43 +61,35 @@ export default class DonatorFlow extends Component {
       }
     }
 
+    const footer = <Submit {...buttonObj} />
+
     return (
-      <Page clas="flow-page donator-flow-page">
-        <Main>
-          <SessionSetting headerLabel="Total I want to spend">
-            <SessionCard clas="session-card" cardTitle="In this session">
-              <InputIconWrap id="selectMaxDonationAmount" icon={faDollarSign}>
-                <input
-                  className="input-field"
-                  type="number"
-                  id="selectMaxDonationAmount"
-                  placeholder="Enter amount"
-                />
-              </InputIconWrap>
-              <div className="unlimited-amount-option">
-                <span>OR</span>
-                <button className="btn btn-lite unlimited-amount-btn">
-                  Unlimited Amount
-                </button>
-              </div>
-            </SessionCard>
-          </SessionSetting>
+      <Page className="flow-page donator-flow-page" footer={footer}>
+        <SessionSetting headerLabel="Total I want to spend">
+          <SessionCard className="session-card" cardTitle="In this session">
+            <InputIconWrap id="selectMaxDonationAmount" icon={faDollarSign}>
+              <input className="input-field" type="number" id="selectMaxDonationAmount" placeholder="Enter amount" />
+            </InputIconWrap>
+            <div className="unlimited-amount-option">
+              <span>OR</span>
+              <button className="btn btn-lite unlimited-amount-btn">Unlimited Amount</button>
+            </div>
+          </SessionCard>
+        </SessionSetting>
 
-          <SessionSetting headerLabel="Donate" clas="donation-settings">
-            <SessionCard clas="donation-card">
-              <div className="button-grid">
-                <button className="btn square-btn">$0.20</button>
-                <button className="btn square-btn">$1.00</button>
-                <button className="btn square-btn">$5.00</button>
-                <button className="btn square-btn">$10.00</button>
-              </div>
-              <div className="donation-clarification">
-                To each mission I swipe right on
-              </div>
-            </SessionCard>
-          </SessionSetting>
+        <SessionSetting headerLabel="Donate" className="donation-settings">
+          <SessionCard className="donation-card">
+            <div className="button-grid">
+              <button className="btn square-btn">$0.20</button>
+              <button className="btn square-btn">$1.00</button>
+              <button className="btn square-btn">$5.00</button>
+              <button className="btn square-btn">$10.00</button>
+            </div>
+            <div className="donation-clarification">To each mission I swipe right on</div>
+          </SessionCard>
+        </SessionSetting>
 
-          {/* <SessionSetting clas="user-settings">
+        {/* <SessionSetting className="user-settings">
             <div className="future-setting">
               <input className="setting-input" type="checkbox" id="saveFutureDonationSettings" />
               <label className="setting-label" htmlFor="saveFutureDonationSettings">
@@ -105,11 +97,6 @@ export default class DonatorFlow extends Component {
               </label>
             </div>
           </SessionSetting> */}
-        </Main>
-
-        <Footer>
-          <Submit {...buttonObj} />
-        </Footer>
       </Page>
     )
   }

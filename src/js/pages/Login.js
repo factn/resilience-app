@@ -3,10 +3,10 @@
 import React, { Component } from "react"
 import Cookies from "js-cookie"
 
-// Components
+// Page wrapper
 import Page from "./Page"
-import Main from "../components/Main"
-import Footer from "../components/Footer"
+
+// Page elements
 import Form from "../components/Form"
 import Submit from "../components/inputs/Submit"
 import SessionSetting from "../components/SessionSetting"
@@ -59,25 +59,21 @@ export default class Login extends Component {
       }
     }
 
+    const footer = <Submit {...buttonObj} />
+
     return (
-      <Page clas="flow-page login-page">
-        <Main>
-          <Form>
-            <SessionSetting clas="login-settings" headerLabel="Log In">
-              <SessionCard clas="input-card email-card">
-                <input type="text" placeholder="Enter your email" id="username" />
-              </SessionCard>
+      <Page className="flow-page login-page" footer={footer}>
+        <Form>
+          <SessionSetting className="login-settings" headerLabel="Log In">
+            <SessionCard className="input-card email-card">
+              <input type="text" placeholder="Enter your email" id="username" />
+            </SessionCard>
 
-              <SessionCard clas="input-card password-card">
-                <input type="password" placeholder="Enter your password" id="password" />
-              </SessionCard>
-            </SessionSetting>
-
-            <Footer>
-              <Submit {...buttonObj} />
-            </Footer>
-          </Form>
-        </Main>
+            <SessionCard className="input-card password-card">
+              <input type="password" placeholder="Enter your password" id="password" />
+            </SessionCard>
+          </SessionSetting>
+        </Form>
       </Page>
     )
   }

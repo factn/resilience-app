@@ -1,17 +1,14 @@
 /*** IMPORTS ***/
 // Module imports
-import React, { Component } from "react"
+import React, { Component, Fragment } from "react"
 import Cookies from "js-cookie"
 
-// Component
+// Page wrapper
 import Page from "./Page"
-import Main from "../components/Main"
+
+// Page elements
 import Scenario from "../components/Scenario"
 import Loader from "../components/Loader"
-import Thanks from "../components/Thanks"
-
-// Footer
-import Footer from "../components/Footer"
 
 // Local JS Utilities
 import Database from "../resources/Database"
@@ -30,7 +27,7 @@ export default class Feed extends Component {
     default_total_session_donation: null,
     default_swipe_donation: null,
     donatedTotal: 0.0,
-    overlayOpen: false
+    thanksOpen: false
   }
 
   filterFeed = (data, offset) => {
@@ -45,8 +42,7 @@ export default class Feed extends Component {
     for (let scenario = 0, l = data.length; scenario < l; scenario++) {
       current = data[scenario]
       isValid = true
-      isFullyFunded =
-        current.attributes.donated >= current.attributes.funding_goal
+      isFullyFunded = current.attributes.donated >= current.attributes.funding_goal
 
       if (current.attributes.parent_scenario_id) {
         isValid = false
@@ -79,11 +75,7 @@ export default class Feed extends Component {
       }
     }
 
-    sortedList = unsortedList.sort(
-      (a, b) =>
-        Date.parse(b.attributes.created_at) -
-        Date.parse(a.attributes.created_at)
-    )
+    sortedList = unsortedList.sort((a, b) => Date.parse(b.attributes.created_at) - Date.parse(a.attributes.created_at))
 
     if (offset + 3 <= sortedList.length) {
       result = sortedList.slice(offset, offset + 3)
@@ -94,12 +86,7 @@ export default class Feed extends Component {
     return result
   }
   feedScenario = params => {
-    const {
-      feedOffset,
-      previewDismissed,
-      type,
-      default_swipe_donation
-    } = this.state
+    const { feedOffset, previewDismissed, type, default_swipe_donation } = this.state
     const { scenario, index } = params
 
     if (index === feedOffset) {
@@ -131,14 +118,7 @@ export default class Feed extends Component {
         />
       )
     } else if (index > feedOffset + 1) {
-      return (
-        <Scenario
-          key={scenario.id}
-          scenario={scenario}
-          feedType={type}
-          doerPageRoute={this.doerPageRoute}
-        />
-      )
+      return <Scenario key={scenario.id} scenario={scenario} feedType={type} doerPageRoute={this.doerPageRoute} />
     }
   }
 
@@ -169,10 +149,7 @@ export default class Feed extends Component {
   mountUserData = () => {
     Database.getUserById({ id: this.state.userId })
       .then(result => {
-        const {
-          default_total_session_donation,
-          default_swipe_donation
-        } = result.body.data.attributes
+        const { default_total_session_donation, default_swipe_donation } = result.body.data.attributes
         // console.log("User successfully found:", result.body.data)
 
         this.setState({
@@ -190,13 +167,7 @@ export default class Feed extends Component {
   }
 
   nextItem = params => {
-    const {
-      feedOffset,
-      resultsOffset,
-      default_swipe_donation,
-      donatedTotal,
-      cardsOnPage
-    } = this.state
+    const { feedOffset, resultsOffset, default_swipe_donation, donatedTotal, cardsOnPage } = this.state
     const { directionSwiped, fullFundAmount } = params
 
     if (cardsOnPage === 1) {
@@ -213,14 +184,11 @@ export default class Feed extends Component {
           })
           if (directionSwiped === "right") {
             this.setState({
-              donatedTotal:
-                parseInt(donatedTotal, 10) +
-                parseInt(default_swipe_donation, 10)
+              donatedTotal: parseInt(donatedTotal, 10) + parseInt(default_swipe_donation, 10)
             })
           } else if (directionSwiped === "up") {
             this.setState({
-              donatedTotal:
-                parseInt(donatedTotal, 10) + parseInt(fullFundAmount, 10)
+              donatedTotal: parseInt(donatedTotal, 10) + parseInt(fullFundAmount, 10)
             })
             this.openOverlay()
           }
@@ -239,13 +207,11 @@ export default class Feed extends Component {
       })
       if (directionSwiped === "right") {
         this.setState({
-          donatedTotal:
-            parseInt(donatedTotal, 10) + parseInt(default_swipe_donation, 10)
+          donatedTotal: parseInt(donatedTotal, 10) + parseInt(default_swipe_donation, 10)
         })
       } else if (directionSwiped === "up") {
         this.setState({
-          donatedTotal:
-            parseInt(donatedTotal, 10) + parseInt(fullFundAmount, 10)
+          donatedTotal: parseInt(donatedTotal, 10) + parseInt(fullFundAmount, 10)
         })
         this.openOverlay()
       }
@@ -258,18 +224,18 @@ export default class Feed extends Component {
   }
   openOverlay = () => {
     this.setState({
-      overlayOpen: true
+      thanksOpen: true
     })
 
     setTimeout(() => {
       this.setState({
-        overlayOpen: false
+        thanksOpen: false
       })
     }, 2000)
   }
-  dismissOverlay = () => {
+  dismissThanks = () => {
     this.setState({
-      overlayOpen: false
+      thanksOpen: false
     })
   }
 
@@ -278,49 +244,43 @@ export default class Feed extends Component {
   }
 
   render() {
-    const {
-      scenarioData,
-      type,
-      default_total_session_donation,
-      donatedTotal,
-      overlayOpen
-    } = this.state
+    const { scenarioData, type, default_total_session_donation, donatedTotal, thanksOpen } = this.state
+
+    let footer
+
+    if (type === "donator") {
+      footer = (
+        <Fragment>
+          <div className="footer-left">
+            <div className="dollar-amount">
+              {default_total_session_donation && default_total_session_donation - donatedTotal > 0
+                ? moneyfy(default_total_session_donation - donatedTotal)
+                : "$0"}
+            </div>
+            <h4 className="dollar-amount-label">To spend</h4>
+          </div>
+
+          <div className="footer-right">
+            <div className="dollar-amount">{donatedTotal ? moneyfy(donatedTotal) : "$0"}</div>
+            <h4 className="dollar-amount-label">Donated</h4>
+          </div>
+        </Fragment>
+      )
+    } else {
+      footer = false
+    }
+
+    let thanksProps = {
+      thanks: true,
+      thanksOpen,
+      dismissThanks: this.dismissThanks
+    }
 
     return (
-      <Page clas={`feed-page ${type}-feed`}>
-        <Thanks open={overlayOpen} dismiss={this.dismissOverlay} />
-        <Main>
-          <section className={`scenario-feed-wrap ${type}-feed-wrap`}>
-            {scenarioData ? (
-              scenarioData.map((scenario, index) =>
-                this.feedScenario({ scenario, index })
-              )
-            ) : (
-              <Loader />
-            )}
-          </section>
-        </Main>
-
-        {type === "donator" && (
-          <Footer>
-            <div className="footer-left">
-              <div className="dollar-amount">
-                {default_total_session_donation &&
-                default_total_session_donation - donatedTotal > 0
-                  ? moneyfy(default_total_session_donation - donatedTotal)
-                  : "$0"}
-              </div>
-              <h4 className="dollar-amount-label">To spend</h4>
-            </div>
-
-            <div className="footer-right">
-              <div className="dollar-amount">
-                {donatedTotal ? moneyfy(donatedTotal) : "$0"}
-              </div>
-              <h4 className="dollar-amount-label">Donated</h4>
-            </div>
-          </Footer>
-        )}
+      <Page className={`feed-page ${type}-feed`} footer={footer} {...thanksProps}>
+        <section className={`scenario-feed-wrap ${type}-feed-wrap`}>
+          {scenarioData ? scenarioData.map((scenario, index) => this.feedScenario({ scenario, index })) : <Loader />}
+        </section>
       </Page>
     )
   }

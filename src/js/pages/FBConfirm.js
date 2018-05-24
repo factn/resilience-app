@@ -1,13 +1,14 @@
 /*** IMPORTS ***/
 // Module imports
-import React, { Component } from "react"
+import React, { Component, Fragment } from "react"
 import { Link } from "react-router-dom"
 import Icon from "@fortawesome/react-fontawesome"
 import { faFacebook } from "@fortawesome/fontawesome-free-brands"
 
+// Page wrapper
+import Page from "./Page"
+
 // Page elements
-import Header from "../components/Header"
-import Main from "../components/Main"
 import SessionSetting from "../components/SessionSetting"
 
 // Logo image
@@ -16,34 +17,29 @@ import logo from "../../img/logo.svg"
 
 export default class FBConfirm extends Component {
   render() {
-    return (
-      <div className="page flow-page confirm-facebook-page">
-        <Header>
-          <div className="facebook-icon">
-            <Icon icon={faFacebook} />
-          </div>
-          <h2>Confirm Login</h2>
-        </Header>
+    const header = (
+      <Fragment>
+        <div className="facebook-icon">
+          <Icon icon={faFacebook} />
+        </div>
+        <h2>Confirm Login</h2>
+      </Fragment>
+    )
 
-        <Main>
-          <div className="logo">
-            <Link to="/">
-              <img src={logo} alt="WAGL" />
-            </Link>
-          </div>
-          <div className="or-line">
-            Create your profile using your Facebook login
-          </div>
-          <SessionSetting clas="facebook-setting">
-            <Link
-              className="btn facebook-connect-btn"
-              to="/account/verify-facebook"
-            >
-              Continue
-            </Link>
-          </SessionSetting>
-        </Main>
-      </div>
+    return (
+      <Page className="flow-page confirm-facebook-page" header={header}>
+        <div className="logo">
+          <Link to="/">
+            <img src={logo} alt="WAGL" />
+          </Link>
+        </div>
+        <div className="or-line">Create your profile using your Facebook login</div>
+        <SessionSetting className="facebook-setting">
+          <Link className="btn facebook-connect-btn" to="/account/verify-facebook">
+            Continue
+          </Link>
+        </SessionSetting>
+      </Page>
     )
   }
 }
