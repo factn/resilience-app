@@ -5,6 +5,9 @@ import { Link } from "react-router-dom"
 
 // Local JS Utilities
 import Database from "../resources/Database"
+
+// Images
+import genericAvatar from "../../img/fb-profile.jpg"
 /*** [end of imports] ***/
 
 export default class Notification extends Component {
@@ -50,21 +53,29 @@ export default class Notification extends Component {
   }
 
   render() {
-    const { open, dismissal } = this.props
+    const { doerName, avatar, open, dismiss } = this.props
 
     return (
       <section className={open ? "notification open" : "notification"}>
         <div className="notification-content">
-          <div>Work has been done on your project!</div>
-          <div>Help us verify it's been done correctly.</div>
+          <div className="notification-avatar-wrap">
+            <div
+              className="notification-avatar"
+              style={{
+                backgroundImage: `url("${avatar || genericAvatar}")`
+              }}
+            />
+          </div>
+          <div className="notification-message">{doerName || "A worker bee"} has finished one of their tasks.</div>
         </div>
         <div className="button-row">
-          <Link className="btn view-btn" to={this.buildLink()}>
-            View
-          </Link>
-          <button className="btn dismiss-btn" onClick={() => dismissal()}>
+          <button className="btn dismiss-btn" onClick={() => dismiss()}>
             Dismiss
           </button>
+          
+          <Link className="btn view-btn" to={this.buildLink()}>
+            Verify their work
+          </Link>
         </div>
       </section>
     )

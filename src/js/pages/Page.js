@@ -22,7 +22,7 @@ const Page = props => (
         open={props.notificationOpen}
         parentId={props.parentScenarioId}
         childId={props.childScenarioId}
-        dismissal={() => props.dismissNotification()}
+        dismiss={() => props.dismissNotification()}
       />
     )}
 
