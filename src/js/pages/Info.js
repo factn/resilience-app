@@ -4,7 +4,14 @@ import React, { Component, Fragment } from "react"
 import { Link } from "react-router-dom"
 import { invalidateRequests } from "redux-bees"
 import Icon from "@fortawesome/react-fontawesome"
-import { faCheck, faMapMarkerAlt, faArrowCircleUp, faEllipsisH } from "@fortawesome/fontawesome-free-solid"
+import {
+  faCheck,
+  faMapMarkerAlt,
+  faArrowCircleUp,
+  faEllipsisH,
+  faPlusCircle,
+  faChevronCircleRight
+} from "@fortawesome/fontawesome-free-solid"
 
 // Page wrapper
 import Page from "./Page"
@@ -12,6 +19,9 @@ import Page from "./Page"
 // Page elements
 import Loader from "../components/Loader"
 import MiniMap from "../components/MiniMap"
+
+// Inputs
+import TextArea from "../components/inputs/TextArea"
 
 // Local JS Utilities
 import Database from "../resources/Database"
@@ -38,6 +48,7 @@ export default class Info extends Component {
     notificationOpen: false,
     missionComplete: false,
     missionCompleteOpen: false,
+    newUpdateOpen: false,
     dataRefreshRate: 5000 // Every 5 seconds check for map pin changes
   }
 
@@ -106,11 +117,13 @@ export default class Info extends Component {
     else if (role === "requester") return "/requester"
     else return "/"
   }
+
   changeTab = tab => {
     this.setState({
       tab
     })
   }
+
   callToActionBtn = () => {
     const { role, materialsDone, transportDone, roofCovered, roofSecured, scenarioId } = this.state
 
@@ -178,6 +191,7 @@ export default class Info extends Component {
       )
     }
   }
+
   jobs = () => {
     const { childrenScenarioData, buttonOverride } = this.state
 
@@ -269,6 +283,7 @@ export default class Info extends Component {
       </Fragment>
     )
   }
+
   checkForMissionComplete = () => {
     const { initialJobState, missionComplete } = this.state
     let completeCount = 0
@@ -288,16 +303,19 @@ export default class Info extends Component {
     }
     return false
   }
+
   dismissMissionComplete = () => {
     this.setState({
       missionCompleteOpen: false
     })
   }
+
   dismissNotification = () => {
     this.setState({
       notificationOpen: false
     })
   }
+
   buildUpdates = () => {
     const { scenarioData, childrenScenarioData, missionComplete } = this.state
     const { created_at, requester_firstname, doer_firstname, is_complete, updated_at } = scenarioData.attributes
@@ -335,6 +353,20 @@ export default class Info extends Component {
     return updates
   }
 
+  showNewUpdate = () => {
+    this.setState({
+      newUpdateOpen: true
+    })
+  }
+
+  postNewUpdate = params => {
+    // TODO: submit update message and add to the updates list
+
+    this.setState({
+      newUpdateOpen: false
+    })
+  }
+
   render() {
     if (this.state.scenarioData) {
       const {
@@ -344,7 +376,8 @@ export default class Info extends Component {
         tab,
         notificationOpen,
         notificationScenarioId,
-        missionCompleteOpen
+        missionCompleteOpen,
+        newUpdateOpen
       } = this.state
 
       const {
@@ -500,8 +533,30 @@ export default class Info extends Component {
                   {this.jobs()}
                 </article>
 
-                <article className={tab === "updates" ? "updates-wrap tab active" : "updates-wrap tab"}>
-                  {this.buildUpdates().map((update, _index) => <Update {...update} key={`update${_index}`} />)}
+                <article className={tab === "updates" ? "tab active" : "tab"}>
+                  <div className={newUpdateOpen ? "add-post-wrap open" : "add-post-wrap"}>
+                    <button className="btn add-post-btn" onClick={() => this.showNewUpdate()}>
+                      <span>New update </span>
+                      <Icon icon={faPlusCircle} />
+                    </button>
+                    <section className={newUpdateOpen ? "new-update-wrap open" : "new-update-wrap"}>
+                      <TextArea labelPhrase="Enter your message" inputID="update_message" />
+                      <button
+                        className="btn post-update-btn"
+                        onClick={() =>
+                          this.postNewUpdate({
+                            update_message: document.getElementById("update_message").value
+                          })
+                        }>
+                        <span>Post </span>
+                        <Icon icon={faChevronCircleRight} />
+                      </button>
+                    </section>
+                  </div>
+
+                  <section className={newUpdateOpen ? "updates-wrap" : "updates-wrap open"}>
+                    {this.buildUpdates().map((update, _index) => <Update {...update} key={`update${_index}`} />)}
+                  </section>
                 </article>
 
                 <article className={tab === "verifiers" ? "tab active" : "tab"} />

@@ -2,8 +2,49 @@ $requester-color: #9cf1ac;
 $doer-color: #add1ff;
 $system-color: #b2adff;
 
+.add-post-btn {
+  max-height: 1.5rem;
+  opacity: 1;
+  margin-bottom: 0.5rem;
+
+  transition: {
+    property: opacity, max-height;
+    duration: $fast;
+    timing-function: $cubic;
+  }
+}
+
+.add-post-wrap {
+  &.open {
+    .add-post-btn {
+      opacity: 0;
+      max-height: 0;
+    }
+  }
+}
+
+.post-update-btn {
+  margin-top: 0.5rem;
+}
+
+.new-update-wrap,
 .updates-wrap {
-  height: 13rem;
+  opacity: 0;
+  max-height: 0;
+
+  transition: {
+    property: opacity, max-height;
+    duration: $fast;
+    timing-function: $cubic;
+  }
+
+  &.open {
+    max-height: 11rem;
+    opacity: 1;
+  }
+}
+
+.updates-wrap {
   padding: 0.25rem 0.5rem 1rem;
   overflow: auto;
 }
