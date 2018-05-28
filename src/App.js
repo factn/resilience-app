@@ -56,7 +56,7 @@ export default class App extends Component {
           <Route path="/:scenario_id/:role/confirmation/:verb/:noun" exact component={Confirmation} />
           <Route path="/requester" component={RequesterFlow} />
           <Route path="/feed/:type" component={Feed} />
-          
+
           {/* Account */}
           <Route path="/login" component={Login} />
           <Route path="/profile" component={Profile} />
