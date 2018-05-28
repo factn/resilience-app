@@ -34,6 +34,9 @@ import Info from "./js/pages/Info"
 
 //  - 404
 import NoPage from "./js/pages/NoPage"
+
+// Database
+import Database from "./js/resources/Mqtt"
 /*** [end of imports] ***/
 
 export default class App extends Component {
