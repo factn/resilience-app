@@ -86,8 +86,8 @@ export default class Confirmation extends Component {
       data: {
         type: "proofs",
         attributes: {
-          image: imageString
-          // custom_message: params.custom_message || ""
+          image: imageString,
+          description: params.description || ""
         },
         relationships: {
           scenario: {
@@ -127,7 +127,7 @@ export default class Confirmation extends Component {
       onSubmit: this.submitConfirmation,
       onSubmitParams: {
         photo: "photo",
-        custom_message: "description"
+        description: "description"
         // star_rating: "star_rating"
       }
     }
