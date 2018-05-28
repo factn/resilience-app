@@ -19,11 +19,17 @@ import { gradientStyle } from "../resources/Util"
 
 export default class DoerFlow extends Component {
   state = {
+    timeFrame: "urgent", // "urgent" || "semi-urgent" || "important"
     workAbroad: false,
     workDistance: 40,
     distanceMax: 100
   }
 
+  setTimeframe = timeFrame => {
+    this.setState({
+      timeFrame
+    })
+  }
   toggleWorkAbroad = () => {
     this.setState({
       workAbroad: !this.state.workAbroad
@@ -40,7 +46,7 @@ export default class DoerFlow extends Component {
   }
 
   render() {
-    const { workAbroad, workDistance, distanceMax } = this.state
+    const { timeFrame, workAbroad, workDistance, distanceMax } = this.state
 
     let sliderStyle = gradientStyle({
       dividend: workDistance,
@@ -49,7 +55,7 @@ export default class DoerFlow extends Component {
       endColor: "rgba(0, 0, 0, 0.1)"
     })
 
-    let exampleTagList1 = [
+    let exampleTagList = [
       {
         label: "Painting",
         active: true
@@ -75,24 +81,6 @@ export default class DoerFlow extends Component {
         active: false
       }
     ]
-    let exampleTagList2 = [
-      {
-        label: "Urgent",
-        active: true
-      },
-      {
-        label: "Today",
-        active: true
-      },
-      {
-        label: "1-2Days",
-        active: true
-      },
-      {
-        label: "ThisWeek",
-        active: false
-      }
-    ]
 
     const footer = (
       <Link to="/feed/doer" className="btn footer-btn feed-btn">
@@ -102,20 +90,49 @@ export default class DoerFlow extends Component {
 
     return (
       <Page className="flow-page doer-flow-page" footer={footer}>
-        <SessionSetting headerLabel="Jobs I want">
-          <SessionCard className="trending-card" cardTitle="Description">
+        <SessionSetting headerLabel="Jobs I want to do">
+          <SessionCard className="trending-card" cardTitle="Select from trending jobs">
             <div className="card-content">
-              <TagList list={exampleTagList1} />
+              <TagList list={exampleTagList} />
             </div>
           </SessionCard>
 
-          <SessionCard className="trending-card" cardTitle="Time Frame">
-            <TagList list={exampleTagList2} />
-          </SessionCard>
+          <SessionSetting headerLabel="Time frame" clas="timeframe-settings">
+            <article
+              className={
+                timeFrame === "urgent"
+                  ? "card btn-card active"
+                  : "card btn-card"
+              }
+              onClick={() => this.setTimeframe("urgent")}
+            >
+              <h4>Urgent Jobs (next 24 hours)</h4>
+            </article>
+            <article
+              className={
+                timeFrame === "semi-urgent"
+                  ? "card btn-card active"
+                  : "card btn-card"
+              }
+              onClick={() => this.setTimeframe("semi-urgent")}
+            >
+              <h4>Semi-Urgent Jobs (next 1-2 days)</h4>
+            </article>
+            <article
+              className={
+                timeFrame === "important"
+                  ? "card btn-card active"
+                  : "card btn-card"
+              }
+              onClick={() => this.setTimeframe("important")}
+            >
+              <h4>Important Jobs (within the next week)</h4>
+            </article>
+          </SessionSetting>
 
-          <SessionCard cardTitle="Distance">
+          <SessionCard cardTitle="Location">
             <div className="card-area location-city">
-              <div className="location-label">From</div>
+              <div className="location-label">Location</div>
               <div className="location-current">Pearlington, MI</div>
               <div className="location-icon">
                 <Icon icon={faChevronRight} />
@@ -130,7 +147,7 @@ export default class DoerFlow extends Component {
                 </div>
               </div>
 
-              <div className={true ? "card-area travel-distance" : "card-area travel-distance disabled-card-area"}>
+              <div className={workAbroad ? "card-area travel-distance" : "card-area travel-distance disabled-card-area"}>
                 <label className="travel-range-label range-label" htmlFor="travelDistanceSlider">
                   {workDistance} miles
                 </label>

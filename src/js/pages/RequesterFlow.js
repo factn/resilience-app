@@ -217,25 +217,25 @@ export default class RequesterFlow extends Component {
           <SessionCard className="input-card event-card">
             <Select {...eventSelectObj} />
           </SessionCard>
+        </SessionSetting>
+
+        <SessionSetting headerLabel="What help do you need?">
           <SessionCard className="input-card title-card">
             <Select {...nounVerbSelectObj} />
           </SessionCard>
+          <SessionCard className="input-card message-card">
+            <TextArea {...textareaObj} />
+          </SessionCard>
         </SessionSetting>
 
-        <SessionSetting headerLabel="Where is the issue?">
+        <SessionSetting headerLabel="Where is it?">
           <SessionCard>
             <Location inputID="requestLocation" />
           </SessionCard>
         </SessionSetting>
 
-        <SessionSetting headerLabel="What does it look like?">
+        <SessionSetting headerLabel="Add a photo">
           <Image />
-        </SessionSetting>
-
-        <SessionSetting headerLabel="Special Message?">
-          <SessionCard className="input-card message-card">
-            <TextArea {...textareaObj} />
-          </SessionCard>
         </SessionSetting>
       </Page>
     )
