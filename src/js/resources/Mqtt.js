@@ -3,7 +3,7 @@
 import mqtt from "mqtt" // Docs: https://github.com/mqttjs/MQTT.js
 /*** [end of imports] ***/
 
-const url = "mqtt://m12.cloudmqtt.com"
+const url = "wss://m12.cloudmqtt.com"
 const options = {
   port: "32409",
   username: "wampieoo",
