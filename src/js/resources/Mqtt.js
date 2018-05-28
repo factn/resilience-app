@@ -13,26 +13,26 @@ const options = {
 const client = mqtt.connect(url, options)
 
 client.on("connect", () => {
-  console.info("Connecting to database...")
+  console.info("MQTT: Connecting to database...")
 
   client.subscribe("presence")
-  client.publish("presence", "Hello mqtt")
+  client.publish("presence", `Successful subscription on ${new Date().toUTCString()}`)
 })
 
 client.on("message", (topic, message) => {
-  console.info(`Message published to ${topic}: "${message}"`)
+  console.info(`MQTT: Message published to ${topic}: "${message}"`)
 })
 
 client.on("error", error => {
-  console.error("Connection error:", error)
+  console.error("MQTT: Connection error:", error)
 })
 
 client.on("reconnect", () => {
-  console.info("Reconnecting to database...")
+  console.info("MQTT: Reconnecting to database...")
 })
 
 client.on("close", () => {
-  console.warn("Connection with database closed.")
+  console.warn("MQTT: Connection with database closed.")
 })
 
 export default client
