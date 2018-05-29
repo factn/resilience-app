@@ -89,7 +89,7 @@ export default class Profile extends Component {
 
             <div className="user-name">
               <span>{toFirstCap(currentUserData.firstname)}</span>
-              <span className="user-verified-icon">
+              <span className="user-vouched-icon">
                 <Icon icon={faCheck} />
               </span>
               <div>

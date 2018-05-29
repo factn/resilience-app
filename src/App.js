@@ -12,7 +12,7 @@ import "./App.scss"
 import Home from "./js/pages/Home"
 
 //  - Flows
-import DonatorFlow from "./js/pages/DonatorFlow"
+import DonorFlow from "./js/pages/DonorFlow"
 import DoerFlow from "./js/pages/DoerFlow"
 import Confirmation from "./js/pages/Confirmation"
 import RequesterFlow from "./js/pages/RequesterFlow"
@@ -47,7 +47,7 @@ export default class App extends Component {
           <Route path="/" exact component={Home} />
 
           {/* Flows */}
-          <Route path="/donator" component={DonatorFlow} />
+          <Route path="/donor" component={DonorFlow} />
           <Route path="/doer" exact component={DoerFlow} />
           <Route path="/:role/confirmation" exact component={Confirmation} />
           <Route path="/:scenario_id/:role/confirmation" exact component={Confirmation} />

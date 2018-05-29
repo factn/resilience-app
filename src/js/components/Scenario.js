@@ -83,7 +83,7 @@ export default class Scenario extends Component {
     const { previewStyle, upStyle, leftStyle, rightStyle } = this.state
     const { first, previewDismissed, feedType, dismissPreview } = this.props
 
-    if (feedType === "donator") {
+    if (feedType === "donor") {
       return (
         <Fragment>
           {first &&
@@ -131,7 +131,7 @@ export default class Scenario extends Component {
       endColor: "#fff"
     })
 
-    if (feedType === "donator") {
+    if (feedType === "donor") {
       return (
         <footer className="scenario-footer">
           <div className="funding-top-row">
@@ -148,7 +148,7 @@ export default class Scenario extends Component {
           <div className="funding-goal-label">
             Target <span className="dollar-amount">{moneyfy(funding_goal)}</span>
           </div>
-          <div className="funding-goal-summary">1 donator(s), {moneyfy(donated)} donated</div>
+          <div className="funding-goal-summary">1 donor(s), {moneyfy(donated)} donated</div>
         </footer>
       )
     } else if (feedType === "doer") {
@@ -408,7 +408,7 @@ export default class Scenario extends Component {
 
     if (feedType === "doer") return "1"
     else if (feedType === "requester") return "2"
-    return "3" // "Donator"
+    return "3" // feedType === "donor"
   }
   dismissScenario = params => {
     const json = {
@@ -587,7 +587,7 @@ export default class Scenario extends Component {
                   {requester_firstname} {requester_lastname}
                 </Link>
               </div>
-              <div className="user-verified-status">
+              <div className="user-vouched-status">
                 <Icon icon={faCheck} />
               </div>
             </div>
@@ -611,7 +611,7 @@ export default class Scenario extends Component {
 
           {this.footerBuild()}
         </div>
-        <Link className="btn scenario-footer-btn accept-scenario-btn" to={`/${id}/donator/`}>
+        <Link className="btn scenario-footer-btn accept-scenario-btn" to={`/${id}/donor/`}>
           <Icon icon={faArrowAltCircleDown} />
         </Link>
       </article>

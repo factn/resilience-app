@@ -113,7 +113,7 @@ export default class Info extends Component {
   getBackLink = () => {
     const { role } = this.state
 
-    if (role === "donator" || role === "doer") return `/feed/${role}`
+    if (role === "donor" || role === "doer") return `/feed/${role}`
     else if (role === "requester") return "/requester"
     else return "/"
   }
@@ -127,9 +127,9 @@ export default class Info extends Component {
   callToActionBtn = () => {
     const { role, materialsDone, transportDone, roofCovered, roofSecured, scenarioId } = this.state
 
-    if (role === "donator") {
+    if (role === "donor") {
       return (
-        <Link to="/feed/donator" className="btn footer-btn feed-btn">
+        <Link to="/feed/donor" className="btn footer-btn feed-btn">
           Donate
         </Link>
       )
@@ -429,21 +429,21 @@ export default class Info extends Component {
               <header className="scenario-content-superheader">
                 <h3 className="mission-status-header">
                   <span className="mission-status-label">Mission Status: </span>
-                  <span className="mission-status">Being verified</span>
+                  <span className="mission-status">Being vouched</span>x
                 </h3>
-                <ul className="verification-list">
-                  <li className="verification">
-                    <div className="verification-label">Location is in Pearlington, Mississippi</div>
-                    <div className="verification-status">
-                      <span className="status-name">Verified</span>
-                      <span className="status-icon verified">
+                <ul className="vouch-list">
+                  <li className="vouch">
+                    <div className="vouch-label">Location is in Pearlington, Mississippi</div>
+                    <div className="vouch-status">
+                      <span className="status-name">Vouched</span>
+                      <span className="status-icon vouched">
                         <Icon icon={faCheck} />
                       </span>
                     </div>
                   </li>
-                  <li className="verification">
-                    <div className="verification-label">Verification that roof needs fixing</div>
-                    <div className="verification-status">
+                  <li className="vouch">
+                    <div className="vouch-label">Vouch that roof needs fixing</div>
+                    <div className="vouch-status">
                       <span className="status-name">Pending</span>
                       <span className="status-icon">
                         <Icon icon={faEllipsisH} />
@@ -494,7 +494,7 @@ export default class Info extends Component {
                       <div className="user-name">
                         {requester_firstname} {requester_lastname}
                       </div>
-                      <div className="user-verified-status">
+                      <div className="user-vouched-status">
                         <Icon icon={faCheck} />
                       </div>
                     </div>
@@ -553,7 +553,7 @@ export default class Info extends Component {
                   </section>
                 </article>
 
-                <article className={tab === "verifiers" ? "tab active" : "tab"} />
+                <article className={tab === "vouchers" ? "tab active" : "tab"} />
               </div>
             </section>
 
@@ -568,7 +568,7 @@ export default class Info extends Component {
               <div className="funding-goal-label">
                 Target <span className="dollar-amount">{moneyfy(funding_goal)}</span>
               </div>
-              <div className="funding-goal-summary">450 donators, {moneyfy(donated)} donated</div>
+              <div className="funding-goal-summary">450 donors, {moneyfy(donated)} donated</div>
             </footer>
           </div>
         </Page>
