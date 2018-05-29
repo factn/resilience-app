@@ -20,8 +20,6 @@ import Feed from "./js/pages/Feed"
 
 //  - Account creation
 import Account from "./js/pages/Account"
-import FBConfirm from "./js/pages/FBConfirm"
-import FBVerify from "./js/pages/FBVerify"
 
 //  - Account
 import Login from "./js/pages/Login"
@@ -61,9 +59,7 @@ export default class App extends Component {
           <Route path="/login" component={Login} />
           <Route path="/profile" component={Profile} />
           <Route path="/reputation/:user_id" exact component={Reputation} />
-          <Route path="/account" exact component={Account} />
-          <Route path="/account/confirm-facebook" exact component={FBConfirm} />
-          <Route path="/account/verify-facebook" exact component={FBVerify} />
+          <Route path="/account" component={Account} />
 
           {/* Mission control */}
           <Route path="/missions" exact component={MissionControl} />

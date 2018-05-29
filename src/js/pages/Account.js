@@ -73,14 +73,6 @@ export default class Account extends Component {
 
     return (
       <Page className="flow-page create-account-page" header={header} footer={footer}>
-        <SessionSetting className="facebook-setting">
-          <Link className="btn facebook-connect-btn" to="/account/confirm-facebook">
-            Sign up with Facebook
-          </Link>
-        </SessionSetting>
-
-        <div className="or-line">or enter your details</div>
-
         <SessionSetting className="name-setting" headerLabel="Name">
           <SessionCard className="input-card name-card">
             <input type="text" placeholder="Enter a name" id="firstname" />
