@@ -2,7 +2,6 @@
 // Module imports
 import React, { Component, Fragment } from "react"
 import Cookies from "js-cookie"
-import { Link } from "react-router-dom"
 
 // Page wrapper
 import Page from "./Page"
