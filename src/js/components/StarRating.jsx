@@ -37,7 +37,6 @@ export default class StarRating extends Component {
           />
         )
       }
-
       for (let blank = stars; blank < 5; blank++) {
         starList.push(
           <Icon
@@ -59,7 +58,6 @@ export default class StarRating extends Component {
           />
         )
       }
-
       starList.push(
         <Icon
           className="star filled"
@@ -68,15 +66,12 @@ export default class StarRating extends Component {
           onClick={() => this.setRating((stars + 0.5) / 5)}
         />
       )
-
       for (let blank = stars + 1.5; blank < 6; blank++) {
         starList.push(
           <Icon className="star" id={`star${blank + 1}`} icon={faStar} onClick={() => this.setRating(blank / 5)} />
         )
       }
     }
-
-    console.log(starList)
 
     return (
       <SessionSetting className="star-rating" headerLabel={headerLabel || "Give a Rating"}>
