@@ -1,18 +1,39 @@
 .star-rating
-  .stars-wrap
-    text-align: center
-    font-size: 2rem
+  .rating-wrap
+    position: relative
     padding: 0.5rem
     border-radius: 0.5rem
     background: rgba($white, 0.5)
 
+  .stars-wrap
+    text-align: center
+    font-size: 2rem
+
+  .star-fronts
+    position: absolute
+    top: 0.5rem
+    width: 11.3rem
+    left: calc(50% - 5.65rem)
+    text-align: left
+
+    .star.back
+      color: transparent
+
   .star
-    color: rgba($black, 0.5)
+    color: transparent
     cursor: pointer
     transition:
       property: color
       duration: $fast
       timing-function: $cubic
 
+    &.back
+      color: rgba($black, 0.1)
+
     &.filled
       color: $yellow
+  
+  .rating-slider
+    display: block
+    width: 15rem
+    margin: 1rem auto
