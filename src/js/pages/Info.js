@@ -553,7 +553,7 @@ export default class Info extends Component {
                   </section>
                 </article>
 
-                <article className={tab === "vouchers" ? "tab active" : "tab"} />
+                <article className={tab === "advocates" ? "tab active" : "tab"} />
               </div>
             </section>
 
