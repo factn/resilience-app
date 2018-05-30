@@ -47,7 +47,7 @@ export default class Feed extends Component {
       if (current.attributes.parent_scenario_id) {
         isValid = false
       } else {
-        if (type === "donator") {
+        if (type === "donor") {
           if (isFullyFunded) {
             isValid = false
           }
@@ -240,7 +240,7 @@ export default class Feed extends Component {
 
     let footer
 
-    if (type === "donator") {
+    if (type === "donor") {
       footer = (
         <Fragment>
           <div className="footer-left">

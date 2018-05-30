@@ -26,7 +26,7 @@ export default class Reputation extends Component {
     userDonations: null,
     userDos: null,
     userRequests: null,
-    userVerifications: null,
+    userVouches: null,
     currentUserData: null,
     userId: this.props.match.params.user_id || Cookies.get("userId") || 1
   }
@@ -36,7 +36,7 @@ export default class Reputation extends Component {
     this.userDonationsMount()
     this.userDosMount()
     this.userRequestsMount()
-    this.userVerificationsMount()
+    this.userVouchesMount()
   }
 
   userDataMount = () => {
@@ -111,28 +111,28 @@ export default class Reputation extends Component {
         })
       })
   }
-  userVerificationsMount = () => {
+  userVouchesMount = () => {
     const json = { id: this.state.userId }
 
-    Database.getUserVerifications(json)
+    Database.getUserVouches(json)
       .then(result => {
         const { data } = result.body
-        // console.info("Verifications call complete:", data)
+        // console.info("Vouches call complete:", data)
 
         this.setState({
-          userVerifications: data
+          userVouches: data
         })
       })
       .catch(error => {
-        // console.error("Error getting verifications:", error)
+        // console.error("Error getting vouches:", error)
         this.setState({
-          userVerifications: null
+          userVouches: null
         })
       })
   }
 
   render() {
-    const { currentUserData, userDonations, userDos, userRequests, userVerifications } = this.state
+    const { currentUserData, userDonations, userDos, userRequests, userVouches } = this.state
 
     let articles = [
       {
@@ -152,8 +152,8 @@ export default class Reputation extends Component {
         content: userRequests
       },
       {
-        headerLabel: "Verifications",
-        content: userVerifications
+        headerLabel: "Vouches",
+        content: userVouches
       }
     ]
 
@@ -179,7 +179,7 @@ export default class Reputation extends Component {
 
             <div className="user-name">
               <span>{toFirstCap(currentUserData.firstname)}</span>
-              <span className="user-verified-icon">
+              <span className="user-vouched-icon">
                 <Icon icon={faCheck} />
               </span>
             </div>

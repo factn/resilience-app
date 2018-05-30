@@ -140,17 +140,17 @@ export default class Confirmation extends Component {
     return (
       <Page className={`flow-page ${role}-flow-page`} footer={footer}>
         <h2 className="confirmation-header">
-          {role === "doer" ? "Help verify your work" : "Verify the work is complete"}
+          {role === "doer" ? "Help us vouch for your work" : "Vouch that the work is complete"}
         </h2>
         {role === "requester" && (
-          <SessionSetting className="verify-settings">
-            <SessionCard className="verify-card" cardTitle="Work to verify">
-              <figure className="verify-wrap">
-                <div className="verify-image-wrap">
-                  <img src={stubImage} alt="Work" className="verify-image" />
+          <SessionSetting className="vouch-settings">
+            <SessionCard className="vouch-card" cardTitle="Work to vouch">
+              <figure className="vouch-wrap">
+                <div className="vouch-image-wrap">
+                  <img src={stubImage} alt="Work" className="vouch-image" />
                 </div>
-                <figcaption className="verify-image-caption">
-                  <div className="verify-message">
+                <figcaption className="vouch-image-caption">
+                  <div className="vouch-message">
                     We worked hard and I feel we did a good job. Good luck with the rest of the repairs.
                   </div>
                 </figcaption>

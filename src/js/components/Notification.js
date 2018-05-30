@@ -74,7 +74,7 @@ export default class Notification extends Component {
           </button>
           
           <Link className="btn view-btn" to={this.buildLink()}>
-            Verify their work
+            Vouch for their work
           </Link>
         </div>
       </section>

@@ -17,7 +17,7 @@ export default class MiniScenario extends Component {
       endColor: "#fff"
     })
     return (
-      <section className={verified ? "mini-scenario verified" : "mini-scenario"} id={id}>
+      <section className={verified ? "mini-scenario vouched" : "mini-scenario"} id={id}>
         <figure
           className="mini-scenario-image-wrap"
           style={{
@@ -35,8 +35,8 @@ export default class MiniScenario extends Component {
 
           <ActionBtn {...this.props} />
 
-          {role === "Requests" && tab === "Donating" && !verified && <div className="btn status-btn">Awaiting Verification</div>}
-          {role === "Requests" && tab === "Donating" && verified && <div className="btn status-btn verified">Verified and Live</div>}
+          {role === "Requests" && tab === "Donating" && !verified && <div className="btn status-btn">Awaiting Vouch</div>}
+          {role === "Requests" && tab === "Donating" && verified && <div className="btn status-btn vouched">Vouched and Live</div>}
         </div>
       </section>
     )
@@ -78,7 +78,7 @@ const ActionBtn = props => {
     // role === "Missions" or other
     if (tab === "Donating") {
       return (
-        <Link className="btn btn-lite mini-scenario-link" to={`/${id}/donator`}>
+        <Link className="btn btn-lite mini-scenario-link" to={`/${id}/donor`}>
           Fund the rest
         </Link>
       )

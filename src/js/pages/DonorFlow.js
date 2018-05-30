@@ -43,7 +43,7 @@ export default class DonatorFlow extends Component {
       .then(result => {
         // console.log("User successfully updated:", result)
 
-        this.props.history.push("/feed/donator")
+        this.props.history.push("/feed/donor")
       })
       .catch(error => {
         // console.error("Error updating user:", error)

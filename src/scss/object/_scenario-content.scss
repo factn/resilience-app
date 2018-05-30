@@ -27,11 +27,11 @@
     font-weight: bold;
   }
 
-  .verification-list {
+  .vouch-list {
     @include pseudo-list;
   }
 
-  .verification {
+  .vouch {
     @include inline-flex;
     font-size: 0.7rem;
   }
@@ -47,7 +47,7 @@
     text-align: center;
     color: rgba($black, 0.5);
 
-    &.verified {
+    &.vouched {
       color: $green-bright;
     }
   }

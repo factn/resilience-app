@@ -41,15 +41,15 @@
     }
   }
 
-  .verify-settings {
+  .vouch-settings {
     margin-top: 1rem;
   }
 
-  .verify-wrap {
+  .vouch-wrap {
     @include inline-flex;
   }
 
-  .verify-image-wrap {
+  .vouch-image-wrap {
     @include spacer-with-border("right", 0.5rem, 0.125rem, rgba($black, 0.1));
 
     flex: {
@@ -57,14 +57,14 @@
       grow: 1;
     }
   }
-  .verify-image-caption {
+  .vouch-image-caption {
     flex: {
       basis: 66%;
       grow: 2;
     }
   }
 
-  .verify-message {
+  .vouch-message {
     font-size: 0.8rem;
     color: rgba($black, 0.5);
   }

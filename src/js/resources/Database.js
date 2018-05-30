@@ -180,7 +180,7 @@ const apiEndpoints = {
     method: get,
     path: "/users/:id/requested?filter[is_parent]=true&page[limit]=10"
   },
-  getUserVerifications: {
+  getUserVouches: {
     method: get,
     path: "/users/:id/verified?page[limit]=10"
   },

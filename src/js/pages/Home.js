@@ -53,7 +53,7 @@ export default class Home extends Component {
       <Page className="home-page" header={header} subheader={subheader} footer={footer}>
         <header className="home-header">Choose your mission</header>
         <div className="home-buttons">
-          <Link to="/donator" className="btn home-btn square-btn donate-btn">
+          <Link to="/donor" className="btn home-btn square-btn donate-btn">
             <span>Donate</span>
             <div className="button-icon">
               <Icon icon={faChevronRight} />
