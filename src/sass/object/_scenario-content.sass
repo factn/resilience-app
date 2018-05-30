@@ -1,0 +1,134 @@
+.scenario-content-wrap
+  margin-top: 1em
+
+  .scenario-footer
+    margin: 0.5rem -1.5rem 0
+    padding: 0.5rem 1.5rem
+    width: calc(100% + 3rem)
+
+.requester-scenario-content
+  .back-btn
+    top: 23rem
+
+.scenario-content-superheader
+  background: darken($white, 10%)
+  margin: 0 -1.5rem
+  padding: 1rem
+
+  .mission-status-header
+    +spacer-with-border("bottom", 0.5rem, 0.125rem, rgba($black, 0.25))
+
+  .mission-status-label
+    font-weight: bold
+
+  .vouch-list
+    +pseudo-list
+
+  .vouch
+    +inline-flex
+
+    font-size: 0.7rem
+
+  .status-name,
+  .status-icon
+    font-style: italic
+
+  .status-icon
+    display: inline-block
+    width: 2rem
+    text-align: center
+    color: rgba($black, 0.5)
+
+    &.vouched
+      color: $green-bright
+
+.scenario-content-image-wrap
+  position: relative
+  max-height: 12rem
+  width: 100vw
+  margin: 0 -1.5rem
+  background: rgba($black, 0.1)
+
+.scenario-content-image
+  max-height: 12rem
+
+.scenario-content-image-caption
+  position: absolute
+  bottom: -1.25rem
+  right: 1rem
+  z-index: 2
+
+  .back-btn
+    display: block
+    padding: 0.25rem
+    font-size: 1.5rem
+    text-align: center
+    border-radius: 50%
+    width: 2.25rem
+
+.scenario-image-caption
+  position: absolute
+  top: 1em
+  right: 1em
+  color: rgba($white, 0.9)
+  background: rgba($black, 0.25)
+  padding: 0.25rem 0.5rem
+  border: 0.0625em solid rgba($black, 0.3)
+  border-radius: 0.5rem
+  font:
+    style: italic
+    size: 0.8em
+
+.scenario-content-header
+  position: relative
+  z-index: 2
+  margin-top: 1rem
+
+  .scenario-title
+    +spacer-with-border("bottom", 0.5rem, 0.0625rem, $orange, dashed)
+
+    font-weight: bold
+    text-transform: uppercase
+    display: inline-block
+
+.scenario-content-body
+  color: rgba($black, 0.8)
+  font-size: 0.8em
+  margin-top: 0.5rem
+
+.job-status-header
+  font-size: 1rem
+  margin-bottom: 0.5rem
+
+  .job-status-label
+    font-weight: bold
+
+.job-card
+  margin-bottom: 0.25rem
+  padding: 0.5rem 1rem
+
+  .card-label
+    font:
+      size: 1rem
+      weight: bold
+
+  .done-job-icon,
+  .do-job-btn
+    float: right
+
+  .done-job-icon
+    color: $green-bright
+    width: 4rem
+    text-align: center
+    margin-top: -1.25rem
+
+  .do-job-btn
+    min-width: 4rem
+    margin-top: -1.35rem
+    padding: 0.25rem
+
++breakpoint($tablet)
+  .adcontent-page
+    .scenario-content-body
+      padding-left: 1rem
+      flex-grow: 5

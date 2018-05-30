@@ -1,11 +1,11 @@
 /*** IMPORTS ***/
 // Module imports
 import React, { Component } from "react"
-import { HashRouter, Route, Switch } from "react-router-dom"
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
 import Cookies from "js-cookie"
 
 // Styles
-import "./App.scss"
+import "./style.sass"
 
 // Pages
 //  - Home
@@ -41,7 +41,7 @@ export default class App extends Component {
 
   render() {
     return (
-      <HashRouter>
+      <Router>
         <Switch>
           {/* Home */}
           <Route path="/" exact component={Home} />
@@ -74,7 +74,7 @@ export default class App extends Component {
           {/* 404 */}
           <Route component={NoPage} />
         </Switch>
-      </HashRouter>
+      </Router>
     )
   }
 }

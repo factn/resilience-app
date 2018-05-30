@@ -1,0 +1,162 @@
+.page
+  padding: 1em 1.5em 7em
+
+.funding-progress-slider
+  height: 1rem
+  background: rgba($black, 0.1)
+  border: 0.0625rem solid $white
+  margin: 0.125rem auto
+  box-shadow: 0.0625rem 0.0625rem $black, 0.0625rem -0.0625rem $black, -0.0625rem 0.0625rem $black, -0.0625rem -0.0625rem $black
+
+.page-form
+  .input-wrap
+    margin-bottom: 1rem
+    opacity: 1
+    transition:
+      property: opacity, max-height, margin-bottom
+      duration: $medium
+      timing-function: $cubic
+
+    &.checkbox-input-wrap
+      .input-label
+        padding-left: 0.5rem
+
+    &:not(.checkbox-input-wrap)
+      .input-label
+        +inline-flex
+
+        margin-bottom: 0.5rem
+
+        .input-label-icon
+          color: rgba($blue, 0.75)
+          width: 2rem
+          text-align: center
+
+    &.disabled-input
+      max-height: 0
+      margin-bottom: 0
+      opacity: 0
+      overflow: hidden
+
+    .input-label-phrase
+      color: rgba($black, 0.5)
+
+    button.input-label
+      font-size: 1rem
+
+    .input-label.btn-label
+      &:focus,
+      &:hover
+        .input-label-icon,
+        .input-label-phrase
+          color: rgba($blue, 0.9)
+
+    .form-input
+      font-size: 1.5rem
+      margin: 0 -0.25rem
+      width: calc(100% + 0.5rem)
+
+  .input-row-label
+    color: rgba($black, 0.5)
+    margin-bottom: 0.5rem
+
+  .radio-row-wrap
+    .radio-row-input-wrap
+      margin-bottom: 0.5rem
+
+    .form-input
+      font-size: 0.25rem
+      margin: (-1rem) 0.5rem 0 0
+
+  .split-input-wrap
+    +inline-flex
+
+    .input-wrap
+      flex-grow: 1
+      margin: 0
+
+      &:not(:first-of-type)
+        margin-left: 0.5rem
+
+  .submit-btn
+    display: block
+    width: 15rem
+    margin: 1rem auto 0
+    color: $blue
+    font-size: 1.5rem
+    margin-bottom: 0.5rem
+    text-align: center
+
+    &.positive-response
+      color: $green
+
+    &.negative-response
+      color: $red
+
+.thank-you-page-custom-content
+  text-align: center
+
+  h4
+    margin-bottom: 1rem
+
+  .thank-you-icon
+    color: $blue
+    font-size: 3em
+
+.paypal-donate-btn
+  .input-label-phrase
+    color: rgba($white, 0.9) !important
+
+.ethereum-wallet-id-transaction-number
+  background: rgba($white, 0.5)
+  padding: 0.125rem 0.25rem
+  border-radius: 0.25rem
+  border: 0.0625em solid rgba($black, 0.1)
+  cursor: pointer
+
+  .copy-icon
+    color: rgba($blue, 0.75)
+    width: 2rem
+    text-align: center
+    float: right
+
++breakpoint($tablet)
+  .page-close-btn
+    .page-close-text
+      display: initial
+
+  .page
+    &.home-tab-page
+      padding: 1rem
+
+    &.adcontent-page
+      display: grid
+      grid:
+        template:
+          columns: 1fr 20rem
+          rows: auto
+          areas: "header header" "adcontent form"
+        gap: 1rem
+
+      .page-header
+        grid-area: header
+
+      .page-scenario-wrap
+        grid-area: adcontent
+
+      .page-form
+        grid-area: form
+        border: 0.125rem solid $blue
+        border-radius: 0.5rem
+        padding: 0.5rem
+
+    &.no-adcontent-page
+      max-width: 30em
+      height: auto
+      max-height: calc(100vh - 4rem)
+      top: 3rem
+      left: calc(50% - 15em)
+      border-radius: 1rem
+
+  .page-header
+    font-size: 1.2em
