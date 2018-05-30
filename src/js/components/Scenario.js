@@ -117,24 +117,6 @@ export default class Scenario extends Component {
           <PseudoAction direction="after" style={rightStyle} mainText="Dismiss" subText="don't do job" />
         </Fragment>
       )
-    } else if (feedType === "verifier") {
-      return (
-        <Fragment>
-          {first &&
-            !previewDismissed && (
-              <div className="pseudo-preview" style={previewStyle}>
-                <PreviewAction direction="up" mainText="Warn Us" subText="legal flag" />
-                <PreviewAction direction="right" mainText="Validate" subText="looks good" />
-                <PreviewAction direction="left" mainText="Dismiss" subText="not sure" />
-                <TouchIcon />
-                <DismissButton dismissPreview={dismissPreview} />
-              </div>
-            )}
-          <PseudoAction direction="up" style={upStyle} mainText="Warn Us" subText="legal flag" />
-          <PseudoAction direction="before" style={leftStyle} mainText="Validate" subText="looks good" />
-          <PseudoAction direction="after" style={rightStyle} mainText="Dismiss" subText="not sure" />
-        </Fragment>
-      )
     } else {
       return <Fragment />
     }
@@ -201,8 +183,6 @@ export default class Scenario extends Component {
           </div>
         </footer>
       )
-    } else if (feedType === "verifier") {
-      return <footer className="scenario-footer" />
     } else {
       return <footer className="scenario-footer" />
     }
@@ -428,9 +408,7 @@ export default class Scenario extends Component {
 
     if (feedType === "doer") return "1"
     else if (feedType === "requester") return "2"
-    else if (feedType === "donator") return "3"
-    else if (feedType === "verifier") return "4"
-    return "3"
+    return "3" // "Donator"
   }
   dismissScenario = params => {
     const json = {

@@ -47,7 +47,6 @@ export default class Feed extends Component {
       if (current.attributes.parent_scenario_id) {
         isValid = false
       } else {
-        // TODO: ( use type === "donator"/"doer" ) to adjust who sees funded/unfunded projects
         if (type === "donator") {
           if (isFullyFunded) {
             isValid = false
@@ -58,15 +57,8 @@ export default class Feed extends Component {
             isValid = false
           }
         }
-        if (type === "verifier") {
-          if (!current.attributes.is_complete) {
-            isValid = false
-          }
-        } else {
-          // for everyone other than verifiers, don't show completed missions:
-          if (current.attributes.is_complete) {
-            isValid = false
-          }
+        if (current.attributes.is_complete) {
+          isValid = false
         }
       }
 

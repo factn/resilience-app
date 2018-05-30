@@ -113,7 +113,7 @@ export default class Info extends Component {
   getBackLink = () => {
     const { role } = this.state
 
-    if (role === "donator" || role === "doer" || role === "verifer") return `/feed/${role}`
+    if (role === "donator" || role === "doer") return `/feed/${role}`
     else if (role === "requester") return "/requester"
     else return "/"
   }
@@ -171,12 +171,6 @@ export default class Info extends Component {
           </Link>
         )
       }
-    } else if (role === "verifer") {
-      return (
-        <Link to="/feed/verifier" className="btn footer-btn feed-btn">
-          Verify
-        </Link>
-      )
     } else if (role === "requester") {
       return (
         <Link to="/missions" className="btn footer-btn feed-btn">

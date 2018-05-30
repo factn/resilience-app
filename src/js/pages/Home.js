@@ -65,12 +65,6 @@ export default class Home extends Component {
               <Icon icon={faChevronRight} />
             </div>
           </Link>
-          <Link to="/feed/verifier" className="btn home-btn square-btn verify-btn">
-            <span>Verify others</span>
-            <div className="button-icon">
-              <Icon icon={faChevronRight} />
-            </div>
-          </Link>
         </div>
       </Page>
     )
