@@ -41,7 +41,7 @@ export default class StarRating extends Component {
       for (let blank = stars; blank < 5; blank++) {
         starList.push(
           <Icon
-            className="star back"
+            className="star"
             id={`star${blank + 1}`}
             icon={faStar}
             onClick={() => this.setRating((blank + 1) / 5)}
@@ -71,7 +71,7 @@ export default class StarRating extends Component {
 
       for (let blank = stars + 1.5; blank < 6; blank++) {
         starList.push(
-          <Icon className="star back" id={`star${blank + 1}`} icon={faStar} onClick={() => this.setRating(blank / 5)} />
+          <Icon className="star" id={`star${blank + 1}`} icon={faStar} onClick={() => this.setRating(blank / 5)} />
         )
       }
     }
