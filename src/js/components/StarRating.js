@@ -18,12 +18,12 @@ export default class StarRating extends Component {
   }
 
   render() {
-    const { rating } = this.state
+    const { rating, headerLabel } = this.state
 
     const starList = [1, 2, 3, 4, 5]
 
     return (
-      <SessionSetting className="star-rating" headerLabel="Give a Rating">
+      <SessionSetting className="star-rating" headerLabel={headerLabel || "Give a Rating"}>
         <div className="stars-wrap">
           {starList.map(num => (
             <Icon

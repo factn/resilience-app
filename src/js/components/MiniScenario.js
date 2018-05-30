@@ -50,26 +50,26 @@ const ActionBtn = props => {
     if (tab === "Donating") {
       if (verified) {
         return (
-          <Link className="btn btn-lite mini-scenario-link" to={`/${id}/requester`}>
+          <Link className="btn btn-lite mini-scenario-link" to={`/${id}/requester/updates/`}>
             Post update
           </Link>
         )
       } else {
         return (
-          <Link className="btn btn-lite mini-scenario-link" to={`/${id}/requester`}>
+          <Link className="btn btn-lite mini-scenario-link" to={`/${id}/requester/`}>
             Edit request
           </Link>
         )
       }
     } else if (tab === "In Progress") {
       return (
-        <Link className="btn btn-lite mini-scenario-link" to={`/${id}/requester`}>
+        <Link className="btn btn-lite mini-scenario-link" to={`/${id}/requester/updates/`}>
           Post update
         </Link>
       )
     } else if (tab === "Finished") {
       return (
-        <Link className="btn btn-lite mini-scenario-link" to={`/${id}/info`}>
+        <Link className="btn btn-lite mini-scenario-link" to={`/${id}/requester/updates/`}>
           Post update
         </Link>
       )
@@ -90,7 +90,7 @@ const ActionBtn = props => {
       )
     } else if (tab === "Finished") {
       return (
-        <Link className="btn btn-lite mini-scenario-link" to={`/${id}/info`}>
+        <Link className="btn btn-lite mini-scenario-link" to={`/${id}/info/updates/`}>
           Review Story
         </Link>
       )
