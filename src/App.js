@@ -5,7 +5,7 @@ import { HashRouter, Route, Switch } from "react-router-dom"
 import Cookies from "js-cookie"
 
 // Styles
-import "./App.scss"
+import "./style.sass"
 
 // Pages
 //  - Home

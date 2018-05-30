@@ -1,0 +1,104 @@
+input,
+select,
+textarea
+  margin: 0
+  -webkit-appearance: none
+  -moz-appearance: none
+  box-shadow: none
+  width: 100%
+  max-width: 100%
+  padding: 0.125rem 0.25rem
+  background: rgba($black, 0.1)
+  border: 0.0625em solid $orange
+  font:
+    size: 1rem
+    family: "Lato", arial, sans-serif
+  transition:
+    property: background, border-color
+    duration: $fast
+    timing-function: $cubic
+
+  &:focus
+    background: $white
+
+  &:disabled
+    background: rgba($black, 0.25)
+    border: 0.0625em solid rgba($black, 0.5)
+
+  &:-webkit-autofill
+    -webkit-box-shadow: 0 0 0 100rem $white inset
+
+input[type="file"]
+  position: absolute
+  z-index: -1
+  top: -100vh
+  left: 0
+
+input[type="checkbox"],
+input[type="radio"]
+  cursor: pointer
+  width: 1rem !important
+  height: 1rem
+  border: 0.0625em solid $orange
+
+  &:checked
+    background: darken($orange, 10%)
+
+input[type="radio"]
+  border-radius: 50%
+
+input[type="range"]
+  background: rgba($black, 0.1)
+  cursor: pointer
+  height: 0.5rem
+  margin: 1rem 0 0.5rem
+
+input[type="range"]::-ms-track
+  cursor: pointer
+  color: transparent
+
+input[type="range"]::-webkit-slider-thumb
+  +circle(2rem)
+
+  -webkit-appearance: none
+  background: $white
+  box-shadow: 0 0.125rem 0.5rem rgba($black, 0.5)
+
+input[type="range"]::-ms-thumb
+  +circle(1rem)
+
+  cursor: pointer
+  background: $white
+  box-shadow: $card-shadow
+
+input[type="range"]::-ms-fill-lower
+  background: $orange
+
+input[type="range"]::-ms-fill-upper
+  background: rgba($black, 0.1)
+
+input[type="hidden"]
+  +do-not-show
+
+textarea
+  resize: vertical
+  max-height: 11.5rem
+
+label
+  cursor: pointer
+
+.select-wrap
+  position: relative
+
+  .form-input
+    position: relative
+    z-index: 2
+
+  .drop-down-icon
+    position: relative
+    z-index: 1
+    width: 2rem
+    text-align: center
+    color: rgba($black, 0.5)
+    float: right
+    margin-top: -1rem
