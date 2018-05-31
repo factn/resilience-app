@@ -208,19 +208,19 @@ const ProfileArticle = props => (
         {props.headerLabel} ({props.content ? props.content.length : 0})
       </h4>
     </header>
-    {props.content && <MiniList proofs={props.content} />}
+    {props.content && <MiniList vouches={props.content} />}
   </article>
 )
 
 const MiniList = props => (
-  <div className="profile-proofs-wrap">
-    {props.proofs ? (
-      props.proofs.map((proof, index) => {
+  <div className="profile-vouches-wrap">
+    {props.vouches ? (
+      props.vouches.map((vouch, index) => {
         if (index < 9) {
           let positive = Math.random() > 0.1 // TODO: currently random, will be scenario.attributes.is_complete
 
           return (
-            <div key={proof.id} className={positive ? "proof positive" : "proof negative"}>
+            <div key={vouch.id} className={positive ? "vouch positive" : "vouch negative"}>
               <img src={positive ? catGreen : catRed} alt="cat" />
               {/* <Icon icon={positive ? faSmile : faFrown} /> */}
             </div>
@@ -234,7 +234,7 @@ const MiniList = props => (
         }
       })
     ) : (
-      <div className="proof">
+      <div className="vouch">
         <Loader />
       </div>
     )}

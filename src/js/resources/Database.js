@@ -81,22 +81,22 @@ const apiEndpoints = {
     path: "/events/:id"
   },
 
-  // Proofs
-  getProofs: {
+  // Vouches
+  getVouches: {
     method: get,
-    path: "/proofs"
+    path: "/vouches"
   },
-  createProof: {
+  createVouch: {
     method: post,
-    path: "/proofs"
+    path: "/vouches"
   },
-  updateProof: {
+  updateVouch: {
     method: patch,
-    path: "/proofs/:id"
+    path: "/vouches/:id"
   },
-  destroyProof: {
+  destroyVouch: {
     method: destroy,
-    path: "/proofs/:id"
+    path: "/vouches/:id"
   },
 
   // Scenarios
@@ -136,9 +136,9 @@ const apiEndpoints = {
     method: get,
     path: "/scenarios/:id/?include=children_scenario"
   },
-  getScenarioWithProofs: {
+  getScenarioWithVouches: {
     method: get,
-    path: "/scenarios/:id/?include=proofs"
+    path: "/scenarios/:id/?include=vouches"
   },
 
   // Users

@@ -58,7 +58,7 @@ export default class Confirmation extends Component {
 
   setChildrenScenarioData = list => {
     for (let i = 0, l = list.length; i < l; i++) {
-      Database.getScenarioWithProofs({ id: list[i] })
+      Database.getScenarioWithVouches({ id: list[i] })
         .then(result => {
           const { data } = result.body
           const { noun, verb } = data.attributes
@@ -84,7 +84,7 @@ export default class Confirmation extends Component {
 
     const json = {
       data: {
-        type: "proofs",
+        type: "vouches",
         attributes: {
           image: imageString,
           description: params.description || ""
@@ -106,15 +106,15 @@ export default class Confirmation extends Component {
       }
     }
 
-    Database.createProof(json)
+    Database.createVouch(json)
       .then(result => {
         // const { data } = result.body
-        // console.log("Proof successfully created:", data)
+        // console.log("Vouch successfully created:", data)
 
         this.props.history.push(`/${parentScenarioId}/${role}/instructions`)
       })
       .catch(error => {
-        // console.error("Error creating proof:", error)
+        // console.error("Error creating vouch:", error)
       })
   }
 
