@@ -33,6 +33,12 @@
   +pseudo-list
   +inline-flex
 
+=inline-flex-item($width, $weight: 1)
+  width: $width
+  flex:
+    basis: $width
+    grow: $weight
+
 =alternating-list
   +pseudo-list
 
@@ -58,6 +64,9 @@
   +circle($dim)
 
   overflow: hidden
+  background:
+    color: rgba($black, 0.1)
+    size: cover
 
 // --- Background ---
 =menu-back

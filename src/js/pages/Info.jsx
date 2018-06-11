@@ -10,7 +10,10 @@ import {
   faArrowCircleUp,
   faEllipsisH,
   faPlusCircle,
-  faChevronCircleRight
+  faChevronCircleRight,
+  faClock,
+  faPhone,
+  faCommentAlt
 } from "@fortawesome/fontawesome-free-solid"
 
 // Page wrapper
@@ -25,10 +28,11 @@ import TextArea from "../components/inputs/TextArea"
 
 // Local JS Utilities
 import Database from "../resources/Database"
-import { toFirstCap, moneyfy, gradientStyle } from "../resources/Util"
+import { toFirstCap } from "../resources/Util"
 
 // Images
 import genericAvatar from "../../img/fb-profile.jpg"
+import hon3yIcon from "../../img/hon3y.png"
 /*** [end of imports] ***/
 
 export default class Info extends Component {
@@ -377,18 +381,20 @@ export default class Info extends Component {
       const {
         event,
         image,
-        donated,
-        funding_goal,
         requester_firstname,
         requester_lastname,
         requesterlat,
         requesterlon,
+        doer_firstname,
         doerlat,
         doerlon,
         noun,
         verb,
-        custom_message
+        custom_message,
+        updated_at
       } = scenarioData.attributes
+
+      const avatar = false
 
       let mapPos = {
         lat: requesterlat,
@@ -400,12 +406,6 @@ export default class Info extends Component {
           lng: doerlon
         }
       ]
-
-      let fundingGoalSliderStyle = gradientStyle({
-        dividend: donated,
-        divisor: funding_goal,
-        endColor: "#fff"
-      })
 
       const notificationProps = {
         notification: true,
@@ -517,6 +517,48 @@ export default class Info extends Component {
                   </section>
 
                   <MiniMap initialCenter={mapPos} pins={doerPins} />
+
+                  <h4 className="task-box-title">Workers</h4>
+
+                  <section className="task-box">
+                    <header className="tasks-header">
+                      <div
+                        className="user-avatar"
+                        style={{
+                          backgroundImage: `url("${avatar || genericAvatar}")`
+                        }}
+                      />
+
+                      <div className="user-info">
+                        <div className="user-name">{doer_firstname}</div>
+                        <div className="user-hon3y">
+                          <img src={hon3yIcon} alt="HON3Y" className="hon3y-icon" />
+                          <span className="hon3y-score">4.35</span>
+                        </div>
+                      </div>
+
+                      <div className="mission-info">
+                        <Icon icon={faClock} className="time-left-icon" />
+                        <div className="time-left-label">Time left:</div>
+                        <div className="time-left">48:00 hours</div>
+                        <div className="time-joined">Joined this mission {new Date(updated_at).toDateString()}</div>
+                      </div>
+                    </header>
+
+                    <article className="tasks-body" />
+
+                    <footer className="tasks-footer">
+                      <ul className="tasks-footer-actions">
+                        <li className="tasks-footer-action">Contact</li>
+                        <li className="tasks-footer-action">
+                          <Icon icon={faCommentAlt} className="action-icon" />
+                        </li>
+                        <li className="tasks-footer-action">
+                          <Icon icon={faPhone} className="action-icon" />
+                        </li>
+                      </ul>
+                    </footer>
+                  </section>
                 </article>
 
                 <article className={tab === "instructions" ? "tab active" : "tab"}>

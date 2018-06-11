@@ -1,0 +1,35 @@
+.task-box-title
+  margin-bottom: 1rem
+  font:
+    size: 1.1rem
+    weight: $bold-weight
+
+.task-box
+  +space(1rem, 0 -1.5rem)
+
+  background: $task-box-bg
+  box-shadow: $card-shadow
+
+.tasks-header
+  +spacer-with-border("bottom", 1rem, 0.0625rem, rgba($black, 0.4))
+
+.tasks-footer
+  +spacer-with-border("top", 0.5rem, 0.0625rem, rgba($black, 0.4))
+
+.tasks-footer-actions
+  +inline-flex-list
+
+  padding: 0.5rem 0
+  font-size: 1.25rem
+
+.tasks-footer-action
+  +inline-flex-item(30%)
+
+  text-align: center
+
+  &:not(:last-of-type)
+    +spacer-with-border("right", 0.5rem, 0.0625rem, rgba($black, 0.4))
+
+  .action-icon
+    color: $orange
+    font-size: 2rem
