@@ -14,7 +14,7 @@ const apiEndpoints = {
   },
   getNounId: {
     method: get,
-    path: `/nouns/?filter[description]=:description&?${credentials}`
+    path: `/nouns/?filter[description]=:description&${credentials}`
   },
   createNoun: {
     method: post,
@@ -32,7 +32,7 @@ const apiEndpoints = {
   },
   getVerbId: {
     method: get,
-    path: `/verbs/?filter[description]=:description&?${credentials}`
+    path: `/verbs/?filter[description]=:description&${credentials}`
   },
   createVerb: {
     method: post,
@@ -68,7 +68,7 @@ const apiEndpoints = {
   },
   getEventId: {
     method: get,
-    path: `/events/?filter[description]=:description&?${credentials}`
+    path: `/events/?filter[description]=:description&${credentials}`
   },
   createEvent: {
     method: post,
@@ -108,7 +108,7 @@ const apiEndpoints = {
   },
   scenarioFeed: {
     method: get,
-    path: `/scenarios?sort=-parent_scenario_id,-created_at&page[limit]=21&?${credentials}`
+    path: `/scenarios?sort=-parent_scenario_id,-created_at&page[limit]=21&${credentials}`
   },
   getScenario: {
     method: get,
@@ -136,11 +136,11 @@ const apiEndpoints = {
   },
   getScenarioWithChildren: {
     method: get,
-    path: `/scenarios/:id/?include=children_scenario&?${credentials}`
+    path: `/scenarios/:id/?include=children_scenario&${credentials}`
   },
   getScenarioWithVouches: {
     method: get,
-    path: `/scenarios/:id/?include=vouches&?${credentials}`
+    path: `/scenarios/:id/?include=vouches&${credentials}`
   },
 
   // Users
@@ -150,7 +150,7 @@ const apiEndpoints = {
   },
   getUser: {
     method: get,
-    path: `/users?filter[email]=:email&?${credentials}`
+    path: `/users?filter[email]=:email&${credentials}`
   },
   getUserById: {
     method: get,
@@ -172,19 +172,19 @@ const apiEndpoints = {
   // Scenarios related to users
   getUserDonations: {
     method: get,
-    path: `/users/:id/donated?page[limit]=10&?${credentials}`
+    path: `/users/:id/donated?page[limit]=10&${credentials}`
   },
   getUserDos: {
     method: get,
-    path: `/users/:id/done?page[limit]=10&?${credentials}`
+    path: `/users/:id/done?page[limit]=10&${credentials}`
   },
   getUserRequests: {
     method: get,
-    path: `/users/:id/requested?filter[is_parent]=true&page[limit]=10&?${credentials}`
+    path: `/users/:id/requested?filter[is_parent]=true&page[limit]=10&${credentials}`
   },
   getUserVouches: {
     method: get,
-    path: `/users/:id/verified?page[limit]=10&?${credentials}`
+    path: `/users/:id/verified?page[limit]=10&${credentials}`
   },
 
   // Login
