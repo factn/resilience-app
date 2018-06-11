@@ -515,6 +515,8 @@ export default class Info extends Component {
                     <div className="scenario-event-location">{event}</div>
                     <div className="scenario-severity">Urgent</div>
                   </section>
+
+                  <MiniMap initialCenter={mapPos} pins={doerPins} />
                 </article>
 
                 <article className={tab === "instructions" ? "tab active" : "tab"}>
@@ -556,20 +558,6 @@ export default class Info extends Component {
                 <article className={tab === "advocates" ? "tab active" : "tab"} />
               </div>
             </section>
-
-            <MiniMap initialCenter={mapPos} pins={doerPins} />
-
-            <footer className="scenario-footer">
-              <div className="funding-goal-label">
-                <span>To fully fund </span>
-                <span className="dollar-amount">{moneyfy(funding_goal - donated)}</span>
-              </div>
-              <div className="funding-progress-slider" id={`${event}_fundingGoal`} style={fundingGoalSliderStyle} />
-              <div className="funding-goal-label">
-                Target <span className="dollar-amount">{moneyfy(funding_goal)}</span>
-              </div>
-              <div className="funding-goal-summary">450 donors, {moneyfy(donated)} donated</div>
-            </footer>
           </div>
         </Page>
       )
