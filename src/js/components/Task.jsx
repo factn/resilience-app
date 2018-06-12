@@ -2,14 +2,13 @@
 // Module imports
 import React, { Component } from "react"
 import Icon from "@fortawesome/react-fontawesome"
-import {
-  faThumbsDown,
-  faComment,
-  faThumbsUp
-} from "@fortawesome/fontawesome-free-solid"
+import { faThumbsDown, faComment, faThumbsUp } from "@fortawesome/fontawesome-free-solid"
+
+// Local JS Utilities
+import Database from "../resources/Database"
 /*** [end of imports] ***/
 
-export default class Info extends Component {
+export default class Task extends Component {
   state = {
     xTransform: 0,
     touchStartX: 0,
@@ -27,7 +26,8 @@ export default class Info extends Component {
       touchStartX: e.targetTouches[0].clientX,
       moving: true,
       style: {
-        transform: "translateX(0)"
+        transform: "translateX(0)",
+        transition: "transform 0.1s cubic-bezier(0.73, 0.2, 0.43, 1)"
       }
     })
   }
@@ -46,23 +46,25 @@ export default class Info extends Component {
     if (xDif >= rightSwipeThreshold) {
       this.setState({
         style: {
-          transform: `translateX(${rightSwipeThreshold}px)`
+          transform: `translateX(${rightSwipeThreshold}px)`,
+          transition: "none"
         }
       })
     } else if (xDif <= leftSwipeThreshold) {
       this.setState({
         style: {
-          transform: `translateX(${leftSwipeThreshold}px)`
+          transform: `translateX(${leftSwipeThreshold}px)`,
+          transition: "none"
         }
       })
     } else {
       this.setState({
         style: {
-          transform: `translateX(${xDif}px)`
+          transform: `translateX(${xDif}px)`,
+          transition: "none"
         }
       })
     }
-
   }
 
   handleTouchEnd = e => {
@@ -71,9 +73,7 @@ export default class Info extends Component {
     const xDif = lastTouchX - touchStartX
 
     if (xDif >= rightSwipeThreshold) {
-      
     } else if (xDif <= leftSwipeThreshold) {
-      
     } else {
       this.resetSwipePos()
     }
@@ -86,9 +86,44 @@ export default class Info extends Component {
       lastTouchX: 0,
       moving: false,
       style: {
-        transform: "translateX(0)"
+        transform: "translateX(0)",
+        transition: "none",
+        boxShadow: "none"
       }
     })
+  }
+
+  vouch = params => {
+    const json = {
+      type: "vouches",
+      attributes: {
+        description: params.comment || ""
+      },
+      relationships: {
+        scenario: {
+          data: {
+            type: "scenarios",
+            id: "1"
+          }
+        },
+        verifier: {
+          data: {
+            type: "users",
+            id: "1"
+          }
+        }
+      }
+    }
+
+    Database.createVouch(json)
+      .then(result => {
+        // console.log("Vouch complete:", result)
+
+        this.setUserCookie(result)
+      })
+      .catch(error => {
+        // console.error("Error vouching:", error)
+      })
   }
 
   render() {
@@ -97,12 +132,12 @@ export default class Info extends Component {
 
     return (
       <section className={moving ? "task-wrap moving" : "task-wrap"}>
-        <div className="before-task-actions">
-          <div className="task-action orange-action">
+        <div className="task-action-wrapper before-task-actions">
+          <div className="task-action orange-action" onClick={() => this.vouch()}>
             <Icon icon={faThumbsDown} className="task-action-icon" />
             <div className="task-label">Not quite</div>
           </div>
-          <div className="task-action gray-action">
+          <div className="task-action gray-action" onClick={() => this.vouch()}>
             <Icon icon={faComment} className="task-action-icon" />
             <div className="task-label">Comment</div>
           </div>
@@ -110,6 +145,7 @@ export default class Info extends Component {
         <div
           className={moving ? "task moving" : "task"}
           style={style}
+          onClick={() => this.resetSwipePos()}
           onTouchStart={e => this.handleTouchStart(e)}
           onTouchMove={e => this.handleTouchMove(e)}
           onTouchEnd={e => this.handleTouchEnd(e)}>
@@ -120,8 +156,8 @@ export default class Info extends Component {
             {status === "In progress" && "In progress"}
           </div>
         </div>
-        <div className="after-task-actions">
-          <div className="task-action green-action">
+        <div className="task-action-wrapper after-task-actions">
+          <div className="task-action green-action" onClick={() => this.vouch()}>
             <Icon icon={faThumbsUp} className="task-action-icon" />
             <div className="task-label">Finished!</div>
           </div>
