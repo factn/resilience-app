@@ -594,28 +594,25 @@ export default class Info extends Component {
                         </div>
                         <div className="task-overview-right">
                           <div className="donation-amount">{moneyfy(donated, 2)}</div>
-                          <div className="task-category-counts" onClick={() => this.toggleTaskList()}>3 to review, 3 completed, 3 in progress</div>
+                          <div className="task-category-counts" onClick={() => this.toggleTaskList()}>2 to review, 2 completed, 2 in progress</div>
                         </div>
                       </header>
 
                       <div className={taskListOpen ? "task-list-collapse-wrap open" : "task-list-collapse-wrap"}>
                         <div className="task-list review-list">
                           <h5 className="task-list-title">To Review</h5>
-                          <Task />
-                          <Task />
-                          <Task />
+                          <Task name="Organize materials" status="To review" reviewStatus="Vouch that I'm done" />
+                          <Task name="Collect donations for materials" status="To review" reviewStatus="Vouch that I'm done" />
                         </div>
                         <div className="task-list finished-list">
                           <h5 className="task-list-title">Finished</h5>
-                          <Task />
-                          <Task />
-                          <Task />
+                          <Task name="Pick up volunteer labor" status="Finished" finishedDate="23/4/18" />
+                          <Task name="Pick up materials" status="Finished" finishedDate="23/4/18" />
                         </div>
                         <div className="task-list in-progress-list">
                           <h5 className="task-list-title">In Progress</h5>
-                          <Task />
-                          <Task />
-                          <Task />
+                          <Task name="Patch roof" status="In progress" />
+                          <Task name="Paint and seal roof" status="In progress" />
                         </div>
                       </div>
                     </article>
