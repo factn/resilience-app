@@ -142,6 +142,10 @@ const apiEndpoints = {
     method: get,
     path: `/scenarios/:id/?include=vouches&${credentials}`
   },
+  getScenarioRequester: {
+    method: get,
+    path: `/scenarios/:id/?include=requester&${credentials}`
+  },
 
   // Users
   getUsers: {

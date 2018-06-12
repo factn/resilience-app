@@ -42,6 +42,7 @@ export default class Info extends Component {
     tab: this.props.match.params.tab || "overview",
     scenarioData: null,
     childrenScenarioData: null,
+    requesterData: null,
     buttonOverride: false,
     materialsDone: null,
     transportDone: null,
@@ -66,6 +67,8 @@ export default class Info extends Component {
           scenarioData: data,
           childrenScenarioData: included
         })
+
+        this.mountRequesterData(this.state.scenarioId)
         this.createRefresh()
 
         invalidateRequests(Database.getScenarioWithChildren)
@@ -79,6 +82,7 @@ export default class Info extends Component {
         })
       })
   }
+
   componentWillUnmount = () => {
     clearInterval(this.autoRefresh)
   }
@@ -112,6 +116,25 @@ export default class Info extends Component {
         clearInterval(this.autoRefresh)
       }
     }, dataRefreshRate)
+  }
+
+  mountRequesterData = id => {
+    Database.getScenarioRequester({ id })
+      .then(result => {
+        const { included } = result.body
+        // console.info("Success getting scenario requester:", included)
+
+        this.setState({
+          requesterData: included[0]
+        })
+      })
+      .catch(error => {
+        // console.error("Error getting scenarios:", error)
+
+        this.setState({
+          requesterData: null
+        })
+      })
   }
 
   getBackLink = () => {
@@ -366,10 +389,11 @@ export default class Info extends Component {
   }
 
   render() {
-    if (this.state.scenarioData) {
+    const { scenarioData, requesterData } = this.state
+
+    if (scenarioData && requesterData) {
       const {
         scenarioId,
-        scenarioData,
         role,
         tab,
         notificationOpen,
@@ -394,7 +418,7 @@ export default class Info extends Component {
         updated_at
       } = scenarioData.attributes
 
-      const avatar = false
+      const { avatar } = requesterData.attributes
 
       let mapPos = {
         lat: requesterlat,
@@ -522,18 +546,24 @@ export default class Info extends Component {
 
                   <section className="task-box">
                     <header className="tasks-header">
-                      <div
-                        className="user-avatar"
-                        style={{
-                          backgroundImage: `url("${avatar || genericAvatar}")`
-                        }}
-                      />
+                      <div className="user-avatar-wrap">
+                        <Link to={`/reputation/${requesterData.id}`}>
+                          <div
+                            className="user-avatar"
+                            style={{
+                              backgroundImage: `url("${avatar || genericAvatar}")`
+                            }}
+                          />
+                        </Link>
+                      </div>
 
                       <div className="user-info">
-                        <div className="user-name">{doer_firstname}</div>
+                        <div className="user-name">
+                          <Link to={`/reputation/${requesterData.id}`}>{doer_firstname || "John"}</Link>
+                        </div>
                         <div className="user-hon3y">
                           <img src={hon3yIcon} alt="HON3Y" className="hon3y-icon" />
-                          <span className="hon3y-score">4.35</span>
+                          <span className="hon3y-score"> 4.35</span>
                         </div>
                       </div>
 

@@ -11,7 +11,68 @@
   box-shadow: $card-shadow
 
 .tasks-header
+  +inline-flex
   +spacer-with-border("bottom", 1rem, 0.0625rem, rgba($black, 0.4))
+
+  .user-info,
+  .user-avatar-wrap
+    +inline-flex-item(3rem)
+
+    margin-right: 0.5rem
+
+  .user-avatar
+    +circle-photo-wrap(3.5rem)
+
+  .user-name
+    font-size: 1.25rem
+    text-align: center
+    margin-top: 0.5rem
+    
+    a
+      color: $orange
+
+  .user-hon3y
+    text-align: center
+
+  .hon3y-icon
+    display: inline-block
+    max-height: 0.8rem
+    margin-right: 0.5rem
+
+  .mission-info
+    +inline-flex-item(50%, 2)
+
+    display: grid
+    grid:
+      gap: 0.25rem
+      template:
+        columns: 3rem auto
+        rows: auto
+        areas: "icon label" "icon left" "joined joined"
+
+    .time-left-icon
+      color: $orange
+      font-size: 2.5rem
+      text-align: center
+      grid-area: icon
+
+    .time-left-label
+      text-transform: uppercase
+      font-size: 0.75rem
+      grid-area: label
+
+    .time-left
+      grid-area: left
+      font:
+        weight: $bold-weight
+        size: 1.2rem
+
+    .time-joined
+      color: rgba($black, 0.5)
+      grid-area: joined
+      font:
+        style: italic
+        size: 0.75rem
 
 .tasks-footer
   +spacer-with-border("top", 0.5rem, 0.0625rem, rgba($black, 0.4))
