@@ -27,7 +27,7 @@
     font-size: 1.25rem
     text-align: center
     margin-top: 0.5rem
-    
+
     a
       color: $orange
 
@@ -73,6 +73,51 @@
       font:
         style: italic
         size: 0.75rem
+
+.tasks-body
+  .task-overview
+    +inline-flex
+
+    padding: 0 0.5rem
+
+  .task-overview-left
+    +inline-flex-item(5rem)
+
+    position: relative
+    font-size: 1.25rem
+
+  .task-number
+    font-weight: $bold-weight
+
+  .notification-button
+    +circle(1rem)
+
+    position: absolute
+    top: 0
+    right: 0
+    color: rgba($white, 0.75)
+    background: $orange
+    text-align: center
+    font-size: 0.75rem
+
+  .task-overview-right
+    +inline-flex-item(70%)
+
+    text-align: right
+
+  .donation-amount
+    font-size: 1.1rem
+    margin-bottom: 0.5rem
+
+  .task-category-counts
+    color: rgba($black, 0.5)
+    font:
+      style: italic
+      size: 0.75rem
+
+  .task-list-collapse-wrap
+    max-height: 0
+    opacity: 0
 
 .tasks-footer
   +spacer-with-border("top", 0.5rem, 0.0625rem, rgba($black, 0.4))

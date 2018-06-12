@@ -22,13 +22,14 @@ import Page from "./Page"
 // Page elements
 import Loader from "../components/Loader"
 import MiniMap from "../components/MiniMap"
+import Task from "../components/Task"
 
 // Inputs
 import TextArea from "../components/inputs/TextArea"
 
 // Local JS Utilities
 import Database from "../resources/Database"
-import { toFirstCap } from "../resources/Util"
+import { toFirstCap, moneyfy } from "../resources/Util"
 
 // Images
 import genericAvatar from "../../img/fb-profile.jpg"
@@ -54,6 +55,7 @@ export default class Info extends Component {
     missionComplete: false,
     missionCompleteOpen: false,
     newUpdateOpen: false,
+    taskListOpen: false,
     dataRefreshRate: 5000 // Every 5 seconds check for map pin changes
   }
 
@@ -380,6 +382,12 @@ export default class Info extends Component {
     })
   }
 
+  toggleTaskList = () => {
+    this.setState({
+      taskListOpen: !this.state.taskListOpen
+    })
+  }
+
   postNewUpdate = params => {
     // TODO: submit update message and add to the updates list
 
@@ -399,7 +407,8 @@ export default class Info extends Component {
         notificationOpen,
         notificationScenarioId,
         missionCompleteOpen,
-        newUpdateOpen
+        newUpdateOpen,
+        taskListOpen
       } = this.state
 
       const {
@@ -415,7 +424,8 @@ export default class Info extends Component {
         noun,
         verb,
         custom_message,
-        updated_at
+        updated_at,
+        donated
       } = scenarioData.attributes
 
       const { avatar } = requesterData.attributes
@@ -575,7 +585,40 @@ export default class Info extends Component {
                       </div>
                     </header>
 
-                    <article className="tasks-body" />
+                    <article className="tasks-body">
+                      <header className="task-overview">
+                        <div className="task-overview-left">
+                          <span className="task-number">6</span>
+                          <span> Tasks</span>
+                          <div className="notification-button">1</div>
+                        </div>
+                        <div className="task-overview-right">
+                          <div className="donation-amount">{moneyfy(donated, 2)}</div>
+                          <div className="task-category-counts" onClick={() => this.toggleTaskList()}>3 to review, 3 completed, 3 in progress</div>
+                        </div>
+                      </header>
+
+                      <div className={taskListOpen ? "task-list-collapse-wrap open" : "task-list-collapse-wrap"}>
+                        <div className="task-list review-list">
+                          <h5 className="task-list-title">To Review</h5>
+                          <Task />
+                          <Task />
+                          <Task />
+                        </div>
+                        <div className="task-list finished-list">
+                          <h5 className="task-list-title">Finished</h5>
+                          <Task />
+                          <Task />
+                          <Task />
+                        </div>
+                        <div className="task-list in-progress-list">
+                          <h5 className="task-list-title">In Progress</h5>
+                          <Task />
+                          <Task />
+                          <Task />
+                        </div>
+                      </div>
+                    </article>
 
                     <footer className="tasks-footer">
                       <ul className="tasks-footer-actions">
