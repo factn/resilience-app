@@ -463,7 +463,7 @@ export default class Info extends Component {
               <header className="scenario-content-superheader">
                 <h3 className="mission-status-header">
                   <span className="mission-status-label">Mission Status: </span>
-                  <span className="mission-status">Being vouched</span>x
+                  <span className="mission-status">Being vouched</span>
                 </h3>
                 <ul className="vouch-list">
                   <li className="vouch">
