@@ -1,0 +1,40 @@
+.info-page
+  .app-main
+    margin-top: 1rem
+  
+.mission-status-label
+  font-weight: bold
+
+.scenario-content-image-wrap
+  position: relative
+  max-height: 12rem
+  width: 100vw
+  margin: 0 -1.5rem
+  background: rgba($black, 0.1)
+
+.scenario-content-image
+  max-height: 12rem
+
+.scenario-content-header
+  margin-top: 1rem
+
+  .scenario-title
+    +spacer-with-border("bottom", 0.5rem, 0.0625rem, $orange, dashed)
+
+    font-weight: bold
+    text-transform: uppercase
+    display: inline-block
+
+.scenario-content-body
+  color: rgba($black, 0.8)
+  font-size: 0.8em
+  margin-top: 0.5rem
+
+  .mission-status-header
+    font-size: 1.25rem
+
++breakpoint($tablet)
+  .adcontent-page
+    .scenario-content-body
+      padding-left: 1rem
+      flex-grow: 5

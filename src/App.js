@@ -69,7 +69,6 @@ export default class App extends Component {
           {/* Scenario full-page */}
           <Route path="/:scenario_id/" exact component={Info} />
           <Route path="/:scenario_id/:role/" exact component={Info} />
-          <Route path="/:scenario_id/:role/:tab" exact component={Info} />
 
           {/* 404 */}
           <Route component={NoPage} />
