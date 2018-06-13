@@ -150,6 +150,7 @@ export default class Info extends Component {
         requester_lastname,
         requesterlat,
         requesterlon,
+        doer_firstname,
         doerlat,
         doerlon,
         noun,
@@ -207,7 +208,11 @@ export default class Info extends Component {
 
       return (
         <Page className="info-page" {...notificationProps} {...missionCompleteProps} footer={footer}>
-          {role === "info" && (
+          {doer_firstname ? (
+            <Fragment>
+              <MiniMap initialCenter={mapPos} pins={doerPins} />
+            </Fragment>
+          ) : (
             <Fragment>
               <figure className="scenario-content-image-wrap">
                 <img src={image} alt={event} className="scenario-content-image" />
@@ -275,11 +280,6 @@ export default class Info extends Component {
                   </ul>
                 </section>
               </section>
-            </Fragment>
-          )}
-          {role === "requester" && (
-            <Fragment>
-              <MiniMap initialCenter={mapPos} pins={doerPins} />
             </Fragment>
           )}
         </Page>
