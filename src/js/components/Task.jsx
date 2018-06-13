@@ -13,8 +13,8 @@ export default class Task extends Component {
     xTransform: 0,
     touchStartX: 0,
     lastTouchX: 0,
-    leftSwipeThreshold: -16 * 5, // 5rem per button
-    rightSwipeThreshold: 16 * 5 * 2, // 5rem per button
+    leftSwipeThreshold: -16 * 5 * 2, // 5rem per button
+    rightSwipeThreshold: 16 * 5, // 5rem per button
     moving: false,
     style: {
       transform: "translateX(0)"
@@ -133,13 +133,9 @@ export default class Task extends Component {
     return (
       <section className={moving ? "task-wrap moving" : "task-wrap"}>
         <div className="task-action-wrapper before-task-actions">
-          <div className="task-action orange-action" onClick={() => this.vouch()}>
-            <Icon icon={faThumbsDown} className="task-action-icon" />
-            <div className="task-label">Not quite</div>
-          </div>
-          <div className="task-action gray-action" onClick={() => this.vouch()}>
-            <Icon icon={faComment} className="task-action-icon" />
-            <div className="task-label">Comment</div>
+          <div className="task-action green-action" onClick={() => this.vouch()}>
+            <Icon icon={faThumbsUp} className="task-action-icon" />
+            <div className="task-label">Finished!</div>
           </div>
         </div>
         <div
@@ -157,9 +153,13 @@ export default class Task extends Component {
           </div>
         </div>
         <div className="task-action-wrapper after-task-actions">
-          <div className="task-action green-action" onClick={() => this.vouch()}>
-            <Icon icon={faThumbsUp} className="task-action-icon" />
-            <div className="task-label">Finished!</div>
+          <div className="task-action orange-action" onClick={() => this.vouch()}>
+            <Icon icon={faThumbsDown} className="task-action-icon" />
+            <div className="task-label">Not quite</div>
+          </div>
+          <div className="task-action gray-action" onClick={() => this.vouch()}>
+            <Icon icon={faComment} className="task-action-icon" />
+            <div className="task-label">Comment</div>
           </div>
         </div>
       </section>

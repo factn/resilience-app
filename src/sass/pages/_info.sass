@@ -26,7 +26,10 @@
     display: inline-block
 
 .scenario-content-body
+  +space(0.5rem 1.5rem 1rem, -0.5rem -1.5rem 0)
+
   color: rgba($black, 0.8)
+  background: $task-box-bg
   font-size: 0.8em
 
   .mission-status-header
@@ -127,11 +130,11 @@
 
   .scenario-cost-icon
     +circle(2rem)
+
     color: $blue
     background: $orange
     font-size: 1.5rem
-    padding: 0.25rem;
-
+    padding: 0.25rem
 
   .scenario-time-icon
     color: $orange
