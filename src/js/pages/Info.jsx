@@ -3,7 +3,7 @@
 import React, { Component } from "react"
 import { invalidateRequests } from "redux-bees"
 import Icon from "@fortawesome/react-fontawesome"
-import { faCheck, faMapMarkerAlt } from "@fortawesome/fontawesome-free-solid"
+import { faCheck, faMapMarkerAlt, faEdit, faClock, faDollarSign } from "@fortawesome/fontawesome-free-solid"
 
 // Page wrapper
 import Page from "./Page"
@@ -17,6 +17,7 @@ import { toFirstCap, moneyfy } from "../resources/Util"
 
 // Images
 import genericAvatar from "../../img/fb-profile.jpg"
+import logo from "../../img/logo.svg"
 /*** [end of imports] ***/
 
 export default class Info extends Component {
@@ -131,7 +132,8 @@ export default class Info extends Component {
         requester_lastname,
         noun,
         verb,
-        custom_message
+        custom_message,
+        funding_goal
       } = scenarioData.attributes
 
       const { avatar } = requesterData.attributes
@@ -144,7 +146,24 @@ export default class Info extends Component {
         dismissNotification: this.dismissNotification
       }
 
-      const footer = <div />
+      const footer = (
+        <div className="scenario-footer-wrap">
+          <div className="scenario-cost scenario-footer-flex-item">
+            <Icon icon={faDollarSign} className="scenario-cost-icon" />
+            <div className="scenario-item-text">
+              <div className="scenario-item-label">Cost:</div>
+              <div className="scenario-item-value">{moneyfy(funding_goal)}</div>
+            </div>
+          </div>
+          <div className="scenario-time scenario-footer-flex-item">
+            <Icon icon={faClock} className="scenario-time-icon" />
+            <div className="scenario-item-text">
+              <div className="scenario-item-label">Time left:</div>
+              <div className="scenario-item-value">48:00 hrs</div>
+            </div>
+          </div>
+        </div>
+      )
 
       return (
         <Page className="info-page" {...notificationProps} footer={footer}>
@@ -162,19 +181,41 @@ export default class Info extends Component {
               <span className="mission-status">Looking for Workers</span>
             </div>
 
-            <div className="user-info">
-              <figure className="user-avatar" />
-              <div className="user-name">
-                {requester_firstname} {requester_lastname}
+            <div className="scenario-action-buttons">
+              <div className="edit-mission-btn">
+                <Icon icon={faEdit} className="action-button-icon" />
+                <span className="action-button-label">Edit mission</span>
               </div>
-              <div className="user-vouched-status">
-                <Icon icon={faCheck} />
+              <div className="workers-btn">
+                <img src={logo} className="action-button-image" alt="Workers" />
+                <span className="action-button-label">1 Worker</span>
               </div>
             </div>
-            <div className="scenario-location">
-              <div className="location-name">Pearlington, Louisiana</div>
-              <div className="location-icon">
-                <Icon icon={faMapMarkerAlt} />
+
+            <div className="user-info">
+              <div className="user-avatar-wrap">
+                <div
+                  className="user-avatar"
+                  style={{
+                    backgroundImage: `url("${avatar || genericAvatar}")`
+                  }}
+                />
+              </div>
+
+              <div className="scenario-user">
+                <div className="user-name">
+                  {toFirstCap(requester_firstname)} {toFirstCap(requester_lastname)}
+                </div>
+                <div className="user-vouched-status">
+                  <Icon icon={faCheck} />
+                </div>
+              </div>
+
+              <div className="scenario-location">
+                <div className="location-name">Pearlington, Louisiana</div>
+                <div className="location-icon">
+                  <Icon icon={faMapMarkerAlt} />
+                </div>
               </div>
             </div>
 
@@ -184,8 +225,12 @@ export default class Info extends Component {
             </div>
 
             <section className="scenario-tags">
-              <div className="scenario-event-location">{event}</div>
-              <div className="scenario-severity">Urgent</div>
+              <div className="scenario-event-location tag">{event}</div>
+              <ul className="tag-list">
+                <li className="tag inactive-tag">#Driving</li>
+                <li className="tag inactive-tag">#Logistics</li>
+                <li className="tag inactive-tag">#Roofing</li>
+              </ul>
             </section>
           </section>
         </Page>

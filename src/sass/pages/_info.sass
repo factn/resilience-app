@@ -1,7 +1,7 @@
 .info-page
   .app-main
     margin-top: 1rem
-  
+
 .mission-status-label
   font-weight: bold
 
@@ -28,10 +28,120 @@
 .scenario-content-body
   color: rgba($black, 0.8)
   font-size: 0.8em
-  margin-top: 0.5rem
 
   .mission-status-header
-    font-size: 1.25rem
+    font:
+      family: $heading-font
+      size: 1.1rem
+
+  .user-info
+    +inline-flex
+
+    margin-bottom: 1rem
+
+  .user-avatar-wrap
+    +inline-flex-item(2rem)
+
+  .scenario-user,
+  .scenario-location
+    +inline-flex-item(30%, 2)
+
+    padding: 0.5rem
+
+  .user-avatar
+    +circle-photo-wrap(2rem)
+
+  .user-name,
+  .location-name,
+  .user-vouched-status,
+  .location-icon
+    display: inline-block
+
+  .user-name,
+  .location-name
+    text-decoration: underline
+    margin-right: 0.25rem
+    font:
+      size: 0.7rem
+      style: italic
+
+  .user-vouched-status
+    color: $green-bright
+
+  .location-icon
+    color: $orange
+
+  .scenario-event-location
+    display: inline-block
+    margin-bottom: 1rem
+    font:
+      size: 0.9rem
+      weight: $light-weight
+
+  .tag
+    font-size: 0.9rem
+
+.scenario-action-buttons
+  margin: 0.5rem 0 1rem
+
+  .edit-mission-btn,
+  .workers-btn
+    display: inline-block
+    background: $white
+    box-shadow: $card-shadow
+    margin-right: 0.25rem
+    padding: 0.25rem
+    cursor: pointer
+
+  .action-button-icon
+    color: $orange
+
+  .action-button-label
+    display: inline-block
+    text-transform: uppercase
+    font-weight: bold
+    padding-left: 0.25rem
+
+  .action-button-image
+    display: inline
+    max-height: 0.8rem
+
+.scenario-footer-wrap
+  +inline-flex
+
+  padding-top: 1rem
+
+  .scenario-footer-flex-item
+    +inline-flex-item(40%)
+
+    text-align: left
+
+  .scenario-footer-icon,
+  .scenario-item-text
+    display: inline-block
+
+  .scenario-cost-icon,
+  .scenario-time-icon
+    font-size: 2rem
+    margin-right: 0.5rem
+
+  .scenario-cost-icon
+    +circle(2rem)
+    color: $blue
+    background: $orange
+    font-size: 1.5rem
+    padding: 0.25rem;
+
+
+  .scenario-time-icon
+    color: $orange
+    font-size: 2rem
+
+  .scenario-item-label
+    text-transform: uppercase
+    font:
+      size: 0.8rem
+      weight: $light-weight
 
 +breakpoint($tablet)
   .adcontent-page
