@@ -1,6 +1,6 @@
 /*** IMPORTS ***/
 // Module imports
-import React, { Component } from "react"
+import React, { Component, Fragment } from "react"
 import { invalidateRequests } from "redux-bees"
 import Icon from "@fortawesome/react-fontawesome"
 import { faCheck, faMapMarkerAlt, faEdit, faClock, faDollarSign } from "@fortawesome/fontawesome-free-solid"
@@ -10,6 +10,7 @@ import Page from "./Page"
 
 // Page elements
 import Loader from "../components/Loader"
+import MiniMap from "../components/MiniMap"
 
 // Local JS Utilities
 import Database from "../resources/Database"
@@ -34,6 +35,9 @@ export default class Info extends Component {
     roofSecured: null,
     notificationScenarioId: null,
     notificationOpen: false,
+    missionComplete: false,
+    missionCompleteOpen: false,
+    newUpdateOpen: false,
     dataRefreshRate: 5000 // Every 5 seconds check for map pin changes
   }
 
@@ -71,26 +75,30 @@ export default class Info extends Component {
     const { dataRefreshRate, scenarioId } = this.state
 
     this.autoRefresh = setInterval(() => {
-      Database.getScenarioWithChildren({ id: scenarioId })
-        .then(result => {
-          const { data, included } = result.body
-          // console.info("Success getting scenario:", data, included)
+      if (!this.checkForMissionComplete()) {
+        Database.getScenarioWithChildren({ id: scenarioId })
+          .then(result => {
+            const { data, included } = result.body
+            // console.info("Success getting scenario:", data, included)
 
-          this.setState({
-            scenarioData: data,
-            childrenScenarioData: included
+            this.setState({
+              scenarioData: data,
+              childrenScenarioData: included
+            })
+
+            invalidateRequests(Database.getScenarioWithChildren)
           })
+          .catch(error => {
+            // console.error("Error getting scenarios:", error)
 
-          invalidateRequests(Database.getScenarioWithChildren)
-        })
-        .catch(error => {
-          // console.error("Error getting scenarios:", error)
-
-          this.setState({
-            scenarioData: null,
-            childrenScenarioData: null
+            this.setState({
+              scenarioData: null,
+              childrenScenarioData: null
+            })
           })
-        })
+      } else {
+        clearInterval(this.autoRefresh)
+      }
     }, dataRefreshRate)
   }
 
@@ -113,6 +121,16 @@ export default class Info extends Component {
       })
   }
 
+  checkForMissionComplete = () => {
+    return false
+  }
+
+  dismissMissionComplete = () => {
+    this.setState({
+      missionCompleteOpen: false
+    })
+  }
+
   dismissNotification = () => {
     this.setState({
       notificationOpen: false
@@ -123,18 +141,33 @@ export default class Info extends Component {
     const { scenarioData, requesterData } = this.state
 
     if (scenarioData && requesterData) {
-      const { scenarioId, role, notificationOpen, notificationScenarioId } = this.state
+      const { scenarioId, role, notificationOpen, notificationScenarioId, missionCompleteOpen } = this.state
 
       const {
         event,
         image,
         requester_firstname,
         requester_lastname,
+        requesterlat,
+        requesterlon,
+        doerlat,
+        doerlon,
         noun,
         verb,
         custom_message,
         funding_goal
       } = scenarioData.attributes
+
+      let mapPos = {
+        lat: requesterlat,
+        lng: requesterlon
+      }
+      let doerPins = [
+        {
+          lat: doerlat,
+          lng: doerlon
+        }
+      ]
 
       const { avatar } = requesterData.attributes
 
@@ -144,6 +177,13 @@ export default class Info extends Component {
         parentScenarioId: scenarioId,
         childScenarioId: notificationScenarioId,
         dismissNotification: this.dismissNotification
+      }
+
+      const missionCompleteProps = {
+        missionComplete: true,
+        missionCompleteImage: image,
+        missionCompleteOpen,
+        dismissMissionComplete: this.dismissMissionComplete
       }
 
       const footer = (
@@ -166,73 +206,82 @@ export default class Info extends Component {
       )
 
       return (
-        <Page className="info-page" {...notificationProps} footer={footer}>
-          <figure className="scenario-content-image-wrap">
-            <img src={image} alt={event} className="scenario-content-image" />
-          </figure>
+        <Page className="info-page" {...notificationProps} {...missionCompleteProps} footer={footer}>
+          {role === "info" && (
+            <Fragment>
+              <figure className="scenario-content-image-wrap">
+                <img src={image} alt={event} className="scenario-content-image" />
+              </figure>
 
-          <header className="scenario-content-header">
-            <h4 className="scenario-title">{`${toFirstCap(verb)} ${toFirstCap(requester_firstname)}'s ${noun}`}</h4>
-          </header>
+              <header className="scenario-content-header">
+                <h4 className="scenario-title">{`${toFirstCap(verb)} ${toFirstCap(requester_firstname)}'s ${noun}`}</h4>
+              </header>
 
-          <section className="scenario-content-body">
-            <div className="mission-status-header">
-              <span className="mission-status-label">Mission Status: </span>
-              <span className="mission-status">Looking for Workers</span>
-            </div>
-
-            <div className="scenario-action-buttons">
-              <div className="edit-mission-btn">
-                <Icon icon={faEdit} className="action-button-icon" />
-                <span className="action-button-label">Edit mission</span>
-              </div>
-              <div className="workers-btn">
-                <img src={logo} className="action-button-image" alt="Workers" />
-                <span className="action-button-label">1 Worker</span>
-              </div>
-            </div>
-
-            <div className="user-info">
-              <div className="user-avatar-wrap">
-                <div
-                  className="user-avatar"
-                  style={{
-                    backgroundImage: `url("${avatar || genericAvatar}")`
-                  }}
-                />
-              </div>
-
-              <div className="scenario-user">
-                <div className="user-name">
-                  {toFirstCap(requester_firstname)} {toFirstCap(requester_lastname)}
+              <section className="scenario-content-body">
+                <div className="mission-status-header">
+                  <span className="mission-status-label">Mission Status: </span>
+                  <span className="mission-status">Looking for Workers</span>
                 </div>
-                <div className="user-vouched-status">
-                  <Icon icon={faCheck} />
+
+                <div className="scenario-action-buttons">
+                  <div className="edit-mission-btn">
+                    <Icon icon={faEdit} className="action-button-icon" />
+                    <span className="action-button-label">Edit mission</span>
+                  </div>
+                  <div className="workers-btn">
+                    <img src={logo} className="action-button-image" alt="Workers" />
+                    <span className="action-button-label">1 Worker</span>
+                  </div>
                 </div>
-              </div>
 
-              <div className="scenario-location">
-                <div className="location-name">Pearlington, Louisiana</div>
-                <div className="location-icon">
-                  <Icon icon={faMapMarkerAlt} />
+                <div className="user-info">
+                  <div className="user-avatar-wrap">
+                    <div
+                      className="user-avatar"
+                      style={{
+                        backgroundImage: `url("${avatar || genericAvatar}")`
+                      }}
+                    />
+                  </div>
+
+                  <div className="scenario-user">
+                    <div className="user-name">
+                      {toFirstCap(requester_firstname)} {toFirstCap(requester_lastname)}
+                    </div>
+                    <div className="user-vouched-status">
+                      <Icon icon={faCheck} />
+                    </div>
+                  </div>
+
+                  <div className="scenario-location">
+                    <div className="location-name">Pearlington, Louisiana</div>
+                    <div className="location-icon">
+                      <Icon icon={faMapMarkerAlt} />
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
 
-            <div className="scenario-description">
-              {custom_message ||
-                "My roof was damaged in Hurricane Katrina. I need your help to cover it. Can have more info here to help tell the story and convince people to do this."}
-            </div>
+                <div className="scenario-description">
+                  {custom_message ||
+                    "My roof was damaged in Hurricane Katrina. I need your help to cover it. Can have more info here to help tell the story and convince people to do this."}
+                </div>
 
-            <section className="scenario-tags">
-              <div className="scenario-event-location tag">{event}</div>
-              <ul className="tag-list">
-                <li className="tag inactive-tag">#Driving</li>
-                <li className="tag inactive-tag">#Logistics</li>
-                <li className="tag inactive-tag">#Roofing</li>
-              </ul>
-            </section>
-          </section>
+                <section className="scenario-tags">
+                  <div className="scenario-event-location tag">{event}</div>
+                  <ul className="tag-list">
+                    <li className="tag inactive-tag">#Driving</li>
+                    <li className="tag inactive-tag">#Logistics</li>
+                    <li className="tag inactive-tag">#Roofing</li>
+                  </ul>
+                </section>
+              </section>
+            </Fragment>
+          )}
+          {role === "requester" && (
+            <Fragment>
+              <MiniMap initialCenter={mapPos} pins={doerPins} />
+            </Fragment>
+          )}
         </Page>
       )
     } else {
