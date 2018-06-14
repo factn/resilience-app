@@ -356,7 +356,7 @@ export default class Scenario extends Component {
 
     if (feedType === "doer") {
       setTimeout(() => {
-        this.props.doerPageRoute()
+        this.becomeDoer(json)
       }, transitionTiming)
     } else {
       setTimeout(() => {
@@ -531,6 +531,32 @@ export default class Scenario extends Component {
       })
       .catch(error => {
         // console.error("Error creating donation:", error)
+      })
+  }
+  becomeDoer = params => {
+    const json = {
+      data: {
+        type: "scenarios",
+        id: params.scenarioId,
+        relationships: {
+          doer: {
+            data: {
+              type: "users",
+              id: "1"
+            }
+          }
+        }
+      }
+    }
+
+    Database.updateScenario({ id: params.scenarioId }, json)
+      .then(result => {
+        // console.log("Scenario successfully udpated:", result)
+        
+        this.props.doerPageRoute()
+      })
+      .catch(error => {
+        // console.error("Error updating scenario:", error)
       })
   }
 

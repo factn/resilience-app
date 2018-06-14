@@ -10,7 +10,7 @@ const apiEndpoints = {
   },
   getNoun: {
     method: get,
-    path: `/nouns/:description?${credentials}`
+    path: `/nouns/:description/?${credentials}`
   },
   getNounId: {
     method: get,
@@ -28,7 +28,7 @@ const apiEndpoints = {
   },
   getVerb: {
     method: get,
-    path: `/verbs/:description?${credentials}`
+    path: `/verbs/:description/?${credentials}`
   },
   getVerbId: {
     method: get,
@@ -46,7 +46,7 @@ const apiEndpoints = {
   },
   getDonation: {
     method: get,
-    path: `/donations/:scenario?${credentials}`
+    path: `/donations/:scenario/?${credentials}`
   },
   createDonation: {
     method: post,
@@ -54,11 +54,11 @@ const apiEndpoints = {
   },
   updateDonation: {
     method: patch,
-    path: `/donations/:id?${credentials}`
+    path: `/donations/:id/?${credentials}`
   },
   destroyDonation: {
     method: destroy,
-    path: `/donations/:id?${credentials}`
+    path: `/donations/:id/?${credentials}`
   },
 
   // Events
@@ -76,11 +76,11 @@ const apiEndpoints = {
   },
   updateEvent: {
     method: patch,
-    path: `/events/:id?${credentials}`
+    path: `/events/:id/?${credentials}`
   },
   destroyEvent: {
     method: destroy,
-    path: `/events/:id?${credentials}`
+    path: `/events/:id/?${credentials}`
   },
 
   // Vouches
@@ -94,11 +94,11 @@ const apiEndpoints = {
   },
   updateVouch: {
     method: patch,
-    path: `/vouches/:id?${credentials}`
+    path: `/vouches/:id/?${credentials}`
   },
   destroyVouch: {
     method: destroy,
-    path: `/vouches/:id?${credentials}`
+    path: `/vouches/:id/?${credentials}`
   },
 
   // Scenarios
@@ -112,7 +112,7 @@ const apiEndpoints = {
   },
   getScenario: {
     method: get,
-    path: `/scenarios/:id?${credentials}`
+    path: `/scenarios/:id/?${credentials}`
   },
   createScenario: {
     method: post,
@@ -120,19 +120,19 @@ const apiEndpoints = {
   },
   updateScenario: {
     method: patch,
-    path: `/scenarios/:id?${credentials}`
+    path: `/scenarios/:id/?${credentials}`
   },
   destroyScenario: {
     method: destroy,
-    path: `/scenarios/:id?${credentials}`
+    path: `/scenarios/:id/?${credentials}`
   },
   dismissScenario: {
     method: patch,
-    path: `/scenarios/:id?${credentials}`
+    path: `/scenarios/:id/?${credentials}`
   },
   interactWithScenario: {
     method: patch,
-    path: `/scenarios/:id?${credentials}`
+    path: `/scenarios/:id/?${credentials}`
   },
   getScenarioWithChildren: {
     method: get,
@@ -158,7 +158,7 @@ const apiEndpoints = {
   },
   getUserById: {
     method: get,
-    path: `/users/:id?${credentials}`
+    path: `/users/:id/?${credentials}`
   },
   createUser: {
     method: post,
@@ -166,11 +166,11 @@ const apiEndpoints = {
   },
   updateUser: {
     method: patch,
-    path: `/users/:id?${credentials}`
+    path: `/users/:id/?${credentials}`
   },
   destroyUser: {
     method: destroy,
-    path: `/users/:id?${credentials}`
+    path: `/users/:id/?${credentials}`
   },
 
   // Scenarios related to users

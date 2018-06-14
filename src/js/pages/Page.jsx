@@ -5,7 +5,6 @@ import React from "react"
 // Page Elements
 import Header from "../components/Header"
 import Notification from "../components/Notification"
-import MissionComplete from "../components/MissionComplete"
 import Thanks from "../components/Thanks"
 import Main from "../components/Main"
 import Footer from "../components/Footer"
@@ -23,14 +22,6 @@ const Page = props => (
         parentId={props.parentScenarioId}
         childId={props.childScenarioId}
         dismiss={() => props.dismissNotification()}
-      />
-    )}
-
-    {props.missionComplete && (
-      <MissionComplete
-        beforeImage={props.missionCompleteImage}
-        open={props.missionCompleteOpen}
-        dismiss={() => props.dismissMissionComplete()}
       />
     )}
 

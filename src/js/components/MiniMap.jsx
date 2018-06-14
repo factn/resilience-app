@@ -17,40 +17,40 @@ class MiniMap extends Component {
     markerPos: this.props.initialCenter
   }
 
-  mapClicked(mapProps, map, clickEvent) {
-    const json = {
-      data: {
-        type: "users",
-        id: 1,
-        attributes: {
-          latitude: clickEvent.latLng.lat().toString(),
-          longitude: clickEvent.latLng.lng().toString()
-        }
-      }
-    }
+  // mapClicked(mapProps, map, clickEvent) {
+  //   const json = {
+  //     data: {
+  //       type: "users",
+  //       id: 1,
+  //       attributes: {
+  //         latitude: clickEvent.latLng.lat().toString(),
+  //         longitude: clickEvent.latLng.lng().toString()
+  //       }
+  //     }
+  //   }
 
-    this.setState({
-      markerPos: {
-        lat: clickEvent.latLng.lat(),
-        lng: clickEvent.latLng.lng()
-      }
-    })
+  //   this.setState({
+  //     markerPos: {
+  //       lat: clickEvent.latLng.lat(),
+  //       lng: clickEvent.latLng.lng()
+  //     }
+  //   })
 
-    Database.updateUser({ id: 1 }, json)
-      .then(result => {
-        // console.log("User successfully updated:", result)
-      })
-      .catch(error => {
-        // console.error("Error updating user:", error)
-      })
-  }
+  //   Database.updateUser({ id: 1 }, json)
+  //     .then(result => {
+  //       // console.log("User successfully updated:", result)
+  //     })
+  //     .catch(error => {
+  //       // console.error("Error updating user:", error)
+  //     })
+  // }
 
   render() {
     const { google, initialCenter, pins } = this.props
 
     return (
       <section className="mini-map-wrap">
-        <Map google={google} zoom={pins ? 12 : 14} initialCenter={initialCenter} onClick={this.mapClicked}>
+        <Map google={google} zoom={pins ? 12 : 14} initialCenter={initialCenter}>
           <Marker position={this.state.markerPos} options={{ icon: mapMarkerAlt }} />
           {pins && pins.map((_pin, _index) => <Marker key={_index} position={_pin} options={{ icon: customMapPin }} />)}
         </Map>

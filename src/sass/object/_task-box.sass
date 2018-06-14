@@ -7,23 +7,23 @@
 .task-box
   +space(1rem, 0 -1.5rem)
 
-  background: $task-box-bg
+  background: $white
   box-shadow: $card-shadow
 
 .tasks-header
   +inline-flex
   +spacer-with-border("bottom", 1rem, 0.0625rem, rgba($black, 0.4))
 
-  .user-info,
-  .user-avatar-wrap
+  .worker-info,
+  .worker-avatar-wrap
     +inline-flex-item(3rem)
 
     margin-right: 0.5rem
 
-  .user-avatar
+  .worker-avatar
     +circle-photo-wrap(3.5rem)
 
-  .user-name
+  .worker-name
     font-size: 1.25rem
     text-align: center
     margin-top: 0.5rem
@@ -31,7 +31,7 @@
     a
       color: $orange
 
-  .user-hon3y
+  .worker-hon3y
     text-align: center
 
   .hon3y-icon
@@ -115,9 +115,13 @@
       style: italic
       size: 0.75rem
 
+    .to-review
+      color: $orange
+
   .task-list-collapse-wrap
     max-height: 0
     opacity: 0
+    overflow: hidden
     transition:
       property: max-height, opacity
       duration: $fast
@@ -126,6 +130,7 @@
     &.open
       max-height: 30rem
       opacity: 1
+      overflow: visible
 
   .task-list-title
     font-size: 0.75rem

@@ -6,6 +6,10 @@ import { faThumbsDown, faComment, faThumbsUp } from "@fortawesome/fontawesome-fr
 
 // Local JS Utilities
 import Database from "../resources/Database"
+import { moneyfy } from "../resources/Util"
+
+// Images
+import genericAvatar from "../../img/fb-profile.jpg"
 /*** [end of imports] ***/
 
 export default class Task extends Component {
@@ -13,8 +17,8 @@ export default class Task extends Component {
     xTransform: 0,
     touchStartX: 0,
     lastTouchX: 0,
-    leftSwipeThreshold: -16 * 5, // 5rem per button
-    rightSwipeThreshold: 16 * 5 * 2, // 5rem per button
+    leftSwipeThreshold: -16 * 5 * 2, // 5rem per button
+    rightSwipeThreshold: 16 * 5, // 5rem per button
     moving: false,
     style: {
       transform: "translateX(0)"
@@ -128,18 +132,14 @@ export default class Task extends Component {
 
   render() {
     const { style, moving } = this.state
-    const { name, status, reviewStatus, finishedDate } = this.props
+    const { name, price, avatar } = this.props
 
     return (
       <section className={moving ? "task-wrap moving" : "task-wrap"}>
         <div className="task-action-wrapper before-task-actions">
-          <div className="task-action orange-action" onClick={() => this.vouch()}>
-            <Icon icon={faThumbsDown} className="task-action-icon" />
-            <div className="task-label">Not quite</div>
-          </div>
-          <div className="task-action gray-action" onClick={() => this.vouch()}>
-            <Icon icon={faComment} className="task-action-icon" />
-            <div className="task-label">Comment</div>
+          <div className="task-action green-action" onClick={() => this.vouch()}>
+            <Icon icon={faThumbsUp} className="task-action-icon" />
+            <div className="task-label">Finished!</div>
           </div>
         </div>
         <div
@@ -149,17 +149,25 @@ export default class Task extends Component {
           onTouchStart={e => this.handleTouchStart(e)}
           onTouchMove={e => this.handleTouchMove(e)}
           onTouchEnd={e => this.handleTouchEnd(e)}>
-          <div className="task-name">{name}</div>
-          <div className={status !== "In progress" ? "status light-status" : "status"}>
-            {status === "To review" && reviewStatus}
-            {status === "Finished" && `Finished ${finishedDate}`}
-            {status === "In progress" && "In progress"}
+          <div className="worker-avatar-wrap">
+            <div
+              className="worker-avatar"
+              style={{
+                backgroundImage: `url("${avatar || genericAvatar}")`
+              }}
+            />
           </div>
+          <div className="task-name">{name}</div>
+          <div className="price">{moneyfy(price, 2)}</div>
         </div>
         <div className="task-action-wrapper after-task-actions">
-          <div className="task-action green-action" onClick={() => this.vouch()}>
-            <Icon icon={faThumbsUp} className="task-action-icon" />
-            <div className="task-label">Finished!</div>
+          <div className="task-action orange-action" onClick={() => this.vouch()}>
+            <Icon icon={faThumbsDown} className="task-action-icon" />
+            <div className="task-label">Not quite</div>
+          </div>
+          <div className="task-action gray-action" onClick={() => this.vouch()}>
+            <Icon icon={faComment} className="task-action-icon" />
+            <div className="task-label">Comment</div>
           </div>
         </div>
       </section>

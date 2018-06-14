@@ -122,7 +122,7 @@ export default class RequesterFlow extends Component {
       data: {
         type: "scenarios",
         attributes: {
-          funding_goal: "1000",
+          funding_goal: "300",
           image: imageString,
           custom_message: params.custom_message || ""
         },

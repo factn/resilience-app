@@ -7,13 +7,13 @@ import Icon from "@fortawesome/react-fontawesome"
 import {
   faCheck,
   faMapMarkerAlt,
-  faArrowCircleUp,
-  faEllipsisH,
-  faPlusCircle,
-  faChevronCircleRight,
+  faEdit,
   faClock,
+  faDollarSign,
+  faClipboardCheck,
   faPhone,
-  faCommentAlt
+  faCommentAlt,
+  faUsers
 } from "@fortawesome/fontawesome-free-solid"
 
 // Page wrapper
@@ -24,15 +24,13 @@ import Loader from "../components/Loader"
 import MiniMap from "../components/MiniMap"
 import Task from "../components/Task"
 
-// Inputs
-import TextArea from "../components/inputs/TextArea"
-
 // Local JS Utilities
 import Database from "../resources/Database"
 import { toFirstCap, moneyfy } from "../resources/Util"
 
 // Images
 import genericAvatar from "../../img/fb-profile.jpg"
+import logo from "../../img/logo.svg"
 import hon3yIcon from "../../img/hon3y.png"
 /*** [end of imports] ***/
 
@@ -40,7 +38,6 @@ export default class Info extends Component {
   state = {
     scenarioId: this.props.match.params.scenario_id || 1,
     role: this.props.match.params.role || "info",
-    tab: this.props.match.params.tab || "overview",
     scenarioData: null,
     childrenScenarioData: null,
     requesterData: null,
@@ -49,7 +46,6 @@ export default class Info extends Component {
     transportDone: null,
     roofCovered: null,
     roofSecured: null,
-    initialJobState: {},
     notificationScenarioId: null,
     notificationOpen: false,
     missionComplete: false,
@@ -139,191 +135,7 @@ export default class Info extends Component {
       })
   }
 
-  getBackLink = () => {
-    const { role } = this.state
-
-    if (role === "donor" || role === "doer") return `/feed/${role}`
-    else if (role === "requester") return "/requester"
-    else return "/"
-  }
-
-  changeTab = tab => {
-    this.setState({
-      tab
-    })
-  }
-
-  callToActionBtn = () => {
-    const { role, materialsDone, transportDone, roofCovered, roofSecured, scenarioId } = this.state
-
-    if (role === "donor") {
-      return (
-        <Link to="/feed/donor" className="btn footer-btn feed-btn">
-          Donate
-        </Link>
-      )
-    } else if (role === "doer") {
-      if (materialsDone) {
-        if (transportDone) {
-          if (roofCovered) {
-            if (roofSecured) {
-              return (
-                <Link to={`/${scenarioId}/doer/confirmation/fix/roof`} className="btn footer-btn feed-btn">
-                  Complete Mission
-                </Link>
-              )
-            } else {
-              return (
-                <Link to={`/${scenarioId}/doer/confirmation/fix/roof`} className="btn footer-btn feed-btn">
-                  Secure Roof
-                </Link>
-              )
-            }
-          } else {
-            return (
-              <Link to={`/${scenarioId}/doer/confirmation/patch/roof`} className="btn footer-btn feed-btn">
-                Cover Roof
-              </Link>
-            )
-          }
-        } else {
-          return (
-            <Link to={`/${scenarioId}/doer/confirmation/get/transportation`} className="btn footer-btn feed-btn">
-              Provide Transport
-            </Link>
-          )
-        }
-      } else {
-        return (
-          <Link to={`/${scenarioId}/doer/confirmation/get/materials`} className="btn footer-btn feed-btn">
-            Bring Materials
-          </Link>
-        )
-      }
-    } else if (role === "requester") {
-      return (
-        <Link to="/missions" className="btn footer-btn feed-btn">
-          Edit Mission
-        </Link>
-      )
-    } else {
-      return (
-        <Link to="/missions" className="btn footer-btn feed-btn">
-          Share
-        </Link>
-      )
-    }
-  }
-
-  jobs = () => {
-    const { childrenScenarioData, buttonOverride } = this.state
-
-    let hasShownDesc = false
-    return (
-      <Fragment>
-        {childrenScenarioData ? (
-          Object.entries(childrenScenarioData).map(([key, childScenario]) => {
-            const { noun, verb, is_complete } = childScenario.attributes
-            let label
-            let detailDesc = ""
-
-            if (noun === "materials" && verb === "get") {
-              if (is_complete) {
-                label = "Materials on site"
-                if (!buttonOverride) {
-                  this.setState({
-                    materialsDone: true,
-                    buttonOverride: true
-                  })
-                }
-              } else {
-                label = "Can you bring materials?"
-                detailDesc = "You'll need a 20ft square tarp and 8 zipties."
-              }
-            } else if (noun === "transportation" && verb === "get") {
-              if (is_complete) {
-                label = "Workers on site"
-                if (!buttonOverride) {
-                  this.setState({
-                    transportDone: true,
-                    buttonOverride: true
-                  })
-                }
-              } else {
-                label = "Can you provide transport?"
-                detailDesc = "See the location on the map"
-              }
-            } else if (noun === "roof" && verb === "patch") {
-              if (is_complete) {
-                label = "Roof covered"
-                if (!buttonOverride) {
-                  this.setState({
-                    roofCovered: true,
-                    buttonOverride: true
-                  })
-                }
-              } else {
-                label = "Roof covered?"
-                detailDesc = "Ensure the tarp covers all areas and don't allow rain in."
-              }
-            } else if (noun === "roof" && verb === "fix") {
-              if (is_complete) {
-                label = "Roof fixed"
-                if (!buttonOverride) {
-                  this.setState({
-                    roofSecured: true,
-                    buttonOverride: true
-                  })
-                }
-              } else {
-                label = "Roof covering secured?"
-                detailDesc = "Ensure that the tarp is secured on all corners to protect against hurricane winds."
-              }
-            }
-
-            if (detailDesc !== "") {
-              if (hasShownDesc) {
-                detailDesc = ""
-              }
-              hasShownDesc = true
-            }
-
-            return (
-              <div className="card job-card" key={key}>
-                <div className="card-label">{label}</div>
-                {is_complete && (
-                  <div className="done-job-icon">
-                    <Icon icon={faCheck} />
-                  </div>
-                )}
-                {detailDesc}
-              </div>
-            )
-          })
-        ) : (
-          <Loader />
-        )}
-      </Fragment>
-    )
-  }
-
   checkForMissionComplete = () => {
-    const { initialJobState, missionComplete } = this.state
-    let completeCount = 0
-
-    for (let job in initialJobState) {
-      if (initialJobState[job].complete) {
-        completeCount++
-      }
-    }
-
-    if (completeCount >= 4 && !missionComplete) {
-      this.setState({
-        missionComplete: true,
-        missionCompleteOpen: true
-      })
-      return true
-    }
     return false
   }
 
@@ -339,60 +151,9 @@ export default class Info extends Component {
     })
   }
 
-  buildUpdates = () => {
-    const { scenarioData, childrenScenarioData, missionComplete } = this.state
-    const { created_at, requester_firstname, doer_firstname, is_complete, updated_at } = scenarioData.attributes
-
-    let updates = []
-
-    updates.push({
-      role: "requester",
-      firstName: toFirstCap(requester_firstname),
-      avatar: genericAvatar,
-      message: "Mission started",
-      timestamp: new Date(created_at).toDateString()
-    })
-
-    for (let update = 0, len = childrenScenarioData.length; update < len; update++) {
-      if (childrenScenarioData[update].attributes.is_complete) {
-        updates.push({
-          role: "doer",
-          firstName: toFirstCap(doer_firstname),
-          avatar: genericAvatar,
-          message: "Task complete",
-          timestamp: new Date(childrenScenarioData[update].attributes.updated_at).toDateString()
-        })
-      }
-    }
-
-    if (missionComplete || is_complete) {
-      updates.push({
-        role: "system",
-        message: "Mission complete!",
-        timestamp: new Date(updated_at).toDateString()
-      })
-    }
-
-    return updates
-  }
-
-  showNewUpdate = () => {
-    this.setState({
-      newUpdateOpen: true
-    })
-  }
-
   toggleTaskList = () => {
     this.setState({
       taskListOpen: !this.state.taskListOpen
-    })
-  }
-
-  postNewUpdate = params => {
-    // TODO: submit update message and add to the updates list
-
-    this.setState({
-      newUpdateOpen: false
     })
   }
 
@@ -403,11 +164,9 @@ export default class Info extends Component {
       const {
         scenarioId,
         role,
-        tab,
         notificationOpen,
         notificationScenarioId,
         missionCompleteOpen,
-        newUpdateOpen,
         taskListOpen
       } = this.state
 
@@ -424,11 +183,10 @@ export default class Info extends Component {
         noun,
         verb,
         custom_message,
+        funding_goal,
         updated_at,
         donated
       } = scenarioData.attributes
-
-      const { avatar } = requesterData.attributes
 
       let mapPos = {
         lat: requesterlat,
@@ -440,6 +198,8 @@ export default class Info extends Component {
           lng: doerlon
         }
       ]
+
+      const { avatar } = requesterData.attributes
 
       const notificationProps = {
         notification: true,
@@ -456,110 +216,75 @@ export default class Info extends Component {
         dismissMissionComplete: this.dismissMissionComplete
       }
 
+      const footer = (
+        <div className="scenario-footer-wrap">
+          <div className="scenario-cost scenario-footer-flex-item">
+            <Icon icon={faDollarSign} className="scenario-cost-icon" />
+            <div className="scenario-item-text">
+              <div className="scenario-item-label">Cost:</div>
+              <div className="scenario-item-value">{moneyfy(funding_goal)}</div>
+            </div>
+          </div>
+          <div className="scenario-time scenario-footer-flex-item">
+            <Icon icon={faClock} className="scenario-time-icon" />
+            <div className="scenario-item-text">
+              <div className="scenario-item-label">Time left:</div>
+              <div className="scenario-item-value">48:00 hrs</div>
+            </div>
+          </div>
+        </div>
+      )
+
       return (
-        <Page {...notificationProps} {...missionCompleteProps} footer={this.callToActionBtn()}>
-          <div className={`scenario-content-wrap ${role}-scenario-content`}>
-            {role === "requester" && (
-              <header className="scenario-content-superheader">
-                <h3 className="mission-status-header">
-                  <span className="mission-status-label">Mission Status: </span>
-                  <span className="mission-status">Being vouched</span>
-                </h3>
-                <ul className="vouch-list">
-                  <li className="vouch">
-                    <div className="vouch-label">Location is in Pearlington, Mississippi</div>
-                    <div className="vouch-status">
-                      <span className="status-name">Vouched</span>
-                      <span className="status-icon vouched">
-                        <Icon icon={faCheck} />
-                      </span>
-                    </div>
-                  </li>
-                  <li className="vouch">
-                    <div className="vouch-label">Vouch that roof needs fixing</div>
-                    <div className="vouch-status">
-                      <span className="status-name">Pending</span>
-                      <span className="status-icon">
-                        <Icon icon={faEllipsisH} />
-                      </span>
-                    </div>
-                  </li>
-                </ul>
+        <Page className="info-page" {...notificationProps} {...missionCompleteProps} footer={footer}>
+          {doer_firstname ? (
+            <Fragment>
+              <MiniMap initialCenter={mapPos} pins={doerPins} />
+
+              <header className="scenario-content-header">
+                <h4 className="scenario-title">{`${toFirstCap(verb)} ${toFirstCap(requester_firstname)}'s ${noun}`}</h4>
               </header>
-            )}
 
-            <figure className="scenario-content-image-wrap">
-              <img src={image} alt={event} className="scenario-content-image" />
-              <figcaption className="scenario-content-image-caption">
-                <Link className="btn back-btn" to={this.getBackLink()}>
-                  <Icon icon={faArrowCircleUp} />
-                </Link>
-              </figcaption>
-            </figure>
+              <section className="scenario-content-body">
+                <div className="mission-status-header">
+                  <span className="mission-status-label">Mission Status: </span>
+                  <span className="mission-status">In progress</span>
+                </div>
 
-            <header className="scenario-content-header">
-              <h4 className="scenario-title">{`${toFirstCap(verb)} ${toFirstCap(requester_firstname)}'s ${noun}`}</h4>
-            </header>
-
-            <section className="scenario-content-body">
-              <ul className="tab-list">
-                <li
-                  className={tab === "overview" ? "tab-link active" : "tab-link"}
-                  onClick={() => this.changeTab("overview")}>
-                  Overview
-                </li>
-                <li
-                  className={tab === "instructions" ? "tab-link active" : "tab-link"}
-                  onClick={() => this.changeTab("instructions")}>
-                  Instructions
-                </li>
-                <li
-                  className={tab === "updates" ? "tab-link active" : "tab-link"}
-                  onClick={() => this.changeTab("updates")}>
-                  Updates
-                </li>
-              </ul>
-
-              <div className="tab-wrap scenario-tab-wrap">
-                <article className={tab === "overview" ? "tab active" : "tab"}>
-                  <section className="scenario-subheader">
-                    <div className="user-info">
-                      <figure className="user-avatar" />
-                      <div className="user-name">
-                        {requester_firstname} {requester_lastname}
-                      </div>
-                      <div className="user-vouched-status">
-                        <Icon icon={faCheck} />
-                      </div>
-                    </div>
-                    <div className="scenario-location">
-                      <div className="location-name">Pearlington, Louisiana</div>
-                      <div className="location-icon">
-                        <Icon icon={faMapMarkerAlt} />
-                      </div>
-                    </div>
-                  </section>
-
-                  <div className="scenario-description">
-                    {custom_message ||
-                      "My roof was damaged in Hurricane Katrina. I need your help to cover it. Can have more info here to help tell the story and convince people to do this."}
+                <div className="scenario-action-buttons">
+                  <div className="edit-mission-btn">
+                    <Icon icon={faEdit} className="action-button-icon" />
+                    <span className="action-button-label">Edit mission</span>
                   </div>
+                  <div className="workers-btn">
+                    <img src={logo} className="action-button-image" alt="Workers" />
+                    <span className="action-button-label">1 Worker</span>
+                  </div>
+                </div>
 
-                  <section className="scenario-tags">
-                    <div className="scenario-event-location">{event}</div>
-                    <div className="scenario-severity">Urgent</div>
+                <section className="task-wrapper review-tasks">
+                  <header className="task-wrap-header">
+                    <Icon icon={faClipboardCheck} className="task-wrap-header-icon" />
+                    <span className="task-wrap-title"> Tasks to Review</span>
+                  </header>
+
+                  <section className="task-box review-task-box">
+                    <Task avatar={avatar} name="Organize materials" price={25} />
                   </section>
+                </section>
 
-                  <MiniMap initialCenter={mapPos} pins={doerPins} />
-
-                  <h4 className="task-box-title">Workers</h4>
+                <section className="task-wrapper worker-wrapper">
+                  <header className="task-wrap-header">
+                    <img src={logo} alt="Workers" className="task-wrap-header-image" />
+                    <span className="task-wrap-title"> Workers</span>
+                  </header>
 
                   <section className="task-box">
                     <header className="tasks-header">
-                      <div className="user-avatar-wrap">
+                      <div className="worker-avatar-wrap">
                         <Link to={`/reputation/${requesterData.id}`}>
                           <div
-                            className="user-avatar"
+                            className="worker-avatar"
                             style={{
                               backgroundImage: `url("${avatar || genericAvatar}")`
                             }}
@@ -567,11 +292,11 @@ export default class Info extends Component {
                         </Link>
                       </div>
 
-                      <div className="user-info">
-                        <div className="user-name">
-                          <Link to={`/reputation/${requesterData.id}`}>{doer_firstname || "John"}</Link>
+                      <div className="worker-info">
+                        <div className="worker-name">
+                          <Link to={`/reputation/${requesterData.id}`}>{toFirstCap(doer_firstname) || "John"}</Link>
                         </div>
-                        <div className="user-hon3y">
+                        <div className="worker-hon3y">
                           <img src={hon3yIcon} alt="HON3Y" className="hon3y-icon" />
                           <span className="hon3y-score"> 4.35</span>
                         </div>
@@ -594,25 +319,29 @@ export default class Info extends Component {
                         </div>
                         <div className="task-overview-right">
                           <div className="donation-amount">{moneyfy(donated, 2)}</div>
-                          <div className="task-category-counts" onClick={() => this.toggleTaskList()}>2 to review, 2 completed, 2 in progress</div>
+                          <div className="task-category-counts" onClick={() => this.toggleTaskList()}>
+                            <span className="finished">1 finished</span>
+                            <span>, </span>
+                            <span className="to-review">1 to review</span>
+                          </div>
                         </div>
                       </header>
 
                       <div className={taskListOpen ? "task-list-collapse-wrap open" : "task-list-collapse-wrap"}>
                         <div className="task-list review-list">
                           <h5 className="task-list-title">To Review</h5>
-                          <Task name="Organize materials" status="To review" reviewStatus="Vouch that I'm done" />
-                          <Task name="Collect donations for materials" status="To review" reviewStatus="Vouch that I'm done" />
+                          <Task avatar={avatar} name="Organize materials" price={25} />
+                          <Task avatar={avatar} name="Collect donations for materials" price={25} />
                         </div>
                         <div className="task-list finished-list">
                           <h5 className="task-list-title">Finished</h5>
-                          <Task name="Pick up volunteer labor" status="Finished" finishedDate="23/4/18" />
-                          <Task name="Pick up materials" status="Finished" finishedDate="23/4/18" />
+                          <Task avatar={avatar} name="Pick up volunteer labor" price={25} />
+                          <Task avatar={avatar} name="Pick up materials" price={25} />
                         </div>
                         <div className="task-list in-progress-list">
                           <h5 className="task-list-title">In Progress</h5>
-                          <Task name="Patch roof" status="In progress" />
-                          <Task name="Paint and seal roof" status="In progress" />
+                          <Task avatar={avatar} name="Patch roof" price={25} />
+                          <Task avatar={avatar} name="Paint and seal roof" price={25} />
                         </div>
                       </div>
                     </article>
@@ -626,51 +355,85 @@ export default class Info extends Component {
                         <li className="tasks-footer-action">
                           <Icon icon={faPhone} className="action-icon" />
                         </li>
+                        <li className="tasks-footer-action">
+                          <Icon icon={faUsers} className="action-icon" />
+                        </li>
                       </ul>
                     </footer>
                   </section>
-                </article>
+                </section>
+              </section>
+            </Fragment>
+          ) : (
+            <Fragment>
+              <figure className="scenario-content-image-wrap">
+                <img src={image} alt={event} className="scenario-content-image" />
+              </figure>
 
-                <article className={tab === "instructions" ? "tab active" : "tab"}>
-                  <header className="job-status-header">
-                    <h4>
-                      <span className="job-status-label">Job Status: </span>
-                      <span>Workers arriving on site</span>
-                    </h4>
-                  </header>
-                  {this.jobs()}
-                </article>
+              <header className="scenario-content-header">
+                <h4 className="scenario-title">{`${toFirstCap(verb)} ${toFirstCap(requester_firstname)}'s ${noun}`}</h4>
+              </header>
 
-                <article className={tab === "updates" ? "tab active" : "tab"}>
-                  <div className={newUpdateOpen ? "add-post-wrap open" : "add-post-wrap"}>
-                    <button className="btn add-post-btn" onClick={() => this.showNewUpdate()}>
-                      <span>New update </span>
-                      <Icon icon={faPlusCircle} />
-                    </button>
-                    <section className={newUpdateOpen ? "new-update-wrap open" : "new-update-wrap"}>
-                      <TextArea labelPhrase="Enter your message" inputID="update_message" />
-                      <button
-                        className="btn post-update-btn"
-                        onClick={() =>
-                          this.postNewUpdate({
-                            update_message: document.getElementById("update_message").value
-                          })
-                        }>
-                        <span>Post </span>
-                        <Icon icon={faChevronCircleRight} />
-                      </button>
-                    </section>
+              <section className="scenario-content-body">
+                <div className="mission-status-header">
+                  <span className="mission-status-label">Mission Status: </span>
+                  <span className="mission-status">Looking for Workers</span>
+                </div>
+
+                <div className="scenario-action-buttons">
+                  <div className="edit-mission-btn">
+                    <Icon icon={faEdit} className="action-button-icon" />
+                    <span className="action-button-label">Edit mission</span>
+                  </div>
+                  <div className="workers-btn">
+                    <img src={logo} className="action-button-image" alt="Workers" />
+                    <span className="action-button-label">0 Workers</span>
+                  </div>
+                </div>
+
+                <div className="user-info">
+                  <div className="user-avatar-wrap">
+                    <div
+                      className="user-avatar"
+                      style={{
+                        backgroundImage: `url("${avatar || genericAvatar}")`
+                      }}
+                    />
                   </div>
 
-                  <section className={newUpdateOpen ? "updates-wrap" : "updates-wrap open"}>
-                    {this.buildUpdates().map((update, _index) => <Update {...update} key={`update${_index}`} />)}
-                  </section>
-                </article>
+                  <div className="scenario-user">
+                    <div className="user-name">
+                      {toFirstCap(requester_firstname)} {toFirstCap(requester_lastname)}
+                    </div>
+                    <div className="user-vouched-status">
+                      <Icon icon={faCheck} />
+                    </div>
+                  </div>
 
-                <article className={tab === "advocates" ? "tab active" : "tab"} />
-              </div>
-            </section>
-          </div>
+                  <div className="scenario-location">
+                    <div className="location-name">Pearlington, Louisiana</div>
+                    <div className="location-icon">
+                      <Icon icon={faMapMarkerAlt} />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="scenario-description">
+                  {custom_message ||
+                    "My roof was damaged in Hurricane Katrina. I need your help to cover it. Can have more info here to help tell the story and convince people to do this."}
+                </div>
+
+                <section className="scenario-tags">
+                  <div className="scenario-event-location tag">{event}</div>
+                  <ul className="tag-list">
+                    <li className="tag inactive-tag">#Driving</li>
+                    <li className="tag inactive-tag">#Logistics</li>
+                    <li className="tag inactive-tag">#Roofing</li>
+                  </ul>
+                </section>
+              </section>
+            </Fragment>
+          )}
         </Page>
       )
     } else {
@@ -682,19 +445,3 @@ export default class Info extends Component {
     }
   }
 }
-
-const Update = props => (
-  <article className={`update ${props.role}-update`}>
-    <aside className="update-avatar-wrap">
-      <div className="update-user-info">
-        <div className="user-avatar" style={{ backgroundImage: `url("${props.avatar || genericAvatar}")` }} />
-        <div className="user-name">{props.firstName}</div>
-      </div>
-    </aside>
-    <section className="update-message">
-      <div className="message-pin" />
-      <div className="message-content">{props.message}</div>
-      <div className="message-timestamp">{props.timestamp}</div>
-    </section>
-  </article>
-)
