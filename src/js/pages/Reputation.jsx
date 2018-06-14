@@ -38,13 +38,11 @@ export default class Reputation extends Component {
   userDataMount = () => {
     Database.getUserById({ id: this.state.userId })
       .then(result => {
-        // console.log("User successfully found:", result)
         this.setState({
           currentUserData: result.body.data.attributes
         })
       })
       .catch(error => {
-        // console.error("Error getting user:", error)
         this.setState({
           currentUserData: null
         })
@@ -55,15 +53,11 @@ export default class Reputation extends Component {
 
     Database.getUserDonations(json)
       .then(result => {
-        const { data } = result.body
-        // console.info("Donations call complete:", data)
-
         this.setState({
-          userDonations: data
+          userDonations: result.body.data
         })
       })
       .catch(error => {
-        // console.error("Error getting donations:", error)
         this.setState({
           userDonations: null
         })
@@ -74,15 +68,11 @@ export default class Reputation extends Component {
 
     Database.getUserDos(json)
       .then(result => {
-        const { data } = result.body
-        // console.info("Dos call complete:", data)
-
         this.setState({
-          userDos: data
+          userDos: result.body.data
         })
       })
       .catch(error => {
-        // console.error("Error getting dos:", error)
         this.setState({
           userDos: null
         })
@@ -93,15 +83,11 @@ export default class Reputation extends Component {
 
     Database.getUserRequests(json)
       .then(result => {
-        const { data } = result.body
-        // console.info("Requests call complete:", data)
-
         this.setState({
-          userRequests: data
+          userRequests: result.body.data
         })
       })
       .catch(error => {
-        // console.error("Error getting requests:", error)
         this.setState({
           userRequests: null
         })
@@ -112,15 +98,11 @@ export default class Reputation extends Component {
 
     Database.getUserVouches(json)
       .then(result => {
-        const { data } = result.body
-        // console.info("Vouches call complete:", data)
-
         this.setState({
-          userVouches: data
+          userVouches: result.body.data
         })
       })
       .catch(error => {
-        // console.error("Error getting vouches:", error)
         this.setState({
           userVouches: null
         })

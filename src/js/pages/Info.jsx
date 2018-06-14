@@ -58,12 +58,9 @@ export default class Info extends Component {
   componentDidMount = () => {
     Database.getScenarioWithChildren({ id: this.state.scenarioId })
       .then(result => {
-        const { data, included } = result.body
-        // console.info("Success getting scenario:", data, included)
-
         this.setState({
-          scenarioData: data,
-          childrenScenarioData: included
+          scenarioData: result.body.data,
+          childrenScenarioData: result.body.included
         })
 
         this.mountRequesterData(this.state.scenarioId)
@@ -72,8 +69,6 @@ export default class Info extends Component {
         invalidateRequests(Database.getScenarioWithChildren)
       })
       .catch(error => {
-        // console.error("Error getting scenarios:", error)
-
         this.setState({
           scenarioData: null,
           childrenScenarioData: null
@@ -92,19 +87,14 @@ export default class Info extends Component {
       if (!this.checkForMissionComplete()) {
         Database.getScenarioWithChildren({ id: scenarioId })
           .then(result => {
-            const { data, included } = result.body
-            // console.info("Success getting scenario:", data, included)
-
             this.setState({
-              scenarioData: data,
-              childrenScenarioData: included
+              scenarioData: result.body.data,
+              childrenScenarioData: result.body.included
             })
 
             invalidateRequests(Database.getScenarioWithChildren)
           })
           .catch(error => {
-            // console.error("Error getting scenarios:", error)
-
             this.setState({
               scenarioData: null,
               childrenScenarioData: null
@@ -119,16 +109,11 @@ export default class Info extends Component {
   mountRequesterData = id => {
     Database.getScenarioRequester({ id })
       .then(result => {
-        const { included } = result.body
-        // console.info("Success getting scenario requester:", included)
-
         this.setState({
-          requesterData: included[0]
+          requesterData: result.body.included[0]
         })
       })
       .catch(error => {
-        // console.error("Error getting scenarios:", error)
-
         this.setState({
           requesterData: null
         })

@@ -27,15 +27,11 @@ export default class MissionControl extends Component {
 
     Database.getUserDos(json)
       .then(result => {
-        const { data } = result.body
-        // console.info("Dos call complete:", data)
-
         this.setState({
-          userDos: data
+          userDos: result.body.data
         })
       })
       .catch(error => {
-        // console.error("Error getting dos:", error)
         this.setState({
           userDos: null
         })

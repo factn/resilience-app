@@ -39,13 +39,10 @@ export default class Account extends Component {
 
     Database.createUser(json)
       .then(result => {
-        // console.log("User successfully created:", result)
         Cookies.set("userId", result.body.data.id)
         this.props.history.push("/profile")
       })
-      .catch(error => {
-        // console.error("Error creating user:", error)
-      })
+      .catch(error => {})
   }
 
   render() {
@@ -73,8 +70,10 @@ export default class Account extends Component {
 
     return (
       <Page className="create-account-page" header={header} footer={footer}>
-        <a className="btn j4r-link" href="https://j4r-uat.herokuapp.com/permissions/">Sign up with J4R!</a>
-      
+        <a className="btn j4r-link" href="https://j4r-uat.herokuapp.com/permissions/">
+          Sign up with J4R!
+        </a>
+
         <hr className="setting-divider" />
 
         <SessionSetting className="name-setting" headerLabel="Name">
@@ -98,7 +97,7 @@ export default class Account extends Component {
             <input type="password" placeholder="Confirm your password" id="password_confirmation" />
           </SessionCard>
         </SessionSetting>
-      
+
         <hr className="setting-divider" />
 
         <SessionSetting headerLabel="Add a photo">

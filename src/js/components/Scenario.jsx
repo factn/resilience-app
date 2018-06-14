@@ -446,12 +446,9 @@ export default class Scenario extends Component {
 
     Database.createUserAdInteraction(json)
       .then(result => {
-        // console.log("User ad interaction successfully created:", result)
         this.props.removeFromFeed()
       })
-      .catch(error => {
-        // console.error("Error creating user ad interaction:", error)
-      })
+      .catch(error => {})
   }
   acceptScenario = params => {
     const json = {
@@ -489,7 +486,6 @@ export default class Scenario extends Component {
 
     Database.createUserAdInteraction(json)
       .then(result => {
-        // console.log("User ad interaction successfully created:", result)
         if (this.adType() === "3") {
           this.donate({
             amount: params.amount,
@@ -497,9 +493,7 @@ export default class Scenario extends Component {
           })
         }
       })
-      .catch(error => {
-        // console.error("Error creating user ad interaction:", error)
-      })
+      .catch(error => {})
   }
   donate = params => {
     const json = {
@@ -526,12 +520,8 @@ export default class Scenario extends Component {
     }
 
     Database.createDonation(json)
-      .then(result => {
-        // console.log("Donation successfully created:", result)
-      })
-      .catch(error => {
-        // console.error("Error creating donation:", error)
-      })
+      .then(result => {})
+      .catch(error => {})
   }
   becomeDoer = params => {
     const json = {
@@ -551,13 +541,9 @@ export default class Scenario extends Component {
 
     Database.updateScenario({ id: params.scenarioId }, json)
       .then(result => {
-        // console.log("Scenario successfully udpated:", result)
-        
         this.props.doerPageRoute()
       })
-      .catch(error => {
-        // console.error("Error updating scenario:", error)
-      })
+      .catch(error => {})
   }
 
   render() {

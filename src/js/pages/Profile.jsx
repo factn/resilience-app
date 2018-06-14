@@ -26,13 +26,11 @@ export default class Profile extends Component {
   componentDidMount = () => {
     Database.getUserById({ id: this.state.userId })
       .then(result => {
-        // console.log("User successfully found:", result)
         this.setState({
           currentUserData: result.body.data.attributes
         })
       })
       .catch(error => {
-        // console.error("Error getting user:", error)
         this.setState({
           currentUserData: null
         })

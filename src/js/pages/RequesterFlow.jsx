@@ -46,18 +46,16 @@ export default class RequesterFlow extends Component {
       .then(result => {
         const { defaultEvent, nounEvent, verbEvent } = this.state
         const { data } = result.body
-
-        // console.info("Database call complete:", data)
+        const { event, noun, verb } = data.attributes
 
         this.setState({
           scenarioData: data,
-          defaultEvent: data.attributes.event || defaultEvent,
-          nounEvent: data.attributes.noun || nounEvent,
-          verbEvent: data.attributes.verb || verbEvent
+          defaultEvent: event || defaultEvent,
+          nounEvent: noun || nounEvent,
+          verbEvent: verb || verbEvent
         })
       })
       .catch(error => {
-        // console.error("Error getting scenarios:", error)
         this.setState({
           scenarioData: null
         })
@@ -66,14 +64,11 @@ export default class RequesterFlow extends Component {
   setEventData = () => {
     Database.getEvents()
       .then(result => {
-        const { data } = result.body
-        // console.info("Events call complete:", data)
         this.setState({
-          eventData: data
+          eventData: result.body.data
         })
       })
       .catch(error => {
-        // console.error("Error getting events:", error)
         this.setState({
           eventData: []
         })
@@ -82,15 +77,11 @@ export default class RequesterFlow extends Component {
   setNounData = () => {
     Database.getNouns()
       .then(result => {
-        const { data } = result.body
-        // console.info("Nouns call complete:", data)
-
         this.setState({
-          nounData: data
+          nounData: result.body.data
         })
       })
       .catch(error => {
-        // console.error("Error getting nouns:", error)
         this.setState({
           nounData: []
         })
@@ -99,15 +90,11 @@ export default class RequesterFlow extends Component {
   setVerbData = () => {
     Database.getVerbs()
       .then(result => {
-        const { data } = result.body
-        // console.info("Verbs call complete:", data)
-
         this.setState({
-          verbData: data
+          verbData: result.body.data
         })
       })
       .catch(error => {
-        // console.error("Error getting verbs:", error)
         this.setState({
           verbData: []
         })
@@ -158,14 +145,9 @@ export default class RequesterFlow extends Component {
 
     Database.createScenario(json)
       .then(result => {
-        const { data } = result.body
-        // console.log("Scenario successfully created:", data)
-
-        this.props.history.push(`/${data.id}/requester`)
+        this.props.history.push(`/${result.body.data.id}/requester`)
       })
-      .catch(error => {
-        // console.error("Error creating scenario:", error)
-      })
+      .catch(error => {})
   }
 
   render() {

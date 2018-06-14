@@ -35,7 +35,6 @@ export default class Confirmation extends Component {
     Database.getScenarioWithChildren({ id: this.state.parentScenarioId })
       .then(result => {
         const { data } = result.body.data.relationships.children_scenario
-        // console.info("Success getting scenario:", data)
         let idList = []
 
         this.setState({
@@ -49,7 +48,6 @@ export default class Confirmation extends Component {
         this.setChildrenScenarioData(idList)
       })
       .catch(error => {
-        // console.error("Error getting scenarios:", error)
         this.setState({
           scenarioData: null
         })
@@ -63,8 +61,6 @@ export default class Confirmation extends Component {
           const { data } = result.body
           const { noun, verb } = data.attributes
 
-          // console.info("Success getting child scenario:", data)
-
           if (noun === this.state.noun && verb === this.state.verb) {
             this.setState({
               scenarioData: data,
@@ -72,9 +68,7 @@ export default class Confirmation extends Component {
             })
           }
         })
-        .catch(error => {
-          // console.error("Error getting child scenario:", error)
-        })
+        .catch(error => {})
     }
   }
 
@@ -109,14 +103,9 @@ export default class Confirmation extends Component {
 
     Database.createVouch(json)
       .then(result => {
-        // const { data } = result.body
-        // console.log("Vouch successfully created:", data)
-
         this.props.history.push(`/${parentScenarioId}/${role}`)
       })
-      .catch(error => {
-        // console.error("Error creating vouch:", error)
-      })
+      .catch(error => {})
   }
 
   render() {

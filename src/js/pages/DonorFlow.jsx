@@ -41,13 +41,9 @@ export default class DonatorFlow extends Component {
 
     Database.updateUser({ id: userId }, json)
       .then(result => {
-        // console.log("User successfully updated:", result)
-
         this.props.history.push("/feed/donor")
       })
-      .catch(error => {
-        // console.error("Error updating user:", error)
-      })
+      .catch(error => {})
   }
 
   render() {
