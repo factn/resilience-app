@@ -10,7 +10,10 @@ import {
   faArrowCircleUp,
   faEllipsisH,
   faPlusCircle,
-  faChevronCircleRight
+  faChevronCircleRight,
+  faClock,
+  faPhone,
+  faCommentAlt
 } from "@fortawesome/fontawesome-free-solid"
 
 // Page wrapper
@@ -19,16 +22,18 @@ import Page from "./Page"
 // Page elements
 import Loader from "../components/Loader"
 import MiniMap from "../components/MiniMap"
+import Task from "../components/Task"
 
 // Inputs
 import TextArea from "../components/inputs/TextArea"
 
 // Local JS Utilities
 import Database from "../resources/Database"
-import { toFirstCap, moneyfy, gradientStyle } from "../resources/Util"
+import { toFirstCap, moneyfy } from "../resources/Util"
 
 // Images
 import genericAvatar from "../../img/fb-profile.jpg"
+import hon3yIcon from "../../img/hon3y.png"
 /*** [end of imports] ***/
 
 export default class Info extends Component {
@@ -38,6 +43,7 @@ export default class Info extends Component {
     tab: this.props.match.params.tab || "overview",
     scenarioData: null,
     childrenScenarioData: null,
+    requesterData: null,
     buttonOverride: false,
     materialsDone: null,
     transportDone: null,
@@ -49,6 +55,7 @@ export default class Info extends Component {
     missionComplete: false,
     missionCompleteOpen: false,
     newUpdateOpen: false,
+    taskListOpen: false,
     dataRefreshRate: 5000 // Every 5 seconds check for map pin changes
   }
 
@@ -62,6 +69,8 @@ export default class Info extends Component {
           scenarioData: data,
           childrenScenarioData: included
         })
+
+        this.mountRequesterData(this.state.scenarioId)
         this.createRefresh()
 
         invalidateRequests(Database.getScenarioWithChildren)
@@ -75,6 +84,7 @@ export default class Info extends Component {
         })
       })
   }
+
   componentWillUnmount = () => {
     clearInterval(this.autoRefresh)
   }
@@ -108,6 +118,25 @@ export default class Info extends Component {
         clearInterval(this.autoRefresh)
       }
     }, dataRefreshRate)
+  }
+
+  mountRequesterData = id => {
+    Database.getScenarioRequester({ id })
+      .then(result => {
+        const { included } = result.body
+        // console.info("Success getting scenario requester:", included)
+
+        this.setState({
+          requesterData: included[0]
+        })
+      })
+      .catch(error => {
+        // console.error("Error getting scenarios:", error)
+
+        this.setState({
+          requesterData: null
+        })
+      })
   }
 
   getBackLink = () => {
@@ -353,6 +382,12 @@ export default class Info extends Component {
     })
   }
 
+  toggleTaskList = () => {
+    this.setState({
+      taskListOpen: !this.state.taskListOpen
+    })
+  }
+
   postNewUpdate = params => {
     // TODO: submit update message and add to the updates list
 
@@ -362,33 +397,38 @@ export default class Info extends Component {
   }
 
   render() {
-    if (this.state.scenarioData) {
+    const { scenarioData, requesterData } = this.state
+
+    if (scenarioData && requesterData) {
       const {
         scenarioId,
-        scenarioData,
         role,
         tab,
         notificationOpen,
         notificationScenarioId,
         missionCompleteOpen,
-        newUpdateOpen
+        newUpdateOpen,
+        taskListOpen
       } = this.state
 
       const {
         event,
         image,
-        donated,
-        funding_goal,
         requester_firstname,
         requester_lastname,
         requesterlat,
         requesterlon,
+        doer_firstname,
         doerlat,
         doerlon,
         noun,
         verb,
-        custom_message
+        custom_message,
+        updated_at,
+        donated
       } = scenarioData.attributes
+
+      const { avatar } = requesterData.attributes
 
       let mapPos = {
         lat: requesterlat,
@@ -400,12 +440,6 @@ export default class Info extends Component {
           lng: doerlon
         }
       ]
-
-      let fundingGoalSliderStyle = gradientStyle({
-        dividend: donated,
-        divisor: funding_goal,
-        endColor: "#fff"
-      })
 
       const notificationProps = {
         notification: true,
@@ -515,6 +549,89 @@ export default class Info extends Component {
                     <div className="scenario-event-location">{event}</div>
                     <div className="scenario-severity">Urgent</div>
                   </section>
+
+                  <MiniMap initialCenter={mapPos} pins={doerPins} />
+
+                  <h4 className="task-box-title">Workers</h4>
+
+                  <section className="task-box">
+                    <header className="tasks-header">
+                      <div className="user-avatar-wrap">
+                        <Link to={`/reputation/${requesterData.id}`}>
+                          <div
+                            className="user-avatar"
+                            style={{
+                              backgroundImage: `url("${avatar || genericAvatar}")`
+                            }}
+                          />
+                        </Link>
+                      </div>
+
+                      <div className="user-info">
+                        <div className="user-name">
+                          <Link to={`/reputation/${requesterData.id}`}>{doer_firstname || "John"}</Link>
+                        </div>
+                        <div className="user-hon3y">
+                          <img src={hon3yIcon} alt="HON3Y" className="hon3y-icon" />
+                          <span className="hon3y-score"> 4.35</span>
+                        </div>
+                      </div>
+
+                      <div className="mission-info">
+                        <Icon icon={faClock} className="time-left-icon" />
+                        <div className="time-left-label">Time left:</div>
+                        <div className="time-left">48:00 hours</div>
+                        <div className="time-joined">Joined this mission {new Date(updated_at).toDateString()}</div>
+                      </div>
+                    </header>
+
+                    <article className="tasks-body">
+                      <header className="task-overview">
+                        <div className="task-overview-left">
+                          <span className="task-number">6</span>
+                          <span> Tasks</span>
+                          <div className="notification-button">1</div>
+                        </div>
+                        <div className="task-overview-right">
+                          <div className="donation-amount">{moneyfy(donated, 2)}</div>
+                          <div className="task-category-counts" onClick={() => this.toggleTaskList()}>3 to review, 3 completed, 3 in progress</div>
+                        </div>
+                      </header>
+
+                      <div className={taskListOpen ? "task-list-collapse-wrap open" : "task-list-collapse-wrap"}>
+                        <div className="task-list review-list">
+                          <h5 className="task-list-title">To Review</h5>
+                          <Task />
+                          <Task />
+                          <Task />
+                        </div>
+                        <div className="task-list finished-list">
+                          <h5 className="task-list-title">Finished</h5>
+                          <Task />
+                          <Task />
+                          <Task />
+                        </div>
+                        <div className="task-list in-progress-list">
+                          <h5 className="task-list-title">In Progress</h5>
+                          <Task />
+                          <Task />
+                          <Task />
+                        </div>
+                      </div>
+                    </article>
+
+                    <footer className="tasks-footer">
+                      <ul className="tasks-footer-actions">
+                        <li className="tasks-footer-action">Contact</li>
+                        <li className="tasks-footer-action">
+                          <Icon icon={faCommentAlt} className="action-icon" />
+                        </li>
+                        <li className="tasks-footer-action">
+                          <Icon icon={faPhone} className="action-icon" />
+                        </li>
+                      </ul>
+                    </footer>
+                  </section>
                 </article>
 
                 <article className={tab === "instructions" ? "tab active" : "tab"}>
@@ -556,20 +673,6 @@ export default class Info extends Component {
                 <article className={tab === "advocates" ? "tab active" : "tab"} />
               </div>
             </section>
-
-            <MiniMap initialCenter={mapPos} pins={doerPins} />
-
-            <footer className="scenario-footer">
-              <div className="funding-goal-label">
-                <span>To fully fund </span>
-                <span className="dollar-amount">{moneyfy(funding_goal - donated)}</span>
-              </div>
-              <div className="funding-progress-slider" id={`${event}_fundingGoal`} style={fundingGoalSliderStyle} />
-              <div className="funding-goal-label">
-                Target <span className="dollar-amount">{moneyfy(funding_goal)}</span>
-              </div>
-              <div className="funding-goal-summary">450 donors, {moneyfy(donated)} donated</div>
-            </footer>
           </div>
         </Page>
       )

@@ -40,8 +40,8 @@ export function getScenarioIdFromURL(url) {
   return url.split("/")[1]
 }
 
-export function moneyfy(str) {
-  return `$${parseInt(str, 10).toFixed(0)}`
+export function moneyfy(str, decimals = 0) {
+  return `$${parseInt(str, 10).toFixed(decimals)}`
 }
 
 export function gradientPercent(dividend, divisor) {

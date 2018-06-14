@@ -4,7 +4,7 @@ import React, { Component } from "react"
 import { Link } from "react-router-dom"
 import Cookies from "js-cookie"
 import Icon from "@fortawesome/react-fontawesome"
-import { faCheck } from "@fortawesome/fontawesome-free-solid"
+import { faCheck, faSmile, faFrown } from "@fortawesome/fontawesome-free-solid"
 
 // Page wrapper
 import Page from "./Page"
@@ -15,10 +15,6 @@ import Loader from "../components/Loader"
 // Utilities
 import Database from "../resources/Database"
 import { toFirstCap } from "../resources/Util"
-
-// Icons
-import catRed from "../../img/cat-red.svg"
-import catGreen from "../../img/cat-green.svg"
 /*** [end of imports] ***/
 
 export default class Reputation extends Component {
@@ -221,8 +217,7 @@ const MiniList = props => (
 
           return (
             <div key={vouch.id} className={positive ? "vouch positive" : "vouch negative"}>
-              <img src={positive ? catGreen : catRed} alt="cat" />
-              {/* <Icon icon={positive ? faSmile : faFrown} /> */}
+              <Icon icon={positive ? faSmile : faFrown} />
             </div>
           )
         } else if (index === 9) {
