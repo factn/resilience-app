@@ -269,7 +269,7 @@ export default class Info extends Component {
                   </header>
 
                   <section className="task-box review-task-box">
-                    <Task avatar={avatar} name="Organize materials" price={25} />
+                    <Task avatar={avatar} name="Organize materials" price={25} scenarioId={scenarioId} />
                   </section>
                 </section>
 
@@ -330,18 +330,23 @@ export default class Info extends Component {
                       <div className={taskListOpen ? "task-list-collapse-wrap open" : "task-list-collapse-wrap"}>
                         <div className="task-list review-list">
                           <h5 className="task-list-title">To Review</h5>
-                          <Task avatar={avatar} name="Organize materials" price={25} />
-                          <Task avatar={avatar} name="Collect donations for materials" price={25} />
+                          <Task avatar={avatar} name="Organize materials" price={25} scenarioId={scenarioId} />
+                          <Task
+                            avatar={avatar}
+                            name="Collect donations for materials"
+                            price={25}
+                            scenarioId={scenarioId}
+                          />
                         </div>
                         <div className="task-list finished-list">
                           <h5 className="task-list-title">Finished</h5>
-                          <Task avatar={avatar} name="Pick up volunteer labor" price={25} />
-                          <Task avatar={avatar} name="Pick up materials" price={25} />
+                          <Task avatar={avatar} name="Pick up volunteer labor" price={25} scenarioId={scenarioId} />
+                          <Task avatar={avatar} name="Pick up materials" price={25} scenarioId={scenarioId} />
                         </div>
                         <div className="task-list in-progress-list">
                           <h5 className="task-list-title">In Progress</h5>
-                          <Task avatar={avatar} name="Patch roof" price={25} />
-                          <Task avatar={avatar} name="Paint and seal roof" price={25} />
+                          <Task avatar={avatar} name="Patch roof" price={25} scenarioId={scenarioId} />
+                          <Task avatar={avatar} name="Paint and seal roof" price={25} scenarioId={scenarioId} />
                         </div>
                       </div>
                     </article>

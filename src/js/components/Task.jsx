@@ -1,11 +1,11 @@
 /*** IMPORTS ***/
 // Module imports
 import React, { Component } from "react"
+import { Link } from "react-router-dom"
 import Icon from "@fortawesome/react-fontawesome"
 import { faThumbsDown, faComment, faThumbsUp } from "@fortawesome/fontawesome-free-solid"
 
 // Local JS Utilities
-import Database from "../resources/Database"
 import { moneyfy } from "../resources/Util"
 
 // Images
@@ -97,50 +97,17 @@ export default class Task extends Component {
     })
   }
 
-  vouch = params => {
-    const json = {
-      type: "vouches",
-      attributes: {
-        description: params.comment || ""
-      },
-      relationships: {
-        scenario: {
-          data: {
-            type: "scenarios",
-            id: "1"
-          }
-        },
-        verifier: {
-          data: {
-            type: "users",
-            id: "1"
-          }
-        }
-      }
-    }
-
-    Database.createVouch(json)
-      .then(result => {
-        // console.log("Vouch complete:", result)
-
-        this.setUserCookie(result)
-      })
-      .catch(error => {
-        // console.error("Error vouching:", error)
-      })
-  }
-
   render() {
     const { style, moving } = this.state
-    const { name, price, avatar } = this.props
+    const { name, price, avatar, scenarioId } = this.props
 
     return (
       <section className={moving ? "task-wrap moving" : "task-wrap"}>
         <div className="task-action-wrapper before-task-actions">
-          <div className="task-action green-action" onClick={() => this.vouch()}>
+          <Link className="task-action green-action" to={`/${scenarioId}/requester/confirmation`}>
             <Icon icon={faThumbsUp} className="task-action-icon" />
             <div className="task-label">Finished!</div>
-          </div>
+          </Link>
         </div>
         <div
           className={moving ? "task moving" : "task"}
@@ -161,14 +128,14 @@ export default class Task extends Component {
           <div className="price">{moneyfy(price, 2)}</div>
         </div>
         <div className="task-action-wrapper after-task-actions">
-          <div className="task-action orange-action" onClick={() => this.vouch()}>
+          <Link className="task-action orange-action" to={`/${scenarioId}/requester/confirmation`}>
             <Icon icon={faThumbsDown} className="task-action-icon" />
             <div className="task-label">Not quite</div>
-          </div>
-          <div className="task-action gray-action" onClick={() => this.vouch()}>
+          </Link>
+          <Link className="task-action gray-action" to={`/${scenarioId}/requester/confirmation`}>
             <Icon icon={faComment} className="task-action-icon" />
             <div className="task-label">Comment</div>
-          </div>
+          </Link>
         </div>
       </section>
     )
