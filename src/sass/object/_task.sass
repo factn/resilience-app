@@ -1,0 +1,69 @@
+.task-wrap
+  position: relative
+  margin: 0 -1rem
+  z-index: 1
+
+  &.moving
+    z-index: 2
+
+  .task-action-wrapper
+    position: absolute
+    top: 0
+    z-index: 2
+
+  .before-task-actions
+    left: 0
+
+  .after-task-actions
+    right: 0
+  
+.task
+  +inline-flex
+
+  position: relative
+  background: $task-box-bg
+  padding: 1rem 1.5rem
+  height: 3.5rem
+  z-index: 3
+  transition:
+    property: box-shadow
+    duration: $fast
+    timing-function: $cubic
+
+  &.moving
+    box-shadow: $card-shadow, inset 0 0 0 0.125rem $white
+
+  .task-name,
+  .status
+    +inline-flex-item(45%)
+
+  .status
+    color: rgba($blue, 0.75)
+    text-align: right
+    font-style: italic
+
+    &.light-status
+      color: rgba($black, 0.5)
+
+.task-action
+  display: inline-block
+  color: $white
+  padding: 0.5rem
+  text-align: center
+  width: 5rem
+
+  &.green-action
+    background: $green-dark
+
+  &.orange-action
+    background: $orange
+
+  &.gray-action
+    background: darken($white, 40%)
+
+  .task-action-icon
+    font-size: 1.5rem
+
+  .task-label
+    text-transform: uppercase
+    font-size: 0.75rem

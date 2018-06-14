@@ -118,6 +118,22 @@
   .task-list-collapse-wrap
     max-height: 0
     opacity: 0
+    transition:
+      property: max-height, opacity
+      duration: $fast
+      timing-function: $cubic
+
+    &.open
+      max-height: 30rem
+      opacity: 1
+
+  .task-list-title
+    font-size: 0.75rem
+    text-transform: uppercase
+    padding: 0.5rem
+
+  .task-list
+    +spacer-with-border("top", 0.5rem, 0.125rem, rgba($white, 0.5))
 
 .tasks-footer
   +spacer-with-border("top", 0.5rem, 0.0625rem, rgba($black, 0.4))
