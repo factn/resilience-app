@@ -34,13 +34,9 @@ export default class Login extends Component {
 
       Database.attemptLogin(json)
         .then(result => {
-          // console.log("Login complete:", result)
-
           this.setUserCookie(result)
         })
-        .catch(error => {
-          // console.error("Error getting user:", error)
-        })
+        .catch(error => {})
     }
   }
   setUserCookie = userId => {

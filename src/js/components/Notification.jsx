@@ -21,15 +21,11 @@ export default class Notification extends Component {
     if (id && !this.state.scenarioData) {
       Database.getScenario({ id })
         .then(result => {
-          const { data } = result.body
-          // console.info("Success getting scenario:", data)
-
           this.setState({
-            scenarioData: data
+            scenarioData: result.body.data
           })
         })
         .catch(error => {
-          // console.error("Error getting scenarios:", error)
           this.setState({
             scenarioData: null
           })
@@ -72,7 +68,7 @@ export default class Notification extends Component {
           <button className="btn dismiss-btn" onClick={() => dismiss()}>
             Dismiss
           </button>
-          
+
           <Link className="btn view-btn" to={this.buildLink()}>
             Vouch for their work
           </Link>

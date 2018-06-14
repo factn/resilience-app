@@ -17,33 +17,29 @@ class MiniMap extends Component {
     markerPos: this.props.initialCenter
   }
 
-  // mapClicked(mapProps, map, clickEvent) {
-  //   const json = {
-  //     data: {
-  //       type: "users",
-  //       id: 1,
-  //       attributes: {
-  //         latitude: clickEvent.latLng.lat().toString(),
-  //         longitude: clickEvent.latLng.lng().toString()
-  //       }
-  //     }
-  //   }
+  mapClicked(mapProps, map, clickEvent) {
+    const json = {
+      data: {
+        type: "users",
+        id: 1,
+        attributes: {
+          latitude: clickEvent.latLng.lat().toString(),
+          longitude: clickEvent.latLng.lng().toString()
+        }
+      }
+    }
 
-  //   this.setState({
-  //     markerPos: {
-  //       lat: clickEvent.latLng.lat(),
-  //       lng: clickEvent.latLng.lng()
-  //     }
-  //   })
+    this.setState({
+      markerPos: {
+        lat: clickEvent.latLng.lat(),
+        lng: clickEvent.latLng.lng()
+      }
+    })
 
-  //   Database.updateUser({ id: 1 }, json)
-  //     .then(result => {
-  //       // console.log("User successfully updated:", result)
-  //     })
-  //     .catch(error => {
-  //       // console.error("Error updating user:", error)
-  //     })
-  // }
+    Database.updateUser({ id: 1 }, json)
+      .then(result => {})
+      .catch(error => {})
+  }
 
   render() {
     const { google, initialCenter, pins } = this.props

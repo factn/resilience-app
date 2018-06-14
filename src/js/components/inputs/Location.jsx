@@ -25,15 +25,11 @@ export default class Location extends Component {
     geocodeByAddress(address)
       .then(results => getLatLng(results[0]))
       .then(latLng => {
-        // console.info("Success", latLng)
-
         this.setState({
           latLng
         })
       })
-      .catch(error => {
-        // console.error("Error", error)
-      })
+      .catch(error => {})
   }
   handleLatChange = e => e.target.value
   handleLonChange = e => e.target.value
@@ -60,7 +56,10 @@ export default class Location extends Component {
     return (
       <Fragment>
         <InputIconWrap id={inputID} icon={faMapMarkerAlt}>
-          <div className={disabledField ? "input-wrap disabled-input places-autocomplete" : "input-wrap places-autocomplete"}>
+          <div
+            className={
+              disabledField ? "input-wrap disabled-input places-autocomplete" : "input-wrap places-autocomplete"
+            }>
             <PlacesAutocomplete
               value={this.state.address}
               onChange={this.handleChange}

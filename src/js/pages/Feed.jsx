@@ -121,16 +121,12 @@ export default class Feed extends Component {
   mountFeedScenarios = () => {
     Database.scenarioFeed()
       .then(result => {
-        const { data } = result.body
-        // console.info("Database call complete:", data)
-
         this.setState({
-          scenarioData: this.filterFeed(data, 0),
+          scenarioData: this.filterFeed(result.body.data, 0),
           cardsOnPage: 3
         })
       })
       .catch(error => {
-        // console.error("Error getting scenarios:", error)
         this.setState({
           feedOffset: 0,
           scenarioData: null,
@@ -142,15 +138,12 @@ export default class Feed extends Component {
     Database.getUserById({ id: this.state.userId })
       .then(result => {
         const { default_total_session_donation, default_swipe_donation } = result.body.data.attributes
-        // console.log("User successfully found:", result.body.data)
-
         this.setState({
           default_total_session_donation,
           default_swipe_donation
         })
       })
       .catch(error => {
-        // console.error("Error getting user:", error)
         this.setState({
           default_total_session_donation: null,
           default_swipe_donation: null
@@ -165,13 +158,10 @@ export default class Feed extends Component {
     if (cardsOnPage === 1) {
       Database.scenarioFeed()
         .then(result => {
-          const { data } = result.body
-          // console.info("Next in feed call complete:", data)
-
           this.setState({
             feedOffset: 0,
             resultsOffset: resultsOffset + 3,
-            scenarioData: this.filterFeed(data, resultsOffset + 3),
+            scenarioData: this.filterFeed(result.body.data, resultsOffset + 3),
             cardsOnPage: 3
           })
           if (directionSwiped === "right") {
@@ -186,7 +176,6 @@ export default class Feed extends Component {
           }
         })
         .catch(error => {
-          // console.error("Error getting scenarios:", error)
           this.setState({
             feedOffset: 0,
             scenarioData: null
