@@ -7,13 +7,7 @@ import Cookies from "js-cookie"
 import Page from "./Page"
 
 // Page elements
-import SessionSetting from "../components/SessionSetting"
-import SessionCard from "../components/SessionCard"
 import StarRating from "../components/StarRating"
-
-// Inputs
-import Image from "../components/inputs/Image"
-import TextArea from "../components/inputs/TextArea"
 import Submit from "../components/inputs/Submit"
 
 // Local JS Utilities
