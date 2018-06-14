@@ -6,6 +6,10 @@ import { faThumbsDown, faComment, faThumbsUp } from "@fortawesome/fontawesome-fr
 
 // Local JS Utilities
 import Database from "../resources/Database"
+import { moneyfy } from "../resources/Util"
+
+// Images
+import genericAvatar from "../../img/fb-profile.jpg"
 /*** [end of imports] ***/
 
 export default class Task extends Component {
@@ -128,7 +132,7 @@ export default class Task extends Component {
 
   render() {
     const { style, moving } = this.state
-    const { name, status, reviewStatus, finishedDate } = this.props
+    const { name, price, avatar } = this.props
 
     return (
       <section className={moving ? "task-wrap moving" : "task-wrap"}>
@@ -145,12 +149,16 @@ export default class Task extends Component {
           onTouchStart={e => this.handleTouchStart(e)}
           onTouchMove={e => this.handleTouchMove(e)}
           onTouchEnd={e => this.handleTouchEnd(e)}>
-          <div className="task-name">{name}</div>
-          <div className={status !== "In progress" ? "status light-status" : "status"}>
-            {status === "To review" && reviewStatus}
-            {status === "Finished" && `Finished ${finishedDate}`}
-            {status === "In progress" && "In progress"}
+          <div className="worker-avatar-wrap">
+            <div
+              className="worker-avatar"
+              style={{
+                backgroundImage: `url("${avatar || genericAvatar}")`
+              }}
+            />
           </div>
+          <div className="task-name">{name}</div>
+          <div className="price">{moneyfy(price, 2)}</div>
         </div>
         <div className="task-action-wrapper after-task-actions">
           <div className="task-action orange-action" onClick={() => this.vouch()}>

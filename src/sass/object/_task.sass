@@ -21,9 +21,9 @@
   +inline-flex
 
   position: relative
-  background: $task-box-bg
-  padding: 1rem 1.5rem
+  background: $white
   height: 3.5rem
+  padding: 0.25rem
   z-index: 3
   transition:
     property: box-shadow
@@ -31,19 +31,26 @@
     timing-function: $cubic
 
   &.moving
-    box-shadow: $card-shadow, inset 0 0 0 0.125rem $white
+    box-shadow: $card-shadow
+
+  .worker-avatar-wrap
+    +inline-flex-item(3rem)
+    padding: 0.25rem 0.5rem 0 1rem
+
+  .worker-avatar
+    +circle-photo-wrap(2.5rem)
 
   .task-name,
-  .status
-    +inline-flex-item(45%)
+  .price
+    padding: 1rem 1.25rem
 
-  .status
-    color: rgba($blue, 0.75)
-    text-align: right
-    font-style: italic
+  .task-name
+    +inline-flex-item(60%, 3)
+    font-weight: $bold-weight
 
-    &.light-status
-      color: rgba($black, 0.5)
+  .price
+    +inline-flex-item(5rem)
+    border-left: 0.0625rem solid rgba($black, 0.5)
 
 .task-action
   display: inline-block

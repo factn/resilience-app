@@ -1,6 +1,25 @@
 .info-page
+  padding: 1em 1.5em 0
+  
   .app-main
     margin-top: 1rem
+
+  .task-wrap-header
+    font-size: 1.1rem
+    margin-bottom: 1rem
+
+  .task-wrap-header-icon
+    color: $orange
+
+  .task-wrap-header-image
+    display: inline
+    max-height: 1rem
+
+  .task-wrap-title
+    font-weight: $bold-weight
+
+  .review-task-box
+    +space(0 1rem, 0 -1.5rem 1rem)
 
 .mission-status-label
   font-weight: bold
@@ -26,7 +45,7 @@
     display: inline-block
 
 .scenario-content-body
-  +space(0.5rem 1.5rem 1rem, -0.5rem -1.5rem 0)
+  +space(0.5rem 1.5rem 7rem, -0.5rem -1.5rem 0)
 
   color: rgba($black, 0.8)
   background: $task-box-bg
