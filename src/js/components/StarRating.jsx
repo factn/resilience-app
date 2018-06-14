@@ -21,7 +21,8 @@ export default class StarRating extends Component {
   }
 
   render() {
-    const { rating, headerLabel } = this.state
+    const { rating } = this.state
+    const { headerLabel } = this.props
 
     const stars = rating * 5
     let starList = []
@@ -34,6 +35,7 @@ export default class StarRating extends Component {
             id={`star${star + 1}`}
             icon={faStar}
             onClick={() => this.setRating((star + 1) / 5)}
+            key={`star${star + 1}`}
           />
         )
       }
@@ -44,6 +46,7 @@ export default class StarRating extends Component {
             id={`star${blank + 1}`}
             icon={faStar}
             onClick={() => this.setRating((blank + 1) / 5)}
+            key={`star${blank + 1}`}
           />
         )
       }
@@ -55,6 +58,7 @@ export default class StarRating extends Component {
             id={`star${star + 1}`}
             icon={faStar}
             onClick={() => this.setRating((star + 1) / 5)}
+            key={`star${star + 1}`}
           />
         )
       }
@@ -64,11 +68,18 @@ export default class StarRating extends Component {
           id={`star${stars}`}
           icon={faStarHalf}
           onClick={() => this.setRating((stars + 0.5) / 5)}
+          key={`star${stars}`}
         />
       )
       for (let blank = stars + 1.5; blank < 6; blank++) {
         starList.push(
-          <Icon className="star" id={`star${blank + 1}`} icon={faStar} onClick={() => this.setRating(blank / 5)} />
+          <Icon
+            className="star"
+            id={`star${blank + 1}`}
+            icon={faStar}
+            onClick={() => this.setRating(blank / 5)}
+            key={`star${blank + 1}`}
+          />
         )
       }
     }
