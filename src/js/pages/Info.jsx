@@ -221,166 +221,45 @@ export default class Info extends Component {
       )
 
       return (
-        <Page className="info-page" {...notificationProps} {...missionCompleteProps} footer={footer}>
-          {doer_firstname ? (
-            <Fragment>
-              <MiniMap initialCenter={mapPos} pins={doerPins} />
+        <Page
+          className={`info-page ${role}-info-page`}
+          {...notificationProps}
+          {...missionCompleteProps}
+          footer={footer}>
 
-              <header className="scenario-content-header">
-                <h4 className="scenario-title">{`${toFirstCap(verb)} ${toFirstCap(requester_firstname)}'s ${noun}`}</h4>
-              </header>
-
-              <section className="scenario-content-body">
-                <div className="mission-status-header">
-                  <span className="mission-status-label">Mission Status: </span>
-                  <span className="mission-status">In progress</span>
-                </div>
-
-                <div className="scenario-action-buttons">
-                  <div className="edit-mission-btn">
-                    <Icon icon={faEdit} className="action-button-icon" />
-                    <span className="action-button-label">Edit mission</span>
-                  </div>
-                  <div className="workers-btn">
-                    <img src={logo} className="action-button-image" alt="Workers" />
-                    <span className="action-button-label">1 Worker</span>
-                  </div>
-                </div>
-
-                <section className="task-wrapper review-tasks">
-                  <header className="task-wrap-header">
-                    <Icon icon={faClipboardCheck} className="task-wrap-header-icon" />
-                    <span className="task-wrap-title"> Tasks to Review</span>
-                  </header>
-
-                  <section className="task-box review-task-box">
-                    <Task avatar={avatar} name="Organize materials" price={25} scenarioId={scenarioId} />
-                  </section>
-                </section>
-
-                <section className="task-wrapper worker-wrapper">
-                  <header className="task-wrap-header">
-                    <img src={logo} alt="Workers" className="task-wrap-header-image" />
-                    <span className="task-wrap-title"> Workers</span>
-                  </header>
-
-                  <section className="task-box">
-                    <header className="tasks-header">
-                      <div className="worker-avatar-wrap">
-                        <Link to={`/reputation/${requesterData.id}`}>
-                          <div
-                            className="worker-avatar"
-                            style={{
-                              backgroundImage: `url("${avatar || genericAvatar}")`
-                            }}
-                          />
-                        </Link>
-                      </div>
-
-                      <div className="worker-info">
-                        <div className="worker-name">
-                          <Link to={`/reputation/${requesterData.id}`}>{toFirstCap(doer_firstname) || "John"}</Link>
-                        </div>
-                        <div className="worker-hon3y">
-                          <img src={hon3yIcon} alt="HON3Y" className="hon3y-icon" />
-                          <span className="hon3y-score"> 4.35</span>
-                        </div>
-                      </div>
-
-                      <div className="mission-info">
-                        <Icon icon={faClock} className="time-left-icon" />
-                        <div className="time-left-label">Time left:</div>
-                        <div className="time-left">48:00 hours</div>
-                        <div className="time-joined">Joined this mission {new Date(updated_at).toDateString()}</div>
-                      </div>
-                    </header>
-
-                    <article className="tasks-body">
-                      <header className="task-overview">
-                        <div className="task-overview-left">
-                          <span className="task-number">6</span>
-                          <span> Tasks</span>
-                          <div className="notification-button">1</div>
-                        </div>
-                        <div className="task-overview-right">
-                          <div className="donation-amount">{moneyfy(donated, 2)}</div>
-                          <div className="task-category-counts" onClick={() => this.toggleTaskList()}>
-                            <span className="finished">1 finished</span>
-                            <span>, </span>
-                            <span className="to-review">1 to review</span>
-                          </div>
-                        </div>
-                      </header>
-
-                      <div className={taskListOpen ? "task-list-collapse-wrap open" : "task-list-collapse-wrap"}>
-                        <div className="task-list review-list">
-                          <h5 className="task-list-title">To Review</h5>
-                          <Task avatar={avatar} name="Organize materials" price={25} scenarioId={scenarioId} />
-                          <Task
-                            avatar={avatar}
-                            name="Collect donations for materials"
-                            price={25}
-                            scenarioId={scenarioId}
-                          />
-                        </div>
-                        <div className="task-list finished-list">
-                          <h5 className="task-list-title">Finished</h5>
-                          <Task avatar={avatar} name="Pick up volunteer labor" price={25} scenarioId={scenarioId} />
-                          <Task avatar={avatar} name="Pick up materials" price={25} scenarioId={scenarioId} />
-                        </div>
-                        <div className="task-list in-progress-list">
-                          <h5 className="task-list-title">In Progress</h5>
-                          <Task avatar={avatar} name="Patch roof" price={25} scenarioId={scenarioId} />
-                          <Task avatar={avatar} name="Paint and seal roof" price={25} scenarioId={scenarioId} />
-                        </div>
-                      </div>
-                    </article>
-
-                    <footer className="tasks-footer">
-                      <ul className="tasks-footer-actions">
-                        <li className="tasks-footer-action">Contact</li>
-                        <li className="tasks-footer-action">
-                          <Icon icon={faCommentAlt} className="action-icon" />
-                        </li>
-                        <li className="tasks-footer-action">
-                          <Icon icon={faPhone} className="action-icon" />
-                        </li>
-                        <li className="tasks-footer-action">
-                          <Icon icon={faUsers} className="action-icon" />
-                        </li>
-                      </ul>
-                    </footer>
-                  </section>
-                </section>
-              </section>
-            </Fragment>
+          {role === "requester" && doer_firstname ? (
+            <MiniMap initialCenter={mapPos} pins={doerPins} />
           ) : (
-            <Fragment>
-              <figure className="scenario-content-image-wrap">
-                <img src={image} alt={event} className="scenario-content-image" />
-              </figure>
+            <figure className="scenario-content-image-wrap">
+              <img src={image} alt={event} className="scenario-content-image" />
+            </figure>
+          )}
 
-              <header className="scenario-content-header">
-                <h4 className="scenario-title">{`${toFirstCap(verb)} ${toFirstCap(requester_firstname)}'s ${noun}`}</h4>
-              </header>
+          <header className="scenario-content-header">
+            <h4 className="scenario-title">{`${toFirstCap(verb)} ${toFirstCap(requester_firstname)}'s ${noun}`}</h4>
+          </header>
 
-              <section className="scenario-content-body">
-                <div className="mission-status-header">
-                  <span className="mission-status-label">Mission Status: </span>
-                  <span className="mission-status">Looking for Workers</span>
+          <section className="scenario-content-body">
+            <div className="mission-status-header">
+              <span className="mission-status-label">Mission Status: </span>
+              <span className="mission-status">Looking for Workers</span>
+            </div>
+
+            {role === "requester" && (
+              <div className="scenario-action-buttons">
+                <div className="edit-mission-btn">
+                  <Icon icon={faEdit} className="action-button-icon" />
+                  <span className="action-button-label">Edit mission</span>
                 </div>
-
-                <div className="scenario-action-buttons">
-                  <div className="edit-mission-btn">
-                    <Icon icon={faEdit} className="action-button-icon" />
-                    <span className="action-button-label">Edit mission</span>
-                  </div>
-                  <div className="workers-btn">
-                    <img src={logo} className="action-button-image" alt="Workers" />
-                    <span className="action-button-label">0 Workers</span>
-                  </div>
+                <div className="workers-btn">
+                  <img src={logo} className="action-button-image" alt="Workers" />
+                  <span className="action-button-label">1 Worker</span>
                 </div>
+              </div>
+            )}
 
+            {((role === "requester" && !doer_firstname) || role === "doer") && (
+              <Fragment>
                 <div className="user-info">
                   <div className="user-avatar-wrap">
                     <div
@@ -412,7 +291,119 @@ export default class Info extends Component {
                   {custom_message ||
                     "My roof was damaged in Hurricane Katrina. I need your help to cover it. Can have more info here to help tell the story and convince people to do this."}
                 </div>
+              </Fragment>
+            )}
 
+            {role === "requester" &&
+              (doer_firstname ? (
+                <Fragment>
+                  <section className="task-wrapper review-tasks">
+                    <header className="task-wrap-header">
+                      <Icon icon={faClipboardCheck} className="task-wrap-header-icon" />
+                      <span className="task-wrap-title"> Tasks to Review</span>
+                    </header>
+
+                    <section className="task-box review-task-box">
+                      <Task avatar={avatar} name="Organize materials" price={25} scenarioId={scenarioId} />
+                    </section>
+                  </section>
+
+                  <section className="task-wrapper worker-wrapper">
+                    <header className="task-wrap-header">
+                      <img src={logo} alt="Workers" className="task-wrap-header-image" />
+                      <span className="task-wrap-title"> Workers</span>
+                    </header>
+
+                    <section className="task-box">
+                      <header className="tasks-header">
+                        <div className="worker-avatar-wrap">
+                          <Link to={`/reputation/${requesterData.id}`}>
+                            <div
+                              className="worker-avatar"
+                              style={{
+                                backgroundImage: `url("${avatar || genericAvatar}")`
+                              }}
+                            />
+                          </Link>
+                        </div>
+
+                        <div className="worker-info">
+                          <div className="worker-name">
+                            <Link to={`/reputation/${requesterData.id}`}>{toFirstCap(doer_firstname) || "John"}</Link>
+                          </div>
+                          <div className="worker-hon3y">
+                            <img src={hon3yIcon} alt="HON3Y" className="hon3y-icon" />
+                            <span className="hon3y-score"> 4.35</span>
+                          </div>
+                        </div>
+
+                        <div className="mission-info">
+                          <Icon icon={faClock} className="time-left-icon" />
+                          <div className="time-left-label">Time left:</div>
+                          <div className="time-left">48:00 hours</div>
+                          <div className="time-joined">Joined this mission {new Date(updated_at).toDateString()}</div>
+                        </div>
+                      </header>
+
+                      <article className="tasks-body">
+                        <header className="task-overview">
+                          <div className="task-overview-left">
+                            <span className="task-number">6</span>
+                            <span> Tasks</span>
+                            <div className="notification-button">1</div>
+                          </div>
+                          <div className="task-overview-right">
+                            <div className="donation-amount">{moneyfy(donated, 2)}</div>
+                            <div className="task-category-counts" onClick={() => this.toggleTaskList()}>
+                              <span className="finished">1 finished</span>
+                              <span>, </span>
+                              <span className="to-review">1 to review</span>
+                            </div>
+                          </div>
+                        </header>
+
+                        <div className={taskListOpen ? "task-list-collapse-wrap open" : "task-list-collapse-wrap"}>
+                          <div className="task-list review-list">
+                            <h5 className="task-list-title">To Review</h5>
+                            <Task avatar={avatar} name="Organize materials" price={25} scenarioId={scenarioId} />
+                            <Task
+                              avatar={avatar}
+                              name="Collect donations for materials"
+                              price={25}
+                              scenarioId={scenarioId}
+                            />
+                          </div>
+                          <div className="task-list finished-list">
+                            <h5 className="task-list-title">Finished</h5>
+                            <Task avatar={avatar} name="Pick up volunteer labor" price={25} scenarioId={scenarioId} />
+                            <Task avatar={avatar} name="Pick up materials" price={25} scenarioId={scenarioId} />
+                          </div>
+                          <div className="task-list in-progress-list">
+                            <h5 className="task-list-title">In Progress</h5>
+                            <Task avatar={avatar} name="Patch roof" price={25} scenarioId={scenarioId} />
+                            <Task avatar={avatar} name="Paint and seal roof" price={25} scenarioId={scenarioId} />
+                          </div>
+                        </div>
+                      </article>
+
+                      <footer className="tasks-footer">
+                        <ul className="tasks-footer-actions">
+                          <li className="tasks-footer-action">Contact</li>
+                          <li className="tasks-footer-action">
+                            <Icon icon={faCommentAlt} className="action-icon" />
+                          </li>
+                          <li className="tasks-footer-action">
+                            <Icon icon={faPhone} className="action-icon" />
+                          </li>
+                          <li className="tasks-footer-action">
+                            <Icon icon={faUsers} className="action-icon" />
+                          </li>
+                        </ul>
+                      </footer>
+                    </section>
+                  </section>
+                </Fragment>
+              ) : (
                 <section className="scenario-tags">
                   <div className="scenario-event-location tag">{event}</div>
                   <ul className="tag-list">
@@ -421,9 +412,35 @@ export default class Info extends Component {
                     <li className="tag inactive-tag">#Roofing</li>
                   </ul>
                 </section>
+              ))}
+
+            {role === "doer" && (
+              <section className="task-wrapper review-tasks">
+                <header className="task-wrap-header">
+                  <Icon icon={faClipboardCheck} className="task-wrap-header-icon" />
+                  <span className="task-wrap-title"> Task List</span>
+                </header>
+
+                <section className="task-box doer-task-box">
+                  <div className="task-box-hashtag">#Logistics</div>
+                  <Task noAvatar name="Organize materials" price={25} scenarioId={scenarioId} />
+                  <Task noAvatar name="Collect donations for materials" price={15} scenarioId={scenarioId} />
+                </section>
+
+                <section className="task-box doer-task-box">
+                  <div className="task-box-hashtag">#Driving</div>
+                  <Task noAvatar name="Pick up volunteer laborers" price={20} scenarioId={scenarioId} />
+                  <Task noAvatar name="Pic up materials" price={20} scenarioId={scenarioId} />
+                </section>
+
+                <section className="task-box doer-task-box">
+                  <div className="task-box-hashtag">#Roofing</div>
+                  <Task noAvatar name="Patch roof" price={150} scenarioId={scenarioId} />
+                  <Task noAvatar name="Paing and seal roof" price={80} scenarioId={scenarioId} />
+                </section>
               </section>
-            </Fragment>
-          )}
+            )}
+          </section>
         </Page>
       )
     } else {

@@ -99,7 +99,7 @@ export default class Task extends Component {
 
   render() {
     const { style, moving } = this.state
-    const { name, price, avatar, scenarioId } = this.props
+    const { name, price, avatar, scenarioId, noAvatar } = this.props
 
     return (
       <section className={moving ? "task-wrap moving" : "task-wrap"}>
@@ -116,14 +116,16 @@ export default class Task extends Component {
           onTouchStart={e => this.handleTouchStart(e)}
           onTouchMove={e => this.handleTouchMove(e)}
           onTouchEnd={e => this.handleTouchEnd(e)}>
-          <div className="worker-avatar-wrap">
-            <div
-              className="worker-avatar"
-              style={{
-                backgroundImage: `url("${avatar || genericAvatar}")`
-              }}
-            />
-          </div>
+          {!noAvatar && (
+            <div className="worker-avatar-wrap">
+              <div
+                className="worker-avatar"
+                style={{
+                  backgroundImage: `url("${avatar || genericAvatar}")`
+                }}
+              />
+            </div>
+          )}
           <div className="task-name">{name}</div>
           <div className="price">{moneyfy(price, 2)}</div>
         </div>
