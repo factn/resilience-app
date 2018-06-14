@@ -1,6 +1,7 @@
 /*** IMPORTS ***/
 // Module imports
 import React, { Component, Fragment } from "react"
+import { Link } from "react-router-dom"
 import Cookies from "js-cookie"
 
 // Page wrapper
@@ -71,7 +72,11 @@ export default class Account extends Component {
     )
 
     return (
-      <Page className="flow-page create-account-page" header={header} footer={footer}>
+      <Page className="create-account-page" header={header} footer={footer}>
+        <a className="btn j4r-link" href="https://j4r-uat.herokuapp.com/permissions/">Sign up with J4R!</a>
+      
+        <hr className="setting-divider" />
+
         <SessionSetting className="name-setting" headerLabel="Name">
           <SessionCard className="input-card name-card">
             <input type="text" placeholder="Enter a name" id="firstname" />
@@ -93,6 +98,8 @@ export default class Account extends Component {
             <input type="password" placeholder="Confirm your password" id="password_confirmation" />
           </SessionCard>
         </SessionSetting>
+      
+        <hr className="setting-divider" />
 
         <SessionSetting headerLabel="Add a photo">
           <Image />
