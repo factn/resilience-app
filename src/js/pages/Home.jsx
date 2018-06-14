@@ -59,7 +59,7 @@ export default class Home extends Component {
               <Icon icon={faChevronRight} />
             </div>
           </Link>
-          <Link to="/doer" className="btn home-btn square-btn do-btn">
+          <Link to="/feed/doer" className="btn home-btn square-btn do-btn">
             <span>Do a job</span>
             <div className="button-icon">
               <Icon icon={faChevronRight} />
