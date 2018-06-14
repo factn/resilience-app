@@ -185,7 +185,7 @@ export default class RequesterFlow extends Component {
     }
     let nounVerbSelectObj = {
       options: [],
-      preselectedOption: `${toFirstCap(defaultVerb)} my ${defaultNoun}`,
+      preselectedOption: `${toFirstCap(defaultVerb)} my ${defaultNoun} $300`,
       inputID: "noun_and_verb"
     }
     let buttonObj = {
