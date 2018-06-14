@@ -1,6 +1,6 @@
 /*** IMPORTS ***/
 // Module imports
-import React, { Component } from "react"
+import React, { Component, Fragment } from "react"
 import { Link } from "react-router-dom"
 import Icon from "@fortawesome/react-fontawesome"
 import { faThumbsDown, faComment, faThumbsUp } from "@fortawesome/fontawesome-free-solid"
@@ -99,15 +99,17 @@ export default class Task extends Component {
 
   render() {
     const { style, moving } = this.state
-    const { name, price, avatar, scenarioId, noAvatar } = this.props
+    const { name, price, avatar, noAvatar, actions } = this.props
 
     return (
       <section className={moving ? "task-wrap moving" : "task-wrap"}>
         <div className="task-action-wrapper before-task-actions">
-          <Link className="task-action green-action" to={`/${scenarioId}/requester/confirmation`}>
-            <Icon icon={faThumbsUp} className="task-action-icon" />
-            <div className="task-label">Finished!</div>
-          </Link>
+          {actions &&
+            actions.map((action, _index) => {
+              if (action.side === "left") {
+                return <TaskAction {...action} key={`left_${_index}`} />
+              }
+            })}
         </div>
         <div
           className={moving ? "task moving" : "task"}
@@ -130,16 +132,36 @@ export default class Task extends Component {
           <div className="price">{moneyfy(price, 2)}</div>
         </div>
         <div className="task-action-wrapper after-task-actions">
-          <Link className="task-action orange-action" to={`/${scenarioId}/requester/confirmation`}>
-            <Icon icon={faThumbsDown} className="task-action-icon" />
-            <div className="task-label">Not quite</div>
-          </Link>
-          <Link className="task-action gray-action" to={`/${scenarioId}/requester/confirmation`}>
-            <Icon icon={faComment} className="task-action-icon" />
-            <div className="task-label">Comment</div>
-          </Link>
+          {actions &&
+            actions.map((action, _index) => {
+              if (action.side === "right") {
+                return <TaskAction {...action} key={`right_${_index}`} />
+              }
+            })}
         </div>
       </section>
     )
+  }
+}
+
+class TaskAction extends Component {
+  render() {
+    const { type, color, link, icon, label, clickFunction } = this.props
+
+    if (type === "link") {
+      return (
+        <Link className={`task-action ${color}-action`} to={link}>
+          <Icon icon={icon} className="task-action-icon" />
+          <div className="task-label">{label}</div>
+        </Link>
+      )
+    } else {
+      return (
+        <div className={`task-action ${color}-action`} onClick={() => clickFunction()}>
+          <Icon icon={icon} className="task-action-icon" />
+          <div className="task-label">{label}</div>
+        </div>
+      )
+    }
   }
 }

@@ -13,7 +13,11 @@ import {
   faClipboardCheck,
   faPhone,
   faCommentAlt,
-  faUsers
+  faUsers,
+  faThumbsUp,
+  faThumbsDown,
+  faComment,
+  faTrash
 } from "@fortawesome/fontawesome-free-solid"
 
 // Page wrapper
@@ -220,6 +224,71 @@ export default class Info extends Component {
         </div>
       )
 
+      let actions = []
+
+      if (role === "requester") {
+        actions = [
+          {
+            side: "left",
+            type: "link",
+            color: "green",
+            link: `/${scenarioId}/requester/confirmation`,
+            icon: faThumbsUp,
+            label: "Finished!"
+          },
+          {
+            side: "right",
+            type: "link",
+            color: "orange",
+            link: `/${scenarioId}/requester/confirmation`,
+            icon: faThumbsDown,
+            label: "Not quite"
+          },
+          {
+            side: "right",
+            type: "link",
+            color: "gray",
+            link: `/${scenarioId}/requester/confirmation`,
+            icon: faComment,
+            label: "Comment"
+          }
+        ]
+      } else if (role === "doer") {
+        actions = [
+          {
+            side: "left",
+            type: "function",
+            color: "green",
+            clickFunction: () => {
+              return true
+            },
+            icon: faCheck,
+            label: "Finish"
+          },
+          {
+            side: "right",
+            type: "function",
+            color: "red",
+            clickFunction: () => {
+              return true
+            },
+            icon: faTrash,
+            label: "Remove"
+          },
+          {
+            side: "right",
+            type: "function",
+            color: "gray",
+            clickFunction: () => {
+              return true
+            },
+            icon: faEdit,
+            label: "Edit task"
+          }
+        ]
+      }
+
+
       return (
         <Page
           className={`info-page ${role}-info-page`}
@@ -304,7 +373,7 @@ export default class Info extends Component {
                     </header>
 
                     <section className="task-box review-task-box">
-                      <Task avatar={avatar} name="Organize materials" price={25} scenarioId={scenarioId} />
+                      <Task avatar={avatar} name="Organize materials" price={25} actions={actions} />
                     </section>
                   </section>
 
@@ -365,23 +434,23 @@ export default class Info extends Component {
                         <div className={taskListOpen ? "task-list-collapse-wrap open" : "task-list-collapse-wrap"}>
                           <div className="task-list review-list">
                             <h5 className="task-list-title">To Review</h5>
-                            <Task avatar={avatar} name="Organize materials" price={25} scenarioId={scenarioId} />
+                            <Task avatar={avatar} name="Organize materials" price={25} actions={actions} />
                             <Task
                               avatar={avatar}
                               name="Collect donations for materials"
                               price={25}
-                              scenarioId={scenarioId}
+                              actions={actions}
                             />
                           </div>
                           <div className="task-list finished-list">
                             <h5 className="task-list-title">Finished</h5>
-                            <Task avatar={avatar} name="Pick up volunteer labor" price={25} scenarioId={scenarioId} />
-                            <Task avatar={avatar} name="Pick up materials" price={25} scenarioId={scenarioId} />
+                            <Task avatar={avatar} name="Pick up volunteer labor" price={25} actions={actions} />
+                            <Task avatar={avatar} name="Pick up materials" price={25} actions={actions} />
                           </div>
                           <div className="task-list in-progress-list">
                             <h5 className="task-list-title">In Progress</h5>
-                            <Task avatar={avatar} name="Patch roof" price={25} scenarioId={scenarioId} />
-                            <Task avatar={avatar} name="Paint and seal roof" price={25} scenarioId={scenarioId} />
+                            <Task avatar={avatar} name="Patch roof" price={25} actions={actions} />
+                            <Task avatar={avatar} name="Paint and seal roof" price={25} actions={actions} />
                           </div>
                         </div>
                       </article>
@@ -423,20 +492,20 @@ export default class Info extends Component {
 
                 <section className="task-box doer-task-box">
                   <div className="task-box-hashtag">#Logistics</div>
-                  <Task noAvatar name="Organize materials" price={25} scenarioId={scenarioId} />
-                  <Task noAvatar name="Collect donations for materials" price={15} scenarioId={scenarioId} />
+                  <Task noAvatar name="Organize materials" price={25} actions={actions} />
+                  <Task noAvatar name="Collect donations for materials" price={15} actions={actions} />
                 </section>
 
                 <section className="task-box doer-task-box">
                   <div className="task-box-hashtag">#Driving</div>
-                  <Task noAvatar name="Pick up volunteer laborers" price={20} scenarioId={scenarioId} />
-                  <Task noAvatar name="Pic up materials" price={20} scenarioId={scenarioId} />
+                  <Task noAvatar name="Pick up volunteer laborers" price={20} actions={actions} />
+                  <Task noAvatar name="Pic up materials" price={20} actions={actions} />
                 </section>
 
                 <section className="task-box doer-task-box">
                   <div className="task-box-hashtag">#Roofing</div>
-                  <Task noAvatar name="Patch roof" price={150} scenarioId={scenarioId} />
-                  <Task noAvatar name="Paing and seal roof" price={80} scenarioId={scenarioId} />
+                  <Task noAvatar name="Patch roof" price={150} actions={actions} />
+                  <Task noAvatar name="Paing and seal roof" price={80} actions={actions} />
                 </section>
               </section>
             )}
