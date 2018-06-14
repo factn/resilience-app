@@ -631,8 +631,6 @@ export default class Scenario extends Component {
   }
 }
 
-/* Actions */
-
 const PreviewAction = props => (
   <div className={`action ${props.direction}-action`}>
     <div className="pseudo-main-text">{props.mainText}</div>
@@ -700,5 +698,3 @@ const TouchIcon = () => (
     <Icon icon={faHandPointUp} />
   </div>
 )
-
-/* [ end Actions ] */
