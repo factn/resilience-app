@@ -103,7 +103,7 @@ export default class StarRating extends Component {
             max="1"
             step="0.1"
             className="rating-slider"
-            id="star_rating"
+            id="rating"
             value={rating}
             onChange={e => this.handleChange(e)}
           />
