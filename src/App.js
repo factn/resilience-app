@@ -23,7 +23,6 @@ import Account from "./js/pages/Account"
 //  - Account
 import Login from "./js/pages/Login"
 import Profile from "./js/pages/Profile"
-import Reputation from "./js/pages/Reputation"
 import MissionControl from "./js/pages/MissionControl"
 
 //  - Info Pages
@@ -55,8 +54,7 @@ export default class App extends Component {
 
           {/* Account */}
           <Route path="/login" component={Login} />
-          <Route path="/profile" component={Profile} />
-          <Route path="/reputation/:user_id" exact component={Reputation} />
+          <Route path="/profile/:user_id" component={Profile} />
           <Route path="/account" component={Account} />
 
           {/* Mission control */}

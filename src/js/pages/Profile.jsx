@@ -20,7 +20,7 @@ import { toFirstCap } from "../resources/Util"
 export default class Profile extends Component {
   state = {
     currentUserData: null,
-    userId: Cookies.get("userId") || 1
+    userId: this.props.match.params.user_id || Cookies.get("userId") || 1
   }
 
   componentDidMount = () => {
