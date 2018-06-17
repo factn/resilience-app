@@ -1,23 +1,17 @@
 /*** IMPORTS ***/
 // Module imports
-import React, { Component, Fragment } from "react"
-import { Link } from "react-router-dom"
+import React, { Component } from "react"
 import Cookies from "js-cookie"
 
 // Page wrapper
 import Page from "./Page"
 
-// Page elements
-import SessionSetting from "../components/SessionSetting"
-import SessionCard from "../components/SessionCard"
-
-// Inputs
-import Image from "../components/inputs/Image"
-import Submit from "../components/inputs/Submit"
-
 // Local JS Utilities
 import Database from "../resources/Database"
 import { getBase64 } from "../resources/Util"
+
+// Images
+import hon3y from "../../img/hon3y.png"
 /*** [end of imports] ***/
 
 export default class Account extends Component {
@@ -46,63 +40,26 @@ export default class Account extends Component {
   }
 
   render() {
-    let buttonObj = {
-      labelPhrase: "Create Account",
-      clas: "footer-btn user-create-btn",
-      onSubmit: this.createProfile,
-      onSubmitParams: {
-        firstname: "firstname",
-        email: "email",
-        password: "password",
-        password_confirmation: "password_confirmation",
-        avatar: "photo"
-      }
-    }
-
-    const header = <h2>Create your profile</h2>
-
-    const footer = (
-      <Fragment>
-        <div className="button-label">Create your profile</div>
-        <Submit {...buttonObj} />
-      </Fragment>
-    )
-
     return (
-      <Page className="create-account-page" header={header} footer={footer}>
-        <a className="btn j4r-link" href="https://j4r-uat.herokuapp.com/permissions/">
-          Sign up with J4R!
-        </a>
-
-        <hr className="setting-divider" />
-
-        <SessionSetting className="name-setting" headerLabel="Name">
-          <SessionCard className="input-card name-card">
-            <input type="text" placeholder="Enter a name" id="firstname" />
-          </SessionCard>
-        </SessionSetting>
-
-        <SessionSetting className="email-setting" headerLabel="Email">
-          <SessionCard className="input-card email-card">
-            <input type="email" placeholder="Enter your email" id="email" />
-          </SessionCard>
-        </SessionSetting>
-
-        <SessionSetting className="password-setting" headerLabel="Password">
-          <SessionCard className="input-card password-card">
-            <input type="password" placeholder="Choose a password" id="password" />
-          </SessionCard>
-
-          <SessionCard className="input-card password-confirm-card">
-            <input type="password" placeholder="Confirm your password" id="password_confirmation" />
-          </SessionCard>
-        </SessionSetting>
-
-        <hr className="setting-divider" />
-
-        <SessionSetting headerLabel="Add a photo">
-          <Image />
-        </SessionSetting>
+      <Page className="create-account-page">
+        <section className="account-body">
+          <div className="logo-area">
+            <h3 className="call-to-action-title call-to-action-title-1">Sign up with</h3>
+            <img className="j4r-logo-large" src={hon3y} alt="J4R!" />
+            <h4 className="call-to-action-title call-to-action-title-2">Create your profile in J4R!</h4>
+          </div>
+          <div className="card j4r-link-card">
+            <div className="j4r-logo-wrap">
+              <img className="j4r-logo-small" src={hon3y} alt="J4R!" />
+            </div>
+            <div className="j4r-link-flex-item">J4R!</div>
+            <div className="sign-up-btn-wrap">
+              <a className="btn sign-up-btn" href="http://j4r-uat.herokuapp.com/permissions/">
+                Sign up
+              </a>
+            </div>
+          </div>
+        </section>
       </Page>
     )
   }
