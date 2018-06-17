@@ -56,6 +56,38 @@
         bottom: 0.5rem solid transparent
         left: 0.5rem solid transparent
 
+  .rating-wrapper
+    text-align: center
+
+    .star-rating
+      opacity: 0
+      max-height: 0
+      transition:
+        property: opacity, max-height
+        duration: $fast
+        timing-function: $cubic
+
+    &.open
+      .star-rating
+        opacity: 1
+        max-height: 10rem
+
+      .rating-opener
+        opacity: 0
+        max-height: 0
+
+
+  .rating-opener
+    color: $blue
+    font-size: 1rem
+    text-transform: uppercase
+    padding: 0.5rem 2rem
+    opacity: 1
+    max-height: 3rem
+    transition:
+      property: opacity, max-height
+      duration: $fast
+      timing-function: $cubic
 
   .vouch-image-wrap
     height: 8rem

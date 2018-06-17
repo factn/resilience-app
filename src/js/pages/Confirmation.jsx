@@ -28,7 +28,8 @@ export default class Confirmation extends Component {
     role: this.props.match.params.role || "doer",
     verb: this.props.match.params.verb || "fix",
     noun: this.props.match.params.noun || "roof",
-    currentUser: Cookies.get("userId") || "1"
+    currentUser: Cookies.get("userId") || "1",
+    ratingColapsed: true
   }
 
   componentDidMount = () => {
@@ -82,7 +83,7 @@ export default class Confirmation extends Component {
         attributes: {
           image: imageString || "",
           description: params.description || "",
-          star_rating: params.star_rating || ""
+          rating: params.rating || ""
         },
         relationships: {
           scenario: {
@@ -108,15 +109,21 @@ export default class Confirmation extends Component {
       .catch(error => {})
   }
 
+  openRating = () => {
+    this.setState({
+      ratingColapsed: false
+    })
+  }
+
   render() {
-    const { role, parentScenarioData } = this.state
+    const { role, parentScenarioData, ratingColapsed } = this.state
 
     let buttonObj = {
       labelPhrase: "Verify mission complete",
       clas: "footer-btn feed-btn",
       onSubmit: this.submitConfirmation,
       onSubmitParams: {
-        star_rating: "star_rating"
+        rating: "rating"
       }
     }
 
@@ -163,8 +170,11 @@ export default class Confirmation extends Component {
               </div>
             </div>
           </div>
-
-          <StarRating headerLabel="How well was it completed?" />
+          
+          <div className={ratingColapsed ? "rating-wrapper" : "rating-wrapper open"}>
+            <button className="rating-opener" onClick={() => this.openRating()}>Rate Mission</button>
+            <StarRating headerLabel="How well was it completed?" />
+          </div>
         </section>
       </Page>
     )
