@@ -1,115 +1,112 @@
-.profile-article
-  &:not(:last-of-type)
-    +spacer-with-border("bottom", 0.5rem, 0.0625rem, rgba($black, 0.25))
+.profile-page
+  .settings-header
+    margin: 1rem 0
+    text:
+      transform: uppercase
+      align: center
 
-  &.open
-    .profile-content-wrap
-      max-height: 11rem
-      opacity: 1
-      padding: 0.5rem 0
-
-.profile-vouches-wrap
-  font-size: 1.5rem
-
-  .vouch,
-  .rest
-    display: inline-block
-    width: 2rem
+  .user-info-area
     text-align: center
+    padding: 1rem 0 2rem
 
-  .vouch
-    &.positive
-      color: $green
+    .user-icon,
+    .user-image
+      +circle-photo-wrap(8rem)
 
-    &.negative
-      color: $red
+      color: $white
+      border: 0.125rem solid rgba($black, 0.25)
 
-  .rest
-    color: rgba($black, 0.5)
+    .user-icon
+      padding: 0.25rem
 
-.settings-header
-  margin: 1rem 0
-  text:
-    transform: uppercase
-    align: center
+    .user-image
+      margin: 0 auto
+      overflow: hidden
+      background:
+        color: rgba($black, 0.1)
+        size: cover
 
-.profile-article-header
-  +inline-flex
+      img
+        display: none
 
-.profile-icon
-  color: $blue
+    .user-name
+      padding-top: 1rem
+      color: rgba($black, 0.9)
 
-.profile-content-wrap
-  max-height: 0
-  opacity: 0
-  overflow: auto
-  padding: 0
-  transition:
-    property: max-height, opacity, padding
-    duration: $fast
-    timing-function: $cubic
+      &.not-signed-in
+        color: rgba($black, 0.75)
 
-.user-info-area
-  text-align: center
-  padding: 1rem 0 2rem
+      span
+        text-transform: uppercase
 
-  .user-icon,
-  .user-image
-    +circle-photo-wrap(8rem)
+    .user-vouched-icon
+      display: inline-block
+      color: $green-bright
+      width: 2rem
+      text-align: center
+
+  .profile-header
+    margin-bottom: 1rem
+  
+  .profile-mission-title,
+  .hon3y-icon
+    display: inline-block
+
+  .profile-mission-title
+    font-weight: $bold-weight
+    margin-right: 1rem
+
+  .profile-mission-count
+    color: $orange
+    margin-right: 1rem
+    font:
+      style: italic
+      weight: $light-weight
+
+  .hon3y-icon
+    max-height: 0.8rem
+    margin-right: 0.5rem
+
+  .profile-section
+    &:not(:last-of-type)
+      +spacer-with-border("bottom", 1rem, 0.0625rem, rgba($black, 0.5))
+
+  .profile-section-header
+    margin-bottom: 0.5rem
+    font-size: 0.9rem
+
+  .profile-section-header-icon,
+  .profile-section-title
+    display: inline-block
+
+  .profile-section-header-icon
+    color: $orange
+    width: 1.5rem
+    text-align: center
+    margin-right: 0.25rem
+
+  .profile-section-title
+    text-transform: uppercase
+
+  .mission-line
+    +inline-flex
+    margin-bottom: 0.5rem
+
+  .mission-role
+    +inline-flex-item(1rem)
+    text-align: center
+    margin-right: 0.25rem
+
+  .role-image
+    max-height: 1rem
+
+  .role-icon
+    +circle(1rem)
 
     color: $white
-    border: 0.125rem solid rgba($black, 0.25)
-
-  .user-icon
+    background: $orange
+    font-size: 0.9rem
     padding: 0.25rem
 
-  .user-image
-    margin: 0 auto
-    overflow: hidden
-    background:
-      color: rgba($black, 0.1)
-      size: cover
-
-    img
-      display: none
-
-  .user-name
-    padding-top: 1rem
-    color: rgba($black, 0.9)
-
-    &.not-signed-in
-      color: rgba($black, 0.75)
-
-    span
-      text-transform: uppercase
-
-  .user-vouched-icon
-    display: inline-block
-    color: $green-bright
-    width: 2rem
-    text-align: center
-
-.discovery-settings-header
-  padding: 0 0 1rem
-  text-transform: uppercase
-
-.settings-box
-  position: relative
-  padding: 1rem
-
-  &:not(:last-of-type)
-    border-bottom: 0.0625rem solid rgba($black, 0.5)
-
-.setting-icon
-  position: absolute
-  top: 0.5rem
-  right: 1rem
-  color: rgba($black, 0.5)
-  width: 1rem
-  text-align: center
-
-.setting-label
-  margin-bottom: 0.5rem
-
-.reputation-link
-  font-size: 0.8rem
+  .mission-title
+    +inline-flex-item(50%, 5)

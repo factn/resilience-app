@@ -54,7 +54,8 @@ export default class App extends Component {
 
           {/* Account */}
           <Route path="/login" component={Login} />
-          <Route path="/profile/:user_id" component={Profile} />
+          <Route path="/profile" exact component={Profile} />
+          <Route path="/profile/:user_id" exact component={Profile} />
           <Route path="/account" component={Account} />
 
           {/* Mission control */}
