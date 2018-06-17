@@ -10,15 +10,17 @@ import {
   faHandPointUp,
   faArrowAltCircleDown,
   faCheck,
-  faMapMarkerAlt
+  faMapMarkerAlt,
+  faDollarSign,
+  faClock
 } from "@fortawesome/fontawesome-free-solid"
-
-// Page elements
-import TagList from "./TagList"
 
 // Local JS
 import Database from "../resources/Database"
 import { toFirstCap, moneyfy, gradientStyle } from "../resources/Util"
+
+// Images
+import genericAvatar from "../../img/fb-profile.jpg"
 /*** [end of imports] ***/
 
 export default class Scenario extends Component {
@@ -152,36 +154,23 @@ export default class Scenario extends Component {
         </footer>
       )
     } else if (feedType === "doer") {
-      const list = [
-        {
-          label: "Roofing",
-          active: true
-        },
-        {
-          label: "Labor",
-          active: false
-        },
-        {
-          label: "Painting",
-          active: false
-        },
-        {
-          label: "Transport",
-          active: false
-        },
-        {
-          label: "Building",
-          active: false
-        }
-      ]
-
       return (
-        <footer className="scenario-footer">
-          <div className="tag-list-wrap">
-            <span className="tag-list-label">Work needed:</span>
-            <TagList list={list} />
+        <div className="scenario-footer-doer">
+          <div className="scenario-cost scenario-footer-flex-item">
+            <Icon icon={faDollarSign} className="scenario-cost-icon" />
+            <div className="scenario-item-text">
+              <div className="scenario-item-label">Cost:</div>
+              <div className="scenario-item-value">{moneyfy(funding_goal)}</div>
+            </div>
           </div>
-        </footer>
+          <div className="scenario-time scenario-footer-flex-item">
+            <Icon icon={faClock} className="scenario-time-icon" />
+            <div className="scenario-item-text">
+              <div className="scenario-item-label">Time left:</div>
+              <div className="scenario-item-value">48:00 hrs</div>
+            </div>
+          </div>
+        </div>
       )
     } else {
       return <footer className="scenario-footer" />
@@ -589,27 +578,32 @@ export default class Scenario extends Component {
             <h4 className="scenario-title">{`${toFirstCap(verb)} ${toFirstCap(requester_firstname)}'s ${noun}`}</h4>
           </header>
 
-          <section className="scenario-subheader">
-            <div className="user-info">
-              <figure className="user-avatar" />
+          <div className="user-info">
+            <div className="user-avatar-wrap">
+              <div
+                className="user-avatar"
+                style={{
+                  backgroundImage: `url("${genericAvatar}")`
+                }}
+              />
+            </div>
+
+            <div className="scenario-user">
               <div className="user-name">
-                <Link to="/reputation/2">
-                  {" "}
-                  {/* TODO: Put requester id here, may require additional query oddly enough */}
-                  {requester_firstname} {requester_lastname}
-                </Link>
+                {toFirstCap(requester_firstname)} {toFirstCap(requester_lastname)}
               </div>
               <div className="user-vouched-status">
                 <Icon icon={faCheck} />
               </div>
             </div>
+
             <div className="scenario-location">
               <div className="location-name">Pearlington, Louisiana</div>
               <div className="location-icon">
                 <Icon icon={faMapMarkerAlt} />
               </div>
             </div>
-          </section>
+          </div>
 
           <div className="scenario-description">
             {customMessage ||
@@ -617,8 +611,12 @@ export default class Scenario extends Component {
           </div>
 
           <section className="scenario-tags">
-            <div className="scenario-event-location">{event}</div>
-            <div className="scenario-severity">Urgent</div>
+            <div className="scenario-event-location tag">{event}</div>
+            <ul className="tag-list">
+              <li className="tag inactive-tag">#Driving</li>
+              <li className="tag inactive-tag">#Logistics</li>
+              <li className="tag inactive-tag">#Roofing</li>
+            </ul>
           </section>
 
           {this.footerBuild()}
@@ -630,8 +628,6 @@ export default class Scenario extends Component {
     )
   }
 }
-
-/* Actions */
 
 const PreviewAction = props => (
   <div className={`action ${props.direction}-action`}>
@@ -700,5 +696,3 @@ const TouchIcon = () => (
     <Icon icon={faHandPointUp} />
   </div>
 )
-
-/* [ end Actions ] */

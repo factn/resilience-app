@@ -1,3 +1,8 @@
+$task-action-red: #f22f46
+$task-action-orange: $orange
+$task-action-green: #2ecd70
+$task-action-gray: darken($white, 40%)
+
 .task-wrap
   position: relative
   margin: 0 -1rem
@@ -59,14 +64,20 @@
   text-align: center
   width: 5rem
 
+  &:visited
+    color: $white
+
   &.green-action
-    background: $green-dark
+    background: $task-action-green
 
   &.orange-action
-    background: $orange
+    background: $task-action-orange
+
+  &.red-action
+    background: $task-action-red
 
   &.gray-action
-    background: darken($white, 40%)
+    background: $task-action-gray
 
   .task-action-icon
     font-size: 1.5rem

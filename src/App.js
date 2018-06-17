@@ -13,7 +13,6 @@ import Home from "./js/pages/Home"
 
 //  - Flows
 import DonorFlow from "./js/pages/DonorFlow"
-import DoerFlow from "./js/pages/DoerFlow"
 import Confirmation from "./js/pages/Confirmation"
 import RequesterFlow from "./js/pages/RequesterFlow"
 import Feed from "./js/pages/Feed"
@@ -48,7 +47,6 @@ export default class App extends Component {
 
           {/* Flows */}
           <Route path="/donor" component={DonorFlow} />
-          <Route path="/doer" exact component={DoerFlow} />
           <Route path="/:role/confirmation" exact component={Confirmation} />
           <Route path="/:scenario_id/:role/confirmation" exact component={Confirmation} />
           <Route path="/:scenario_id/:role/confirmation/:verb/:noun" exact component={Confirmation} />
