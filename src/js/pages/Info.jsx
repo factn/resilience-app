@@ -386,7 +386,7 @@ export default class Info extends Component {
                     <section className="task-box">
                       <header className="tasks-header">
                         <div className="worker-avatar-wrap">
-                          <Link to={`/reputation/${requesterData.id}`}>
+                          <Link to={`/profile/${requesterData.id}`}>
                             <div
                               className="worker-avatar"
                               style={{
@@ -398,7 +398,7 @@ export default class Info extends Component {
 
                         <div className="worker-info">
                           <div className="worker-name">
-                            <Link to={`/reputation/${requesterData.id}`}>{toFirstCap(doer_firstname) || "John"}</Link>
+                            <Link to={`/profile/${requesterData.id}`}>{toFirstCap(doer_firstname) || "John"}</Link>
                           </div>
                           <div className="worker-hon3y">
                             <img src={hon3yIcon} alt="HON3Y" className="hon3y-icon" />
