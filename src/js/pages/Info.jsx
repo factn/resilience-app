@@ -1,6 +1,7 @@
 /*** IMPORTS ***/
 // Module imports
 import React, { Component, Fragment } from "react"
+import Cookies from "js-cookie"
 import { Link } from "react-router-dom"
 import { invalidateRequests } from "redux-bees"
 import Icon from "@fortawesome/react-fontawesome"
@@ -30,7 +31,7 @@ import Task from "../components/Task"
 
 // Local JS Utilities
 import Database from "../resources/Database"
-import { toFirstCap, moneyfy } from "../resources/Util"
+import { toFirstCap, moneyfy, getBase64 } from "../resources/Util"
 
 // Images
 import genericAvatar from "../../img/fb-profile.jpg"
@@ -40,6 +41,7 @@ import hon3yIcon from "../../img/hon3y.png"
 
 export default class Info extends Component {
   state = {
+    userId: Cookies.get("userId") || 1,
     scenarioId: this.props.match.params.scenario_id || 1,
     role: this.props.match.params.role || "info",
     scenarioData: null,
@@ -146,10 +148,145 @@ export default class Info extends Component {
     })
   }
 
-  render() {
-    const { scenarioData, requesterData } = this.state
+  // Requester actions
+  requesterApproveAction = params => {
+    const { userId } = this.state
+    const imageString = getBase64(params.image)
 
-    if (scenarioData && requesterData) {
+    const json = {
+      data: {
+        type: "vouches",
+        attributes: {
+          image: imageString || "",
+          description: params.description || "",
+          rating: 1
+        },
+        relationships: {
+          scenario: {
+            data: {
+              type: "scenarios",
+              id: params.id
+            }
+          },
+          verifier: {
+            data: {
+              type: "users",
+              id: userId || 1
+            }
+          }
+        }
+      }
+    }
+
+    Database.createVouch(json)
+      .then(result => {})
+      .catch(error => {})
+  }
+  requesterDenyAction = params => {
+    const { userId } = this.state
+    const imageString = getBase64(params.image)
+
+    const json = {
+      data: {
+        type: "vouches",
+        attributes: {
+          image: imageString || "",
+          description: params.description || "",
+          rating: 0
+        },
+        relationships: {
+          scenario: {
+            data: {
+              type: "scenarios",
+              id: params.id
+            }
+          },
+          verifier: {
+            data: {
+              type: "users",
+              id: userId || 1
+            }
+          }
+        }
+      }
+    }
+
+    Database.createVouch(json)
+      .then(result => {})
+      .catch(error => {})
+  }
+  requesterCommentAction = params => {
+    return true
+  }
+
+  // Doer actions
+  doerFinishAction = params => {
+    const { userId } = this.state
+    const imageString = getBase64(params.image)
+
+    const json = {
+      data: {
+        type: "vouches",
+        attributes: {
+          image: imageString || "",
+          description: params.description || "",
+          rating: params.rating || ""
+        },
+        relationships: {
+          scenario: {
+            data: {
+              type: "scenarios",
+              id: params.id
+            }
+          },
+          verifier: {
+            data: {
+              type: "users",
+              id: userId || 1
+            }
+          }
+        }
+      }
+    }
+
+    Database.createVouch(json)
+      .then(result => {})
+      .catch(error => {})
+  }
+  doerRemoveAction = params => {
+    // There isn't enough functionality to this app to do this yet. Will break things :/
+
+    // const json = {
+    //   data: {
+    //     type: "scenarios",
+    //     id: params.id
+    //   }
+    // }
+
+    // Database.destroyScenario({ id: params.id }, json)
+    //   .then(result => {})
+    //   .catch(error => {})
+  }
+  doerEditAction = params => {
+    // const json = {
+    //   data: {
+    //     type: "scenarios",
+    //     id: params.id,
+    //     attributes: {
+    //       params
+    //     }
+    //   }
+    // }
+
+    // Database.updateScenario({ id: params.id }, json)
+    //   .then(result => {})
+    //   .catch(error => {})
+  }
+
+  render() {
+    const { scenarioData, requesterData, childrenScenarioData } = this.state
+
+    if (scenarioData && requesterData && childrenScenarioData) {
       const {
         scenarioId,
         role,
@@ -230,64 +367,51 @@ export default class Info extends Component {
         actions = [
           {
             side: "left",
-            type: "link",
             color: "green",
-            link: `/${scenarioId}/requester/confirmation`,
             icon: faThumbsUp,
-            label: "Finished!"
+            label: "Finished!",
+            clickFunction: this.requesterApproveAction
           },
           {
             side: "right",
-            type: "link",
             color: "orange",
-            link: `/${scenarioId}/requester/confirmation`,
             icon: faThumbsDown,
-            label: "Not quite"
+            label: "Not quite",
+            clickFunction: this.requesterDenyAction
           },
           {
             side: "right",
-            type: "link",
             color: "gray",
-            link: `/${scenarioId}/requester/confirmation`,
             icon: faComment,
-            label: "Comment"
+            label: "Comment",
+            clickFunction: this.requesterCommentAction
           }
         ]
       } else if (role === "doer") {
         actions = [
           {
             side: "left",
-            type: "function",
             color: "green",
-            clickFunction: () => {
-              return true
-            },
             icon: faCheck,
-            label: "Finish"
+            label: "Finish",
+            clickFunction: this.doerFinishAction
           },
           {
             side: "right",
-            type: "function",
             color: "red",
-            clickFunction: () => {
-              return true
-            },
             icon: faTrash,
-            label: "Remove"
+            label: "Remove",
+            clickFunction: this.doerRemoveAction
           },
           {
             side: "right",
-            type: "function",
             color: "gray",
-            clickFunction: () => {
-              return true
-            },
             icon: faEdit,
-            label: "Edit task"
+            label: "Edit task",
+            clickFunction: this.doerEditAction
           }
         ]
       }
-
 
       return (
         <Page
@@ -295,7 +419,6 @@ export default class Info extends Component {
           {...notificationProps}
           {...missionCompleteProps}
           footer={footer}>
-
           {role === "requester" && doer_firstname ? (
             <MiniMap initialCenter={mapPos} pins={doerPins} />
           ) : (
@@ -435,12 +558,7 @@ export default class Info extends Component {
                           <div className="task-list review-list">
                             <h5 className="task-list-title">To Review</h5>
                             <Task avatar={avatar} name="Organize materials" price={25} actions={actions} />
-                            <Task
-                              avatar={avatar}
-                              name="Collect donations for materials"
-                              price={25}
-                              actions={actions}
-                            />
+                            <Task avatar={avatar} name="Collect donations for materials" price={25} actions={actions} />
                           </div>
                           <div className="task-list finished-list">
                             <h5 className="task-list-title">Finished</h5>
@@ -492,20 +610,56 @@ export default class Info extends Component {
 
                 <section className="task-box doer-task-box">
                   <div className="task-box-hashtag">#Logistics</div>
-                  <Task noAvatar name="Organize materials" price={25} actions={actions} />
-                  <Task noAvatar name="Collect donations for materials" price={15} actions={actions} />
+                  <Task
+                    noAvatar
+                    name={childrenScenarioData[0].attributes.custom_message}
+                    taskId={childrenScenarioData[0].id}
+                    price={25}
+                    actions={actions}
+                  />
+                  <Task
+                    noAvatar
+                    name={childrenScenarioData[1].attributes.custom_message}
+                    taskId={childrenScenarioData[1].id}
+                    price={15}
+                    actions={actions}
+                  />
                 </section>
 
                 <section className="task-box doer-task-box">
                   <div className="task-box-hashtag">#Driving</div>
-                  <Task noAvatar name="Pick up volunteer laborers" price={20} actions={actions} />
-                  <Task noAvatar name="Pic up materials" price={20} actions={actions} />
+                  <Task
+                    noAvatar
+                    name={childrenScenarioData[2].attributes.custom_message}
+                    taskId={childrenScenarioData[2].id}
+                    price={20}
+                    actions={actions}
+                  />
+                  <Task
+                    noAvatar
+                    name={childrenScenarioData[3].attributes.custom_message}
+                    taskId={childrenScenarioData[3].id}
+                    price={20}
+                    actions={actions}
+                  />
                 </section>
 
                 <section className="task-box doer-task-box">
                   <div className="task-box-hashtag">#Roofing</div>
-                  <Task noAvatar name="Patch roof" price={150} actions={actions} />
-                  <Task noAvatar name="Paing and seal roof" price={80} actions={actions} />
+                  <Task
+                    noAvatar
+                    name={childrenScenarioData[4].attributes.custom_message}
+                    taskId={childrenScenarioData[4].id}
+                    price={150}
+                    actions={actions}
+                  />
+                  <Task
+                    noAvatar
+                    name={childrenScenarioData[5].attributes.custom_message}
+                    taskId={childrenScenarioData[5].id}
+                    price={80}
+                    actions={actions}
+                  />
                 </section>
               </section>
             )}

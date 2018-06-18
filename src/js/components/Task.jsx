@@ -99,15 +99,15 @@ export default class Task extends Component {
 
   render() {
     const { style, moving } = this.state
-    const { name, price, avatar, noAvatar, actions } = this.props
+    const { name, price, avatar, noAvatar, actions, taskId } = this.props
 
     return (
-      <section className={moving ? "task-wrap moving" : "task-wrap"}>
+      <section className={moving ? "task-wrap moving" : "task-wrap"} id={`task${taskId}`}>
         <div className="task-action-wrapper before-task-actions">
           {actions &&
             actions.map((action, _index) => {
               if (action.side === "left") {
-                return <TaskAction {...action} key={`left_${_index}`} />
+                return <TaskAction {...action} taskId={taskId} key={`left_${_index}`} />
               }
             })}
         </div>
@@ -135,7 +135,7 @@ export default class Task extends Component {
           {actions &&
             actions.map((action, _index) => {
               if (action.side === "right") {
-                return <TaskAction {...action} key={`right_${_index}`} />
+                return <TaskAction {...action} taskId={taskId} key={`right_${_index}`} />
               }
             })}
         </div>
@@ -144,24 +144,12 @@ export default class Task extends Component {
   }
 }
 
-class TaskAction extends Component {
-  render() {
-    const { type, color, link, icon, label, clickFunction } = this.props
-
-    if (type === "link") {
-      return (
-        <Link className={`task-action ${color}-action`} to={link}>
-          <Icon icon={icon} className="task-action-icon" />
-          <div className="task-label">{label}</div>
-        </Link>
-      )
-    } else {
-      return (
-        <div className={`task-action ${color}-action`} onClick={() => clickFunction()}>
-          <Icon icon={icon} className="task-action-icon" />
-          <div className="task-label">{label}</div>
-        </div>
-      )
-    }
-  }
-}
+const TaskAction = props => (
+  <div
+    className={`task-action ${props.color}-action`}
+    onClick={() => props.clickFunction({ id: props.taskId })}
+    id={props.taskId}>
+    <Icon icon={props.icon} className="task-action-icon" />
+    <div className="task-label">{props.label}</div>
+  </div>
+)

@@ -23,8 +23,12 @@
 
   .doer-task-box
     background: transparent
-    box-shadow: none
     padding: 1rem 1rem 0
+    box-shadow: none
+
+    .task-wrap
+      margin-bottom: 0.5rem
+      box-shadow: $card-shadow
 
     .task-box-hashtag
       +space(0.25rem 0.5rem, 0 0 0.5rem)
@@ -33,9 +37,6 @@
       background: $white
       border-radius: 0.5rem
       font-style: italic
-
-    .task
-      margin-bottom: 0.5rem
 
 .mission-status-label
   font-weight: bold
