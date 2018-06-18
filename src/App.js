@@ -48,7 +48,7 @@ export default class App extends Component {
           <Route path="/donor" component={DonorFlow} />
           <Route path="/:role/confirmation" exact component={Confirmation} />
           <Route path="/:scenario_id/:role/confirmation" exact component={Confirmation} />
-          <Route path="/:scenario_id/:role/confirmation/:verb/:noun" exact component={Confirmation} />
+          <Route path="/:scenario_id/:role/confirmation/:child_scenario_id" exact component={Confirmation} />
           <Route path="/requester" component={RequesterFlow} />
           <Route path="/feed/:type" component={Feed} />
 

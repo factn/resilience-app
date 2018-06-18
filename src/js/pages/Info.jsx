@@ -45,7 +45,6 @@ export default class Info extends Component {
     scenarioId: this.props.match.params.scenario_id || 1,
     role: this.props.match.params.role || "info",
     scenarioData: null,
-    childrenScenarioData: null,
     requesterData: null,
     buttonOverride: false,
     materialsDone: null,
@@ -66,7 +65,7 @@ export default class Info extends Component {
       .then(result => {
         this.setState({
           scenarioData: result.body.data,
-          childrenScenarioData: result.body.included
+          childrenScenarioData: this.assignHashtags(result.body.included)
         })
 
         this.mountRequesterData(this.state.scenarioId)
@@ -95,7 +94,7 @@ export default class Info extends Component {
           .then(result => {
             this.setState({
               scenarioData: result.body.data,
-              childrenScenarioData: result.body.included
+              childrenScenarioData: this.assignHashtags(result.body.included)
             })
 
             invalidateRequests(Database.getScenarioWithChildren)
@@ -124,6 +123,33 @@ export default class Info extends Component {
           requesterData: null
         })
       })
+  }
+
+  assignHashtags = childrenScenarioData => {
+    let hashtags = {
+      logistics: [],
+      driving: [],
+      roofing: []
+    }
+
+    for (let i = 0, l = childrenScenarioData.length; i < l; i++) {
+      let { noun, verb, is_complete } = childrenScenarioData[i].attributes
+
+      if (!is_complete) {
+        if ((verb === "organise" && noun === "materials") || (verb === "collect" && noun === "donations")) {
+          hashtags.logistics.push(childrenScenarioData[i])
+        } else if (
+          (verb === "pick up" && noun === "volunteer labour") ||
+          (verb === "pick up" && noun === "materials")
+        ) {
+          hashtags.driving.push(childrenScenarioData[i])
+        } else {
+          hashtags.roofing.push(childrenScenarioData[i])
+        }
+      }
+    }
+
+    return hashtags
   }
 
   checkForMissionComplete = () => {
@@ -221,51 +247,37 @@ export default class Info extends Component {
 
   // Doer actions
   doerFinishAction = params => {
-    const { userId } = this.state
-    const imageString = getBase64(params.image)
-
     const json = {
       data: {
-        type: "vouches",
-        attributes: {
-          image: imageString || "",
-          description: params.description || "",
-          rating: params.rating || ""
-        },
+        type: "scenarios",
+        id: params.id,
         relationships: {
-          scenario: {
-            data: {
-              type: "scenarios",
-              id: params.id
-            }
-          },
-          verifier: {
+          doer: {
             data: {
               type: "users",
-              id: userId || 1
+              id: this.state.userId || "1"
             }
           }
         }
       }
     }
 
-    Database.createVouch(json)
-      .then(result => {})
+    Database.updateScenario({ id: params.id }, json)
+      .then(result => {
+        this.props.history.push(`/${this.state.scenarioId}/doer/confirmation/${params.id}`)
+      })
       .catch(error => {})
   }
   doerRemoveAction = params => {
-    // There isn't enough functionality to this app to do this yet. Will break things :/
-
-    // const json = {
-    //   data: {
-    //     type: "scenarios",
-    //     id: params.id
-    //   }
-    // }
-
-    // Database.destroyScenario({ id: params.id }, json)
-    //   .then(result => {})
-    //   .catch(error => {})
+    const json = {
+      data: {
+        type: "scenarios",
+        id: params.id
+      }
+    }
+    Database.destroyScenario({ id: params.id }, json)
+      .then(result => {})
+      .catch(error => {})
   }
   doerEditAction = params => {
     // const json = {
@@ -277,7 +289,6 @@ export default class Info extends Component {
     //     }
     //   }
     // }
-
     // Database.updateScenario({ id: params.id }, json)
     //   .then(result => {})
     //   .catch(error => {})
@@ -434,7 +445,11 @@ export default class Info extends Component {
           <section className="scenario-content-body">
             <div className="mission-status-header">
               <span className="mission-status-label">Mission Status: </span>
-              <span className="mission-status">Looking for Workers</span>
+              {doer_firstname ? (
+                <span className="mission-status">In Progress</span>
+              ) : (
+                <span className="mission-status">Looking for Workers</span>
+              )}
             </div>
 
             {role === "requester" && (
@@ -445,7 +460,7 @@ export default class Info extends Component {
                 </div>
                 <div className="workers-btn">
                   <img src={logo} className="action-button-image" alt="Workers" />
-                  <span className="action-button-label">1 Worker</span>
+                  <span className="action-button-label">{doer_firstname ? "1 Worker" : "0 Workers"}</span>
                 </div>
               </div>
             )}
@@ -610,56 +625,47 @@ export default class Info extends Component {
 
                 <section className="task-box doer-task-box">
                   <div className="task-box-hashtag">#Logistics</div>
-                  <Task
-                    noAvatar
-                    name={childrenScenarioData[0].attributes.custom_message}
-                    taskId={childrenScenarioData[0].id}
-                    price={25}
-                    actions={actions}
-                  />
-                  <Task
-                    noAvatar
-                    name={childrenScenarioData[1].attributes.custom_message}
-                    taskId={childrenScenarioData[1].id}
-                    price={15}
-                    actions={actions}
-                  />
+                  {childrenScenarioData &&
+                    childrenScenarioData.logistics.map(child => (
+                      <Task
+                        noAvatar
+                        name={child.attributes.custom_message}
+                        taskId={child.id}
+                        price={25}
+                        actions={actions}
+                        key={`task${child.id}`}
+                      />
+                    ))}
                 </section>
 
                 <section className="task-box doer-task-box">
                   <div className="task-box-hashtag">#Driving</div>
-                  <Task
-                    noAvatar
-                    name={childrenScenarioData[2].attributes.custom_message}
-                    taskId={childrenScenarioData[2].id}
-                    price={20}
-                    actions={actions}
-                  />
-                  <Task
-                    noAvatar
-                    name={childrenScenarioData[3].attributes.custom_message}
-                    taskId={childrenScenarioData[3].id}
-                    price={20}
-                    actions={actions}
-                  />
+                  {childrenScenarioData &&
+                    childrenScenarioData.driving.map(child => (
+                      <Task
+                        noAvatar
+                        name={child.attributes.custom_message}
+                        taskId={child.id}
+                        price={25}
+                        actions={actions}
+                        key={`task${child.id}`}
+                      />
+                    ))}
                 </section>
 
                 <section className="task-box doer-task-box">
                   <div className="task-box-hashtag">#Roofing</div>
-                  <Task
-                    noAvatar
-                    name={childrenScenarioData[4].attributes.custom_message}
-                    taskId={childrenScenarioData[4].id}
-                    price={150}
-                    actions={actions}
-                  />
-                  <Task
-                    noAvatar
-                    name={childrenScenarioData[5].attributes.custom_message}
-                    taskId={childrenScenarioData[5].id}
-                    price={80}
-                    actions={actions}
-                  />
+                  {childrenScenarioData &&
+                    childrenScenarioData.roofing.map(child => (
+                      <Task
+                        noAvatar
+                        name={child.attributes.custom_message}
+                        taskId={child.id}
+                        price={25}
+                        actions={actions}
+                        key={`task${child.id}`}
+                      />
+                    ))}
                 </section>
               </section>
             )}

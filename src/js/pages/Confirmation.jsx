@@ -7,7 +7,13 @@ import Cookies from "js-cookie"
 import Page from "./Page"
 
 // Page elements
+import SessionSetting from "../components/SessionSetting"
+import SessionCard from "../components/SessionCard"
 import StarRating from "../components/StarRating"
+
+// Inputs
+import Image from "../components/inputs/Image"
+import TextArea from "../components/inputs/TextArea"
 import Submit from "../components/inputs/Submit"
 
 // Local JS Utilities
@@ -21,60 +27,15 @@ import genericAvatar from "../../img/fb-profile.jpg"
 
 export default class Confirmation extends Component {
   state = {
-    scenarioId: null,
-    scenarioData: null,
-    parentScenarioId: this.props.match.params.scenario_id || "1",
-    parentScenarioData: null,
+    scenarioId: this.props.match.params.scenario_id || "1",
+    childScenarioId: this.props.match.params.child_scenario_id || "1",
     role: this.props.match.params.role || "doer",
-    verb: this.props.match.params.verb || "fix",
-    noun: this.props.match.params.noun || "roof",
     currentUser: Cookies.get("userId") || "1",
     ratingColapsed: true
   }
 
-  componentDidMount = () => {
-    Database.getScenarioWithChildren({ id: this.state.parentScenarioId })
-      .then(result => {
-        const { data } = result.body.data.relationships.children_scenario
-        let idList = []
-
-        this.setState({
-          parentScenarioData: result.body.data
-        })
-
-        for (let i in data) {
-          idList.push(data[i].id)
-        }
-
-        this.setChildrenScenarioData(idList)
-      })
-      .catch(error => {
-        this.setState({
-          scenarioData: null
-        })
-      })
-  }
-
-  setChildrenScenarioData = list => {
-    for (let i = 0, l = list.length; i < l; i++) {
-      Database.getScenarioWithVouches({ id: list[i] })
-        .then(result => {
-          const { data } = result.body
-          const { noun, verb } = data.attributes
-
-          if (noun === this.state.noun && verb === this.state.verb) {
-            this.setState({
-              scenarioData: data,
-              scenarioId: list[i]
-            })
-          }
-        })
-        .catch(error => {})
-    }
-  }
-
   submitConfirmation = params => {
-    const { scenarioId, parentScenarioId, currentUser, role } = this.state
+    const { scenarioId, childScenarioId, currentUser, role } = this.state
     const imageString = getBase64(params.image)
 
     const json = {
@@ -83,13 +44,13 @@ export default class Confirmation extends Component {
         attributes: {
           image: imageString || "",
           description: params.description || "",
-          rating: params.rating || ""
+          rating: params.rating || "1"
         },
         relationships: {
           scenario: {
             data: {
               type: "scenarios",
-              id: scenarioId || parentScenarioId
+              id: childScenarioId || scenarioId
             }
           },
           verifier: {
@@ -104,7 +65,7 @@ export default class Confirmation extends Component {
 
     Database.createVouch(json)
       .then(result => {
-        this.props.history.push(`/${parentScenarioId}/${role}`)
+        this.props.history.push(`/${scenarioId}/${role}`)
       })
       .catch(error => {})
   }
@@ -118,65 +79,97 @@ export default class Confirmation extends Component {
   render() {
     const { role, parentScenarioData, ratingColapsed } = this.state
 
-    let buttonObj = {
-      labelPhrase: "Verify mission complete",
-      clas: "footer-btn feed-btn",
-      onSubmit: this.submitConfirmation,
-      onSubmitParams: {
-        rating: "rating"
-      }
-    }
+    const requestFooter = (
+      <Submit
+        labelPhrase="Verify mission complete"
+        clas="footer-btn feed-btn"
+        onSubmit={this.submitConfirmation}
+        onSubmitParams={{
+          rating: "rating"
+        }}
+      />
+    )
 
-    const footer = <Submit {...buttonObj} />
+    const doerFooter = (
+      <Submit
+        labelPhrase="Verify mission complete"
+        clas="footer-btn feed-btn"
+        onSubmit={this.submitConfirmation}
+        onSubmitParams={{
+          description: "description",
+          image: "photo"
+        }}
+      />
+    )
 
-    return (
-      <Page className={`confirmation-page ${role}-confirmation-page`} footer={footer}>
-        <header className="confirmation-header">
-          {parentScenarioData && (
-            <h4 className="scenario-title">{`${toFirstCap(parentScenarioData.attributes.verb)} ${toFirstCap(
-              parentScenarioData.attributes.requester_firstname
-            )}'s ${parentScenarioData.attributes.noun}`}</h4>
-          )}
-        </header>
-
-        <section className="confirmation-body">
-          <header className="job-status-header">
-            <span className="job-status-label">Job Status: </span>
-            <span className="job-status">All tasks completed</span>
+    if (role === "requester") {
+      return (
+        <Page className="confirmation-page requester-confirmation-page" footer={requestFooter}>
+          <header className="confirmation-header">
+            {parentScenarioData && (
+              <h4 className="scenario-title">{`${toFirstCap(parentScenarioData.attributes.verb)} ${toFirstCap(
+                parentScenarioData.attributes.requester_firstname
+              )}'s ${parentScenarioData.attributes.noun}`}</h4>
+            )}
           </header>
 
-          <div className="message-box">
-            <div className="message-user-wrap">
-              <div
-                className="message-box-avatar"
-                style={{
-                  backgroundImage: `url("${genericAvatar}")`
-                }}
-              />
-            </div>
-            <div className="message-bubble-wrap">
-              <div className="bubble">
-                <div className="vouch-image-wrap">
-                  <img className="vouch-image" src={stubImage} alt="Proof" />
-                </div>
-                <div className="vouch-message">
-                  <p>Hi Audrey,</p>
-                  <p>
-                    Your roof is fixed. You shouldn't have any problems with leaks now. Good luck with everything and
-                    thanks for the delicious meals you gave us while we were working.
-                  </p>
-                  <p>John</p>
+          <section className="confirmation-body">
+            <header className="job-status-header">
+              <span className="job-status-label">Job Status: </span>
+              <span className="job-status">All tasks completed</span>
+            </header>
+
+            <div className="message-box">
+              <div className="message-user-wrap">
+                <div
+                  className="message-box-avatar"
+                  style={{
+                    backgroundImage: `url("${genericAvatar}")`
+                  }}
+                />
+              </div>
+              <div className="message-bubble-wrap">
+                <div className="bubble">
+                  <div className="vouch-image-wrap">
+                    <img className="vouch-image" src={stubImage} alt="Proof" />
+                  </div>
+                  <div className="vouch-message">
+                    <p>Hi Audrey,</p>
+                    <p>
+                      Your roof is fixed. You shouldn't have any problems with leaks now. Good luck with everything and
+                      thanks for the delicious meals you gave us while we were working.
+                    </p>
+                    <p>John</p>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          
-          <div className={ratingColapsed ? "rating-wrapper" : "rating-wrapper open"}>
-            <button className="rating-opener" onClick={() => this.openRating()}>Rate Mission</button>
-            <StarRating headerLabel="How well was it completed?" />
-          </div>
-        </section>
-      </Page>
-    )
+
+            <div className={ratingColapsed ? "rating-wrapper" : "rating-wrapper open"}>
+              <button className="rating-opener" onClick={() => this.openRating()}>
+                Rate Mission
+              </button>
+              <StarRating headerLabel="How well was it completed?" />
+            </div>
+          </section>
+        </Page>
+      )
+    } else {
+      return (
+        <Page className="confirmation-page doer-confirmation-page flow-page" footer={doerFooter}>
+          <h2 className="confirmation-header">Help us vouch for your work</h2>
+
+          <SessionSetting headerLabel="Include a message">
+            <SessionCard className="input-card message-card">
+              <TextArea inputID="description" />
+            </SessionCard>
+          </SessionSetting>
+
+          <SessionSetting headerLabel="Add a photo">
+            <Image />
+          </SessionSetting>
+        </Page>
+      )
+    }
   }
 }

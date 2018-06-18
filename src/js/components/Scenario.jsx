@@ -521,7 +521,7 @@ export default class Scenario extends Component {
           doer: {
             data: {
               type: "users",
-              id: "1"
+              id: params.userId || "1"
             }
           }
         }
