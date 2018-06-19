@@ -18,13 +18,15 @@
   .task-wrap-title
     font-weight: $bold-weight
 
-  .review-task-box
-    +space(0 1rem, 0 -1.5rem 1rem)
-
+  .review-task-box,
   .doer-task-box
     background: transparent
-    padding: 1rem 1rem 0
+    padding: 0 1rem 0.5rem
     box-shadow: none
+
+    &.empty
+      background: transparent
+      box-shadow: none
 
     .task-wrap
       margin-bottom: 0.5rem
@@ -37,6 +39,10 @@
       background: $white
       border-radius: 0.5rem
       font-style: italic
+
+  .no-tasks
+    font-style: italic
+    padding: 0 0.5rem
 
 .mission-status-label
   font-weight: bold

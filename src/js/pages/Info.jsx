@@ -28,6 +28,13 @@ import Page from "./Page"
 import Loader from "../components/Loader"
 import MiniMap from "../components/MiniMap"
 import Task from "../components/Task"
+import SessionSetting from "../components/SessionSetting"
+import SessionCard from "../components/SessionCard"
+
+// Inputs
+import Image from "../components/inputs/Image"
+import TextArea from "../components/inputs/TextArea"
+import Submit from "../components/inputs/Submit"
 
 // Local JS Utilities
 import Database from "../resources/Database"
@@ -45,6 +52,9 @@ export default class Info extends Component {
     scenarioId: this.props.match.params.scenario_id || 1,
     role: this.props.match.params.role || "info",
     scenarioData: null,
+    childrenScenarioData: null,
+    reviewedChildren: [],
+    leftToReview: 0,
     requesterData: null,
     buttonOverride: false,
     materialsDone: null,
@@ -54,7 +64,6 @@ export default class Info extends Component {
     notificationScenarioId: null,
     notificationOpen: false,
     missionComplete: false,
-    missionCompleteOpen: false,
     newUpdateOpen: false,
     taskListOpen: false,
     dataRefreshRate: 5000 // Every 5 seconds check for map pin changes
@@ -65,7 +74,8 @@ export default class Info extends Component {
       .then(result => {
         this.setState({
           scenarioData: result.body.data,
-          childrenScenarioData: this.assignHashtags(result.body.included)
+          childrenScenarioData:
+            this.state.role === "doer" ? this.assignHashtags(result.body.included) : result.body.included
         })
 
         this.mountRequesterData(this.state.scenarioId)
@@ -89,25 +99,22 @@ export default class Info extends Component {
     const { dataRefreshRate, scenarioId } = this.state
 
     this.autoRefresh = setInterval(() => {
-      if (!this.checkForMissionComplete()) {
-        Database.getScenarioWithChildren({ id: scenarioId })
-          .then(result => {
-            this.setState({
-              scenarioData: result.body.data,
-              childrenScenarioData: this.assignHashtags(result.body.included)
-            })
+      Database.getScenarioWithChildren({ id: scenarioId })
+        .then(result => {
+          this.setState({
+            scenarioData: result.body.data,
+            childrenScenarioData:
+              this.state.role === "doer" ? this.assignHashtags(result.body.included) : result.body.included
+          })
 
-            invalidateRequests(Database.getScenarioWithChildren)
+          invalidateRequests(Database.getScenarioWithChildren)
+        })
+        .catch(error => {
+          this.setState({
+            scenarioData: null,
+            childrenScenarioData: null
           })
-          .catch(error => {
-            this.setState({
-              scenarioData: null,
-              childrenScenarioData: null
-            })
-          })
-      } else {
-        clearInterval(this.autoRefresh)
-      }
+        })
     }, dataRefreshRate)
   }
 
@@ -152,32 +159,50 @@ export default class Info extends Component {
     return hashtags
   }
 
-  checkForMissionComplete = () => {
-    return false
-  }
-
-  dismissMissionComplete = () => {
-    this.setState({
-      missionCompleteOpen: false
-    })
-  }
-
-  dismissNotification = () => {
-    this.setState({
-      notificationOpen: false
-    })
-  }
-
   toggleTaskList = () => {
     this.setState({
       taskListOpen: !this.state.taskListOpen
     })
   }
 
+  taskCategoryCounts = () => {
+    const { childrenScenarioData, reviewedChildren, leftToReview } = this.state
+
+    let output = {
+      finished: 0,
+      toReview: 0
+    }
+
+    for (let i = 0, l = childrenScenarioData.length; i < l; i++) {
+      if (reviewedChildren.indexOf(childrenScenarioData[i].id) > -1) {
+        output.finished++
+      } else if (childrenScenarioData[i].attributes.is_complete) {
+        output.toReview++
+      }
+    }
+
+    if (leftToReview === 0) {
+      if (output.toReview > reviewedChildren.length) {
+        this.setState({
+          leftToReview: output.toReview - reviewedChildren.length
+        })
+      }
+    }
+
+    return (
+      <div className="task-category-counts">
+        {output.finished > 0 && <span className="finished">{output.finished} finished, </span>}
+        {output.toReview > 0 && <span className="to-review">{output.toReview} to review</span>}
+      </div>
+    )
+  }
+
   // Requester actions
   requesterApproveAction = params => {
     const { userId } = this.state
     const imageString = getBase64(params.image)
+    let reviewedChildren = this.state.reviewedChildren
+    reviewedChildren.push(params.id)
 
     const json = {
       data: {
@@ -205,12 +230,19 @@ export default class Info extends Component {
     }
 
     Database.createVouch(json)
-      .then(result => {})
+      .then(result => {
+        this.setState({
+          reviewedChildren,
+          leftToReview: this.state.leftToReview - 1
+        })
+      })
       .catch(error => {})
   }
   requesterDenyAction = params => {
     const { userId } = this.state
     const imageString = getBase64(params.image)
+    let reviewedChildren = this.state.reviewedChildren
+    reviewedChildren.push(params.id)
 
     const json = {
       data: {
@@ -238,11 +270,20 @@ export default class Info extends Component {
     }
 
     Database.createVouch(json)
-      .then(result => {})
+      .then(result => {
+        this.setState({
+          reviewedChildren,
+          leftToReview: this.state.leftToReview - 1
+        })
+      })
       .catch(error => {})
   }
   requesterCommentAction = params => {
-    return true
+    let reviewedChildren = this.state.reviewedChildren
+    reviewedChildren.push(params.id)
+    this.setState({
+      reviewedChildren
+    })
   }
 
   // Doer actions
@@ -293,6 +334,39 @@ export default class Info extends Component {
     //   .then(result => {})
     //   .catch(error => {})
   }
+  sendFinalVerification = params => {
+    const { scenarioId, userId } = this.state
+    const imageString = getBase64(params.image)
+
+    const json = {
+      data: {
+        type: "vouches",
+        attributes: {
+          image: imageString || "",
+          description: params.description || "",
+          rating: params.rating || "1"
+        },
+        relationships: {
+          scenario: {
+            data: {
+              type: "scenarios",
+              id: scenarioId
+            }
+          },
+          verifier: {
+            data: {
+              type: "users",
+              id: userId
+            }
+          }
+        }
+      }
+    }
+
+    Database.createVouch(json)
+      .then(result => {})
+      .catch(error => {})
+  }
 
   render() {
     const { scenarioData, requesterData, childrenScenarioData } = this.state
@@ -303,8 +377,10 @@ export default class Info extends Component {
         role,
         notificationOpen,
         notificationScenarioId,
-        missionCompleteOpen,
-        taskListOpen
+        missionComplete,
+        taskListOpen,
+        reviewedChildren,
+        leftToReview
       } = this.state
 
       const {
@@ -344,13 +420,6 @@ export default class Info extends Component {
         parentScenarioId: scenarioId,
         childScenarioId: notificationScenarioId,
         dismissNotification: this.dismissNotification
-      }
-
-      const missionCompleteProps = {
-        missionComplete: true,
-        missionCompleteImage: image,
-        missionCompleteOpen,
-        dismissMissionComplete: this.dismissMissionComplete
       }
 
       const footer = (
@@ -425,11 +494,7 @@ export default class Info extends Component {
       }
 
       return (
-        <Page
-          className={`info-page ${role}-info-page`}
-          {...notificationProps}
-          {...missionCompleteProps}
-          footer={footer}>
+        <Page className={`info-page ${role}-info-page`} {...notificationProps} footer={footer}>
           {role === "requester" && doer_firstname ? (
             <MiniMap initialCenter={mapPos} pins={doerPins} />
           ) : (
@@ -510,8 +575,27 @@ export default class Info extends Component {
                       <span className="task-wrap-title"> Tasks to Review</span>
                     </header>
 
-                    <section className="task-box review-task-box">
-                      <Task avatar={avatar} name="Organize materials" price={25} actions={actions} />
+                    <section
+                      className={leftToReview > 0 ? "task-box review-task-box" : "task-box review-task-box empty"}>
+                      {leftToReview > 0 ? (
+                        childrenScenarioData &&
+                        childrenScenarioData.map(child => {
+                          if (child.attributes.is_complete && reviewedChildren.indexOf(child.id) === -1) {
+                            return (
+                              <Task
+                                avatar={avatar}
+                                name={child.attributes.custom_message}
+                                price={50}
+                                actions={actions}
+                                key={`task_to_review_${child.id}`}
+                              />
+                            )
+                          }
+                          return <Fragment />
+                        })
+                      ) : (
+                        <div className="no-tasks">No tasks to review at this time</div>
+                      )}
                     </section>
                   </section>
 
@@ -553,37 +637,68 @@ export default class Info extends Component {
                       </header>
 
                       <article className="tasks-body">
-                        <header className="task-overview">
+                        <header className="task-overview" onClick={() => this.toggleTaskList()}>
                           <div className="task-overview-left">
-                            <span className="task-number">6</span>
+                            <span className="task-number">{childrenScenarioData.length}</span>
                             <span> Tasks</span>
-                            <div className="notification-button">1</div>
                           </div>
                           <div className="task-overview-right">
                             <div className="donation-amount">{moneyfy(donated, 2)}</div>
-                            <div className="task-category-counts" onClick={() => this.toggleTaskList()}>
-                              <span className="finished">1 finished</span>
-                              <span>, </span>
-                              <span className="to-review">1 to review</span>
-                            </div>
+                            {this.taskCategoryCounts()}
                           </div>
                         </header>
 
                         <div className={taskListOpen ? "task-list-collapse-wrap open" : "task-list-collapse-wrap"}>
                           <div className="task-list review-list">
                             <h5 className="task-list-title">To Review</h5>
-                            <Task avatar={avatar} name="Organize materials" price={25} actions={actions} />
-                            <Task avatar={avatar} name="Collect donations for materials" price={25} actions={actions} />
+                            {childrenScenarioData &&
+                              childrenScenarioData.map((child, _index) => {
+                                if (child.attributes.is_complete) {
+                                  return (
+                                    <Task
+                                      avatar={avatar}
+                                      name={child.attributes.custom_message}
+                                      price={50}
+                                      actions={actions}
+                                      key={_index}
+                                    />
+                                  )
+                                }
+                              })}
                           </div>
                           <div className="task-list finished-list">
                             <h5 className="task-list-title">Finished</h5>
-                            <Task avatar={avatar} name="Pick up volunteer labor" price={25} actions={actions} />
-                            <Task avatar={avatar} name="Pick up materials" price={25} actions={actions} />
+                            {childrenScenarioData &&
+                              childrenScenarioData.map((child, _index) => {
+                                if (child.attributes.is_complete && reviewedChildren.indexOf(child.id) > -1) {
+                                  return (
+                                    <Task
+                                      avatar={avatar}
+                                      name={child.attributes.custom_message}
+                                      price={50}
+                                      actions={actions}
+                                      key={_index}
+                                    />
+                                  )
+                                }
+                              })}
                           </div>
                           <div className="task-list in-progress-list">
                             <h5 className="task-list-title">In Progress</h5>
-                            <Task avatar={avatar} name="Patch roof" price={25} actions={actions} />
-                            <Task avatar={avatar} name="Paint and seal roof" price={25} actions={actions} />
+                            {childrenScenarioData &&
+                              childrenScenarioData.map((child, _index) => {
+                                if (!child.attributes.is_complete) {
+                                  return (
+                                    <Task
+                                      avatar={avatar}
+                                      name={child.attributes.custom_message}
+                                      price={50}
+                                      actions={actions}
+                                      key={_index}
+                                    />
+                                  )
+                                }
+                              })}
                           </div>
                         </div>
                       </article>
@@ -616,59 +731,81 @@ export default class Info extends Component {
                 </section>
               ))}
 
-            {role === "doer" && (
-              <section className="task-wrapper review-tasks">
-                <header className="task-wrap-header">
-                  <Icon icon={faClipboardCheck} className="task-wrap-header-icon" />
-                  <span className="task-wrap-title"> Task List</span>
-                </header>
+            {role === "doer" &&
+              (missionComplete ? (
+                <section className="task-wrapper review-tasks">
+                  <SessionSetting headerLabel="Include a message">
+                    <SessionCard className="input-card message-card">
+                      <TextArea inputID="description" />
+                    </SessionCard>
+                  </SessionSetting>
 
-                <section className="task-box doer-task-box">
-                  <div className="task-box-hashtag">#Logistics</div>
-                  {childrenScenarioData &&
-                    childrenScenarioData.logistics.map(child => (
-                      <Task
-                        noAvatar
-                        name={child.attributes.custom_message}
-                        taskId={child.id}
-                        price={25}
-                        actions={actions}
-                        key={`task${child.id}`}
-                      />
-                    ))}
-                </section>
+                  <SessionSetting headerLabel="Add a photo">
+                    <Image />
+                  </SessionSetting>
 
-                <section className="task-box doer-task-box">
-                  <div className="task-box-hashtag">#Driving</div>
-                  {childrenScenarioData &&
-                    childrenScenarioData.driving.map(child => (
-                      <Task
-                        noAvatar
-                        name={child.attributes.custom_message}
-                        taskId={child.id}
-                        price={25}
-                        actions={actions}
-                        key={`task${child.id}`}
-                      />
-                    ))}
+                  <Submit
+                    labelPhrase="Send & Complete Mission"
+                    onSubmit={this.sendFinalVerification}
+                    onSubmitParams={{
+                      description: "description",
+                      image: "photo"
+                    }}
+                  />
                 </section>
+              ) : (
+                <section className="task-wrapper review-tasks">
+                  <header className="task-wrap-header">
+                    <Icon icon={faClipboardCheck} className="task-wrap-header-icon" />
+                    <span className="task-wrap-title"> Task List</span>
+                  </header>
 
-                <section className="task-box doer-task-box">
-                  <div className="task-box-hashtag">#Roofing</div>
-                  {childrenScenarioData &&
-                    childrenScenarioData.roofing.map(child => (
-                      <Task
-                        noAvatar
-                        name={child.attributes.custom_message}
-                        taskId={child.id}
-                        price={25}
-                        actions={actions}
-                        key={`task${child.id}`}
-                      />
-                    ))}
+                  <section className="task-box doer-task-box">
+                    <div className="task-box-hashtag">#Logistics</div>
+                    {childrenScenarioData &&
+                      childrenScenarioData.logistics.map(child => (
+                        <Task
+                          noAvatar
+                          name={child.attributes.custom_message}
+                          taskId={child.id}
+                          price={25}
+                          actions={actions}
+                          key={`task${child.id}`}
+                        />
+                      ))}
+                  </section>
+
+                  <section className="task-box doer-task-box">
+                    <div className="task-box-hashtag">#Driving</div>
+                    {childrenScenarioData &&
+                      childrenScenarioData.driving.map(child => (
+                        <Task
+                          noAvatar
+                          name={child.attributes.custom_message}
+                          taskId={child.id}
+                          price={25}
+                          actions={actions}
+                          key={`task${child.id}`}
+                        />
+                      ))}
+                  </section>
+
+                  <section className="task-box doer-task-box">
+                    <div className="task-box-hashtag">#Roofing</div>
+                    {childrenScenarioData &&
+                      childrenScenarioData.roofing.map(child => (
+                        <Task
+                          noAvatar
+                          name={child.attributes.custom_message}
+                          taskId={child.id}
+                          price={25}
+                          actions={actions}
+                          key={`task${child.id}`}
+                        />
+                      ))}
+                  </section>
                 </section>
-              </section>
-            )}
+              ))}
           </section>
         </Page>
       )
