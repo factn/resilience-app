@@ -22,22 +22,23 @@ export default class Login extends Component {
   }
 
   submitLogin = params => {
-    if (!this.state.buttonPressed) {
-      const json = {
-        email: params.email,
-        password: params.password
-      }
+    // if (!this.state.buttonPressed) {
+    //   const json = {
+    //     email: params.email,
+    //     password: params.password
+    //   }
 
-      this.setState({
-        buttonPressed: true
-      })
+    //   this.setState({
+    //     buttonPressed: true
+    //   })
 
-      Database.attemptLogin(json)
-        .then(result => {
-          this.setUserCookie(result)
-        })
-        .catch(error => {})
-    }
+    //   Database.attemptLogin(json)
+    //     .then(result => {
+    //       this.setUserCookie(result)
+    //     })
+    //     .catch(error => {})
+    // }
+    this.props.history.push("/")
   }
   setUserCookie = userId => {
     Cookies.set("userId", userId)
@@ -50,7 +51,7 @@ export default class Login extends Component {
       clas: "footer-btn user-login-btn",
       onSubmit: this.submitLogin,
       onSubmitParams: {
-        email: "username",
+        // email: "username",
         password: "password"
       }
     }
@@ -60,10 +61,10 @@ export default class Login extends Component {
     return (
       <Page className="flow-page login-page" footer={footer}>
         <Form>
-          <SessionSetting className="login-settings" headerLabel="Log In">
-            <SessionCard className="input-card email-card">
+          <SessionSetting className="login-settings" headerLabel="Log In with J4R!">
+            {/* <SessionCard className="input-card email-card">
               <input type="text" placeholder="Enter your email" id="username" />
-            </SessionCard>
+            </SessionCard> */}
 
             <SessionCard className="input-card password-card">
               <input type="password" placeholder="Enter your password" id="password" />

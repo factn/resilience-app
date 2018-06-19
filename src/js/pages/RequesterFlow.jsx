@@ -26,6 +26,7 @@ export default class RequesterFlow extends Component {
   state = {
     scenarioId: this.props.match.params.scenarioId || 1,
     scenarioData: null,
+    userId: Cookies.get("userId") || "1",
     eventData: [],
     nounData: [],
     verbData: [],
@@ -102,6 +103,7 @@ export default class RequesterFlow extends Component {
   }
 
   submitRequest = params => {
+    const { userId } = this.state
     const imageString = getBase64(params.image)
 
     const json = {
@@ -135,7 +137,7 @@ export default class RequesterFlow extends Component {
           requester: {
             data: {
               type: "users",
-              id: Cookies.get("userId") || "1"
+              id: userId || "1"
               // update lat and long from params.lat and params.lon
             }
           }

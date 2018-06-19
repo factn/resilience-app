@@ -11,27 +11,31 @@
 
   .confirmation-body
     +space(1rem 1.5rem 7rem, 0 -1.5rem)
+
     background: $task-box-bg
 
   .job-status-header
     font:
       family: $heading-font
       size: 1.1rem
-  
+
   .job-status-label
     font-weight: bold
 
   .message-box
     +inline-flex
+
     padding: 1rem 0
 
   .message-user-wrap
     +inline-flex-item(3rem)
+
     position: relative
     margin-right: 1rem
 
   .message-box-avatar
     +circle-photo-wrap(2.5rem)
+
     position: absolute
     bottom: 0
 
@@ -47,7 +51,7 @@
 
     &:before
       position: absolute
-      content: ''
+      content: ""
       bottom: 1rem
       left: -1rem
       border:
@@ -76,7 +80,6 @@
         opacity: 0
         max-height: 0
 
-
   .rating-opener
     color: $blue
     font-size: 1rem
@@ -101,3 +104,8 @@
 
     p
       margin: 0 0 0.5rem
+
+.doer-confirmation-page
+  .confirmation-header
+    text-align: center
+    margin-top: 1rem

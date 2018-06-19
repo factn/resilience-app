@@ -13,9 +13,10 @@ import Home from "./js/pages/Home"
 
 //  - Flows
 import DonorFlow from "./js/pages/DonorFlow"
-import Confirmation from "./js/pages/Confirmation"
 import RequesterFlow from "./js/pages/RequesterFlow"
 import Feed from "./js/pages/Feed"
+import Confirmation from "./js/pages/Confirmation"
+import Payment from "./js/pages/Payment"
 
 //  - Account creation
 import Account from "./js/pages/Account"
@@ -46,11 +47,12 @@ export default class App extends Component {
 
           {/* Flows */}
           <Route path="/donor" component={DonorFlow} />
-          <Route path="/:role/confirmation" exact component={Confirmation} />
-          <Route path="/:scenario_id/:role/confirmation" exact component={Confirmation} />
-          <Route path="/:scenario_id/:role/confirmation/:verb/:noun" exact component={Confirmation} />
           <Route path="/requester" component={RequesterFlow} />
           <Route path="/feed/:type" component={Feed} />
+          <Route path="/:role/confirmation" exact component={Confirmation} />
+          <Route path="/:scenario_id/:role/confirmation" exact component={Confirmation} />
+          <Route path="/:scenario_id/:role/confirmation/:child_scenario_id" exact component={Confirmation} />
+          <Route path="/:scenario_id/payment" component={Payment} />
 
           {/* Account */}
           <Route path="/login" component={Login} />
