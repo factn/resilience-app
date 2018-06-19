@@ -72,7 +72,10 @@ export default class Info extends Component {
         })
 
         this.mountRequesterData(this.state.scenarioId)
-        this.createRefresh()
+
+        if (!this.checkForMissionComplete()) {
+          this.createRefresh()
+        }
 
         invalidateRequests(Database.getScenarioWithChildren)
       })
@@ -89,25 +92,29 @@ export default class Info extends Component {
   }
 
   createRefresh = () => {
-    const { dataRefreshRate, scenarioId } = this.state
+    const { dataRefreshRate, scenarioId, missionComplete } = this.state
 
     this.autoRefresh = setInterval(() => {
-      Database.getScenarioWithChildren({ id: scenarioId })
-        .then(result => {
-          this.setState({
-            scenarioData: result.body.data,
-            childrenScenarioData:
-              this.state.role === "doer" ? this.assignHashtags(result.body.included) : result.body.included
+      if (missionComplete) {
+        Database.getScenarioWithChildren({ id: scenarioId })
+          .then(result => {
+            this.setState({
+              scenarioData: result.body.data,
+              childrenScenarioData:
+                this.state.role === "doer" ? this.assignHashtags(result.body.included) : result.body.included
+            })
+  
+            invalidateRequests(Database.getScenarioWithChildren)
           })
-
-          invalidateRequests(Database.getScenarioWithChildren)
-        })
-        .catch(error => {
-          this.setState({
-            scenarioData: null,
-            childrenScenarioData: null
+          .catch(error => {
+            this.setState({
+              scenarioData: null,
+              childrenScenarioData: null
+            })
           })
-        })
+      } else {
+        clearInterval(this.autoRefresh)
+      }
     }, dataRefreshRate)
   }
 
@@ -170,9 +177,16 @@ export default class Info extends Component {
   checkForMissionComplete = () => {
     const { reviewedChildren, childrenScenarioData } = this.state
 
-    this.setState({
-      missionComplete: reviewedChildren === childrenScenarioData.length
-    })
+    if (this.state.scenarioData.attributes.is_complete || reviewedChildren === childrenScenarioData.length) {
+      this.setState({
+        missionComplete: true
+      })
+
+      clearInterval(this.autoRefresh)
+
+      return true
+    }
+    return false
   }
 
   taskCategoryCounts = () => {
@@ -488,6 +502,8 @@ export default class Info extends Component {
         ]
       }
 
+      console.log(missionComplete)
+
       return (
         <Page className={`info-page ${role}-info-page`} footer={footer}>
           {role === "requester" && doer_firstname ? (
@@ -567,7 +583,7 @@ export default class Info extends Component {
                   {missionComplete ? (
                     <section className="misson-complete-banner">
                       <h3 className="mission-complete-title">Mission complete!</h3>
-                      <Link to={`/${scenarioId}/requester/confirmation`} className="complete-mission-btn">
+                      <Link to={`/${scenarioId}/requester/confirmation`} className="btn complete-mission-btn">
                         Rate your workers
                       </Link>
                     </section>
