@@ -1,9 +1,7 @@
 /*** IMPORTS ***/
 // Module imports
-import React, { Component, Fragment } from "react"
-import { Link } from "react-router-dom"
+import React, { Component } from "react"
 import Icon from "@fortawesome/react-fontawesome"
-import { faThumbsDown, faComment, faThumbsUp } from "@fortawesome/fontawesome-free-solid"
 
 // Local JS Utilities
 import { moneyfy } from "../resources/Util"
