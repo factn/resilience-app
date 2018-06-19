@@ -56,13 +56,6 @@ export default class Info extends Component {
     reviewedChildren: [],
     leftToReview: 0,
     requesterData: null,
-    buttonOverride: false,
-    materialsDone: null,
-    transportDone: null,
-    roofCovered: null,
-    roofSecured: null,
-    notificationScenarioId: null,
-    notificationOpen: false,
     missionComplete: false,
     newUpdateOpen: false,
     taskListOpen: false,
@@ -138,11 +131,14 @@ export default class Info extends Component {
       driving: [],
       roofing: []
     }
+    let completeCount = 0
 
     for (let i = 0, l = childrenScenarioData.length; i < l; i++) {
       let { noun, verb, is_complete } = childrenScenarioData[i].attributes
 
-      if (!is_complete) {
+      if (is_complete) {
+        completeCount++
+      } else {
         if ((verb === "organise" && noun === "materials") || (verb === "collect" && noun === "donations")) {
           hashtags.logistics.push(childrenScenarioData[i])
         } else if (
@@ -156,12 +152,24 @@ export default class Info extends Component {
       }
     }
 
+    if (completeCount === childrenScenarioData.length) {
+      this.setState({
+        missionComplete: true
+      })
+    }
+
     return hashtags
   }
 
   toggleTaskList = () => {
     this.setState({
       taskListOpen: !this.state.taskListOpen
+    })
+  }
+
+  checkForMissionComplete = () => {
+    this.setState({
+      missionComplete: this.state.reviewedChildren === this.childrenScenarioData.length
     })
   }
 
@@ -235,6 +243,8 @@ export default class Info extends Component {
           reviewedChildren,
           leftToReview: this.state.leftToReview - 1
         })
+
+        this.checkForMissionComplete()
       })
       .catch(error => {})
   }
@@ -364,7 +374,9 @@ export default class Info extends Component {
     }
 
     Database.createVouch(json)
-      .then(result => {})
+      .then(result => {
+        this.history.push(`/${scenarioId}/doer`)
+      })
       .catch(error => {})
   }
 
@@ -372,16 +384,7 @@ export default class Info extends Component {
     const { scenarioData, requesterData, childrenScenarioData } = this.state
 
     if (scenarioData && requesterData && childrenScenarioData) {
-      const {
-        scenarioId,
-        role,
-        notificationOpen,
-        notificationScenarioId,
-        missionComplete,
-        taskListOpen,
-        reviewedChildren,
-        leftToReview
-      } = this.state
+      const { role, missionComplete, taskListOpen, reviewedChildren, leftToReview } = this.state
 
       const {
         event,
@@ -413,14 +416,6 @@ export default class Info extends Component {
       ]
 
       const { avatar } = requesterData.attributes
-
-      const notificationProps = {
-        notification: true,
-        notificationOpen,
-        parentScenarioId: scenarioId,
-        childScenarioId: notificationScenarioId,
-        dismissNotification: this.dismissNotification
-      }
 
       const footer = (
         <div className="scenario-footer-wrap">
@@ -494,7 +489,7 @@ export default class Info extends Component {
       }
 
       return (
-        <Page className={`info-page ${role}-info-page`} {...notificationProps} footer={footer}>
+        <Page className={`info-page ${role}-info-page`} footer={footer}>
           {role === "requester" && doer_firstname ? (
             <MiniMap initialCenter={mapPos} pins={doerPins} />
           ) : (
@@ -587,6 +582,7 @@ export default class Info extends Component {
                                 name={child.attributes.custom_message}
                                 price={50}
                                 actions={actions}
+                                taskId={child.id}
                                 key={`task_to_review_${child.id}`}
                               />
                             )
@@ -652,15 +648,16 @@ export default class Info extends Component {
                           <div className="task-list review-list">
                             <h5 className="task-list-title">To Review</h5>
                             {childrenScenarioData &&
-                              childrenScenarioData.map((child, _index) => {
-                                if (child.attributes.is_complete) {
+                              childrenScenarioData.map(child => {
+                                if (child.attributes.is_complete && reviewedChildren.indexOf(child.id) === -1) {
                                   return (
                                     <Task
                                       avatar={avatar}
                                       name={child.attributes.custom_message}
                                       price={50}
                                       actions={actions}
-                                      key={_index}
+                                      taskId={child.id}
+                                      key={child.id}
                                     />
                                   )
                                 }
@@ -669,7 +666,7 @@ export default class Info extends Component {
                           <div className="task-list finished-list">
                             <h5 className="task-list-title">Finished</h5>
                             {childrenScenarioData &&
-                              childrenScenarioData.map((child, _index) => {
+                              childrenScenarioData.map(child => {
                                 if (child.attributes.is_complete && reviewedChildren.indexOf(child.id) > -1) {
                                   return (
                                     <Task
@@ -677,7 +674,8 @@ export default class Info extends Component {
                                       name={child.attributes.custom_message}
                                       price={50}
                                       actions={actions}
-                                      key={_index}
+                                      taskId={child.id}
+                                      key={child.id}
                                     />
                                   )
                                 }
@@ -686,7 +684,7 @@ export default class Info extends Component {
                           <div className="task-list in-progress-list">
                             <h5 className="task-list-title">In Progress</h5>
                             {childrenScenarioData &&
-                              childrenScenarioData.map((child, _index) => {
+                              childrenScenarioData.map(child => {
                                 if (!child.attributes.is_complete) {
                                   return (
                                     <Task
@@ -694,7 +692,8 @@ export default class Info extends Component {
                                       name={child.attributes.custom_message}
                                       price={50}
                                       actions={actions}
-                                      key={_index}
+                                      taskId={child.id}
+                                      key={child.id}
                                     />
                                   )
                                 }
@@ -734,6 +733,11 @@ export default class Info extends Component {
             {role === "doer" &&
               (missionComplete ? (
                 <section className="task-wrapper review-tasks">
+                  <header className="task-wrap-header complete">
+                    <Icon icon={faClipboardCheck} className="task-wrap-header-icon" />
+                    <span className="task-wrap-title"> All Tasks Complete</span>
+                  </header>
+
                   <SessionSetting headerLabel="Include a message">
                     <SessionCard className="input-card message-card">
                       <TextArea inputID="description" />
@@ -746,6 +750,7 @@ export default class Info extends Component {
 
                   <Submit
                     labelPhrase="Send & Complete Mission"
+                    clas="complete-mission-btn"
                     onSubmit={this.sendFinalVerification}
                     onSubmitParams={{
                       description: "description",
