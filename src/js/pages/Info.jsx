@@ -168,8 +168,10 @@ export default class Info extends Component {
   }
 
   checkForMissionComplete = () => {
+    const { reviewedChildren, childrenScenarioData } = this.state
+
     this.setState({
-      missionComplete: this.state.reviewedChildren === this.childrenScenarioData.length
+      missionComplete: reviewedChildren === childrenScenarioData.length
     })
   }
 
@@ -243,8 +245,6 @@ export default class Info extends Component {
           reviewedChildren,
           leftToReview: this.state.leftToReview - 1
         })
-
-        this.checkForMissionComplete()
       })
       .catch(error => {})
   }
@@ -384,7 +384,7 @@ export default class Info extends Component {
     const { scenarioData, requesterData, childrenScenarioData } = this.state
 
     if (scenarioData && requesterData && childrenScenarioData) {
-      const { role, missionComplete, taskListOpen, reviewedChildren, leftToReview } = this.state
+      const { role, scenarioId, missionComplete, taskListOpen, reviewedChildren, leftToReview } = this.state
 
       const {
         event,
@@ -564,36 +564,45 @@ export default class Info extends Component {
             {role === "requester" &&
               (doer_firstname ? (
                 <Fragment>
-                  <section className="task-wrapper review-tasks">
-                    <header className="task-wrap-header">
-                      <Icon icon={faClipboardCheck} className="task-wrap-header-icon" />
-                      <span className="task-wrap-title"> Tasks to Review</span>
-                    </header>
-
-                    <section
-                      className={leftToReview > 0 ? "task-box review-task-box" : "task-box review-task-box empty"}>
-                      {leftToReview > 0 ? (
-                        childrenScenarioData &&
-                        childrenScenarioData.map(child => {
-                          if (child.attributes.is_complete && reviewedChildren.indexOf(child.id) === -1) {
-                            return (
-                              <Task
-                                avatar={avatar}
-                                name={child.attributes.custom_message}
-                                price={50}
-                                actions={actions}
-                                taskId={child.id}
-                                key={`task_to_review_${child.id}`}
-                              />
-                            )
-                          }
-                          return <Fragment />
-                        })
-                      ) : (
-                        <div className="no-tasks">No tasks to review at this time</div>
-                      )}
+                  {missionComplete ? (
+                    <section className="misson-complete-banner">
+                      <h3 className="mission-complete-title">Mission complete!</h3>
+                      <Link to={`/${scenarioId}/requester/confirmation`} className="complete-mission-btn">
+                        Rate your workers
+                      </Link>
                     </section>
-                  </section>
+                  ) : (
+                    <section className="task-wrapper review-tasks">
+                      <header className="task-wrap-header">
+                        <Icon icon={faClipboardCheck} className="task-wrap-header-icon" />
+                        <span className="task-wrap-title"> Tasks to Review</span>
+                      </header>
+
+                      <section
+                        className={leftToReview > 0 ? "task-box review-task-box" : "task-box review-task-box empty"}>
+                        {leftToReview > 0 ? (
+                          childrenScenarioData &&
+                          childrenScenarioData.map(child => {
+                            if (child.attributes.is_complete && reviewedChildren.indexOf(child.id) === -1) {
+                              return (
+                                <Task
+                                  avatar={avatar}
+                                  name={child.attributes.custom_message}
+                                  price={50}
+                                  actions={actions}
+                                  taskId={child.id}
+                                  key={`task_to_review_${child.id}`}
+                                />
+                              )
+                            }
+                            return <Fragment />
+                          })
+                        ) : (
+                          <div className="no-tasks">No tasks to review at this time</div>
+                        )}
+                      </section>
+                    </section>
+                  )}
 
                   <section className="task-wrapper worker-wrapper">
                     <header className="task-wrap-header">
