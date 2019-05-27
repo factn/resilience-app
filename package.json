@@ -49,7 +49,7 @@
     "redux": "^3.7.2",
     "redux-bees": "^0.1.7",
     "style-loader": "0.19.0",
-    "sw-precache-webpack-plugin": "0.11.4",
+    "sw-precache-webpack-plugin": "^0.11.5",
     "url-loader": "0.6.2",
     "webpack": "^4.32.2",
     "webpack-dev-server": "^3.4.1",
