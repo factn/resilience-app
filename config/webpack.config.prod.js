@@ -181,7 +181,6 @@ module.exports = {
                       loader: require.resolve('css-loader'),
                       options: {
                         importLoaders: 1,
-                        minimize: true,
                         sourceMap: shouldUseSourceMap,
                       },
                     },
@@ -196,6 +195,7 @@ module.exports = {
                         ident: 'postcss',
                         plugins: () => [
                           require('postcss-flexbugs-fixes'),
+                          require('cssnano'),
                           autoprefixer({
                             browsers: [
                               '>1%',
@@ -231,7 +231,6 @@ module.exports = {
                       loader: require.resolve('css-loader'),
                       options: {
                         importLoaders: 1,
-                        minimize: true,
                         sourceMap: shouldUseSourceMap,
                       },
                     },
@@ -246,6 +245,7 @@ module.exports = {
                         ident: 'postcss',
                         plugins: () => [
                           require('postcss-flexbugs-fixes'),
+                          require('cssnano'),
                           autoprefixer({
                             browsers: [
                               '>1%',
