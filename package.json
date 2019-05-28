@@ -8,7 +8,7 @@
     "@fortawesome/fontawesome-free-solid": "^5.0.8",
     "@fortawesome/react-fontawesome": "0.0.18",
     "ajv": "^6.4.0",
-    "autoprefixer": "7.1.6",
+    "autoprefixer": "^9.5.1",
     "babel-core": "^6.26.3",
     "babel-eslint": "7.2.3",
     "babel-jest": "20.0.3",
