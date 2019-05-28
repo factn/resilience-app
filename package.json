@@ -47,7 +47,7 @@
     "react-dom": "^16.8.6",
     "react-places-autocomplete": "^7.1.1",
     "react-router-dom": "^4.2.2",
-    "redux": "^3.7.2",
+    "redux": "^4.0.1",
     "redux-bees": "^0.1.7",
     "style-loader": "^0.23.1",
     "sw-precache-webpack-plugin": "^0.11.5",
