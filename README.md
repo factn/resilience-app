@@ -1,4 +1,6 @@
-# Welcome to [Lion](https://lion-frontend-uat.herokuapp.com/)!
+# Corona Donor App (front end)
+
+See demo [here](https://lion-frontend-uat.herokuapp.com/)!
 
 ---
 
