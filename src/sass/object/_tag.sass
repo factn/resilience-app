@@ -1,0 +1,26 @@
+.tag-list
+  +inline-list
+
+.tag
+  background: $green-dark
+  color: $white
+  padding: 0.25em 0.5em
+  margin: 0 0.5rem 0.25rem 0
+  border-radius: 0.5em
+  cursor: pointer
+  font:
+    style: italic
+    size: 0.8em
+
+  .tag-link
+    color: $white
+
+  &.active-tag,
+  &.inactive-tag
+    color: $black
+
+  &.inactive-tag
+    background: darken($white, 25%)
+
+  &.active-tag
+    background: $orange

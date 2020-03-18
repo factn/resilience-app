@@ -1,0 +1,90 @@
+// --- Sizing ---
+=size($width: 100%, $height: auto)
+  width: $width
+  height: $height
+
+=space($padding: 0, $margin: 0 auto)
+  padding: $padding
+  margin: $margin
+
+=spacer-with-border($direction, $spacer-width, $border-width, $border-color, $border-style: solid)
+  padding-#{$direction}: $spacer-width
+  border-#{$direction}: $border-width $border-style $border-color
+  margin-#{$direction}: $spacer-width
+
+// --- Lists ---
+=pseudo-list
+  +space(0, 0)
+
+  list-style-type: none
+
+=inline-list
+  +pseudo-list
+
+  li
+    display: inline-block
+
+=inline-flex
+  display: inline-flex
+  justify-content: space-between
+  width: 100%
+
+=inline-flex-list
+  +pseudo-list
+  +inline-flex
+
+=inline-flex-item($width, $weight: 1)
+  width: $width
+  flex:
+    basis: $width
+    grow: $weight
+
+=alternating-list
+  +pseudo-list
+
+  li
+    padding: 0.25rem 0.5rem
+
+    &:not(:last-of-type)
+      border-bottom: 0.0625rem solid rgba($black, 0.1)
+
+    &:nth-of-type(odd)
+      background: rgba($white, 0.05)
+
+    &:nth-of-type(even)
+      background: rgba($black, 0.05)
+
+// --- Box-shape ---
+=circle($dim)
+  +size($dim, $dim)
+
+  border-radius: 50%
+
+=circle-photo-wrap($dim)
+  +circle($dim)
+
+  overflow: hidden
+  background:
+    color: rgba($black, 0.1)
+    size: cover
+
+// --- Background ---
+=menu-back
+  background: $menu-background
+  box-shadow: $menu-shadow
+
+// --- Hiding ---
+=do-not-show
+  position: absolute
+  top: -1000vh
+  left: 0
+  width: 0
+  overflow: hidden
+  display: none
+  visibility: hidden
+  pointer-events: none
+
+// --- Responsiveness ---
+=breakpoint($width)
+  @media only screen and (min-width: $width)
+    @content

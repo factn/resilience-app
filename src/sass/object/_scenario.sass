@@ -1,0 +1,376 @@
+.scenario
+  position: absolute
+  left: 1.5rem
+  width: calc(100vw - 3rem)
+  background: $white
+  box-shadow: $card-shadow
+  transition:
+    property: opacity, top, filter
+    duration: $fast
+    timing-function: $cubic
+
+  &.first
+    top: 5rem
+    z-index: 3
+    opacity: 1
+
+  &.second
+    top: 7rem
+    z-index: 2
+    opacity: 0.6
+    filter: blur(1px)
+
+  &.third
+    top: 8rem
+    z-index: 1
+    opacity: 0.25
+    filter: blur(2px)
+
+  .scenario-footer-btn
+    position: absolute
+    bottom: -1rem
+    width: 2.25rem
+    height: 2.25rem
+    padding: 0.1875rem
+    font-size: 1.5rem
+    text-align: center
+    border-radius: 50%
+    background: $orange
+    z-index: 10
+
+    &:active,
+    &:focus,
+    &:hover
+      color: $white
+
+  .check-profile-btn
+    left: 0.5rem
+
+  .accept-scenario-btn
+    right: 0.5rem
+
+  .pseudo-preview,
+  .pseudo-up,
+  .pseudo-before,
+  .pseudo-after
+    position: absolute
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    color: $white
+    background: rgba(darken($white, 5%), 0.85)
+    text-align: center
+    transition:
+      property: opacity
+      duration: $very-fast
+      timing-function: $cubic
+
+  .pseudo-main-text
+    color: $orange
+    text-transform: uppercase
+    font:
+      weight: bold
+      size: 1.25rem
+
+  .pseudo-sub-text
+    font-size: 1.1rem
+    color: $blue
+    margin-bottom: 0.5rem
+
+  .action
+    position: absolute
+
+  .up-action
+    top: 2rem
+    left: 0
+    width: 100%
+    text-align: center
+
+  .left-action,
+  .right-action
+    top: 8rem
+    width: 50%
+
+    .pseudo-main-text,
+    .pseudo-sub-text
+      padding: 0 2rem
+
+  .left-action
+    text-align: right
+    left: 0
+
+  .right-action
+    text-align: left
+    right: 0
+
+  .down-action
+    bottom: 2rem
+    left: 0
+    width: 100%
+
+  .touch-icon,
+  .arrow
+    color: $blue
+    font-size: 2.5rem
+
+  .touch-icon
+    font-size: 5rem
+
+  .arrow
+    position: relative
+    font-size: 2.5rem
+    border: 0.0625rem dashed $blue
+    margin: 0 auto
+
+    svg
+      position: absolute
+
+  .arrow-up
+    width: 0.0625rem
+    height: 6rem
+
+    svg
+      top: -1rem
+      left: -0.75rem
+
+  .arrow-left,
+  .arrow-right
+    width: 8rem
+    height: 0.0625rem
+    margin-top: 1rem
+
+    svg
+      top: -1.25rem
+
+  .arrow-left svg
+    left: -0.25rem
+
+  .arrow-right svg
+    right: -0.25rem
+
+  .touch-icon
+    position: absolute
+    top: 11rem
+    left: 0
+    transform: rotate(15deg)
+    width: 100%
+    text-align: center
+
+  .preview-dismiss-btn
+    width: 50%
+    font-size: 1rem
+
+.scenario-image-wrap
+  padding: 0.25rem
+
+  .scenario-image
+    height: 10rem
+    background: rgba($black, 0.5)
+
+.scenario-body
+  padding: 1rem
+
+  .user-info
+    +inline-flex
+
+    margin-bottom: 1rem
+
+  .user-avatar-wrap
+    +inline-flex-item(2rem)
+
+  .scenario-user
+    +inline-flex-item(25%, 2)
+
+    padding: 0.5rem 0
+
+  .scenario-location
+    +inline-flex-item(30%, 3)
+
+    padding: 0.5rem 0
+
+  .user-avatar
+    +circle-photo-wrap(2rem)
+
+  .user-name,
+  .location-name,
+  .user-vouched-status,
+  .location-icon
+    display: inline-block
+
+  .user-name,
+  .location-name
+    text-decoration: underline
+    margin-right: 0.25rem
+    font:
+      size: 0.7rem
+      style: italic
+
+  .user-vouched-status
+    color: $green-bright
+
+  .location-icon
+    color: $orange
+
+  .scenario-event-location
+    display: inline-block
+    margin-bottom: 1rem
+    font:
+      size: 0.9rem
+      weight: $light-weight
+
+  .tag
+    font-size: 0.9rem
+
+.scenario-header
+  position: relative
+  z-index: 2
+
+  .scenario-title
+    +spacer-with-border("bottom", 0.5rem, 0.0625rem, $orange, dashed)
+
+    font-weight: bold
+    text-transform: uppercase
+    display: inline-block
+
+.scenario-subheader
+  +inline-flex
+
+  margin-bottom: 1rem
+  font:
+    size: 0.75rem
+    style: italic
+
+  .user-info,
+  .scenario-location
+    flex:
+      basis: 45%
+      grow: 1
+
+  .user-info
+    .user-avatar,
+    .user-name,
+    .user-vouched-status
+      display: inline-block
+
+    .user-vouched-status
+      color: $green-bright
+      width: 1.5rem
+      text-align: center
+
+  .scenario-location
+    padding-left: 0.5rem
+
+    .location-name,
+    .location-icon
+      display: inline-block
+
+    .location-icon
+      color: $orange
+      width: 1.5rem
+      text-align: center
+
+.scenario-description
+  font-size: 0.8rem
+  margin-bottom: 1rem
+
+.scenario-footer
+  +space(1rem, 1rem -1rem -1rem)
+
+  width: calc(100% + 2rem)
+  background: darken($white, 10%)
+
+  .funding-top-row
+    +inline-flex
+
+  .funding-doubler
+    color: rgba($black, 0.5)
+    font-size: 0.65rem
+    padding: 0.5rem 0
+
+  .funding-goal-label
+    text-align: right
+    text-transform: uppercase
+    font-size: 0.8rem
+    margin: 0.25rem 0
+
+  .dollar-amount
+    font-weight: bold
+
+  .funding-goal-summary
+    float: left
+    margin-top: -1rem
+    font:
+      size: 0.7rem
+      style: italic
+
+.scenario-footer-doer
+  +space(1rem, 1rem -1rem -1rem)
+  +inline-flex
+
+  width: calc(100% + 2rem)
+  background: darken($white, 10%)
+
+  .scenario-footer-flex-item
+    +inline-flex-item(40%)
+
+    text-align: left
+
+  .scenario-footer-icon,
+  .scenario-item-text
+    display: inline-block
+
+  .scenario-cost-icon,
+  .scenario-time-icon
+    font-size: 2rem
+    margin-right: 0.5rem
+
+  .scenario-cost-icon
+    +circle(2rem)
+
+    color: darken($white, 10%)
+    background: $orange
+    font-size: 1.5rem
+    padding: 0.25rem
+
+  .scenario-time-icon
+    color: $orange
+    font-size: 2rem
+
+  .scenario-item-label
+    text-transform: uppercase
+    font:
+      size: 0.8rem
+      weight: $light-weight
+
++breakpoint($phone-down)
+  .scenario-feed-wrap
+    display: grid
+    margin: 0 -1rem
+    padding: 1rem 2rem
+    grid:
+      template:
+        columns: repeat(2, 1fr)
+        rows: auto
+      gap: 1rem
+
+  .scenario
+    border: 0.0625rem solid rgba($black, 0.5)
+
+    .pseudo-preview,
+    .pseudo-up,
+    .pseudo-before,
+    .pseudo-after
+      display: none
+
+
++breakpoint($tablet)
+  .scenario-feed-wrap
+    grid-template-columns: repeat(3, 1fr)
+
+
++breakpoint($desktop)
+  .scenario-feed-wrap
+    max-width: 90rem
+    margin: 0 auto
+    grid-gap: 1.5rem

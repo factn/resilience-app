@@ -1,0 +1,60 @@
+.requester-flow-page
+  .title-card,
+  .event-card
+    margin-bottom: 1rem
+
+  .form-input
+    font-size: 1rem
+
+  .tag-wrap
+    margin-top: 0.5rem
+
+  .job-card
+    +inline-flex
+
+    .job-label
+      flex:
+        basis: 70%
+        grow: 5
+
+    .plus-amount,
+    .take-action-icon
+      text-align: center
+      margin-left: 1rem
+      flex:
+        basis: 15%
+        grow: 1
+
+    .plus-amount
+      background: rgba($black, 0.1)
+      padding: 0.25rem
+      border-radius: 0.5rem
+      margin: (-0.25rem) 0 -0.25rem 1rem
+
+  .vouch-settings
+    margin-top: 1rem
+
+  .vouch-wrap
+    +inline-flex
+
+  .vouch-image-wrap
+    +spacer-with-border("right", 0.5rem, 0.125rem, rgba($black, 0.1))
+
+    flex:
+      basis: 33%
+      grow: 1
+
+  .vouch-image-caption
+    flex:
+      basis: 66%
+      grow: 2
+
+  .vouch-message
+    font-size: 0.8rem
+    color: rgba($black, 0.5)
+
+.remaining-character-count
+  color: rgba($black, 0.25)
+  font:
+    size: 0.75rem
+    style: italic
