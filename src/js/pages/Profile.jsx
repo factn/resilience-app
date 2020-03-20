@@ -136,9 +136,11 @@ export default class Profile extends Component {
         ) : (
           <div className="user-info-area">
             <Icon className="user-icon" icon="question" />
-            <Link className="user-name not-signed-in" to="/login/">
-              Please sign in
-            </Link>
+            <p>
+              <Link className="user-name not-signed-in" to="/login/">
+                Please sign in
+              </Link>
+            </p>
           </div>
         )}
 
