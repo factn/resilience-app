@@ -86,7 +86,7 @@ export default class DonatorFlow extends Component {
     return (
       <Page className="flow-page donator-flow-page" footer={footer}>
         <SessionSetting headerLabel="Total I want to spend">
-          <SessionCard className="session-card" cardTitle="In this session">
+          <SessionCard className="session-card" cardTitle="Choose an amount to donate, or enter your own">
             <InputIconWrap id="selectMaxDonationAmount" icon={faDollarSign}>
               <input
                 className="input-field"
@@ -96,12 +96,7 @@ export default class DonatorFlow extends Component {
                 onChange={this.handleChange}
               />
             </InputIconWrap>
-            <div className="unlimited-amount-option">
-              <span>OR</span>
-              <button className="btn btn-lite unlimited-amount-btn">
-                Unlimited Amount
-              </button>
-            </div>
+      
 
             {/* user-defined amount checkout*/}
             <StripeCheckout
