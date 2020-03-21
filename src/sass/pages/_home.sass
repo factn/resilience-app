@@ -3,23 +3,27 @@
   font-size: 1.1em
 
   .logo
-    height: 8rem
+    background: $pink
+    height: 330px
     padding: 1rem
 
     img
       max-height: inherit
       height: 6rem
 
+  .app-header-home
+    padding-top: 44px
+
   .subheader-home
     margin-bottom: 1rem
 
-    .subheader-line
-      padding: 0.5rem 0
+  .subheader-line
+    padding: 24px 0
+    font-family: Arimo
+    font-size: 22px
+    line-height: 24px
+    color: $darkblue
 
-      &:first-of-type
-        display: inline-block
-        margin: 0 auto
-        border-bottom: 0.0625rem dashed $orange
 
   .home-header
     font-weight: bold
@@ -31,14 +35,29 @@
     margin: 0 0 0.5rem
     width: 100%
     font-size: 1.25em
-    color: $blue
+    color: $white
+    font-size: 24px
+    font-family: Arimo
+    line-height: 40px
+    font-weight: bold
+    max-width: 300px
+    margin: 10px auto
+
 
     .button-icon
       color: $white
       float: right
 
     &.donate-btn
-      background: $orange-bright
+      background: #3739B5
 
     &.do-btn
-      background: $orange
+      background: $darkpink
+
+  .about-link
+     font-family: Arimo
+     font-weight: bold
+     font-size: 17px
+     line-height: 16px
+     text-transform: capitalize
+  
