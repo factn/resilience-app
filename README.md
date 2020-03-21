@@ -1,4 +1,4 @@
-# Corona Donor App (front end)
+# MutualAid.World App (front end)
 
 See demo [here](https://lion-frontend-uat.herokuapp.com/)!
 
