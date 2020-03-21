@@ -2,11 +2,15 @@
 // Module imports
 import React, { Component } from "react"
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
+
+import { Provider } from 'react-redux'
+
 import Cookies from "js-cookie"
+
+import {store, history } from './js/store/Store'
 
 // Styles
 import "./style.sass"
-
 // Pages
 //  - Home
 import Home from "./js/pages/Home"
@@ -40,39 +44,42 @@ export default class App extends Component {
 
   render() {
     return (
-      <Router>
-        <Switch>
-          {/* Home */}
-          <Route path="/" exact component={Home} />
+      <Provider store={store}>
+        <Router>
+          <Switch>
+            {/* Home */}
+            <Route path="/" exact component={Home} />
 
-          {/* Flows */}
-          <Route path="/donor" component={DonorFlow} />
-          <Route path="/requester" component={RequesterFlow} />
-          <Route path="/feed/:type" component={Feed} />
-          <Route path="/:role/confirmation" exact component={Confirmation} />
-          <Route path="/:scenario_id/:role/confirmation" exact component={Confirmation} />
-          <Route path="/:scenario_id/:role/confirmation/:child_scenario_id" exact component={Confirmation} />
-          <Route path="/:scenario_id/payment" component={Payment} />
+            {/* Flows */}
+            <Route path="/donor" component={DonorFlow} />
+            <Route path="/requester" component={RequesterFlow} />
+            <Route path="/feed/:type" component={Feed} />
+            <Route path="/:role/confirmation" exact component={Confirmation} />
+            <Route path="/:scenario_id/:role/confirmation" exact component={Confirmation} />
+            <Route path="/:scenario_id/:role/confirmation/:child_scenario_id" exact component={Confirmation} />
+            <Route path="/:scenario_id/payment" component={Payment} />
 
-          {/* Account */}
-          <Route path="/login" component={Login} />
-          <Route path="/profile" exact component={Profile} />
-          <Route path="/profile/:user_id" exact component={Profile} />
-          <Route path="/account" component={Account} />
+            {/* Account */}
+            <Route path="/login" component={Login} />
+            <Route path="/profile" exact component={Profile} />
+            <Route path="/profile/:user_id" exact component={Profile} />
+            <Route path="/account" component={Account} />
 
-          {/* Mission control */}
-          <Route path="/missions" exact component={MissionControl} />
-          <Route path="/missions/:role" exact component={MissionControl} />
-          <Route path="/missions/:role/:tab" exact component={MissionControl} />
+            {/* Mission control */}
+            <Route path="/missions" exact component={MissionControl} />
+            <Route path="/missions/:role" exact component={MissionControl} />
+            <Route path="/missions/:role/:tab" exact component={MissionControl} />
 
-          {/* Scenario full-page */}
-          <Route path="/:scenario_id/" exact component={Info} />
-          <Route path="/:scenario_id/:role/" exact component={Info} />
+            {/* Scenario full-page */}
+            <Route path="/:scenario_id/" exact component={Info} />
+            <Route path="/:scenario_id/:role/" exact component={Info} />
 
-          {/* 404 */}
-          <Route component={NoPage} />
-        </Switch>
-      </Router>
+            {/* 404 */}
+            <Route component={NoPage} />
+          </Switch>
+        </Router>
+    </Provider>
+
     )
   }
 }
