@@ -16,18 +16,13 @@ export default class Home extends Component {
   render() {
     const header = (
       <Fragment>
-        <div className="login-link">
-          <Link className="bright-link" to="/login">
-            Login
+        <div className='app-header-home'>
+          <Link className="app-header-link" to="/login">
+            Log in
           </Link>
-          <span> / </span>
-          <Link className="bright-link" to="/account">
+          <div className='app-header-shim'></div>
+          <Link className="app-header-link" to="/account">
             Sign up
-          </Link>
-        </div>
-        <div className="logo">
-          <Link to="/">
-            <img src={logo} alt="WAGL" />
           </Link>
         </div>
       </Fragment>
@@ -35,8 +30,12 @@ export default class Home extends Component {
 
     const subheader = (
       <div className="subheader-home">
-        <div className="subheader-line">Help with disaster relief.</div>
-        <div className="subheader-line">Donate money / do a job.</div>
+        <div className="logo">
+          <Link to="/">
+            <img src={logo} alt="WAGL" />
+          </Link>
+        </div>
+        <div className="subheader-line">Global Community, Local Mutual Aid</div>
       </div>
     )
 
@@ -50,22 +49,19 @@ export default class Home extends Component {
     )
 
     return (
-      <Page className="home-page" header={header} subheader={subheader} footer={footer}>
-        <header className="home-header">Choose your mission</header>
+      <Page className="home-page" header={header} subheader={subheader} >
         <div className="home-buttons">
-          <Link to="/donor" className="btn home-btn square-btn donate-btn">
-            <span>Donate</span>
-            <div className="button-icon">
-              <Icon icon={faChevronRight} />
-            </div>
+          <Link to="/donor" className="btn home-btn round-btn donate-btn">
+            <span>View Jobs</span>
           </Link>
-          <Link to="/feed/doer" className="btn home-btn square-btn do-btn">
-            <span>Do a job</span>
-            <div className="button-icon">
-              <Icon icon={faChevronRight} />
-            </div>
+          <Link to="/feed/doer" className="btn home-btn round-btn do-btn">
+            <span>Request Help</span>
           </Link>
         </div>
+        <Link to="/about" className="about-link">
+            About
+        </Link>
+
       </Page>
     )
   }
