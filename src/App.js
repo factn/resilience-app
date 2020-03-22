@@ -15,6 +15,9 @@ import "./style.sass"
 //  - Home
 import Home from "./js/pages/Home"
 
+// Requester
+import RequestCreate from "./js/pages/RequestCreate"
+
 //  - Flows
 import DonorFlow from "./js/pages/DonorFlow"
 import RequesterFlow from "./js/pages/RequesterFlow"
@@ -52,6 +55,8 @@ export default class App extends Component {
             <Route path="/" exact component={Home} />
 
             {/* Flows */}
+            <Route path="/request/create" component={RequestCreate} />
+
             <Route path="/donor" component={DonorFlow} />
             <Route path="/requester" component={RequesterFlow} />
             <Route path="/feed/:type" component={Feed} />
