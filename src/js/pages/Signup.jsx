@@ -4,7 +4,7 @@ import TextInput from "../components/inputs/Text"
 import Submit from "../components/inputs/Submit"
 import logo from "../../img/logo1.png"
 
-function SignUp() {
+function SignUp({ history }) {
   const [values, setValues] = useState({})
 
   function handleChange({ target }) {
@@ -28,7 +28,7 @@ function SignUp() {
   const loginObj = {
     labelPhrase: "Log in",
     clas: "login-btn",
-    onSubmit: sumbitSignup,
+    onSubmit: () => history.push("/login"),
     onSubmitParams: {
       fullname: "fullname",
       email: "email",
