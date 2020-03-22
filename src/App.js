@@ -23,6 +23,7 @@ import Account from "./js/pages/Account"
 
 //  - Account
 import Login from "./js/pages/Login"
+import SignUp from "./js/pages/Signup"
 import Profile from "./js/pages/Profile"
 import MissionControl from "./js/pages/MissionControl"
 
@@ -51,11 +52,16 @@ export default class App extends Component {
           <Route path="/feed/:type" component={Feed} />
           <Route path="/:role/confirmation" exact component={Confirmation} />
           <Route path="/:scenario_id/:role/confirmation" exact component={Confirmation} />
-          <Route path="/:scenario_id/:role/confirmation/:child_scenario_id" exact component={Confirmation} />
+          <Route
+            path="/:scenario_id/:role/confirmation/:child_scenario_id"
+            exact
+            component={Confirmation}
+          />
           <Route path="/:scenario_id/payment" component={Payment} />
 
           {/* Account */}
           <Route path="/login" component={Login} />
+          <Route path="/signup" component={SignUp} />
           <Route path="/profile" exact component={Profile} />
           <Route path="/profile/:user_id" exact component={Profile} />
           <Route path="/account" component={Account} />
