@@ -29,15 +29,10 @@ export default class Header extends Component {
       if (loggedIn) {
         return (
           <header className="app-header">
-            <NavMenu userId={userId} />
-
             <Link className="logo" to="/">
               <img src={logo} alt="WAGL" />
             </Link>
-
-            <Link className="missions-btn" to="/missions">
-              <Icon icon={faBullseye} />
-            </Link>
+            <NavMenu userId={userId} />
           </header>
         )
       } else {
