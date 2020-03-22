@@ -10,7 +10,7 @@ import customTheme from '../theme'
 
 
 
-storiesOf('Text', module)
+storiesOf('Button', module)
     .addDecorator(muiTheme([customTheme]))
     .add('Title', () => (
         <React.Fragment>
