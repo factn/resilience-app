@@ -10,45 +10,52 @@ import Page from "./Page"
 
 // Logo image
 import logo from "../../img/logo.svg"
+
+import FormInput from '../components/FormInput'
+import Form from '../components/Form'
 /*** [end of imports] ***/
 
-export default class Home extends Component {
+export default class RequestCreate extends Component {
   render() {
 
-    const subheader = (
-      <div className="subheader-home">
-        <div className="logo">
-          <Link to="/">
-            <img src={logo} alt="WAGL" />
-          </Link>
-        </div>
-        <div className="subheader-line">Global Community, Local Mutual Aid</div>
-      </div>
-    )
-
-    const footer = (
-      <Fragment>
-        <div className="button-label">Post a request</div>
-        <Link to="/requester" className="btn footer-btn request-btn">
-          Get Help
-        </Link>
-      </Fragment>
-    )
-
     return (
-      <Page className="home-page" subheader={subheader} >
-        <div className="home-buttons">
-          <Link to="/donor" className="btn home-btn round-btn donate-btn">
-            <span>View Jobs</span>
-          </Link>
-          <Link to="/feed/doer" className="btn home-btn round-btn do-btn">
-            <span>Request Help</span>
-          </Link>
-        </div>
-        <Link to="/about" className="about-link">
-            About
-        </Link>
+      <Page className="request-create-page">
+          <div className="request-create-main">
+              <Form>
+              <div className="text-large">what help do you need ?</div>
+              <div className="text-small">Describe the task</div>
 
+              <FormInput inputObj={{
+                      labelPhrase: 'Short Description'
+              }}/>
+
+
+              <FormInput inputObj={{
+                      inputType: 'textarea',
+                      labelPhrase: 'Task Details'
+              }}/>
+
+              <div className="text-large">How Much Can You Pay</div>
+              <FormInput inputObj={{
+                      labelPhrase: 'Dollar Amount'
+              }}/>
+
+          <div className="text-large">Where Do You Need Help</div>
+              <FormInput inputObj={{
+                      labelPhrase: 'postal code'
+              }}/>
+
+          <div className="text-large">Add A Photo</div>
+          <div className="text-small">Help volunteers better understand what you need help with
+</div>
+                <FormInput inputObj={{
+                      inputType: 'image'
+              }}/>
+              <FormInput inputObj={{
+                      inputType: 'submit'
+              }}/>
+              </Form>
+          </div>
       </Page>
     )
   }

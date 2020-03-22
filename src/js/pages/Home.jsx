@@ -10,6 +10,9 @@ import Page from "./Page"
 
 // Logo image
 import logo from "../../img/logo.svg"
+
+// Text, Label
+import Text from "../components/inputs/Text"
 /*** [end of imports] ***/
 
 export default class Home extends Component {

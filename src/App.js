@@ -74,6 +74,7 @@ export default class App extends Component {
             <Route path="/profile" exact component={Profile} />
             <Route path="/profile/:user_id" exact component={Profile} />
             <Route path="/account" component={Account} />
+            <Route path="/signup" component={SignUp} />
 
             {/* Mission control */}
             <Route path="/missions" exact component={MissionControl} />
