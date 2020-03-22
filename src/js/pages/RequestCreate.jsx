@@ -14,19 +14,6 @@ import logo from "../../img/logo.svg"
 
 export default class Home extends Component {
   render() {
-    const header = (
-      <Fragment>
-        <div className='app-header-home'>
-          <Link className="app-header-link" to="/login">
-            Log in
-          </Link>
-          <div className='app-header-shim'></div>
-          <Link className="app-header-link" to="/account">
-            Sign up
-          </Link>
-        </div>
-      </Fragment>
-    )
 
     const subheader = (
       <div className="subheader-home">
@@ -49,12 +36,12 @@ export default class Home extends Component {
     )
 
     return (
-      <Page className="home-page" header={header} subheader={subheader} >
+      <Page className="home-page" subheader={subheader} >
         <div className="home-buttons">
           <Link to="/donor" className="btn home-btn round-btn donate-btn">
             <span>View Jobs</span>
           </Link>
-          <Link to="/request/create" className="btn home-btn round-btn do-btn">
+          <Link to="/feed/doer" className="btn home-btn round-btn do-btn">
             <span>Request Help</span>
           </Link>
         </div>
