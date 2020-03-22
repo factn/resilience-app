@@ -16,12 +16,12 @@ export default class Home extends Component {
   render() {
     const header = (
       <Fragment>
-        <div className='app-header-home'>
+        <div className="app-header-home">
           <Link className="app-header-link" to="/login">
             Log in
           </Link>
-          <div className='app-header-shim'></div>
-          <Link className="app-header-link" to="/account">
+          <span> / </span>
+          <Link className="bright-link" to="/signup">
             Sign up
           </Link>
         </div>
@@ -49,7 +49,7 @@ export default class Home extends Component {
     )
 
     return (
-      <Page className="home-page" header={header} subheader={subheader} >
+      <Page className="home-page" header={header} subheader={subheader}>
         <div className="home-buttons">
           <Link to="/donor" className="btn home-btn round-btn donate-btn">
             <span>View Jobs</span>
@@ -59,9 +59,8 @@ export default class Home extends Component {
           </Link>
         </div>
         <Link to="/about" className="about-link">
-            About
+          About
         </Link>
-
       </Page>
     )
   }
