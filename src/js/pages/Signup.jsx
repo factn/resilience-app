@@ -3,6 +3,9 @@ import Form from "../components/Form"
 import TextInput from "../components/inputs/Text"
 import Submit from "../components/inputs/Submit"
 import logo from "../../img/logo1.png"
+// Page wrapper
+import Page from "./Page"
+
 
 function SignUp({ history }) {
   const [values, setValues] = useState({})
@@ -37,10 +40,9 @@ function SignUp({ history }) {
   }
 
   return (
-    <div>
+    <Page className="user-signup-page">
       <div className="sign-form">
         <Form>
-          <img className="logo" src={logo} alt="logo" width="80" />
           <TextInput
             onChange={handleChange}
             name="fullname"
@@ -83,7 +85,7 @@ function SignUp({ history }) {
           </div>
         </Form>
       </div>
-    </div>
+  </Page>
   )
 }
 
