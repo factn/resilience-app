@@ -2,7 +2,7 @@
   "name": "lion-react",
   "version": "0.1.0",
   "private": true,
-  "engine": {
+  "engines": {
     "node": "12.16.1"
   },
   "dependencies": {
