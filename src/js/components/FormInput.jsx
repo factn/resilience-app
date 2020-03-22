@@ -8,6 +8,7 @@ import Location from "./inputs/Location"
 import Select from "./inputs/Select"
 import Submit from "./inputs/Submit"
 import Text from "./inputs/Text"
+import TextArea from "./inputs/TextArea"
 /*** [end of imports] ***/
 
 export default class FormInput extends Component {
@@ -25,8 +26,10 @@ export default class FormInput extends Component {
       return <hr />
     } else if (inputType === "location") {
       return <Location openMapPicker={openMapPicker} lat={lat} lon={lon} {...inputObj} />
-    }
+    } else if (inputType === "textarea") {
+      return <TextArea {...inputObj} />
 
+     }
     return <Text {...inputObj} />
   }
 }
