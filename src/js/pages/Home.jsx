@@ -20,11 +20,10 @@ export default class Home extends Component {
     const header = (
       <Fragment>
         <div className="app-header-home">
-          <Link className="app-header-link" to="/login">
+          <Link to="/login">
             Log in
           </Link>
-          <span> / </span>
-          <Link className="bright-link" to="/signup">
+          <Link to="/signup">
             Sign up
           </Link>
         </div>
@@ -33,7 +32,7 @@ export default class Home extends Component {
 
     const subheader = (
       <div className="subheader-home">
-        <div className="logo">
+        <div className="homeLogo">
           <Link to="/">
             <img src={logo} alt="WAGL" />
           </Link>
