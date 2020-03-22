@@ -11,7 +11,8 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.0",
-    "react-scripts": "3.4.1"
+    "react-scripts": "3.4.1",
+    "styled-components": "^5.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -42,6 +43,7 @@
     "@storybook/addons": "^5.3.17",
     "@storybook/preset-create-react-app": "^2.1.0",
     "@storybook/react": "^5.3.17",
-    "storybook-addon-material-ui": "^0.9.0-alpha.21"
+    "storybook-addon-material-ui": "^0.9.0-alpha.21",
+    "jest-dom": "^3.5.0"
   }
 }
