@@ -1,5 +1,6 @@
 import styled, { css } from 'styled-components';
-import { colors, sizes, iconPositions } from './utils';
+import { colors } from "../../../constants";
+import { sizes, iconPositions } from './utils';
 
 // Handles different button styles
 const buttonStyles = {
