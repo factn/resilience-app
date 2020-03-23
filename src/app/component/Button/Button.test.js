@@ -2,7 +2,7 @@ import React from 'react';
 import { render, cleanup } from '@testing-library/react';
 import 'jest-dom/extend-expect';
 import { Button } from './Button';
-import { colors } from './utils';
+import { colors } from "../../../constants";
 
 describe('Button Component', () => {
   function renderComponent(props) {
