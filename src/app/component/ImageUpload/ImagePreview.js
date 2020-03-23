@@ -1,7 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { ReactComponent as ClosePreviewIcon } from '../../../img/ClosePreview.svg';
-import { thumb, icon, img } from './ImageUpload.style';
+import React from "react";
+import PropTypes from "prop-types";
+import { ReactComponent as ClosePreviewIcon } from "../../../img/ClosePreview.svg";
+import { thumb, icon, img } from "./ImageUpload.style";
 
 function ImagePreview({ file, preview, removeImage }) {
   return (
@@ -17,6 +17,6 @@ function ImagePreview({ file, preview, removeImage }) {
 ImagePreview.propTypes = {
   file: PropTypes.object.isRequired,
   preview: PropTypes.string,
-  removeImage: PropTypes.func.isRequired
+  removeImage: PropTypes.func.isRequired,
 };
 export default ImagePreview;

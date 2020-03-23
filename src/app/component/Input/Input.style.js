@@ -8,13 +8,13 @@ export const InputWrapper = styled.div`
 
 export const StyledInputDiv = styled.div`
   padding: 10px;
-  background-color: #FFF;
+  background-color: #fff;
   margin-top: 10px;
 `;
 
 export const StyledInput = styled.input`
   border: 0;
-  border-width:0px;
+  border-width: 0px;
   width: 100%;
   font-size: 16px;
   border-bottom: 1px solid ${colors.tertiary.border};
@@ -25,14 +25,14 @@ export const StyledInput = styled.input`
 
 export const StyledTextarea = styled.textarea`
   border: 0;
-  border-width:0px;
+  border-width: 0px;
   width: 100%;
   font-size: 16px;
   border-bottom: 1px solid ${colors.tertiary.border};
   &:focus {
     outline: 0;
   }
-`
+`;
 
 export const StyledLabel = styled.label`
   display: flex;

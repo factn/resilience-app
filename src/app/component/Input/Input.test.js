@@ -1,6 +1,6 @@
-import React from 'react';
-import { render, cleanup } from '@testing-library/react';
-import 'jest-dom/extend-expect';
+import React from "react";
+import { render, cleanup } from "@testing-library/react";
+import "jest-dom/extend-expect";
 import Input from "./Input";
 
 describe("Input Component", () => {
@@ -13,7 +13,7 @@ describe("Input Component", () => {
     inputType: "text",
     dataId: "input-data-id",
     inputName: "input-name",
-    label: "This is label text"
+    label: "This is label text",
   };
 
   it("Renders text type input when type is text", () => {
@@ -24,8 +24,8 @@ describe("Input Component", () => {
   it("Renders textarea type input when type is textarea", () => {
     const textareaProps = {
       ...props,
-      inputType: "textarea"
-    }
+      inputType: "textarea",
+    };
     const { getByTestId } = renderComponent(textareaProps);
     expect(getByTestId("input-data-id-textarea")).toBeTruthy();
   });

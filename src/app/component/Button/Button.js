@@ -1,6 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import StyledButton, { StyledIcon } from './Button.style';
+import React from "react";
+import PropTypes from "prop-types";
+import StyledButton, { StyledIcon } from "./Button.style";
 
 export function Button({ text, icon, iconPosition, children, ...props }) {
   return (
@@ -31,14 +31,14 @@ Button.propTypes = {
   secondary: PropTypes.bool,
   tertiary: PropTypes.bool,
   rounded: PropTypes.bool,
-  icon: PropTypes.element
+  icon: PropTypes.element,
 };
 
 Button.defaultProps = {
   disabled: false,
-  size: 'default',
+  size: "default",
   primary: true,
-  iconPosition: 'left'
+  iconPosition: "left",
 };
 
 export default Button;

@@ -1,9 +1,24 @@
-import React from 'react';
+import React from "react";
 export default function SuccessIcon(props) {
   return (
-    <svg width="19px" height="15px" viewBox="0 0 19 15" version="1.1" xmlns="http://www.w3.org/2000/svg">
-      <g id="Symbols" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
-        <g id="Alert/Success/Action" transform="translate(-16.000000, -18.000000)">
+    <svg
+      width="19px"
+      height="15px"
+      viewBox="0 0 19 15"
+      version="1.1"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <g
+        id="Symbols"
+        stroke="none"
+        strokeWidth="1"
+        fill="none"
+        fillRule="evenodd"
+      >
+        <g
+          id="Alert/Success/Action"
+          transform="translate(-16.000000, -18.000000)"
+        >
           <g id="Danger-alert-(action)">
             <g id="Alert">
               <g id="Action-/-done">
