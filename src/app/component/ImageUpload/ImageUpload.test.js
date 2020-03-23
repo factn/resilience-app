@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, cleanup, fireEvent } from '@testing-library/react';
 import 'jest-dom/extend-expect';
-import { ImageUpload } from '.';
+import { ImageUpload } from './ImageUpload';
 
 describe('ImageUpload Component', () => {
   afterEach(cleanup);
@@ -11,8 +11,8 @@ describe('ImageUpload Component', () => {
   it('renders camera icon and two buttons', () => {
     const { getByText, getByTestId } = render(<ImageUpload />);
     expect(getByTestId('cameraIcon')).toBeTruthy();
-    expect(getByText(/Take Photo/)).toBeTruthy();
-    expect(getByText(/Upload Photo/)).toBeTruthy();
+    expect(getByText(/Take Photo/)).toBeInTheDocument();
+    expect(getByText(/Upload Photo/)).toBeInTheDocument();
   });
 
   it('Uploading file should show its preview', () => {
@@ -29,6 +29,6 @@ describe('ImageUpload Component', () => {
 
     fireEvent.change(inputEl);
 
-    expect(getByTestId('preview')).toBeTruthy();
+    expect(getByTestId('preview')).toBeInTheDocument();
   });
 });
