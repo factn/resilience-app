@@ -3,18 +3,17 @@ import PropTypes from 'prop-types';
 import {PageContainer} from './Page.style'
 import Appbar from '../Appbar'
 
-const Page = ({ header, footer, children}) => {
+const Page = ({appbar ,children}) => {
   return (
-    <PageContainer>
-        <Appbar></Appbar>
-      {children}
+    <PageContainer role="main">
+        {appbar?appbar:<Appbar></Appbar>}
+        {children}
     </PageContainer>
   );
 };
 
 Page.propTypes = {
-    header: PropTypes.element,
-    footer: PropTypes.element,
+    appbar: PropTypes.element,
     children: PropTypes.any
 }
 export default Page;

@@ -27,14 +27,14 @@ describe("Appbar Layout", () => {
   });
 
   it("Render appbar with customize children", () => {
-    const appBar = renderComponent({children: <div>children here</div>});
+    const appBar = renderComponent({children: <div>appbar test children</div>});
 
     const container = appBar.getByRole("navigation")
 
     expect(container).toHaveStyle('height: 89px');
     expect(container).toBeTruthy();
     // Accessibility
-    expect(appBar.getByText("children here")).toBeTruthy();
+    expect(appBar.getByText("appbar test children")).toBeTruthy();
   });
 
 });
