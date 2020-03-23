@@ -5,7 +5,7 @@ import {
   StyledLabel,
   StyledInputDiv,
   StyledInput,
-  StyledTextarea
+  StyledTextarea,
 } from "./Input.style";
 
 const Input = ({ inputType, dataId, inputName, label }) => {
@@ -38,21 +38,21 @@ const Input = ({ inputType, dataId, inputName, label }) => {
           </StyledInputDiv>
         </InputWrapper>
       );
-  };
+  }
 };
 
 Input.propTypes = {
   inputType: PropTypes.string,
   dataId: PropTypes.string,
   inputName: PropTypes.string,
-  label: PropTypes.string
+  label: PropTypes.string,
 };
 
 Input.defaultProps = {
   inputType: "text",
   dataId: "",
   inputName: "",
-  label: ""
+  label: "",
 };
 
 export default Input;

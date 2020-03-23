@@ -1,13 +1,13 @@
-import React, { useRef, useState } from 'react';
-import PropTypes from 'prop-types';
-import { ReactComponent as CameraIcon } from '../../../img/camera.svg';
-import ImagePreview from './ImagePreview';
-import Button from '../Button/Button';
-import { Container, StyledIcon, Actions } from './ImageUpload.style';
+import React, { useRef, useState } from "react";
+import PropTypes from "prop-types";
+import { ReactComponent as CameraIcon } from "../../../img/camera.svg";
+import ImagePreview from "./ImagePreview";
+import Button from "../Button/Button";
+import { Container, StyledIcon, Actions } from "./ImageUpload.style";
 
 export function ImageUpload({ styles, getFile = () => null }) {
   const fileUpload = useRef();
-  const [file, setFile] = useState('');
+  const [file, setFile] = useState("");
   const [preview, setPreview] = useState(null);
 
   function handleFileChange({ target }) {
@@ -30,7 +30,11 @@ export function ImageUpload({ styles, getFile = () => null }) {
     <Container style={styles}>
       <StyledIcon>
         {file ? (
-          <ImagePreview removeImage={removeImage} preview={preview} file={file} />
+          <ImagePreview
+            removeImage={removeImage}
+            preview={preview}
+            file={file}
+          />
         ) : (
           <CameraIcon data-testid="cameraIcon" />
         )}
@@ -54,7 +58,7 @@ export function ImageUpload({ styles, getFile = () => null }) {
 
 ImageUpload.propTypes = {
   styles: PropTypes.object,
-  getFile: PropTypes.func
+  getFile: PropTypes.func,
 };
 
 export default ImageUpload;

@@ -1,2 +1,2 @@
-import Page from './Page'
-export {Page}
+import Page from "./Page";
+export { Page };

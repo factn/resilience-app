@@ -1,2 +1,2 @@
-import ImageUpload from './ImageUpload';
+import ImageUpload from "./ImageUpload";
 export default ImageUpload;
