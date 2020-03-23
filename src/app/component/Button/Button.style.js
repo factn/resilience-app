@@ -1,5 +1,6 @@
-import styled, { css } from 'styled-components';
-import { colors, sizes, iconPositions } from './utils';
+import styled, { css } from "styled-components";
+import { colors } from "../../../constants";
+import { sizes, iconPositions } from "./utils";
 
 // Handles different button styles
 const buttonStyles = {
@@ -18,7 +19,7 @@ const buttonStyles = {
   `,
   rounded: css`
     border-radius: 25px;
-  `
+  `,
 };
 
 const StyledButton = styled.button`
@@ -30,20 +31,20 @@ const StyledButton = styled.button`
   font-size: 12px;
   font-weight: bold;
   line-height: 16px;
-  ${props => sizes[props.size]};
+  ${(props) => sizes[props.size]};
   &:disabled {
     border: 1px solid ${colors.disabled.border};
     color: ${colors.disabled.color};
     background-color: ${colors.disabled.border};
     cursor: no-drop;
   }
-  ${props => props.primary && buttonStyles['primary']};
-  ${props => props.secondary && buttonStyles['secondary']};
-  ${props => props.tertiary && buttonStyles['tertiary']};
-  ${props => props.rounded && buttonStyles['rounded']};
+  ${(props) => props.primary && buttonStyles["primary"]};
+  ${(props) => props.secondary && buttonStyles["secondary"]};
+  ${(props) => props.tertiary && buttonStyles["tertiary"]};
+  ${(props) => props.rounded && buttonStyles["rounded"]};
 `;
 
 export const StyledIcon = styled.span`
-  ${props => props.text && iconPositions[props.iconPosition]};
+  ${(props) => props.text && iconPositions[props.iconPosition]};
 `;
 export default StyledButton;
