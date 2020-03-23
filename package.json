@@ -47,8 +47,18 @@
     "@storybook/addons": "^5.3.17",
     "@storybook/preset-create-react-app": "^2.1.0",
     "@storybook/react": "^5.3.17",
+    "husky": ">=4",
     "jest-dom": "^3.5.0",
-    "prettier": "2.0.1",
+    "lint-staged": ">=10",
+    "prettier": "^2.0.1",
     "storybook-addon-material-ui": "^0.9.0-alpha.21"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,css,md}": "prettier --write"
   }
 }
