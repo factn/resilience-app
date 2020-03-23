@@ -1,0 +1,78 @@
+.flow-page
+  background: $flow-page-bg
+  min-height: 100vh
+
+  .app-header
+    +space(1rem, -1rem -1.5rem 1rem)
+
+    background: $white
+
+    .menu,
+    .missions-btn
+      top: 1rem
+
+    .menu
+      left: 1.5rem
+
+    .missions-btn
+      right: 1.5rem
+
+  .session-settings
+    padding-bottom: 1rem
+
+    &:not(:last-of-type)
+      border-bottom: 0.125rem solid rgba($black, 0.1)
+
+  .login-link
+    text-align: center
+
+  .or-line
+    text-align: center
+    font:
+      style: italic
+      size: 0.8rem
+
+  .input-with-icon-wrap
+    +inline-flex
+
+    border: 0.0625rem solid $orange
+    font-size: 1.5rem
+
+    .input-icon
+      background: $orange
+      color: $white
+      text-align: center
+      width: 2.5rem
+      padding: 0.25rem
+
+    .input-field
+      border: 0
+      font:
+        size: 1rem
+        weight: 300
+
+    .input-wrap
+      width: calc(100% - 2.5rem)
+
+      .input-field
+        padding: 0.5625rem 0.25rem
+
+.photo-card
+  background: transparent
+  border: 0.0625rem dashed rgba($black, 0.25)
+  border-radius: 0.5rem
+  padding: 1rem
+
+  .button-row
+    +inline-flex
+
+  .photo-icon
+    width: 100%
+    text-align: center
+    font-size: 5rem
+    color: rgba($black, 0.25)
+
+  .input-label
+    font-size: 0.8rem
+    text-align: center
+    width: 8rem

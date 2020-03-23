@@ -1,0 +1,50 @@
+.mission-control-page
+  .mission-control-subheader
+    +inline-flex
+
+    text-transform: uppercase
+    margin: 1rem 0 0
+
+    .sub-header-option
+      font-weight: bold
+      color: rgba($black, 0.5)
+      text-align: center
+      flex:
+        basis: 50%
+        grow: 1
+      transition:
+        property: color
+        duration: $fast
+        timing-function: $cubic
+
+      &.active
+        color: $blue
+
+  .tab-list-wrap
+    margin: 0 -1.5rem
+
+  .tab-list
+    border: 0
+    box-shadow: 0 0.4rem 0.5rem rgba($black, 0.1)
+
+  .tab-link
+    text-align: center
+    padding: 0.5rem
+    flex:
+      basis: 33%
+      grow: 1
+
+    &:not(:last-of-type)
+      border-right: 0.0625rem solid rgba($black, 0.5)
+
+  .tab-wrap
+    margin-top: 1rem
+
+  .funding-progress-slider
+    margin: 0.5rem auto
+
+  .mini-scenario-link
+    display: block
+    float: right
+    color: $black
+    margin-top: -1rem
