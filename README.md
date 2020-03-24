@@ -1,6 +1,8 @@
-# MutualAid.World App (front end)
+# MutualAid.World App
 
-See demo [here](https://lion-frontend-uat.herokuapp.com/)!
+See demo [here](https://mutualaidworld-frontend.herokuapp.com/)!
+
+Please also check out [CONTRIBUTING.md](/CONTRIBUTING.md)
 
 ---
 
