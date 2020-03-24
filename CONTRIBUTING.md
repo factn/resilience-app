@@ -1,9 +1,9 @@
 # Contributing
 
 We love pull requests from everyone. By participating in this project, you
-agree to abide by the faction [code of conduct].
+agree to abide by the [code of conduct].
 
-[code of conduct]: https://github.com/factn/mutualaidworld/blob/master/CODE_OF_CONDUCT.md
+[code of conduct]: /CODE_OF_CONDUCT.md
 
 ## Forking workflow 
 
