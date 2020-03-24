@@ -10,7 +10,7 @@ agree to abide by the [code of conduct].
 Anyone can get started and start coding without having to ask for permission because we follow the **forking workflow** 
 
 The super short version is:
-- Fork to your github user
+- [Fork] this repo
 - Clone your  repo to your local machine
 ```
 git clone git@github.com:your-username/mutualaidworld_frontend.git
@@ -34,7 +34,7 @@ This process is explained in more detail [by Github here] and [by Atlassian here
 [commit]: http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html
 [pr]: https://github.com/factn/mutualaidworld_frontend/compare
 [by Atlassian here]: https://www.atlassian.com/git/tutorials/comparing-workflows/forking-workflow
-[by Github here]: https://guides.github.com/activities/forking/
+[fork]: https://guides.github.com/activities/forking/
 [readme]: https://github.com/factn/mutualaidworld_frontend/blob/master/README.md
 [join our slack]: https://join.slack.com/t/coronadonor/shared_invite/zt-cwm4b79c-12NHPqGWbzZ1aR5geyME1g
 
