@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { colors } from "../../../constants";
 import Button from "../../component/Button";
 import { Link } from "react-router-dom";
 
