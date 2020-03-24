@@ -3,7 +3,6 @@ import { render, cleanup } from "@testing-library/react";
 import "jest-dom/extend-expect";
 
 import Appbar from "./Appbar";
-import { AppbarContainer } from "./Appbar.style";
 
 describe("Appbar Layout", () => {
   function renderComponent(props) {
