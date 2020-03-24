@@ -16,7 +16,8 @@ cd [folder name]
 * Inside the repository, install the necessary packages
 
 ```
-npm install
+npm ci
+# as opposed to npm install, which modifies package-lock.json
 ```
 
 * Start the local server
