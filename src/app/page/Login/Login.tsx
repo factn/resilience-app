@@ -25,7 +25,7 @@ const LoginPage = () => {
     // @ts-ignore
     firebase.signInWithPhoneNumber(phoneNumber, window.recaptchaVerifier)
       .then((confirmationResult) => {
-        console.log("success", confirmationResult)
+        console.log("Login success", confirmationResult)
         // SMS sent. Prompt user to type the code from the message, then sign the
         // user in with confirmationResult.confirm(code).
         const verificationCode = window.prompt('Please enter the verification ' +

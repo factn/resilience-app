@@ -18,7 +18,6 @@ import OffersPage from "./app/page/Offers/Offers";
 function App() {
   // @ts-ignore
   const auth = useSelector(state => state.firebase.auth);
-  console.log("auth", auth);
   return (
     <>
       <CssBaseline />
