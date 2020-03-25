@@ -21,6 +21,7 @@ const firebase = getFirebase()
 
   function getFile(file: File) {
     setValues({ ...values, status: 'open', file });
+
   }
 
   function onSubmit(e: Event) {
