@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { colors } from "../../../constants";
 
 export const AppbarContainer = styled.div`
   height: 89px;
