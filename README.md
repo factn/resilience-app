@@ -128,7 +128,7 @@ git push -u origin [branch name]
 
 ### Accessibility
 
-Using react-axe as a library to find accessibilty warnings and errors. Please check the console for warnings or errors from react-axt before committing.
+Using react-axe as a library to find accessibilty warnings and errors. Please check the console for warnings or errors from react-axe before committing.
 
 ## Heroku Deployment
 
