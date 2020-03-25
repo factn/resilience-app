@@ -14,6 +14,7 @@ import theme from "./theme";
 import LoginPage from "./app/page/Login";
 import HomePage from "./app/page/Home";
 import OffersPage from "./app/page/Offers/Offers";
+import SignupPage from "./app/page/Signup";
 
 function App() {
   // @ts-ignore
@@ -33,6 +34,9 @@ function App() {
               </Route>
               <Route path="/offers">
                 <OffersPage />;
+              </Route>
+              <Route path="/signup">
+                <SignupPage />
               </Route>
             </Switch>
           </div>
