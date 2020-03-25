@@ -1,18 +1,12 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { Link, withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
-import { ReactComponent as Logo } from "../../../img/logo.svg";
-import { Page } from "../../layout";
-import {
-  Header,
-  HeaderSection,
-  BigLogo,
-  MissionText,
-  StyledHomeButton,
-  StyledLink,
-} from "./Home.style";
+import { ReactComponent as Logo } from '../../../img/logo.svg';
+import { Page } from '../../layout';
+import { Header, HeaderSection, BigLogo, MissionText, StyledHomeButton, StyledLink } from './Home.style';
 
-const HomePage = () => {
+const HomePage = ({ history }) => {
   const HomePageHeader = (
     <Header>
       <HeaderSection>
@@ -31,10 +25,14 @@ const HomePage = () => {
       </BigLogo>
       <MissionText>Global Community, Local Mutual Aid</MissionText>
       <StyledHomeButton rounded text="View Jobs" />
-      <StyledHomeButton rounded text="Request Help" secondary />
+      <StyledHomeButton onClick={() => history.push('/request')} rounded text="Request Help" secondary />
       <StyledLink to="/about">About</StyledLink>
     </Page>
   );
 };
 
-export default HomePage;
+HomePage.propTypes = {
+  history: PropTypes.object.isRequired
+};
+
+export default withRouter(HomePage);
