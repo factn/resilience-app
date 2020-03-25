@@ -14,6 +14,7 @@ import { firebaseConfig } from "./config/firebase";
 import "./index.css";
 import * as serviceWorker from "./serviceWorker";
 
+
 firebase.initializeApp(firebaseConfig);
 firebase.firestore();
 

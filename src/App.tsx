@@ -32,13 +32,10 @@ function App() {
               <Route path="/offers">
                 <OffersPage />;
               </Route>
-<<<<<<< HEAD
               <Route path="/signup">
                 <SignupPage />
               </Route>
-=======
               <Route path="/request" component={MakeRequest} />
->>>>>>> origin/master
             </Switch>
           </div>
         </Router>
