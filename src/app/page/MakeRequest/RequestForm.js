@@ -32,7 +32,7 @@ function RequestForm({ handleChange, values, onSubmit, getFile }) {
           onChange={handleChange}
           label="Dollar Amount"
         />
-        <SubText>Where do you need help?</SubText>
+        <Header>Where do you need help?</Header>
         <Input
           value={values.postalCode || ""}
           inputType="number"

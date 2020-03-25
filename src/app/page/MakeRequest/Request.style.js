@@ -2,21 +2,24 @@ import styled from "styled-components";
 import ImageUpload from "../../component/ImageUpload";
 
 export const Container = styled.div`
-  max-width: 600;
   background: #ffefef;
 `;
-export const Header = styled.p`
+export const Header = styled.div`
   text-align: start;
-  padding-left: 15px;
+  padding-left: 25px;
+  padding-top: 28px;
   font-size: 16px;
   font-weight: 900;
   color: #150e60;
 `;
 
 export const SubText = styled.p`
+  color: #150e60;
+  font-family: Open-Sans;
+  font-size: 18px;
   text-align: start;
   margin: 0;
-  padding-left: 15px;
+  padding-left: 25px;
   font-size: 14px;
 `;
 
