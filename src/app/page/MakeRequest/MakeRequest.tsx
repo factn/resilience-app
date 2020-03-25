@@ -20,7 +20,7 @@ const firebase = getFirebase()
   const { handleChange, values, setValues } = useForm();
 
   function getFile(file: File) {
-    setValues({ ...values, file });
+    setValues({ ...values, status: 'open', file });
   }
 
   function onSubmit(e: Event) {
