@@ -1,9 +1,5 @@
 import React from "react";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import { useSelector } from "react-redux";
@@ -15,10 +11,11 @@ import LoginPage from "./app/page/Login";
 import HomePage from "./app/page/Home";
 import OffersPage from "./app/page/Offers/Offers";
 import SignupPage from "./app/page/Signup";
+import MakeRequest from "./app/page/MakeRequest";
 
 function App() {
   // @ts-ignore
-  const auth = useSelector(state => state.firebase.auth);
+  const auth = useSelector((state) => state.firebase.auth);
   return (
     <>
       <CssBaseline />
@@ -35,9 +32,13 @@ function App() {
               <Route path="/offers">
                 <OffersPage />;
               </Route>
+<<<<<<< HEAD
               <Route path="/signup">
                 <SignupPage />
               </Route>
+=======
+              <Route path="/request" component={MakeRequest} />
+>>>>>>> origin/master
             </Switch>
           </div>
         </Router>
