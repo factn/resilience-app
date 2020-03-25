@@ -8,7 +8,7 @@ import {
   StyledTextarea,
 } from "./Input.style";
 
-const Input = ({ inputType, dataId, inputName, label }) => {
+const Input = ({ inputType, dataId, inputName, label, onChange }) => {
   switch (inputType) {
     case "textarea":
       return (
@@ -16,6 +16,7 @@ const Input = ({ inputType, dataId, inputName, label }) => {
           <StyledLabel>{label}</StyledLabel>
           <StyledInputDiv>
             <StyledTextarea
+              onChange={onChange}
               rows={10}
               name={inputName}
               data-id={dataId}
@@ -31,6 +32,7 @@ const Input = ({ inputType, dataId, inputName, label }) => {
           <StyledInputDiv>
             <StyledInput
               name={inputName}
+              onChange={onChange}
               data-testid={`${dataId}-${inputType}`}
               data-id={dataId}
               type={inputType}

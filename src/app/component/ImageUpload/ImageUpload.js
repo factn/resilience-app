@@ -5,7 +5,7 @@ import ImagePreview from "./ImagePreview";
 import Button from "../Button/Button";
 import { Container, StyledIcon, Actions } from "./ImageUpload.style";
 
-export function ImageUpload({ styles, getFile = () => null }) {
+export function ImageUpload({ styles, getFile = () => null, ...props }) {
   const fileUpload = useRef();
   const [file, setFile] = useState("");
   const [preview, setPreview] = useState(null);
@@ -27,21 +27,17 @@ export function ImageUpload({ styles, getFile = () => null }) {
   }
 
   return (
-    <Container style={styles}>
+    <Container {...props}>
       <StyledIcon>
         {file ? (
-          <ImagePreview
-            removeImage={removeImage}
-            preview={preview}
-            file={file}
-          />
+          <ImagePreview removeImage={removeImage} preview={preview} file={file} />
         ) : (
           <CameraIcon data-testid="cameraIcon" />
         )}
       </StyledIcon>
       <Actions>
         <Button onClick={onTakeImage} text="Take Photo" />
-        <Button tertiary onClick={onTakeImage} text="Upload Photo" />
+        <Button secondary onClick={onTakeImage} text="Upload Photo" />
       </Actions>
       <input
         onChange={handleFileChange}
