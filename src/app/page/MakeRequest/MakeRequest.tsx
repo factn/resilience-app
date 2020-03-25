@@ -7,7 +7,7 @@ import { useFirestoreConnect } from "react-redux-firebase";
 import * as FirebaseApi from 'firebase/app';
 import { getFirebase, useFirebase, isLoaded, isEmpty } from "react-redux-firebase";
 
-type Request = {
+type Mission = {
   id: string;
   description: string;
   details: string;
@@ -20,14 +20,13 @@ const firebase = getFirebase()
   const { handleChange, values, setValues } = useForm();
 
   function getFile(file: File) {
-    setValues({ ...values, status: 'open', file });
-
+    setValues({ ...values, file });
   }
 
   function onSubmit(e: Event) {
     e.preventDefault();
     const db = firebase.firestore()
-    db.collection("requests").add(values)
+    db.collection("missions").add({...values, status: 'open'})
   }
 
   return (
