@@ -1,6 +1,6 @@
-import React, { Fragment } from 'react';
-import RequestForm from './RequestForm';
-import useForm from '../../hooks/useForm';
+import React, { Fragment } from "react";
+import RequestForm from "./RequestForm";
+import useForm from "../../hooks/useForm";
 
 function MakeRequest() {
   const { handleChange, values, setValues } = useForm();
@@ -16,7 +16,12 @@ function MakeRequest() {
 
   return (
     <Fragment>
-      <RequestForm values={values} onSubmit={onSubmit} getFile={getFile} handleChange={handleChange} />
+      <RequestForm
+        values={values}
+        onSubmit={onSubmit}
+        getFile={getFile}
+        handleChange={handleChange}
+      />
     </Fragment>
   );
 }

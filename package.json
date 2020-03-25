@@ -1,5 +1,5 @@
 {
-  "name": "coronadonor-frontend",
+  "name": "mutualaidworld-frontend",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -17,6 +17,7 @@
     "firebase": "^7.12.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-flexbox-grid": "^2.1.2",
     "react-redux": "^7.2.0",
     "react-redux-firebase": "^3.3.0",
     "react-router-dom": "^5.1.2",

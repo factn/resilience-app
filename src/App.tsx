@@ -10,6 +10,7 @@ import theme from "./theme";
 import LoginPage from "./app/page/Login";
 import HomePage from "./app/page/Home";
 import OffersPage from "./app/page/Offers/Offers";
+import SignupPage from "./app/page/Signup";
 import MakeRequest from "./app/page/MakeRequest";
 
 function App() {
@@ -31,7 +32,13 @@ function App() {
               <Route path="/offers">
                 <OffersPage />;
               </Route>
+<<<<<<< HEAD
+              <Route path="/signup">
+                <SignupPage />
+              </Route>
+=======
               <Route path="/request" component={MakeRequest} />
+>>>>>>> origin/master
             </Switch>
           </div>
         </Router>
