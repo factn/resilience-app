@@ -2,7 +2,6 @@ import styled from "styled-components";
 import { colors } from "../../../constants";
 
 export const InputWrapper = styled.div`
-  padding: 15px;
   background-color: ${colors.tertiary.background};
 `;
 
