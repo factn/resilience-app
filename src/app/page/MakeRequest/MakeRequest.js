@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 import RequestForm from "./RequestForm";
 import useForm from "../../hooks/useForm";
 
@@ -15,14 +15,12 @@ function MakeRequest() {
   }
 
   return (
-    <Fragment>
-      <RequestForm
-        values={values}
-        onSubmit={onSubmit}
-        getFile={getFile}
-        handleChange={handleChange}
-      />
-    </Fragment>
+    <RequestForm
+      values={values}
+      onSubmit={onSubmit}
+      getFile={getFile}
+      handleChange={handleChange}
+    />
   );
 }
 
