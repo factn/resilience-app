@@ -31,7 +31,7 @@ const HomePage = ({ history }) => {
         <Logo />
       </BigLogo>
       <MissionText>Global Community, Local Mutual Aid</MissionText>
-      <StyledHomeButton rounded text="View Jobs" onClick={() => history.push("/requests")} />
+      <StyledHomeButton rounded text="View Missons" onClick={() => history.push("/missions")} />
       <StyledHomeButton
         onClick={() => history.push("/request/create")}
         rounded
