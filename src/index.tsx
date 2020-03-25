@@ -14,7 +14,6 @@ import { firebaseConfig } from "./config/firebase";
 import "./index.css";
 import * as serviceWorker from "./serviceWorker";
 
-
 firebase.initializeApp(firebaseConfig);
 firebase.firestore();
 
@@ -27,6 +26,11 @@ const rrfProps = {
   dispatch: store.dispatch,
   createFirestoreInstance
 };
+
+if (process.env.NODE_ENV !== 'production') {
+  var axe = require('react-axe');
+  axe(React, ReactDOM, 1000);
+}
 
 ReactDOM.render(
   <Provider store={store}>
