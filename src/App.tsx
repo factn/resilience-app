@@ -13,7 +13,7 @@ import OffersPage from "./app/page/Offers/Offers";
 import SignupPage from "./app/page/Signup";
 
 import MakeRequest from "./app/page/MakeRequest";
-import Requests from "./app/page/Requests";
+import Missions from "./app/page/Missions";
 
 function App() {
   // @ts-ignore
@@ -38,7 +38,7 @@ function App() {
                 <SignupPage />
               </Route>
               <Route path="/request/create" component={MakeRequest} />
-              <Route path="/requests" component={Requests} />
+              <Route path="/missions" component={Missions} />
             </Switch>
           </div>
         </Router>
