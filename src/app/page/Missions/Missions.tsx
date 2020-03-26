@@ -16,7 +16,7 @@ const OffersPage = () => {
   useFirestoreConnect([{ collection: "missions" }]);
   // @ts-ignore
   const missions: Mission[] | undefined = useSelector((state) => state.firestore.ordered.missions);
-  
+
   function TakeToMap(){
     alert('this should take you to the map!')
   };
