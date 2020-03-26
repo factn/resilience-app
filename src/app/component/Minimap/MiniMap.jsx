@@ -2,100 +2,83 @@
 // Module imports
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import GoogleMapReact from "google-map-react";
+import { Map, TileLayer, Marker, Popup } from "react-leaflet";
 import { SmallMap, MediumMap, LargeMap } from "./MiniMap.style";
 /*** [end of imports] ***/
 
 export default class SimpleMap extends Component {
-  GetSmallMap() {
-    // fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=`)
-    // .then(
-    //     function(response){
-    //         if(response.status !== 200){
-    //             console.log('Something went wrong ' + response.status);
-    //             return;
-    //         }
+  constructor(props) {
+    super(props);
 
-    //         response.json().then(function(data){
-
-    //             let results = data.results[0].geometry.location;
-    const location = {
-      lat: 45.5017,
-      lng: -73.5673,
+    this.state = {
+      position: {
+        lat: 45.5017,
+        lng: -73.5673,
+      },
+      zoom: 11,
     };
+  }
+
+  GetSmallMap() {
     return (
       <SmallMap>
-        <GoogleMapReact bootstrapURLKeys={{ key: "" }} defaultCenter={location} defaultZoom={11}>
-          <div lat={location.lat} lng={location.lng} text="U+25CF" />
-        </GoogleMapReact>
+        <Map center={this.state.position} zoom={this.state.zoom}>
+          <TileLayer
+            attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          <Marker position={this.state.position}>
+            <Popup>
+              A pretty CSS3 popup. <br /> Easily customizable.
+            </Popup>
+          </Marker>
+        </Map>
       </SmallMap>
     );
-    // });
-    // })
   }
 
   GetMediumMap() {
-    // fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=`)
-    // .then(
-    //     function(response){
-    //         if(response.status !== 200){
-    //             console.log('Something went wrong ' + response.status);
-    //             return;
-    //         }
-
-    //         response.json().then(function(data){
-
-    //             let results = data.results[0].geometry.location;
-
-    const location = {
-      lat: 45.5017,
-      lng: -73.5673,
-    };
     return (
       <MediumMap>
-        <GoogleMapReact bootstrapURLKeys={{ key: "" }} defaultCenter={location} defaultZoom={11}>
-          <div lat={location.lat} lng={location.lng} text="U+25CF" />
-        </GoogleMapReact>
+        <Map center={this.state.position} zoom={this.state.zoom}>
+          <TileLayer
+            attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          <Marker position={this.state.position}>
+            <Popup>
+              A pretty CSS3 popup. <br /> Easily customizable.
+            </Popup>
+          </Marker>
+        </Map>
       </MediumMap>
     );
-    // });
-    // })
   }
 
   GetLargeMap() {
-    // fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=`)
-    // .then(
-    //     function(response){
-    //         if(response.status !== 200){
-    //             console.log('Something went wrong ' + response.status);
-    //             return;
-    //         }
-
-    //         response.json().then(function(data){
-    //             let results = data.results[0].geometry.location;
-    const location = {
-      lat: 45.5017,
-      lng: -73.5673,
-    };
     return (
       <LargeMap>
-        <GoogleMapReact bootstrapURLKeys={{ key: "" }} defaultCenter={location} defaultZoom={11}>
-          <div lat={location.lat} lng={location.lng} text="hello" />
-        </GoogleMapReact>
+        <Map center={this.state.position} zoom={this.state.zoom}>
+          <TileLayer
+            attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          <Marker position={this.state.position}>
+            <Popup>
+              A pretty CSS3 popup. <br /> Easily customizable.
+            </Popup>
+          </Marker>
+        </Map>
       </LargeMap>
     );
-    // });
-    // })
   }
 
   render() {
-    console.log(this.props.size);
-
     return (
-      <div data-id="">
-        {this.props.size == "small"
+      <div id="maps" style={{ height: "180px" }}>
+        {this.props.size === "small"
           ? this.GetSmallMap()
-          : this.props.size == "medium"
+          : this.props.size === "medium"
           ? this.GetMediumMap()
           : this.GetLargeMap()}
       </div>

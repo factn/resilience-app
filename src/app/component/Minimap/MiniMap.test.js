@@ -7,7 +7,7 @@ describe("Minimap Component", () => {
   afterEach(cleanup);
 
   it("renders a map correctly", () => {
-    const { getByText, getByTestId } = render(<MiniMap />);
+    const { getByTestId } = render(<MiniMap />);
     expect(getByTestId("maps")).toBeTruthy();
   });
 });
