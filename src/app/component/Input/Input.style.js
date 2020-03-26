@@ -2,8 +2,8 @@ import styled from "styled-components";
 import { colors } from "../../../constants";
 
 export const InputWrapper = styled.div`
-  padding: 15px;
   background-color: ${colors.tertiary.background};
+  margin: 10px 25px 13px 25px;
 `;
 
 export const StyledInputDiv = styled.div`
@@ -37,4 +37,7 @@ export const StyledTextarea = styled.textarea`
 export const StyledLabel = styled.label`
   display: flex;
   font-size: 16px;
+  font-family: Arimo;
+  color: #150e60;
+  text-transform: uppercase;
 `;

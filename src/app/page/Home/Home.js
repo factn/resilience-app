@@ -1,5 +1,6 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
+import PropTypes from "prop-types";
 
 import { ReactComponent as Logo } from "../../../img/logo.svg";
 import { Page } from "../../layout";
@@ -12,7 +13,7 @@ import {
   StyledLink,
 } from "./Home.style";
 
-const HomePage = () => {
+const HomePage = ({ history }) => {
   const HomePageHeader = (
     <Header>
       <HeaderSection>
@@ -30,11 +31,20 @@ const HomePage = () => {
         <Logo />
       </BigLogo>
       <MissionText>Global Community, Local Mutual Aid</MissionText>
-      <StyledHomeButton rounded text="View Jobs" />
-      <StyledHomeButton rounded text="Request Help" secondary />
+      <StyledHomeButton rounded text="View Missons" onClick={() => history.push("/missions")} />
+      <StyledHomeButton
+        onClick={() => history.push("/request/create")}
+        rounded
+        text="Request Help"
+        secondary
+      />
       <StyledLink to="/about">About</StyledLink>
     </Page>
   );
 };
 
-export default HomePage;
+HomePage.propTypes = {
+  history: PropTypes.object.isRequired,
+};
+
+export default withRouter(HomePage);

@@ -1,6 +1,8 @@
-# MutualAid.World App (front end)
+# MutualAid.World App
 
-See demo [here](https://lion-frontend-uat.herokuapp.com/)!
+See demo [here](https://mutualaidworld-frontend.herokuapp.com/)!
+
+Please also check out [CONTRIBUTING.md](/CONTRIBUTING.md)
 
 ---
 
@@ -16,7 +18,8 @@ cd [folder name]
 * Inside the repository, install the necessary packages
 
 ```
-npm install
+npm ci
+# as opposed to npm install, which modifies package-lock.json
 ```
 
 * Start the local server
@@ -122,6 +125,10 @@ git add .
 git commit -m "[commit message]"
 git push -u origin [branch name]
 ```
+
+### Accessibility
+
+Using react-axe as a library to find accessibilty warnings and errors. Please check the console for warnings or errors from react-axe before committing.
 
 ## Heroku Deployment
 
