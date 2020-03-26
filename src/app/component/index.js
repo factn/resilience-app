@@ -1,2 +1,3 @@
 import Button from "./Button";
-export { Button };
+import Chip from "./Chip";
+export { Button, Chip };

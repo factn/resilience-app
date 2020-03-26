@@ -1,7 +1,8 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
+
 import { useSelector } from "react-redux";
 
 import "./App.css";
@@ -14,6 +15,11 @@ import SignupPage from "./app/page/Signup";
 
 import MakeRequest from "./app/page/MakeRequest";
 import Missions from "./app/page/Missions";
+import UserProfile from "./app/page/UserProfile";
+  // @ts-ignore
+import {ThemeProvider} from "styled-components";
+
+const customTheme = createMuiTheme(theme)
 
 function App() {
   // @ts-ignore
@@ -21,7 +27,8 @@ function App() {
   return (
     <>
       <CssBaseline />
-      <ThemeProvider theme={createMuiTheme(theme)}>
+      <MuiThemeProvider theme={customTheme}>
+        <ThemeProvider theme={customTheme}>
         <Router>
           <div className="App">
             <Switch>
@@ -39,10 +46,12 @@ function App() {
               </Route>
               <Route path="/request/create" component={MakeRequest} />
               <Route path="/missions" component={Missions} />
+              <Route path="/user" component={UserProfile} />
             </Switch>
           </div>
         </Router>
-      </ThemeProvider>
+        </ThemeProvider>
+      </MuiThemeProvider>
     </>
   );
 }
