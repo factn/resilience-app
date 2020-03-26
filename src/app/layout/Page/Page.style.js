@@ -1,5 +1,8 @@
 import styled from "styled-components";
 
+const propsBgColor = (props) =>
+  props.template === "pink" ? props.theme.color.pink : props.theme.color.white;
+
 export const PageContainer = styled.div`
   width: 600px;
   flex-grow: 1;
@@ -7,5 +10,5 @@ export const PageContainer = styled.div`
   padding-bottom: 50px;
   box-sizing: border-box;
   font-family: Arimo;
-  background-color: #ffefef;
+  background-color: ${propsBgColor};
 `;

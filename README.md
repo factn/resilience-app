@@ -126,6 +126,10 @@ git commit -m "[commit message]"
 git push -u origin [branch name]
 ```
 
+### Accessibility
+
+Using react-axe as a library to find accessibilty warnings and errors. Please check the console for warnings or errors from react-axe before committing.
+
 ## Heroku Deployment
 
 * Login into Heroku with Email and Password:
