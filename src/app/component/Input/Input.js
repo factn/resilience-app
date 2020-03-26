@@ -8,7 +8,7 @@ import {
   StyledTextarea,
 } from "./Input.style";
 
-const Input = ({ inputType, dataId, inputName, label, onChange }) => {
+const Input = ({ inputType, dataId, inputName, label, onChange, placeholder }) => {
   switch (inputType) {
     case "textarea":
       return (
@@ -21,6 +21,7 @@ const Input = ({ inputType, dataId, inputName, label, onChange }) => {
               name={inputName}
               data-id={dataId}
               data-testid={`${dataId}-textarea`}
+              placeholder={placeholder}
             ></StyledTextarea>
           </StyledInputDiv>
         </InputWrapper>
@@ -36,6 +37,7 @@ const Input = ({ inputType, dataId, inputName, label, onChange }) => {
               data-testid={`${dataId}-${inputType}`}
               data-id={dataId}
               type={inputType}
+              placeholder={placeholder}
             />
           </StyledInputDiv>
         </InputWrapper>
@@ -48,6 +50,7 @@ Input.propTypes = {
   dataId: PropTypes.string,
   inputName: PropTypes.string,
   label: PropTypes.string,
+  placeholder: PropTypes.string,
 };
 
 Input.defaultProps = {
@@ -55,6 +58,7 @@ Input.defaultProps = {
   dataId: "",
   inputName: "",
   label: "",
+  placeholder: "",
 };
 
 export default Input;

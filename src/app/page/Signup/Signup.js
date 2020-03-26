@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Row, Col } from "react-flexbox-grid";
 
 import { Page } from "../../layout";
@@ -7,14 +7,37 @@ import Button from "../../component/Button";
 import { FormWrapper, HeaderText, DescriptionText, PaddedDiv } from "./Signup.style";
 
 const SignupPage = () => {
+  const [form, setForm] = useState({
+    fullName: "",
+    email: "",
+    phoneNumber: "",
+    zipCode: "",
+    errors: "",
+  });
+
   const handleLoginCTAClick = (e) => {
     e.preventDefault();
 
     window.location = "/login";
   };
 
-  const handleFormSubmit = () => {
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
     console.log("Submit form and redirect user");
+    let newState = {};
+
+    for (let field in form) {
+      if (!form.field) newState[field] = "REQUIRED";
+    }
+
+    setForm(newState);
+  };
+
+  const handleChange = (e) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
   };
 
   return (
@@ -22,16 +45,32 @@ const SignupPage = () => {
       <FormWrapper>
         <HeaderText>Create account</HeaderText>
         <DescriptionText>Create an account to post your request</DescriptionText>
-        <form onSubmit={() => handleFormSubmit()}>
+        <form onSubmit={(e) => handleFormSubmit(e)}>
           <Row>
             <Col xs={12}>
               <PaddedDiv>
-                <Input inputType="text" dataId="fullName" inputName="fullName" label="FULL NAME" />
+                <Input
+                  inputType="text"
+                  dataId="fullName"
+                  inputName="fullName"
+                  label="FULL NAME"
+                  placeholder={form["fullName"]}
+                  value={form["fullName"]}
+                  onChange={(e) => handleChange(e)}
+                />
               </PaddedDiv>
             </Col>
             <Col xs={12}>
               <PaddedDiv>
-                <Input inputType="text" dataId="email" inputName="email" label="EMAIL" />
+                <Input
+                  inputType="text"
+                  dataId="email"
+                  inputName="email"
+                  label="EMAIL"
+                  placeholder={form["email"]}
+                  value={form["email"]}
+                  onChange={(e) => handleChange(e)}
+                />
               </PaddedDiv>
             </Col>
             <Col xs={12}>
@@ -41,12 +80,23 @@ const SignupPage = () => {
                   dataId="phoneNumber"
                   inputName="phoneNumber"
                   label="PHONE NUMBER"
+                  placeholder={form["phoneNumber"]}
+                  value={form["phoneNumber"]}
+                  onChange={(e) => handleChange(e)}
                 />
               </PaddedDiv>
             </Col>
             <Col xs={12}>
               <PaddedDiv>
-                <Input inputType="text" dataId="zipCode" inputName="zipCode" label="ZIP CODE" />
+                <Input
+                  inputType="text"
+                  dataId="zipCode"
+                  inputName="zipCode"
+                  label="ZIP CODE"
+                  placeholder={form["zipCode"]}
+                  value={form["zipCode"]}
+                  onChange={(e) => handleChange(e)}
+                />
               </PaddedDiv>
             </Col>
           </Row>
@@ -57,7 +107,7 @@ const SignupPage = () => {
             <Col xs={6}>
               <Button
                 text="Create account"
-                onClick={() => handleFormSubmit()}
+                // onClick={() => handleFormSubmit()}
                 secondary
                 size="lg"
               />
