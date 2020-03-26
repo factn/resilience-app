@@ -5,8 +5,6 @@ import PropTypes from "prop-types";
 import { ReactComponent as Logo } from "../../../img/logo.svg";
 import { Page } from "../../layout";
 import {
-  Header,
-  HeaderSection,
   BigLogo,
   MissionText,
   StyledHomeButton,
@@ -14,23 +12,14 @@ import {
 } from "./Home.style";
 
 const HomePage = ({ history }) => {
-  const HomePageHeader = (
-    <Header>
-      <HeaderSection>
-        <Link to="/login">Login</Link>
-      </HeaderSection>
-      <HeaderSection>
-        <Link to="/signup">Signup</Link>
-      </HeaderSection>
-    </Header>
-  );
 
   return (
-    <Page appbar={HomePageHeader}>
+    <Page>
       <BigLogo>
         <Logo />
       </BigLogo>
       <MissionText>Global Community, Local Mutual Aid</MissionText>
+      <StyledHomeButton rounded text="Sign In" onClick={() => history.push("/login")} />
       <StyledHomeButton rounded text="View Missons" onClick={() => history.push("/missions")} />
       <StyledHomeButton
         onClick={() => history.push("/request/create")}
