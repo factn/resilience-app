@@ -38,6 +38,83 @@ This process is explained in more detail [by Github here] and [by Atlassian here
 [readme]: https://github.com/factn/mutualaidworld_frontend/blob/master/README.md
 [join our slack]: https://join.slack.com/t/coronadonor/shared_invite/zt-cwm4b79c-12NHPqGWbzZ1aR5geyME1g
 
+## How do I keep my own code up to date with the main repo, easily?
+
+A potential issue. Here's what we recommend. 
+
+This assumes you have already set up your local development environment to sync with your own copy of the repo on github, per the above. That is, when you type `git remote -v` it should look like this, 
+``` 
+$ git remote -v
+origin  git@github.com:your_username/mutualaidworld_frontend.git (fetch)
+origin  git@github.com:your_username/mutualaidworld_frontend.git (push)
+```
+
+**Step 1: Add a seccond 'remote' to your local git repository**
+
+ add a second remote called `upstream` which will let us track changes on the main repository
+
+```
+$ git remote add origin  https://github.com/factn/mutualaidworld_frontend.git
+```
+
+Now we should have two remotes.
+```
+$ git remote -v
+origin  git@github.com:your_username/mutualaidworld_frontend.git (fetch)
+origin  git@github.com:your_username/mutualaidworld_frontend.git (push)
+upstream        https://github.com/factn/mutualaidworld_frontend.git (fetch)
+upstream        https://github.com/factn/mutualaidworld_frontend.git (push)
+```
+
+**Step 2: Do your work on a feature branch**
+
+This is going to work a lot easier if you do your code on a feature_branch.. so we'll explain it that way. 
+
+So, let's assume that you've been doing your coding on a 'feature branch' and pushing to origin (your repo on github) like this..
+```
+git checkout -b feature_branch
+... code code code ..
+git commit -a -m "your commit message"
+git push --set-upstream origin feature_branch
+... code code code ..
+git commit -a -m "your second commit message"
+git push 
+... etc ..
+```
+
+**Step 3: Merge your feature branch with latest from the main repo**
+
+Here's where, you may have been coding for a while, and you want to pull in the latest code from the main repo, so that your code is ready to go (rebased) on top of that. 
+
+First, make sure everything in your branch is committed. 
+
+Pull the upstream master -> your local master 
+```
+git checkout master
+git pull --rebase upstream master
+```
+(if you have been keeping the master branch untouched this should be an easy merge)
+
+Rebase your feature branch on the master branch 
+```
+git checkout feature_branch
+git rebase master
+```
+
+Merging with the master branch may require some manual intervention, but all the code is in your local repo so hopefully you can use whatever tools you prefer to do this. If necessary you can do a `git merge`, but we prefer a `git rebase` if possible just to keep the history easier to navigate (and make later rebasing easier) ;-)
+
+Once you have everything merged in, sorted and working locally you can push to your origin feature_branch
+```
+git push origin feature_branch
+```
+(If you did a `git push --set-upstream origin feature_branch` earlier this is the same as just `git push`)
+
+**Step 4: Create another PR **
+
+Go into github and create a PR to merge directly from `yourepo/feature_branch -> main_repo/master`
+
+Let us know how you go with this workflow. If it's driving everyone bonkers we will try to find ways to make it simpler!
+
 ## What are the list of tasks that need doing?
 
 For now, please [join our slack] to get a sense of where things are at, but we are working on a roadmap and a list of user stories as well as bunch of designs. All these things are happening at the same time, so stay tuned for those links. We're working hard to capture needs directly from mutual aid groups on the ground. 
