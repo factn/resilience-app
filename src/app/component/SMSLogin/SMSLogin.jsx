@@ -61,6 +61,6 @@ export default SMSLogin;
 
 SMSLogin.propTypes = {
   loginWithFacebook: PropTypes.func.isRequired,
-  handlePhonenumberChange: PropTypes.func.isRequired,
+  handlePhoneNumberChange: PropTypes.func.isRequired,
   handleSMSLogin: PropTypes.func.isRequired
 };
