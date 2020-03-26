@@ -8,7 +8,7 @@ import { SmallMap, MediumMap, LargeMap } from "./MiniMap.style";
 
 export default class SimpleMap extends Component {
   GetSmallMap() {
-    // fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=AIzaSyCTUPfXaCbf5e_YRmqGR1scg9TjhTy2dBo`)
+    // fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=`)
     // .then(
     //     function(response){
     //         if(response.status !== 200){
@@ -25,11 +25,7 @@ export default class SimpleMap extends Component {
     };
     return (
       <SmallMap>
-        <GoogleMapReact
-          bootstrapURLKeys={{ key: "AIzaSyCTUPfXaCbf5e_YRmqGR1scg9TjhTy2dBo" }}
-          defaultCenter={location}
-          defaultZoom={11}
-        >
+        <GoogleMapReact bootstrapURLKeys={{ key: "" }} defaultCenter={location} defaultZoom={11}>
           <div lat={location.lat} lng={location.lng} text="U+25CF" />
         </GoogleMapReact>
       </SmallMap>
@@ -39,7 +35,7 @@ export default class SimpleMap extends Component {
   }
 
   GetMediumMap() {
-    // fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=AIzaSyCTUPfXaCbf5e_YRmqGR1scg9TjhTy2dBo`)
+    // fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=`)
     // .then(
     //     function(response){
     //         if(response.status !== 200){
@@ -57,11 +53,7 @@ export default class SimpleMap extends Component {
     };
     return (
       <MediumMap>
-        <GoogleMapReact
-          bootstrapURLKeys={{ key: "AIzaSyCTUPfXaCbf5e_YRmqGR1scg9TjhTy2dBo" }}
-          defaultCenter={location}
-          defaultZoom={11}
-        >
+        <GoogleMapReact bootstrapURLKeys={{ key: "" }} defaultCenter={location} defaultZoom={11}>
           <div lat={location.lat} lng={location.lng} text="U+25CF" />
         </GoogleMapReact>
       </MediumMap>
@@ -71,7 +63,7 @@ export default class SimpleMap extends Component {
   }
 
   GetLargeMap() {
-    // fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=AIzaSyCTUPfXaCbf5e_YRmqGR1scg9TjhTy2dBo`)
+    // fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=`)
     // .then(
     //     function(response){
     //         if(response.status !== 200){
@@ -87,11 +79,7 @@ export default class SimpleMap extends Component {
     };
     return (
       <LargeMap>
-        <GoogleMapReact
-          bootstrapURLKeys={{ key: "AIzaSyCTUPfXaCbf5e_YRmqGR1scg9TjhTy2dBo" }}
-          defaultCenter={location}
-          defaultZoom={11}
-        >
+        <GoogleMapReact bootstrapURLKeys={{ key: "" }} defaultCenter={location} defaultZoom={11}>
           <div lat={location.lat} lng={location.lng} text="hello" />
         </GoogleMapReact>
       </LargeMap>
