@@ -1,10 +1,15 @@
 import React from "react";
-import { storiesOf } from "@storybook/react";
-import MiniMap from './MiniMap';
+import MiniMap from "./MiniMap";
+import { withKnobs, text } from "@storybook/addon-knobs";
 
-storiesOf("Components | Button", module)
-  .add("Map - Small", () => (
-    <MiniMap size="small"/>
-  ))
-  .add("Map - Medium", () =>  <MiniMap size="medium"/>)
-  .add("Map - large", () =>  <MiniMap size="large"/>)
+export const mapSize = () => {
+  const addressLoc = text("address", "55 St Catherine St E");
+  const sizeIt = text("Size", "small");
+
+  return <MiniMap size={sizeIt} address={addressLoc} />;
+};
+
+export default {
+  title: "Components | Map",
+  decorator: [withKnobs],
+};

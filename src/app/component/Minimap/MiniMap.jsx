@@ -3,78 +3,124 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import GoogleMapReact from "google-map-react";
-import styled from 'styled-components';
+import { SmallMap, MediumMap, LargeMap } from "./MiniMap.style";
 /*** [end of imports] ***/
 
-
-//size variations for maps
-const SmallMap = styled.div`
-width: 30%;
-height: 30vw;
-`
-
-const MediumMap = styled.div`
-width: 40%;
-height: 40vw;
-`
-const LargeMap = styled.div`
-width: 60%;
-height: 60vw;
-`
-
 export default class SimpleMap extends Component {
-  static defaultProps = {
-    center: {
+  GetSmallMap() {
+    // fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=AIzaSyCTUPfXaCbf5e_YRmqGR1scg9TjhTy2dBo`)
+    // .then(
+    //     function(response){
+    //         if(response.status !== 200){
+    //             console.log('Something went wrong ' + response.status);
+    //             return;
+    //         }
+
+    //         response.json().then(function(data){
+
+    //             let results = data.results[0].geometry.location;
+    const location = {
       lat: 45.5017,
-      lng: -73.5673
-    },
-    zoom: 11
-  };
+      lng: -73.5673,
+    };
+    return (
+      <SmallMap>
+        <GoogleMapReact
+          bootstrapURLKeys={{ key: "AIzaSyCTUPfXaCbf5e_YRmqGR1scg9TjhTy2dBo" }}
+          defaultCenter={location}
+          defaultZoom={11}
+        >
+          <div lat={location.lat} lng={location.lng} text="U+25CF" />
+        </GoogleMapReact>
+      </SmallMap>
+    );
+    // });
+    // })
+  }
+
+  GetMediumMap() {
+    // fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=AIzaSyCTUPfXaCbf5e_YRmqGR1scg9TjhTy2dBo`)
+    // .then(
+    //     function(response){
+    //         if(response.status !== 200){
+    //             console.log('Something went wrong ' + response.status);
+    //             return;
+    //         }
+
+    //         response.json().then(function(data){
+
+    //             let results = data.results[0].geometry.location;
+
+    const location = {
+      lat: 45.5017,
+      lng: -73.5673,
+    };
+    return (
+      <MediumMap>
+        <GoogleMapReact
+          bootstrapURLKeys={{ key: "AIzaSyCTUPfXaCbf5e_YRmqGR1scg9TjhTy2dBo" }}
+          defaultCenter={location}
+          defaultZoom={11}
+        >
+          <div lat={location.lat} lng={location.lng} text="U+25CF" />
+        </GoogleMapReact>
+      </MediumMap>
+    );
+    // });
+    // })
+  }
+
+  GetLargeMap() {
+    // fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=AIzaSyCTUPfXaCbf5e_YRmqGR1scg9TjhTy2dBo`)
+    // .then(
+    //     function(response){
+    //         if(response.status !== 200){
+    //             console.log('Something went wrong ' + response.status);
+    //             return;
+    //         }
+
+    //         response.json().then(function(data){
+    //             let results = data.results[0].geometry.location;
+    const location = {
+      lat: 45.5017,
+      lng: -73.5673,
+    };
+    return (
+      <LargeMap>
+        <GoogleMapReact
+          bootstrapURLKeys={{ key: "AIzaSyCTUPfXaCbf5e_YRmqGR1scg9TjhTy2dBo" }}
+          defaultCenter={location}
+          defaultZoom={11}
+        >
+          <div lat={location.lat} lng={location.lng} text="hello" />
+        </GoogleMapReact>
+      </LargeMap>
+    );
+    // });
+    // })
+  }
 
   render() {
-
-    if(this.props.size === 'small'){
-      return <SmallMap>
-      <GoogleMapReact
-        bootstrapURLKeys={{ key: "Your key here" }}
-        defaultCenter={this.props.center}
-        defaultZoom={this.props.zoom}
-      >
-        <div lat={59.955413} lng={30.337844} text="U+25CF" />
-      </GoogleMapReact>
-    </SmallMap>
-    }
-    else if(this.props.size === 'medium'){
-      return <MediumMap>
-      <GoogleMapReact
-        bootstrapURLKeys={{ key: "Your key here" }}
-        defaultCenter={this.props.center}
-        defaultZoom={this.props.zoom}
-      >
-        <div lat={59.955413} lng={30.337844} text="U+25CF"/>
-      </GoogleMapReact>
-    </MediumMap>
-    }
-    else if(this.props.size === 'large'){
-      return <LargeMap>
-      <GoogleMapReact
-        bootstrapURLKeys={{ key: "Your key here" }}
-        defaultCenter={this.props.center}
-        defaultZoom={this.props.zoom}
-      >
-        <div lat={59.955413} lng={30.337844} text="U+25CF" />
-      </GoogleMapReact>
-    </LargeMap>
-    }
+    console.log(this.props.size);
 
     return (
-      <div>
-      {this.props.size}
+      <div data-id="">
+        {this.props.size == "small"
+          ? this.GetSmallMap()
+          : this.props.size == "medium"
+          ? this.GetMediumMap()
+          : this.GetLargeMap()}
       </div>
     );
   }
 }
 
 SimpleMap.propTypes = {
-  size: PropTypes.string
+  size: PropTypes.string,
+  address: PropTypes.string,
+};
+
+SimpleMap.defaultProps = {
+  size: "small",
+  address: "1000 Chemin St Antoine",
 };
