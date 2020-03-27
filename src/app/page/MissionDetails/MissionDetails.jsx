@@ -16,7 +16,7 @@ export const StyledHr = styled.hr`
   width: 100%;
 `;
 
-const MissionPage = ({ mission, requester, ...props }) => {
+const MissionDetailsPage = ({ mission, requester, ...props }) => {
   mission = {
     id: "asdasd",
     description: "Buy audrey groceries",
@@ -57,4 +57,4 @@ const MissionPage = ({ mission, requester, ...props }) => {
     </Page>
   );
 };
-export default MissionPage;
+export default MissionDetailsPage;

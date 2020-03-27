@@ -18,7 +18,7 @@ import SignupPage from "./app/page/Signup";
 
 import MakeRequest from "./app/page/MakeRequest";
 import Missions from "./app/page/Missions";
-import Mission from "./app/page/Mission";
+import MissionDetails from "./app/page/MissionDetails";
 import UserProfile from "./app/page/UserProfile";
 // @ts-ignore
 
@@ -70,7 +70,7 @@ function App() {
                 <PrivateRoute path="/request/create">
                   <MakeRequest />
                 </PrivateRoute>
-                <Route path="/missions/:id" component={Mission} />
+                <Route path="/missions/:id" component={MissionDetails} />
                 <Route path="/missions" component={Missions} />
                 <Route path="/user" component={UserProfile} />
               </Switch>
