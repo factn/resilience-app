@@ -34,9 +34,7 @@ function App() {
               <Route path="/offers">
                 <OffersPage />;
               </Route>
-              <Route path="/signup">
-                <SignupPage />
-              </Route>
+              <Route path="/signup" component={SignupPage} />
               <Route path="/request/create" component={MakeRequest} />
               <Route path="/missions" component={Missions} />
             </Switch>
