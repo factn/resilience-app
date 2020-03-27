@@ -16,10 +16,10 @@ import SignupPage from "./app/page/Signup";
 import MakeRequest from "./app/page/MakeRequest";
 import Missions from "./app/page/Missions";
 import UserProfile from "./app/page/UserProfile";
-  // @ts-ignore
-import {ThemeProvider} from "styled-components";
+// @ts-ignore
+import { ThemeProvider } from "styled-components";
 
-const customTheme = createMuiTheme(theme)
+const customTheme = createMuiTheme(theme);
 
 function App() {
   // @ts-ignore
@@ -29,27 +29,27 @@ function App() {
       <CssBaseline />
       <MuiThemeProvider theme={customTheme}>
         <ThemeProvider theme={customTheme}>
-        <Router>
-          <div className="App">
-            <Switch>
-              <Route exact path="/">
-                <HomePage />
-              </Route>
-              <Route path="/login">
-                <LoginPage />
-              </Route>
-              <Route path="/offers">
-                <OffersPage />;
-              </Route>
-              <Route path="/signup">
-                <SignupPage />
-              </Route>
-              <Route path="/request/create" component={MakeRequest} />
-              <Route path="/missions" component={Missions} />
-              <Route path="/user" component={UserProfile} />
-            </Switch>
-          </div>
-        </Router>
+          <Router>
+            <div className="App">
+              <Switch>
+                <Route exact path="/">
+                  <HomePage />
+                </Route>
+                <Route path="/login">
+                  <LoginPage />
+                </Route>
+                <Route path="/offers">
+                  <OffersPage />;
+                </Route>
+                <Route path="/signup">
+                  <SignupPage />
+                </Route>
+                <Route path="/request/create" component={MakeRequest} />
+                <Route path="/missions" component={Missions} />
+                <Route path="/user" component={UserProfile} />
+              </Switch>
+            </div>
+          </Router>
         </ThemeProvider>
       </MuiThemeProvider>
     </>

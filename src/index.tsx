@@ -21,14 +21,14 @@ const rrfProps = {
   firebase,
   config: {
     userProfile: "users",
-    useFirestoreForProfile: true
+    useFirestoreForProfile: true,
   },
   dispatch: store.dispatch,
-  createFirestoreInstance
+  createFirestoreInstance,
 };
 
-if (process.env.NODE_ENV !== 'production') {
-  var axe = require('react-axe');
+if (process.env.NODE_ENV !== "production") {
+  var axe = require("react-axe");
   axe(React, ReactDOM, 1000);
 }
 
