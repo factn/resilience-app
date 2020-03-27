@@ -103,8 +103,9 @@ git rebase master
 
 Merging with the master branch may require some manual intervention, but all the code is in your local repo so hopefully you can use whatever tools you prefer to do this. If necessary you can do a `git merge`, but we prefer a `git rebase` if possible just to keep the history easier to navigate (and make later rebasing easier) ;-)
 
-Once you have everything merged in, sorted and working locally you can push to your origin feature_branch
+Once you have everything merged in, sorted and working locally you can push to your origin feature_branch. You have to pull from origin first, just to get things in sync.
 ```
+git pull --rebase origin master
 git push origin feature_branch
 ```
 (If you did a `git push --set-upstream origin feature_branch` earlier this is the same as just `git push`)
