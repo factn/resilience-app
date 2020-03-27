@@ -12,10 +12,9 @@ export const StyledCard = styled.div`
   display: flex;
   flex-direction: column;
   text-align: left;
-  margin: 25px;
+  margin: 12px 24px;
   padding: 12px;
   flex-grow: 1;
-  font-family: Arimo;
   box-shadow: ${propsBoxShadow};
   background-color: ${propsBgColor};
   img {

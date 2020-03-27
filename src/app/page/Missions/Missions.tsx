@@ -12,7 +12,7 @@ type Mission = {
   details: string;
 };
 
-const OffersPage = () => {
+const MissionsPage = () => {
   useFirestoreConnect([{ collection: "missions" }]);
   // @ts-ignore
   const missions: Mission[] | undefined = useSelector((state) => state.firestore.ordered.missions);
@@ -23,7 +23,6 @@ const OffersPage = () => {
 
   return (
     <Page>
-    {console.log(missions)}
       {missions?.map((mission) => (
         <Card key={mission.id}>
             <img alt="image here if existed" />
@@ -44,4 +43,4 @@ const OffersPage = () => {
     </Page>
   );
 };
-export default OffersPage;
+export default MissionsPage;

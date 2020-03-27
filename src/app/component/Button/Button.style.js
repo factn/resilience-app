@@ -23,6 +23,7 @@ const buttonStyles = {
 };
 
 const StyledButton = styled.button`
+  display: inline-block;
   padding: 11px 16px;
   cursor: pointer;
   color: #ffffff;
