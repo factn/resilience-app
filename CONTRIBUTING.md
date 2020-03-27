@@ -104,16 +104,16 @@ git rebase master
 Merging with the master branch may require some manual intervention, but all the code is in your local repo so hopefully you can use whatever tools you prefer to do this. If necessary you can do a `git merge`, but we prefer a `git rebase` if possible just to keep the history easier to navigate (and make later rebasing easier) ;-)
 
 Once you have everything merged in, sorted and working locally you can push to your origin feature_branch. 
-(*You have to pull from origin feature_branch first, just to get things in sync*)
+*You have to pull from origin feature_branch first, just to get things in sync*
 ```
 git pull --rebase origin feature_branch
 git push origin feature_branch
 ```
-(If you did a `git push --set-upstream origin feature_branch` earlier this is the same as just `git push`)
+If you did a `git push --set-upstream origin feature_branch` earlier this is the same as just `git push`
 
 **Step 4: Create another PR **
 
-Go into github and create a PR to merge directly from `yourepo/feature_branch -> main_repo/master`
+Go into github and [create a PR](https://github.com/factn/mutualaidworld_frontend/compare) to merge directly from `yourepo/feature_branch -> main_repo/master`
 
 Let us know how you go with this workflow. If it's driving everyone bonkers we will try to find ways to make it simpler!
 
