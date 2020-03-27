@@ -38,7 +38,7 @@ This process is explained in more detail [by Github here] and [by Atlassian here
 [readme]: https://github.com/factn/mutualaidworld_frontend/blob/master/README.md
 [join our slack]: https://join.slack.com/t/coronadonor/shared_invite/zt-cwm4b79c-12NHPqGWbzZ1aR5geyME1g
 
-## How do I keep my own code up to date with the main repo, easily?
+## How do I keep my own code up to date with the main repo?
 
 A potential issue. Here's what we recommend. 
 
