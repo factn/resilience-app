@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import "firebase/storage";
 import RequestForm from "./RequestForm";
