@@ -13,7 +13,7 @@ type Mission = {
   url: string;
 };
 
-const OffersPage = () => {
+const MissionsPage = () => {
   useFirestoreConnect([{ collection: "missions" }]);
   // @ts-ignore
   const missions: Mission[] | undefined = useSelector((state) => state.firestore.ordered.missions);
@@ -45,4 +45,4 @@ const OffersPage = () => {
     </Page>
   );
 };
-export default OffersPage;
+export default MissionsPage;
