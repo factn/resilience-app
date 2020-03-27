@@ -5,22 +5,26 @@ agree to abide by the [code of conduct].
 
 [code of conduct]: /CODE_OF_CONDUCT.md
 
-## Forking workflow 
+## Feature Branch Workflow 
 
-Anyone can get started and start coding without having to ask for permission because we follow the **forking workflow** 
+We follow the **feature branch workflow** 
 
 The super short version is:
-- [Fork] this repo
-- Clone your  repo to your local machine
+- Clone this  repo to your local machine
 ```
-git clone git@github.com:your-username/mutualaidworld_frontend.git
+git clone git@github.com:factn/resilience-app.git
 ```
 - Set up your dev environment as described on the [README](https://github.com/factn/mutualaidworld_frontend/blob/master/README.md)
+- Make a feature branch where you are going to do your coding
+```
+git checkout -b name_of_your_feature
+```
 - Make your change and test it works
 - Commit your changes
-- Push to your fork and [submit a pull request][pr].
+- [Join our slack],  visit the #resilience-app channel and request to be given write access to this repo.
+- Push your changes to a branch on this repo and [submit a pull request][pr].
 
-At this point you're waiting on us to comment and approve your Pull Request (aka 'PR'). Things are moving very fast and we are working to get to all the PRs as fast as possible but we should get back to you in a couple of days at most (usually within a few hours at the moment).
+At this point you're waiting on us to comment and approve your Pull Request (aka 'PR'). Things are moving pretty fast and we are working to get to all the PRs as fast as possible. We should get back to you in a couple of days but very often much sooner.
 
 Some things that will increase the chance that your pull request is accepted:
 
@@ -29,28 +33,31 @@ Some things that will increase the chance that your pull request is accepted:
 * Write a [good commit message][commit]
 * Come [join our slack] and talk to us about it there - in the #frontend channel.
 
-This process is explained in more detail [by Github here] and [by Atlassian here].
+The feature branch workflow is explained in more detail [by Atlassian here].
 
 [commit]: http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html
 [pr]: https://github.com/factn/mutualaidworld_frontend/compare
-[by Atlassian here]: https://www.atlassian.com/git/tutorials/comparing-workflows/forking-workflow
-[fork]: https://guides.github.com/activities/forking/
+[by Atlassian here]: https://www.atlassian.com/git/tutorials/comparing-workflows/feature-branch-workflow
 [readme]: https://github.com/factn/mutualaidworld_frontend/blob/master/README.md
 [join our slack]: https://join.slack.com/t/coronadonor/shared_invite/zt-cwm4b79c-12NHPqGWbzZ1aR5geyME1g
 
+## What if i don't want to wait and just want to submit a PR
+
+If you don't want to wait for us to give you write access you are more than welcome to use the forking workflow for your first PR and just [fork this repo](https://guides.github.com/activities/forking/) and then create a PR that way. In fact we'd encourage it for the first PR.
+
 ## What are the list of tasks that need doing?
 
-For now, please [join our slack] to get a sense of where things are at, but we are working on a roadmap and a list of user stories as well as bunch of designs. All these things are happening at the same time, so stay tuned for those links. We're working hard to capture needs directly from mutual aid groups on the ground. 
+For now, please [join our slack] to get a sense of where things are at. You can also [see our roadmap here](https://airtable.com/invite/l?inviteId=invAIFQQVcucfXfWx&inviteToken=a9ca21ad9b07a25b40d520f6c43855b006dd83b61cdccbb38799dcac551a4b0d). 
+
+If you ask on slack, we can give you access to the group on airtable that will let you grab tasks off the backlog and start doing that, but we'd like to get you up to speed on how that works. We're working hard to capture needs directly from mutual aid groups on the ground so wnat to be sure that it works like that.
 
 ## Who approves PRs?
 
-At the moment all PRs need to be approved by one of the people with commit/write access to the core repository.
+At the moment all PRs need to be approved by one of the people [in the resilience-app-committers group](https://github.com/orgs/factn/teams/ resilience-app-committers) before they can land on master.
 
-You can see [who is currently in that group](https://github.com/orgs/factn/teams/mutualaid_frontend_committers)
+But let us emphasize you don't need to be in that group to be a valued contributor to our project. Check out the [list of contributors](https://github.com/factn/mutualaidworld_frontend/graphs/contributors) for all the people who have contributed code so far. All much valued and to be forever famous in the halls of wherever awesome open source contributing awesome people go.
 
-We'd like to emphasize that you really don't need to be a core committer in order to commit to our project. Check out the [list of contributors](https://github.com/factn/mutualaidworld_frontend/graphs/contributors)
-
-However the process for becoming a committer (and vice versa) is also transparent:
+However for the record, and so that the process for being able to merge to the master branch is transparent. It is as follows.
 
 1. You have to make at least one PR and have it accepted and merged 
 2. Ideally youve been around on the slack chat for a bit and been part of the discussion. Being able to get along and 'play nicely' with others is also important for this role.
@@ -60,10 +67,9 @@ However the process for becoming a committer (and vice versa) is also transparen
 6. We will refine this process over coming days, by consensus, but if it becomes an issue in future, 80% approval is also required to change this process.
 
 
-
 ## What does success look like?
 
-Just to reiterate from the main project 
+Just to reiterate from the main project. This is what success looks like..
 
 - Be helpful, on the ground, for real world organisers
 - Be easy for new developers to commit code quickly
