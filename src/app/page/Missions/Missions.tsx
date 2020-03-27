@@ -10,6 +10,7 @@ type Mission = {
   description: string;
   status: string;
   details: string;
+  url: string;
 };
 
 const OffersPage = () => {
@@ -17,28 +18,28 @@ const OffersPage = () => {
   // @ts-ignore
   const missions: Mission[] | undefined = useSelector((state) => state.firestore.ordered.missions);
 
-  function TakeToMap(){
-    alert('this should take you to the map!')
-  };
+  function TakeToMap() {
+    alert("this should take you to the map!");
+  }
 
   return (
     <Page>
-    {console.log(missions)}
       {missions?.map((mission) => (
         <Card key={mission.id}>
-            <img alt="image here if existed" />
-            <h2>{mission.description}</h2>
-            <p>{mission.details}</p>
-            {/* once we have location services please make sure to change the line below to reflect that */}
-            <h5 onClick={TakeToMap}>📍 City, Street Address</h5>
-            <div className="side-by-side">
+          <img alt="img here" height="300" src={mission.url} />{" "}
+          {/* Need to lazy load images and also style it */}
+          <h2>{mission.description}</h2>
+          <p>{mission.details}</p>
+          {/* once we have location services please make sure to change the line below to reflect that */}
+          <h5 onClick={TakeToMap}>📍 City, Street Address</h5>
+          <div className="side-by-side">
             <h3>posted _ ago</h3>
             <h3>STATUS: {mission.status}</h3>
-            </div>
-            {
-              //@ts-ignore
-              <Button text="Volunteer" />
-            }
+          </div>
+          {
+            //@ts-ignore
+            <Button text="Volunteer" />
+          }
         </Card>
       ))}
     </Page>
