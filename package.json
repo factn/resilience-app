@@ -2,6 +2,7 @@
   "name": "mutualaidworld-frontend",
   "version": "0.1.0",
   "private": true,
+  "license" : "GPL-3.0",
   "dependencies": {
     "@firebase/auth-types": "^0.10.0",
     "@material-ui/core": "^4.9.7",
@@ -68,6 +69,7 @@
     "storybook-addon-material-ui": "^0.9.0-alpha.21",
     "typescript": "^3.8.3"
   },
+  "engines" : { "node" : ">=10.15" },
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
