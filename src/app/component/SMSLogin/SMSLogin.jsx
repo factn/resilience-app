@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Grid, Button, Typography, TextField } from "@material-ui/core";
+import FacebookIcon from "@material-ui/icons/Facebook";
 
 function SMSLogin({ loginWithFacebook, handlePhoneNumberChange, handleSMSLogin }) {
   return (
@@ -8,14 +9,19 @@ function SMSLogin({ loginWithFacebook, handlePhoneNumberChange, handleSMSLogin }
       <Grid container spacing={3} justify="center">
         <Grid item>
           <Typography component="h2" variant="h6">
-            Please sign in below
+            Please sign in below using one of the options
           </Typography>
         </Grid>
       </Grid>
 
-      <Grid container spacing={3} justify="center" direction="column">
+      <Grid container spacing={2} justify="center" direction="column">
         <Grid item>
-          <Button onClick={loginWithFacebook} color="primary" variant="contained">
+          <Button
+            onClick={loginWithFacebook}
+            color="primary"
+            variant="contained"
+            startIcon={<FacebookIcon />}
+          >
             Sign in with FB
           </Button>
         </Grid>
@@ -25,16 +31,15 @@ function SMSLogin({ loginWithFacebook, handlePhoneNumberChange, handleSMSLogin }
           </Typography>
         </Grid>
         <Grid item>
-          <Grid container direction="column" spacing={3}>
+          <Grid container direction="column" spacing={2}>
             <Grid item>
               <TextField
                 id="phone-number"
-                label="Phone number"
+                label="Phone Number"
                 type="text"
+                helperText="Format: +1 2345678910"
+                variant="outlined"
                 required
-                InputLabelProps={{
-                  shrink: true,
-                }}
                 onChange={handlePhoneNumberChange}
               />
             </Grid>
@@ -62,5 +67,5 @@ export default SMSLogin;
 SMSLogin.propTypes = {
   loginWithFacebook: PropTypes.func.isRequired,
   handlePhoneNumberChange: PropTypes.func.isRequired,
-  handleSMSLogin: PropTypes.func.isRequired
+  handleSMSLogin: PropTypes.func.isRequired,
 };
