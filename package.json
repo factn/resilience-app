@@ -29,7 +29,8 @@
     "redux-firestore": "^0.13.0",
     "reselect": "^4.0.0",
     "source-map-loader": "^0.2.4",
-    "styled-components": "^5.0.1"
+    "styled-components": "^5.0.1",
+    "uuid": "^7.0.2"
   },
   "scripts": {
     "server": "node server.js",
