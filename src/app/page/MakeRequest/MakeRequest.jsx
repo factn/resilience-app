@@ -4,9 +4,9 @@ import { withRouter } from "react-router-dom";
 import "firebase/storage";
 import RequestForm from "./RequestForm";
 import useForm from "../../hooks/useForm";
-import { getFirebase } from "react-redux-firebase";
+import { getFirebase, useFirestore, withFirestore } from "react-redux-firebase";
 
-function MakeRequest({ history }) {
+function MakeRequest({ history, firestore }) {
   const firebase = getFirebase();
   const [loading, setLoading] = useState(false);
   const [file, setFile] = useState(null);
@@ -17,30 +17,33 @@ function MakeRequest({ history }) {
     setFile(file);
   }
 
-  async function saveMissions() {
-    const db = firebase.firestore();
-    db.collection("missions").add({ ...values, status: "open" });
+  function saveMissions() {
+    firestore.add("missions", { ...values, status: "todo" });
   }
 
   async function onSubmit(e) {
     e.preventDefault();
     setLoading(true);
-    const uploadTask = storage.ref(`images/${file.name}`).put(file);
-    await uploadTask.on(
-      "state_changed",
-      (snapshot) => {},
-      (error) => {
-        // error function ....
-        console.log("error", error);
-      },
-      async () => {
-        const url = await storage.ref("images").child(file.name).getDownloadURL();
-        let val = values; // Setting it to be part of the values (setValues), calls it late
-        val.url = url; // Todo: Refactor later
-        setValues(val);
-        saveMissions();
-      }
-    );
+    if (file) {
+      const uploadTask = storage.ref(`images/${file.name}`).put(file);
+      await uploadTask.on(
+        "state_changed",
+        (snapshot) => {},
+        (error) => {
+          // error function ....
+          console.log("error", error);
+        },
+        async () => {
+          const url = await storage.ref("images").child(file.name).getDownloadURL();
+          let val = values; // Setting it to be part of the values (setValues), calls it late
+          val.url = url; // Todo: Refactor later
+          setValues(val);
+          saveMissions();
+        }
+      );
+    } else {
+      saveMissions();
+    }
     history.push("/missions");
     setLoading(false);
   }
@@ -57,4 +60,4 @@ function MakeRequest({ history }) {
   );
 }
 
-export default withRouter(MakeRequest);
+export default withRouter(withFirestore(MakeRequest));
