@@ -1,3 +1,4 @@
 import User from "./User";
+import Mission from "./Mission";
 
-export { User };
+export { User, Mission };
