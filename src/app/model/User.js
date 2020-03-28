@@ -9,7 +9,15 @@ class User {
    * @param {string} status
    */
   assignAsVolunteer(fs, missionId, userId, status = "doing") {
-    this._assignUserToMission(fs, missionId, userId, "volunteerId", status);
+    //this._assignUserToMission(fs, missionId, userId, "volunteerId", status);
+
+    fs.collection("missions").doc(missionId).update({ volunteerId: userId, status: status });
+
+    fs.collection("users")
+      .doc(userId)
+      .update({
+        volunteeringMissionIds: fs.FieldValue.arrayUnion(missionId),
+      });
   }
 
   /**
@@ -18,23 +26,18 @@ class User {
    * @param {string} missionId
    * @param {string} userId
    */
-  assignAsOwner(fs, missionId, userId) {
-    this._assignUserToMission(fs, missionId, userId, "ownerId");
-  }
+  assignAsOwner(fs, missionId, userId, status = "todo") {
+    //this._assignUserToMission(fs, missionId, userId, "ownerId");
 
-  _assignUserToMission(fs, missionId, userId, assignmentType, status) {
-    const missionData = status
-      ? { status: status, [assignmentType]: userId }
-      : { [assignmentType]: userId };
-
-    fs.collection("missions").doc(missionId).update(missionData);
+    fs.collection("missions").doc(missionId).update({ ownerId: userId, status: status });
 
     fs.collection("users")
       .doc(userId)
       .update({
-        assignedMissionIds: fs.FieldValue.arrayUnion(missionId),
+        owningMissionIds: fs.FieldValue.arrayUnion(missionId),
       });
   }
+
   getAuth = (state) => get(state, "firebase.auth");
 }
 
