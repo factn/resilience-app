@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import { User } from "../../model";
 import { withRouter } from "react-router-dom";
 import "firebase/storage";
 import RequestForm from "./RequestForm";
 import useForm from "../../hooks/useForm";
-import { getFirebase, useFirestore, withFirestore } from "react-redux-firebase";
+import { useSelector } from "react-redux";
+import { getFirebase, withFirestore } from "react-redux-firebase";
+import { v4 as uuidv4 } from "uuid";
 
 function MakeRequest({ history, firestore }) {
   const firebase = getFirebase();
@@ -13,12 +16,25 @@ function MakeRequest({ history, firestore }) {
   const storage = firebase.storage();
   const { handleChange, values, setValues } = useForm();
 
+  const user = useSelector((state) => state.firebase.auth);
   function getFile(file) {
     setFile(file);
   }
 
+  /**
+   * Creates a mission based on form data. Updates the current user
+   * to be the owner of the newly created mission.
+   */
   function saveMissions() {
-    firestore.add("missions", { ...values, status: "todo" });
+    const model = { ...values, ownerId: user.uid };
+    const missionId = uuidv4();
+
+    firestore
+      .collection("missions")
+      .doc(missionId)
+      .set({ ...model, status: "todo" });
+
+    User.assignAsOwner(firestore, missionId, user.uid);
   }
 
   async function onSubmit(e) {
