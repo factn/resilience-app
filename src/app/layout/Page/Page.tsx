@@ -1,5 +1,4 @@
 import React, {FC, ReactNode} from "react";
-import PropTypes from "prop-types";
 import { PageContainer } from "./Page.style";
 import Appbar from "../Appbar";
 

@@ -14,7 +14,6 @@ import { firebaseConfig } from "./config/firebase";
 import "./index.css";
 import * as serviceWorker from "./serviceWorker";
 
-const fbConfig  =  {}
 const rrfConfig  =  {
     userProfile: "users",
     useFirestoreForProfile: true

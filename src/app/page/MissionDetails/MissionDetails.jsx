@@ -4,23 +4,13 @@ import { useSelector } from "react-redux";
 import { Button } from "../../component";
 import { Page, Card } from "../../layout";
 import { Typography, Avatar, Grid } from "@material-ui/core";
-import { compose } from "redux";
 
-import stubImage from "../../../img/stub-image.png";
 import profileImg from "../../../img/fb-profile.jpg";
 import { ReactComponent as MapMarkerImg } from "../../../img/map-marker-alt.svg";
 // Created based on the schema in firebase
 import styled from "styled-components";
-import {
-  isLoaded,
-  isEmpty,
-  firebaseConnect,
-  useFirestore,
-  withFirestore,
-} from "react-redux-firebase";
+import { isLoaded, withFirestore } from "react-redux-firebase";
 import { useHistory } from "react-router-dom";
-import { connect } from "react-redux";
-
 import { User } from "../../model";
 
 export const StyledHr = styled.hr`

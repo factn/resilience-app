@@ -1,15 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { Link, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
 import { useSelector, connect } from "react-redux";
-import { useFirestoreConnect, firestoreConnect, isLoaded, isEmpty } from "react-redux-firebase";
+import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
 
 import { ReactComponent as Logo } from "../../../img/logo.svg";
 import { Page, Card } from "../../layout";
-import { User } from "../../model";
 import { MissionCard, Button } from "../../component";
 
 import { BigLogo, MissionText, StyledHomeButton, StyledLink } from "./Home.style";
