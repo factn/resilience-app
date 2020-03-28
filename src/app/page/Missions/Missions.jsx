@@ -14,10 +14,6 @@ const MissionsPage = ({ firestore }) => {
 
   const user = useSelector((state) => state.firebase.auth);
 
-  function TakeToMap() {
-    alert("this should take you to the map!");
-  }
-
   function volunteerForMission(missionId) {
     User.assignAsVolunteer(firestore, missionId, user.uid);
   }

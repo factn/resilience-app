@@ -34,7 +34,6 @@ export default {
       fontFamily: "Open Sans, Ariomo, Arial, sans-serif",
       fontSize: "16px",
       lineHeight: "22px",
-      color: color.purple,
     },
     h2: {
       fontFamily: "Ariomo, Arial, sans-serif",
