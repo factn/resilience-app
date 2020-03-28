@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 
 import { useFirebase, isLoaded, isEmpty } from "react-redux-firebase";
@@ -33,7 +33,7 @@ const LoginPage = () => {
         // SMS sent. Prompt user to type the code from the message, then sign the
         // user in with confirmationResult.confirm(code).
         const verificationCode = window.prompt(
-          "Please enter the verification " + "code that was sent to your mobile device."
+          "Please enter the verification code that was sent to your mobile device."
         );
         return confirmationResult.confirm(verificationCode);
       })

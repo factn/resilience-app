@@ -46,7 +46,6 @@ function PrivateRoute({ children, ...rest }) {
 function App() {
   // @ts-ignore
   const customTheme = createMuiTheme(theme);
-  const auth = useSelector((state) => state.firebase.auth);
   return (
     <>
       <CssBaseline />
