@@ -6,6 +6,7 @@ import { Page, Card } from "../../layout";
 import { useHistory } from "react-router-dom";
 import { User } from "../../model";
 
+
 const MissionsPage = ({ firestore }) => {
   let history = useHistory();
   useFirestoreConnect([{ collection: "missions" }]);
@@ -19,6 +20,7 @@ const MissionsPage = ({ firestore }) => {
 
   function volunteerForMission(missionId) {
     User.assginedToMission(firestore, missionId, user.uid);
+
   }
 
   return (
