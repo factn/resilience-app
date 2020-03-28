@@ -14,15 +14,19 @@ import { firebaseConfig } from "./config/firebase";
 import "./index.css";
 import * as serviceWorker from "./serviceWorker";
 
+const fbConfig  =  {}
+const rrfConfig  =  {
+    userProfile: "users",
+    useFirestoreForProfile: true
+}
+
+
 firebase.initializeApp(firebaseConfig);
 firebase.firestore();
 
 const rrfProps = {
   firebase,
-  config: {
-    userProfile: "users",
-    useFirestoreForProfile: true
-  },
+  config: rrfConfig,
   dispatch: store.dispatch,
   createFirestoreInstance
 };

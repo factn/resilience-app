@@ -4,6 +4,8 @@ import { useSelector } from "react-redux";
 import { Button } from "../../component";
 import { Page, Card } from "../../layout";
 import { useHistory } from "react-router-dom";
+import { User } from "../../model";
+
 
 const MissionsPage = ({ firestore }) => {
   let history = useHistory();
@@ -15,11 +17,10 @@ const MissionsPage = ({ firestore }) => {
   function TakeToMap() {
     alert("this should take you to the map!");
   }
+
   function volunteerForMission(missionId) {
-    firestore.update(
-      { collection: "missions", doc: missionId },
-      { volunteerId: user.uid, status: "doing" }
-    );
+    User.assginedToMission(firestore, missionId, user.uid);
+
   }
 
   return (
