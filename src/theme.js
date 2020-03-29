@@ -35,6 +35,19 @@ export default {
       fontSize: "16px",
       lineHeight: "22px",
     },
+    body2: {
+      color: color.purple,
+      fontFamily: "Open Sans, Ariomo, Arial, sans-serif",
+      fontSize: "14px",
+      lineHeight: "22px",
+    },
+    h1: {
+      fontFamily: "Ariomo, Arial, sans-serif",
+      fontWeight: "bold",
+      fontSize: "36px",
+      lineHeight: "40px",
+      color: color.purple,
+    },
     h2: {
       fontFamily: "Ariomo, Arial, sans-serif",
       fontWeight: "bold",
@@ -45,6 +58,7 @@ export default {
     h3: {
       fontFamily: "Ariomo, Arial, sans-serif",
       fontSize: "22px",
+      textTransform: "capitalize",
       color: color.purple,
     },
     h4: {
