@@ -1,25 +1,41 @@
 import React from "react";
-import { Typography } from "@material-ui/core";
+import { Typography, Grid } from "@material-ui/core";
+import LocationOnIcon from "@material-ui/icons/LocationOn";
 
 const MissionCard = ({ mission }) => {
   function takeToMap() {
     return "";
   }
+  let status = "";
+  switch (mission.status) {
+    case "todo":
+      status = "need volunteer";
+      break;
+    case "doing":
+      status = "volunteer";
+      break;
+    case "done":
+      status = "done";
+      break;
+    case "finished":
+    default:
+      status = "finished";
+  }
   return (
-    <>
-      {mission.url && <img alt="img here" height="auto" width="100%" src={mission.url} />}
-      <Typography variant="h2">{mission.description}</Typography>
-      <Typography variant="body1">{mission.details}</Typography>
-      <h5 onClick={takeToMap}>
-        <span role="img" aria-label="address">
-          📍
-        </span>{" "}
-        City, Street Address
-      </h5>
-      <div>
-        <Typography variant="h4">status: {mission.status}</Typography>
-      </div>
-    </>
+    <Grid container spacing="1">
+      <Grid container item>
+        <Grid item>
+          <Typography variant="h3">{mission.description}</Typography>
+        </Grid>
+      </Grid>
+      <Grid container item>
+        <LocationOnIcon color="secondary" />
+        <Typography variant="body2">123 Example St., San Francisco, 92501</Typography>
+      </Grid>
+      <Grid container item>
+        <Typography variant="h4">status: {status}</Typography>
+      </Grid>
+    </Grid>
   );
 };
 export default MissionCard;
