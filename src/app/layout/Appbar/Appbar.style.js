@@ -26,6 +26,7 @@ export const MenuContainer = styled.div`
   height: inherit;
   width: 100px;
   cursor: pointer;
+  margin-left: auto;
   > svg {
     height: inherit;
     width: 2em;
