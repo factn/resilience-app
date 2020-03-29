@@ -82,6 +82,6 @@ export default compose(
   connect(mapStateToProps),
   firestoreConnect((props) => {
     if (!props.auth.uid) return [];
-    return [{ collection: "missions", where: [["assignedId", "==", props.auth.uid]] }];
+    return [{ collection: "missions", where: [["volunteerId", "==", props.auth.uid]] }];
   })
 )(withRouter(HomePage));
