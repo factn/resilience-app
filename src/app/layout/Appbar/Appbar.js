@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import MenuIcon from "@material-ui/icons/Menu";
 import { Link } from "react-router-dom";
-
+import NavigationDrawer from "../NavigationDrawer/index";
+import MenuIcon from "@material-ui/icons/Menu";
 import { AppbarContainer, AppbarDefault, LogoContainer, MenuContainer } from "./Appbar.style";
 import { ReactComponent as Logo } from "../../../img/logo.svg";
 
@@ -19,7 +19,7 @@ const Appbar = ({ children }) => {
             </Link>
           </LogoContainer>
           <MenuContainer>
-            <MenuIcon title="MutualAidMenu" />
+            <NavigationDrawer />
           </MenuContainer>
         </AppbarDefault>
       )}
