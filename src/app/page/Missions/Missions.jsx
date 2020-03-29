@@ -2,6 +2,7 @@ import React from "react";
 import { useFirestore, firestoreConnect } from "react-redux-firebase";
 import { useSelector, connect } from "react-redux";
 import { withRouter } from "react-router-dom";
+
 import { Typography, Button, Grid } from "@material-ui/core";
 import styled from "styled-components";
 
@@ -25,6 +26,7 @@ const PlaceHolder = styled.div`
 const MissionsPage = ({ user, history, firebase, ...rest }) => {
   const missions = useSelector((state) => state.firestore.ordered.missionsTodo);
   const firestore = useFirestore();
+
 
   function volunteerForMission(missionId) {
     User.assignAsVolunteer(firestore, missionId, user.uid);
@@ -84,6 +86,7 @@ export default compose(
         storeAs: "missionsTodo",
       },
     ];
+
   })
 )(withRouter(MissionsPage));
 

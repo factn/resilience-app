@@ -89,5 +89,6 @@ export default compose(
         storeAs: "missionsVolunteered",
       },
     ];
+
   })
 )(withRouter(HomePage));
