@@ -6,10 +6,10 @@ const MissionCard = ({ mission }) => {
   let status = "";
   switch (mission.status) {
     case "todo":
-      status = "need volunteer";
+      status = "need volunteers";
       break;
     case "doing":
-      status = "volunteer";
+      status = "in progress";
       break;
     case "done":
       status = "done";
