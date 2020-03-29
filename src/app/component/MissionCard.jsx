@@ -9,10 +9,10 @@ const MissionCard = ({ mission }) => {
   let status = "";
   switch (mission.status) {
     case "todo":
-      status = "need volunteer";
+      status = "need volunteers";
       break;
     case "doing":
-      status = "volunteer";
+      status = "in progress";
       break;
     case "done":
       status = "done";
@@ -22,7 +22,7 @@ const MissionCard = ({ mission }) => {
       status = "finished";
   }
   return (
-    <Grid container spacing="1">
+    <Grid container spacing={1}>
       <Grid container item>
         <Grid item>
           <Typography variant="h3">{mission.description}</Typography>
