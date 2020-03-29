@@ -3,9 +3,6 @@ import { Typography, Grid } from "@material-ui/core";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 
 const MissionCard = ({ mission }) => {
-  function takeToMap() {
-    return "";
-  }
   let status = "";
   switch (mission.status) {
     case "todo":
@@ -22,7 +19,7 @@ const MissionCard = ({ mission }) => {
       status = "finished";
   }
   return (
-    <Grid container spacing="1">
+    <Grid container spacing={1}>
       <Grid container item>
         <Grid item>
           <Typography variant="h3">{mission.description}</Typography>
