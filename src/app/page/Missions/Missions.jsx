@@ -27,7 +27,6 @@ const MissionsPage = ({ user, history, firebase, ...rest }) => {
   const missions = useSelector((state) => state.firestore.ordered.missionsTodo);
   const firestore = useFirestore();
 
-
   function volunteerForMission(missionId) {
     User.assignAsVolunteer(firestore, missionId, user.uid);
   }
@@ -86,7 +85,6 @@ export default compose(
         storeAs: "missionsTodo",
       },
     ];
-
   })
 )(withRouter(MissionsPage));
 
