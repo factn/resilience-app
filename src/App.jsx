@@ -13,11 +13,12 @@ import theme from "./theme";
 
 import LoginPage from "./app/page/Login";
 import HomePage from "./app/page/Home";
-import OffersPage from "./app/page/Offers/Offers";
 import SignupPage from "./app/page/Signup";
+import OrganizerSignupPage from "./app/page/OrganizerSignup";
 
 import MakeRequest from "./app/page/MakeRequest";
-import Missions from "./app/page/Missions";
+import { Missions, MissionsCreated, MissionsVolunteered } from "./app/page";
+
 import MissionDetails from "./app/page/MissionDetails";
 import UserProfile from "./app/page/UserProfile";
 // @ts-ignore
@@ -60,8 +61,8 @@ function App() {
                 <Route path="/login">
                   <LoginPage />
                 </Route>
-                <Route path="/offers">
-                  <OffersPage />;
+                <Route path="/organizer/signup">
+                  <OrganizerSignupPage />;
                 </Route>
                 <Route path="/signup">
                   <SignupPage />
@@ -69,6 +70,8 @@ function App() {
                 <PrivateRoute path="/request/create">
                   <MakeRequest />
                 </PrivateRoute>
+                <Route path="/missions/created" component={MissionsCreated} />
+                <Route path="/missions/volunteered" component={MissionsVolunteered} />
                 <Route path="/missions/:id" component={MissionDetails} />
                 <Route path="/missions" component={Missions} />
                 <Route path="/user" component={UserProfile} />
