@@ -3,9 +3,6 @@ import { Typography, Grid } from "@material-ui/core";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 
 const MissionCard = ({ mission }) => {
-  function takeToMap() {
-    return "";
-  }
   let status = "";
   switch (mission.status) {
     case "todo":

@@ -14,7 +14,7 @@ import { MissionCard, Button } from "../../component";
 import { BigLogo, MissionText, StyledHomeButton, StyledLink } from "./Home.style";
 
 const HomePage = ({ history, ...rest }) => {
-  const missions = useSelector((state) => state.firestore.ordered.missions);
+  const missions = useSelector((state) => state.firestore.ordered.missionsVolunteered);
   const isEmpty = useSelector((state) => state.firebase.auth.isEmpty);
 
   return (
@@ -82,6 +82,13 @@ export default compose(
   connect(mapStateToProps),
   firestoreConnect((props) => {
     if (!props.auth.uid) return [];
-    return [{ collection: "missions", where: [["volunteerId", "==", props.auth.uid]] }];
+    return [
+      {
+        collection: "missions",
+        where: [["volunteerId", "==", props.auth.uid]],
+        storeAs: "missionsVolunteered",
+      },
+    ];
+
   })
 )(withRouter(HomePage));
