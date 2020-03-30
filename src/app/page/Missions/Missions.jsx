@@ -1,7 +1,8 @@
 import React from "react";
-import { useFirestoreConnect, useFirestore, firestoreConnect } from "react-redux-firebase";
+import { useFirestore, firestoreConnect } from "react-redux-firebase";
 import { useSelector, connect } from "react-redux";
-import { useHistory, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
+
 import { Typography, Button, Grid } from "@material-ui/core";
 import styled from "styled-components";
 
@@ -23,21 +24,22 @@ const PlaceHolder = styled.div`
 `;
 
 const MissionsPage = ({ user, history, firebase, ...rest }) => {
-  const missions = useSelector((state) => state.firestore.ordered.missions);
+  const missions = useSelector((state) => state.firestore.ordered.missionsTodo);
   const firestore = useFirestore();
 
-  function TakeToMap() {
-    alert("this should take you to the map!");
-  }
 
   function volunteerForMission(missionId) {
     User.assignAsVolunteer(firestore, missionId, user.uid);
   }
 
+  if (!missions) {
+    return <div> isloading...</div>;
+  }
   return (
     <Page template="pink">
       <StyledHeader variant="h1"> Missions </StyledHeader>
-      {missions?.map((mission) => (
+
+      {missions.map((mission) => (
         <Card key={mission.id}>
           <MissionCard mission={mission} key={`preview-${mission.id}`} />
 
@@ -77,7 +79,14 @@ const mapStateToProps = (state) => {
 export default compose(
   connect(mapStateToProps),
   firestoreConnect((props) => {
-    return [{ collection: "missions", where: [["status", "==", "todo"]] }];
+    return [
+      {
+        collection: "missions",
+        where: [["status", "==", "todo"]],
+        storeAs: "missionsTodo",
+      },
+    ];
+
   })
 )(withRouter(MissionsPage));
 
