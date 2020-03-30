@@ -36,21 +36,30 @@ export default function TemporaryDrawer() {
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <List>
-        {["User Profile", "Missions"].map((text, index) => (
-          <ListItem button key={text}>
-            {index === 0 ? (
-              <Link to="/user" className={classes.link}>
-                <AccountCircleIcon fontSize="large" />
-                <ListItemText primary={text} />
-              </Link>
-            ) : (
-              <Link to="/missions" className={classes.link}>
-                <AssignmentIcon fontSize="large" />
-                <ListItemText primary={text} />
-              </Link>
-            )}
-          </ListItem>
-        ))}
+        <ListItem button>
+          <AccountCircleIcon fontSize="large" />
+          <Link to="/user" className={classes.link}>
+            <ListItemText primary="User Profile" />
+          </Link>
+        </ListItem>
+        <ListItem button>
+          <AssignmentIcon fontSize="large" />
+          <Link to="/missions" className={classes.link}>
+            <ListItemText primary="Volunteer needed" />
+          </Link>
+        </ListItem>
+        <ListItem button>
+          <AssignmentIcon fontSize="large" />
+          <Link to="/missions/volunteered" className={classes.link}>
+            <ListItemText primary="Volunteerd Missions" />
+          </Link>
+        </ListItem>
+        <ListItem button>
+          <AssignmentIcon fontSize="large" />
+          <Link to="/missions/created" className={classes.link}>
+            <ListItemText primary="My Requests" />
+          </Link>
+        </ListItem>
       </List>
     </div>
   );
