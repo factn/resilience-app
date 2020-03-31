@@ -1,9 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Grid, Button, Typography, TextField } from "@material-ui/core";
-import FacebookIcon from "@material-ui/icons/Facebook";
 
-function SMSLogin({ loginWithFacebook, handlePhoneNumberChange, handleSMSLogin }) {
+import FacebookIcon from "@material-ui/icons/Facebook";
+import EmailIcon from "@material-ui/icons/Email";
+
+function SMSLogin({ loginWithFacebook, loginWithGoogle, handlePhoneNumberChange, handleSMSLogin }) {
   return (
     <>
       <Grid container spacing={3} justify="center">
@@ -23,6 +25,17 @@ function SMSLogin({ loginWithFacebook, handlePhoneNumberChange, handleSMSLogin }
             startIcon={<FacebookIcon />}
           >
             Sign in with FB
+          </Button>
+        </Grid>
+
+        <Grid item>
+          <Button
+            onClick={loginWithGoogle}
+            color="primary"
+            variant="contained"
+            startIcon={<EmailIcon />}
+          >
+            Sign in with Google
           </Button>
         </Grid>
         <Grid item>

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
+import { Redirect } from "react-router-dom";
 
 import { useFirebase, isLoaded, isEmpty } from "react-redux-firebase";
 import { Page } from "../../layout";
@@ -7,24 +8,22 @@ import SMSLogin from "../../component/SMSLogin";
 
 const LoginPage = () => {
   const firebase = useFirebase();
-  // @ts-ignore
   const auth = useSelector((state) => state.firebase.auth);
   const [phoneNumber, updatePhoneNumber] = useState("");
   function loginWithFacebook() {
     return firebase.login({ provider: "facebook", type: "popup" });
   }
+  function loginWithGoogle() {
+    return firebase.login({ provider: "google", type: "popup" });
+  }
 
   function loginWithSMS(phoneNumber) {
     firebase.auth().useDeviceLanguage();
-    //@ts-ignore
     window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier("recaptcha-container");
 
-    //@ts-ignore
     window.recaptchaVerifier.render().then(function (widgetId) {
-      //@ts-ignore
       window.recaptchaWidgetId = widgetId;
     });
-    // @ts-ignore
     firebase
       .signInWithPhoneNumber(phoneNumber, window.recaptchaVerifier)
       .then((confirmationResult) => {
@@ -63,18 +62,13 @@ const LoginPage = () => {
             handlePhoneNumberChange={handlePhoneNumberChange}
             handleSMSLogin={handleSMSLogin}
             loginWithFacebook={loginWithFacebook}
+            loginWithGoogle={loginWithGoogle}
           />
         </Page>
       }
     </>
   ) : (
-    <>
-      <h3>signed in</h3>
-      <p>User: {JSON.stringify(auth)}</p>
-      <button onClick={firebase.logout}>
-        <h5>Sign out</h5>
-      </button>
-    </>
+    <Redirect to="/" />
   );
 };
 
