@@ -9,11 +9,19 @@ import ListItemText from "@material-ui/core/ListItemText";
 import MenuIcon from "@material-ui/icons/Menu";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import AssignmentIcon from "@material-ui/icons/Assignment";
+import ExitToApp from "@material-ui/icons/ExitToApp";
 import { Link } from "react-router-dom";
 import Divider from "@material-ui/core/Divider";
+import { useFirebase, isLoaded, isEmpty } from "react-redux-firebase";
+import { useSelector } from "react-redux";
+
+import { PrivateComponent } from "../../component";
 
 export default function TemporaryDrawer() {
+  const firebase = useFirebase();
   const classes = useStyles();
+  const auth = useSelector((state) => state.firebase.auth);
+
   const [state, setState] = React.useState({
     right: false,
   });
@@ -37,29 +45,36 @@ export default function TemporaryDrawer() {
     >
       <List>
         <ListItem button>
-          <AccountCircleIcon fontSize="large" />
-          <Link to="/user" className={classes.link}>
-            <ListItemText primary="User Profile" />
-          </Link>
-        </ListItem>
-        <ListItem button>
           <AssignmentIcon fontSize="large" />
           <Link to="/missions" className={classes.link}>
             <ListItemText primary="Volunteer needed" />
           </Link>
         </ListItem>
-        <ListItem button>
-          <AssignmentIcon fontSize="large" />
-          <Link to="/missions/volunteered" className={classes.link}>
-            <ListItemText primary="Volunteerd Missions" />
-          </Link>
-        </ListItem>
-        <ListItem button>
-          <AssignmentIcon fontSize="large" />
-          <Link to="/missions/created" className={classes.link}>
-            <ListItemText primary="My Requests" />
-          </Link>
-        </ListItem>
+        <PrivateComponent>
+          <ListItem button>
+            <AccountCircleIcon fontSize="large" />
+            <Link to="/user" className={classes.link}>
+              <ListItemText primary="User Profile" />
+            </Link>
+          </ListItem>
+
+          <ListItem button>
+            <AssignmentIcon fontSize="large" />
+            <Link to="/missions/volunteered" className={classes.link}>
+              <ListItemText primary="Volunteerd Missions" />
+            </Link>
+          </ListItem>
+          <ListItem button>
+            <AssignmentIcon fontSize="large" />
+            <Link to="/missions/created" className={classes.link}>
+              <ListItemText primary="My Requests" />
+            </Link>
+          </ListItem>
+          <ListItem button>
+            <ExitToApp fontSize="large" />
+            <ListItemText primary="Signout" onClick={firebase.logout} />
+          </ListItem>
+        </PrivateComponent>
       </List>
     </div>
   );
