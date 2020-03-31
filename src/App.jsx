@@ -19,6 +19,8 @@ import OrganizerSignupPage from "./app/page/OrganizerSignup";
 import MakeRequest from "./app/page/MakeRequest";
 import { Missions, MissionsCreated, MissionsVolunteered } from "./app/page";
 
+import { MissionsControl } from "./app/page";
+
 import MissionDetails from "./app/page/MissionDetails";
 import UserProfile from "./app/page/UserProfile";
 // @ts-ignore
@@ -70,6 +72,7 @@ function App() {
                 <PrivateRoute path="/request/create">
                   <MakeRequest />
                 </PrivateRoute>
+                <PrivateRoute path="/missions/control" component={MissionsControl} />
                 <Route path="/missions/created" component={MissionsCreated} />
                 <Route path="/missions/volunteered" component={MissionsVolunteered} />
                 <Route path="/missions/:id" component={MissionDetails} />
