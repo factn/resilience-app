@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import NavigationDrawer from "../NavigationDrawer/index";
-import MenuIcon from "@material-ui/icons/Menu";
 import { AppbarContainer, AppbarDefault, LogoContainer, MenuContainer } from "./Appbar.style";
 import { ReactComponent as Logo } from "../../../img/logo.svg";
 

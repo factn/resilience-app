@@ -1,6 +1,5 @@
 import React from "react";
 import { Row, Col } from "react-flexbox-grid";
-import { Grid } from "@material-ui/core";
 
 import { Page } from "../../layout";
 import Input from "../../component/Input";

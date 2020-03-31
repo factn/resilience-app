@@ -11,16 +11,13 @@ import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import AssignmentIcon from "@material-ui/icons/Assignment";
 import ExitToApp from "@material-ui/icons/ExitToApp";
 import { Link } from "react-router-dom";
-import Divider from "@material-ui/core/Divider";
-import { useFirebase, isLoaded, isEmpty } from "react-redux-firebase";
-import { useSelector } from "react-redux";
+import { useFirebase } from "react-redux-firebase";
 
 import { PrivateComponent } from "../../component";
 
 export default function TemporaryDrawer() {
   const firebase = useFirebase();
   const classes = useStyles();
-  const auth = useSelector((state) => state.firebase.auth);
 
   const [state, setState] = React.useState({
     right: false,
