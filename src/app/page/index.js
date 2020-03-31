@@ -20,5 +20,6 @@ export {
   MissionsCreated,
   MissionsVolunteered,
   MissionsControl,
+  MissionDetails,
   UserProfile,
 };
