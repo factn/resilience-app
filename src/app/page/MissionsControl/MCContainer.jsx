@@ -1,13 +1,9 @@
 import React from "react";
-import { useFirestore, firestoreConnect } from "react-redux-firebase";
+import { firestoreConnect } from "react-redux-firebase";
 import { useSelector, connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 
-import { Typography, Button, Grid } from "@material-ui/core";
-import styled from "styled-components";
-
-import { Page, Card } from "../../layout";
-import { User, Mission } from "../../model";
+import { Mission } from "../../model";
 import { compose } from "redux";
 
 import MissionsControlView from "./Missions";

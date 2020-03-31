@@ -1,5 +1,5 @@
 import React from "react";
-import { useFirestore, firestoreConnect } from "react-redux-firebase";
+import { firestoreConnect } from "react-redux-firebase";
 import { useSelector, connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 
@@ -7,7 +7,6 @@ import { Typography, Button, Grid } from "@material-ui/core";
 import styled from "styled-components";
 
 import { Page, Card } from "../../layout";
-import { User } from "../../model";
 import { MissionCard } from "../../component";
 import { compose } from "redux";
 
@@ -19,13 +18,8 @@ const StyledButton = styled(Button)`
   flex-grow: 1;
 `;
 
-const PlaceHolder = styled.div`
-  width: 16px;
-`;
-
 const MissionsPage = ({ auth, history, firebase, ...rest }) => {
   const missions = useSelector((state) => state.firestore.ordered.missionsCreated);
-  const firestore = useFirestore();
 
   return (
     <Page template="pink">
