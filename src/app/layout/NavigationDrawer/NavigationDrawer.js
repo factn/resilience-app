@@ -10,6 +10,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import AssignmentIcon from "@material-ui/icons/Assignment";
 import ExitToApp from "@material-ui/icons/ExitToApp";
+import EmojiPeopleIcon from "@material-ui/icons/EmojiPeople";
 import { Link } from "react-router-dom";
 import { useFirebase } from "react-redux-firebase";
 
@@ -54,7 +55,6 @@ export default function TemporaryDrawer() {
               <ListItemText primary="User Profile" />
             </Link>
           </ListItem>
-
           <ListItem button>
             <AssignmentIcon fontSize="large" />
             <Link to="/missions/volunteered" className={classes.link}>
@@ -65,6 +65,12 @@ export default function TemporaryDrawer() {
             <AssignmentIcon fontSize="large" />
             <Link to="/missions/created" className={classes.link}>
               <ListItemText primary="My Requests" />
+            </Link>
+          </ListItem>
+          <ListItem button>
+            <EmojiPeopleIcon fontSize="large" />
+            <Link to="/status">
+              <ListItemText primary="My Status" />
             </Link>
           </ListItem>
           <ListItem button>
