@@ -8,6 +8,7 @@ class User {
    * @param {string} userId
    * @param {string} status
    */
+
   assignAsVolunteer(fs, missionId, userId, status = "doing") {
     //this._assignUserToMission(fs, missionId, userId, "volunteerId", status);
 

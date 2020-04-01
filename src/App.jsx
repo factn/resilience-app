@@ -15,6 +15,7 @@ import LoginPage from "./app/page/Login";
 import HomePage from "./app/page/Home";
 import SignupPage from "./app/page/Signup";
 import OrganizerSignupPage from "./app/page/OrganizerSignup";
+import Status from "./app/page/Status";
 
 import MakeRequest from "./app/page/MakeRequest";
 import { Missions, MissionsCreated, MissionsVolunteered } from "./app/page";
@@ -82,9 +83,8 @@ function App() {
                 </PrivateRoute>
                 <Route path="/missions/:id" component={MissionDetails} />
                 <Route path="/missions" component={Missions} />
-                <PrivateRoute path="/user">
-                  <UserProfile />
-                </PrivateRoute>
+                <Route path="/user" component={UserProfile} />
+                <Route path="/status" component={Status} />
               </Switch>
             </div>
           </Router>
