@@ -31,7 +31,7 @@ const StyledButton = styled(Button)`
 
 const Status = ({ firestore }) => {
   // a happy little message
-  const [Thank, setThank] = useState(false);
+  const [thank, setThank] = useState(false);
   // find the user
   const firebase = getFirebase();
   const user = useSelector((state) => state.firebase.auth);
@@ -45,6 +45,20 @@ const Status = ({ firestore }) => {
     setThank(`Thank you for your service.\nYour status has been set to ${status}`);
   }
 
+  // change the status
+  function handelStatusOnCall(event) {
+    event.preventDefault();
+    setStatus("OnCall");
+  }
+  function handelStatusAvail(event) {
+    event.preventDefault();
+    setStatus("Available");
+  }
+  function handelStatusOff(event) {
+    event.preventDefault();
+    setStatus("Offline");
+  }
+
   return (
     <Page>
       <StyledHeader variant="h1">
@@ -56,7 +70,7 @@ const Status = ({ firestore }) => {
         color="primary"
         size="large"
         variant="contained"
-        onClick={() => setStatus("OnCall")}
+        onClick={(event) => handelStatusOnCall(event)}
         disableElevation
       >
         On Call
@@ -66,7 +80,7 @@ const Status = ({ firestore }) => {
         color="primary"
         size="large"
         variant="contained"
-        onClick={() => setStatus("Available")}
+        onClick={(event) => handelStatusAvail(event)}
         disableElevation
       >
         Available
@@ -76,13 +90,13 @@ const Status = ({ firestore }) => {
         color="primary"
         size="large"
         variant="contained"
-        onClick={() => setStatus("Offline")}
+        onClick={(event) => handelStatusOff(event)}
         disableElevation
       >
         Offline
       </StyledButton>
       <br />
-      <StyledP>{Thank}</StyledP>
+      <StyledP>{thank}</StyledP>
     </Page>
   );
 };
