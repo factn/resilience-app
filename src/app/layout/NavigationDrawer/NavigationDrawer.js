@@ -69,7 +69,7 @@ export default function TemporaryDrawer() {
           </ListItem>
           <ListItem button>
             <EmojiPeopleIcon fontSize="large" />
-            <Link to="/status">
+            <Link to="/status" className={classes.link}>
               <ListItemText primary="My Status" />
             </Link>
           </ListItem>
