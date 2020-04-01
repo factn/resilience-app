@@ -42,7 +42,7 @@ const Status = ({ firestore }) => {
 
     firestore.collection("users").doc(userId).set({ status: status });
 
-    setThank(`Thank You for your service.\nYour status has been set to ${status}`);
+    setThank(`Thank you for your service.\nYour status has been set to ${status}`);
   }
 
   return (
