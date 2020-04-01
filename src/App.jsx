@@ -23,6 +23,7 @@ import { MissionsControl } from "./app/page";
 
 import MissionDetails from "./app/page/MissionDetails";
 import UserProfile from "./app/page/UserProfile";
+
 // @ts-ignore
 
 function PrivateRoute({ children, ...rest }) {
@@ -37,7 +38,7 @@ function PrivateRoute({ children, ...rest }) {
           <Redirect
             to={{
               pathname: "/login",
-              state: { from: location },
+              state: { referrer: location, warning: true },
             }}
           />
         )
@@ -60,9 +61,7 @@ function App() {
                 <Route exact path="/">
                   <HomePage />
                 </Route>
-                <Route path="/login">
-                  <LoginPage />
-                </Route>
+                <Route path="/login" component={LoginPage} />
                 <Route path="/organizer/signup">
                   <OrganizerSignupPage />;
                 </Route>
@@ -72,12 +71,20 @@ function App() {
                 <PrivateRoute path="/request/create">
                   <MakeRequest />
                 </PrivateRoute>
-                <PrivateRoute path="/missions/control" component={MissionsControl} />
-                <Route path="/missions/created" component={MissionsCreated} />
-                <Route path="/missions/volunteered" component={MissionsVolunteered} />
+                <PrivateRoute path="/missions/control">
+                  <MissionsControl />
+                </PrivateRoute>
+                <PrivateRoute path="/missions/created">
+                  <MissionsCreated />
+                </PrivateRoute>
+                <PrivateRoute path="/missions/volunteered">
+                  <MissionsVolunteered />
+                </PrivateRoute>
                 <Route path="/missions/:id" component={MissionDetails} />
                 <Route path="/missions" component={Missions} />
-                <Route path="/user" component={UserProfile} />
+                <PrivateRoute path="/user">
+                  <UserProfile />
+                </PrivateRoute>
               </Switch>
             </div>
           </Router>

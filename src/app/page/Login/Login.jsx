@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, Fragment } from "react";
 import { useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 
@@ -6,10 +6,18 @@ import { useFirebase, isLoaded, isEmpty } from "react-redux-firebase";
 import { Page } from "../../layout";
 import SMSLogin from "../../component/SMSLogin";
 
-const LoginPage = () => {
+const LoginPage = (props) => {
   const firebase = useFirebase();
   const auth = useSelector((state) => state.firebase.auth);
   const [phoneNumber, updatePhoneNumber] = useState("");
+
+  const DisplayLoginWarning = () => {
+    if (props.location.state !== undefined)
+      return props.location.state.warning === true ? (
+        <h6>You are not logged in. Please sign in to view this page.</h6>
+      ) : null;
+  };
+
   function loginWithFacebook() {
     return firebase.login({ provider: "facebook", type: "popup" });
   }
@@ -55,9 +63,10 @@ const LoginPage = () => {
   return !isLoaded(auth) ? (
     <span>Loading...</span>
   ) : isEmpty(auth) ? (
-    <>
+    <Fragment>
       {
         <Page>
+          {DisplayLoginWarning()}
           <SMSLogin
             handlePhoneNumberChange={handlePhoneNumberChange}
             handleSMSLogin={handleSMSLogin}
@@ -66,7 +75,7 @@ const LoginPage = () => {
           />
         </Page>
       }
-    </>
+    </Fragment>
   ) : (
     <Redirect to="/" />
   );
