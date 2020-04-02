@@ -13,6 +13,7 @@ import theme from "./theme";
 
 import LoginPage from "./app/page/Login";
 import HomePage from "./app/page/Home";
+import AboutPage from "./app/page/Aboutus";
 import SignupPage from "./app/page/Signup";
 import OrganizerSignupPage from "./app/page/OrganizerSignup";
 import Status from "./app/page/Status";
@@ -61,6 +62,9 @@ function App() {
               <Switch>
                 <Route exact path="/">
                   <HomePage />
+                </Route>
+                <Route path="/about">
+                  <AboutPage />
                 </Route>
                 <Route path="/login" component={LoginPage} />
                 <Route path="/organizer/signup">
