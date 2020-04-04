@@ -24,14 +24,11 @@ import _ from "lodash";
 
 import LinkGoogleAccount from "./LinkGoogleAccount";
 import LinkPhoneAccount from "./LinkPhoneAccount";
+
+import UserOverview from "./UserOverview";
 import UserStatus from "./UserStatus";
 
 const useStyles = makeStyles((theme) => ({
-  profileImage: {
-    width: theme.spacing(9),
-    height: theme.spacing(9),
-    margin: "12px auto 8px auto",
-  },
   spacing: {
     marginTop: theme.spacing(1),
   },
@@ -75,6 +72,7 @@ const UserProfile = ({ history, ...props }) => {
 
   const profile = useSelector((state) => state.firebase.profile);
   const status = profile.status;
+  const location = profile.location;
 
   const user = useSelector((state) => state.firebase.auth);
   const auth = firebase.auth();
@@ -83,6 +81,14 @@ const UserProfile = ({ history, ...props }) => {
   function setStatus(status) {
     firebase.updateProfile({ status: status });
   }
+  function setLocation(location) {}
+  function onLocationInputKeyEnter(event) {
+    //   if (event.key === "Enter") {
+    //     event.preventDefault();
+    //     firebase.updateProfile({ location: });
+    //   }
+  }
+
   // === GOOGLE === //
   const googleProviderData = _.find(user.providerData, (data) => {
     return data.providerId === "google.com";
@@ -127,16 +133,12 @@ const UserProfile = ({ history, ...props }) => {
     throw error;
   }
 
-  console.log(profile);
-  console.log(user.photoUrl);
   return (
     <Page template="white" title="Profile" spacing={3}>
       <Card>
-        <Grid container direction="column" justify="center">
-          <Avatar alt="UserProfileImage" className={classes.profileImage} src={user.photoURL} />
-          <H5>{user.displayName}</H5>
-        </Grid>
+        <UserOverview photoUrl={user.photoURL} displayName={user.displayName} />
       </Card>
+
       <Card>
         <Grid container direction="column" alignItems="flex-start" spacing={1}>
           <UserStatus status={status} setStatus={setStatus} />
@@ -152,7 +154,14 @@ const UserProfile = ({ history, ...props }) => {
             <Typography variant="h5">Location</Typography>
           </Grid>
           <Grid item>
-            <Input label="your address..." inputProps={{ "aria-label": "location" }} />
+            {profile.isLoaded && (
+              <Input
+                defaultValue={location}
+                label="your address..."
+                onKeyPress={onLocationInputKeyEnter}
+                onChange={setLocation}
+              />
+            )}
           </Grid>
           <Grid item className={classes.fullWidth}>
             <Button size="large" className={classes.fullWidth}>

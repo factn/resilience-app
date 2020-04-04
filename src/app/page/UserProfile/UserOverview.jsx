@@ -1,6 +1,7 @@
 import React from "react";
 import { H5 } from "../../component";
 import { Grid, Avatar } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles((theme) => ({
   profileImage: {
     width: theme.spacing(9),
