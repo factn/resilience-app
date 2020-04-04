@@ -8,9 +8,11 @@ import { Container } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    height: "100%",
     backgroundColor: "white",
     flexDirection: "column",
+    flexWrap: "nowrap",
+    minHeight: "100%",
+    padding: 0,
   },
 }));
 
