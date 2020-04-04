@@ -39,6 +39,10 @@ function LinkPhoneAccount({ auth, data, errorHandler }) {
       >
         <EditIcon /> Change Phone Number
       </Button>
+
+      <Button id="phone-number-link" onClick={onPhoneClick} aria-label="change phone number">
+        Disconnect
+      </Button>
     </>
   ) : (
     <Grid container direction="column" spacing={2}>
