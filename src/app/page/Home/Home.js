@@ -25,11 +25,12 @@ const HomePage = ({ history, ...rest }) => {
             <Logo />
           </BigLogo>
           <MissionText>Global Community, Local Mutual Aid</MissionText>
-          <StyledHomeButton rounded text="Sign In/Up" onClick={() => history.push("/login")} />
-          <StyledHomeButton rounded text="View Missons" onClick={() => history.push("/missions")} />
+          <StyledHomeButton onClick={() => history.push("/login")}>Sign In/Up</StyledHomeButton>
+          <StyledHomeButton onClick={() => history.push("/missions")}>
+            View Missions
+          </StyledHomeButton>
           <StyledHomeButton
             onClick={() => history.push("/request/create")}
-            rounded
             text="Request Help"
             secondary
           />
@@ -39,16 +40,11 @@ const HomePage = ({ history, ...rest }) => {
         <>
           <StyledHomeButton
             onClick={() => history.push("/request/create")}
-            rounded
             text="Request Help"
             secondary
           />
           {missions && (
-            <StyledHomeButton
-              rounded
-              text="View Other Missons"
-              onClick={() => history.push("/missions")}
-            />
+            <StyledHomeButton text="View Other Missons" onClick={() => history.push("/missions")} />
           )}
           {missions?.map((mission) => (
             <Card key={mission.id}>
@@ -89,6 +85,5 @@ export default compose(
         storeAs: "missionsVolunteered",
       },
     ];
-
   })
 )(withRouter(HomePage));

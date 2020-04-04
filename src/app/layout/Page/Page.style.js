@@ -6,7 +6,6 @@ const propsBgColor = (props) =>
 
 export const PageContainer = styled.div`
   ${(props) => extractStyle(props, "theme.typography.body1")}
-  width: 600px;
   flex-grow: 1;
   margin: 0 auto;
   padding-bottom: 50px;

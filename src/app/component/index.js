@@ -1,6 +1,6 @@
-import Button from "./Button";
+import Button, { ButtonGroup } from "./Button";
 import Chip from "./Chip";
 import MissionCard from "./MissionCard";
 import PrivateComponent from "./PrivateComponent";
 import ProtectedRoute from "./PrivateComponent";
-export { Button, Chip, MissionCard, PrivateComponent, ProtectedRoute };
+export { Button, ButtonGroup, Chip, MissionCard, PrivateComponent, ProtectedRoute };
