@@ -51,7 +51,6 @@ function LinkPhoneAccount({ auth, data, errorHandler }) {
           id="phone-number"
           label="Phone Number"
           type="text"
-          helperText="Format: +1 540-319-7017, verificationCode: 123456"
           variant="outlined"
           required
           onChange={(e) => updatePhoneNumber(e.target.value)}

@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import PropTypes from "prop-types";
 import { ReactComponent as CameraIcon } from "../../../img/camera.svg";
 import ImagePreview from "./ImagePreview";
-import Button from "../Button/Button";
+import Button from "../Button";
 import { Container, StyledIcon, Actions } from "./ImageUpload.style";
 
 export function ImageUpload({ styles, getFile = () => null, ...props }) {
