@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { Page, Card } from "../../layout";
-import { Chip, Button } from "../../component";
+import { Chip, Button, H5 } from "../../component";
 import { Typography, Grid, Input } from "@material-ui/core";
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -24,6 +24,7 @@ import _ from "lodash";
 
 import LinkGoogleAccount from "./LinkGoogleAccount";
 import LinkPhoneAccount from "./LinkPhoneAccount";
+import UserStatus from "./UserStatus";
 
 const useStyles = makeStyles((theme) => ({
   profileImage: {
@@ -69,12 +70,11 @@ async function getData(fs, authId) {
 
 const UserProfile = ({ history, ...props }) => {
   const classes = useStyles();
-
-  const profile = useSelector((state) => state.firebase.profile);
-  const isAvailable = profile.status === "Available";
-
   const firebase = useFirebase();
   const firestore = useFirestore();
+
+  const profile = useSelector((state) => state.firebase.profile);
+  const status = profile.status;
 
   const user = useSelector((state) => state.firebase.auth);
   const auth = firebase.auth();
@@ -83,15 +83,6 @@ const UserProfile = ({ history, ...props }) => {
   function setStatus(status) {
     firebase.updateProfile({ status: status });
   }
-  function setUserAvailable(e) {
-    e.preventDefault();
-    setStatus("Available");
-  }
-  function setUserUnavailable(e) {
-    e.preventDefault();
-    setStatus("Unavailable");
-  }
-
   // === GOOGLE === //
   const googleProviderData = _.find(user.providerData, (data) => {
     return data.providerId === "google.com";
@@ -136,27 +127,19 @@ const UserProfile = ({ history, ...props }) => {
     throw error;
   }
 
+  console.log(profile);
+  console.log(user.photoUrl);
   return (
     <Page template="white" title="Profile" spacing={3}>
       <Card>
         <Grid container direction="column" justify="center">
-          <Avatar alt="UserProfileImage" className={classes.profileImage} src={profile.avatarUrl} />
-          <Typography variant="h5">{profile.displayName}</Typography>
+          <Avatar alt="UserProfileImage" className={classes.profileImage} src={user.photoURL} />
+          <H5>{user.displayName}</H5>
         </Grid>
       </Card>
       <Card>
         <Grid container direction="column" alignItems="flex-start" spacing={1}>
-          <Grid item>
-            <Typography variant="h5">Status</Typography>
-          </Grid>
-          <Grid item>
-            <Button onClick={setUserAvailable} variant={isAvailable && "outlined"}>
-              Available
-            </Button>
-            <Button onClick={setUserUnavailable} variant={!isAvailable && "outlined"}>
-              Unavailable
-            </Button>
-          </Grid>
+          <UserStatus status={status} setStatus={setStatus} />
 
           <Grid item>
             <Typography variant="h5">Phone Number</Typography>
