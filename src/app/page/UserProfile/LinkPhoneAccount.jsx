@@ -35,10 +35,9 @@ function LinkPhoneAccount({ auth, data, errorHandler }) {
         id="phone-number-link"
         onClick={onPhoneClick}
         color="default"
-        variant="default"
         aria-label="change phone number"
       >
-        <EditIcon />
+        <EditIcon /> Change Phone Number
       </Button>
     </>
   ) : (

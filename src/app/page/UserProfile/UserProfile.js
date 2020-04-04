@@ -13,7 +13,13 @@ import { Avatar, CardContent } from "@material-ui/core";
 
 import { useState } from "react";
 import { Redirect } from "react-router-dom";
-import { useFirebase, useFirestore, isLoaded, isEmpty } from "react-redux-firebase";
+import {
+  useFirebase,
+  useFirebaseConnect,
+  useFirestore,
+  isLoaded,
+  isEmpty,
+} from "react-redux-firebase";
 import _ from "lodash";
 
 import LinkGoogleAccount from "./LinkGoogleAccount";
@@ -63,13 +69,28 @@ async function getData(fs, authId) {
 
 const UserProfile = ({ history, ...props }) => {
   const classes = useStyles();
+
   const profile = useSelector((state) => state.firebase.profile);
+  const isAvailable = profile.status === "Available";
 
   const firebase = useFirebase();
   const firestore = useFirestore();
 
   const user = useSelector((state) => state.firebase.auth);
   const auth = firebase.auth();
+
+  // === User status === //
+  function setStatus(status) {
+    firebase.updateProfile({ status: status });
+  }
+  function setUserAvailable(e) {
+    e.preventDefault();
+    setStatus("Available");
+  }
+  function setUserUnavailable(e) {
+    e.preventDefault();
+    setStatus("Unavailable");
+  }
 
   // === GOOGLE === //
   const googleProviderData = _.find(user.providerData, (data) => {
@@ -81,6 +102,10 @@ const UserProfile = ({ history, ...props }) => {
   const phoneProviderData = _.find(user.providerData, (data) => {
     return data.providerId === "phone";
   });
+
+  // === Error handler ===
+  // We use this in case the linking went wrong, possibly handle the..
+  // error, for example, to merge data
 
   async function errorHandler(error) {
     // we need to merge data with this error
@@ -110,6 +135,7 @@ const UserProfile = ({ history, ...props }) => {
     }
     throw error;
   }
+
   return (
     <Page template="white" title="Profile" spacing={3}>
       <Card>
@@ -124,8 +150,12 @@ const UserProfile = ({ history, ...props }) => {
             <Typography variant="h5">Status</Typography>
           </Grid>
           <Grid item>
-            <Button>Available</Button>
-            <Button color="disabled">Unavailable</Button>
+            <Button onClick={setUserAvailable} variant={isAvailable && "outlined"}>
+              Available
+            </Button>
+            <Button onClick={setUserUnavailable} variant={!isAvailable && "outlined"}>
+              Unavailable
+            </Button>
           </Grid>
 
           <Grid item>
