@@ -24,9 +24,8 @@ import { Missions, MissionsCreated, MissionsVolunteered } from "./app/page";
 import { MissionsControl } from "./app/page";
 
 import MissionDetails from "./app/page/MissionDetails";
-import UserProfile from "./app/page/UserProfile";
 
-// @ts-ignore
+import UserProfile from "./app/page/UserProfile";
 
 function PrivateRoute({ children, ...rest }) {
   const auth = useSelector((state) => state.firebase.auth);
@@ -87,8 +86,8 @@ function App() {
                 </PrivateRoute>
                 <Route path="/missions/:id" component={MissionDetails} />
                 <Route path="/missions" component={Missions} />
-                <Route path="/user" component={UserProfile} />
                 <Route path="/status" component={Status} />
+                <Route path="/user/profile" component={UserProfile} />
               </Switch>
             </div>
           </Router>

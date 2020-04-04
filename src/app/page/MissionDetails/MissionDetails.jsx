@@ -49,10 +49,10 @@ const MissionDetailsPage = ({ firestore, match }) => {
   return (
     <Page>
       {!isLoaded(mission) ? (
-        <Card flat> Loading ... </Card>
+        <Card> Loading ... </Card>
       ) : (
         <>
-          <Card flat>
+          <Card>
             <Button
               text="Back to Missions"
               onClick={() => {
@@ -61,8 +61,8 @@ const MissionDetailsPage = ({ firestore, match }) => {
             />
           </Card>
 
-          <Card flat>{mission.url && <StyledImage src={mission.url} />}</Card>
-          <Card flat>
+          <Card>{mission.url && <StyledImage src={mission.url} />}</Card>
+          <Card>
             <Typography variant="h2">{mission.description}</Typography>
             <Typography variant="h4">status: {mission.status}</Typography>
             <Grid>

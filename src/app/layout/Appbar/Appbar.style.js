@@ -2,7 +2,6 @@ import styled from "styled-components";
 
 export const AppbarContainer = styled.div`
   height: 89px;
-  width: 600px;
   margin: 0 auto;
   box-sizing: border-box;
   background-color: white;

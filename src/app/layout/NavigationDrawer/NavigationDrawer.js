@@ -51,7 +51,7 @@ export default function TemporaryDrawer() {
         <PrivateComponent>
           <ListItem button>
             <AccountCircleIcon fontSize="large" />
-            <Link to="/user" className={classes.link}>
+            <Link to="/user/profile" className={classes.link}>
               <ListItemText primary="User Profile" />
             </Link>
           </ListItem>

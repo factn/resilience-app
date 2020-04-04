@@ -1,9 +1,11 @@
 import _ from "lodash";
 
 const color = {
-  purple: "#150E60",
+  purple: "#150E60", //TODO remove this
+  deepPurple: "#150E60",
   white: "#FFF",
   pink: "#ffefef",
+  black: "#090808",
 };
 
 // utils to extract style
@@ -25,18 +27,18 @@ export default {
   color: color,
   palette: {
     primary: {
-      main: color.purple,
+      main: color.deepPurple,
     },
   },
   typography: {
     body1: {
-      color: color.purple,
+      color: color.deepPurple,
       fontFamily: "Open Sans, Ariomo, Arial, sans-serif",
       fontSize: "16px",
       lineHeight: "22px",
     },
     body2: {
-      color: color.purple,
+      color: color.deepPurple,
       fontFamily: "Open Sans, Ariomo, Arial, sans-serif",
       fontSize: "14px",
       lineHeight: "22px",
@@ -46,20 +48,22 @@ export default {
       fontWeight: "bold",
       fontSize: "36px",
       lineHeight: "40px",
-      color: color.purple,
+      color: color.deepPurple,
     },
     h2: {
       fontFamily: "Ariomo, Arial, sans-serif",
       fontWeight: "bold",
       fontSize: "22px",
       lineHeight: "24px",
-      color: color.purple,
+      color: color.deepPurple,
     },
     h3: {
-      fontFamily: "Ariomo, Arial, sans-serif",
-      fontSize: "22px",
+      fontFamily: "Open Sans, Arial, sans-serif",
+      fontSize: "24px",
+      fontWeight: 600,
+      lineHeight: "32px",
       textTransform: "capitalize",
-      color: color.purple,
+      color: color.deepPurple,
     },
     h4: {
       fontFamily: "Ariomo, Arial, sans-serif",
@@ -68,14 +72,21 @@ export default {
       lineHeight: "16px",
       textTransform: "uppercase",
       letterSpacing: "0.01em",
-      color: color.purple,
+      color: color.deepPurple,
     },
     h5: {
       fontFamily: "Ariomo, Arial, sans-serif",
       fontWeight: "bold",
       fontSize: "16px",
       lineHeight: "20px",
-      color: color.purple,
+      color: color.deepPurple,
+    },
+  },
+  overrides: {
+    MuiButtonGroup: {
+      root: {
+        color: color.deepPurple,
+      },
     },
   },
 };
