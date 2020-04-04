@@ -24,14 +24,6 @@ function RequestForm({ handleChange, values, onSubmit, getFile }) {
           inputType="textarea"
           label="Task Details"
         />
-        <Header>How much can you pay?</Header>
-        <Input
-          value={values.amount || ""}
-          inputType="number"
-          inputName="amount"
-          onChange={handleChange}
-          label="Dollar Amount"
-        />
         <Header>Where do you need help?</Header>
         <Input
           value={values.postalCode || ""}

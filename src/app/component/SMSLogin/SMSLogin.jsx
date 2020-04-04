@@ -50,7 +50,7 @@ function SMSLogin({ loginWithFacebook, loginWithGoogle, handlePhoneNumberChange,
                 id="phone-number"
                 label="Phone Number"
                 type="text"
-                helperText="Format: +1 2345678910"
+                helperText="Format: +1 540-319-7017, verificationCode: 123456"
                 variant="outlined"
                 required
                 onChange={handlePhoneNumberChange}

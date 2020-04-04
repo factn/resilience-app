@@ -16,3 +16,7 @@ p {
   margin-inline-start: 0px;
   margin-inline-end: 0px;
 }
+
+.MuiButton-root {
+  text-transform: capitalize !important;
+}
