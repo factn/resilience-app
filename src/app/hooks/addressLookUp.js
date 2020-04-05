@@ -4,7 +4,6 @@ const baseClient = mbxClient({ accessToken: process.env.REACT_APP_MB_ACCESS_TOKE
 const geoCodingService = mbxGeocoding(baseClient);
 
 export default async function addressLookUp(address) {
-  let executed = false;
   if (!address) {
     throw Error("no address to query with");
   }
@@ -14,7 +13,7 @@ export default async function addressLookUp(address) {
       limit: 5,
     })
     .send();
-  if (response.body.features.length == 0) {
+  if (response.body.features.length == 0 || response.body.features[0] === undefined || response.body.features[0] === "undefined") {
     throw Error("no lat/long could be found");
   }
   return {

@@ -54,15 +54,13 @@ const MissionDetailsPage = ({ firestore, match }) => {
     name: "Audrey",
     address: "123 Example st, San Fransisco, 92501",
   };
-
   // functionality for the map look up
   const [cords, setCords] = useState();
   if (isLoaded(mission) && !isEmpty(mission) && !cords) {
     const missionLocation =
-      mission.address + "%20" + mission.city + "%20" + mission.state + "%20" + mission.postalCode;
-    console.log("missionLocation");
+    mission.address + "%20" + mission.city + "%20" + mission.state + "%20" + mission.postalCode;
     const dataForCords = addressLookUp(missionLocation);
-    setCords(dataForCords);
+    dataForCords.then(res => setCords(res));
   } else {
     console.log("No location data available");
   }
@@ -102,7 +100,7 @@ const MissionDetailsPage = ({ firestore, match }) => {
             </Grid>
             <Typography variant="body1">{mission.details}</Typography>
             <MapViewContainer>
-              {cords != undefined ? (
+              {cords != undefined || mission.address === undefined ? (
                 <MapView values={cords} />
               ) : (
                 <Typography variant="p">Loading...</Typography>
