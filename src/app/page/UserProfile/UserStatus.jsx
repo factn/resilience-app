@@ -20,10 +20,10 @@ const UserStatus = ({ status, setStatus }) => {
       </Grid>
 
       <Grid item>
-        <Button onClick={setUserAvailable} variant={isAvailable && "outlined"}>
+        <Button onClick={setUserAvailable} color={isAvailable ? "primary" : "default"}>
           Available
         </Button>
-        <Button onClick={setUserUnavailable} variant={!isAvailable && "outlined"}>
+        <Button onClick={setUserUnavailable} color={isAvailable ? "default" : "primary"}>
           Unavailable
         </Button>
       </Grid>
