@@ -1,4 +1,4 @@
-import React from "react";
+import React , { useState , useEffect}from "react";
 import { useFirestoreConnect } from "react-redux-firebase";
 import { useSelector } from "react-redux";
 import { Button } from "../../component";
@@ -13,6 +13,9 @@ import { isLoaded, withFirestore } from "react-redux-firebase";
 import { useHistory } from "react-router-dom";
 import { User } from "../../model";
 
+import MapView from "../../component/MapView";
+import addressLookUp from "../../hooks/addressLookUp";
+
 export const StyledHr = styled.hr`
   border: 1px dashed #de3254;
   width: 100%;
@@ -22,6 +25,12 @@ export const StyledImage = styled.img`
   height: auto;
   max-width: 100%;
 `;
+
+const MapViewContainer = styled.div`
+  display: flex;
+  margin: 1% auto;
+  padding: 1% 1%;
+  `;
 
 const MissionDetailsPage = ({ firestore, match }) => {
   let history = useHistory();
@@ -45,6 +54,19 @@ const MissionDetailsPage = ({ firestore, match }) => {
     name: "Audrey",
     address: "123 Example st, San Fransisco, 92501",
   };
+
+  // functionality for the map look up
+  const [cords, setCords] = useState();
+    if(!isLoaded(mission)){
+      console.log("No location data available");
+    }else{
+        const missionLocation = mission.address + "%20" + mission.city + "%20" + mission.state + "%20" + mission.postalCode;
+        const dataForCords = addressLookUp(missionLocation);  
+        setCords(dataForCords);
+      }
+
+
+
 
   return (
     <Page>
@@ -80,6 +102,9 @@ const MissionDetailsPage = ({ firestore, match }) => {
               <Typography variant="h6">{requester.address}</Typography>
             </Grid>
             <Typography variant="body1">{mission.details}</Typography>
+            <MapViewContainer>
+              {cords != undefined ? <MapView values={cords}/> : <Typography variant="p">Loading...</Typography> }
+            </MapViewContainer>
           </Card>
         </>
       )}
