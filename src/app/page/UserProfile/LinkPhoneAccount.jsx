@@ -5,14 +5,18 @@ import { Button } from "../../component";
 import EditIcon from "@material-ui/icons/Edit";
 import { Card } from "../../layout";
 
-function LinkPhoneAccount({ auth, data, errorHandler }) {
+function LinkPhoneAccount({ auth, data, errorHandler, captchaVerifier }) {
   const [phoneNumber, updatePhoneNumber] = useState("");
 
   async function onPhoneClick() {
+    const verifier = captchaVerifier("phone-number-link", { size: "invisible" });
+
     auth.useDeviceLanguage();
-    const verifier = new auth.RecaptchaVerifier("phone-number-link", { size: "invisible" });
     try {
-      const confirmationResult = await auth.currentUser.linkWithPhoneNumber(phoneNumber, verifier);
+      const confirmationResult = await auth.currentUser.linkWithPhoneNumber(
+        phoneNumber,
+        captchaVerifier
+      );
       const verificationCode = window.prompt(
         "Please enter the verification code that was sent to your mobile device."
       );

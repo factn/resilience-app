@@ -3,6 +3,8 @@ import _ from "lodash";
 const color = {
   purple: "#150E60", //TODO remove this
   deepPurple: "#150E60",
+  vibrantPurple: "#3739B5",
+  secondaryBlue: "#B4B6F1",
   white: "#FFF",
   pink: "#ffefef",
   black: "#090808",
@@ -26,8 +28,14 @@ export default {
   spacing: 12,
   color: color,
   palette: {
+    default: {
+      main: "#DFE3E8",
+    },
     primary: {
-      main: color.deepPurple,
+      main: color.vibrantPurple,
+    },
+    secondary: {
+      main: color.secondaryBlue,
     },
   },
   typography: {
