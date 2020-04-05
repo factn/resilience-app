@@ -29,6 +29,10 @@ const StyledButton = styled(Button)`
   width: 20vw;
 `;
 
+const ButtonHolder = styled.div`
+
+`;
+
 const Status = ({ firestore }) => {
   // a happy little message
   const [thank, setThank] = useState(false);
@@ -66,6 +70,7 @@ const Status = ({ firestore }) => {
         Manually set your status so others know what you are doing.{" "}
       </StyledHeader>
       <StyledCopy variant="h2"> I am... </StyledCopy>
+      <ButtonHolder>
       <StyledButton
         color="primary"
         size="large"
@@ -96,6 +101,7 @@ const Status = ({ firestore }) => {
         Offline
       </StyledButton>
       <br />
+      </ButtonHolder>
       <StyledP>{thank}</StyledP>
     </Page>
   );
