@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import { useSelector } from "react-redux";
 import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
@@ -11,7 +11,6 @@ import clsx from "clsx";
 
 import { Avatar, CardContent } from "@material-ui/core";
 
-import { useState } from "react";
 import { Redirect } from "react-router-dom";
 import {
   useFirebase,
@@ -65,31 +64,59 @@ async function getData(fs, authId) {
   };
 }
 
+const ProfileControlButtons = ({ isEdit, saveAction, cancelAction, editAction }) => {
+  return isEdit ? (
+    <>
+      <Button size="large" onClick={saveAction}>
+        Save
+      </Button>
+
+      <Button size="large" onClick={cancelAction}>
+        Cancel
+      </Button>
+    </>
+  ) : (
+    <Button size="large" onClick={editAction}>
+      Edit Profile
+    </Button>
+  );
+};
+
 const UserProfile = ({ history, ...props }) => {
   const classes = useStyles();
   const firebase = useFirebase();
   const firestore = useFirestore();
 
-  const profile = useSelector((state) => state.firebase.profile);
-  const status = profile.status;
-  const location = profile.location;
+  /*===profile control===*/
+  const firebaseProfile = useSelector((state) => state.firebase.profile);
+  const [profile, setProfile] = useState(_.cloneDeep(firebaseProfile));
+  var [view, setView] = useState("view");
+  const isEdit = view !== "view";
+  function editProfileAction(e) {
+    e.preventDefault();
+    setView("edit");
+  }
+  function cancelProfileAction(e) {
+    e.preventDefault();
+    setProfile(_.cloneDeep(firebaseProfile));
+    setView("view");
+  }
+  function saveProfileAction(e) {
+    e.preventDefault();
+    firebase.updateProfile(profile);
+    setView("view");
+  }
+  useEffect(() => {
+    setProfile(_.cloneDeep(firebaseProfile));
+  }, [firebaseProfile]);
+  /*===end profile control===*/
 
   const user = useSelector((state) => state.firebase.auth);
   const auth = firebase.auth();
+  const googleProvider = new firebase.auth.GoogleAuthProvider();
+  const captchaVerifier = firebase.auth.RecaptchaVerifier;
 
-  // === User status === //
-  function setStatus(status) {
-    firebase.updateProfile({ status: status });
-  }
-  function setLocation(location) {}
-  function onLocationInputKeyEnter(event) {
-    //   if (event.key === "Enter") {
-    //     event.preventDefault();
-    //     firebase.updateProfile({ location: });
-    //   }
-  }
-
-  // === GOOGLE === //
+  /* === Linked Account Control === */
   const googleProviderData = _.find(user.providerData, (data) => {
     return data.providerId === "google.com";
   });
@@ -106,7 +133,7 @@ const UserProfile = ({ history, ...props }) => {
 
   async function errorHandler(error) {
     // we need to merge data with this error
-    if (error.code === "auth/credential-already-in-use") {
+    if (["auth/credential-already-in-use", "auth/email-already-in-use"].indexOf(error.code) > -1) {
       var prevUser = auth.currentUser;
       var pendingCred = error.credential;
       var prevUserData = await getData(firestore, prevUser.uid);
@@ -133,47 +160,46 @@ const UserProfile = ({ history, ...props }) => {
     throw error;
   }
 
+  const isLoading = !firebaseProfile.isLoaded || !user.isLoaded;
+  // not used yet
+  //<UserStatus status={status} setStatus={setStatus} />
   return (
-    <Page template="white" title="Profile" spacing={3}>
+    <Page template="white" title="Profile" spacing={3} isLoading={isLoading}>
       <Card>
-        <UserOverview photoUrl={user.photoURL} displayName={user.displayName} />
+        <UserOverview profile={profile} view={view} setProfile={setProfile} />
       </Card>
+      <Grid item className={classes.fullWidth}>
+        <ProfileControlButtons
+          isEdit={isEdit}
+          saveAction={saveProfileAction}
+          cancelAction={cancelProfileAction}
+          editAction={editProfileAction}
+        />
+      </Grid>
 
       <Card>
         <Grid container direction="column" alignItems="flex-start" spacing={1}>
-          <UserStatus status={status} setStatus={setStatus} />
-
           <Grid item>
             <Typography variant="h5">Phone Number</Typography>
           </Grid>
           <Grid item>
-            <LinkPhoneAccount data={phoneProviderData} auth={auth} errorHandler={errorHandler} />
+            <LinkPhoneAccount
+              data={phoneProviderData}
+              auth={auth}
+              errorHandler={errorHandler}
+              captchaVerifier={captchaVerifier}
+            />
           </Grid>
 
           <Grid item>
             <Typography variant="h5">Location</Typography>
-          </Grid>
-          <Grid item>
-            {profile.isLoaded && (
-              <Input
-                defaultValue={location}
-                label="your address..."
-                onKeyPress={onLocationInputKeyEnter}
-                onChange={setLocation}
-              />
-            )}
-          </Grid>
-          <Grid item className={classes.fullWidth}>
-            <Button size="large" className={classes.fullWidth}>
-              Edit Profile
-            </Button>
           </Grid>
         </Grid>
       </Card>
       <Card>
         <LinkGoogleAccount
           data={googleProviderData}
-          provider={googleAuthProvider}
+          provider={googleProvider}
           auth={auth}
           errorHandler={errorHandler}
         />
