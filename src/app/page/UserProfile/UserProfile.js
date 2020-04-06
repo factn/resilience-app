@@ -150,7 +150,6 @@ const UserProfile = ({ history, ...props }) => {
       var currentUser;
 
       try {
-        console.log(error.credential);
         const result = await auth.signInWithCredential(error.credential);
         var currentUser = result.user;
         const currentUserDoc = await firestore.collection("users").doc(currentUser.uid).get();
@@ -163,15 +162,10 @@ const UserProfile = ({ history, ...props }) => {
           return preVal ? preVal : curVal;
         });
 
-        console.log(error.credential);
         const linkResult = prevUser.linkWithCredential(error.credential);
-        console.log("linked");
         const signInResult = await auth.signInWithCredential(linkResult.credential);
-        console.log("signin again");
         firestore.collection("users").doc(signInResult.user.id).set(mergeData);
-        console.log("set user");
       } catch (e) {
-        console.log("mergefailed", e);
         firestore.collection("users").doc(prevUser.uid).set(prevUserData);
         firestore.collection("users").doc(currentUser.uid).set(currentUserData);
       }
