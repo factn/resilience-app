@@ -35,12 +35,14 @@ const useStyles = makeStyles((theme) => ({
   fullWidth: {
     width: "100%",
   },
+  linkedAccountContainer: {
+    paddingTop: theme.spacing(2),
+  },
 }));
 
 //TODO authorization query please
 async function getData(fs, authId) {
   let user = {};
-  const userData = await fs.collection("users").doc(authId).get();
   return {
     user,
   };
@@ -69,7 +71,7 @@ const UserProfile = ({ history, ...props }) => {
   const firebase = useFirebase();
   const firestore = useFirestore();
 
-  /*===profile control===*/
+  /*===SETUP Profile Control===*/
   const firebaseAuth = useSelector((state) => state.firebase.auth);
   const firebaseProfile = useSelector((state) => state.firebase.profile);
   const [profile, setProfile] = useState(_.cloneDeep(firebaseProfile));
@@ -111,8 +113,9 @@ const UserProfile = ({ history, ...props }) => {
       setProfile(_.cloneDeep(firebaseProfile));
     }
   }, [firebaseProfile]);
-  /*===end profile control===*/
+  /*===END Profile Control===*/
 
+  /*===SETUP Linking Control===*/
   const user = useSelector((state) => state.firebase.auth);
   const auth = firebase.auth();
   const googleProvider = new firebase.auth.GoogleAuthProvider();
@@ -138,31 +141,44 @@ const UserProfile = ({ history, ...props }) => {
     if (["auth/credential-already-in-use", "auth/email-already-in-use"].indexOf(error.code) > -1) {
       var prevUser = auth.currentUser;
       var pendingCred = error.credential;
-      var prevUserData = await getData(firestore, prevUser.uid);
-      console.log(error);
-      //prevUser.delete();
-      return;
+      var prevUserDoc = await firestore.collection("users").doc(prevUser.uid).get();
+      const prevUserData = prevUserDoc.data();
+
+      //TODO
+      prevUser.delete();
+      var currentUserData;
+      var currentUser;
 
       try {
-        var result = await auth.signInWithCredential(error.credential);
+        console.log(error.credential);
+        const result = await auth.signInWithCredential(error.credential);
         var currentUser = result.user;
-        var currentUserData = await getData(firestore, result.user.uid);
+        const currentUserDoc = await firestore.collection("users").doc(currentUser.uid).get();
+        const currentUserData = currentUserDoc.data();
 
-        const mergeData = _.merge(prevUserData, currentUserData);
+        const mergeData = _.mergeWith(prevUserData, currentUserData, (preVal, curVal) => {
+          if (_.isArray(preVal)) {
+            return preVal.concat(curVal);
+          }
+          return preVal ? preVal : curVal;
+        });
 
-        const linkResult = prevUser.linkedWithCredential(result.credential);
+        console.log(error.credential);
+        const linkResult = prevUser.linkWithCredential(error.credential);
+        console.log("linked");
         const signInResult = await auth.signInWithCredential(linkResult.credential);
-
+        console.log("signin again");
         firestore.collection("users").doc(signInResult.user.id).set(mergeData);
+        console.log("set user");
       } catch (e) {
+        console.log("mergefailed", e);
         firestore.collection("users").doc(prevUser.uid).set(prevUserData);
         firestore.collection("users").doc(currentUser.uid).set(currentUserData);
       }
-
-      return;
     }
     throw error;
   }
+  /*===END Linking Control===*/
 
   const isLoading = !firebaseProfile.isLoaded || !user.isLoaded;
   // not used yet
@@ -180,33 +196,22 @@ const UserProfile = ({ history, ...props }) => {
           editAction={editProfileAction}
         />
       </Grid>
-
       <Card>
-        <Grid container direction="column" alignItems="flex-start" spacing={1}>
-          <Grid item>
-            <Typography variant="h5">Phone Number</Typography>
-          </Grid>
-          <Grid item>
-            <LinkPhoneAccount
-              data={phoneProviderData}
-              auth={auth}
-              errorHandler={errorHandler}
-              captchaVerifier={captchaVerifier}
-            />
-          </Grid>
-
-          <Grid item>
-            <Typography variant="h5">Location</Typography>
-          </Grid>
+        <Grid container className={classes.linkedAccountContainer} spacing={3} direction="column">
+          <LinkPhoneAccount
+            firebase={firebase}
+            data={phoneProviderData}
+            auth={auth}
+            errorHandler={errorHandler}
+            captchaVerifier={captchaVerifier}
+          />
+          <LinkGoogleAccount
+            data={googleProviderData}
+            provider={googleProvider}
+            auth={auth}
+            errorHandler={errorHandler}
+          />
         </Grid>
-      </Card>
-      <Card>
-        <LinkGoogleAccount
-          data={googleProviderData}
-          provider={googleProvider}
-          auth={auth}
-          errorHandler={errorHandler}
-        />
       </Card>
     </Page>
   );

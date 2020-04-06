@@ -1,5 +1,6 @@
 import React from "react";
-import { Typography, Grid } from "@material-ui/core";
+import { Typography, Grid, LinearProgress } from "@material-ui/core";
+
 import { PageContainer } from "./Page.style";
 import Appbar from "../Appbar";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
@@ -26,7 +27,7 @@ const Page = ({ appbar, children, title, isLoading, maxWidth, ...rest }) => {
           <Appbar>{appbar}</Appbar>
         </Grid>
         {isLoading ? (
-          "Loading"
+          <LinearProgress />
         ) : (
           <Grid container item role="main" direction="column">
             {title && <Typography variant="h1">{title}</Typography>}
