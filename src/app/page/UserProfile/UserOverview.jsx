@@ -19,13 +19,13 @@ const useStyles = makeStyles((theme) => ({
 const UserStatus = ({ view, profile, setProfile }) => {
   const classes = useStyles();
 
-  const displayName = _.get(profile, "user.displayName", "");
-  const address = _.get(profile, "user.address", "");
+  const displayName = _.get(profile, "displayName", "");
+  const address = _.get(profile, "address", "");
 
   function updateProfile(e) {
     e.preventDefault();
-    const updated = _.merge(profile, { user: { [e.target.id]: e.target.value } });
-    setProfile(_.cloneDeep(updated));
+    profile[e.target.id] = e.target.value;
+    setProfile(_.cloneDeep(profile));
   }
   return (
     <Grid container direction="column" justify="center" className={classes.root} spacing={2}>
