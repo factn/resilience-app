@@ -13,6 +13,7 @@ import { Avatar, CardContent } from "@material-ui/core";
 
 import { Redirect } from "react-router-dom";
 import {
+  firebaseConnect,
   useFirebase,
   useFirebaseConnect,
   useFirestore,
@@ -38,28 +39,9 @@ const useStyles = makeStyles((theme) => ({
 
 //TODO authorization query please
 async function getData(fs, authId) {
-  let missionsCreated = {};
-  let missionsVolunteered = {};
   let user = {};
-  const missionsCreatedData = fs.collection("missions").where("ownerId", "==", authId).get();
-  const missionsVolunteeredData = fs
-    .collection("missions")
-    .where("volunteerId", "==", authId)
-    .get();
-  const userData = fs.collection("users").doc(authId).get();
-
-  const values = await Promise.all([missionsCreatedData, missionsVolunteeredData, userData]);
-
-  values[0].forEach((doc) => {
-    missionsCreated[doc.id] = doc.data();
-  });
-  values[1].forEach((doc) => {
-    missionsVolunteered[doc.id] = doc.data();
-  });
-  user = values[2].data();
+  const userData = await fs.collection("users").doc(authId).get();
   return {
-    missionsCreated,
-    missionsVolunteered,
     user,
   };
 }
@@ -88,6 +70,7 @@ const UserProfile = ({ history, ...props }) => {
   const firestore = useFirestore();
 
   /*===profile control===*/
+  const firebaseAuth = useSelector((state) => state.firebase.auth);
   const firebaseProfile = useSelector((state) => state.firebase.profile);
   const [profile, setProfile] = useState(_.cloneDeep(firebaseProfile));
   var [view, setView] = useState("view");
@@ -106,8 +89,27 @@ const UserProfile = ({ history, ...props }) => {
     firebase.updateProfile(profile);
     setView("view");
   }
+  /*
+  Basically if this is a user that have signup using facebook or google, the auth in firebase would be populate with info to which-
+  we update the profile into the actual profile instead
+  */
   useEffect(() => {
-    setProfile(_.cloneDeep(firebaseProfile));
+    if (firebaseAuth.isLoaded && firebaseProfile.isLoaded && firebaseProfile.isEmpty) {
+      const newProfile = {
+        displayName: _.get(firebaseAuth, "displayName", ""),
+        photoURL: _.get(firebaseAuth, "photoURL", ""),
+      };
+      firebase.updateProfile(newProfile);
+    }
+  }, [firebaseAuth, firebaseProfile]);
+
+  /*
+  firebase profile need to load in and then we update it in state
+  */
+  useEffect(() => {
+    if (firebaseProfile.isLoaded && !firebaseProfile.isEmpty) {
+      setProfile(_.cloneDeep(firebaseProfile));
+    }
   }, [firebaseProfile]);
   /*===end profile control===*/
 
@@ -137,7 +139,9 @@ const UserProfile = ({ history, ...props }) => {
       var prevUser = auth.currentUser;
       var pendingCred = error.credential;
       var prevUserData = await getData(firestore, prevUser.uid);
-      prevUser.delete();
+      console.log(error);
+      //prevUser.delete();
+      return;
 
       try {
         var result = await auth.signInWithCredential(error.credential);
