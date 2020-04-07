@@ -2,14 +2,13 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { Redirect, useHistory } from "react-router-dom";
 import { Typography, CircularProgress } from "@material-ui/core";
-import { useFirebase, isLoaded, isEmpty } from "react-redux-firebase";
+import { isLoaded, isEmpty } from "react-redux-firebase";
 import { Page } from "../../layout";
-import SMSLogin from "../../component/SMSLogin";
+import FirebaseAuthUi from "../../component/FirebaseAuthUi/FirebaseAuthUi";
 import Popup from "../../component/Popup";
-import { loginWithSMS, loginWithFacebook, loginWithGoogle, firstTimeSignIn } from "./firebaseLogin";
+import { firstTimeSignIn } from "./firebaseLogin";
 
 const LoginPage = (props) => {
-  const firebase = useFirebase();
   const history = useHistory();
   const auth = useSelector((state) => state.firebase.auth);
   const [phoneNumber, updatePhoneNumber] = useState("");
@@ -23,22 +22,6 @@ const LoginPage = (props) => {
         </Typography>
       ) : null;
   };
-
-  function handlePhoneNumberChange(e) {
-    updatePhoneNumber(e.target.value);
-  }
-
-  function handleFacebookSignIn() {
-    loginWithFacebook(firebase);
-  }
-
-  function handleGoogleSignIn() {
-    loginWithGoogle(firebase);
-  }
-  function handleSMSLogin() {
-    phoneNumber && loginWithSMS(firebase, phoneNumber);
-  }
-
   function handlePopupClose() {
     setPopupOpen(false);
     history.push("/");
@@ -50,12 +33,7 @@ const LoginPage = (props) => {
     return (
       <Page>
         {DisplayLoginWarning()}
-        <SMSLogin
-          handlePhoneNumberChange={handlePhoneNumberChange}
-          handleSMSLogin={handleSMSLogin}
-          loginWithFacebook={handleFacebookSignIn}
-          loginWithGoogle={handleGoogleSignIn}
-        />
+        <FirebaseAuthUi />
       </Page>
     );
   } else {

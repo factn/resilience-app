@@ -39,6 +39,24 @@ class User {
       });
   }
 
+  linkPhoneAuthentication(firebase, phoneNumber, recaptchaVerfier, callback) {
+    return firebase
+      .auth()
+      .currentUser.linkWithPhoneNumber(phoneNumber, recaptchaVerfier)
+      .then(function (confirmationResult) {
+        var code = window.prompt("Provide your SMS code");
+        recaptchaVerfier.clear();
+        return confirmationResult.confirm(code).then(() => {
+          callback();
+        });
+      })
+      .catch((err) =>
+        alert(
+          "You already have an account associated with this phone number. Please sign in using that number."
+        )
+      );
+  }
+
   getAuth = (state) => get(state, "firebase.auth");
 }
 
