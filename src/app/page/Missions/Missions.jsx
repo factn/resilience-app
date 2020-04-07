@@ -10,6 +10,7 @@ import { Page, Card } from "../../layout";
 import { User } from "../../model";
 import { MissionCard } from "../../component";
 import Popup from "../../component/Popup";
+import Loader from "../../component/Loader";
 import { compose } from "redux";
 
 const StyledHeader = styled(Typography)`
@@ -41,7 +42,7 @@ const MissionsPage = ({ user, history, firebase, ...rest }) => {
   }
 
   if (!missions) {
-    return <div> isloading...</div>;
+    return <Loader />;
   }
   return (
     <Page template="pink">
