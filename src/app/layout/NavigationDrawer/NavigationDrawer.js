@@ -2,7 +2,7 @@ import React from "react";
 import clsx from "clsx";
 import Drawer from "@material-ui/core/Drawer";
 import Button from "@material-ui/core/Button";
-import { useStyles, iconStyle } from "./NavigationDrawer.style";
+import { useStyles } from "./NavigationDrawer.style";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -50,7 +50,7 @@ export default function TemporaryDrawer() {
       <List>
         <ListItem button>
           <ListItemIcon>
-            <AssignmentIcon style={iconStyle} fontSize="large" />
+            <AssignmentIcon classes={{ root: classes.colorIcon }} fontSize="large" />
           </ListItemIcon>
           <Link to="/missions" className={classes.link}>
             <ListItemText primary="Volunteer needed" />
@@ -59,7 +59,7 @@ export default function TemporaryDrawer() {
         <PrivateComponent>
           <ListItem button>
             <ListItemIcon>
-              <AccountCircleIcon style={iconStyle} fontSize="large" />
+              <AccountCircleIcon classes={{ root: classes.colorIcon }} fontSize="large" />
             </ListItemIcon>
             <Link to="/user/profile" className={classes.link}>
               <ListItemText primary="User Profile" />
@@ -67,7 +67,7 @@ export default function TemporaryDrawer() {
           </ListItem>
           <ListItem button>
             <ListItemIcon>
-              <AssignmentIcon style={iconStyle} fontSize="large" />
+              <AssignmentIcon classes={{ root: classes.colorIcon }} fontSize="large" />
             </ListItemIcon>
             <Link to="/missions/volunteered" className={classes.link}>
               <ListItemText primary="Volunteerd Missions" />
@@ -75,7 +75,7 @@ export default function TemporaryDrawer() {
           </ListItem>
           <ListItem button>
             <ListItemIcon>
-              <AssignmentIcon style={iconStyle} fontSize="large" />
+              <AssignmentIcon classes={{ root: classes.colorIcon }} fontSize="large" />
             </ListItemIcon>
             <Link to="/missions/created" className={classes.link}>
               <ListItemText primary="My Requests" />
@@ -83,7 +83,7 @@ export default function TemporaryDrawer() {
           </ListItem>
           <ListItem button>
             <ListItemIcon>
-              <EmojiPeopleIcon style={iconStyle} fontSize="large" />
+              <EmojiPeopleIcon classes={{ root: classes.colorIcon }} fontSize="large" />
             </ListItemIcon>
             <Link to="/status" className={classes.link}>
               <ListItemText primary="My Status" />
@@ -91,7 +91,7 @@ export default function TemporaryDrawer() {
           </ListItem>
           <ListItem button>
             <ListItemIcon>
-              <ExitToApp style={iconStyle} fontSize="large" />
+              <ExitToApp classes={{ root: classes.colorIcon }} fontSize="large" />
             </ListItemIcon>
             <Link onClick={handleSignOut}>
               <ListItemText primary="Signout" />
