@@ -3,7 +3,7 @@ import { useFirestoreConnect } from "react-redux-firebase";
 import { useSelector } from "react-redux";
 import { Button } from "../../component";
 import { Page, Card } from "../../layout";
-import { Typography, Avatar, Grid } from "@material-ui/core";
+import { Typography, Avatar, Grid, Box } from "@material-ui/core";
 
 import profileImg from "../../../img/fb-profile.jpg";
 import { ReactComponent as MapMarkerImg } from "../../../img/map-marker-alt.svg";
@@ -16,10 +16,17 @@ import { User } from "../../model";
 export const StyledHr = styled.hr`
   border: 1px dashed #de3254;
   width: 100%;
+  margin: 10px auto;
 `;
 
 export const StyledImage = styled.img`
   height: auto;
+  max-width: 100%;
+`;
+
+export const StyledDiv = styled.div`
+  height: auto;
+  margin: 10px 0;
   max-width: 100%;
 `;
 
@@ -64,21 +71,28 @@ const MissionDetailsPage = ({ firestore, match }) => {
           <Card>{mission.url && <StyledImage src={mission.url} />}</Card>
           <Card>
             <Typography variant="h2">{mission.description}</Typography>
-            <Typography variant="h4">status: {mission.status}</Typography>
+            <Box my={2}>
+              <Typography variant="h4">status: {mission.status}</Typography>
+            </Box>
             <Grid>
               <Button text="Volunteer" onClick={volunteerForMission} />
             </Grid>
             <StyledHr />
-            <Grid container>
-              <Grid item>
-                <Avatar src={profileImg} />
+
+            <Box my={2}>
+              <Grid container wrap="nowrap" spacing={3} direction="row" alignItems="center">
+                <Grid item>
+                  <Avatar src={profileImg} />
+                </Grid>
+                <Grid item>
+                  <Typography variant="h4">{requester.name}</Typography>
+                </Grid>
               </Grid>
-              <Grid item>
-                <Typography variant="h4">{requester.name}</Typography>
-              </Grid>
+            </Box>
+            <Box my={1}>
               <MapMarkerImg />
               <Typography variant="h6">{requester.address}</Typography>
-            </Grid>
+            </Box>
             <Typography variant="body1">{mission.details}</Typography>
           </Card>
         </>
