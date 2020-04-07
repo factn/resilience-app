@@ -46,7 +46,7 @@ const MissionDetailsPage = ({ firestore, match }) => {
     name: "Audrey",
     address: "123 Example st, San Fransisco, 92501",
   };
-  console.log(mission);
+
   return (
     <Page>
       {!isLoaded(mission) ? (
