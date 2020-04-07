@@ -91,6 +91,7 @@ export default function TemporaryDrawer() {
   return (
     <React.Fragment key={anchor}>
       <Button
+        aria-label="Menu"
         classes={{ root: classes.root, label: classes.label }}
         onClick={toggleDrawer(anchor, true)}
       >
