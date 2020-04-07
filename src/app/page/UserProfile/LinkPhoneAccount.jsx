@@ -32,7 +32,7 @@ function LinkPhoneAccount({ firebase, auth, data, errorHandler }) {
       await confirmationResult.confirm(verificationCode);
       verifier.clear();
       setSuccessSnackbarOpen(true);
-      window.location.reload(false);
+      //window.location.reload(false);
     } catch (error) {
       errorHandler(error);
     }
