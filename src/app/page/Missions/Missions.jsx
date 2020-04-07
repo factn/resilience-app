@@ -3,7 +3,7 @@ import { useFirestore, firestoreConnect } from "react-redux-firebase";
 import { useSelector, connect } from "react-redux";
 import { withRouter, Link } from "react-router-dom";
 
-import { Typography, Button, Grid } from "@material-ui/core";
+import { Typography, Button, Grid, CircularProgress } from "@material-ui/core";
 import styled from "styled-components";
 
 import { Page, Card } from "../../layout";
@@ -39,9 +39,12 @@ const MissionsPage = ({ user, history, firebase, ...rest }) => {
       User.assignAsVolunteer(firestore, missionId, user.uid);
     }
   }
-
-  if (!missions) {
-    return <div> isloading...</div>;
+  if (missions === undefined) {
+    return (
+      <Grid container justify="center" alignItems="center" style={{ minHeight: "100vh" }}>
+        <CircularProgress />
+      </Grid>
+    );
   }
   return (
     <Page template="pink">
