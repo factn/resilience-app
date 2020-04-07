@@ -12,6 +12,7 @@ import styled from "styled-components";
 import { isLoaded, withFirestore } from "react-redux-firebase";
 import { useHistory } from "react-router-dom";
 import { User } from "../../model";
+import { missionStatusDict } from "../../model/Mission";
 
 export const StyledHr = styled.hr`
   border: 1px dashed #de3254;
@@ -38,14 +39,14 @@ const MissionDetailsPage = ({ firestore, match }) => {
   const user = useSelector((state) => state.firebase.auth);
 
   function volunteerForMission() {
-    User.assginedToMission(firestore, missionId, user.uid);
+    User.assignAsVolunteer(firestore, missionId, user.uid);
   }
 
   let requester = {
     name: "Audrey",
     address: "123 Example st, San Fransisco, 92501",
   };
-
+  console.log(mission);
   return (
     <Page>
       {!isLoaded(mission) ? (
@@ -64,10 +65,12 @@ const MissionDetailsPage = ({ firestore, match }) => {
           <Card>{mission.url && <StyledImage src={mission.url} />}</Card>
           <Card>
             <Typography variant="h2">{mission.description}</Typography>
-            <Typography variant="h4">status: {mission.status}</Typography>
-            <Grid>
-              <Button text="Volunteer" onClick={volunteerForMission} />
-            </Grid>
+            <Typography variant="h4">status: {missionStatusDict[mission.status]}</Typography>
+            {mission.volunteerId !== user.uid && (
+              <Grid>
+                <Button text="Volunteer" onClick={volunteerForMission} />
+              </Grid>
+            )}
             <StyledHr />
             <Grid container>
               <Grid item>
