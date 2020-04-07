@@ -11,13 +11,14 @@ import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import AssignmentIcon from "@material-ui/icons/Assignment";
 import ExitToApp from "@material-ui/icons/ExitToApp";
 import EmojiPeopleIcon from "@material-ui/icons/EmojiPeople";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useFirebase } from "react-redux-firebase";
 
 import { PrivateComponent } from "../../component";
 
 export default function TemporaryDrawer() {
   const firebase = useFirebase();
+  const history = useHistory();
   const classes = useStyles();
 
   const [state, setState] = React.useState({
@@ -32,6 +33,10 @@ export default function TemporaryDrawer() {
     setState({ ...state, [anchor]: open });
   };
 
+  const handleSignOut = () => {
+    firebase.logout();
+    history.push("/");
+  };
   const list = (anchor) => (
     <div
       className={clsx(classes.list, {
@@ -75,7 +80,7 @@ export default function TemporaryDrawer() {
           </ListItem>
           <ListItem button>
             <ExitToApp fontSize="large" />
-            <ListItemText primary="Signout" onClick={firebase.logout} />
+            <ListItemText primary="Signout" onClick={handleSignOut} />
           </ListItem>
         </PrivateComponent>
       </List>
