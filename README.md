@@ -24,7 +24,7 @@ npm ci
 
 * Set up your local .env folder
 
-Copy the file pinned to the side of #resilience-app channel to `.env`in the git root of this repo. 
+Copy the file pinned to the side of #resilience-app channel to `.env.development`in the git root of this repo. 
 
 
 * Start the local server
