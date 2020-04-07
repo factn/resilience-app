@@ -1,17 +1,29 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { Grid, Typography, TextField, Input } from "@material-ui/core";
-import { Button } from "../../component";
+import { Button, H5 } from "../../component";
 import EditIcon from "@material-ui/icons/Edit";
 import { Card } from "../../layout";
+import { makeStyles } from "@material-ui/core/styles";
 
-function LinkPhoneAccount({ auth, data, errorHandler }) {
+const useStyles = makeStyles((theme) => ({
+  button: {
+    height: "36px",
+    width: "100px",
+  },
+}));
+
+function LinkPhoneAccount({ firebase, auth, data, errorHandler, captchaVerifier }) {
   const [phoneNumber, updatePhoneNumber] = useState("");
+  const classes = useStyles();
 
   async function onPhoneClick() {
-    auth.useDeviceLanguage();
-    const verifier = new auth.RecaptchaVerifier("phone-number-link", { size: "invisible" });
     try {
+      const verifier = new firebase.auth.RecaptchaVerifier("phone-number-link", {
+        size: "invisible",
+      });
+
+      auth.useDeviceLanguage();
       const confirmationResult = await auth.currentUser.linkWithPhoneNumber(phoneNumber, verifier);
       const verificationCode = window.prompt(
         "Please enter the verification code that was sent to your mobile device."
@@ -22,46 +34,37 @@ function LinkPhoneAccount({ auth, data, errorHandler }) {
     }
   }
 
-  return data ? (
-    <>
-      <Input
-        label="your phone number..."
-        inputProps={{ "aria-label": "phoneNumber" }}
-        defaultValue={data.phoneNumber}
-        disabled
-      />
+  return (
+    <Card>
+      <Grid container item spacing={1}>
+        <Grid item container>
+          <H5>Phone Number</H5>
+        </Grid>
 
-      <Button
-        id="phone-number-link"
-        onClick={onPhoneClick}
-        color="default"
-        aria-label="change phone number"
-      >
-        <EditIcon /> Change Phone Number
-      </Button>
+        <Grid container>
+          <Grid item xs={6}>
+            <Grid item container>
+              <TextField
+                id="phone-number"
+                value={data.phoneNumber}
+                disabled
+                onChange={(e) => updatePhoneNumber(e.target.value)}
+              />
+            </Grid>
+          </Grid>
 
-      <Button id="phone-number-link" onClick={onPhoneClick} aria-label="change phone number">
-        Disconnect
-      </Button>
-    </>
-  ) : (
-    <Grid container direction="column" spacing={2}>
-      <Grid item>
-        <TextField
-          id="phone-number"
-          label="Phone Number"
-          type="text"
-          variant="outlined"
-          required
-          onChange={(e) => updatePhoneNumber(e.target.value)}
-        />
+          <Button
+            id="phone-number-link"
+            onClick={onPhoneClick}
+            color="secondary"
+            variant="contained"
+            className={classes.button}
+          >
+            {data ? "Change" : "Connect"}
+          </Button>
+        </Grid>
       </Grid>
-      <Grid item>
-        <Button id="phone-number-link" onClick={onPhoneClick} color="secondary" variant="contained">
-          Sign in with phone
-        </Button>
-      </Grid>
-    </Grid>
+    </Card>
   );
 }
 
