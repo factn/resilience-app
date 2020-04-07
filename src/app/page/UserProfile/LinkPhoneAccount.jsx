@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
-import { Grid, Typography, TextField, Input } from "@material-ui/core";
+import { Grid, TextField } from "@material-ui/core";
 import { Button, H5 } from "../../component";
-import EditIcon from "@material-ui/icons/Edit";
 import { Card } from "../../layout";
+import SuccessSnackbar from "../../component/Snackbars/SuccessSnackbar";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
@@ -13,8 +12,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function LinkPhoneAccount({ firebase, auth, data, errorHandler, captchaVerifier }) {
-  const [phoneNumber, updatePhoneNumber] = useState("");
+function LinkPhoneAccount({ firebase, auth, data, errorHandler }) {
+  const currentUserPhoneNumber = data?.phoneNumber || "";
+  const [phoneNumber, updatePhoneNumber] = useState(currentUserPhoneNumber);
+  const [successSnackbarOpen, setSuccessSnackbarOpen] = useState(false);
   const classes = useStyles();
 
   async function onPhoneClick() {
@@ -29,6 +30,9 @@ function LinkPhoneAccount({ firebase, auth, data, errorHandler, captchaVerifier 
         "Please enter the verification code that was sent to your mobile device."
       );
       await confirmationResult.confirm(verificationCode);
+      verifier.clear();
+      setSuccessSnackbarOpen(true);
+      window.location.reload(false);
     } catch (error) {
       errorHandler(error);
     }
@@ -46,8 +50,8 @@ function LinkPhoneAccount({ firebase, auth, data, errorHandler, captchaVerifier 
             <Grid item container>
               <TextField
                 id="phone-number"
-                value={data.phoneNumber}
-                disabled
+                value={phoneNumber}
+                helperText="+1 7777777777"
                 onChange={(e) => updatePhoneNumber(e.target.value)}
               />
             </Grid>
@@ -64,6 +68,11 @@ function LinkPhoneAccount({ firebase, auth, data, errorHandler, captchaVerifier 
           </Button>
         </Grid>
       </Grid>
+      <SuccessSnackbar
+        open={successSnackbarOpen}
+        handleClose={() => setSuccessSnackbarOpen(false)}
+        successMessage="Phone linked successfully"
+      />
     </Card>
   );
 }
