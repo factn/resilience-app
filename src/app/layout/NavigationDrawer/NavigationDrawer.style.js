@@ -25,3 +25,7 @@ export const useStyles = makeStyles({
     color: "#150E60",
   },
 });
+
+export const iconStyle = {
+  color: "#000",
+};
