@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { useFirestoreConnect } from "react-redux-firebase";
 import { useSelector } from "react-redux";
 import { Button } from "../../component";
@@ -100,4 +101,10 @@ const MissionDetailsPage = ({ firestore, match }) => {
     </Page>
   );
 };
+
+MissionDetailsPage.propTypes = {
+  firestore: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
+};
+
 export default withFirestore(MissionDetailsPage);

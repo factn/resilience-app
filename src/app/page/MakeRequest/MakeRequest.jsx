@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { User } from "../../model";
 import { withRouter } from "react-router-dom";
@@ -75,5 +76,10 @@ function MakeRequest({ history, firestore }) {
     />
   );
 }
+
+MakeRequest.propTypes = {
+  history: PropTypes.object.isRequired,
+  firestore: PropTypes.object.isRequired,
+};
 
 export default withRouter(withFirestore(MakeRequest));

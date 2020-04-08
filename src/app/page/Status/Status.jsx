@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 import { useFirestore, firestoreConnect } from "react-redux-firebase";
 import { useSelector, connect } from "react-redux";
 import { withRouter } from "react-router-dom";
@@ -99,6 +100,10 @@ const Status = ({ firestore }) => {
       <StyledP>{thank}</StyledP>
     </Page>
   );
+};
+
+Status.propTypes = {
+  firebase: PropTypes.object.isRequired,
 };
 
 export default withRouter(withFirestore(Status));

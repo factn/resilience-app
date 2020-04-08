@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { firestoreConnect } from "react-redux-firebase";
 import { useSelector, connect } from "react-redux";
 import { withRouter } from "react-router-dom";
@@ -24,6 +25,12 @@ const MissionsPage = ({ user, history, firebase, ...rest }) => {
   );
 };
 
+MissionsPage.propTypes = {
+  user: PropTypes.object,
+  history: PropTypes.object.isRequired,
+  firebase: PropTypes.object.isRequired,
+};
+
 const mapStateToProps = (state) => {
   return {
     user: state.firebase.auth,
@@ -35,5 +42,3 @@ export default compose(
     return [{ collection: "missions" }, { collection: "users" }];
   })
 )(withRouter(MissionsPage));
-
-//export default withFirestore(MissionsPage);

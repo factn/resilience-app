@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 import { useFirestore, firestoreConnect } from "react-redux-firebase";
 import { useSelector, connect } from "react-redux";
 import { withRouter, Link } from "react-router-dom";
@@ -94,6 +95,15 @@ const MissionsPage = ({ user, history, firebase, ...rest }) => {
       </Popup>
     </Page>
   );
+};
+
+MissionsPage.propTypes = {
+  user: PropTypes.shape({
+    uid: PropTypes.string.isRequired,
+    phoneNumber: PropTypes.string,
+  }),
+  history: PropTypes.object.isRequired,
+  firebase: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => {
