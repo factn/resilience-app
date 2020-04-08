@@ -9,7 +9,7 @@ export default function PhoneLoginForm(props) {
           id="phone-number"
           label="Phone Number"
           type="text"
-          helperText="+1 777-777-7777 VerificationCode: 123456"
+          helperText="+1 777-777-7777"
           variant="outlined"
           required
           onChange={handlePhoneNumberChange}
