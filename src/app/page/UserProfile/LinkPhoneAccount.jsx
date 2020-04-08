@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Grid, TextField } from "@material-ui/core";
 import { Button, H5 } from "../../component";
 import { Card } from "../../layout";
@@ -16,14 +16,7 @@ function LinkPhoneAccount({ firebase, auth, data, errorHandler }) {
   const currentUserPhoneNumber = data?.phoneNumber || "";
   const [phoneNumber, updatePhoneNumber] = useState(currentUserPhoneNumber);
   const [successSnackbarOpen, setSuccessSnackbarOpen] = useState(false);
-  const [userHasPhone, setUserHasPhone] = useState(false);
   const classes = useStyles();
-
-  useEffect(() => {
-    if (currentUserPhoneNumber && currentUserPhoneNumber.length > 0) {
-      setUserHasPhone(true);
-    }
-  }, []);
 
   async function onPhoneClick() {
     const successCallback = (verifier) => {
@@ -39,7 +32,7 @@ function LinkPhoneAccount({ firebase, auth, data, errorHandler }) {
       });
 
       auth.useDeviceLanguage();
-      if (!userHasPhone) {
+      if (!currentUserPhoneNumber) {
         const confirmationResult = await auth.currentUser.linkWithPhoneNumber(
           phoneNumber,
           verifier
