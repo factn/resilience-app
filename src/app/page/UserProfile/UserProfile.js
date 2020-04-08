@@ -1,32 +1,19 @@
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { Page, Card } from "../../layout";
-import { Chip, Button, H5 } from "../../component";
-import { Typography, Grid, Input } from "@material-ui/core";
+import { Button } from "../../component";
+import { Grid } from "@material-ui/core";
 
 import { makeStyles } from "@material-ui/core/styles";
-import clsx from "clsx";
-
-import { Avatar, CardContent } from "@material-ui/core";
-
-import { Redirect } from "react-router-dom";
-import {
-  firebaseConnect,
-  useFirebase,
-  useFirebaseConnect,
-  useFirestore,
-  isLoaded,
-  isEmpty,
-} from "react-redux-firebase";
+import { useFirebase, useFirestore } from "react-redux-firebase";
 import _ from "lodash";
 
 import LinkGoogleAccount from "./LinkGoogleAccount";
 import LinkPhoneAccount from "./LinkPhoneAccount";
 
 import UserOverview from "./UserOverview";
-import UserStatus from "./UserStatus";
 
 const useStyles = makeStyles((theme) => ({
   spacing: {
@@ -41,12 +28,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 //TODO authorization query please
-async function getData(fs, authId) {
-  let user = {};
-  return {
-    user,
-  };
-}
+// async function getData(fs, authId) {
+//   let user = {};
+//   return {
+//     user,
+//   };
+// }
 
 const ProfileControlButtons = ({ isEdit, saveAction, cancelAction, editAction }) => {
   return isEdit ? (
@@ -103,7 +90,7 @@ const UserProfile = ({ history, ...props }) => {
       };
       firebase.updateProfile(newProfile);
     }
-  }, [firebaseAuth, firebaseProfile]);
+  }, [firebaseAuth, firebaseProfile, firebase]);
 
   /*
   firebase profile need to load in and then we update it in state
@@ -125,7 +112,6 @@ const UserProfile = ({ history, ...props }) => {
   const googleProviderData = _.find(user.providerData, (data) => {
     return data.providerId === "google.com";
   });
-  const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
 
   // === PHONE === //
   const phoneProviderData = _.find(user.providerData, (data) => {
@@ -140,14 +126,12 @@ const UserProfile = ({ history, ...props }) => {
     // we need to merge data with this error
     if (["auth/credential-already-in-use", "auth/email-already-in-use"].indexOf(error.code) > -1) {
       var prevUser = auth.currentUser;
-      var pendingCred = error.credential;
       var prevUserDoc = await firestore.collection("users").doc(prevUser.uid).get();
       const prevUserData = prevUserDoc.data();
 
       //TODO
       prevUser.delete();
       var currentUserData;
-      var currentUser;
 
       try {
         const result = await auth.signInWithCredential(error.credential);
