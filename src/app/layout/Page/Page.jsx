@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 /**
- * Represents a Customised Card.
+ * Represents a Customised Page.
  * @param {object} appbar - The Title of the app bar.
  * @param {object} children - The content of the page.
  * @param {object} title - The Title of the page.

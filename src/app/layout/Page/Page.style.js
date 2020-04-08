@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { extractStyle } from "../../../theme.js";
 
 /**
- * Represents a Customised Card.
+ * Represents a Customised Page Page.
  * @param {object} props - Toggles Box Template Color.
  */
 const propsBgColor = (props) =>
