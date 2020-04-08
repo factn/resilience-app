@@ -34,7 +34,7 @@ const HomePage = ({ history, ...rest }) => {
             text="Request Help"
             secondary
           />
-          <StyledLink to="/about">About</StyledLink>
+          <StyledHomeButton onClick={() => history.push("/about")}>About</StyledHomeButton>
         </>
       ) : (
         <>

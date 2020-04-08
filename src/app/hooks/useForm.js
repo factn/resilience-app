@@ -4,7 +4,7 @@ import { useState } from "react";
  * The form hook.  Sets handlers and initial form values. 
  *
  * @param {Object.<string, string>} initialValue
- * @returns {[func, Object.<string, string>, func, func]} 
+ * @returns {func} 
  */
 const useForm = (initialValue = {}) => {
   const [values, setValues] = useState(initialValue);

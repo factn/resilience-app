@@ -13,7 +13,7 @@ const Appbar = ({ children }) => {
       ) : (
         <AppbarDefault>
           <LogoContainer>
-            <Link to="/">
+            <Link to="/" aria-label="Go to home">
               <Logo title="MutualAidLogo" role="img" />
             </Link>
           </LogoContainer>
