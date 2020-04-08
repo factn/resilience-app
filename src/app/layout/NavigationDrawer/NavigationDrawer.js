@@ -1,6 +1,7 @@
 import React from "react";
 import clsx from "clsx";
 import Drawer from "@material-ui/core/Drawer";
+import Menu from "@material-ui/core/Menu";
 import Button from "@material-ui/core/Button";
 import { useStyles } from "./NavigationDrawer.style";
 import List from "@material-ui/core/List";
@@ -22,16 +23,14 @@ export default function TemporaryDrawer() {
   const history = useHistory();
   const classes = useStyles();
 
-  const [state, setState] = React.useState({
-    right: false,
-  });
+  const [anchorEl, setAnchorEl] = React.useState(null);
 
-  const toggleDrawer = (anchor, open) => (event) => {
-    if (event.type === "keydown" && (event.key === "Tab" || event.key === "Shift")) {
-      return;
-    }
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
 
-    setState({ ...state, [anchor]: open });
+  const handleClose = () => {
+    setAnchorEl(null);
   };
 
   const handleSignOut = () => {
@@ -44,8 +43,6 @@ export default function TemporaryDrawer() {
         [classes.fullList]: anchor === "top" || anchor === "bottom",
       })}
       role="presentation"
-      onClick={toggleDrawer(anchor, false)}
-      onKeyDown={toggleDrawer(anchor, false)}
     >
       <List>
         <ListItem button>
@@ -102,19 +99,19 @@ export default function TemporaryDrawer() {
     </div>
   );
 
-  const anchor = "right";
   return (
-    <React.Fragment key={anchor}>
+    <React.Fragment>
       <Button
-        aria-label="Menu"
+        aria-label="menu"
+        arias-haspopup="true"
         classes={{ root: classes.root, label: classes.label }}
-        onClick={toggleDrawer(anchor, true)}
+        onClick={handleClick}
       >
         <MenuIcon fontSize="large" />
       </Button>
-      <Drawer anchor={anchor} open={state[anchor]} onClose={toggleDrawer(anchor, false)}>
-        {list(anchor)}
-      </Drawer>
+      <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose} keepMounted>
+        {list()}
+      </Menu>
     </React.Fragment>
   );
 }
