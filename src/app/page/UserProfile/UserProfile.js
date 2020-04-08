@@ -83,6 +83,7 @@ const UserProfile = ({ history }) => {
       };
       firebase.updateProfile(newProfile);
     }
+    // eslint-disable-next-line
   }, [firebaseAuth, firebaseProfile]);
 
   /*
