@@ -19,11 +19,11 @@ const useStyles = makeStyles((theme) => ({
 
 /**
  * Represents a Customised Page.
- * @param {object} appbar - The Title of the app bar.
+ * @param {string} appbar - The Title of the app bar.
  * @param {object} children - The content of the page.
- * @param {object} title - The Title of the page.
- * @param {object} isLoading - The loading state of the page.
- * @param {object} maxWidth - The maximum width of the page.
+ * @param {string} title - The Title of the page.
+ * @param {boolean} isLoading - The loading state of the page.
+ * @param {number} maxWidth - The maximum width of the page.
  * @param {object} rest - Rest of the properties passed to the page..
  */
 const Page = ({ appbar, children, title, isLoading, maxWidth, ...rest }) => {
