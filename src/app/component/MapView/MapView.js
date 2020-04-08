@@ -3,10 +3,11 @@ import { Map, TileLayer, Marker, Popup } from "react-leaflet";
 import { MapStyle } from "./MapView.style";
 // import Routing from './MapView-routing'
 
-function MapView() {
+function MapView(props) {
+  console.log(props)
   const [state, setState] = React.useState({
-    lat: 45.5017,
-    lng: -73.5673,
+    lat: props.values.lat,
+    lng: props.values.long,
     zoom: 15,
   });
   const position = [state.lat, state.lng];

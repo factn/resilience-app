@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+
 import { useFirestoreConnect } from "react-redux-firebase";
 import { useSelector } from "react-redux";
 import { Button } from "../../component";
@@ -9,10 +10,12 @@ import profileImg from "../../../img/fb-profile.jpg";
 import { ReactComponent as MapMarkerImg } from "../../../img/map-marker-alt.svg";
 // Created based on the schema in firebase
 import styled from "styled-components";
-import { isLoaded, withFirestore } from "react-redux-firebase";
+import { isLoaded, withFirestore, isEmpty } from "react-redux-firebase";
 import { useHistory } from "react-router-dom";
 import { User } from "../../model";
 
+import MapView from "../../component/MapView";
+import addressLookUp from "../../utils/addressLookUp";
 import UserPhoneUnverifiedPopup from "../../component/UserPhoneUnverifiedPopup";
 
 export const StyledHr = styled.hr`
@@ -24,6 +27,12 @@ export const StyledHr = styled.hr`
 export const StyledImage = styled.img`
   height: auto;
   max-width: 100%;
+`;
+
+const MapViewContainer = styled.div`
+  display: flex;
+  margin: 1% auto;
+  padding: 1% 1%;
 `;
 
 export const StyledDiv = styled.div`
@@ -60,6 +69,17 @@ const MissionDetailsPage = ({ firestore, match }) => {
     name: "Audrey",
     address: "123 Example st, San Fransisco, 92501",
   };
+
+  // functionality for the map look up
+  const [cords, setCords] = useState();
+  if (isLoaded(mission) && !isEmpty(mission) && !cords) {
+    const missionLocation =
+      mission.address + "%20" + mission.city + "%20" + mission.state + "%20" + mission.postalCode;
+    const dataForCords = addressLookUp(missionLocation);
+    dataForCords.then((res) => setCords(res)).catch((error) => console.log(error));
+  } else {
+    console.log("No location data available");
+  }
 
   return (
     <Page>
@@ -102,6 +122,13 @@ const MissionDetailsPage = ({ firestore, match }) => {
               <Typography variant="h6">{requester.address}</Typography>
             </Box>
             <Typography variant="body1">{mission.details}</Typography>
+            <MapViewContainer>
+              {cords != undefined ? (
+                <MapView values={cords} />
+              ) : (
+                <Typography variant="p">map: no valid location.</Typography>
+              )}
+            </MapViewContainer>
           </Card>
         </>
       )}
