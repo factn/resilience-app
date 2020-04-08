@@ -11,14 +11,15 @@ import { ReactComponent as Logo } from "../../../img/logo.svg";
 import { Page, Card } from "../../layout";
 import { MissionCard, Button } from "../../component";
 
-import { BigLogo, MissionText, StyledHomeButton, StyledLink } from "./Home.style";
+import { BigLogo, MissionText, StyledHomeButton } from "./Home.style";
 
 const HomePage = ({ history, ...rest }) => {
   const missions = useSelector((state) => state.firestore.ordered.missionsVolunteered);
   const isEmpty = useSelector((state) => state.firebase.auth.isEmpty);
+  const isLoaded = useSelector((state) => state.firebase.auth.isLoaded);
 
   return (
-    <Page>
+    <Page isLoaded={isLoaded}>
       {isEmpty ? (
         <>
           <BigLogo>
