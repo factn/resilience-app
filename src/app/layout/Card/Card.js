@@ -12,7 +12,11 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(1),
   },
 }));
-
+/**
+ * Represents a Customised Card.
+ * @param {object} children - The content of the component.
+ * @param {object} props - The props passed to the component from Parent.
+ */
 const CustomizedCard = ({ children, ...props }) => {
   const classes = useStyles();
   const theme = useTheme();
