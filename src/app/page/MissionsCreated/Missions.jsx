@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { firestoreConnect } from "react-redux-firebase";
 import { useSelector, connect } from "react-redux";
 import { withRouter } from "react-router-dom";
@@ -47,6 +48,14 @@ const MissionsPage = ({ auth, history, firebase, ...rest }) => {
   );
 };
 
+MissionsPage.propTypes = {
+  auth: PropTypes.shape({
+    uid: PropTypes.string.isRequired,
+  }),
+  history: PropTypes.object.isRequired,
+  firebase: PropTypes.object.isRequired,
+};
+
 const mapStateToProps = (state) => {
   return {
     auth: state.firebase.auth,
@@ -65,5 +74,3 @@ export default compose(
     ];
   })
 )(withRouter(MissionsPage));
-
-//export default withFirestore(MissionsPage);
