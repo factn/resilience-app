@@ -1,7 +1,13 @@
 import styled from "styled-components";
-
+/**
+ * Represents a Customised Card Style.
+ * @param {object} props - Toggles Box Shadow.
+ */
 const propsBoxShadow = (props) => (props.flat ? "" : "0px 2px 4px rgba(0, 0, 0, 0.14);");
-
+/**
+ * Represents a Customised Card Style.
+ * @param {object} props - Toggles Box Template Color.
+ */
 const propsBgColor = (props) =>
   props.template === "pink" ? props.theme.color.pink : props.theme.color.white;
 
