@@ -13,6 +13,7 @@ class User {
    * @param {string} userId
    * @param {string} status
    */
+
   assignAsVolunteer(fs, missionId, userId, status = "doing") {
     //this._assignUserToMission(fs, missionId, userId, "volunteerId", status);
 
@@ -44,9 +45,35 @@ class User {
   }
 
   /**
+   * Links a user with a phone number, using an SMS code and a Recaptcha. 
+   * @param {object} firebase
+   * @param {string} phoneNumber
+   * @param {func} recaptchaVerifier
+   * @param {func} callback 
+   * @return {firebase.auth.Auth}
+   */
+  linkPhoneAuthentication(firebase, phoneNumber, recaptchaVerfier, callback) {
+    return firebase
+      .auth()
+      .currentUser.linkWithPhoneNumber(phoneNumber, recaptchaVerfier)
+      .then(function (confirmationResult) {
+        var code = window.prompt("Provide your SMS code");
+        recaptchaVerfier.clear();
+        return confirmationResult.confirm(code).then(() => {
+          callback();
+        });
+      })
+      .catch((err) =>
+        alert(
+          "You already have an account associated with this phone number. Please sign in using that number."
+        )
+      );
+  }
+
+  /**
    * Returns the current authentication object.
    * @param {object} state
-   * @return {FirebaseAuth} 
+   * @return {FirebaseAuth}
    */
   getAuth = (state) => get(state, "firebase.auth");
 }
