@@ -23,11 +23,10 @@ export const HeaderSection = styled.div`
   }
 `;
 
-export const BigLogo = styled.div`
+export const BigLogo = styled.img`
   background-color: #ffefef;
-  > svg {
-    height: 500px;
-  }
+  width: 100%;
+  height: auto;
 `;
 export const MissionText = styled.h1`
   font-family: Arimo;

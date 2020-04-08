@@ -7,7 +7,7 @@ import { useSelector, connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
 
-import { ReactComponent as Logo } from "../../../img/logo.svg";
+import Logo from "../../../img/logo.svg";
 import { Page, Card } from "../../layout";
 import { MissionCard, Button } from "../../component";
 
@@ -22,9 +22,7 @@ const HomePage = ({ history, ...rest }) => {
     <Page isLoaded={isLoaded}>
       {isEmpty ? (
         <>
-          <BigLogo>
-            <Logo />
-          </BigLogo>
+          <BigLogo src={Logo} />
           <MissionText>Global Community, Local Mutual Aid</MissionText>
           <StyledHomeButton onClick={() => history.push("/login")}>Sign In/Up</StyledHomeButton>
           <StyledHomeButton onClick={() => history.push("/missions")}>
