@@ -1,6 +1,10 @@
 import styled from "styled-components";
 import { extractStyle } from "../../../theme.js";
 
+/**
+ * Represents a Customised Card.
+ * @param {object} props - Toggles Box Template Color.
+ */
 const propsBgColor = (props) =>
   props.template === "pink" ? props.theme.color.pink : props.theme.color.white;
 
