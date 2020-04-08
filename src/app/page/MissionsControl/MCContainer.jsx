@@ -1,11 +1,11 @@
 import React from "react";
 import { firestoreConnect } from "react-redux-firebase";
 import { useSelector, connect } from "react-redux";
-import { withRouter } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 
 import { Mission } from "../../model";
 import { compose } from "redux";
-
+import { Button } from "../../component";
 import MissionsControlView from "./Missions";
 
 const MissionsPage = ({ user, history, firebase, ...rest }) => {
@@ -13,14 +13,19 @@ const MissionsPage = ({ user, history, firebase, ...rest }) => {
   const users = useSelector((state) => state.firestore.ordered.users);
 
   return (
-    <MissionsControlView
-      missionsNotStarted={Mission.filterByStatus(missions, "notStarted")}
-      missionsQueued={Mission.filterByStatus(missions, "queued")}
-      missionsInProgress={Mission.filterByStatus(missions, "inProgress")}
-      missionsPending={Mission.filterByStatus(missions, "pending")}
-      missionsFinished={Mission.filterByStatus(missions, "finished")}
-      volunteered={users}
-    />
+    <>
+      <MissionsControlView
+        missionsNotStarted={Mission.filterByStatus(missions, "notStarted")}
+        missionsQueued={Mission.filterByStatus(missions, "queued")}
+        missionsInProgress={Mission.filterByStatus(missions, "inProgress")}
+        missionsPending={Mission.filterByStatus(missions, "pending")}
+        missionsFinished={Mission.filterByStatus(missions, "finished")}
+        volunteered={users}
+      />
+      <Link to="missions/new">
+        <Button text="Create Mission" />
+      </Link>
+    </>
   );
 };
 
