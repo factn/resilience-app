@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useFirestoreConnect } from "react-redux-firebase";
 import { useSelector } from "react-redux";
 import { Button } from "../../component";
@@ -12,6 +12,8 @@ import styled from "styled-components";
 import { isLoaded, withFirestore } from "react-redux-firebase";
 import { useHistory } from "react-router-dom";
 import { User } from "../../model";
+
+import UserPhoneUnverifiedPopup from "../../component/UserPhoneUnverifiedPopup";
 
 export const StyledHr = styled.hr`
   border: 1px dashed #de3254;
@@ -44,8 +46,14 @@ const MissionDetailsPage = ({ firestore, match }) => {
   );
   const user = useSelector((state) => state.firebase.auth);
 
-  function volunteerForMission() {
-    User.assginedToMission(firestore, missionId, user.uid);
+  const [userUnverifiedPopupOpen, setUserUnverifiedPopupOpen] = useState(false);
+
+  function volunteerForMission(missionId) {
+    if (!user.phoneNumber) {
+      setUserUnverifiedPopupOpen(true);
+    } else {
+      User.assignAsVolunteer(firestore, missionId, user.uid);
+    }
   }
 
   let requester = {
@@ -97,6 +105,10 @@ const MissionDetailsPage = ({ firestore, match }) => {
           </Card>
         </>
       )}
+      <UserPhoneUnverifiedPopup
+        open={userUnverifiedPopupOpen}
+        handleClose={() => setUserUnverifiedPopupOpen(false)}
+      />
     </Page>
   );
 };
