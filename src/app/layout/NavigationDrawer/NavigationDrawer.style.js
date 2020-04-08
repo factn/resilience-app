@@ -24,4 +24,7 @@ export const useStyles = makeStyles({
     bottom: "25%",
     color: "#150E60",
   },
+  colorIcon: {
+    color: "#000",
+  },
 });

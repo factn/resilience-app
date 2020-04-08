@@ -1,67 +1,79 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
-import { Grid, Typography, TextField, Input } from "@material-ui/core";
-import { Button } from "../../component";
-import EditIcon from "@material-ui/icons/Edit";
+import { Grid, TextField } from "@material-ui/core";
+import { Button, H5 } from "../../component";
 import { Card } from "../../layout";
+import SuccessSnackbar from "../../component/Snackbars/SuccessSnackbar";
+import { makeStyles } from "@material-ui/core/styles";
 
-function LinkPhoneAccount({ auth, data, errorHandler }) {
-  const [phoneNumber, updatePhoneNumber] = useState("");
+const useStyles = makeStyles((theme) => ({
+  button: {
+    height: "36px",
+    width: "100px",
+  },
+}));
+
+function LinkPhoneAccount({ firebase, auth, data, errorHandler }) {
+  const currentUserPhoneNumber = data?.phoneNumber || "";
+  const [phoneNumber, updatePhoneNumber] = useState(currentUserPhoneNumber);
+  const [successSnackbarOpen, setSuccessSnackbarOpen] = useState(false);
+  const classes = useStyles();
 
   async function onPhoneClick() {
-    auth.useDeviceLanguage();
-    const verifier = new auth.RecaptchaVerifier("phone-number-link", { size: "invisible" });
     try {
+      const verifier = new firebase.auth.RecaptchaVerifier("phone-number-link", {
+        size: "invisible",
+      });
+
+      auth.useDeviceLanguage();
       const confirmationResult = await auth.currentUser.linkWithPhoneNumber(phoneNumber, verifier);
       const verificationCode = window.prompt(
         "Please enter the verification code that was sent to your mobile device."
       );
       await confirmationResult.confirm(verificationCode);
+      verifier.clear();
+      setSuccessSnackbarOpen(true);
+      window.location.reload(false);
     } catch (error) {
       errorHandler(error);
     }
   }
 
-  return data ? (
-    <>
-      <Input
-        label="your phone number..."
-        inputProps={{ "aria-label": "phoneNumber" }}
-        defaultValue={data.phoneNumber}
-        disabled
+  return (
+    <Card>
+      <Grid container item spacing={1}>
+        <Grid item container>
+          <H5>Phone Number</H5>
+        </Grid>
+
+        <Grid container>
+          <Grid item xs={6}>
+            <Grid item container>
+              <TextField
+                id="phone-number"
+                value={phoneNumber}
+                helperText="+1 7777777777"
+                onChange={(e) => updatePhoneNumber(e.target.value)}
+              />
+            </Grid>
+          </Grid>
+
+          <Button
+            id="phone-number-link"
+            onClick={onPhoneClick}
+            color="secondary"
+            variant="contained"
+            className={classes.button}
+          >
+            {data ? "Change" : "Connect"}
+          </Button>
+        </Grid>
+      </Grid>
+      <SuccessSnackbar
+        open={successSnackbarOpen}
+        handleClose={() => setSuccessSnackbarOpen(false)}
+        successMessage="Phone linked successfully"
       />
-
-      <Button
-        id="phone-number-link"
-        onClick={onPhoneClick}
-        color="default"
-        aria-label="change phone number"
-      >
-        <EditIcon /> Change Phone Number
-      </Button>
-
-      <Button id="phone-number-link" onClick={onPhoneClick} aria-label="change phone number">
-        Disconnect
-      </Button>
-    </>
-  ) : (
-    <Grid container direction="column" spacing={2}>
-      <Grid item>
-        <TextField
-          id="phone-number"
-          label="Phone Number"
-          type="text"
-          variant="outlined"
-          required
-          onChange={(e) => updatePhoneNumber(e.target.value)}
-        />
-      </Grid>
-      <Grid item>
-        <Button id="phone-number-link" onClick={onPhoneClick} color="secondary" variant="contained">
-          Sign in with phone
-        </Button>
-      </Grid>
-    </Grid>
+    </Card>
   );
 }
 
