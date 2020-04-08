@@ -23,6 +23,7 @@ export const useStyles = makeStyles({
     top: "25%",
     bottom: "25%",
     color: "#150E60",
+    width: "unset",
   },
   colorIcon: {
     color: "#000",
