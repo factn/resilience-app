@@ -14,7 +14,7 @@ import { useHistory } from "react-router-dom";
 import { User } from "../../model";
 
 import MapView from "../../component/MapView";
-import addressLookUp from "../../hooks/addressLookUp";
+import addressLookUp from "../../component/utils/addressLookUp";
 
 export const StyledHr = styled.hr`
   border: 1px dashed #de3254;
