@@ -1,5 +1,10 @@
 import { get } from "lodash";
 
+/**
+ * Defines the volunteer.
+ *
+ * @version 1.0
+ */
 class User {
   /**
    * Assign the current user as a volunteer for the mission with the given missionId
@@ -8,7 +13,6 @@ class User {
    * @param {string} userId
    * @param {string} status
    */
-
   assignAsVolunteer(fs, missionId, userId, status = "doing") {
     //this._assignUserToMission(fs, missionId, userId, "volunteerId", status);
 
@@ -39,6 +43,11 @@ class User {
       });
   }
 
+  /**
+   * Returns the current authentication object.
+   * @param {object} state
+   * @return {FirebaseAuth} 
+   */
   getAuth = (state) => get(state, "firebase.auth");
 }
 
