@@ -3,7 +3,7 @@ import { firestoreConnect } from "react-redux-firebase";
 import { useSelector, connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 
-import { Typography, Button, Grid } from "@material-ui/core";
+import { CircularProgress, Typography, Button, Grid } from "@material-ui/core";
 import styled from "styled-components";
 
 import { Page, Card } from "../../layout";
@@ -25,24 +25,28 @@ const MissionsPage = ({ auth, history, firebase, ...rest }) => {
     <Page template="pink">
       <StyledHeader variant="h1"> My Requests</StyledHeader>
 
-      {missions?.map((mission) => (
-        <Card key={mission.id}>
-          <MissionCard mission={mission} key={`preview-${mission.id}`} />
+      {missions ? (
+        missions.map((mission) => (
+          <Card key={mission.id}>
+            <MissionCard mission={mission} key={`preview-${mission.id}`} />
 
-          <Grid container justify="center" alignItems="center">
-            <StyledButton
-              variant="outlined"
-              size="large"
-              color="secondary"
-              onClick={() => {
-                history.push(`/missions/${mission.id}`);
-              }}
-            >
-              Details
-            </StyledButton>
-          </Grid>
-        </Card>
-      ))}
+            <Grid container justify="center" alignItems="center">
+              <StyledButton
+                variant="outlined"
+                size="large"
+                color="secondary"
+                onClick={() => {
+                  history.push(`/missions/${mission.id}`);
+                }}
+              >
+                Details
+              </StyledButton>
+            </Grid>
+          </Card>
+        ))
+      ) : (
+        <CircularProgress />
+      )}
     </Page>
   );
 };

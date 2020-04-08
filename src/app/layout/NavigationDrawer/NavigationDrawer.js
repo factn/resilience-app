@@ -11,13 +11,15 @@ import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import AssignmentIcon from "@material-ui/icons/Assignment";
 import ExitToApp from "@material-ui/icons/ExitToApp";
 import EmojiPeopleIcon from "@material-ui/icons/EmojiPeople";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useFirebase } from "react-redux-firebase";
 
 import { PrivateComponent } from "../../component";
+import { ListItemIcon } from "@material-ui/core";
 
 export default function TemporaryDrawer() {
   const firebase = useFirebase();
+  const history = useHistory();
   const classes = useStyles();
 
   const [state, setState] = React.useState({
@@ -32,6 +34,10 @@ export default function TemporaryDrawer() {
     setState({ ...state, [anchor]: open });
   };
 
+  const handleSignOut = () => {
+    firebase.logout();
+    history.push("/");
+  };
   const list = (anchor) => (
     <div
       className={clsx(classes.list, {
@@ -43,39 +49,53 @@ export default function TemporaryDrawer() {
     >
       <List>
         <ListItem button>
-          <AssignmentIcon fontSize="large" />
+          <ListItemIcon>
+            <AssignmentIcon classes={{ root: classes.colorIcon }} fontSize="large" />
+          </ListItemIcon>
           <Link to="/missions" className={classes.link}>
             <ListItemText primary="Volunteer needed" />
           </Link>
         </ListItem>
         <PrivateComponent>
           <ListItem button>
-            <AccountCircleIcon fontSize="large" />
+            <ListItemIcon>
+              <AccountCircleIcon classes={{ root: classes.colorIcon }} fontSize="large" />
+            </ListItemIcon>
             <Link to="/user/profile" className={classes.link}>
               <ListItemText primary="User Profile" />
             </Link>
           </ListItem>
           <ListItem button>
-            <AssignmentIcon fontSize="large" />
+            <ListItemIcon>
+              <AssignmentIcon classes={{ root: classes.colorIcon }} fontSize="large" />
+            </ListItemIcon>
             <Link to="/missions/volunteered" className={classes.link}>
               <ListItemText primary="Volunteerd Missions" />
             </Link>
           </ListItem>
           <ListItem button>
-            <AssignmentIcon fontSize="large" />
+            <ListItemIcon>
+              <AssignmentIcon classes={{ root: classes.colorIcon }} fontSize="large" />
+            </ListItemIcon>
             <Link to="/missions/created" className={classes.link}>
               <ListItemText primary="My Requests" />
             </Link>
           </ListItem>
           <ListItem button>
-            <EmojiPeopleIcon fontSize="large" />
+            <ListItemIcon>
+              <EmojiPeopleIcon classes={{ root: classes.colorIcon }} fontSize="large" />
+            </ListItemIcon>
             <Link to="/status" className={classes.link}>
               <ListItemText primary="My Status" />
             </Link>
           </ListItem>
           <ListItem button>
-            <ExitToApp fontSize="large" />
-            <ListItemText primary="Signout" onClick={firebase.logout} />
+            <ListItemIcon>
+              <ExitToApp classes={{ root: classes.colorIcon }} fontSize="large" />
+            </ListItemIcon>
+            <Link onClick={handleSignOut}>
+              <ListItemText primary="Signout" />
+            </Link>
           </ListItem>
         </PrivateComponent>
       </List>
@@ -86,6 +106,7 @@ export default function TemporaryDrawer() {
   return (
     <React.Fragment key={anchor}>
       <Button
+        aria-label="Menu"
         classes={{ root: classes.root, label: classes.label }}
         onClick={toggleDrawer(anchor, true)}
       >
