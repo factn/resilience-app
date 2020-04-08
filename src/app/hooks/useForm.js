@@ -1,10 +1,10 @@
 import { useState } from "react";
 
 /**
- * The form hook.  Sets handlers and initial form values. 
- * @function 
+ * The form hook.  Sets handlers and initial form values.
+ * @function
  * @param {Object.<string, string>} initialValue
- * @returns {object} 
+ * @returns {object}
  */
 const useForm = (initialValue = {}) => {
   const [values, setValues] = useState(initialValue);

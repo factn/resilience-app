@@ -7,20 +7,19 @@ import { get, filter } from "lodash";
  * @version 1.0
  */
 class Mission {
-
-  /** 
+  /**
    * Returns all missions.
    * @param {object} state
-   * @return {Array.<Mission>}  
+   * @return {Array.<Mission>}
    */
   getAll = (state) => get(state, "firestore.data.missions");
 
-  /** 
-   * Given an array of missions and a status, return missions 
+  /**
+   * Given an array of missions and a status, return missions
    * matching the given status
    * @param {Array.<Mission>} missions
    * @param {string} status
-   * @return {Array.<Mission>}  
+   * @return {Array.<Mission>}
    */
   filterByStatus = (missions, status) => filter(missions, (m) => m.status === status);
 }
