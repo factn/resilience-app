@@ -7,6 +7,7 @@ import { Button } from "../../component";
 import { Grid } from "@material-ui/core";
 
 import { makeStyles } from "@material-ui/core/styles";
+
 import { useFirebase, useFirestore } from "react-redux-firebase";
 import _ from "lodash";
 
@@ -26,15 +27,6 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: theme.spacing(2),
   },
 }));
-
-//TODO authorization query please
-// async function getData(fs, authId) {
-//   let user = {};
-//   return {
-//     user,
-//   };
-// }
-
 const ProfileControlButtons = ({ isEdit, saveAction, cancelAction, editAction }) => {
   return isEdit ? (
     <>
@@ -53,7 +45,7 @@ const ProfileControlButtons = ({ isEdit, saveAction, cancelAction, editAction })
   );
 };
 
-const UserProfile = ({ history, ...props }) => {
+const UserProfile = ({ history }) => {
   const classes = useStyles();
   const firebase = useFirebase();
   const firestore = useFirestore();
@@ -90,7 +82,8 @@ const UserProfile = ({ history, ...props }) => {
       };
       firebase.updateProfile(newProfile);
     }
-  }, [firebaseAuth, firebaseProfile, firebase]);
+    // eslint-disable-next-line
+  }, [firebaseAuth, firebaseProfile]);
 
   /*
   firebase profile need to load in and then we update it in state
@@ -132,10 +125,11 @@ const UserProfile = ({ history, ...props }) => {
       //TODO
       prevUser.delete();
       var currentUserData;
+      var currentUser;
 
       try {
         const result = await auth.signInWithCredential(error.credential);
-        var currentUser = result.user;
+        currentUser = result.user;
         const currentUserDoc = await firestore.collection("users").doc(currentUser.uid).get();
         const currentUserData = currentUserDoc.data();
 
