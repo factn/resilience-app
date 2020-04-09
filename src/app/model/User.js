@@ -12,6 +12,7 @@ class User {
    * @param {string} missionId
    * @param {string} userId
    * @param {string} status
+   * @param {object} location
    */
 
   assignAsVolunteer(fs, missionId, userId, status = "doing") {

@@ -1,7 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { H5 } from "../../component";
 import { Grid, Avatar, TextField } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import addressLookUp from "../../utils/addressLookUp";
+import { useSelector } from "react-redux";
+import { withRouter } from "react-router-dom";
+import { withFirestore } from "react-redux-firebase";
 import _ from "lodash";
 
 const useStyles = makeStyles((theme) => ({
@@ -15,11 +19,25 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const UserStatus = ({ view, profile, setProfile }) => {
+const UserStatus = ({ view, profile, setProfile, firestore }) => {
   const classes = useStyles();
+  // find the user
+  const user = useSelector((state) => state.firebase.auth);
 
   const displayName = _.get(profile, "displayName", "");
   const address = _.get(profile, "address", "");
+
+  useEffect(() => {
+    const userId = user.uid;
+    if (address) {
+      const location = addressLookUp(address);
+      location
+        .then((res) => firestore.collection("users").doc(userId).set({ location: res }))
+        .catch((e) => {
+          console.log(e);
+        });
+    }
+  }, []);
 
   function updateProfile(e) {
     e.preventDefault();
@@ -65,4 +83,4 @@ const UserStatus = ({ view, profile, setProfile }) => {
     </Grid>
   );
 };
-export default UserStatus;
+export default withFirestore(UserStatus);
