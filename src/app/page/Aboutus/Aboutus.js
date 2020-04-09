@@ -1,7 +1,6 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { Typography, Divider, Box } from "@material-ui/core";
-import { Page, Card } from "../../layout";
+import { Page } from "../../layout";
 
 const AboutPage = () => {
   return (

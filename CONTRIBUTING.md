@@ -15,14 +15,11 @@ The super short version is:
 git clone git@github.com:factn/resilience-app.git
 ```
 - Set up your dev environment as described on the [README](https://github.com/factn/mutualaidworld_frontend/blob/master/README.md)
-- Make a feature branch where you are going to do your coding
-```
-git checkout -b name_of_your_feature
-```
+- Make a branch where you are going to do your coding. See [branch naming conventions](#branch-naming-conventions)
 - Make your change and test it works
 - Commit your changes
 - [Join our slack],  visit the #resilience-app channel and request to be given write access to this repo.
-- Push your changes to a branch on this repo and [submit a pull request][pr].
+- Push your changes to a branch on this repo and [submit a pull request](#submitting-a-pr).
 
 At this point you're waiting on us to comment and approve your Pull Request (aka 'PR'). Things are moving pretty fast and we are working to get to all the PRs as fast as possible. We should get back to you in a couple of days but very often much sooner.
 
@@ -41,9 +38,39 @@ The feature branch workflow is explained in more detail [by Atlassian here].
 [readme]: https://github.com/factn/mutualaidworld_frontend/blob/master/README.md
 [join our slack]: https://join.slack.com/t/coronadonor/shared_invite/zt-cwm4b79c-12NHPqGWbzZ1aR5geyME1g
 
-## What if i don't want to wait and just want to submit a PR
+## Branch naming conventions
 
-If you don't want to wait for us to give you write access you are more than welcome to use the forking workflow for your first PR and just [fork this repo](https://guides.github.com/activities/forking/) and then create a PR that way. In fact we'd encourage it for the first PR.
+Please use the following format when checking out branches
+
+```
+git checkout -b [type]/[id]-[description]
+```
+
+- `type` : `[feat, bug, enhancement, docs]`
+- `id` : 
+    - For `feat` branches use the id corresponding to the feature story in AirTable
+    - All other types are presumed to be github issues and should refer to the issue id
+
+## Submitting a PR
+
+If you don't want to wait for us to give you write access you are more than welcome to use the forking workflow for your first PR and just [fork this repo](https://guides.github.com/activities/forking/) and then create a PR that way.
+In fact we'd encourage it for the first PR.
+
+If the PR is for a feature please provide a link to that card in AirTable.
+
+For PRs that address github issues please use one of the following keywords followed by the issue `id` so that those can auto close when the PR has been merged.
+
+- close
+- closes
+- closed
+- fix
+- fixes
+- fixed
+- resolve
+- resolves
+- resolved
+
+example: `closes #123`
 
 ## What are the list of tasks that need doing?
 

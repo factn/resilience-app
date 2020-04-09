@@ -20,3 +20,7 @@ p {
 .MuiButton-root {
   text-transform: capitalize !important;
 }
+
+.MuiCircularProgress-root {
+  margin: auto;
+}
