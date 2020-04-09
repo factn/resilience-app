@@ -26,22 +26,22 @@ const useStyles = makeStyles((theme) => ({
   linkedAccountContainer: {
     paddingTop: theme.spacing(2),
   },
-  controlButtons: {
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1),
-  },
 }));
+
 const ProfileControlButtons = ({ isEdit, saveAction, cancelAction, editAction }) => {
   return isEdit ? (
-    <>
-      <Button size="large" onClick={saveAction} className={classes.controlButtons}>
-        Save
-      </Button>
-
-      <Button size="large" onClick={cancelAction} className={classes.controlButtons}>
-        Cancel
-      </Button>
-    </>
+    <Grid spacing={2} justify="center" container>
+      <Grid item>
+        <Button size="large" onClick={saveAction}>
+          Save
+        </Button>
+      </Grid>
+      <Grid item>
+        <Button size="large" onClick={cancelAction}>
+          Cancel
+        </Button>
+      </Grid>
+    </Grid>
   ) : (
     <Button size="large" onClick={editAction}>
       Edit Profile
@@ -170,7 +170,6 @@ const UserProfile = ({ history }) => {
           saveAction={saveProfileAction}
           cancelAction={cancelProfileAction}
           editAction={editProfileAction}
-          classes={classes}
         />
       </Grid>
       <Card>
