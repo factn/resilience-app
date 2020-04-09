@@ -27,6 +27,7 @@ const useStyles = makeStyles(() => ({
  */
 const Page = ({ appbar, children, title, maxWidth, ...rest }) => {
   const classes = useStyles();
+  console.log("page");
   return (
     <Container maxWidth={maxWidth ? maxWidth : "sm"} className={classes.root}>
       <Grid container className={classes.root}>

@@ -39,7 +39,7 @@ const MissionsPage = ({ user, history, firebase, ...rest }) => {
   }
 
   return (
-    <Page template="pink">
+    <Page template="pink" key="missions">
       <StyledHeader variant="h1"> Missions </StyledHeader>
       {missions ? (
         missions.map((mission) => (
