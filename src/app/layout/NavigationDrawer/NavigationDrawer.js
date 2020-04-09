@@ -38,6 +38,7 @@ export default function TemporaryDrawer() {
     firebase.logout();
     history.push("/");
   };
+
   const list = (anchor) => (
     <div
       className={clsx(classes.list, {
@@ -89,13 +90,11 @@ export default function TemporaryDrawer() {
               <ListItemText primary="My Status" />
             </Link>
           </ListItem>
-          <ListItem button>
+          <ListItem button onClick={handleSignOut}>
             <ListItemIcon>
               <ExitToApp classes={{ root: classes.colorIcon }} fontSize="large" />
             </ListItemIcon>
-            <Link onClick={handleSignOut}>
-              <ListItemText primary="Signout" />
-            </Link>
+            <ListItemText primary="Signout" />
           </ListItem>
         </PrivateComponent>
       </List>
