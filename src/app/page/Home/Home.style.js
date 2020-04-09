@@ -22,23 +22,6 @@ export const HeaderSection = styled.div`
     text-decoration: none;
   }
 `;
-
-export const BigLogo = styled.div`
-  background-color: #ffefef;
-  > svg {
-    height: 500px;
-  }
-`;
-export const MissionText = styled.h1`
-  font-family: Arimo;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 22px;
-  line-height: 24px;
-  color: #150e60;
-  margin: 24px;
-`;
-
 export const StyledHomeButton = styled(Button)`
   height: 79px;
   width: 300px;

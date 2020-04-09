@@ -26,6 +26,27 @@ function RequestForm({ handleChange, values, onSubmit, getFile }) {
         />
         <Header>Where do you need help?</Header>
         <Input
+          value={values.address || ""}
+          inputType="text"
+          inputName="address"
+          onChange={handleChange}
+          label="address"
+        />
+        <Input
+          value={values.city || ""}
+          inputType="text"
+          inputName="city"
+          onChange={handleChange}
+          label="City"
+        />
+        <Input
+          value={values.state || ""}
+          inputType="text"
+          inputName="state"
+          onChange={handleChange}
+          label="State"
+        />
+        <Input
           value={values.postalCode || ""}
           inputType="number"
           inputName="postalCode"

@@ -1,5 +1,10 @@
 import { get } from "lodash";
 
+/**
+ * Defines the volunteer.
+ *
+ * @version 1.0
+ */
 class User {
   /**
    * Assign the current user as a volunteer for the mission with the given missionId
@@ -39,6 +44,14 @@ class User {
       });
   }
 
+  /**
+   * Links a user with a phone number, using an SMS code and a Recaptcha.
+   * @param {object} firebase
+   * @param {string} phoneNumber
+   * @param {func} recaptchaVerifier
+   * @param {func} callback
+   * @return {firebase.auth.Auth}
+   */
   linkPhoneAuthentication(firebase, phoneNumber, recaptchaVerfier, callback) {
     return firebase
       .auth()
@@ -57,6 +70,11 @@ class User {
       );
   }
 
+  /**
+   * Returns the current authentication object.
+   * @param {object} state
+   * @return {FirebaseAuth}
+   */
   getAuth = (state) => get(state, "firebase.auth");
 }
 

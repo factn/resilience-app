@@ -15,6 +15,7 @@ import { Link, useHistory } from "react-router-dom";
 import { useFirebase } from "react-redux-firebase";
 
 import { PrivateComponent } from "../../component";
+import { ListItemIcon } from "@material-ui/core";
 
 export default function TemporaryDrawer() {
   const firebase = useFirebase();
@@ -37,6 +38,7 @@ export default function TemporaryDrawer() {
     firebase.logout();
     history.push("/");
   };
+
   const list = (anchor) => (
     <div
       className={clsx(classes.list, {
@@ -47,40 +49,52 @@ export default function TemporaryDrawer() {
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <List>
-        <ListItem button>
-          <AssignmentIcon fontSize="large" />
-          <Link to="/missions" className={classes.link}>
+        <Link to="/missions" className={classes.link}>
+          <ListItem button>
+            <ListItemIcon>
+              <AssignmentIcon classes={{ root: classes.colorIcon }} fontSize="large" />
+            </ListItemIcon>
             <ListItemText primary="Volunteer needed" />
-          </Link>
-        </ListItem>
+          </ListItem>
+        </Link>
         <PrivateComponent>
-          <ListItem button>
-            <AccountCircleIcon fontSize="large" />
-            <Link to="/user/profile" className={classes.link}>
+          <Link to="/user/profile" className={classes.link}>
+            <ListItem button>
+              <ListItemIcon>
+                <AccountCircleIcon classes={{ root: classes.colorIcon }} fontSize="large" />
+              </ListItemIcon>
               <ListItemText primary="User Profile" />
-            </Link>
-          </ListItem>
-          <ListItem button>
-            <AssignmentIcon fontSize="large" />
-            <Link to="/missions/volunteered" className={classes.link}>
-              <ListItemText primary="Volunteerd Missions" />
-            </Link>
-          </ListItem>
-          <ListItem button>
-            <AssignmentIcon fontSize="large" />
-            <Link to="/missions/created" className={classes.link}>
+            </ListItem>
+          </Link>
+          <Link to="/missions/volunteered" className={classes.link}>
+            <ListItem button>
+              <ListItemIcon>
+                <AssignmentIcon classes={{ root: classes.colorIcon }} fontSize="large" />
+              </ListItemIcon>
+              <ListItemText primary="Volunteered Missions" />
+            </ListItem>
+          </Link>
+          <Link to="/missions/created" className={classes.link}>
+            <ListItem button>
+              <ListItemIcon>
+                <AssignmentIcon classes={{ root: classes.colorIcon }} fontSize="large" />
+              </ListItemIcon>
               <ListItemText primary="My Requests" />
-            </Link>
-          </ListItem>
-          <ListItem button>
-            <EmojiPeopleIcon fontSize="large" />
-            <Link to="/status" className={classes.link}>
+            </ListItem>
+          </Link>
+          <Link to="/status" className={classes.link}>
+            <ListItem button>
+              <ListItemIcon>
+                <EmojiPeopleIcon classes={{ root: classes.colorIcon }} fontSize="large" />
+              </ListItemIcon>
               <ListItemText primary="My Status" />
-            </Link>
-          </ListItem>
-          <ListItem button>
-            <ExitToApp fontSize="large" />
-            <ListItemText primary="Signout" onClick={handleSignOut} />
+            </ListItem>
+          </Link>
+          <ListItem button onClick={handleSignOut}>
+            <ListItemIcon>
+              <ExitToApp classes={{ root: classes.colorIcon }} fontSize="large" />
+            </ListItemIcon>
+            <ListItemText primary="Signout" />
           </ListItem>
         </PrivateComponent>
       </List>

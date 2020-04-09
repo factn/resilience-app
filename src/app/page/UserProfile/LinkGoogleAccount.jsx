@@ -1,16 +1,13 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
-import { Redirect } from "react-router-dom";
+import React from "react";
 
-import { useFirebase, useFirestore, isLoaded, isEmpty } from "react-redux-firebase";
-import { Page, Card } from "../../layout";
-import { Chip, Button, H5 } from "../../component";
-import { Typography, Grid, Avatar } from "@material-ui/core";
+import { Card } from "../../layout";
+import { Button, H5 } from "../../component";
+import { Grid, Avatar } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 import logo from "../../../img/Google__G__Logo.png";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   logoContainer: {
     height: "48px",
     width: "48px",
