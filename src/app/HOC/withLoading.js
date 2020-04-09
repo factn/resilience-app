@@ -42,7 +42,7 @@ const withLoading = (BaseComponent) => {
     isEmpty: PropTypes.bool,
     isEmptyText: PropTypes.string,
     isLoaded: PropTypes.bool,
-    LoadingComponent: PropTypes.element,
+    LoadingComponent: PropTypes.object,
     children: PropTypes.any,
   };
   return EnhancedComponent;
