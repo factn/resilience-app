@@ -25,6 +25,10 @@ const useStyles = makeStyles((theme) => ({
   linkedAccountContainer: {
     paddingTop: theme.spacing(2),
   },
+  controlButtons: {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+  },
 }));
 
 //TODO authorization query please
@@ -35,14 +39,14 @@ const useStyles = makeStyles((theme) => ({
 //   };
 // }
 
-const ProfileControlButtons = ({ isEdit, saveAction, cancelAction, editAction }) => {
+const ProfileControlButtons = ({ isEdit, saveAction, cancelAction, editAction, classes }) => {
   return isEdit ? (
     <>
-      <Button size="large" onClick={saveAction}>
+      <Button size="large" onClick={saveAction} className={classes.controlButtons}>
         Save
       </Button>
 
-      <Button size="large" onClick={cancelAction}>
+      <Button size="large" onClick={cancelAction} className={classes.controlButtons}>
         Cancel
       </Button>
     </>
@@ -172,6 +176,7 @@ const UserProfile = ({ history, ...props }) => {
           saveAction={saveProfileAction}
           cancelAction={cancelProfileAction}
           editAction={editProfileAction}
+          classes={classes}
         />
       </Grid>
       <Card>
