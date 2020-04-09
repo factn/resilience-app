@@ -110,7 +110,7 @@ const MissionDetailsPage = ({ firestore, match }) => {
             <Box my={2}>
               <Grid container wrap="nowrap" spacing={3} direction="row" alignItems="center">
                 <Grid item>
-                  <Avatar src={profileImg} />
+                  <Avatar alt={`${requester.name} Avatar Image`} src={profileImg} />
                 </Grid>
                 <Grid item>
                   <Typography variant="h4">{requester.name}</Typography>
