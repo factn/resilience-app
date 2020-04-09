@@ -154,6 +154,10 @@ git push heroku master
 
 * This also runs all of the build and deployment commands, so it may take a moment, but once it's complete, the live link should be updated.
 
+## Running tests with Cypress.io
+
+Run `npx cypress open`
+
 ## File structure
 
 | File                                                                                                                  |                                                                Description                                                                 | Edit? |
