@@ -36,6 +36,15 @@ npm start
 * As you work in the repository, your changes will publish and refresh your local server on the fly.
 * To stop the server, use the terminal command `Ctrl. + C`
 
+## Test Data
+
+When running the app locally, you can test the phone verification sign-up flow by entering any of the phone number / verification code combinations listed below (the leading "1" should be filled in for you):
+
+| Phone Number  | Verification Code |
+| ------------- | ----------------- |
+| 7777777777    | 123456            |
+| 2223334444    | 123456            |
+
 ## Available Scripts
 
 In the project directory, you can run:
