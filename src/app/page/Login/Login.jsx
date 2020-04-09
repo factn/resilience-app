@@ -11,7 +11,6 @@ import { firstTimeSignIn } from "./firebaseLogin";
 const LoginPage = (props) => {
   const history = useHistory();
   const auth = useSelector((state) => state.firebase.auth);
-  const [phoneNumber, updatePhoneNumber] = useState("");
   const [popupOpen, setPopupOpen] = useState(true);
 
   const DisplayLoginWarning = () => {

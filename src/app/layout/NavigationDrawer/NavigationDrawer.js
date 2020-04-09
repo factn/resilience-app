@@ -41,6 +41,7 @@ export default function TemporaryDrawer() {
     firebase.logout();
     history.push("/");
   };
+
   const list = (anchor) => (
     <div
       className={clsx(classes.list, {
