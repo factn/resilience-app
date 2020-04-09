@@ -65,8 +65,6 @@ function App() {
                 <Route path="/organizer/signup" component={OrganizerSignupPage} />
                 <Route path="/signup" component={SignupPage} />
                 <Route path="/status" component={Status} />
-                <Route path="/missions" component={Missions} />
-                <Route path="/missions/:id" component={MissionDetails} />
 
                 <PrivateRoute path="/request/create">
                   <MakeRequest />
@@ -80,6 +78,8 @@ function App() {
                 <PrivateRoute path="/missions/volunteered">
                   <MissionsVolunteered />
                 </PrivateRoute>
+                <Route path="/missions/:id" component={MissionDetails} />
+                <Route path="/missions" component={Missions} />
                 <PrivateRoute path="/user/profile">
                   <UserProfile />
                 </PrivateRoute>
