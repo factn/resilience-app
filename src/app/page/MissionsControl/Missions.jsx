@@ -3,7 +3,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
-import Appbar from "./Appbar";
+import Container from "@material-ui/core/Container";
+//import Appbar from "./Appbar";
 import Drawer from "./Drawer";
 import MissionCard from "./MissionCard";
 
@@ -25,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(3),
   },
   preview: {
-    padding: theme.spacing(2),
+    padding: theme.spacing(3),
   },
 }));
 
@@ -39,9 +40,9 @@ export default function MiniDrawer({
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
-  const handleDrawerOpen = () => {
+  /*const handleDrawerOpen = () => {
     setOpen(true);
-  };
+  };*/
 
   const handleDrawerClose = () => {
     setOpen(false);
@@ -49,50 +50,74 @@ export default function MiniDrawer({
 
   return (
     <div className={classes.root}>
-      <Appbar open={open} handleDrawerOpen={handleDrawerOpen} />
+      {/*<Appbar open={open} handleDrawerOpen={handleDrawerOpen} />*/}
       <Drawer open={open} handleDrawerClose={handleDrawerClose} />
 
       <main className={classes.content}>
         <div className={classes.toolbar} />
 
         <Grid container>
-          <Grid item xs={4}>
+          <Grid item xs={12} md={6}>
             <Paper elevation={3} variant="outlined" className={classes.preview}>
-              <Typography variant="h3">Missions not started</Typography>
-              {missionsNotStarted?.map((mission) => (
-                <MissionCard mission={mission} key={`preview-${mission.id}`} />
-              ))}
+              <Typography variant="h3" component="h3">
+                Missions not started
+              </Typography>
+              <Container>
+                {missionsNotStarted?.map((mission) => (
+                  <Container fixed>
+                    <MissionCard mission={mission} key={`preview-${mission.id}`} />
+                  </Container>
+                ))}
+              </Container>
             </Paper>
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={12} md={6}>
             <Paper elevation={3} variant="outlined" className={classes.preview}>
-              <Typography variant="h3">Missions queued</Typography>
+              <Typography variant="h3" component="h3">
+                Missions queued
+              </Typography>
               {missionsQueued?.map((mission) => (
-                <MissionCard mission={mission} key={`preview-${mission.id}`} />
+                <Container fixed>
+                  <MissionCard mission={mission} key={`preview-${mission.id}`} />
+                </Container>
               ))}
             </Paper>
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={12} md={6}>
             <Paper elevation={3} variant="outlined" className={classes.preview}>
-              <Typography variant="h3">Missions In Progress</Typography>
+              <Typography variant="h3" component="h3">
+                Missions In Progress
+              </Typography>
               {missionsInProgress?.map((mission) => (
-                <MissionCard mission={mission} key={`preview-${mission.id}`} />
+                <Container fixed>
+                  <MissionCard mission={mission} key={`preview-${mission.id}`} />
+                </Container>
               ))}
             </Paper>
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={12} md={6}>
             <Paper elevation={3} variant="outlined" className={classes.preview}>
-              <Typography variant="h3">Missions Pending</Typography>
-              {missionsPending?.map((mission) => (
-                <MissionCard mission={mission} key={`preview-${mission.id}`} />
-              ))}
+              <Typography variant="h3" component="h3">
+                Missions Pending
+              </Typography>
+              <Container>
+                {missionsPending?.map((mission) => (
+                  <Container fixed>
+                    <MissionCard mission={mission} key={`preview-${mission.id}`} />
+                  </Container>
+                ))}
+              </Container>
             </Paper>
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={12} md={6}>
             <Paper elevation={3} variant="outlined" className={classes.preview}>
-              <Typography variant="h3">Missions Finished</Typography>
+              <Typography variant="h3" component="h3">
+                Missions Finished
+              </Typography>
               {missionsFinished?.map((mission) => (
-                <MissionCard mission={mission} key={`preview-${mission.id}`} />
+                <Container fixed>
+                  <MissionCard mission={mission} key={`preview-${mission.id}`} />
+                </Container>
               ))}
             </Paper>
           </Grid>

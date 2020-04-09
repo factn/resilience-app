@@ -1,32 +1,22 @@
 import styled from "styled-components";
 import ImageUpload from "../../component/ImageUpload";
 
-export const Container = styled.div`
-  background: #ffefef;
-`;
-export const Header = styled.div`
-  text-align: start;
-  padding-left: 25px;
-  padding-top: 28px;
-  font-size: 16px;
-  font-weight: 900;
-  color: #150e60;
-`;
+import { makeStyles } from "@material-ui/core/styles";
 
-export const SubText = styled.p`
-  color: #150e60;
-  font-family: Open-Sans;
-  text-align: start;
-  margin: 0;
-  padding-left: 25px;
-  font-size: 14px;
-`;
+export const useStyles = makeStyles((theme) => ({
+  root: {
+    "& .MuiTextField-root": {
+      margin: theme.spacing(1),
+      width: "100%",
+    },
+  },
+}));
 
 export const Upload = styled(ImageUpload)`
+  justify-content: center;
+  align-content: center;
   width: 100%;
+  background-color: #c197d2;
   margin-top: 20px;
   height: 300px;
-  margin-left: 10%;
-  margin-right: 10%;
-  margin-bottom: 10px;
 `;

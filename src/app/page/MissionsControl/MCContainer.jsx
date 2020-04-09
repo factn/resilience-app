@@ -6,14 +6,23 @@ import { withRouter, Link } from "react-router-dom";
 import { Mission } from "../../model";
 import { compose } from "redux";
 import { Button } from "../../component";
+import { Grid } from "@material-ui/core";
 import MissionsControlView from "./Missions";
+import { Page } from "../../layout";
 
-const MissionsPage = ({ user, history, firebase, ...rest }) => {
+const MissionsPage = ({ auth, user, history, firebase, ...rest }) => {
   const missions = useSelector((state) => state.firestore.ordered.missions);
   const users = useSelector((state) => state.firestore.ordered.users);
 
   return (
-    <>
+    <Page maxWidth template="pink">
+      <Grid container justify="center" spacing={1}>
+        <Grid item>
+          <Link to="/missions/new">
+            <Button text="Create Mission" />
+          </Link>
+        </Grid>
+      </Grid>
       <MissionsControlView
         missionsNotStarted={Mission.filterByStatus(missions, "notStarted")}
         missionsQueued={Mission.filterByStatus(missions, "queued")}
@@ -22,10 +31,7 @@ const MissionsPage = ({ user, history, firebase, ...rest }) => {
         missionsFinished={Mission.filterByStatus(missions, "finished")}
         volunteered={users}
       />
-      <Link to="missions/new">
-        <Button text="Create Mission" />
-      </Link>
-    </>
+    </Page>
   );
 };
 

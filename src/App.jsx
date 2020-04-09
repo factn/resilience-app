@@ -80,9 +80,9 @@ function App() {
                 <PrivateRoute path="/request/create">
                   <MakeRequest />
                 </PrivateRoute>
-                <Route path="/missions/control">
+                <PrivateRoute path="/missions/control">
                   <MissionsControl />
-                </Route>
+                </PrivateRoute>
                 <PrivateRoute path="/missions/created">
                   <MissionsCreated />
                 </PrivateRoute>

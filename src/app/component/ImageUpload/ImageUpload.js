@@ -36,7 +36,7 @@ export function ImageUpload({ styles, getFile = () => null, ...props }) {
         )}
       </StyledIcon>
       <Actions>
-        <Button onClick={onTakeImage} text="Take Photo" />
+        {!props.withoutTwoBtns && <Button onClick={onTakeImage} text="Take Photo" />}
         <Button secondary onClick={onTakeImage} text="Upload Photo" />
       </Actions>
       <input
