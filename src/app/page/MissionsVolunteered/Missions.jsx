@@ -24,7 +24,12 @@ const PlaceHolder = styled.div`
   width: 16px;
 `;
 
-const MissionsPage = ({ auth, history, firebase, ...rest }) => {
+/**
+ * Component for listing volunteered missions
+ *
+ * @component
+ */
+const MissionsPage = ({ auth, history, ...rest }) => {
   const missions = useSelector((state) => state.firestore.ordered.missionsVolunteered);
   const firestore = useFirestore();
 
@@ -72,11 +77,16 @@ const MissionsPage = ({ auth, history, firebase, ...rest }) => {
 };
 
 MissionsPage.propTypes = {
+  /**
+   * Auth token
+   */
   auth: PropTypes.shape({
     uid: PropTypes.string.isRequired,
   }),
+  /**
+   * Navigation history provided by React Router
+   */
   history: PropTypes.object.isRequired,
-  firebase: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => {

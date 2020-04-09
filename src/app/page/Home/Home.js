@@ -13,6 +13,11 @@ import { MissionCard, Button } from "../../component";
 
 import { BigLogo, MissionText, StyledHomeButton, StyledLink } from "./Home.style";
 
+/**
+ * Component for Home Page
+ *
+ * @component
+ */
 const HomePage = ({ history, ...rest }) => {
   const missions = useSelector((state) => state.firestore.ordered.missionsVolunteered);
   const isEmpty = useSelector((state) => state.firebase.auth.isEmpty);
@@ -66,6 +71,9 @@ const HomePage = ({ history, ...rest }) => {
 };
 
 HomePage.propTypes = {
+  /**
+   * Navigation history provided by React Router
+   */
   history: PropTypes.object.isRequired,
 };
 

@@ -9,7 +9,12 @@ import { compose } from "redux";
 
 import MissionsControlView from "./Missions";
 
-const MissionsPage = ({ user, history, firebase, ...rest }) => {
+/**
+ * Component for controlling missions status
+ *
+ * @component
+ */
+const MissionsPage = ({ user, history, ...rest }) => {
   const missions = useSelector((state) => state.firestore.ordered.missions);
   const users = useSelector((state) => state.firestore.ordered.users);
 
@@ -26,9 +31,14 @@ const MissionsPage = ({ user, history, firebase, ...rest }) => {
 };
 
 MissionsPage.propTypes = {
+  /**
+   * User info
+   */
   user: PropTypes.object,
+  /**
+   * Navigation history provided by React Router
+   */
   history: PropTypes.object.isRequired,
-  firebase: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => {

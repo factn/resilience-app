@@ -30,11 +30,15 @@ const StyledButton = styled(Button)`
   width: 20vw;
 `;
 
+/**
+ * Component for showing mission status
+ *
+ * @component
+ */
 const Status = ({ firestore }) => {
   // a happy little message
   const [thank, setThank] = useState(false);
   // find the user
-  const firebase = getFirebase();
   const user = useSelector((state) => state.firebase.auth);
 
   //function to handel the volunteers status
@@ -103,7 +107,10 @@ const Status = ({ firestore }) => {
 };
 
 Status.propTypes = {
-  firebase: PropTypes.object.isRequired,
+  /**
+   * Firebase store
+   */
+  firestore: PropTypes.object.isRequired,
 };
 
 export default withRouter(withFirestore(Status));

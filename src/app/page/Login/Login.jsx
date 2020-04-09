@@ -9,6 +9,11 @@ import FirebaseAuthUi from "../../component/FirebaseAuthUi/FirebaseAuthUi";
 import Popup from "../../component/Popup";
 import { firstTimeSignIn } from "./firebaseLogin";
 
+/**
+ * Component for Login Page
+ *
+ * @component
+ */
 const LoginPage = (props) => {
   const history = useHistory();
   const auth = useSelector((state) => state.firebase.auth);
@@ -51,6 +56,9 @@ const LoginPage = (props) => {
 };
 
 LoginPage.propTypes = {
+  /**
+   * Location object provided by React Router
+   */
   location: PropTypes.object.isRequired,
 };
 
