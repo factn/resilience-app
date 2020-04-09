@@ -1,5 +1,5 @@
 import React from "react";
-import { Typography, Grid, LinearProgress } from "@material-ui/core";
+import { Typography, Grid } from "@material-ui/core";
 
 import Appbar from "../Appbar";
 import { makeStyles } from "@material-ui/core/styles";
@@ -26,7 +26,6 @@ const useStyles = makeStyles(() => ({
  * @param {object} rest - Rest of the properties passed to the page..
  */
 const Page = ({ appbar, children, title, maxWidth, ...rest }) => {
-
   const classes = useStyles();
   return (
     <Container maxWidth={maxWidth ? maxWidth : "sm"} className={classes.root}>
@@ -43,4 +42,4 @@ const Page = ({ appbar, children, title, maxWidth, ...rest }) => {
   );
 };
 
-export default withLoading(Page, LinearProgress);
+export default withLoading(Page);

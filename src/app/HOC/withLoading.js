@@ -5,18 +5,25 @@ import { CircularProgress } from "@material-ui/core";
 /**
  * Return an HOC wrapper
  * @param {Component} BaseComponent- use other loading component than CircularProgress
- * @param {Component} LoadingComponent- In case we want to use other loading component than CircularProgress
  * @return {Component} the enhanced component
  */
-const withLoading = (BaseComponent, LoadingComponent) => {
+const withLoading = (BaseComponent) => {
   /**
    * Return an enhanced component that show loading abilities
    * @param {bool} isEmpty- if there is no data.
    * @param {bool} isLoaded - if isLoaded -> we have load in data
    * @param {string} isEmptyText- if isEmpty -> we will display why with isEmptyText
+   * @param {Component} LoadingComponent- In case we want to use other loading component than CircularProgress
    * @return {Component} the enhanced component
    */
-  const EnhancedComponent = ({ isEmpty, isEmptyText, isLoaded, children, ...rest }) => {
+  const EnhancedComponent = ({
+    isEmpty,
+    isEmptyText,
+    isLoaded,
+    LoadingComponent,
+    children,
+    ...rest
+  }) => {
     LoadingComponent = LoadingComponent ? LoadingComponent : CircularProgress;
 
     return (
@@ -28,12 +35,14 @@ const withLoading = (BaseComponent, LoadingComponent) => {
   EnhancedComponent.defaultProps = {
     isEmpty: false,
     isLoaded: true,
+    LoadingComponent: CircularProgress,
   };
 
   EnhancedComponent.propTypes = {
     isEmpty: PropTypes.bool,
     isEmptyText: PropTypes.string,
     isLoaded: PropTypes.bool,
+    LoadingComponent: PropTypes.element,
     children: PropTypes.any,
   };
   return EnhancedComponent;
@@ -41,11 +50,6 @@ const withLoading = (BaseComponent, LoadingComponent) => {
 
 withLoading.propTypes = {
   BaseComponent: PropTypes.element,
-  LoadingComponent: PropTypes.element,
-};
-
-withLoading.defaultProps = {
-  LoadingComponent: CircularProgress,
 };
 
 export default withLoading;
