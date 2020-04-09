@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import React from "react";
-import { CircularProgress } from "@material-ui/core";
+import { LinearProgress } from "@material-ui/core";
 
 /**
  * Return an HOC wrapper
@@ -24,7 +24,7 @@ const withLoading = (BaseComponent) => {
     children,
     ...rest
   }) => {
-    LoadingComponent = LoadingComponent ? LoadingComponent : CircularProgress;
+    LoadingComponent = LoadingComponent ? LoadingComponent : LinearProgress;
 
     return (
       <BaseComponent {...rest}>
@@ -35,7 +35,7 @@ const withLoading = (BaseComponent) => {
   EnhancedComponent.defaultProps = {
     isEmpty: false,
     isLoaded: true,
-    LoadingComponent: CircularProgress,
+    LoadingComponent: LinearProgress,
   };
 
   EnhancedComponent.propTypes = {

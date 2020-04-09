@@ -27,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: theme.spacing(2),
   },
 }));
+
 const ProfileControlButtons = ({ isEdit, saveAction, cancelAction, editAction }) => {
   return isEdit ? (
     <>
@@ -121,9 +122,16 @@ const UserProfile = ({ history }) => {
       var prevUser = auth.currentUser;
       var prevUserDoc = await firestore.collection("users").doc(prevUser.uid).get();
       const prevUserData = prevUserDoc.data();
+      // handle the merging data for missions
+      var previousCreateMissions = await firestore
+        .collection("missions")
+        .where("ownerId", "==", prevUser.uid)
+        .get();
+      var previousVolunteerMissions = await firestore
+        .collection("missions")
+        .where("volunteerId", "==", prevUser.uid)
+        .get();
 
-      //TODO
-      prevUser.delete();
       var currentUserData;
       var currentUser;
 
@@ -131,8 +139,17 @@ const UserProfile = ({ history }) => {
         const result = await auth.signInWithCredential(error.credential);
         currentUser = result.user;
         const currentUserDoc = await firestore.collection("users").doc(currentUser.uid).get();
-        const currentUserData = currentUserDoc.data();
+        currentUserData = currentUserDoc.data();
 
+        // have to remove previous user, otherwise we can not link
+        prevUser.delete();
+        console.log("start link");
+        const linkResult = prevUser.linkWithCredential(error.credential);
+        console.log("done link, start login");
+        const signInResult = await auth.signInWithCredential(linkResult.credential);
+        console.log("we sign in success, now start to merge data");
+
+        // handle the merging data for users database
         const mergeData = _.mergeWith(prevUserData, currentUserData, (preVal, curVal) => {
           if (_.isArray(preVal)) {
             return preVal.concat(curVal);
@@ -140,11 +157,35 @@ const UserProfile = ({ history }) => {
           return preVal ? preVal : curVal;
         });
 
-        const linkResult = prevUser.linkWithCredential(error.credential);
-        const signInResult = await auth.signInWithCredential(linkResult.credential);
         firestore.collection("users").doc(signInResult.user.id).set(mergeData);
+
+        // making sure missions data are consitency
+        previousCreateMissions.forEach((doc) => {
+          firestore.collection("missions").doc(doc.id).update({ ownerId: currentUser.uid });
+        });
+        previousVolunteerMissions.forEach((doc) => {
+          firestore.collection("missions").doc(doc.id).update({ volunteerId: currentUser.uid });
+        });
+        return;
+        // remove previous user
       } catch (e) {
+        console.log(e);
+        // rollback changes
+        console.log("===error===");
+        console.log(prevUser);
+        console.log(prevUserData);
+        console.log(currentUserData);
+        console.log("===previous created mission===");
+        previousCreateMissions.forEach((doc) => {
+          firestore.collection("missions").doc(doc.id).update({ ownerId: prevUser.uid });
+        });
+        console.log("===previous volunteer mission===");
+        previousVolunteerMissions.forEach((doc) => {
+          firestore.collection("missions").doc(doc.id).update({ volunteerId: prevUser.uid });
+        });
+        console.log("===previous user===");
         firestore.collection("users").doc(prevUser.uid).set(prevUserData);
+        console.log("===current user===");
         firestore.collection("users").doc(currentUser.uid).set(currentUserData);
       }
     }
