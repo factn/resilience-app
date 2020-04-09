@@ -59,19 +59,15 @@ function App() {
           <Router>
             <div className="App">
               <Switch>
-                <Route exact path="/">
-                  <HomePage />
-                </Route>
-                <Route path="/about">
-                  <AboutPage />
-                </Route>
+                <Route exact path="/" component={HomePage} />
+                <Route path="/about" component={AboutPage} />
                 <Route path="/login" component={LoginPage} />
-                <Route path="/organizer/signup">
-                  <OrganizerSignupPage />;
-                </Route>
-                <Route path="/signup">
-                  <SignupPage />
-                </Route>
+                <Route path="/organizer/signup" component={OrganizerSignupPage} />
+                <Route path="/signup" component={SignupPage} />
+                <Route path="/status" component={Status} />
+                <Route path="/missions" component={Missions} />
+                <Route path="/missions/:id" component={MissionDetails} />
+
                 <PrivateRoute path="/request/create">
                   <MakeRequest />
                 </PrivateRoute>
@@ -84,10 +80,9 @@ function App() {
                 <PrivateRoute path="/missions/volunteered">
                   <MissionsVolunteered />
                 </PrivateRoute>
-                <Route path="/missions/:id" component={MissionDetails} />
-                <Route path="/missions" component={Missions} />
-                <Route path="/status" component={Status} />
-                <Route path="/user/profile" component={UserProfile} />
+                <PrivateRoute path="/user/profile">
+                  <UserProfile />
+                </PrivateRoute>
               </Switch>
             </div>
           </Router>
