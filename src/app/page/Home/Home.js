@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
   HomeImage: {
     width: "100%",
   },
-  LoginButton: {
+  SigninButton: {
     width: "200px",
     height: "48px",
     margin: "24px auto",
@@ -85,8 +85,8 @@ const HomePage = ({ history, ...rest }) => {
             <img src={HomeImage1} className={classes.HomeImage} alt="" />
           </Grid>
           <Grid container>
-            <Button className={classes.LoginButton} onClick={() => history.push("/login")}>
-              Log in
+            <Button className={classes.SigninButton} onClick={() => history.push("/login")}>
+              Signin
             </Button>
           </Grid>
           <Grid container justify="center">
@@ -105,13 +105,11 @@ const HomePage = ({ history, ...rest }) => {
             <Grid container>
               <H2>How it works</H2>
               <Body1 className={classes.Paragraph}>
-                {" "}
                 Description of service goes here...Lorem ipsum dolor sit amet, consectetur
                 adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
               </Body1>
 
               <Body1 className={classes.Paragraph}>
-                {" "}
                 Description of service goes here...Lorem ipsum dolor sit amet, consectetur Ut enim
                 ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
                 commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
@@ -119,7 +117,6 @@ const HomePage = ({ history, ...rest }) => {
               </Body1>
 
               <Body1 className={classes.Paragraph}>
-                {" "}
                 Description of service goes here...Lorem ipsum dolor sit amet, consectetur Ut enim
                 ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip Excepteur
                 sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim
