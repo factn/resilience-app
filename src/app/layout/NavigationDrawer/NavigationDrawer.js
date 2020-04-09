@@ -70,7 +70,7 @@ export default function TemporaryDrawer() {
               <AssignmentIcon classes={{ root: classes.colorIcon }} fontSize="large" />
             </ListItemIcon>
             <Link to="/missions/volunteered" className={classes.link}>
-              <ListItemText primary="Volunteerd Missions" />
+              <ListItemText primary="Volunteered Missions" />
             </Link>
           </ListItem>
           <ListItem button>
