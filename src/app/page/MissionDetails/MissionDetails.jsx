@@ -31,6 +31,11 @@ export const StyledDiv = styled.div`
   max-width: 100%;
 `;
 
+/**
+ * Component for showing mission details
+ *
+ * @component
+ */
 const MissionDetailsPage = ({ firestore, match }) => {
   let history = useHistory();
   const missionId = match.params.id;
@@ -103,7 +108,13 @@ const MissionDetailsPage = ({ firestore, match }) => {
 };
 
 MissionDetailsPage.propTypes = {
+  /**
+   * Firebase storage
+   */
   firestore: PropTypes.object.isRequired,
+  /**
+   * Route info provided by React Router
+   */
   match: PropTypes.object.isRequired,
 };
 

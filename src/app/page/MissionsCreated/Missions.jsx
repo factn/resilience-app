@@ -19,7 +19,12 @@ const StyledButton = styled(Button)`
   flex-grow: 1;
 `;
 
-const MissionsPage = ({ auth, history, firebase, ...rest }) => {
+/**
+ * Component for listing created missions
+ *
+ * @component
+ */
+const MissionsPage = ({ auth, history, ...rest }) => {
   const missions = useSelector((state) => state.firestore.ordered.missionsCreated);
 
   return (
@@ -49,11 +54,16 @@ const MissionsPage = ({ auth, history, firebase, ...rest }) => {
 };
 
 MissionsPage.propTypes = {
+  /**
+   * Auth token
+   */
   auth: PropTypes.shape({
     uid: PropTypes.string.isRequired,
   }),
+  /**
+   * Navigation history provided by React Router
+   */
   history: PropTypes.object.isRequired,
-  firebase: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => {

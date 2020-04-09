@@ -68,6 +68,12 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 Run the storybook where we can showcase the components in the system
 [write a story](https://storybook.js.org/docs/basics/writing-stories/)
 
+
+### `npm run docs`
+
+Run this to generate docs in `docs/` folder (made with JSDocs).
+[For more info](https://jsdoc.app/)
+
 ## Learn More
 
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).

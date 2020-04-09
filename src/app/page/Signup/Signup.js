@@ -6,6 +6,11 @@ import Input from "../../component/Input";
 import Button from "../../component/Button";
 import { FormWrapper, HeaderText, DescriptionText, PaddedDiv } from "./Signup.style";
 
+/**
+ * Component for signing up users
+ *
+ * @component
+ */
 const SignupPage = () => {
   const handleLoginCTAClick = (e) => {
     e.preventDefault();

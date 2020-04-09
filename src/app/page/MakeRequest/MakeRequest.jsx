@@ -10,6 +10,11 @@ import { useSelector } from "react-redux";
 import { getFirebase, withFirestore } from "react-redux-firebase";
 import { v4 as uuidv4 } from "uuid";
 
+/**
+ * Component for showing request form in new request
+ *
+ * @component
+ */
 function MakeRequest({ history, firestore }) {
   const firebase = getFirebase();
   const [loading, setLoading] = useState(false);
@@ -78,7 +83,13 @@ function MakeRequest({ history, firestore }) {
 }
 
 MakeRequest.propTypes = {
+  /**
+   * Navigation history provided by React Router
+   */
   history: PropTypes.object.isRequired,
+  /**
+   * Firebase store
+   */
   firestore: PropTypes.object.isRequired,
 };
 
