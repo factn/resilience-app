@@ -7,7 +7,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import logo from "../../../img/Google__G__Logo.png";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   logoContainer: {
     height: "48px",
     width: "48px",
