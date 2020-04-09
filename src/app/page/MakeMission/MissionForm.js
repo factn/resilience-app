@@ -25,6 +25,20 @@ const StyledHeader = styled(Typography)`
 
 function MissionForm({ handleChange, values, onSubmit, getFile, assignHelper, autoAssigned }) {
   const classes = useStyles();
+  const [dropOff, setDropOff] = React.useState({ time: new Date(), date: new Date() });
+  const [pickUp, setPickUp] = React.useState({
+    time: new Date(),
+    date: new Date(),
+  });
+  const handleSubmit = () => {
+    const valuesWithDates = {
+      ...values,
+      pickUp,
+      dropOff,
+    };
+    console.dir(values);
+    onSubmit();
+  };
   return (
     <Page template="pink">
       <Container classes={{ root: classes.root }}>
@@ -104,8 +118,8 @@ function MissionForm({ handleChange, values, onSubmit, getFile, assignHelper, au
             id="date-picker-dialog"
             label="Select Date"
             format="MM/dd/yyyy"
-            value={values.pickUpDate}
-            onChange={handleChange}
+            value={pickUp.date}
+            onChange={(date) => setPickUp({ ...pickUp, date })}
             KeyboardButtonProps={{
               "aria-label": "change date",
             }}
@@ -114,8 +128,8 @@ function MissionForm({ handleChange, values, onSubmit, getFile, assignHelper, au
             margin="normal"
             id="time-picker"
             label="Pickup time"
-            value={values.pickUpTime}
-            onChange={handleChange}
+            value={pickUp.time}
+            onChange={(time) => setPickUp({ ...pickUp, time })}
             KeyboardButtonProps={{
               "aria-label": "change time",
             }}
@@ -136,8 +150,8 @@ function MissionForm({ handleChange, values, onSubmit, getFile, assignHelper, au
             id="date-picker-dialog"
             label="Select Date"
             format="MM/dd/yyyy"
-            value={values.dropOffDate}
-            onChange={handleChange}
+            value={dropOff.date}
+            onChange={(date) => setDropOff({ ...dropOff, date })}
             KeyboardButtonProps={{
               "aria-label": "change date",
             }}
@@ -146,15 +160,15 @@ function MissionForm({ handleChange, values, onSubmit, getFile, assignHelper, au
             margin="normal"
             id="time-picker"
             label="Drop-off time"
-            value={values.dropOffTime}
-            onChange={handleChange}
+            value={dropOff.time}
+            onChange={(time) => setDropOff({ ...dropOff, time })}
             KeyboardButtonProps={{
               "aria-label": "change time",
             }}
           />
         </MuiPickersUtilsProvider>
         <Button
-          onClick={onSubmit}
+          onClick={handleSubmit}
           secondary
           text="Create mission"
           style={{ width: "90%", marginBottom: "2.3vh" }}
