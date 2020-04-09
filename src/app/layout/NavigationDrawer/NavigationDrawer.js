@@ -52,86 +52,68 @@ export default function TemporaryDrawer() {
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <List>
-        <ListItem button>
-          <Link to="/missions">
+        <Link to="/missions" className={classes.link}>
+          <ListItem button>
             <ListItemIcon>
               <AssignmentIcon classes={{ root: classes.colorIcon }} fontSize="large" />
             </ListItemIcon>
-          </Link>
-          <Link to="/missions" className={classes.link}>
             <ListItemText primary="Volunteer needed" />
-          </Link>
-        </ListItem>
+          </ListItem>
+        </Link>
         <PrivateComponent>
-          <ListItem button>
-            <Link to="/missions/control">
+          <Link to="/missions/control">
+            <ListItem button>
               <ListItemIcon>
                 <Dashboard classes={{ root: classes.colorIcon }} fontSize="large" />
               </ListItemIcon>
-            </Link>
-            <Link to="/missions/control" className={classes.link}>
               <ListItemText primary="Missions Control" />
-            </Link>
-          </ListItem>
-          <ListItem button>
-            <Link to="/missions/new">
+            </ListItem>
+          </Link>
+          <Link to="/missions/new">
+            <ListItem button>
               <ListItemIcon>
                 <NewReleases classes={{ root: classes.colorIcon }} fontSize="large" />
               </ListItemIcon>
-            </Link>
-            <Link to="/missions/new" className={classes.link}>
               <ListItemText primary="Create Mission" />
-            </Link>
-          </ListItem>
-          <ListItem button>
-            <Link to="/user/profile">
+            </ListItem>
+          </Link>
+          <Link to="/user/profile" className={classes.link}>
+            <ListItem button>
               <ListItemIcon>
                 <AccountCircleIcon classes={{ root: classes.colorIcon }} fontSize="large" />
               </ListItemIcon>
-            </Link>
-            <Link to="/user/profile" className={classes.link}>
               <ListItemText primary="User Profile" />
-            </Link>
-          </ListItem>
-          <ListItem button>
-            <Link to="/missions/volunteered">
+            </ListItem>
+          </Link>
+          <Link to="/missions/volunteered" className={classes.link}>
+            <ListItem button>
               <ListItemIcon>
                 <AssignmentIcon classes={{ root: classes.colorIcon }} fontSize="large" />
               </ListItemIcon>
-            </Link>
-            <Link to="/missions/volunteered" className={classes.link}>
               <ListItemText primary="Volunteered Missions" />
-            </Link>
-          </ListItem>
-          <ListItem button>
-            <Link to="/missions/created">
+            </ListItem>
+          </Link>
+          <Link to="/missions/created" className={classes.link}>
+            <ListItem button>
               <ListItemIcon>
                 <PanTool classes={{ root: classes.colorIcon }} fontSize="large" />
               </ListItemIcon>
-            </Link>
-            <Link to="/missions/created" className={classes.link}>
               <ListItemText primary="My Requests" />
-            </Link>
-          </ListItem>
-          <ListItem button>
-            <Link to="/status">
+            </ListItem>
+          </Link>
+          <Link to="/status" className={classes.link}>
+            <ListItem button>
               <ListItemIcon>
                 <EmojiPeopleIcon classes={{ root: classes.colorIcon }} fontSize="large" />
               </ListItemIcon>
-            </Link>
-            <Link to="/status" className={classes.link}>
               <ListItemText primary="My Status" />
-            </Link>
-          </ListItem>
-          <ListItem button>
-            <Link onClick={handleSignOut}>
-              <ListItemIcon>
-                <ExitToApp classes={{ root: classes.colorIcon }} fontSize="large" />
-              </ListItemIcon>
-            </Link>
-            <Link onClick={handleSignOut}>
-              <ListItemText primary="Signout" />
-            </Link>
+            </ListItem>
+          </Link>
+          <ListItem button onClick={handleSignOut}>
+            <ListItemIcon>
+              <ExitToApp classes={{ root: classes.colorIcon }} fontSize="large" />
+            </ListItemIcon>
+            <ListItemText primary="Signout" />
           </ListItem>
         </PrivateComponent>
       </List>
