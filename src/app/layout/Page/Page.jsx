@@ -25,9 +25,8 @@ const useStyles = makeStyles(() => ({
  * @param {number} maxWidth - The maximum width of the page.
  * @param {object} rest - Rest of the properties passed to the page..
  */
-const Page = ({ appbar, children, title, maxWidth, ...rest }) => {
+const Page = ({ appbar, children, title, maxWidth }) => {
   const classes = useStyles();
-  console.log("page");
   return (
     <Container maxWidth={maxWidth ? maxWidth : "sm"} className={classes.root}>
       <Grid container className={classes.root}>

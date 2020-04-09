@@ -85,7 +85,7 @@ const MissionDetailsPage = ({
           {cords != undefined ? (
             <MapView values={cords} />
           ) : (
-            <Typography variant="p">map: no valid location.</Typography>
+            <Typography>map: no valid location.</Typography>
           )}
         </MapViewContainer>
       </Card>
