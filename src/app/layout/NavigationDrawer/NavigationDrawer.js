@@ -11,6 +11,7 @@ import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import AssignmentIcon from "@material-ui/icons/Assignment";
 import ExitToApp from "@material-ui/icons/ExitToApp";
 import EmojiPeopleIcon from "@material-ui/icons/EmojiPeople";
+import PanTool from "@material-ui/icons/PanTool";
 import { Link, useHistory } from "react-router-dom";
 import { useFirebase } from "react-redux-firebase";
 
@@ -72,6 +73,14 @@ export default function TemporaryDrawer() {
                 <AssignmentIcon classes={{ root: classes.colorIcon }} fontSize="large" />
               </ListItemIcon>
               <ListItemText primary="Volunteered Missions" />
+            </ListItem>
+          </Link>
+          <Link to="/missions/new" className={classes.link}>
+            <ListItem button>
+              <ListItemIcon>
+                <PanTool classes={{ root: classes.colorIcon }} fontSize="large" />
+              </ListItemIcon>
+              <ListItemText primary="Create Mission" />
             </ListItem>
           </Link>
           <Link to="/missions/created" className={classes.link}>
