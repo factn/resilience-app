@@ -16,3 +16,10 @@ export const colors = {
     color: "rgba(0, 0, 0, 0.2)",
   },
 };
+
+export const missionStatusLabel = {
+  todo: 'need volunteers',
+  doing: 'in progress',
+  done: 'done',
+  finished: 'finished',
+};
