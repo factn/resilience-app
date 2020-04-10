@@ -4,13 +4,12 @@ import { Button } from "../../component";
 import { Typography, Grid, Box } from "@material-ui/core";
 import { Card } from "../../layout";
 
-import profileImg from "../../../img/fb-profile.jpg";
-import { ReactComponent as MapMarkerImg } from "../../../img/map-marker-alt.svg";
 // Created based on the schema in firebase
 import styled from "styled-components";
 
 import MapView from "../../component/MapView";
 import UserPhoneUnverifiedPopup from "../../component/UserPhoneUnverifiedPopup";
+import { missionStatusLabel } from '../../../constants';
 
 export const StyledHr = styled.hr`
   border: 1px dashed #de3254;
