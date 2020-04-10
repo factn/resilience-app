@@ -4,6 +4,7 @@ import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { Page, Card } from "../../layout";
 import { Button } from "../../component";
+import ErrorSnackbar from "../../component/Snackbars/ErrorSnackbar";
 import { Grid } from "@material-ui/core";
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -115,65 +116,18 @@ const UserProfile = ({ history }) => {
     return data.providerId === "phone";
   });
 
+  // === Error Messages ==== //
+  const [notSupportedError, setNotSupportedError] = useState(false);
+
   // === Error handler ===
   // We use this in case the linking went wrong, possibly handle the..
   // error, for example, to merge data
 
   async function errorHandler(error) {
-    debugger;
-    // we need to merge data with this error
     if (["auth/credential-already-in-use", "auth/email-already-in-use"].indexOf(error.code) > -1) {
-      var prevUser = auth.currentUser;
-      var prevUserDoc = await firestore.collection("users").doc(prevUser.uid).get();
-      const prevUserData = prevUserDoc.data();
-      // handle the merging data for missions
-      var [previousCreateMissions, previousVolunteerMissions] = await Promise.all([
-        firestore.collection("missions").where("ownerId", "==", prevUser.uid).get(),
-        firestore.collection("missions").where("volunteerId", "==", prevUser.uid).get(),
-      ]);
-
-      var currentUserData;
-      var currentUser;
-
-      try {
-        const result = await auth.signInWithCredential(error.credential);
-        currentUser = result.user;
-        const currentUserDoc = await firestore.collection("users").doc(currentUser.uid).get();
-        currentUserData = currentUserDoc.data();
-
-        // have to remove previous user, otherwise we can not link
-        prevUser.delete();
-        prevUser.linkWithCredential(error.credential);
-        await auth.signInWithCredential(error.credential);
-        // handle the merging data for users database
-        const mergeData = _.mergeWith(prevUserData, currentUserData, (preVal, curVal) => {
-          if (_.isArray(preVal)) {
-            return preVal.concat(curVal);
-          }
-          return preVal ? preVal : curVal;
-        });
-
-        firestore.collection("users").doc(currentUser.uid).set(mergeData);
-
-        // making sure missions data are consitency
-        previousCreateMissions.forEach((doc) => {
-          firestore.collection("missions").doc(doc.id).update({ ownerId: currentUser.uid });
-        });
-        previousVolunteerMissions.forEach((doc) => {
-          firestore.collection("missions").doc(doc.id).update({ volunteerId: currentUser.uid });
-        });
-      } catch (e) {
-        previousCreateMissions.forEach((doc) => {
-          firestore.collection("missions").doc(doc.id).update({ ownerId: prevUser.uid });
-        });
-        previousVolunteerMissions.forEach((doc) => {
-          firestore.collection("missions").doc(doc.id).update({ volunteerId: prevUser.uid });
-        });
-        firestore.collection("users").doc(prevUser.uid).set(prevUserData);
-        firestore.collection("users").doc(currentUser.uid).set(currentUserData);
-      } finally {
-        return;
-      }
+      // check for './utils.js' if you want to work on the merge problem
+      setNotSupportedError(true);
+      return;
     }
     throw error;
   }
@@ -184,6 +138,14 @@ const UserProfile = ({ history }) => {
   //<UserStatus status={status} setStatus={setStatus} />
   return (
     <Page template="white" title="Profile" spacing={3} isLoading={isLoading}>
+      <ErrorSnackbar
+        open={notSupportedError}
+        errorMessage="We do not support linking with an already existed account. You can sigin to the other account if needed."
+        handleClose={() => {
+          setNotSupportedError(false);
+        }}
+        autoHideDuration={8000}
+      />
       <Card>
         <UserOverview profile={profile} view={view} setProfile={setProfile} />
       </Card>
