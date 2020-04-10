@@ -44,11 +44,6 @@ const MissionDetailsPage = ({ firestore, auth, mission, history }) => {
     }
   }
 
-  let requester = {
-    name: "Audrey",
-    address: "123 Example st, San Fransisco, 92501",
-  };
-
   // functionality for the map look up
   const [cords, setCords] = useState();
 
@@ -65,7 +60,6 @@ const MissionDetailsPage = ({ firestore, auth, mission, history }) => {
     <Page key="mission-detail" isLoaded={isLoaded(mission)} isEmpty={isEmpty(mission)}>
       <MissionDetailsView
         mission={mission}
-        requester={requester}
         volunteerForMission={volunteerForMission}
         userUnverifiedPopupOpen={userUnverifiedPopupOpen}
         setUserUnverifiedPopupOpen={setUserUnverifiedPopupOpen}
