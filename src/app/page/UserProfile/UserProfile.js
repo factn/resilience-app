@@ -143,8 +143,8 @@ const UserProfile = ({ history }) => {
 
         // have to remove previous user, otherwise we can not link
         prevUser.delete();
-        const linkResult = prevUser.linkWithCredential(error.credential);
-        const signInResult = await auth.signInWithCredential(error.credential);
+        prevUser.linkWithCredential(error.credential);
+        await auth.signInWithCredential(error.credential);
         // handle the merging data for users database
         const mergeData = _.mergeWith(prevUserData, currentUserData, (preVal, curVal) => {
           if (_.isArray(preVal)) {
@@ -163,23 +163,13 @@ const UserProfile = ({ history }) => {
           firestore.collection("missions").doc(doc.id).update({ volunteerId: currentUser.uid });
         });
       } catch (e) {
-        console.log(e);
-        // rollback changes
-        console.log("===error===");
-        console.log(prevUser);
-        console.log(prevUserData);
-        console.log(currentUserData);
-        console.log("===previous created mission===");
         previousCreateMissions.forEach((doc) => {
           firestore.collection("missions").doc(doc.id).update({ ownerId: prevUser.uid });
         });
-        console.log("===previous volunteer mission===");
         previousVolunteerMissions.forEach((doc) => {
           firestore.collection("missions").doc(doc.id).update({ volunteerId: prevUser.uid });
         });
-        console.log("===previous user===");
         firestore.collection("users").doc(prevUser.uid).set(prevUserData);
-        console.log("===current user===");
         firestore.collection("users").doc(currentUser.uid).set(currentUserData);
       } finally {
         return;
