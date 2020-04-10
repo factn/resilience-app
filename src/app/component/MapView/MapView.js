@@ -4,11 +4,6 @@ import PropTypes from "prop-types";
 import { Map, TileLayer, Marker, Popup } from "react-leaflet";
 import { MapStyle } from "./MapView.style";
 
-/**
- * Component for displaying map view
- *
- * @component
- */
 function MapView(props) {
   const [state, setState] = React.useState({
     lat: props.values.lat,

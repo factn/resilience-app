@@ -2,11 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Grid, TextField, Button } from "@material-ui/core";
 
-/**
- * Component for logging in with phone
- *
- * @component
- */
 function PhoneLoginForm(props) {
   const { handlePhoneLogin, handlePhoneNumberChange } = props;
   return (

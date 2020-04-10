@@ -2,11 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Dialog, Button, DialogContent, DialogTitle, DialogActions } from "@material-ui/core";
 
-/**
- * Component for displaying alert popups
- *
- * @component
- */
+
 export default function Popup(props) {
   const { title, children, open, handleClose, btnText } = props;
 
