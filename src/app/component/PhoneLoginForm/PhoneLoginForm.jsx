@@ -1,6 +1,13 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { Grid, TextField, Button } from "@material-ui/core";
-export default function PhoneLoginForm(props) {
+
+/**
+ * Component for logging in with phone
+ *
+ * @component
+ */
+function PhoneLoginForm(props) {
   const { handlePhoneLogin, handlePhoneNumberChange } = props;
   return (
     <Grid container spacing={1} direction="column">
@@ -23,3 +30,10 @@ export default function PhoneLoginForm(props) {
     </Grid>
   );
 }
+
+PhoneLoginForm.propTypes = {
+  handlePhoneLogin: PropTypes.func.isRequired,
+  handlePhoneNumberChange: PropTypes.func.isRequired,
+};
+
+export default PhoneLoginForm
