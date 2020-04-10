@@ -1,5 +1,5 @@
 import React from "react";
-import { firestoreConnect } from "react-redux-firebase";
+import { firestoreConnect, isLoaded, isEmpty } from "react-redux-firebase";
 import { useSelector, connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 
@@ -22,31 +22,27 @@ const MissionsPage = ({ auth, history, firebase, ...rest }) => {
   const missions = useSelector((state) => state.firestore.ordered.missionsCreated);
 
   return (
-    <Page template="pink">
+    <Page template="pink" isLoaded={isLoaded(missions)} isEmpty={isEmpty(missions)}>
       <StyledHeader variant="h1"> My Requests</StyledHeader>
 
-      {missions ? (
-        missions.map((mission) => (
-          <Card key={mission.id}>
-            <MissionCard mission={mission} key={`preview-${mission.id}`} />
+      {missions.map((mission) => (
+        <Card key={mission.id}>
+          <MissionCard mission={mission} key={`preview-${mission.id}`} />
 
-            <Grid container justify="center" alignItems="center">
-              <StyledButton
-                variant="outlined"
-                size="large"
-                color="secondary"
-                onClick={() => {
-                  history.push(`/missions/${mission.id}`);
-                }}
-              >
-                Details
-              </StyledButton>
-            </Grid>
-          </Card>
-        ))
-      ) : (
-        <CircularProgress />
-      )}
+          <Grid container justify="center" alignItems="center">
+            <StyledButton
+              variant="outlined"
+              size="large"
+              color="secondary"
+              onClick={() => {
+                history.push(`/missions/${mission.id}`);
+              }}
+            >
+              Details
+            </StyledButton>
+          </Grid>
+        </Card>
+      ))}
     </Page>
   );
 };

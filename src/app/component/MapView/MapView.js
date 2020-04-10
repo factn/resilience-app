@@ -4,7 +4,6 @@ import { MapStyle } from "./MapView.style";
 // import Routing from './MapView-routing'
 
 function MapView(props) {
-  console.log(props)
   const [state, setState] = React.useState({
     lat: props.values.lat,
     lng: props.values.long,
