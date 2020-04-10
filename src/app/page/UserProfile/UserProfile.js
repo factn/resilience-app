@@ -30,15 +30,18 @@ const useStyles = makeStyles((theme) => ({
 
 const ProfileControlButtons = ({ isEdit, saveAction, cancelAction, editAction }) => {
   return isEdit ? (
-    <>
-      <Button size="large" onClick={saveAction}>
-        Save
-      </Button>
-
-      <Button size="large" onClick={cancelAction}>
-        Cancel
-      </Button>
-    </>
+    <Grid spacing={2} justify="center" container>
+      <Grid item>
+        <Button size="large" onClick={saveAction}>
+          Save
+        </Button>
+      </Grid>
+      <Grid item>
+        <Button size="large" onClick={cancelAction}>
+          Cancel
+        </Button>
+      </Grid>
+    </Grid>
   ) : (
     <Button size="large" onClick={editAction}>
       Edit Profile
