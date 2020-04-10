@@ -20,7 +20,7 @@ function MapView(props) {
     <Map center={position} zoom={state.zoom} style={MapStyle} data-testid="map">
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
       <Marker position={position}>
-        <Popup>Start from hereHOAGIES</Popup>
+        <Popup>Start from here</Popup>
       </Marker>
     </Map>
   );

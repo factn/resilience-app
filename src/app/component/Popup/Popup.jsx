@@ -30,7 +30,7 @@ export default function Popup(props) {
 
 Popup.propTypes = {
   btnText: PropTypes.string,
-  children: PropTypes.any,
+  children: PropTypes.element,
   handleClose: PropTypes.func.isRequired,
   open: PropTypes.bool,
   title: PropTypes.string,

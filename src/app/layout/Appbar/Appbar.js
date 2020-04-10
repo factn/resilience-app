@@ -27,6 +27,6 @@ const Appbar = ({ children }) => {
 };
 
 Appbar.propTypes = {
-  children: PropTypes.any,
+  children: PropTypes.element,
 };
 export default Appbar;

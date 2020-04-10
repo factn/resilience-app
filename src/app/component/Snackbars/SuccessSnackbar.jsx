@@ -25,7 +25,7 @@ export default function SuccessSnackbar(props) {
 
 SuccessSnackbar.propTypes = {
   autoHideDuration: PropTypes.bool,
-  children: PropTypes.any,
+  children: PropTypes.element,
   handleClose: PropTypes.func.isRequired,
   open: PropTypes.bool,
   errorMessage: PropTypes.string,
