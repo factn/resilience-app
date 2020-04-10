@@ -8,6 +8,11 @@ import {
   StyledTextarea,
 } from "./Input.style";
 
+/**
+ * A styled wrapper for handling different input types
+ *
+ * @component
+ */
 const Input = ({ inputType, dataId, inputName, label, onChange }) => {
   switch (inputType) {
     case "textarea":
@@ -48,6 +53,7 @@ Input.propTypes = {
   dataId: PropTypes.string,
   inputName: PropTypes.string,
   label: PropTypes.string,
+  onChange: PropTypes.func.isRequired,
 };
 
 Input.defaultProps = {
