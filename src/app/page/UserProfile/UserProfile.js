@@ -120,16 +120,17 @@ const UserProfile = ({ history }) => {
   // error, for example, to merge data
 
   async function errorHandler(error) {
+    debugger;
     // we need to merge data with this error
     if (["auth/credential-already-in-use", "auth/email-already-in-use"].indexOf(error.code) > -1) {
       var prevUser = auth.currentUser;
       var prevUserDoc = await firestore.collection("users").doc(prevUser.uid).get();
       const prevUserData = prevUserDoc.data();
       // handle the merging data for missions
-      var [previousCreateMissions, previousVolunteerMissions] = Promise.all(
+      var [previousCreateMissions, previousVolunteerMissions] = await Promise.all([
         firestore.collection("missions").where("ownerId", "==", prevUser.uid).get(),
-        firestore.collection("missions").where("volunteerId", "==", prevUser.uid).get()
-      );
+        firestore.collection("missions").where("volunteerId", "==", prevUser.uid).get(),
+      ]);
 
       var currentUserData;
       var currentUser;
@@ -142,12 +143,8 @@ const UserProfile = ({ history }) => {
 
         // have to remove previous user, otherwise we can not link
         prevUser.delete();
-        console.log("start link");
         const linkResult = prevUser.linkWithCredential(error.credential);
-        console.log("done link, start login");
-        const signInResult = await auth.signInWithCredential(linkResult.credential);
-        console.log("we sign in success, now start to merge data");
-
+        const signInResult = await auth.signInWithCredential(error.credential);
         // handle the merging data for users database
         const mergeData = _.mergeWith(prevUserData, currentUserData, (preVal, curVal) => {
           if (_.isArray(preVal)) {
@@ -156,7 +153,7 @@ const UserProfile = ({ history }) => {
           return preVal ? preVal : curVal;
         });
 
-        firestore.collection("users").doc(signInResult.user.id).set(mergeData);
+        firestore.collection("users").doc(currentUser.uid).set(mergeData);
 
         // making sure missions data are consitency
         previousCreateMissions.forEach((doc) => {
@@ -165,8 +162,6 @@ const UserProfile = ({ history }) => {
         previousVolunteerMissions.forEach((doc) => {
           firestore.collection("missions").doc(doc.id).update({ volunteerId: currentUser.uid });
         });
-        return;
-        // remove previous user
       } catch (e) {
         console.log(e);
         // rollback changes
@@ -186,6 +181,8 @@ const UserProfile = ({ history }) => {
         firestore.collection("users").doc(prevUser.uid).set(prevUserData);
         console.log("===current user===");
         firestore.collection("users").doc(currentUser.uid).set(currentUserData);
+      } finally {
+        return;
       }
     }
     throw error;
