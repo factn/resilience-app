@@ -19,7 +19,7 @@ import OrganizerSignupPage from "./app/page/OrganizerSignup";
 import Status from "./app/page/Status";
 
 import MakeRequest from "./app/page/MakeRequest";
-import { Missions, MissionsCreated, MissionsVolunteered } from "./app/page";
+import { Missions, MissionsCreated, MissionsVolunteered, MakeMission } from "./app/page";
 
 import { MissionsControl } from "./app/page";
 
@@ -69,6 +69,9 @@ function App() {
                 <PrivateRoute path="/request/create">
                   <MakeRequest />
                 </PrivateRoute>
+                <Route path="/missions/create">
+                  <MakeMission />
+                </Route>
                 <Route path="/missions/control">
                   <MissionsControl />
                 </Route>
