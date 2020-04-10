@@ -14,44 +14,58 @@ const useStyles = makeStyles((theme) => ({
 
 function LinkPhoneAccount({ firebase, auth, data, errorHandler }) {
   const currentUserPhoneNumber = data?.phoneNumber || "";
-  const [phoneNumber, updatePhoneNumber] = useState(currentUserPhoneNumber);
+  const [phoneNumber, setPhoneNumber] = useState(currentUserPhoneNumber);
   const [successSnackbarOpen, setSuccessSnackbarOpen] = useState(false);
   const classes = useStyles();
 
+  function clearRecapcha() {
+    if (window.recaptchaVerifier) {
+      window.recaptchaVerifier.clear();
+    }
+  }
   async function onPhoneClick() {
-    const successCallback = (verifier) => {
-      verifier.clear();
+    const successCallback = () => {
+      clearRecapcha();
       setSuccessSnackbarOpen(true);
       window.location.reload(false);
     };
     const verificationPrompt =
       "Please enter the verification code that was sent to your mobile device.";
     try {
-      const verifier = new firebase.auth.RecaptchaVerifier("phone-number-link", {
-        size: "invisible",
-      });
+      if (!window.recaptchaVerifier) {
+        window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier("phone-number-link", {
+          size: "invisible",
+        });
+      }
 
       auth.useDeviceLanguage();
       if (!currentUserPhoneNumber) {
         const confirmationResult = await auth.currentUser.linkWithPhoneNumber(
           phoneNumber,
-          verifier
+          window.recaptchaVerifier
         );
         const verificationCode = window.prompt(verificationPrompt);
         await confirmationResult.confirm(verificationCode);
-        successCallback(verifier);
+        successCallback();
       } else {
         const provider = new firebase.auth.PhoneAuthProvider();
-        const verificationId = await provider.verifyPhoneNumber(phoneNumber, verifier);
+        const verificationId = await provider.verifyPhoneNumber(
+          phoneNumber,
+          window.recaptchaVerifier
+        );
         const verificationCode = window.prompt(verificationPrompt);
         const phoneCredential = firebase.auth.PhoneAuthProvider.credential(
           verificationId,
           verificationCode
         );
         await auth.currentUser.updatePhoneNumber(phoneCredential);
-        successCallback(verifier);
+        successCallback();
       }
     } catch (error) {
+      if (error.code === "auth/argument-error" && error.message.includes("verificationCode")) {
+        setPhoneNumber(currentUserPhoneNumber);
+        return;
+      }
       errorHandler(error);
     }
   }
@@ -70,7 +84,7 @@ function LinkPhoneAccount({ firebase, auth, data, errorHandler }) {
                 id="phone-number"
                 value={phoneNumber}
                 helperText="+1 7777777777"
-                onChange={(e) => updatePhoneNumber(e.target.value)}
+                onChange={(e) => setPhoneNumber(e.target.value)}
               />
             </Grid>
           </Grid>
