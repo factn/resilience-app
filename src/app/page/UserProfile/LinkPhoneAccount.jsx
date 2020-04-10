@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
 
 function LinkPhoneAccount({ firebase, auth, data, errorHandler }) {
   const currentUserPhoneNumber = data?.phoneNumber || "";
-  const [phoneNumber, updatePhoneNumber] = useState(currentUserPhoneNumber);
+  const [phoneNumber, setPhoneNumber] = useState(currentUserPhoneNumber);
   const [successSnackbarOpen, setSuccessSnackbarOpen] = useState(false);
   const classes = useStyles();
 
@@ -33,7 +33,6 @@ function LinkPhoneAccount({ firebase, auth, data, errorHandler }) {
       "Please enter the verification code that was sent to your mobile device.";
     try {
       if (!window.recaptchaVerifier) {
-        console.log("do i get here");
         window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier("phone-number-link", {
           size: "invisible",
         });
@@ -63,6 +62,10 @@ function LinkPhoneAccount({ firebase, auth, data, errorHandler }) {
         successCallback();
       }
     } catch (error) {
+      if (error.code === "auth/argument-error" && error.message.includes("verificationCode")) {
+        setPhoneNumber(currentUserPhoneNumber);
+        return;
+      }
       errorHandler(error);
     }
   }
@@ -81,7 +84,7 @@ function LinkPhoneAccount({ firebase, auth, data, errorHandler }) {
                 id="phone-number"
                 value={phoneNumber}
                 helperText="+1 7777777777"
-                onChange={(e) => updatePhoneNumber(e.target.value)}
+                onChange={(e) => setPhoneNumber(e.target.value)}
               />
             </Grid>
           </Grid>
