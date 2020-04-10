@@ -5,7 +5,7 @@ import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import Appbar from "./Appbar";
 import Drawer from "./Drawer";
-import MissionCard from "./MissionCard";
+import { MissionCard } from "../../component";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -60,7 +60,7 @@ export default function MiniDrawer({
             <Paper elevation={3} variant="outlined" className={classes.preview}>
               <Typography variant="h3">Missions not started</Typography>
               {missionsNotStarted?.map((mission) => (
-                <MissionCard mission={mission} key={`preview-${mission.id}`} />
+                <MissionCard key={`preview-${mission.id}`} mission={mission} missionControl />
               ))}
             </Paper>
           </Grid>
@@ -68,7 +68,7 @@ export default function MiniDrawer({
             <Paper elevation={3} variant="outlined" className={classes.preview}>
               <Typography variant="h3">Missions queued</Typography>
               {missionsQueued?.map((mission) => (
-                <MissionCard mission={mission} key={`preview-${mission.id}`} />
+                <MissionCard  key={`preview-${mission.id}`} mission={mission} missionControl />
               ))}
             </Paper>
           </Grid>
@@ -76,7 +76,7 @@ export default function MiniDrawer({
             <Paper elevation={3} variant="outlined" className={classes.preview}>
               <Typography variant="h3">Missions In Progress</Typography>
               {missionsInProgress?.map((mission) => (
-                <MissionCard mission={mission} key={`preview-${mission.id}`} />
+                <MissionCard  key={`preview-${mission.id}`} mission={mission} missionControl />
               ))}
             </Paper>
           </Grid>
@@ -84,7 +84,7 @@ export default function MiniDrawer({
             <Paper elevation={3} variant="outlined" className={classes.preview}>
               <Typography variant="h3">Missions Pending</Typography>
               {missionsPending?.map((mission) => (
-                <MissionCard mission={mission} key={`preview-${mission.id}`} />
+                <MissionCard  key={`preview-${mission.id}`} mission={mission} missionControl />
               ))}
             </Paper>
           </Grid>
@@ -92,7 +92,7 @@ export default function MiniDrawer({
             <Paper elevation={3} variant="outlined" className={classes.preview}>
               <Typography variant="h3">Missions Finished</Typography>
               {missionsFinished?.map((mission) => (
-                <MissionCard mission={mission} key={`preview-${mission.id}`} />
+                <MissionCard key={`preview-${mission.id}`} mission={mission} missionControl />
               ))}
             </Paper>
           </Grid>
