@@ -45,7 +45,7 @@ const MissionsPage = ({ user, history, ...rest }) => {
   }
 
   return (
-    <Page template="pink">
+    <Page>
       <StyledHeader variant="h1"> Missions </StyledHeader>
       {missions ? (
         missions.map((mission) => (

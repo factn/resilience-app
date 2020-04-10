@@ -1,3 +1,3 @@
-import MissionDetails from "./MissionDetails";
+import MissionDetails from "./MissionDetailsContainer";
 
 export default MissionDetails;
