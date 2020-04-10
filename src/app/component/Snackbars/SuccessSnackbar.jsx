@@ -7,11 +7,7 @@ function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-/**
- * Component for displaying success alerts
- *
- * @component
- */
+
 export default function SuccessSnackbar(props) {
   const { open, handleClose, successMessage, autoHideDuration } = props;
   return (
