@@ -1,7 +1,7 @@
 import Home from "./Home";
 import Login from "./Login";
 import MakeRequest from "./MakeRequest";
-
+import MakeMission from "./MakeMission";
 import Missions from "./Missions";
 import MissionsControl from "./MissionsControl";
 import MissionsCreated from "./MissionsCreated";
@@ -22,4 +22,5 @@ export {
   MissionsControl,
   MissionDetails,
   UserProfile,
+  MakeMission,
 };
