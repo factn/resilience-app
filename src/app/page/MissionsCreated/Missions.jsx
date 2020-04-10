@@ -25,7 +25,7 @@ const MissionsPage = ({ auth, history, firebase, ...rest }) => {
     <Page template="pink" isLoaded={isLoaded(missions)} isEmpty={isEmpty(missions)}>
       <StyledHeader variant="h1"> My Requests</StyledHeader>
 
-      {missions.map((mission) => (
+      {missions?.map((mission) => (
         <Card key={mission.id}>
           <MissionCard mission={mission} key={`preview-${mission.id}`} />
 

@@ -126,14 +126,10 @@ const UserProfile = ({ history }) => {
       var prevUserDoc = await firestore.collection("users").doc(prevUser.uid).get();
       const prevUserData = prevUserDoc.data();
       // handle the merging data for missions
-      var previousCreateMissions = await firestore
-        .collection("missions")
-        .where("ownerId", "==", prevUser.uid)
-        .get();
-      var previousVolunteerMissions = await firestore
-        .collection("missions")
-        .where("volunteerId", "==", prevUser.uid)
-        .get();
+      var [previousCreateMissions, previousVolunteerMissions] = Promise.all(
+        firestore.collection("missions").where("ownerId", "==", prevUser.uid).get(),
+        firestore.collection("missions").where("volunteerId", "==", prevUser.uid).get()
+      );
 
       var currentUserData;
       var currentUser;
