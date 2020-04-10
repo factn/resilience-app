@@ -69,9 +69,9 @@ function App() {
                 <PrivateRoute path="/request/create">
                   <MakeRequest />
                 </PrivateRoute>
-                <Route path="/missions/create">
+                <PrivateRoute path="/missions/create">
                   <MakeMission />
-                </Route>
+                </PrivateRoute>
                 <Route path="/missions/control">
                   <MissionsControl />
                 </Route>
