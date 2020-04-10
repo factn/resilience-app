@@ -2,6 +2,12 @@ import React from "react";
 import { Typography, Grid } from "@material-ui/core";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 
+/**
+ * Component for displaying mission information on a card
+ * from the MissionControl page
+ *
+ * @component
+ */
 const MissionCard = ({ mission }) => {
   return (
     <Grid container spacing={1}>

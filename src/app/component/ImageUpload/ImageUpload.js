@@ -5,6 +5,11 @@ import ImagePreview from "./ImagePreview";
 import Button from "../Button";
 import { Container, StyledIcon, Actions } from "./ImageUpload.style";
 
+/**
+ * Component for uploading images
+ *
+ * @component
+ */
 export function ImageUpload({ styles, getFile = () => null, ...props }) {
   const fileUpload = useRef();
   const [file, setFile] = useState("");
