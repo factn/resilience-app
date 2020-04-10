@@ -1,7 +1,7 @@
 import React from "react";
 
 import { Button } from "../../component";
-import { Typography, Avatar, Grid, Box } from "@material-ui/core";
+import { Typography, Grid, Box } from "@material-ui/core";
 import { Card } from "../../layout";
 
 import profileImg from "../../../img/fb-profile.jpg";
@@ -37,7 +37,6 @@ export const StyledDiv = styled.div`
 
 const MissionDetailsPage = ({
   mission,
-  requester,
   volunteerForMission,
   userUnverifiedPopupOpen,
   setUserUnverifiedPopupOpen,
@@ -59,30 +58,16 @@ const MissionDetailsPage = ({
       <Card>
         <Typography variant="h2">{mission.description}</Typography>
         <Box my={2}>
-          <Typography variant="h4">status: {mission.status}</Typography>
+          <Typography variant="h4">status: {missionStatusLabel[mission.status]}</Typography>
         </Box>
         <Grid>
           <Button text="Volunteer" onClick={volunteerForMission} />
         </Grid>
         <StyledHr />
 
-        <Box my={2}>
-          <Grid container wrap="nowrap" spacing={3} direction="row" alignItems="center">
-            <Grid item>
-              <Avatar alt={`${requester.name} Avatar Image`} src={profileImg} />
-            </Grid>
-            <Grid item>
-              <Typography variant="h4">{requester.name}</Typography>
-            </Grid>
-          </Grid>
-        </Box>
-        <Box my={1}>
-          <MapMarkerImg />
-          <Typography variant="h6">{requester.address}</Typography>
-        </Box>
         <Typography variant="body1">{mission.details}</Typography>
         <MapViewContainer>
-          {cords != undefined ? (
+          {cords !== undefined ? (
             <MapView values={cords} />
           ) : (
             <Typography>map: no valid location.</Typography>
