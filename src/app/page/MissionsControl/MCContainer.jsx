@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { firestoreConnect } from "react-redux-firebase";
 import { useSelector, connect } from "react-redux";
 import { withRouter } from "react-router-dom";
@@ -8,7 +9,12 @@ import { compose } from "redux";
 
 import MissionsControlView from "./Missions";
 
-const MissionsPage = ({ user, history, firebase, ...rest }) => {
+/**
+ * Component for controlling missions status
+ *
+ * @component
+ */
+const MissionsPage = ({ user, history, ...rest }) => {
   const missions = useSelector((state) => state.firestore.ordered.missions);
   const users = useSelector((state) => state.firestore.ordered.users);
 
@@ -24,6 +30,17 @@ const MissionsPage = ({ user, history, firebase, ...rest }) => {
   );
 };
 
+MissionsPage.propTypes = {
+  /**
+   * User info
+   */
+  user: PropTypes.object,
+  /**
+   * Navigation history provided by React Router
+   */
+  history: PropTypes.object.isRequired,
+};
+
 const mapStateToProps = (state) => {
   return {
     user: state.firebase.auth,
@@ -35,5 +52,3 @@ export default compose(
     return [{ collection: "missions" }, { collection: "users" }];
   })
 )(withRouter(MissionsPage));
-
-//export default withFirestore(MissionsPage);

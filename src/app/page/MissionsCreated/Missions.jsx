@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { firestoreConnect, isLoaded, isEmpty } from "react-redux-firebase";
 import { useSelector, connect } from "react-redux";
 import { withRouter } from "react-router-dom";
@@ -18,7 +19,12 @@ const StyledButton = styled(Button)`
   flex-grow: 1;
 `;
 
-const MissionsPage = ({ auth, history, firebase, ...rest }) => {
+/**
+ * Component for listing created missions
+ *
+ * @component
+ */
+const MissionsPage = ({ auth, history, ...rest }) => {
   const missions = useSelector((state) => state.firestore.ordered.missionsCreated);
 
   return (
@@ -47,6 +53,19 @@ const MissionsPage = ({ auth, history, firebase, ...rest }) => {
   );
 };
 
+MissionsPage.propTypes = {
+  /**
+   * Auth token
+   */
+  auth: PropTypes.shape({
+    uid: PropTypes.string.isRequired,
+  }),
+  /**
+   * Navigation history provided by React Router
+   */
+  history: PropTypes.object.isRequired,
+};
+
 const mapStateToProps = (state) => {
   return {
     auth: state.firebase.auth,
@@ -65,5 +84,3 @@ export default compose(
     ];
   })
 )(withRouter(MissionsPage));
-
-//export default withFirestore(MissionsPage);

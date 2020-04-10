@@ -9,7 +9,7 @@ import styled from "styled-components";
 
 import MapView from "../../component/MapView";
 import UserPhoneUnverifiedPopup from "../../component/UserPhoneUnverifiedPopup";
-import { missionStatusLabel } from '../../../constants';
+import { missionStatusLabel } from "../../../constants";
 
 export const StyledHr = styled.hr`
   border: 1px dashed #de3254;

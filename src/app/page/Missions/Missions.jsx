@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 import { useFirestore, firestoreConnect } from "react-redux-firebase";
 import { useSelector, connect } from "react-redux";
 import { withRouter } from "react-router-dom";
@@ -25,7 +26,12 @@ const PlaceHolder = styled.div`
   width: 16px;
 `;
 
-const MissionsPage = ({ user, history, firebase, ...rest }) => {
+/**
+ * Component for listing missions
+ *
+ * @component
+ */
+const MissionsPage = ({ user, history, ...rest }) => {
   const missions = useSelector((state) => state.firestore.ordered.missionsTodo);
   const firestore = useFirestore();
   const [popupOpen, setPopupOpen] = useState(false);
@@ -76,6 +82,20 @@ const MissionsPage = ({ user, history, firebase, ...rest }) => {
       <UserPhoneUnverifiedPopup open={popupOpen} handleClose={() => setPopupOpen(false)} />
     </Page>
   );
+};
+
+MissionsPage.propTypes = {
+  /**
+   * User info
+   */
+  user: PropTypes.shape({
+    uid: PropTypes.string.isRequired,
+    phoneNumber: PropTypes.string,
+  }),
+  /**
+   * Navigation history provided by React Router
+   */
+  history: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => {
