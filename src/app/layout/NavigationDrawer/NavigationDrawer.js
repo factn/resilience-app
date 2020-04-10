@@ -23,10 +23,10 @@ export default function TemporaryDrawer() {
   const classes = useStyles();
 
   const [state, setState] = React.useState({
-    right: false
+    right: false,
   });
 
-  const toggleDrawer = (anchor, open) => event => {
+  const toggleDrawer = (anchor, open) => (event) => {
     if (event.type === "keydown" && (event.key === "Tab" || event.key === "Shift")) {
       return;
     }
@@ -39,10 +39,10 @@ export default function TemporaryDrawer() {
     history.push("/");
   };
 
-  const list = anchor => (
+  const list = (anchor) => (
     <div
       className={clsx(classes.list, {
-        [classes.fullList]: anchor === "top" || anchor === "bottom"
+        [classes.fullList]: anchor === "top" || anchor === "bottom",
       })}
       role="presentation"
       onClick={toggleDrawer(anchor, false)}
