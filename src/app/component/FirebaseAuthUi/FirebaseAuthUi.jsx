@@ -11,6 +11,11 @@ const firebaseUiConfig = {
   ],
 };
 
+/**
+ * Component for firebase auth
+ *
+ * @component
+ */
 export default function FirebaseAuthUi(props) {
   return <StyledFirebaseAuth uiConfig={firebaseUiConfig} firebaseAuth={firebase.auth()} />;
 }

@@ -89,7 +89,7 @@ MissionsPage.propTypes = {
    * User info
    */
   user: PropTypes.shape({
-    uid: PropTypes.string.isRequired,
+    uid: PropTypes.string,
     phoneNumber: PropTypes.string,
   }),
   /**

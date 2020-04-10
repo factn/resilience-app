@@ -19,6 +19,7 @@ export default async function addressLookUp(address) {
     response.body.features[0] === "undefined"
   ) {
     console.log("no lat/long could be found");
+    return // early return if not found
   }
   return {
     lat: response.body.features[0].center[1],

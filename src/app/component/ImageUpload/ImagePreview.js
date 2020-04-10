@@ -3,6 +3,11 @@ import PropTypes from "prop-types";
 import { ReactComponent as ClosePreviewIcon } from "../../../img/ClosePreview.svg";
 import { thumb, icon, img } from "./ImageUpload.style";
 
+/**
+ * Component for displaying image preview
+ *
+ * @component
+ */
 function ImagePreview({ file, preview, removeImage }) {
   return (
     <div data-testid="preview" style={thumb}>
