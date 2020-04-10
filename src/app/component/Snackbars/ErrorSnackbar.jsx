@@ -23,7 +23,7 @@ function ErrorSnackbar({ open, handleClose, errorMessage, autoHideDuration }) {
 }
 ErrorSnackbar.propTypes = {
   autoHideDuration: PropTypes.bool,
-  children: PropTypes.any,
+  children: PropTypes.element,
   handleClose: PropTypes.func.isRequired,
   open: PropTypes.bool,
   errorMessage: PropTypes.string,

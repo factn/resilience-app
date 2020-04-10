@@ -4,7 +4,7 @@ import LocationOnIcon from "@material-ui/icons/LocationOn";
 
 /**
  * Component for displaying mission information on a card
- * on MissionControl page
+ * from the MissionControl page
  *
  * @component
  */
