@@ -5,7 +5,7 @@ import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import Appbar from "./Appbar";
 import Drawer from "./Drawer";
-import MissionCard from "../../component/MissionCard";
+import MissionCard from "./MissionCard";
 
 const useStyles = makeStyles((theme) => ({
   root: {
