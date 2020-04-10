@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import { Redirect, useHistory } from "react-router-dom";
 import { Typography, CircularProgress } from "@material-ui/core";
@@ -8,6 +9,11 @@ import FirebaseAuthUi from "../../component/FirebaseAuthUi/FirebaseAuthUi";
 import Popup from "../../component/Popup";
 import { firstTimeSignIn } from "./firebaseLogin";
 
+/**
+ * Component for Login Page
+ *
+ * @component
+ */
 const LoginPage = (props) => {
   const history = useHistory();
   const auth = useSelector((state) => state.firebase.auth);
@@ -47,6 +53,13 @@ const LoginPage = (props) => {
     }
     return <Redirect to="/" />;
   }
+};
+
+LoginPage.propTypes = {
+  /**
+   * Location object provided by React Router
+   */
+  location: PropTypes.object.isRequired,
 };
 
 export default LoginPage;

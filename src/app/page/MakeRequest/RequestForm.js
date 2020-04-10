@@ -25,21 +25,21 @@ function RequestForm({ handleChange, values, onSubmit, getFile }) {
           label="Task Details"
         />
         <Header>Where do you need help?</Header>
-         <Input
+        <Input
           value={values.address || ""}
           inputType="text"
           inputName="address"
           onChange={handleChange}
           label="address"
         />
-         <Input
+        <Input
           value={values.city || ""}
           inputType="text"
           inputName="city"
           onChange={handleChange}
           label="City"
         />
-          <Input
+        <Input
           value={values.state || ""}
           inputType="text"
           inputName="state"

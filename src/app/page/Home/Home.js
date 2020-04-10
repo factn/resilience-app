@@ -72,6 +72,11 @@ const LoadingComponent = () => {
   );
 };
 
+/**
+ * Component for Home Page
+ *
+ * @component
+ */
 const HomePage = ({ history, ...rest }) => {
   const classes = useStyles();
   const isEmpty = useSelector((state) => state.firebase.auth.isEmpty);
@@ -143,6 +148,9 @@ const HomePage = ({ history, ...rest }) => {
 };
 
 HomePage.propTypes = {
+  /**
+   * Navigation history provided by React Router
+   */
   history: PropTypes.object.isRequired,
 };
 

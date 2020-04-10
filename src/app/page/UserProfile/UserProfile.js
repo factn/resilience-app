@@ -49,6 +49,11 @@ const ProfileControlButtons = ({ isEdit, saveAction, cancelAction, editAction })
   );
 };
 
+/**
+ * Component used for showing user profile
+ *
+ * @component
+ */
 const UserProfile = ({ history }) => {
   const classes = useStyles();
   const firebase = useFirebase();
@@ -234,6 +239,9 @@ const UserProfile = ({ history }) => {
 };
 
 UserProfile.propTypes = {
+  /**
+   * Navigation history provided by React Router
+   */
   history: PropTypes.object.isRequired,
 };
 

@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import PropTypes from "prop-types";
+import { useFirestore, firestoreConnect } from "react-redux-firebase";
+import { useSelector, connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { withFirestore } from "react-redux-firebase";
 // styles
@@ -26,10 +28,13 @@ const StyledButton = styled(Button)`
   width: 20vw;
 `;
 
-const ButtonHolder = styled.div`
+const ButtonHolder = styled.div``;
 
-`;
-
+/**
+ * Component for showing mission status
+ *
+ * @component
+ */
 const Status = ({ firestore }) => {
   // a happy little message
   const [thank, setThank] = useState(false);
@@ -67,40 +72,47 @@ const Status = ({ firestore }) => {
       </StyledHeader>
       <StyledCopy variant="h2"> I am... </StyledCopy>
       <ButtonHolder>
-      <StyledButton
-        color="primary"
-        size="large"
-        variant="contained"
-        onClick={(event) => handelStatusOnCall(event)}
-        disableElevation
-      >
-        On Call
-      </StyledButton>
-      <br />
-      <StyledButton
-        color="primary"
-        size="large"
-        variant="contained"
-        onClick={(event) => handelStatusAvail(event)}
-        disableElevation
-      >
-        Available
-      </StyledButton>
-      <br />
-      <StyledButton
-        color="primary"
-        size="large"
-        variant="contained"
-        onClick={(event) => handelStatusOff(event)}
-        disableElevation
-      >
-        Offline
-      </StyledButton>
-      <br />
+        <StyledButton
+          color="primary"
+          size="large"
+          variant="contained"
+          onClick={(event) => handelStatusOnCall(event)}
+          disableElevation
+        >
+          On Call
+        </StyledButton>
+        <br />
+        <StyledButton
+          color="primary"
+          size="large"
+          variant="contained"
+          onClick={(event) => handelStatusAvail(event)}
+          disableElevation
+        >
+          Available
+        </StyledButton>
+        <br />
+        <StyledButton
+          color="primary"
+          size="large"
+          variant="contained"
+          onClick={(event) => handelStatusOff(event)}
+          disableElevation
+        >
+          Offline
+        </StyledButton>
+        <br />
       </ButtonHolder>
       <StyledP>{thank}</StyledP>
     </Page>
   );
+};
+
+Status.propTypes = {
+  /**
+   * Firebase store
+   */
+  firestore: PropTypes.object.isRequired,
 };
 
 export default withRouter(withFirestore(Status));

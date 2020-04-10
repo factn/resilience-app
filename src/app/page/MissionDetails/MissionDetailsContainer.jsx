@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import PropTypes from "prop-types";
 import { compose } from "redux";
 
 import { firestoreConnect } from "react-redux-firebase";
@@ -33,6 +33,11 @@ export const StyledDiv = styled.div`
   max-width: 100%;
 `;
 
+/**
+ * Component for showing mission details
+ *
+ * @component
+ */
 const MissionDetailsPage = ({ firestore, auth, mission, history }) => {
   mission = mission || {};
   const [userUnverifiedPopupOpen, setUserUnverifiedPopupOpen] = useState(false);
@@ -69,6 +74,38 @@ const MissionDetailsPage = ({ firestore, auth, mission, history }) => {
     </Page>
   );
 };
+
+MissionDetailsPage.propTypes = {
+  /**
+   * Firebase store
+   */
+  firestore: PropTypes.object.isRequired,
+  /**
+   * Auth token
+   */
+  auth: PropTypes.shape({
+    phoneNumber: PropTypes.string,
+    uid: PropTypes.string.isRequired,
+  }),
+  /**
+   * Mission details
+   */
+  mission: PropTypes.shape({
+    status: PropTypes.string,
+    description: PropTypes.string,
+    url: PropTypes.string,
+    details: PropTypes.any,
+    address: PropTypes.string,
+    city: PropTypes.string,
+    state: PropTypes.string,
+    postalCode: PropTypes.string,
+  }),
+  /**
+   * Navigation history provided by React Router
+   */
+  history: PropTypes.object.isRequired,
+};
+
 const mapStateToProps = (state, ownProps) => {
   const missionId = ownProps.match.params.id;
   const mission = state.firestore.data.missions && state.firestore.data.missions[missionId];

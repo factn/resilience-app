@@ -2,7 +2,7 @@ import React from "react";
 import { Typography, Grid } from "@material-ui/core";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 
-import { missionStatusLabel } from '../../constants';
+import { missionStatusLabel } from "../../constants";
 
 const MissionCard = ({ mission }) => {
   return (
