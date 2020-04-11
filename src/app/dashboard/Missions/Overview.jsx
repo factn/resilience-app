@@ -1,13 +1,12 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
-import Card from "@material-ui/core/Card";
-import { Mission } from "../../model";
-import { H2, H3 } from "../../component";
+import Box from "@material-ui/core/Box";
+import { H2 } from "../../component";
 import { compose } from "redux";
 import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
+import MapView from "../../component/MapView";
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -17,6 +16,10 @@ const useStyles = makeStyles((theme) => ({
   preview: {
     padding: theme.spacing(2),
   },
+  map: {
+    width: "100%",
+    height: "500px",
+  },
 }));
 
 const Overview = ({ missions }) => {
@@ -25,7 +28,10 @@ const Overview = ({ missions }) => {
   return (
     <Grid container>
       <Grid container>
-        <H2>Overview</H2>
+        <Box display="flex" width="100%" height="100px">
+          <MapView values={{ lat: 37.773972, long: -122.431297 }} className={classes.map} />
+        </Box>
+        <H2>Key</H2>
       </Grid>
     </Grid>
   );
