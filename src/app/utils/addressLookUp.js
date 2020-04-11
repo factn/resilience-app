@@ -14,12 +14,12 @@ export default async function addressLookUp(address) {
     })
     .send();
   if (
-    response.body.features.length == 0 ||
+    response.body.features.length === 0 ||
     response.body.features[0] === undefined ||
     response.body.features[0] === "undefined"
   ) {
     console.log("no lat/long could be found");
-    return // early return if not found
+    return; // early return if not found
   }
   return {
     lat: response.body.features[0].center[1],

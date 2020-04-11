@@ -12,12 +12,14 @@ function MapView(props) {
   });
   const position = [state.lat, state.lng];
   return (
-    <Map center={position} zoom={state.zoom} style={MapStyle} data-testid="map">
-      <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-      <Marker position={position}>
-        <Popup>Start from here</Popup>
-      </Marker>
-    </Map>
+    <div data-testid="leaflet-mapview">
+      <Map center={position} zoom={state.zoom} style={MapStyle}>
+        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+        <Marker position={position}>
+          <Popup>Start from here</Popup>
+        </Marker>
+      </Map>
+    </div>
   );
 }
 
@@ -25,6 +27,6 @@ MapView.propTypes = {
   values: PropTypes.shape({
     lat: PropTypes.number,
     long: PropTypes.number,
-  })
+  }),
 };
 export default MapView;

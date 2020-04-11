@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 // If we decided to get merge to work once again
 async function errorHandler(error) {
   // we need to merge data with this error

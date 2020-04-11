@@ -1,12 +1,11 @@
 import React from "react";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
-
 
 function ErrorSnackbar({ open, handleClose, errorMessage, autoHideDuration }) {
   return (
@@ -18,7 +17,7 @@ function ErrorSnackbar({ open, handleClose, errorMessage, autoHideDuration }) {
   );
 }
 ErrorSnackbar.propTypes = {
-  autoHideDuration: PropTypes.bool,
+  autoHideDuration: PropTypes.number,
   children: PropTypes.element,
   handleClose: PropTypes.func.isRequired,
   open: PropTypes.bool,

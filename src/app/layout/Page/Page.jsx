@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { Typography, Grid } from "@material-ui/core";
 
 import Appbar from "../Appbar";
@@ -40,6 +41,10 @@ const Page = ({ appbar, children, title, maxWidth }) => {
       </Grid>
     </Container>
   );
+};
+
+Page.propTypes = {
+  children: PropTypes.node,
 };
 
 export default withLoading(Page);

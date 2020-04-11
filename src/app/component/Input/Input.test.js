@@ -1,6 +1,5 @@
 import React from "react";
-import { render, cleanup } from "@testing-library/react";
-import "jest-dom/extend-expect";
+import { render } from "@testing-library/react";
 import Input from "./Input";
 
 describe("Input Component", () => {
@@ -8,12 +7,12 @@ describe("Input Component", () => {
     return render(<Input {...props} />);
   }
 
-  afterEach(cleanup);
   const props = {
     inputType: "text",
     dataId: "input-data-id",
     inputName: "input-name",
     label: "This is label text",
+    onChange: () => {},
   };
 
   it("Renders text type input when type is text", () => {
