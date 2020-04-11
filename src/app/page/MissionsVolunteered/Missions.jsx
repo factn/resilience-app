@@ -16,7 +16,6 @@ const MissionsPage = ({ auth, history, ...rest }) => {
   const missions = useSelector((state) => state.firestore.ordered.missionsVolunteered);
 
   return (
-<<<<<<< HEAD
     <Page title="Volunteered Missions">
       <MissionList
         missions={missions}
@@ -25,43 +24,6 @@ const MissionsPage = ({ auth, history, ...rest }) => {
         isLoaded={isLoaded(missions)}
         isEmptyText="You have not volunteered for any missions!"
       />
-=======
-    <Page template="pink">
-      <StyledHeader variant="h1"> Missions </StyledHeader>
-
-      {missions ? (
-        missions.map((mission) => (
-          <Card key={mission.id}>
-            <MissionCard mission={mission} />
-
-            <Grid container justify="center" alignItems="center">
-              <StyledButton
-                color="primary"
-                size="large"
-                variant="contained"
-                disableElevation
-                onClick={() => volunteerForMission(mission.id)}
-              >
-                Volunteer
-              </StyledButton>
-              <PlaceHolder />
-              <StyledButton
-                variant="outlined"
-                size="large"
-                color="secondary"
-                onClick={() => {
-                  history.push(`/missions/${mission.id}`);
-                }}
-              >
-                Details
-              </StyledButton>
-            </Grid>
-          </Card>
-        ))
-      ) : (
-        <CircularProgress />
-      )}
->>>>>>> change nzme from missions control to dashboard
     </Page>
   );
 };
