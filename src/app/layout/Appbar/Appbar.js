@@ -17,7 +17,7 @@ const Appbar = ({ children }) => {
               <Logo title="MutualAidLogo" role="img" />
             </Link>
           </LogoContainer>
-          <MenuContainer>
+          <MenuContainer data-testid="MutualAidMenu">
             <NavigationDrawer />
           </MenuContainer>
         </AppbarDefault>

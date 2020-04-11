@@ -59,13 +59,13 @@ const SignupPage = () => {
           </Row>
           <Row>
             <Col xsOffset={2} xs={4} mdOffset={3} md={3}>
-              <Button text="Log in" onClick={(e) => handleLoginCTAClick(e)} tertiary />
+              <Button text="Log in" onClick={(e) => handleLoginCTAClick(e)} variant="outlined" />
             </Col>
             <Col xs={6}>
               <Button
                 text="Create account"
                 onClick={() => handleFormSubmit()}
-                secondary
+                color="secondary"
                 size="lg"
               />
             </Col>

@@ -1,11 +1,8 @@
 import React from "react";
-import { render, cleanup, fireEvent } from "@testing-library/react";
-import "jest-dom/extend-expect";
+import { render, fireEvent } from "@testing-library/react";
 import { ImageUpload } from "./ImageUpload";
 
 describe("ImageUpload Component", () => {
-  afterEach(cleanup);
-
   global.URL.createObjectURL = jest.fn(); // Mock
 
   it("renders camera icon and two buttons", () => {

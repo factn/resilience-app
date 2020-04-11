@@ -5,7 +5,14 @@ import AlgoliaPlaces from "algolia-places-react";
 import Button from "../../component/Button";
 import { Upload, useStyles } from "./Request.style";
 import { Page } from "../../layout";
-import { Checkbox, Typography, TextField, Container, FormControlLabel } from "@material-ui/core";
+import {
+  Checkbox,
+  Typography,
+  TextField,
+  Container,
+  FormControlLabel,
+  withStyles,
+} from "@material-ui/core";
 import {
   KeyboardDatePicker,
   KeyboardTimePicker,
@@ -13,15 +20,21 @@ import {
 } from "@material-ui/pickers";
 import MomentUtils from "@date-io/date-fns";
 
-const StyledHeader = styled(Typography)`
-  margin-top: 0.8vh;
-  padding: 1.2vh 0;
-  margin-left: 10%;
-  ${({ main }) =>
-    main &&
-    `margin-left: 0px;
-  text-transform: none;`}
-`;
+const StyledHeader = withStyles({
+  root: {
+    marginTop: "0.8vh",
+    padding: "1.2vh 0",
+    marginLeft: (props) => (props.main ? 0 : "10%"),
+    textTransform: (props) => props.main && "none",
+  },
+})(({ classes, children, ...rest }) => {
+  const { main, ...allowedMuiProps } = rest; // filter `main` from other props. This prevents Typography to throw an error
+  return (
+    <Typography className={classes.root} {...allowedMuiProps}>
+      {children}
+    </Typography>
+  );
+});
 
 function MissionForm({ handleChange, values, onSubmit, getFile /*, assignHelper, autoAssigned*/ }) {
   const classes = useStyles();
@@ -240,7 +253,7 @@ function MissionForm({ handleChange, values, onSubmit, getFile /*, assignHelper,
         </MuiPickersUtilsProvider>
         <Button
           onClick={handleSubmit}
-          secondary
+          color="secondary"
           text="Create mission"
           style={{ width: "90%", marginBottom: "2.3vh" }}
         />
