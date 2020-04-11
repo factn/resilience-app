@@ -4,10 +4,14 @@ import MakeRequest from "./MakeRequest";
 import MakeMission from "./MakeMission";
 import Missions from "./Missions";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import Dashboard from "../dashboard";
 =======
 import Dashboard from "../Dashboard";
 >>>>>>> feat: refactored dashboard ir out of pages and in app
+=======
+import Dashboard from "../dashboard";
+>>>>>>> rename dir
 import MissionsCreated from "./MissionsCreated";
 import MissionsVolunteered from "./MissionsVolunteered";
 import MissionDetails from "./MissionDetails";
