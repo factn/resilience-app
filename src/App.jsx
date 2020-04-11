@@ -14,7 +14,12 @@ import theme from "./theme";
 import LoginPage from "./app/page/Login";
 import HomePage from "./app/page/Home";
 import AboutPage from "./app/page/Aboutus";
+<<<<<<< HEAD
 import SignupScene from "./app/page/Signup";
+=======
+import SignupPage from "./app/page/Signup";
+import Donate from "./app/page/Donate";
+>>>>>>> c3001c6... experimentation
 import OrganizerSignupPage from "./app/page/OrganizerSignup";
 import Status from "./app/page/Status";
 
