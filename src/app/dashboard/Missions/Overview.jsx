@@ -6,6 +6,7 @@ import { H2 } from "../../component";
 import { compose } from "redux";
 import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
+import MapView from "../../component/MapView";
 
 import { Map, TileLayer, Marker, Popup } from "react-leaflet";
 import { DivIcon } from "leaflet";
@@ -134,6 +135,7 @@ export default compose(
     return [{ collection: "missions" }, { collection: "users" }];
   })
 )(Overview);
+
 
 
 
