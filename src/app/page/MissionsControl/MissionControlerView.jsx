@@ -5,7 +5,7 @@ import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import GetAppRoundedIcon from "@material-ui/icons/GetAppRounded";
 import Appbar from "./Appbar";
-import Drawer from "./Drawer";
+import Drawer from "../../component/Drawer";
 import MissionCard from "./MissionCard";
 import { downloadAsCsv } from "./missionControlUtilities";
 
