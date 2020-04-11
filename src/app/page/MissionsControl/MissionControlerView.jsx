@@ -3,9 +3,11 @@ import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
+import GetAppRoundedIcon from "@material-ui/icons/GetAppRounded";
 import Appbar from "./Appbar";
 import Drawer from "./Drawer";
 import MissionCard from "./MissionCard";
+import { downloadAsCsv } from "./missionControlUtilities";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function MiniDrawer({
+export default function MissionsControlView({
   missionsNotStarted,
   missionsQueued,
   missionsInProgress,
@@ -47,10 +49,27 @@ export default function MiniDrawer({
     setOpen(false);
   };
 
+  const downloadData = [
+    ...missionsNotStarted,
+    ...missionsQueued,
+    ...missionsInProgress,
+    ...missionsPending,
+    ...missionsFinished,
+  ];
+  const drawerItems = [
+    {
+      text: "Download as CSV",
+      icon: <GetAppRoundedIcon />,
+      handler: () => {
+        downloadAsCsv(downloadData, "Missions Overview");
+      },
+    },
+  ];
+
   return (
     <div className={classes.root}>
       <Appbar open={open} handleDrawerOpen={handleDrawerOpen} />
-      <Drawer open={open} handleDrawerClose={handleDrawerClose} />
+      <Drawer open={open} handleDrawerClose={handleDrawerClose} drawerItems={drawerItems} />
 
       <main className={classes.content}>
         <div className={classes.toolbar} />
