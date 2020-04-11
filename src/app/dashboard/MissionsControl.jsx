@@ -72,14 +72,6 @@ const MissionsPage = ({ history }) => {
       handler: () => history.push("/dashboard/volunteers"),
       icon: <PanToolIcon />,
     },
-    {
-      text: "Download as CSV",
-      id: "/downloadAsCSV",
-      icon: <GetAppRoundedIcon />,
-      handler: () => {
-        downloadAsCsv(downloadData, "Missions Overview");
-      },
-    },
   ];
 
   const currentUrl = history.location.pathname;
