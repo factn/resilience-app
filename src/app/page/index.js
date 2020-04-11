@@ -3,7 +3,7 @@ import Login from "./Login";
 import MakeRequest from "./MakeRequest";
 import MakeMission from "./MakeMission";
 import Missions from "./Missions";
-import MissionsControl from "./MissionsControl";
+import Dashboard from "./Dashboard";
 import MissionsCreated from "./MissionsCreated";
 import MissionsVolunteered from "./MissionsVolunteered";
 import MissionDetails from "./MissionDetails";
@@ -19,7 +19,7 @@ export {
   Missions,
   MissionsCreated,
   MissionsVolunteered,
-  MissionsControl,
+  Dashboard,
   MissionDetails,
   UserProfile,
   MakeMission,
