@@ -169,17 +169,7 @@ function MissionForm({ handleChange, values, onSubmit, getFile /*, assignHelper,
               type: "city",
               // Other options from https://community.algolia.com/places/documentation.html#options
             }}
-            onChange={(query) =>
-              setPickUp({
-                ...pickUp,
-                location: {
-                  address: query.suggestion.value,
-                  geoLocation: query.suggestion.latlng,
-                  county: query.suggestion.county,
-                  countryCode: query.suggestion.countryCode,
-                },
-              })
-            }
+            onChange={(query) => handleLocation(query, "pickUp")}
             onLimit={({ message }) => message && console.log(message)}
           />
           <KeyboardDatePicker
