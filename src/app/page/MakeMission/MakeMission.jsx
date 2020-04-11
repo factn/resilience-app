@@ -41,7 +41,7 @@ function MakeMission({ history, firestore }) {
   }
 
   async function onSubmit(payload) {
-    let val = { ...values, payload };
+    let val = { ...values, ...payload };
     setLoading(true);
     if (file) {
       const uploadTask = storage.ref(`images/${file.name}`).put(file);
@@ -55,9 +55,9 @@ function MakeMission({ history, firestore }) {
         async () => {
           const url = await storage.ref("images").child(file.name).getDownloadURL();
           val.url = url; // Todo: Refactor later
-          saveMissions(val);
         }
       );
+      saveMissions(val);
     } else {
       saveMissions(val);
     }
