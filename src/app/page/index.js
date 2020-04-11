@@ -3,11 +3,7 @@ import Login from "./Login";
 import MakeRequest from "./MakeRequest";
 import MakeMission from "./MakeMission";
 import Missions from "./Missions";
-<<<<<<< HEAD
 import Dashboard from "../dashboard";
-=======
-import Dashboard from "./Dashboard";
->>>>>>> change nzme from missions control to dashboard
 import MissionsCreated from "./MissionsCreated";
 import MissionsVolunteered from "./MissionsVolunteered";
 import MissionDetails from "./MissionDetails";
