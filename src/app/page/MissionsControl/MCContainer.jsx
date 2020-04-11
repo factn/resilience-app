@@ -7,7 +7,7 @@ import { withRouter } from "react-router-dom";
 import { Mission } from "../../model";
 import { compose } from "redux";
 
-import MissionsControlView from "./Missions";
+import MissionsControlView from "./MissionControlerView";
 
 /**
  * Component for controlling missions status

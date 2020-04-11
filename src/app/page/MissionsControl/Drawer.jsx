@@ -1,6 +1,6 @@
 import React from "react";
 import clsx from "clsx";
-
+import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 
 import Drawer from "@material-ui/core/Drawer";
@@ -12,8 +12,6 @@ import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
-import MailIcon from "@material-ui/icons/Mail";
 
 const drawerWidth = 240;
 
@@ -48,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function MiniDrawer({ open, handleDrawerClose }) {
+export default function MiniDrawer({ open, handleDrawerClose, drawerItems }) {
   const classes = useStyles();
 
   return (
@@ -72,10 +70,12 @@ export default function MiniDrawer({ open, handleDrawerClose }) {
       </div>
       <Divider />
       <List>
-        {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-            <ListItemText primary={text} />
+        {drawerItems.map((item) => (
+          <ListItem button key={item.text} onClick={item.handler}>
+            <ListItemIcon title={item.text} alt={item.text} aria-label={item.text}>
+              {item.icon}
+            </ListItemIcon>
+            <ListItemText primary={item.text} title={item.text} />
           </ListItem>
         ))}
       </List>
@@ -83,3 +83,11 @@ export default function MiniDrawer({ open, handleDrawerClose }) {
     </Drawer>
   );
 }
+
+MiniDrawer.propTypes = {
+  open: PropTypes.bool,
+  handleDrawerClose: PropTypes.func,
+  items: PropTypes.arrayOf(
+    PropTypes.shape({ text: PropTypes.string, icon: PropTypes.object, handler: PropTypes.func })
+  ),
+};
