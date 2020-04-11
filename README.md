@@ -1,6 +1,6 @@
 # MutualAid.World App
 
-See demo [here](https://mutualaidworld-frontend.herokuapp.com/)!
+See demo [here](https://resilience-app.herokuapp.com)!
 
 Please also check out [CONTRIBUTING.md](/CONTRIBUTING.md)
 
