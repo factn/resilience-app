@@ -1,14 +1,19 @@
 import React from "react";
-import "jest-dom/extend-expect";
+import { render } from "@testing-library/react";
 import MapView from "./MapView";
 
 describe("Map Component", () => {
   function renderComponent(props) {
-    return render(<Mapview {...props} />);
+    return render(<MapView {...props} />);
   }
 
   it("Renders to the screen correctly", () => {
-    const { getByTestId } = renderComponent(props);
-    expect(getByTestId("map")).toBeTruthy();
+    const mapView = renderComponent({
+      values: {
+        lat: 0,
+        long: 0,
+      },
+    });
+    expect(mapView.getByTestId("leaflet-mapview")).toBeVisible();
   });
 });
