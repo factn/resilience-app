@@ -12,6 +12,7 @@ import AssignmentIcon from "@material-ui/icons/Assignment";
 import ExitToApp from "@material-ui/icons/ExitToApp";
 import EmojiPeopleIcon from "@material-ui/icons/EmojiPeople";
 import PanTool from "@material-ui/icons/PanTool";
+import OutdoorGrill from "@material-ui/icons/OutdoorGrill";
 import { Link, useHistory } from "react-router-dom";
 import { useFirebase } from "react-redux-firebase";
 
@@ -85,6 +86,16 @@ export default function TemporaryDrawer() {
                 <PanTool classes={{ root: classes.colorIcon }} fontSize="large" />
               </ListItemIcon>
               <ListItemText primary="Create Mission" />
+            </ListItem>
+          </Link>
+        </PrivateComponent>
+        <PrivateComponent>
+          <Link to="/missions/food-box/create" className={classes.link}>
+            <ListItem button>
+              <ListItemIcon>
+                <OutdoorGrill classes={{ root: classes.colorIcon }} fontSize="large" />
+              </ListItemIcon>
+              <ListItemText primary="Create Food Box Mission" />
             </ListItem>
           </Link>
         </PrivateComponent>
