@@ -33,7 +33,7 @@ const MissionsPage = ({ auth, history, ...rest }) => {
 
       {missions?.map((mission) => (
         <Card key={mission.id}>
-          <MissionCard mission={mission} key={`preview-${mission.id}`} />
+          <MissionCard mission={mission} />
 
           <Grid container justify="center" alignItems="center">
             <StyledButton
