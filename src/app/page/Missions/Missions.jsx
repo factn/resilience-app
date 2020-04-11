@@ -35,7 +35,6 @@ const MissionsPage = ({ auth, history, ...rest }) => {
   }
 
   return (
-<<<<<<< HEAD
     <Page title="Missions">
       <MissionList
         missions={missions}
@@ -45,42 +44,6 @@ const MissionsPage = ({ auth, history, ...rest }) => {
         isEmptyText="There are no missions available"
         handleUserVolunteering={userVolunteeringHandler}
       />
-=======
-    <Page>
-      <StyledHeader variant="h1"> Missions </StyledHeader>
-      {missions ? (
-        missions.map((mission) => (
-          <Card key={mission.id}>
-            <MissionCard mission={mission} />
-
-            <Grid container justify="center" alignItems="center">
-              <StyledButton
-                color="primary"
-                size="large"
-                variant="contained"
-                disableElevation
-                onClick={() => volunteerForMission(mission.id)}
-              >
-                Volunteer
-              </StyledButton>
-              <PlaceHolder />
-              <StyledButton
-                variant="outlined"
-                size="large"
-                color="secondary"
-                onClick={() => {
-                  history.push(`/missions/${mission.id}`);
-                }}
-              >
-                Details
-              </StyledButton>
-            </Grid>
-          </Card>
-        ))
-      ) : (
-        <CircularProgress />
-      )}
->>>>>>> change nzme from missions control to dashboard
       <UserPhoneUnverifiedPopup open={popupOpen} handleClose={() => setPopupOpen(false)} />
     </Page>
   );
