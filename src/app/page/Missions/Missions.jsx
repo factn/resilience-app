@@ -17,8 +17,8 @@ import UserPhoneUnverifiedPopup from "../../component/UserPhoneUnverifiedPopup";
  * @param {object} props.auth - Object obtained from firebase.auth state
  * @param {object} props.history - Object obtained from React Router
  */
-const MissionsPage = ({ auth, history, error, firebase, ...rest }) => {
-  const missions = useSelector((state) => state.firebase.ordered.missionsTodo);
+const MissionsPage = ({ auth, history, ...rest }) => {
+  const missions = useSelector((state) => state.firestore.ordered.missionsTodo);
 
   const [popupOpen, setPopupOpen] = useState(false);
   const firestore = useFirestore();
