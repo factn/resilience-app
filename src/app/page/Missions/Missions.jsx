@@ -14,25 +14,23 @@ import UserPhoneUnverifiedPopup from "../../component/UserPhoneUnverifiedPopup";
 /**
  * Component for listing missions
  *
- * @param {object} props.user - Object obtained from firebase.auth state
+ * @param {object} props.auth - Object obtained from firebase.auth state
  * @param {object} props.history - Object obtained from React Router
  */
-const MissionsPage = ({ user, history, error, firebase, ...rest }) => {
+const MissionsPage = ({ auth, history, error, firebase, ...rest }) => {
   const missions = useSelector((state) => state.firebase.ordered.missionsTodo);
-  const missionsEmpty = isEmpty(missions);
-  const missionsLoaded = isLoaded(missions);
 
   const [popupOpen, setPopupOpen] = useState(false);
   const firestore = useFirestore();
 
   function userVolunteeringHandler(missionId) {
     // We need a little more information from user at this point
-    if (!user.phoneNumber) {
+    if (!auth.phoneNumber) {
       setPopupOpen(true);
       return;
     }
 
-    User.assignAsVolunteer(firestore, missionId, user.uid);
+    User.assignAsVolunteer(firestore, missionId, auth.uid);
     return;
   }
 
@@ -41,8 +39,9 @@ const MissionsPage = ({ user, history, error, firebase, ...rest }) => {
       <MissionList
         missions={missions}
         history={history}
-        isEmpty={missionsEmpty}
-        isLoaded={missionsLoaded}
+        isEmpty={isEmpty(missions)}
+        isLoaded={isLoaded(missions)}
+        isEmptyText="There are no missions available"
         handleUserVolunteering={userVolunteeringHandler}
       />
       <UserPhoneUnverifiedPopup open={popupOpen} handleClose={() => setPopupOpen(false)} />
@@ -54,7 +53,7 @@ MissionsPage.propTypes = {
   /**
    * User info
    */
-  user: PropTypes.shape({
+  auth: PropTypes.shape({
     uid: PropTypes.string,
     phoneNumber: PropTypes.string,
   }),
@@ -66,7 +65,7 @@ MissionsPage.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    user: state.firebase.auth,
+    auth: state.firebase.auth,
   };
 };
 export default compose(
