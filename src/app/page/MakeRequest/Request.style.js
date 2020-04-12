@@ -24,10 +24,10 @@ export const SubText = styled.p`
 `;
 
 export const Upload = styled(ImageUpload)`
-  width: 80%;
+  justify-content: center;
+  align-content: center;
+  width: 95%;
+  background-color: #c197d2;
   margin-top: 20px;
   height: 300px;
-  margin-left: 10%;
-  margin-right: 10%;
-  margin-bottom: 10px;
 `;

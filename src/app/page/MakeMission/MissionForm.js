@@ -61,8 +61,9 @@ function MissionForm({ handleChange, values, onSubmit, getFile /*, assignHelper,
       func({
         ...rest,
         location: {
-          address: value,
-          geoLocation: latlng,
+          label: value,
+          lat: latlng.lat,
+          lng: latlng.lng,
           county,
           countryCode,
         },

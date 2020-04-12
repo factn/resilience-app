@@ -19,6 +19,8 @@ function MakeRequest({ history, firestore }) {
   const firebase = getFirebase();
   const [loading, setLoading] = useState(false);
   const [file, setFile] = useState(null);
+  const [successMsg, setSuccessMsg] = useState(false);
+
   const storage = firebase.storage();
   const { handleChange, values, setValues } = useForm();
 
@@ -31,8 +33,8 @@ function MakeRequest({ history, firestore }) {
    * Creates a mission based on form data. Updates the current user
    * to be the owner of the newly created mission.
    */
-  function saveMissions() {
-    const model = { ...values, ownerId: user.uid };
+  function saveMissions(val) {
+    const model = { ...val, ownerId: user.uid };
     const missionId = uuidv4();
 
     firestore
@@ -43,9 +45,9 @@ function MakeRequest({ history, firestore }) {
     User.assignAsOwner(firestore, missionId, user.uid);
   }
 
-  async function onSubmit(e) {
-    e.preventDefault();
+  async function onSubmit(location) {
     setLoading(true);
+    let val = { ...values, dropOff: { ...location } }; // Setting it to be part of the values (setValues), calls it late
     if (file) {
       const uploadTask = storage.ref(`images/${file.name}`).put(file);
       await uploadTask.on(
@@ -57,28 +59,28 @@ function MakeRequest({ history, firestore }) {
         },
         async () => {
           const url = await storage.ref("images").child(file.name).getDownloadURL();
-          let val = values; // Setting it to be part of the values (setValues), calls it late
           val.url = url; // Todo: Refactor later
-          setValues(val);
-          saveMissions();
+          //setValues(val);
         }
       );
-    } else {
-      saveMissions();
     }
-    history.push("/missions");
+    saveMissions(val);
+    //history.push("/missions");
     setLoading(false);
+    setSuccessMsg(true);
   }
 
   if (loading) return <CircularProgress />;
 
-  return (
+  return !successMsg ? (
     <RequestForm
       values={values}
       onSubmit={onSubmit}
       getFile={getFile}
       handleChange={handleChange}
     />
+  ) : (
+    <p>Your request was sent successfully!</p>
   );
 }
 
