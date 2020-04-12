@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { Button, Card, CircularProgress, Grid } from "@material-ui/core";
+import { Button, CircularProgress } from "@material-ui/core";
 import { MissionCard } from "./index";
 import { withLoading } from "../HOC";
 
@@ -11,12 +11,15 @@ import { withLoading } from "../HOC";
  *
  */
 const StyledButton = styled(Button)`
-  margin-top: 24px;
   flex-grow: 1;
 `;
 
-const PlaceHolder = styled.div`
-  width: 16px;
+const StyledButtonWithLargeBorder = styled(StyledButton)`
+  border: 2px solid;
+
+  &:hover {
+    border: 2px solid;
+  }
 `;
 
 const MissionListContainer = styled.div`
@@ -44,31 +47,25 @@ const MissionList = ({ missions, history, handleUserVolunteering, ...rest }) => 
    * This should probably be turned into a Mission component
    */
   const missionListItems = missions.map((mission) => (
-    <Card key={mission.id} role="listitem">
-      <MissionCard mission={mission} key={`preview-${mission.id}`} />
-      <Grid container justify="center" alignItems="center">
-        {handleUserVolunteering && (
-          <StyledButton
-            color="primary"
-            size="large"
-            variant="contained"
-            disableElevation
-            onClick={() => handleUserVolunteering(mission.id)}
-          >
-            Volunteer
-          </StyledButton>
-        )}
-        <PlaceHolder />
+    <MissionCard mission={mission} key={`mission-card-${mission.id}`} role="listitem">
+      {handleUserVolunteering && (
         <StyledButton
-          variant="outlined"
-          size="large"
-          color="secondary"
-          onClick={() => history.push(`/missions/${mission.id}`)}
+          color="primary"
+          variant="contained"
+          disableElevation
+          onClick={() => handleUserVolunteering(mission.id)}
         >
-          Details
+          Accept Mission
         </StyledButton>
-      </Grid>
-    </Card>
+      )}
+      <StyledButtonWithLargeBorder
+        variant="outlined"
+        color="primary"
+        onClick={() => history.push(`/missions/${mission.id}`)}
+      >
+        View Details
+      </StyledButtonWithLargeBorder>
+    </MissionCard>
   ));
 
   return (
