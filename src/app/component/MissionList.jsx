@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { Button, CircularProgress, Grid } from "@material-ui/core";
+import { Button, CircularProgress } from "@material-ui/core";
 import { MissionCard } from "./index";
 import { withLoading } from "../HOC";
 
