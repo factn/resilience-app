@@ -8,10 +8,10 @@ import { get } from "lodash";
 class User {
   /**
    * Assign the current user as a volunteer for the mission with the given missionId
-   * @param {object} fs
-   * @param {string} missionId
-   * @param {string} userId
-   * @param {string} status
+   * @param {object} fs - firestore instance
+   * @param {string} missionId - ID of mission that user wants to volunteer for
+   * @param {string} userId - ID of user that wants to volunteer for mission
+   * @param {string} status - Status to assign the mission
    */
 
   assignAsVolunteer(fs, missionId, userId, status = "doing") {
