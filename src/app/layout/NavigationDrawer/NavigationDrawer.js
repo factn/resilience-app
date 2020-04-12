@@ -67,6 +67,8 @@ export default function TemporaryDrawer() {
               <ListItemText primary="User Profile" />
             </ListItem>
           </Link>
+        </PrivateComponent>
+        <PrivateComponent>
           <Link to="/missions/volunteered" className={classes.link}>
             <ListItem button>
               <ListItemIcon>
@@ -75,6 +77,8 @@ export default function TemporaryDrawer() {
               <ListItemText primary="Volunteered Missions" />
             </ListItem>
           </Link>
+        </PrivateComponent>
+        <PrivateComponent>
           <Link to="/missions/new" className={classes.link}>
             <ListItem button>
               <ListItemIcon>
@@ -83,6 +87,8 @@ export default function TemporaryDrawer() {
               <ListItemText primary="Create Mission" />
             </ListItem>
           </Link>
+        </PrivateComponent>
+        <PrivateComponent>
           <Link to="/missions/created" className={classes.link}>
             <ListItem button>
               <ListItemIcon>
@@ -91,6 +97,8 @@ export default function TemporaryDrawer() {
               <ListItemText primary="My Requests" />
             </ListItem>
           </Link>
+        </PrivateComponent>
+        <PrivateComponent>
           <Link to="/status" className={classes.link}>
             <ListItem button>
               <ListItemIcon>
@@ -99,6 +107,8 @@ export default function TemporaryDrawer() {
               <ListItemText primary="My Status" />
             </ListItem>
           </Link>
+        </PrivateComponent>
+        <PrivateComponent>
           <ListItem button onClick={handleSignOut}>
             <ListItemIcon>
               <ExitToApp classes={{ root: classes.colorIcon }} fontSize="large" />

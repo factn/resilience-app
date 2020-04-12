@@ -14,7 +14,7 @@ The super short version is:
 ```
 git clone git@github.com:factn/resilience-app.git
 ```
-- Set up your dev environment as described on the [README](https://github.com/factn/mutualaidworld_frontend/blob/master/README.md)
+- Set up your dev environment as described on the [README](https://github.com/factn/resilience-app/blob/master/README.md)
 - Make a branch where you are going to do your coding. See [branch naming conventions](#branch-naming-conventions)
 - Make your change and test it works
 - Commit your changes
@@ -33,10 +33,10 @@ Some things that will increase the chance that your pull request is accepted:
 The feature branch workflow is explained in more detail [by Atlassian here].
 
 [commit]: http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html
-[pr]: https://github.com/factn/mutualaidworld_frontend/compare
+[pr]: https://github.com/factn/resilience-app/compare
 [by Atlassian here]: https://www.atlassian.com/git/tutorials/comparing-workflows/feature-branch-workflow
-[readme]: https://github.com/factn/mutualaidworld_frontend/blob/master/README.md
-[join our slack]: https://join.slack.com/t/coronadonor/shared_invite/zt-cwm4b79c-12NHPqGWbzZ1aR5geyME1g
+[readme]: https://github.com/factn/resilience-app/blob/master/README.md
+[join our slack]: https://bit.ly/join_mutualaid_slack
 
 ## Branch naming conventions
 
@@ -82,7 +82,7 @@ If you ask on slack, we can give you access to the group on airtable that will l
 
 At the moment all PRs need to be approved by one of the people [in the resilience-app-committers group](https://github.com/orgs/factn/teams/ resilience-app-committers) before they can land on master.
 
-But let us emphasize you don't need to be in that group to be a valued contributor to our project. Check out the [list of contributors](https://github.com/factn/mutualaidworld_frontend/graphs/contributors) for all the people who have contributed code so far. All much valued and to be forever famous in the halls of wherever awesome open source contributing awesome people go.
+But let us emphasize you don't need to be in that group to be a valued contributor to our project. Check out the [list of contributors](https://github.com/factn/resilience-app/graphs/contributors) for all the people who have contributed code so far. All much valued and to be forever famous in the halls of wherever awesome open source contributing awesome people go.
 
 However for the record, and so that the process for being able to merge to the master branch is transparent. It is as follows.
 

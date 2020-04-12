@@ -56,7 +56,12 @@ const MissionDetailsPage = ({ firestore, auth, mission, history }) => {
     const missionLocation =
       mission.address + "%20" + mission.city + "%20" + mission.state + "%20" + mission.postalCode;
     const dataForCords = addressLookUp(missionLocation);
-    dataForCords.then((res) => setCords(res)).catch((error) => console.log(error));
+
+    dataForCords.then((res) => {
+      if (res) {
+        setCords(res)
+      }
+    }).catch((error) => console.log(error));
   } else {
     console.log("No location data available");
   }
@@ -85,7 +90,7 @@ MissionDetailsPage.propTypes = {
    */
   auth: PropTypes.shape({
     phoneNumber: PropTypes.string,
-    uid: PropTypes.string.isRequired,
+    uid: PropTypes.string,
   }),
   /**
    * Mission details
