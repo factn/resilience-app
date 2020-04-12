@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { firestoreConnect, isLoaded, isEmpty } from "react-redux-firebase";
 import { useSelector, connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-
 import { Page } from "../../layout";
 import { MissionList } from "../../component";
 import { compose } from "redux";
@@ -17,7 +16,7 @@ const MissionsPage = ({ auth, history, ...rest }) => {
   const missions = useSelector((state) => state.firestore.ordered.missionsVolunteered);
 
   return (
-    <Page template="pink">
+    <Page title="Volunteered Missions">
       <MissionList
         missions={missions}
         history={history}
