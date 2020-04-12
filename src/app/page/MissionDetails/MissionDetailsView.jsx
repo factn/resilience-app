@@ -37,6 +37,7 @@ export const StyledDiv = styled.div`
 const MissionDetailsPage = ({
   mission,
   volunteerForMission,
+  markMissionAsCompleted,
   userUnverifiedPopupOpen,
   setUserUnverifiedPopupOpen,
   cords,
@@ -60,7 +61,11 @@ const MissionDetailsPage = ({
           <Typography variant="h4">status: {missionStatusLabel[mission.status]}</Typography>
         </Box>
         <Grid>
-          <Button text="Volunteer" onClick={volunteerForMission} />
+          {mission.status === "todo" ? (
+            <Button text="Volunteer" onClick={volunteerForMission} />
+          ) : (
+            <Button text="Mark as Completed" onClick={markMissionAsCompleted} />
+          )}
         </Grid>
         <StyledHr />
 
