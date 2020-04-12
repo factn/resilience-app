@@ -7,6 +7,7 @@ import Dashboard from "../dashboard";
 import MissionsCreated from "./MissionsCreated";
 import MissionsVolunteered from "./MissionsVolunteered";
 import MissionDetails from "./MissionDetails";
+import PostMission from "./PostMission";
 
 import Signup from "./Signup";
 import UserProfile from "./UserProfile";
@@ -23,4 +24,5 @@ export {
   MissionDetails,
   UserProfile,
   MakeMission,
+  PostMission,
 };

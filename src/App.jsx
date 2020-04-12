@@ -19,7 +19,13 @@ import OrganizerSignupPage from "./app/page/OrganizerSignup";
 import Status from "./app/page/Status";
 
 import MakeRequest from "./app/page/MakeRequest";
-import { Missions, MissionsCreated, MissionsVolunteered, MakeMission } from "./app/page";
+import {
+  Missions,
+  MissionsCreated,
+  MissionsVolunteered,
+  MakeMission,
+  PostMission,
+} from "./app/page";
 
 import { Dashboard } from "./app/page";
 
@@ -65,6 +71,7 @@ function App() {
                 <Route path="/organizer/signup" component={OrganizerSignupPage} />
                 <Route path="/signup" component={SignupPage} />
                 <Route path="/status" component={Status} />
+                <Route path="/temp/story123" component={PostMission} />
 
                 <PrivateRoute path="/request/create">
                   <MakeRequest />
