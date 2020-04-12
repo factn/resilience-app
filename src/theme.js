@@ -1,13 +1,15 @@
 import _ from "lodash";
 
-const color = {
+export const color = {
   purple: "#150E60", //TODO remove this
   deepPurple: "#150E60",
   vibrantPurple: "#3739B5",
   secondaryBlue: "#B4B6F1",
   white: "#FFF",
   pink: "#ffefef",
+  darkPink: "#DA0B46",
   black: "#090808",
+  darkOrange: "#EC7016",
 };
 
 // utils to extract style
