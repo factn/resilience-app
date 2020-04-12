@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 import { Button, Card, CircularProgress, Grid } from "@material-ui/core";
 import { MissionCard } from "./index";
@@ -42,41 +43,50 @@ const MissionList = ({ missions, history, handleUserVolunteering, ...rest }) => 
   /**
    * This should probably be turned into a Mission component
    */
-  const missionListItems = missions
-    ? missions.map((mission) => (
-        <Card key={mission.id} role="listitem">
-          <MissionCard mission={mission} key={`preview-${mission.id}`} />
-          <Grid container justify="center" alignItems="center">
-            {handleUserVolunteering && (
-              <StyledButton
-                color="primary"
-                size="large"
-                variant="contained"
-                disableElevation
-                onClick={() => handleUserVolunteering(mission.id)}
-              >
-                Volunteer
-              </StyledButton>
-            )}
-            <PlaceHolder />
-            <StyledButton
-              variant="outlined"
-              size="large"
-              color="secondary"
-              onClick={() => history.push(`/missions/${mission.id}`)}
-            >
-              Details
-            </StyledButton>
-          </Grid>
-        </Card>
-      ))
-    : "";
+  const missionListItems = missions.map((mission) => (
+    <Card key={mission.id} role="listitem">
+      <MissionCard mission={mission} key={`preview-${mission.id}`} />
+      <Grid container justify="center" alignItems="center">
+        {handleUserVolunteering && (
+          <StyledButton
+            color="primary"
+            size="large"
+            variant="contained"
+            disableElevation
+            onClick={() => handleUserVolunteering(mission.id)}
+          >
+            Volunteer
+          </StyledButton>
+        )}
+        <PlaceHolder />
+        <StyledButton
+          variant="outlined"
+          size="large"
+          color="secondary"
+          onClick={() => history.push(`/missions/${mission.id}`)}
+        >
+          Details
+        </StyledButton>
+      </Grid>
+    </Card>
+  ));
 
   return (
     <MissionListWithLoading LoadingComponent={CircularProgress} {...rest}>
       {missionListItems}
     </MissionListWithLoading>
   );
+};
+
+MissionList.defaultProps = {
+  missions: [],
+  handlerUserVolunteering: () => null,
+};
+
+MissionList.propTypes = {
+  missions: PropTypes.array,
+  history: PropTypes.object,
+  handleUserVolunteering: PropTypes.func,
 };
 
 export default MissionList;
