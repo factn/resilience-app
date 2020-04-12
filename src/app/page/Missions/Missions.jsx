@@ -1,84 +1,49 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { useFirestore, firestoreConnect } from "react-redux-firebase";
+import { useFirestore, firestoreConnect, isLoaded, isEmpty } from "react-redux-firebase";
 import { useSelector, connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 
-import { CircularProgress, Typography, Button, Grid } from "@material-ui/core";
-import styled from "styled-components";
-
-import { Page, Card } from "../../layout";
+import { Page } from "../../layout";
 import { User } from "../../model";
-import { MissionCard } from "../../component";
+import { MissionList } from "../../component";
 import { compose } from "redux";
 
 import UserPhoneUnverifiedPopup from "../../component/UserPhoneUnverifiedPopup";
 
-const StyledHeader = styled(Typography)`
-  margin-top: 24px;
-`;
-const StyledButton = styled(Button)`
-  margin-top: 24px;
-  flex-grow: 1;
-`;
-
-const PlaceHolder = styled.div`
-  width: 16px;
-`;
-
 /**
  * Component for listing missions
  *
- * @component
+ * @param {object} props.auth - Object obtained from firebase.auth state
+ * @param {object} props.history - Object obtained from React Router
  */
-const MissionsPage = ({ user, history, ...rest }) => {
+const MissionsPage = ({ auth, history, ...rest }) => {
   const missions = useSelector((state) => state.firestore.ordered.missionsTodo);
-  const firestore = useFirestore();
-  const [popupOpen, setPopupOpen] = useState(false);
 
-  function volunteerForMission(missionId) {
-    if (!user.phoneNumber) {
+  const [popupOpen, setPopupOpen] = useState(false);
+  const firestore = useFirestore();
+
+  function userVolunteeringHandler(missionId) {
+    // We need a little more information from user at this point
+    if (!auth.phoneNumber) {
       setPopupOpen(true);
-    } else {
-      User.assignAsVolunteer(firestore, missionId, user.uid);
+      return;
     }
+
+    User.assignAsVolunteer(firestore, missionId, auth.uid);
+    return;
   }
 
   return (
-    <Page>
-      <StyledHeader variant="h1"> Missions </StyledHeader>
-      {missions ? (
-        missions.map((mission) => (
-          <Card key={mission.id}>
-            <MissionCard mission={mission} />
-
-            <Grid container justify="center" alignItems="center">
-              <StyledButton
-                color="primary"
-                size="large"
-                variant="contained"
-                disableElevation
-                onClick={() => volunteerForMission(mission.id)}
-              >
-                Volunteer
-              </StyledButton>
-              <PlaceHolder />
-              <StyledButton
-                variant="outlined"
-                size="large"
-                color="secondary"
-                onClick={() => {
-                  history.push(`/missions/${mission.id}`);
-                }}
-              >
-                Details
-              </StyledButton>
-            </Grid>
-          </Card>
-        ))
-      ) : (
-        <CircularProgress />
-      )}
+    <Page title="Missions">
+      <MissionList
+        missions={missions}
+        history={history}
+        isEmpty={isEmpty(missions)}
+        isLoaded={isLoaded(missions)}
+        isEmptyText="There are no missions available"
+        handleUserVolunteering={userVolunteeringHandler}
+      />
       <UserPhoneUnverifiedPopup open={popupOpen} handleClose={() => setPopupOpen(false)} />
     </Page>
   );
@@ -88,7 +53,7 @@ MissionsPage.propTypes = {
   /**
    * User info
    */
-  user: PropTypes.shape({
+  auth: PropTypes.shape({
     uid: PropTypes.string,
     phoneNumber: PropTypes.string,
   }),
@@ -100,9 +65,10 @@ MissionsPage.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    user: state.firebase.auth,
+    auth: state.firebase.auth,
   };
 };
+
 export default compose(
   connect(mapStateToProps),
   firestoreConnect((props) => {
