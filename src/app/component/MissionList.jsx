@@ -22,10 +22,6 @@ const StyledButtonWithLargeBorder = styled(StyledButton)`
   }
 `;
 
-const PlaceHolder = styled.div`
-  width: 16px;
-`;
-
 const MissionListContainer = styled.div`
   margin-top: 15px;
 `;
@@ -62,10 +58,6 @@ const MissionList = ({ missions, history, handleUserVolunteering, ...rest }) => 
           Accept Mission
         </StyledButton>
       )}
-      {/* {handleUserStartingMission && ()}
-      {handleUserRejectingMission && ()}
-      {handleOrganizerRemovingMission && ()} */}
-      <PlaceHolder />
       <StyledButtonWithLargeBorder
         variant="outlined"
         color="primary"
