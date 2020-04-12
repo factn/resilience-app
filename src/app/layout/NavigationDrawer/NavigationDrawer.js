@@ -1,11 +1,7 @@
 import React from "react";
+import styled from "styled-components";
 import clsx from "clsx";
-import Drawer from "@material-ui/core/Drawer";
-import Button from "@material-ui/core/Button";
 import { useStyles } from "./NavigationDrawer.style";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
 import MenuIcon from "@material-ui/icons/Menu";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import AssignmentIcon from "@material-ui/icons/Assignment";
@@ -15,8 +11,22 @@ import PanTool from "@material-ui/icons/PanTool";
 import { Link, useHistory } from "react-router-dom";
 import { useFirebase } from "react-redux-firebase";
 
-import { PrivateComponent } from "../../component";
-import { ListItemIcon } from "@material-ui/core";
+import { PrivateComponent, Popup } from "../../component";
+import {
+  Container,
+  Typography,
+  ListItemIcon,
+  Button,
+  Drawer,
+  List,
+  ListItem,
+  ListItemText,
+} from "@material-ui/core";
+
+const StyledButton = styled(Button)`
+  margin-top: 24px;
+  flex-grow: 1;
+`;
 
 export default function TemporaryDrawer() {
   const firebase = useFirebase();
@@ -27,6 +37,7 @@ export default function TemporaryDrawer() {
     right: false,
   });
 
+  const [missionTypeModal, setMissionTypeModal] = React.useState(false);
   const toggleDrawer = (anchor, open) => (event) => {
     if (event.type === "keydown" && (event.key === "Tab" || event.key === "Shift")) {
       return;
@@ -79,14 +90,14 @@ export default function TemporaryDrawer() {
           </Link>
         </PrivateComponent>
         <PrivateComponent>
-          <Link to="/missions/new" className={classes.link}>
+          <span onClick={() => setMissionTypeModal(true)} className={classes.link}>
             <ListItem button>
               <ListItemIcon>
                 <PanTool classes={{ root: classes.colorIcon }} fontSize="large" />
               </ListItemIcon>
               <ListItemText primary="Create Mission" />
             </ListItem>
-          </Link>
+          </span>
         </PrivateComponent>
         <PrivateComponent>
           <Link to="/missions/created" className={classes.link}>
@@ -120,9 +131,53 @@ export default function TemporaryDrawer() {
     </div>
   );
 
+  const MissionTypeModal = () => (
+    <Popup open={missionTypeModal} handleClose={() => setMissionTypeModal(false)} btnText="close">
+      <Container align="center">
+        <Typography align="center" variant="h1">
+          Choose a mission type
+        </Typography>
+        <StyledButton
+          variant="outlined"
+          size="large"
+          color="primary"
+          onClick={() => {
+            setMissionTypeModal(false);
+            history.push(`/missions/new/food`);
+          }}
+        >
+          food
+        </StyledButton>
+        <StyledButton
+          variant="outlined"
+          size="large"
+          color="primary"
+          onClick={() => {
+            setMissionTypeModal(false);
+            history.push(`/missions/new/pharmacy`);
+          }}
+        >
+          pharmacy
+        </StyledButton>
+        <StyledButton
+          variant="outlined"
+          size="large"
+          color="primary"
+          onClick={() => {
+            setMissionTypeModal(false);
+            history.push(`/missions/new/errand`);
+          }}
+        >
+          errand
+        </StyledButton>
+      </Container>
+    </Popup>
+  );
+
   const anchor = "right";
   return (
     <React.Fragment key={anchor}>
+      {missionTypeModal && <MissionTypeModal />}
       <Button
         aria-label="Menu"
         classes={{ root: classes.root, label: classes.label }}

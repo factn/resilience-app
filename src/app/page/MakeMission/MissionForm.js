@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import AlgoliaPlaces from "algolia-places-react";
-import Button from "../../component/Button";
+//import { connect } from "react-redux";
+import { AddressInput, Button } from "../../component";
 import { Upload, useStyles } from "./Request.style";
 import { Page } from "../../layout";
 import { Checkbox, Typography, TextField, Container, FormControlLabel } from "@material-ui/core";
@@ -23,17 +23,25 @@ const StyledHeader = styled(Typography)`
   text-transform: none;`}
 `;
 
-function MissionForm({ handleChange, values, onSubmit, getFile /*, assignHelper, autoAssigned*/ }) {
+function MissionForm({
+  handleChange,
+  values,
+  onSubmit,
+  getFile,
+  history /*, assignHelper, autoAssigned*/,
+}) {
+  const missionType = history.location.pathname.split("/")[3];
+
   const classes = useStyles();
   const [dropOff, setDropOff] = React.useState({
     time: new Date(),
     date: new Date(),
-    location: "",
+    location: null,
   });
   const [pickUp, setPickUp] = React.useState({
     time: new Date(),
     date: new Date(),
-    location: "",
+    location: null,
   });
   const [pickUpDateLabel, setPickUpDateLabel] = React.useState(null);
   const [dropOffDateLabel, setDropOffDateLabel] = React.useState(null);
@@ -42,33 +50,9 @@ function MissionForm({ handleChange, values, onSubmit, getFile /*, assignHelper,
     const valuesWithDates = {
       pickUp,
       dropOff,
+      missionType,
     };
     onSubmit(valuesWithDates);
-  };
-
-  const handleLocation = (query, stage) => {
-    let func, rest;
-    if (stage === "dropOff") {
-      func = setDropOff;
-      rest = dropOff;
-    }
-    if (stage === "pickUp") {
-      func = setPickUp;
-      rest = pickUp;
-    }
-    if (query.suggestion) {
-      const { value, latlng, county, countryCode } = query.suggestion;
-      func({
-        ...rest,
-        location: {
-          label: value,
-          lat: latlng.lat,
-          lng: latlng.lng,
-          county,
-          countryCode,
-        },
-      });
-    }
   };
 
   const handleDate = (date, stage) => {
@@ -97,7 +81,7 @@ function MissionForm({ handleChange, values, onSubmit, getFile /*, assignHelper,
     <Page template="pink">
       <Container classes={{ root: classes.root }}>
         <StyledHeader main align="center" variant="h1">
-          Create a mission.
+          Create a{missionType === "errand" && "n"} {missionType} mission.
         </StyledHeader>
         <Container disableGutters fixed>
           <Upload withoutTwoBtns getFile={getFile} values={values} />
@@ -159,20 +143,7 @@ function MissionForm({ handleChange, values, onSubmit, getFile /*, assignHelper,
           <StyledHeader align="left" variant="h2">
             Pickup
           </StyledHeader>
-          <AlgoliaPlaces
-            placeholder="Pickup location"
-            name="pickUp"
-            options={{
-              appId: "plZ318O8ODTC",
-              apiKey: "b5e0781d289a9aa8edb37bf24aef874e",
-              language: "en",
-              countries: ["us"],
-              type: "city",
-              // Other options from https://community.algolia.com/places/documentation.html#options
-            }}
-            onChange={(query) => handleLocation(query, "pickUp")}
-            onLimit={({ message }) => message && console.log(message)}
-          />
+          <AddressInput placeholder="Pickup location" stage={pickUp} setStage={setPickUp} />
           <KeyboardDatePicker
             margin="normal"
             id="date-pickUp"
@@ -199,18 +170,10 @@ function MissionForm({ handleChange, values, onSubmit, getFile /*, assignHelper,
           <StyledHeader align="left" variant="h2">
             Drop-off
           </StyledHeader>
-          <AlgoliaPlaces
+          <AddressInput
             placeholder="Drop-off location"
-            name="dropOff"
-            options={{
-              appId: "plZ318O8ODTC",
-              apiKey: "b5e0781d289a9aa8edb37bf24aef874e",
-              language: "en",
-              countries: ["us"],
-              type: "city",
-              // Other options from https://community.algolia.com/places/documentation.html#options
-            }}
-            onChange={(query) => handleLocation(query, "dropOff")}
+            stage={dropOff}
+            setStage={setDropOff}
             onLimit={({ message }) =>
               console.log("Fired when you reached your current rate limit.")
             }
@@ -256,5 +219,4 @@ MissionForm.propTypes = {
   onSubmit: PropTypes.func,
   getFile: PropTypes.func,
 };
-
 export default MissionForm;

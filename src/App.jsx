@@ -83,7 +83,7 @@ function App() {
                 <PrivateRoute path="/missions/volunteered">
                   <MissionsVolunteered />
                 </PrivateRoute>
-                <PrivateRoute path="/missions/new">
+                <PrivateRoute path="/missions/new/:type">
                   <MakeMission />
                 </PrivateRoute>
                 <Route path="/missions/:id" component={MissionDetails} />

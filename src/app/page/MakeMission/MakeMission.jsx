@@ -68,6 +68,7 @@ function MakeMission({ history, firestore }) {
 
   return (
     <MissionForm
+      history={history}
       values={values}
       onSubmit={onSubmit}
       getFile={getFile}
