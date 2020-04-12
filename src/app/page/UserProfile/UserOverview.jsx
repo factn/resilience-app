@@ -4,7 +4,7 @@ import { Grid, Avatar, TextField } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import _ from "lodash";
 
-import ChoosePhoto from "./ChoosePhoto";
+import ProfileImage from "./ProfileImage";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,15 +29,9 @@ const UserStatus = ({ view, setView, profile, setProfile }) => {
     setProfile(_.cloneDeep(profile));
   }
 
-  function changePhotoAction(e) {
-    e.preventDefault();
-    setView("edit");
-  }
-
   return (
     <Grid container direction="column" justify="center" className={classes.root} spacing={2}>
-      <ChoosePhoto classes={classes} profile={profile} alt={displayName} src={profile.photoURL} 
-        changePhotoAction={changePhotoAction} />
+      <ProfileImage classes={classes} profile={profile} setProfile={setProfile} />
       <Grid item container spacing={1} direction="column">
         <Grid item container>
           <H5>Displayname</H5>

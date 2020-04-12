@@ -9,29 +9,37 @@ import { Grid, Avatar } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import PhotoSelection from './photoselection.jsx'
 
-const ChoosePhoto = ({ classes, profile, displayName, src }) => {
+import { useFirebase, useFirestore } from "react-redux-firebase";
+import _ from "lodash";
+
+/**
+ * Return the component displaying the profile image and enabling the ability to
+ * change it.
+ * @param {hook} classes - A hook passed by the caller meant to help
+ *                         with styling.
+ * @param {object} profile - A reference to the session profile
+ * @param {func} setProfile - A function that can set the profile object. 
+ * @return {Component} the component for displaying and editing the profile image
+ */
+const ProfileImage = ({ classes, profile, setProfile }) => {
+  const firebase = useFirebase();
+  const firestore = useFirestore();
+  const firebaseProfile = useSelector((state) => state.firebase.profile);
+
+  const displayName = _.get(profile, "displayName", "");
+  const profilePhoto = _.get(profile, "photoURL", "");
+
   var [defaultPreview, setDefaultPreview] = useState("defaultPreview");
-  var [preview, setPreview] = useState("preview");
   var [view, setView] = useState("view");
 
   function onCropDefault(preview) {
-    console.log("on crop default");
-    console.log(preview);
+    profile["photoURL"] = preview;
+    setProfile(_.cloneDeep(profile));
     setDefaultPreview(preview)
-  }
-
-  function onCrop(preview) {
-    console.log("on crop:");
-    console.log(preview);
-    setPreview(preview)
   }
 
   function onCloseDefault() {
     setDefaultPreview(null)
-  }
-
-  function onClose() {
-    setPreview(null)
   }
 
   function setEdit(e) {
@@ -41,13 +49,13 @@ const ChoosePhoto = ({ classes, profile, displayName, src }) => {
 
   function cancelAction(e) {
     e.preventDefault();
-    //setProfile(_.cloneDeep(firebaseProfile));
+    setProfile(_.cloneDeep(firebaseProfile));
     setView("view");
   }
 
   function saveAction(e) {
     e.preventDefault();
-    //firebase.updateProfile(profile);
+    firebase.updateProfile(profile);
     setView("view");
   }
 
@@ -59,7 +67,6 @@ const ChoosePhoto = ({ classes, profile, displayName, src }) => {
           height={295}
           onCrop={onCropDefault}
           onClose={onCloseDefault}
-          // src={state.src}
         />
         </Grid>
         <Grid spacing={2} justify="center" container>
@@ -77,9 +84,9 @@ const ChoosePhoto = ({ classes, profile, displayName, src }) => {
       </Grid>
   ) : (
     <Grid item>
-      <Avatar className={classes.profileImage} src={profile.photoURL} alt={displayName} />
-      <Link onClick={setEdit}>Change Photo</Link>
+      <Avatar className={classes.profileImage} src={profilePhoto} alt={displayName} />
+      <Link style={{ textDecoration: 'none' }} onClick={setEdit}><h4>Change Picture</h4></Link>
     </Grid>
   );
 };
-export default ChoosePhoto;
+export default ProfileImage;
