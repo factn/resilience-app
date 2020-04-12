@@ -83,6 +83,7 @@ const useStyles = makeStyles((theme) => ({
 
 const MissionDetailsPage = ({
   mission,
+  volunteers,
   volunteerForMission,
   markMissionAsCompleted,
   userUnverifiedPopupOpen,
@@ -92,7 +93,6 @@ const MissionDetailsPage = ({
 }) => {
   const classes = useStyles();
 
-  console.log(history);
   return (
     <>
       <Box className={classes.content}>
@@ -134,7 +134,7 @@ const MissionDetailsPage = ({
                 </Grid>
                 <Grid item>
                   <Body2 align="left" color="textPrimary" className={classes.avatarText}>
-                    Jane
+                    {volunteers[0].displayName}
                   </Body2>
                 </Grid>
               </Grid>
