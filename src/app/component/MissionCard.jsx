@@ -82,7 +82,7 @@ const MissionCard = withStyles(styles)(({ mission, children, classes, ...rest })
     <Card className={classes.root} {...rest}>
       <CardHeader
         title={title}
-        titleTypographyProps={{ variant: "h2", component: "span", color: "primary" }}
+        titleTypographyProps={{ variant: "h2", component: "span" }}
         className={classes.cardHeader}
       />
       <CardContent className={classes.cardContent}>
