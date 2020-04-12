@@ -18,17 +18,13 @@ function MakeMission({ history, firestore }) {
   const { handleChange, values, setValues } = useForm();
 
   const user = useSelector((state) => state.firebase.auth);
-  function getFile(file) {
-    setFile(file);
-  }
-
   /**
    * Creates a mission based on form data. Updates the current user
    * to be the owner of the newly created mission.
    */
   function saveMissions(payload) {
     console.log("Saving mission...");
-    const model = { ...payload, ownerId: user.uid };
+    const model = { ...payload, volunteerId: user.uid };
     const missionId = uuidv4();
 
     firestore
@@ -41,7 +37,8 @@ function MakeMission({ history, firestore }) {
   }
 
   async function onSubmit(payload) {
-    let val = { ...values, ...payload };
+    const { title, description /**notes, privateNotes */ } = values;
+    let val = { details: { title, description }, ...payload };
     setLoading(true);
     if (file) {
       const uploadTask = storage.ref(`images/${file.name}`).put(file);
@@ -54,13 +51,11 @@ function MakeMission({ history, firestore }) {
         },
         async () => {
           const url = await storage.ref("images").child(file.name).getDownloadURL();
-          val.url = url; // Todo: Refactor later
+          val.details.url = url; // Todo: Refactor later
         }
       );
-      saveMissions(val);
-    } else {
-      saveMissions(val);
     }
+    saveMissions(val);
     setLoading(false);
   }
 
@@ -71,7 +66,7 @@ function MakeMission({ history, firestore }) {
       history={history}
       values={values}
       onSubmit={onSubmit}
-      getFile={getFile}
+      getFile={(file) => setFile(file)}
       handleChange={handleChange}
       /*autoAssign={() => setAutoAssignHelper(!autoAssignHelper)}
       autoAssigned={autoAssignHelper}*/

@@ -20,6 +20,7 @@ const StyledHeader = styled(Typography)`
   ${({ main }) =>
     main &&
     `margin-left: 0px;
+    margin-bottom: 1.3vh;
   text-transform: none;`}
 `;
 
@@ -45,12 +46,13 @@ function MissionForm({
   });
   const [pickUpDateLabel, setPickUpDateLabel] = React.useState(null);
   const [dropOffDateLabel, setDropOffDateLabel] = React.useState(null);
+  const [photo, setPhoto] = React.useState(false);
 
   const handleSubmit = () => {
     const valuesWithDates = {
       pickUp,
       dropOff,
-      missionType,
+      type: missionType,
     };
     onSubmit(valuesWithDates);
   };
@@ -83,9 +85,6 @@ function MissionForm({
         <StyledHeader main align="center" variant="h1">
           Create a{missionType === "errand" && "n"} {missionType} mission.
         </StyledHeader>
-        <Container disableGutters fixed>
-          <Upload withoutTwoBtns getFile={getFile} values={values} />
-        </Container>
         <StyledHeader align="left" variant="h2">
           Mission details
         </StyledHeader>
@@ -110,6 +109,27 @@ function MissionForm({
           label="Mission notes"
           required={true}
         />
+        <StyledHeader
+          main
+          align="left"
+          variant="h2"
+          style={{
+            cursor: "pointer",
+            textDecoration: "underline",
+            textAlign: "center",
+            marginBottom: "0.5vh",
+          }}
+          onClick={() => setPhoto(!photo)}
+        >
+          Add a photo
+        </StyledHeader>
+        {photo && (
+          <>
+            {" "}
+            <Typography>Insert an image</Typography>
+            <Upload getFile={getFile} values={values} />
+          </>
+        )}
         <StyledHeader align="left" variant="h2">
           Recipient
         </StyledHeader>
