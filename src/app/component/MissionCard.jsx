@@ -38,14 +38,14 @@ const MissionCardContent = ({ contentItems, classes }) => (
       const content = contentItem.content;
 
       return (
-        <>
-          <Grid item xs={1} key={`content-item-icon-${index + 1}`}>
+        <React.Fragment key={`content-item-${index + 1}`}>
+          <Grid item xs={1}>
             <Icon color="primary" />
           </Grid>
-          <Grid item xs={11} key={`content-item-content-${index + 1}`}>
+          <Grid item xs={11}>
             <Typography className={classes.contentTypography}>{content}</Typography>
           </Grid>
-        </>
+        </React.Fragment>
       );
     })}
   </Grid>
