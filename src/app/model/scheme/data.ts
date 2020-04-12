@@ -16,53 +16,25 @@ interface Location {
 type OrganizationUID = string;
 // ===== Organization ====
 interface Organization {
-  /*Unique Id of an organization, this create automatically*/
+  /* unique id of the organ */
   readonly uid: OrganizationUID;
-  /*Name of the organization */
   name: string;
-  /*The Location of the Organization*/
-  location: Location;  
+  location: Location;
+  searchUser: () => User;
 }
 
-/*Volunteer status when first signup to a organization*/
-enum VolunteerPendingStatus {
-  created="created", // when user first created an account
-  // once user accept term and conditions -> pending
-  pending="pending", // waiting for organization to approve the request
-  // once the organization accept, -> approved
-  // if not accepted -> declined
-  approved="approved", // you are a volunteer
-  declined="declined", // sorry
-}
-
-type UserUID = string;
 // === USER ===
 interface User {
-  readonly uid: UserUID;
-  /* phone number, our primary means of communication*/
+  readonly uid: string;
   phone: number;
-  /* user profile name, this populate from either user, or his provider*/
-  profileName: string;
-  /* user location, we use this to show user, (later on) which organization exist to signup to*/
+  name: string;
   location: Location;
-  /* the organization that user belong to*/
   organizationId: number;
-  /* if user is a volunteer */
   isVolunteer: boolean;
-  /* if user is an organizer */
   isOrganizer: boolean;
-  /* specifict details for the volunteer */
   volunteerDetails: {
-    /*if user have transportation */
-    hasTransportation: boolean;
-    /*user volunteering to an organization have a pending status*/
-    pendingStatus: VolunteerPendingStatus;
-    pendingDetail:{
-      /*if user was declined, why, only for organizer*/
-      privateNotes: string
-    }
+    hasCar: boolean;
   };
-  /* specifict details for the organizer*/
   organizerDetails: {};
 }
 
@@ -106,20 +78,17 @@ enum TimeWindowType {
 interface TimeWindow {
   timeWindowType: TimeWindowType;
   startTime: Date;
-  endTime?: Date; // we could infer this from the other two but shall we store  anyway, I think its better to keep it small, but, maybe it will be used in the future
+  endTime: Date; // we could infer this from the other two but shall we store  anyway, I think its better to keep it small, but, maybe it will be used in the future
   // for more accuracy
 }
 
-type MissionUID = string;
 interface Mission {
-  uid: MissionUID;
-  // the type of the mission, this might change the flow of the system
+  uid: string;
   type: MissionType;
-  // status of the mission
   status: MissionStatus;
   fundedStatus: MissionFundedStatus;
   payableStatus: MissionPayableStatus;
-  organisationId: OrganizationUID;
+  organisationId: OrganizationUID; //Organization.uid
   tentativeVolunterId: string; //presumably this get removed if the volunteer accepts?
   volunteerId: string;
   details: {
@@ -128,16 +97,14 @@ interface Mission {
     url: string;
     notes: string;
     privateNotes: string;
-    cost: number;  // Miles, check this please
     pickUp: {
-      date: Date; // can be null, // should we have timewindow here for consistency
+      date: Date; // can be null, also timewindow?
       location: Location;
     };
     dropOff: {
       deliveryWindow: TimeWindow;
       location: Location; // default to recipient location
     };
-    // when the mission are delivered, details of that
     deliveryConfirmation: {
       imageUrl: string;
       deliveryNotes: string;
@@ -149,7 +116,7 @@ interface Mission {
     recipient: {
       name?: string; //  only include if recipientId  not available
       contactNumber?: string; // only include if recipientId  not available
-      recipientId: UserUID;
+      recipientId: string;
     };
   };
 
@@ -157,33 +124,10 @@ interface Mission {
 }
 
 interface MissionLogEvent {
-  userId: UserUID;
+  userId: string;
   action: string;
   actionDetail: string;
   fieldName: string;
   newValue: any;
   timestamp: Date;
 }
-
-//eg
-
-const exampleLog = [
-  {
-    userId: "_a121asdfa",
-    action: "created",
-    timestamp: 12324322,
-  },
-  {
-    userId: "_a121asdfa",
-    action: "updated",
-    timestamp: 12329322,
-    field: "description",
-    newvalue: "go pick up xyz",
-  },
-
-  {
-    userId: "_a121asdfa",
-    action: "moved to tentatve",
-    timestamp: 12329322,
-  },
-];

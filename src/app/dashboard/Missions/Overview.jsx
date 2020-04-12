@@ -5,16 +5,15 @@ import { H2 } from "../../component";
 import { compose } from "redux";
 import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
-import MapView from "../../component/MapView";
 
 import { Map, TileLayer, Marker } from "react-leaflet";
+import FastfoodIcon from "@material-ui/icons/Fastfood";
+
+import Switch from "@material-ui/core/Switch";
 
 import { DivIcon } from "leaflet";
 import { renderToString } from "react-dom/server";
 
-import FastfoodIcon from "@material-ui/icons/Fastfood";
-
-import Switch from "@material-ui/core/Switch";
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -134,5 +133,6 @@ export default compose(
     return [{ collection: "missions" }, { collection: "users" }];
   })
 )(Overview);
+
 
 
