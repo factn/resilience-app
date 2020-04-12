@@ -36,7 +36,7 @@ The feature branch workflow is explained in more detail [by Atlassian here].
 [pr]: https://github.com/factn/resilience-app/compare
 [by Atlassian here]: https://www.atlassian.com/git/tutorials/comparing-workflows/feature-branch-workflow
 [readme]: https://github.com/factn/resilience-app/blob/master/README.md
-[join our slack]: https://join.slack.com/t/coronadonor/shared_invite/zt-cwm4b79c-12NHPqGWbzZ1aR5geyME1g
+[join our slack]: https://bit.ly/join_mutualaid_slack
 
 ## Branch naming conventions
 
