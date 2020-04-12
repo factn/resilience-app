@@ -92,7 +92,7 @@ const MissionDetailsPage = ({
 }) => {
   const classes = useStyles();
 
-  console.log(mission);
+  console.log(history);
   return (
     <>
       <Box className={classes.content}>
@@ -223,7 +223,7 @@ const MissionDetailsPage = ({
         <Card>
           <Grid>
             {mission.status === "todo" ? (
-              <Button text="Accept Mission" onClick={volunteerForMission} />
+              <Button text="Accept Mission" onClick={() => volunteerForMission(mission.id)} />
             ) : (
               <Button text="Mark Mission as Completed" onClick={markMissionAsCompleted} />
             )}

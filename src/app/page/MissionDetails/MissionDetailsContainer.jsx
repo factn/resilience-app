@@ -45,6 +45,7 @@ const MissionDetailsPage = ({ firestore, auth, mission, history }) => {
     if (!auth.phoneNumber) {
       setUserUnverifiedPopupOpen(true);
     } else {
+      console.log(missionId);
       User.assignAsVolunteer(firestore, missionId, auth.uid);
     }
   }
@@ -121,7 +122,10 @@ MissionDetailsPage.propTypes = {
 
 const mapStateToProps = (state, ownProps) => {
   const missionId = ownProps.match.params.id;
-  const mission = state.firestore.data.missions && state.firestore.data.missions[missionId];
+  const mission = {
+    id: missionId,
+    ...(state.firestore.data.missions && state.firestore.data.missions[missionId]),
+  };
   return {
     auth: state.firebase.auth,
     missionId,
