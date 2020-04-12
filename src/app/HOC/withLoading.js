@@ -36,7 +36,7 @@ const withLoading = (BaseComponent) => {
   };
 
   EnhancedComponent.propTypes = {
-    children: PropTypes.oneOfType([PropTypes.element, PropTypes.array]),
+    children: PropTypes.node,
     isEmpty: PropTypes.bool,
     isEmptyText: PropTypes.string,
     isLoaded: PropTypes.bool,
