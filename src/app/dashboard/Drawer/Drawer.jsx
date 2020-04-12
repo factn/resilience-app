@@ -1,13 +1,16 @@
 import React from "react";
 import clsx from "clsx";
 import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
+import { withRouter, Link } from "react-router-dom";
 
+import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
 
+import { Button } from "../../component";
+import { Grid } from "@material-ui/core";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
@@ -44,11 +47,24 @@ const useStyles = makeStyles((theme) => ({
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
   },
+  item: {
+    borderRadius: 0,
+    justifyContent: "left",
+    height: "52px",
+    paddingLeft: theme.spacing(2),
+  },
+  startIcon: {
+    paddingRight: theme.spacing(2),
+    //  height: "36px",
+    //width: "36px",
+    //padding: `0 ${theme.spacing(1)} 0 ${theme.spacing(1)}`,
+  },
 }));
 
-const DashboardDrawer = ({ open, handleDrawerClose, drawerItems }) => {
-  const classes = useStyles();
+const DashboardDrawer = ({ open, handleDrawerClose, drawerItems, currentUrl }) => {
+  const isActive = (url) => url === currentUrl;
 
+  const classes = useStyles();
   return (
     <Drawer
       variant="permanent"
@@ -69,16 +85,19 @@ const DashboardDrawer = ({ open, handleDrawerClose, drawerItems }) => {
         </IconButton>
       </div>
       <Divider />
-      <List>
+      <Grid container direction="column">
         {drawerItems.map((item) => (
-          <ListItem button key={item.text} onClick={item.handler}>
-            <ListItemIcon title={item.text} alt={item.text} aria-label={item.text}>
-              {item.icon}
-            </ListItemIcon>
-            <ListItemText primary={item.text} title={item.text} />
-          </ListItem>
+          <Button
+            key={item.id}
+            onClick={item.handler}
+            classes={{ root: classes.item, startIcon: classes.startIcon }}
+            variant={isActive(item.id) ? "contained" : "text"}
+            startIcon={item.icon}
+          >
+            {item.text}
+          </Button>
         ))}
-      </List>
+      </Grid>
       <Divider />
     </Drawer>
   );
