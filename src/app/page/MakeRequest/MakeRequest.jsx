@@ -47,7 +47,7 @@ function MakeRequest({ history, firestore }) {
 
   async function onSubmit(location) {
     setLoading(true);
-    let val = { ...values, dropOff: { ...location } }; // Setting it to be part of the values (setValues), calls it late
+    let val = { details: { ...values }, dropOff: { ...location } }; // Setting it to be part of the values (setValues), calls it late
     if (file) {
       const uploadTask = storage.ref(`images/${file.name}`).put(file);
       await uploadTask.on(
@@ -80,7 +80,7 @@ function MakeRequest({ history, firestore }) {
       handleChange={handleChange}
     />
   ) : (
-    <p>Your request was sent successfully!</p>
+    <p style={{ textAlign: "center" }}>Your request was sent successfully!</p>
   );
 }
 

@@ -1,12 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-//import Input from "../../component/Input";
-import AlgoliaPlaces from "algolia-places-react";
 import { TextField, Typography } from "@material-ui/core";
 import Button from "../../component/Button";
-import { Header, Container, SubText, Upload } from "./Request.style";
+import { Container, SubText, Upload } from "./Request.style";
 import { Page } from "../../layout";
+import AddressInput from "../../component/AddressInput";
 
 const StyledHeader = styled(Typography)`
   margin-top: 0.8vh;
@@ -28,25 +27,6 @@ function RequestForm({ handleChange, values, onSubmit, getFile }) {
   const [photo, setPhoto] = React.useState(false);
   const [location, setLocation] = React.useState({});
 
-  const handleLocation = (query) => {
-    if (query.suggestion) {
-      setErrorFindLocation(false);
-      const { value, latlng, county, countryCode } = query.suggestion;
-      setLocation({
-        ...location,
-        location: {
-          label: value,
-          lat: latlng.lat,
-          lng: latlng.lng,
-          county,
-          countryCode,
-        },
-      });
-    } else {
-      setErrorFindLocation(true);
-    }
-  };
-
   const handleSubmit = (location) => {
     onSubmit(location);
   };
@@ -55,19 +35,11 @@ function RequestForm({ handleChange, values, onSubmit, getFile }) {
     <Page>
       <Container>
         <StyledHeader>Where do you need help?</StyledHeader>
-        <AlgoliaPlaces
+        <AddressInput
           placeholder="Enter your Address"
+          stage={location}
+          setStage={setLocation}
           name="location"
-          options={{
-            appId: "plZ318O8ODTC",
-            apiKey: "b5e0781d289a9aa8edb37bf24aef874e",
-            language: "en",
-            countries: ["us"],
-            type: "city",
-            // Other options from https://community.algolia.com/places/documentation.html#options
-          }}
-          onChange={(query) => handleLocation(query, "dropOff")}
-          onLimit={({ message }) => console.log("Fired when you reached your current rate limit.")}
         />
         <p>
           Can't find it?
