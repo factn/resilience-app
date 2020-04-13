@@ -31,10 +31,10 @@ const useStyles = makeStyles((theme) => ({
     }),
   },
   menuButton: {
-    marginLeft: "4px",
+    marginLeft: theme.spacing(0.5),
   },
   toolBarTitle: {
-    marginLeft: "1rem",
+    marginLeft: theme.spacing(2),
   },
   hide: {
     display: "none",

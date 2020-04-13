@@ -29,10 +29,10 @@ const useStyles = makeStyles((theme) => ({
   pageContentShift: {
     marginLeft: drawerWidth,
     width: `calc(100% - ${drawerWidth}px)`,
-    padding: "4rem 0 0 0 !important",
+    padding: `${theme.spacing(5, 0, 0, 0)} !important`,
   },
   pageContent: {
-    padding: "4rem 0 0 4rem",
+    padding: theme.spacing(5, 0, 0, 7),
     transition: theme.transitions.create(["width", "padding", "padding-left"], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
