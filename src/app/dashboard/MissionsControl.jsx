@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
+import clsx from "clsx";
 
 import { compose } from "redux";
 import { makeStyles } from "@material-ui/core/styles";
@@ -12,6 +13,7 @@ import Missions from "./Missions";
 import { Switch, Route } from "react-router-dom";
 import { downloadAsCsv } from "./missionControlUtilities";
 
+import Grid from "@material-ui/core/Grid";
 import HomeIcon from "@material-ui/icons/Home";
 import AnnouncementIcon from "@material-ui/icons/Announcement";
 import PeopleIcon from "@material-ui/icons/People";
@@ -19,23 +21,30 @@ import PanToolIcon from "@material-ui/icons/PanTool";
 import GetAppRoundedIcon from "@material-ui/icons/GetAppRounded";
 
 const drawerWidth = 240;
+const drawerMinWidth = 73;
 
 const useStyles = makeStyles((theme) => ({
   root: {
     // the padding accounted for left menu and top header
     padding: theme.spacing(2),
     width: "100%",
+    display: "flex",
   },
-  pageContentShift: {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    padding: `${theme.spacing(5, 0, 0, 0)} !important`,
-  },
-  pageContent: {
-    padding: theme.spacing(5, 0, 0, 7),
-    transition: theme.transitions.create(["width", "padding", "padding-left"], {
-      easing: theme.transitions.easing.sharp,
+  contentShift: {
+    transition: theme.transitions.create(["margin"], {
+      easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
+    }),
+    marginLeft: theme.spacing(1),
+  },
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing(2),
+    marginLeft: -28,
+    marginTop: 28,
+    transition: theme.transitions.create(["margin"], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
     }),
   },
 }));
@@ -96,15 +105,17 @@ const MissionsPage = ({ history }) => {
         drawerItems={drawerItems}
         currentUrl={currentUrl}
       />
-      <Switch>
-        <Route path="/dashboard/missions" component={Missions} />
-        <Route
-          path="/dashboard/"
-          component={() => (
-            <Home className={`${open && classes.pageContentShift} ${classes.pageContent}`} />
-          )}
-        />
-      </Switch>
+      <main
+        container
+        className={clsx(classes.content, {
+          [classes.contentShift]: open,
+        })}
+      >
+        <Switch>
+          <Route path="/dashboard/missions" component={Missions} />
+          <Route path="/dashboard/" component={() => <Home />} />
+        </Switch>
+      </main>
     </div>
   );
 };

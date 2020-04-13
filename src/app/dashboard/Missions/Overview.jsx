@@ -77,7 +77,7 @@ const Overview = ({ missions }) => {
       });
   }, [missionStatus, missionType]);
 
-  const columns = ["title", "status"];
+  const columns = ["title", "status", "pickupWindow.startTime"];
 
   const options = {
     filterType: "checkbox",
