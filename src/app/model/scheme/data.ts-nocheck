@@ -187,4 +187,3 @@ const exampleLog = [
     timestamp: 12329322,
   },
 ];
-}
