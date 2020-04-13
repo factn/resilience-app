@@ -1,6 +1,7 @@
 // If you enabled Analytics in your project, add the Firebase SDK for Analytics
 import "firebase/analytics";
 import * as firebase from "firebase/app";
+import * as fireorm from 'fireorm';
 import "firebase/auth";
 import "firebase/firestore";
 import React from "react";
@@ -20,7 +21,8 @@ const rrfConfig = {
 };
 
 firebase.initializeApp(firebaseConfig);
-firebase.firestore();
+const firestore = firebase.firestore();
+fireorm.initialize(firestore);
 
 const rrfProps = {
   firebase,
