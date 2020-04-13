@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import { TextField, Typography } from "@material-ui/core";
+import { TextField, Typography, Select, FormControl } from "@material-ui/core";
 import Button from "../../component/Button";
 import { Container, SubText, Upload } from "./Request.style";
 import { Page } from "../../layout";
@@ -24,11 +24,17 @@ const StyledSpan = styled.span`
 
 function RequestForm({ handleChange, values, onSubmit, getFile }) {
   const [errorFindLocation, setErrorFindLocation] = React.useState(false);
+  const [addressInput, setAddressInput] = React.useState("");
   const [photo, setPhoto] = React.useState(false);
-  const [location, setLocation] = React.useState({});
+  const [location, setLocation] = React.useState(null);
+  const [fundStatus, setFundStatus] = React.useState(null);
 
-  const handleSubmit = (location) => {
-    onSubmit(location);
+  const handleSubmit = () => {
+    const payload = {
+      deliveryLocation: location ? location : addressInput,
+      fundStatus,
+    };
+    onSubmit(payload);
   };
 
   return (
@@ -43,19 +49,16 @@ function RequestForm({ handleChange, values, onSubmit, getFile }) {
         />
         <p>
           Can't find it?
-          <StyledSpan onClick={() => setErrorFindLocation(true)}>
-            Enter your postal code.
-          </StyledSpan>
+          <StyledSpan onClick={() => setErrorFindLocation(true)}>Insert manually.</StyledSpan>
         </p>
         {errorFindLocation && (
           <Container>
             <TextField
               variant="outlined"
-              value={values.postalCode || ""}
-              name="postalCode"
-              onChange={handleChange}
-              label="Postal Code"
-              helperText="Help us to find your location"
+              value={addressInput}
+              onChange={(e) => setAddressInput(e.target.value)}
+              label="Describe your location"
+              helperText="handle as much details as possible"
             />
           </Container>
         )}
@@ -63,13 +66,23 @@ function RequestForm({ handleChange, values, onSubmit, getFile }) {
           Details
         </StyledHeader>
         <TextField
+          m={2}
+          fullWidth={true}
+          variant="outlined"
+          value={values.title || ""}
+          name="title"
+          onChange={handleChange}
+          label="Title / Subject"
+          required={true}
+        />
+        <TextField
           fullWidth={true}
           variant="outlined"
           value={values.description || ""}
           name="description"
           multiline={true}
           rows={4}
-          onChange={handleSubmit}
+          onChange={handleChange}
           label="Information notes for volunteers"
         />
         <StyledHeader
@@ -87,8 +100,24 @@ function RequestForm({ handleChange, values, onSubmit, getFile }) {
             <Upload getFile={getFile} values={values} />
           </>
         )}
+        <Container>
+          <FormControl>
+            <Select
+              fullWidth={true}
+              native
+              id="funded-type"
+              labelId="funded-label"
+              value={fundStatus}
+              onChange={(e) => setFundStatus(e.target.value)}
+            >
+              <option value="none">Set how the cost will be paid...</option>
+              <option value="fundedinkind">I want to receive a donation</option>
+              <option value="fundedbyrecipient">I want to pay</option>
+            </Select>
+          </FormControl>
+        </Container>
         <Button
-          onClick={onSubmit}
+          onClick={handleSubmit}
           secondary
           text="Make Request"
           style={{ width: "90%", margin: "2.3vh 0" }}

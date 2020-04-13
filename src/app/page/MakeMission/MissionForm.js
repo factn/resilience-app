@@ -5,13 +5,24 @@ import styled from "styled-components";
 import { AddressInput, Button } from "../../component";
 import { Upload, useStyles } from "./Request.style";
 import { Page } from "../../layout";
-import { Checkbox, Typography, TextField, Container, FormControlLabel } from "@material-ui/core";
+import {
+  InputLabel,
+  Select,
+  MenuItem,
+  Typography,
+  TextField,
+  Container,
+  FormControl,
+} from "@material-ui/core";
 import {
   KeyboardDatePicker,
   KeyboardTimePicker,
   MuiPickersUtilsProvider,
+  DateTimePicker,
 } from "@material-ui/pickers";
 import MomentUtils from "@date-io/date-fns";
+import timeWindows from "../../utils/timeWindows";
+import fundedStatus from "../../utils/fundedStatus";
 
 const StyledHeader = styled(Typography)`
   margin-top: 0.8vh;
@@ -38,23 +49,35 @@ function MissionForm({
     time: new Date(),
     date: new Date(),
     location: null,
+    timeWindowType: null,
   });
   const [pickUp, setPickUp] = React.useState({
     time: new Date(),
     date: new Date(),
     location: null,
+    timeWindowType: null,
   });
   const [pickUpDateLabel, setPickUpDateLabel] = React.useState(null);
   const [dropOffDateLabel, setDropOffDateLabel] = React.useState(null);
   const [photo, setPhoto] = React.useState(false);
-
+  const [pickUpDateTime, setPickUpDateTime] = React.useState(false);
+  const [fundStatus, setFundStatus] = React.useState(null);
   const handleSubmit = () => {
-    const valuesWithDates = {
-      pickUp,
-      dropOff,
+    const payload = {
+      pickUpWindow: {
+        date: pickUp.date,
+        timeWindowType: pickUp.timeWindowType,
+      },
+      pickUpLocation: pickUp.location,
+      deliveryWindow: {
+        date: dropOff.date,
+        timeWindowType: dropOff.timeWindowType,
+      },
+      deliveryLocation: dropOff.location,
       type: missionType,
+      fundStatus,
     };
-    onSubmit(valuesWithDates);
+    onSubmit(payload);
   };
 
   const handleDate = (date, stage) => {
@@ -63,19 +86,11 @@ function MissionForm({
     }
     if (stage === "pickUp") {
       setPickUpDateLabel(date);
-      if (typeof date !== "string") {
-        setPickUp({ ...pickUp, date: date.toString().substr(0, 15) });
-      } else {
-        setPickUp({ ...dropOff, date: date || null });
-      }
+      setPickUp({ ...pickUp, date });
     }
     if (stage === "dropOff") {
       setDropOffDateLabel(date);
-      if (typeof date !== "string") {
-        setDropOff({ ...dropOff, date: date.toString().substr(0, 15) });
-      } else {
-        setDropOff({ ...dropOff, date: date || null });
-      }
+      setDropOff({ ...dropOff, date });
     }
   };
 
@@ -106,7 +121,7 @@ function MissionForm({
           multiline={true}
           rows={4}
           onChange={handleChange}
-          label="Mission notes"
+          label="Mission description"
           required={true}
         />
         <StyledHeader
@@ -160,73 +175,121 @@ function MissionForm({
           label="Auto-assign a helper"
         />*/}
         <MuiPickersUtilsProvider utils={MomentUtils}>
-          <StyledHeader align="left" variant="h2">
-            Pickup
-          </StyledHeader>
-          <AddressInput placeholder="Pickup location" stage={pickUp} setStage={setPickUp} />
-          <KeyboardDatePicker
-            margin="normal"
-            id="date-pickUp"
-            label="Select Date"
-            format="MM/dd/yyyy"
-            value={pickUpDateLabel}
-            onChange={(date) => handleDate(date, "pickUp")}
-            KeyboardButtonProps={{
-              "aria-label": "change date",
-            }}
-          />
-          <KeyboardTimePicker
-            margin="normal"
-            id="time-pickUp"
-            label="Pickup time"
-            value={pickUp.timeProtoType}
-            onChange={(time) =>
-              time && setPickUp({ ...pickUp, time: time.toTimeString(), timeProtoType: time })
-            }
-            KeyboardButtonProps={{
-              "aria-label": "change time",
-            }}
-          />
-          <StyledHeader align="left" variant="h2">
-            Drop-off
-          </StyledHeader>
-          <AddressInput
-            placeholder="Drop-off location"
-            stage={dropOff}
-            setStage={setDropOff}
-            onLimit={({ message }) =>
-              console.log("Fired when you reached your current rate limit.")
-            }
-          />
-          <KeyboardDatePicker
-            margin="normal"
-            id="date-dropOff"
-            label="Select Date"
-            format="MM/dd/yyyy"
-            value={dropOffDateLabel}
-            onChange={(date) => handleDate(date, "dropOff")}
-            KeyboardButtonProps={{
-              "aria-label": "change date",
-            }}
-          />
-          <KeyboardTimePicker
-            margin="normal"
-            id="time-dropOff"
-            label="Drop-off time"
-            value={dropOff.timeProtoType}
-            onChange={(time) =>
-              time && setDropOff({ ...dropOff, time: time.toTimeString(), timeProtoType: time })
-            }
-            KeyboardButtonProps={{
-              "aria-label": "change time",
-            }}
-          />
+          <div style={{ margin: "1.5em 0" }}>
+            <StyledHeader align="left" variant="h2">
+              Pickup
+            </StyledHeader>
+            <AddressInput placeholder="Pickup location" stage={pickUp} setStage={setPickUp} />
+            <StyledHeader
+              align="left"
+              variant="h5"
+              style={{ cursor: "pointer", textDecoration: "underline", marginBottom: "1.6em" }}
+              onClick={() => setPickUpDateTime(!pickUpDateTime)}
+            >
+              Add pickup date and time
+            </StyledHeader>{" "}
+            {pickUpDateTime && (
+              <>
+                <DateTimePicker
+                  margin="normal"
+                  id="date-dropPickup"
+                  label="Select Date"
+                  format="MM/dd/yyyy"
+                  value={pickUpDateLabel}
+                  onChange={(date) => handleDate(date, "pickUp")}
+                  KeyboardButtonProps={{
+                    "aria-label": "change date",
+                  }}
+                />
+                <FormControl className={classes.formControl}>
+                  <Select
+                    fullWidth={true}
+                    native
+                    labelId="pick-time-type-label"
+                    value={dropOff.timeWindowType}
+                    onChange={(e) => setPickUp({ ...pickUp, timeWindowType: e.target.value })}
+                  >
+                    <option value="none">Pickup is likely to happen at:</option>
+                    {timeWindows.map((i) => (
+                      <option value={i.value}>{i.label}</option>
+                    ))}
+                  </Select>
+                </FormControl>
+              </>
+            )}
+          </div>
+          <div style={{ margin: "1.5em 0" }}>
+            <StyledHeader align="left" variant="h2">
+              Drop-off
+            </StyledHeader>
+            <AddressInput
+              placeholder="Drop-off location"
+              stage={dropOff}
+              setStage={setDropOff}
+              onLimit={({ message }) =>
+                console.log("Fired when you reached your current rate limit.")
+              }
+            />
+            <DateTimePicker
+              margin="normal"
+              id="date-dropOff"
+              label="Select Date"
+              format="MM/dd/yyyy"
+              value={dropOffDateLabel}
+              onChange={(date) => handleDate(date, "dropOff")}
+              KeyboardButtonProps={{
+                "aria-label": "change date",
+              }}
+            />
+            <FormControl>
+              <Select
+                fullWidth={true}
+                native
+                id="del-time-type"
+                labelId="del-time-type-label"
+                value={dropOff.timeWindowType}
+                onChange={(e) => setDropOff({ ...dropOff, timeWindowType: e.target.value })}
+              >
+                <option value="none">Delivery is likely to happen at...</option>
+                {timeWindows.map((item) => (
+                  <option value={item.value}>{item.label}</option>
+                ))}
+              </Select>
+            </FormControl>
+          </div>
         </MuiPickersUtilsProvider>
+        <TextField
+          fullWidth={true}
+          variant="outlined"
+          value={values.cost || ""}
+          name="cost"
+          type="number"
+          onChange={handleChange}
+          label="Assign a cost"
+          helperText="in USD"
+        />
+        <Container>
+          <FormControl>
+            <Select
+              fullWidth={true}
+              native
+              id="funded-type"
+              labelId="funded-label"
+              value={fundStatus}
+              onChange={(e) => setFundStatus(e.target.value)}
+            >
+              <option value="none">Set funded status...</option>
+              {fundedStatus.map((item) => (
+                <option value={item.value}>{item.label}</option>
+              ))}
+            </Select>
+          </FormControl>
+        </Container>
         <Button
           onClick={handleSubmit}
           secondary
           text="Create mission"
-          style={{ width: "90%", marginBottom: "2.3vh" }}
+          style={{ width: "90%", margin: "2.3vh 0" }}
         />
       </Container>
     </Page>

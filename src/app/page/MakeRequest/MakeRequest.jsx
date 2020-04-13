@@ -33,21 +33,21 @@ function MakeRequest({ history, firestore }) {
    * Creates a mission based on form data. Updates the current user
    * to be the owner of the newly created mission.
    */
-  function saveMissions(val) {
-    const model = { ...val, ownerId: user.uid };
+  function saveMissions(payload) {
+    const model = { ...payload, status: "unassigned", missionAccepted: false };
     const missionId = uuidv4();
 
     firestore
       .collection("missions")
       .doc(missionId)
-      .set({ ...model, status: "todo" });
+      .set({ ...model });
 
     User.assignAsOwner(firestore, missionId, user.uid);
   }
 
-  async function onSubmit(location) {
+  async function onSubmit(payload) {
     setLoading(true);
-    let val = { details: { ...values }, dropOff: { ...location } }; // Setting it to be part of the values (setValues), calls it late
+    let val = { ...values, ...payload }; // Setting it to be part of the values (setValues), calls it late
     if (file) {
       const uploadTask = storage.ref(`images/${file.name}`).put(file);
       await uploadTask.on(

@@ -10,9 +10,9 @@ const AddressInput = (props) => {
       setStage({
         ...stage,
         location: {
-          label: value,
+          address: value,
           lat: latlng.lat,
-          lng: latlng.lng,
+          long: latlng.lng,
           county,
           countryCode,
         },
