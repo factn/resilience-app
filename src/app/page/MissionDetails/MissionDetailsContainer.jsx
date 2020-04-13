@@ -10,7 +10,7 @@ import Page from "../../layout/Page";
 // Created based on the schema in firebase
 import styled from "styled-components";
 import { isLoaded, isEmpty } from "react-redux-firebase";
-import { User } from "../../model";
+import { Users } from "../../model";
 
 import addressLookUp from "../../utils/addressLookUp";
 
@@ -39,6 +39,7 @@ export const StyledDiv = styled.div`
  * @component
  */
 const MissionDetailsPage = ({ firestore, auth, mission, history }) => {
+  Users.getByVolunteerId("123");
   mission = mission || {};
   const [userUnverifiedPopupOpen, setUserUnverifiedPopupOpen] = useState(false);
   function volunteerForMission(missionId) {
@@ -46,7 +47,7 @@ const MissionDetailsPage = ({ firestore, auth, mission, history }) => {
       setUserUnverifiedPopupOpen(true);
     } else {
       console.log(missionId);
-      User.assignAsVolunteer(firestore, missionId, auth.uid);
+      Users.assignAsVolunteer(firestore, missionId, auth.uid);
     }
   }
 
