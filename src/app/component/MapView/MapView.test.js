@@ -8,12 +8,12 @@ describe("Map Component", () => {
   }
 
   it("Renders to the screen correctly", () => {
-    const mapView = renderComponent({
+    renderComponent({
       values: {
         lat: 0,
         long: 0,
       },
     });
-    expect(mapView.getByTestId("leaflet-mapview")).toBeVisible();
+    expect(document.querySelector(".data-test-leaflet-mapview")).toBeTruthy();
   });
 });
