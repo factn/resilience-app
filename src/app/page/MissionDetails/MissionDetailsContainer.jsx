@@ -57,11 +57,13 @@ const MissionDetailsPage = ({ firestore, auth, mission, history }) => {
       mission.address + "%20" + mission.city + "%20" + mission.state + "%20" + mission.postalCode;
     const dataForCords = addressLookUp(missionLocation);
 
-    dataForCords.then((res) => {
-      if (res) {
-        setCords(res)
-      }
-    }).catch((error) => console.log(error));
+    dataForCords
+      .then((res) => {
+        if (res) {
+          setCords(res);
+        }
+      })
+      .catch((error) => console.log(error));
   } else {
     console.log("No location data available");
   }
