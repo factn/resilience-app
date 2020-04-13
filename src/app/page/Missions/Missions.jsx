@@ -75,7 +75,7 @@ export default compose(
     return [
       {
         collection: "missions",
-        where: [["status", "==", "todo"]],
+        where: [["status", "==", "unassigned"]],
         storeAs: "missionsTodo",
       },
     ];
