@@ -5,12 +5,6 @@ import 'react-image-crop/dist/ReactCrop.css';
 class PhotoSelection extends React.Component {
 
   static defaultProps = {
-    shadingColor: 'grey',
-    shadingOpacity: 0.6,
-    cropColor: 'white',
-    closeIconColor: 'white',
-    lineWidth: 4,
-    minCropRadius: 30,
     backgroundColor: 'grey',
     mimeTypes: 'image/jpeg,image/png',
     onCrop: () => {
@@ -57,16 +51,8 @@ class PhotoSelection extends React.Component {
     }
   }
 
-  get lineWidth() {
-    return this.props.lineWidth
-  }
-
-  get closeIconColor() {
-    return this.props.closeIconColor
-  }
-
-  get cropColor() {
-    return this.props.cropColor
+  get backgroundColor() {
+    return this.state.backgroundColor;
   }
 
   get loaderId() {
@@ -77,44 +63,12 @@ class PhotoSelection extends React.Component {
     return this.props.mimeTypes
   }
 
-  get backgroundColor() {
-    return this.props.backgroundColor
-  }
-
-  get shadingColor() {
-    return this.props.shadingColor
-  }
-
-  get shadingOpacity() {
-    return this.props.shadingOpacity
-  }
-
-  get cropRadius() {
-    return this.state.cropRadius
-  }
-
-  get minCropRadius() {
-    return this.props.minCropRadius
-  }
-
-  get scale() {
-    return this.state.scale
-  }
-
   get width() {
     return this.state.imgWidth
   }
 
-  get halfWidth() {
-    return this.state.imgWidth / 2
-  }
-
   get height() {
     return this.state.imgHeight
-  }
-
-  get halfHeight() {
-    return this.state.imgHeight / 2
   }
 
   get image() {
@@ -166,6 +120,8 @@ class PhotoSelection extends React.Component {
   onCrop(crop) {
     this.setState({ crop: crop })
     const croppedImg = this.getCroppedImg(this.state.image, crop);
+    //this.props.profile["photoURL"] = croppedImg;
+    //setProfile(_.cloneDeep(profile));
     this.props.selectAction(croppedImg);
   }
 
