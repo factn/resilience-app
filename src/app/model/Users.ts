@@ -48,14 +48,6 @@ class Users {
    */
   getAuth = (state: any) => get(state, "firebase.auth");
 
-  /**
-   * Given a volunteerId, returns the matching username
-   * @param {string} volunteerId
-   * @return {string}
-   */
-  async getByVolunteerId(volunteerId: string) {
-    console.log(volunteerId);
-  }
 }
 
 export default new Users();

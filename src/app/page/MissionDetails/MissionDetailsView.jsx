@@ -1,7 +1,11 @@
 import React from "react";
+import PropTypes from "prop-types";
 
-import { Button, H3, H5, Body2 } from "../../component";
+import { H5, Body2 } from "../../component";
+import UserPhoneUnverifiedPopup from "../../component/UserPhoneUnverifiedPopup";
 import {
+  Divider,
+  Button,
   Grid,
   Box,
   Avatar,
@@ -22,8 +26,7 @@ import cameraImage from "../../../img/placeholderBackground.svg";
 import { makeStyles } from "@material-ui/core/styles";
 import styled from "styled-components";
 
-import MapView from "../../component/MapView";
-import UserPhoneUnverifiedPopup from "../../component/UserPhoneUnverifiedPopup";
+import { MissionStatus, MissionFundedStatus, Mission } from "../../model";
 import { missionStatusLabel } from "../../../constants";
 
 const StyledButton = styled(Button)`
@@ -50,6 +53,11 @@ const useStyles = makeStyles((theme) => ({
   contentTypography: {
     paddingLeft: theme.spacing(0.5),
   },
+  avatar: {
+    height: "25px",
+    width: "25px",
+    marginBottom: theme.spacing(0.5),
+  },
   image: {
     height: 0,
     paddingTop: "56.25%", // 16:9
@@ -64,73 +72,31 @@ const useStyles = makeStyles((theme) => ({
   deliveryDetails: {
     marginTop: theme.spacing(0.5),
   },
+  unassignButton: {
+    color: color.darkPink,
+    textDecoration: "underline",
+  },
 }));
 
-// const useStyles = makeStyles((theme) => ({
-//   content: {
-//     margin: theme.spacing(1),
-//     marginBottom: theme.spacing(8),
-//   },
-//   textContainer: {
-//     marginTop: theme.spacing(1),
-//     paddingLeft: theme.spacing(1),
-//   },
-//   unassignedText: {
-//     fontWeight: 600,
-//     letterSpacing: "0.2px",
-//     color: color.darkPink,
-//   },
-//   inProgressText: {
-//     fontWeight: 600,
-//     letterSpacing: "0.2px",
-//     color: color.darkOrange,
-//   },
-//   volunteerIcon: {
-//     marginTop: theme.spacing(0.25),
-//     fontSize: 20,
-//   },
-//   volunteerText: {
-//     marginTop: theme.spacing(0.15),
-//     marginLeft: theme.spacing(0.2),
-//   },
-//   avatar: {
-//     marginTop: theme.spacing(0.25),
-//     height: "25px",
-//     width: "25px",
-//   },
-//   avatarText: {
-//     marginTop: theme.spacing(0.4),
-//     marginLeft: theme.spacing(0.5),
-//   },
-//   imageContainer: {
-//     marginTop: theme.spacing(1),
-//     padding: 0,
-//   },
-//   missionTypeText: {
-//     marginTop: theme.spacing(0.4),
-//     fontWeight: 500,
-//   },
-//   detailsHeader: {
-//     fontWeight: 600,
-//   },
-//   detailsIcon: {
-//     marginTop: theme.spacing(0.2),
-//     marginRight: theme.spacing(1),
-//   },
-//   detailsText: {
-//     marginTop: theme.spacing(0.2),
-//   },
-//   divider: {
-//     border: "solid 1px #D4D5D9",
-//   },
-// }));
-
 const titleCase = (str) => ("" + str).charAt(0).toUpperCase() + ("" + str).substr(1);
+
+const MissionDetailsStatus = ({ status, volunteerName }) => {
+  return status === null ? null : status === MissionStatus["unassigned"] ? (
+    status
+  ) : status === MissionStatus["tentative"] || status === MissionStatus["assigned"] ? (
+    volunteerName
+  ) : (
+    <>
+      {volunteerName} - <b>{titleCase(status)}</b>
+    </>
+  );
+};
 
 const MissionDetailsIconList = ({ contentItems, classes, outerClass }) => (
   <Grid container className={outerClass} alignItems="flex-start">
     {contentItems.map((contentItem, index) => {
       const Icon = contentItem.icon;
+      const avatarImage = contentItem.avatar?.image;
       const content = contentItem.content.map((content, index) => {
         return (
           <Body2
@@ -148,6 +114,9 @@ const MissionDetailsIconList = ({ contentItems, classes, outerClass }) => (
         <React.Fragment key={`content-item-${index + 1}`}>
           <Grid item xs={1}>
             {Icon !== undefined ? <Icon color="primary" /> : null}
+            {avatarImage !== undefined ? (
+              <Avatar className={classes.avatar} alt="Volunteer" src={avatarImage} />
+            ) : null}
           </Grid>
           <Grid item xs={11}>
             {content}
@@ -158,17 +127,64 @@ const MissionDetailsIconList = ({ contentItems, classes, outerClass }) => (
   </Grid>
 );
 
-const MissionDetailsContent = ({ mission, classes }) => (
-  <Grid container alignItems="center">
+const MissionDetailsContent = ({ description, classes }) => (
+  <Box>
     <H5 align="left" color="textSecondary">
       Mission Type
     </H5>
     <Body2 align="left" className={classes.missionTypeText} color="textPrimary">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus cursus nibh quis erat
-      condimentum, vitae porttitor neque tempus.
+      {description}
     </Body2>
-  </Grid>
+  </Box>
 );
+
+const MissionDetailsButton = ({
+  type,
+  volunteerForMission,
+  startMission,
+  markMissionAsDelivered,
+}) => {
+  switch (type) {
+    case MissionStatus["unassigned"]:
+      return (
+        <StyledButton
+          color="primary"
+          variant="contained"
+          disableElevation
+          onClick={volunteerForMission}
+        >
+          Accept Mission
+        </StyledButton>
+      );
+    case MissionStatus["tentative"]:
+    case MissionStatus["assigned"]:
+      return (
+        <StyledButton color="primary" variant="contained" disableElevation onClick={startMission}>
+          Start Mission
+        </StyledButton>
+      );
+    case MissionStatus["started"]:
+      return (
+        <StyledButton
+          color="primary"
+          variant="contained"
+          disableElevation
+          onClick={markMissionAsDelivered}
+        >
+          Mark Mission as Delivered
+        </StyledButton>
+      );
+    case MissionStatus["delivered"]:
+    case MissionStatus["done"]:
+      return null;
+    default:
+      return (
+        <StyledButton color="primary" variant="contained" disableElevation>
+          Loading..
+        </StyledButton>
+      );
+  }
+};
 
 const MissionDetailsPickUpDeliveryHeader = ({ header, classes }) => (
   <Body2 align="left" className={classes.deliveryDetailsHeader} color="textPrimary">
@@ -180,23 +196,47 @@ const MissionDetailsPage = ({
   mission,
   volunteers,
   volunteerForMission,
-  markMissionAsCompleted,
+  startMission,
+  markMissionAsDelivered,
+  unassignVolunteerFromMission,
   userUnverifiedPopupOpen,
   setUserUnverifiedPopupOpen,
   cords,
   history,
 }) => {
+  console.log(mission);
+  //mock data
+  mission.fundedStatus = "fundedbydonation";
+  mission.status = MissionStatus["assigned"];
+  const volunteer = {
+    profileName: "Jane",
+    avatar: "https://qodebrisbane.com/wp-content/uploads/2019/07/This-is-not-a-person-2-1.jpeg",
+  };
+
   const classes = useStyles();
-  const status = mission.status ? titleCase(missionStatusLabel[mission.status]) : null;
+  const title = mission.title || null;
+  const status = mission.status || null;
+  const fundedStatus = mission.fundedStatus
+    ? titleCase(MissionFundedStatus[mission.fundedStatus])
+    : null;
+  const description = mission.description || null;
 
   const subheaderItems = [
     {
-      icon: PersonIcon,
-      content: [{ text: status }],
+      icon: mission.status === MissionStatus["unassigned"] ? PersonIcon : undefined,
+      avatar:
+        mission.status !== MissionStatus["unassigned"]
+          ? {
+              image: volunteer.avatar,
+            }
+          : undefined,
+      content: [
+        { text: <MissionDetailsStatus status={status} volunteerName={volunteer.profileName} /> },
+      ],
     },
     {
       icon: AttachMoneyIcon,
-      content: [{ text: "Funded by donations" }],
+      content: [{ text: fundedStatus }],
     },
   ];
 
@@ -236,201 +276,90 @@ const MissionDetailsPage = ({
   ];
 
   return (
-    <Grid className={classes.content} direction="column" container>
-      <Grid align="left" item>
-        <ArrowBackIcon
-          align="left"
-          className={classes.goBackIcon}
-          onClick={() => history.push(`/missions`)}
-        />
-      </Grid>
-      <Grid>
-        <Card align="left">
-          <CardHeader
-            title="Mission Title"
-            titleTypographyProps={{ variant: "h3", component: "span", color: "textPrimary" }}
-            subheader={
+    <>
+      <Grid className={classes.content} direction="column" container>
+        <Grid align="left" item>
+          <ArrowBackIcon
+            align="left"
+            className={classes.goBackIcon}
+            onClick={() => history.push(`/missions`)}
+          />
+        </Grid>
+        <Grid>
+          <Card align="left">
+            <CardHeader
+              title={title}
+              titleTypographyProps={{ variant: "h3", component: "span", color: "textPrimary" }}
+              subheader={
+                <MissionDetailsIconList
+                  outerClass={classes.subheader}
+                  contentItems={subheaderItems}
+                  classes={classes}
+                />
+              }
+              className={classes.cardHeader}
+            />
+            <CardMedia image={cameraImage} title="Mission image" className={classes.image} />
+            <CardContent className={classes.cardContent}>
+              <MissionDetailsContent description={description} classes={classes} />
+              <MissionDetailsPickUpDeliveryHeader header="Pick Up Details" classes={classes} />
               <MissionDetailsIconList
-                outerClass={classes.subheader}
-                contentItems={subheaderItems}
+                outerClass={classes.deliveryDetails}
+                contentItems={pickUpDetails}
                 classes={classes}
               />
-            }
-            className={classes.cardHeader}
-          />
-          <CardMedia image={cameraImage} title="Mission image" className={classes.image} />
-          <CardContent className={classes.cardContent}>
-            <MissionDetailsContent classes={classes} />
-            <MissionDetailsPickUpDeliveryHeader header="Pick Up Details" classes={classes} />
-            <MissionDetailsIconList
-              outerClass={classes.deliveryDetails}
-              contentItems={pickUpDetails}
-              classes={classes}
-            />
-            <MissionDetailsPickUpDeliveryHeader header="Delivery Details" classes={classes} />
-            <MissionDetailsIconList
-              outerClass={classes.deliveryDetails}
-              contentItems={deliveryDetails}
-              classes={classes}
-            />
-          </CardContent>
-          <CardActions>
-            <StyledButton
-              color="primary"
-              variant="contained"
-              disableElevation
-              onClick={volunteerForMission}
-            >
-              Accept Mission
-            </StyledButton>
-          </CardActions>
-        </Card>
+              <MissionDetailsPickUpDeliveryHeader header="Delivery Details" classes={classes} />
+              <MissionDetailsIconList
+                outerClass={classes.deliveryDetails}
+                contentItems={deliveryDetails}
+                classes={classes}
+              />
+            </CardContent>
+            <Divider />
+            <CardActions>
+              <MissionDetailsButton
+                type={mission.status}
+                volunteerForMission={() => volunteerForMission(mission.id)}
+                startMission={() => startMission(mission.id)}
+                markMissionAsDelivered={() => markMissionAsDelivered(mission.id)}
+              />
+            </CardActions>
+            <CardActions>
+              <Grid container justify="center">
+                {mission.status === MissionStatus["tentative"] ||
+                mission.status === MissionStatus["assigned"] ? (
+                  <Button
+                    className={classes.unassignButton}
+                    disableElevation
+                    onClick={unassignVolunteerFromMission}
+                  >
+                    Unassign Me
+                  </Button>
+                ) : null}
+              </Grid>
+            </CardActions>
+          </Card>
+        </Grid>
       </Grid>
-    </Grid>
-
-    // <>
-    //   <Box className={classes.content}>
-    //     <Card className={classes.textContainer}>
-    //       <H3 align="left" color="textPrimary">
-    //         Mission Title - Lorem ipsu
-    //       </H3>
-    //       {mission.status === "todo" ? (
-    //         <>
-    //           <Body2 align="left" className={classes.unassignedText}>
-    //             &bull; UNASSIGNED
-    //           </Body2>
-    //           <Grid container>
-    //             <Grid item>
-    //               <PersonIcon
-    //                 className={classes.volunteerIcon}
-    //                 style={{ fill: color.vibrantPurple }}
-    //               />
-    //             </Grid>
-    //             <Grid item>
-    //               <Body2 align="left" color="textPrimary" className={classes.volunteerText}>
-    //                 Looking for volunteer
-    //               </Body2>
-    //             </Grid>
-    //           </Grid>
-    //         </>
-    //       ) : (
-    //         <>
-    //           <Body2 align="left" className={classes.inProgressText}>
-    //             &bull; IN PROGRESS
-    //           </Body2>
-    //           <Grid container>
-    //             <Grid item>
-    //               <Avatar
-    //                 className={classes.avatar}
-    //                 alt="Volunteer"
-    //                 src="https://qodebrisbane.com/wp-content/uploads/2019/07/This-is-not-a-person-2-1.jpeg"
-    //               />
-    //             </Grid>
-    //             <Grid item>
-    //               <Body2 align="left" color="textPrimary" className={classes.avatarText}>
-    //                 {/* {volunteers[0].displayName} */}
-    //               </Body2>
-    //             </Grid>
-    //           </Grid>
-    //         </>
-    //       )}
-    //     </Card>
-    //     <Card className={classes.imageContainer}>
-    //       <img src={cameraImage} alt="Mission" className={classes.image} />
-    //     </Card>
-    //     <Card className={classes.textContainer}>
-    //       <H5 align="left" color="textSecondary">
-    //         Mission Type
-    //       </H5>
-    //       <Body2 align="left" className={classes.missionTypeText} color="textPrimary">
-    //         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus cursus nibh quis erat
-    //         condimentum, vitae porttitor neque tempus.
-    //       </Body2>
-    //     </Card>
-    //     <Card className={classes.textContainer}>
-    //       <Body2 align="left" className={classes.detailsHeader} color="textPrimary">
-    //         Pick up Details
-    //       </Body2>
-    //       <Grid container>
-    //         <Grid item>
-    //           <LocationOnIcon
-    //             className={classes.detailsIcon}
-    //             style={{ fill: color.vibrantPurple }}
-    //           />
-    //         </Grid>
-    //         <Grid item>
-    //           <Body2 align="left" color="textPrimary" className={classes.detailsText}>
-    //             123 Strawberry Ln, VA 22201
-    //           </Body2>
-    //         </Grid>
-    //       </Grid>
-    //       <Grid container>
-    //         <Grid item>
-    //           <ScheduleIcon className={classes.detailsIcon} style={{ fill: color.vibrantPurple }} />
-    //         </Grid>
-    //         <Grid item>
-    //           <Body2 align="left" color="textPrimary" className={classes.detailsText}>
-    //             1:30 PM
-    //           </Body2>
-    //         </Grid>
-    //       </Grid>
-    //     </Card>
-    //     <Card className={classes.textContainer}>
-    //       <Body2 align="left" className={classes.detailsHeader} color="textPrimary">
-    //         Delivery Details
-    //       </Body2>
-    //       <Grid container>
-    //         <Grid item>
-    //           <LocationOnIcon
-    //             className={classes.detailsIcon}
-    //             style={{ fill: color.vibrantPurple }}
-    //           />
-    //         </Grid>
-    //         <Grid item>
-    //           <Body2 align="left" color="textPrimary" className={classes.detailsText}>
-    //             123 Strawberry Ln, VA 22201
-    //           </Body2>
-    //         </Grid>
-    //       </Grid>
-    //       <Grid container>
-    //         <Grid item>
-    //           <ScheduleIcon className={classes.detailsIcon} style={{ fill: color.vibrantPurple }} />
-    //         </Grid>
-    //         <Grid item>
-    //           <Body2 align="left" color="textPrimary" className={classes.detailsText}>
-    //             2:30 PM
-    //           </Body2>
-    //         </Grid>
-    //       </Grid>
-    //       <Grid container>
-    //         <Grid item>
-    //           <PersonIcon className={classes.detailsIcon} style={{ fill: color.vibrantPurple }} />
-    //         </Grid>
-    //         <Grid item>
-    //           <Body2 align="left" color="textPrimary" className={classes.detailsText}>
-    //             John Doe
-    //           </Body2>
-    //         </Grid>
-    //       </Grid>
-    //     </Card>
-    //     <hr className={classes.divider} />
-    //     <Card>
-    //       <Grid>
-    //         {mission.status === "todo" ? (
-    //           <Button text="Accept Mission" onClick={() => volunteerForMission(mission.id)} />
-    //         ) : (
-    //           <Button text="Mark Mission as Completed" onClick={markMissionAsCompleted} />
-    //         )}
-    //       </Grid>
-
-    //       <Typography variant="body1">{mission.details}</Typography>
-    //     </Card>
-    //   </Box>
-    //   <UserPhoneUnverifiedPopup
-    //     open={userUnverifiedPopupOpen}
-    //     handleClose={() => setUserUnverifiedPopupOpen(false)}
-    //   />
-    // </>
+      <UserPhoneUnverifiedPopup
+        open={userUnverifiedPopupOpen}
+        handleClose={() => setUserUnverifiedPopupOpen(false)}
+      />
+    </>
   );
 };
+
+MissionDetailsPage.propTypes = {
+  /**
+   * Mission details
+   */
+  mission: PropTypes.object,
+  /**
+   * Handler functions for button
+   */
+  volunteerForMission: PropTypes.func,
+  startMission: PropTypes.func,
+  markMissionAsDelivered: PropTypes.func,
+};
+
 export default MissionDetailsPage;

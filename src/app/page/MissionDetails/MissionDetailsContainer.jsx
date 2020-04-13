@@ -10,28 +10,11 @@ import Page from "../../layout/Page";
 // Created based on the schema in firebase
 import styled from "styled-components";
 import { isLoaded, isEmpty } from "react-redux-firebase";
-import { Users } from "../../model";
+import { Missions } from "../../model";
 
 import addressLookUp from "../../utils/addressLookUp";
 
 import MissionDetailsView from "./MissionDetailsView";
-
-export const StyledHr = styled.hr`
-  border: 1px dashed #de3254;
-  width: 100%;
-  margin: 10px auto;
-`;
-
-export const StyledImage = styled.img`
-  height: auto;
-  max-width: 100%;
-`;
-
-export const StyledDiv = styled.div`
-  height: auto;
-  margin: 10px 0;
-  max-width: 100%;
-`;
 
 /**
  * Component for showing mission details
@@ -39,7 +22,7 @@ export const StyledDiv = styled.div`
  * @component
  */
 const MissionDetailsPage = ({ firestore, auth, mission, history }) => {
-  Users.getByVolunteerId("123");
+  console.log("Mission: " + mission);
   mission = mission || {};
   const [userUnverifiedPopupOpen, setUserUnverifiedPopupOpen] = useState(false);
   function volunteerForMission(missionId) {
@@ -47,8 +30,16 @@ const MissionDetailsPage = ({ firestore, auth, mission, history }) => {
       setUserUnverifiedPopupOpen(true);
     } else {
       console.log(missionId);
-      Users.assignAsVolunteer(firestore, missionId, auth.uid);
+      Missions.assignAsVolunteer(firestore, missionId, auth.uid);
     }
+  }
+
+  function startMission(missionId) {
+    console.log("started mission " + missionId);
+  }
+
+  function markMissionAsDelivered(missionId) {
+    console.log("marked mission " + missionId + " as delivered");
   }
 
   function markMissionAsCompleted(missionId) {
@@ -80,7 +71,8 @@ const MissionDetailsPage = ({ firestore, auth, mission, history }) => {
       <MissionDetailsView
         mission={mission}
         volunteerForMission={volunteerForMission}
-        markMissionAsCompleted={markMissionAsCompleted}
+        startMission={startMission}
+        markedMissionAsDelivered={markMissionAsDelivered}
         userUnverifiedPopupOpen={userUnverifiedPopupOpen}
         setUserUnverifiedPopupOpen={setUserUnverifiedPopupOpen}
         cords={cords}
