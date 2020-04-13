@@ -33,7 +33,7 @@ const ProfileImage = ({ classes, profile, setProfile }) => {
 
   function onCropDefault(preview) {
     profile["photoURL"] = preview;
-    setProfile(_.cloneDeep(profile));
+    //setProfile(_.cloneDeep(profile));
   }
 
   function setEdit(e) {

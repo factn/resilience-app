@@ -51,28 +51,8 @@ class PhotoSelection extends React.Component {
     }
   }
 
-  get backgroundColor() {
-    return this.state.backgroundColor;
-  }
-
   get loaderId() {
     return this.state.loaderId
-  }
-
-  get mimeTypes() {
-    return this.props.mimeTypes
-  }
-
-  get width() {
-    return this.state.imgWidth
-  }
-
-  get height() {
-    return this.state.imgHeight
-  }
-
-  get image() {
-    return this.state.image
   }
 
   generateHash(prefix) {
@@ -120,8 +100,6 @@ class PhotoSelection extends React.Component {
   onCrop(crop) {
     this.setState({ crop: crop })
     const croppedImg = this.getCroppedImg(this.state.image, crop);
-    //this.props.profile["photoURL"] = croppedImg;
-    //setProfile(_.cloneDeep(profile));
     this.props.selectAction(croppedImg);
   }
 
@@ -156,8 +134,8 @@ class PhotoSelection extends React.Component {
     const style = {
       display: 'flex',
       justifyContent: 'center',
-      backgroundColor: this.backgroundColor,
-      width: width || this.width,
+      backgroundColor: this.state.backgroundColor,
+      width: width || this.state.imgWidth,
       position: 'relative'
     };
 
@@ -191,12 +169,12 @@ class PhotoSelection extends React.Component {
                 name={this.loaderId} type="file"
                 id={this.loaderId}
                 style={inputStyle}
-                accept={this.mimeTypes}
+                accept={this.props.mimeTypes}
               />
               <label htmlFor={this.loaderId} style={labelStyle}>{label}</label>
             </div>
             : 
-              <ReactCrop style={style} src={this.image.src} crop={this.state.crop} onChange={newCrop => this.onCrop(newCrop)} circularCrop="true" />
+              <ReactCrop style={style} src={this.state.image.src} crop={this.state.crop} onChange={newCrop => this.onCrop(newCrop)} circularCrop="true" />
         }
       </div>
     )
