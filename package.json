@@ -44,7 +44,9 @@
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public",
     "docs": "jsdoc -c jsdoc.conf.json",
-    "lint": "./node_modules/.bin/eslint . --ext .js,.jsx,.ts,.tsx"
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "prettier:check": "prettier --check .",
+    "prettier:fix": "prettier --write ."
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -94,6 +96,6 @@
     }
   },
   "lint-staged": {
-    "src/**/*.{js,jsx,json,css,scss,md}": "prettier --write"
+    "src/**/*.{js,jsx,json,css,scss,md}": "npm run prettier:fix"
   }
 }

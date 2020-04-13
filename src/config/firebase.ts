@@ -6,5 +6,5 @@ export const firebaseConfig = {
   storageBucket: "mutualaid-757f6.appspot.com",
   messagingSenderId: "57281805127",
   appId: "1:57281805127:web:7c025105ef5fb5e5232a62",
-  measurementId: "G-7L9JFWQHS2"
+  measurementId: "G-7L9JFWQHS2",
 };
