@@ -89,7 +89,6 @@
     "prettier": "^2.0.4",
     "react-axe": "3.3.0",
     "storybook-addon-material-ui": "^0.9.0-alpha.21",
-    "ts-auto-mock": "^1.6.0",
     "typescript": "^3.8.3"
   },
   "husky": {
