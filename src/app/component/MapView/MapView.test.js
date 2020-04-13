@@ -8,7 +8,9 @@ describe("Map Component", () => {
   }
 
   it("Renders to the screen correctly", () => {
-    const { getByTestId } = renderComponent(props);
-    expect(getByTestId("map")).toBeTruthy();
+    const { getByText } = renderComponent({
+      values: { lat: 37.796323930015284, long: -122.41264243216386 },
+    });
+    expect(getByText("Leaflet")).toBeTruthy();
   });
 });
