@@ -38,7 +38,6 @@ class Missions {
     return this.repo().whereEqualTo('status', status).find();
   };
 
- 
   /**
    * Assign the current user as a volunteer for the mission with the given missionId
    * @param {string} missionId - ID of mission that user wants to volunteer for

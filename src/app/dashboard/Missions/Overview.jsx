@@ -1,32 +1,101 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
-import Card from "@material-ui/core/Card";
-import { Mission } from "../../model";
-import { H2, H3 } from "../../component";
-import { compose } from "redux";
+import { Button } from "../../component";
 import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
+import MUIDataTable from "mui-datatables";
+import { compose } from "redux";
+import Missions from "../../model/Missions";
+import { MissionType, MissionStatus, Mission } from "../../model/schema";
+import _ from "lodash";
 
 const useStyles = makeStyles((theme) => ({
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing(3),
-  },
-  preview: {
-    padding: theme.spacing(2),
-  },
+  markerPin: {},
 }));
+
+const MissionStatusButtons = ({ missionStatus, setMissionStatus }) => {
+  const ordered = [
+    MissionStatus.unassigned,
+    MissionStatus.tentative,
+    MissionStatus.assigned,
+    MissionStatus.started,
+    MissionStatus.delivered,
+  ];
+
+  return (
+    <>
+      {ordered.map((text) => (
+        <Button
+          variant={missionStatus === text ? "contained" : "text"}
+          key={text}
+          onClick={() => {
+            setMissionStatus(text);
+          }}
+        >
+          {text}
+        </Button>
+      ))}
+    </>
+  );
+};
+const MissionTypeButtons = ({ missionType, setMissionType }) => {
+  const ordered = [MissionType.errand, MissionType.foodbox, MissionType.pharmacy];
+  return (
+    <>
+      {ordered.map((text) => (
+        <Button
+          variant={missionType === text ? "contained" : "text"}
+          key={text}
+          onClick={() => {
+            setMissionType(text);
+          }}
+        >
+          {text}
+        </Button>
+      ))}
+    </>
+  );
+};
 
 const Overview = ({ missions }) => {
   const classes = useStyles();
 
+  const [missionStatus, setMissionStatus] = useState(MissionStatus.unassigned);
+  const [missionType, setMissionType] = useState(MissionType.errand);
+  const [data, setData] = useState();
+
+  console.log(missionType);
+
+  useEffect(() => {
+    Missions.repo()
+      .whereEqualTo("status", missionStatus)
+      .whereEqualTo("type", missionType)
+      .find()
+      .then((result) => {
+        setData(result);
+      });
+  }, [missionStatus, missionType]);
+
+  const columns = ["title", "status"];
+
+  const options = {
+    filterType: "checkbox",
+    onTableChange: (action, tableState) => {
+      console.log(action);
+    },
+  };
+  console.log(data);
+
   return (
     <Grid container>
-      <Grid container>
-        <H2>Overview</H2>
+      <Grid container role="content">
+        <MissionStatusButtons missionStatus={missionStatus} setMissionStatus={setMissionStatus} />
       </Grid>
+      <Grid container>
+        <MissionTypeButtons missionType={missionType} setMissionType={setMissionType} />
+      </Grid>
+      <MUIDataTable title={"Missions"} data={data} columns={columns} options={options} />
     </Grid>
   );
 };
@@ -34,13 +103,7 @@ const Overview = ({ missions }) => {
 const mapStateToProps = (state) => {
   return {
     user: state.firebase.auth,
-    missions: state.firestore.data.missions,
   };
 };
 
-export default compose(
-  connect(mapStateToProps),
-  firestoreConnect((props) => {
-    return [{ collection: "missions" }, { collection: "users" }];
-  })
-)(Overview);
+export default compose(connect(mapStateToProps))(Overview);

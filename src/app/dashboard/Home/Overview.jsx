@@ -27,8 +27,8 @@ const useStyles = makeStyles((theme) => ({
 
 const Overview = ({ missions }) => {
   const classes = useStyles();
-  const missionsNotStarted = Mission.filterByStatus(missions, "notStarted");
-  const missionsQueued = Mission.filterByStatus(missions, "queued");
+  const missionsNotStarted = missions || [];
+  const missionsQueued = missions || [];
 
   return (
     <Grid container direction="column" spacing={2}>

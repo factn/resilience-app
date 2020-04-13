@@ -20,6 +20,7 @@
     "leaflet": "^1.6.0",
     "leaflet-routing-machine": "^3.2.12",
     "lodash": "^4.17.15",
+    "mui-datatables": "^2.14.0",
     "path": "^0.12.7",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
