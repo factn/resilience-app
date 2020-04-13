@@ -24,7 +24,7 @@ def location():
         address=f.address(),
         lat=lat + float(f.latitude())/1000,
         lng=lng + float(f.longitude())/1000,
-        note=""
+        label=""
     )
 
 
@@ -32,7 +32,8 @@ def organization():
     return dict(
         id=genId(),
         name=f.name(),
-        location=location()
+        location=location(),
+        localTimeZone='',
     )
 
 
@@ -55,8 +56,10 @@ def volunteer(organizationId):
         iSOrganizer=False,
         voluteerDetails=dict(
             hasTransportation=f.boolean(chance_of_getting_true=75),
-            status=pickOne(VolunteerPendingStatus)
+            status=pickOne(VolunteerPendingStatus),
+            privateNotes: ""
         )
+        organizerDetails={},
     )
 
 
