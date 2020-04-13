@@ -29,7 +29,7 @@ const styles = (theme) => ({
   },
 });
 
-const titleCase = (string) => string.charAt(0).toUpperCase() + string.substr(1);
+const titleCase = (str) => ("" + str).charAt(0).toUpperCase() + ("" + str).substr(1);
 
 const MissionCardContent = ({ contentItems, classes }) => (
   <Grid container spacing={1} alignItems="center">
