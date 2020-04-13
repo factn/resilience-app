@@ -26,21 +26,14 @@ const ProfileImage = ({ classes, profile, setProfile }) => {
   const firestore = useFirestore();
   const firebaseProfile = useSelector((state) => state.firebase.profile);
 
-  const displayName = _.get(profile, "displayName", "");
-  const profilePhoto = _.get(profile, "photoURL", "");
+  const displayName = profile.displayName || '';
+  const profilePhoto = profile.photoURL || '';
 
-  var [defaultPreview, setDefaultPreview] = useState("defaultPreview");
-  var [view, setView] = useState("view");
+  const [view, setView] = useState("view");
 
   function onCropDefault(preview) {
-    console.log("on crop default called.");
     profile["photoURL"] = preview;
     setProfile(_.cloneDeep(profile));
-    setDefaultPreview(preview)
-  }
-
-  function onCloseDefault() {
-    setDefaultPreview(null)
   }
 
   function setEdit(e) {
@@ -67,6 +60,7 @@ const ProfileImage = ({ classes, profile, setProfile }) => {
           width={390}
           height={295}
           selectAction={onCropDefault}
+          profile={profile}
         />
         </Grid>
         <Grid spacing={2} justify="center" container>
