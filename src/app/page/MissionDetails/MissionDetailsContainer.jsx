@@ -9,9 +9,9 @@ import Page from "../../layout/Page";
 
 // Created based on the schema in firebase
 import { isLoaded, isEmpty } from "react-redux-firebase";
-import { Missions } from "../../model";
+import { Missions, MissionFundedStatus, MissionStatus } from "../../model";
 
-import MissionDetailsView from "./MissionDetailsView";
+import { MissionDetailsCard } from "../../component";
 
 /**
  * Component for showing mission details
@@ -20,13 +20,11 @@ import MissionDetailsView from "./MissionDetailsView";
  */
 const MissionDetailsPage = ({ firestore, auth, mission, history }) => {
   mission = mission || {};
-  const volunteer = {};
   const [userUnverifiedPopupOpen, setUserUnverifiedPopupOpen] = useState(false);
   function volunteerForMission(missionId) {
     if (!auth.phoneNumber) {
       setUserUnverifiedPopupOpen(true);
     } else {
-      console.log(missionId);
       Missions.assignAsVolunteer(firestore, missionId, auth.uid);
     }
   }
@@ -39,14 +37,27 @@ const MissionDetailsPage = ({ firestore, auth, mission, history }) => {
     console.log("marked mission " + missionId + " as delivered");
   }
 
-  function markMissionAsCompleted(missionId) {
-    console.log(missionId);
-    console.log("markMissionAsCompleted");
-  }
+  //mock data
+  mission = {
+    ...mission,
+    fundedStatus: MissionFundedStatus["fundedbydonation"],
+    status: MissionStatus["unassigned"],
+    pickUpWindow: "1:30 PM",
+    pickUplocation: "123 Strawberry Ln, VA 22201",
+    deliveryWindow: "2:30–3:30 PM",
+    deliverylocation: "123 Strawberry Ln, VA 22201",
+    recipientName: "John Doe",
+    recipientPhoneNumber: "(123) 456-7890",
+  };
+  const volunteer = {
+    profileName: "Jane",
+    avatar: "https://qodebrisbane.com/wp-content/uploads/2019/07/This-is-not-a-person-2-1.jpeg",
+  };
 
   return (
     <Page key="mission-detail" isLoaded={isLoaded(mission)} isEmpty={isEmpty(mission)}>
-      <MissionDetailsView
+      <MissionDetailsCard
+        showBackIcon={true}
         mission={mission}
         volunteer={volunteer}
         volunteerForMission={volunteerForMission}
