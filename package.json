@@ -44,7 +44,8 @@
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public",
-    "docs": "jsdoc -c jsdoc.conf.json"
+    "docs": "jsdoc -c jsdoc.conf.json",
+    "lint": "./node_modules/.bin/eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -84,7 +85,7 @@
     "jsdoc": "^3.6.4",
     "lint-staged": "^10.1.2",
     "prettier": "^2.0.4",
-    "react-axe": "^3.4.1",
+    "react-axe": "3.3.0",
     "storybook-addon-material-ui": "^0.9.0-alpha.21",
     "typescript": "^3.8.3"
   },

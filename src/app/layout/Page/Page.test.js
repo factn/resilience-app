@@ -1,16 +1,13 @@
 import React from "react";
-import { render, cleanup } from "@testing-library/react";
-import "jest-dom/extend-expect";
+import { MemoryRouter } from "react-router-dom";
+import { render } from "@testing-library/react";
 
 import Page from "./Page";
-import { PageContainer } from "./Page.style";
 
 describe("Page Layout", () => {
   function renderComponent(props) {
-    return render(<Page {...props} />);
+    return render(<Page {...props} />, { wrapper: MemoryRouter });
   }
-
-  afterEach(cleanup);
 
   it("Renders the page layout with a default appbar", () => {
     const page = renderComponent();

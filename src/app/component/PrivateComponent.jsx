@@ -1,5 +1,5 @@
 import React from "react";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import { isLoaded, isEmpty } from "react-redux-firebase";
 
@@ -9,7 +9,7 @@ function PrivateComponent({ children, ...rest }) {
 }
 
 PrivateComponent.propTypes = {
-  children: PropTypes.element,
+  children: PropTypes.node,
 };
 
-export default PrivateComponent
+export default PrivateComponent;

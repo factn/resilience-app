@@ -8,7 +8,7 @@ import { compose } from "redux";
 
 import { Page, Card } from "../../layout";
 import { Button, Body1, H1, H2, H3 } from "../../component";
-import { Grid, LinearProgress } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 import { StyledHomeButton } from "./Home.style";
@@ -90,7 +90,11 @@ const HomePage = ({ history, ...rest }) => {
             <img src={HomeImage1} className={classes.HomeImage} alt="" />
           </Grid>
           <Grid container>
-            <Button className={classes.SigninButton} onClick={() => history.push("/login")}>
+            <Button
+              className={classes.SigninButton}
+              onClick={() => history.push("/login")}
+              data-testid="btn-login"
+            >
               Signin
             </Button>
           </Grid>
@@ -102,6 +106,7 @@ const HomePage = ({ history, ...rest }) => {
               variant="outlined"
               className={classes.SignupButton}
               onClick={() => history.push("/signup")}
+              data-testid="btn-signup"
             >
               Sign Up Here
             </Button>
@@ -139,7 +144,8 @@ const HomePage = ({ history, ...rest }) => {
           <StyledHomeButton
             onClick={() => history.push("/request/create")}
             text="Request Help"
-            secondary
+            color="secondary"
+            data-testid="btn-request-help"
           />
         </>
       )}
