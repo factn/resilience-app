@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import { User } from "../../model";
 import { withRouter } from "react-router-dom";
 import "firebase/storage";
 import MissionForm from "./MissionForm";
@@ -36,7 +35,6 @@ function MakeMission({ history, firestore }) {
       .doc(missionId)
       .set({ ...model, status: "todo" });
 
-    User.assignAsOwner(firestore, missionId, user.uid);
     console.log("Saved.");
   }
 

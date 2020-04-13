@@ -5,7 +5,7 @@ import { useSelector, connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 
 import { Page } from "../../layout";
-import { User } from "../../model";
+import { Missions } from "../../model";
 import { MissionList } from "../../component";
 import { compose } from "redux";
 
@@ -23,14 +23,14 @@ const MissionsPage = ({ auth, history, ...rest }) => {
   const [popupOpen, setPopupOpen] = useState(false);
   const firestore = useFirestore();
 
-  function userVolunteeringHandler(missionId) {
+  async function userVolunteeringHandler(missionId) {
     // We need a little more information from user at this point
     if (!auth.phoneNumber) {
       setPopupOpen(true);
       return;
     }
 
-    User.assignAsVolunteer(firestore, missionId, auth.uid);
+    await Missions.volunteerForMission(missionId, auth.uid);
     return;
   }
 
