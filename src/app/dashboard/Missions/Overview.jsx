@@ -3,12 +3,13 @@ import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import { Button } from "../../component";
 import { connect } from "react-redux";
-import { firestoreConnect } from "react-redux-firebase";
 import MUIDataTable from "mui-datatables";
 import { compose } from "redux";
 import Missions from "../../model/Missions";
-import { MissionType, MissionStatus, Mission } from "../../model/schema";
+import { MissionType, MissionStatus, MissionFundedStatus } from "../../model/schema";
 import _ from "lodash";
+import MapView from "./MissionsMapView";
+import MissionsMapView from "./MissionsMapView";
 
 const useStyles = makeStyles((theme) => ({
   markerPin: {},
@@ -65,30 +66,55 @@ const Overview = ({ missions }) => {
   const [missionType, setMissionType] = useState(MissionType.errand);
   const [data, setData] = useState();
 
-  console.log(missionType);
-
   useEffect(() => {
     Missions.repo()
       .whereEqualTo("status", missionStatus)
       .whereEqualTo("type", missionType)
       .find()
       .then((result) => {
+        result.forEach((el) => {
+          el.pickup = {
+            time: el.pickupWindow,
+            location: el.pickupLocation,
+          };
+          el.delivery = {
+            time: el.deliveryWindow,
+            location: el.deliveryLocation,
+          };
+          el.funded = MissionFundedStatus.notfunded === el.fundedStatus ? "no" : "yes";
+        });
         setData(result);
       });
   }, [missionStatus, missionType]);
 
-  const columns = ["title", "status", "pickupWindow.startTime"];
+  const pickupBodyRender = (value, tableMeta, updateValue) => {
+    if (!value) return null;
+    return (
+      <div>
+        <div>{value.time.startTime}</div>
+        <div>{value.time.timeWindowType}</div>
+        <div>{value.location.address}</div>
+      </div>
+    );
+  };
+  const pickupCol = {
+    name: "pickup",
+    options: { customBodyRender: pickupBodyRender },
+  };
+  const deliveryCol = {
+    name: "delivery",
+    options: { customBodyRender: pickupBodyRender },
+  };
+
+  const columns = ["title", "status", pickupCol, deliveryCol, "funded"];
 
   const options = {
     filterType: "checkbox",
-    onTableChange: (action, tableState) => {
-      console.log(action);
-    },
   };
-  console.log(data);
 
   return (
     <Grid container>
+      <MissionsMapView missions={data} />
       <Grid container role="content">
         <MissionStatusButtons missionStatus={missionStatus} setMissionStatus={setMissionStatus} />
       </Grid>
