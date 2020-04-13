@@ -46,7 +46,6 @@ const MissionList = ({ missions, history, handleUserVolunteering, ...rest }) => 
   /**
    * This should probably be turned into a Mission component
    */
-  console.log(missions);
 
   const missionListItems = missions.map((mission) => (
     <MissionCard mission={mission} key={`mission-card-${mission.id}`} role="listitem">
