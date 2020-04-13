@@ -33,6 +33,7 @@ const ProfileImage = ({ classes, profile, setProfile }) => {
   var [view, setView] = useState("view");
 
   function onCropDefault(preview) {
+    console.log("on crop default called.");
     profile["photoURL"] = preview;
     setProfile(_.cloneDeep(profile));
     setDefaultPreview(preview)
@@ -65,8 +66,7 @@ const ProfileImage = ({ classes, profile, setProfile }) => {
         <PhotoSelection
           width={390}
           height={295}
-          onCrop={onCropDefault}
-          onClose={onCloseDefault}
+          selectAction={onCropDefault}
         />
         </Grid>
         <Grid spacing={2} justify="center" container>
