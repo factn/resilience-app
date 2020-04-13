@@ -82,7 +82,7 @@ const titleCase = (str) => ("" + str).charAt(0).toUpperCase() + ("" + str).subst
 
 const MissionDetailsStatus = ({ status, volunteerName }) => {
   return status === null ? null : status === MissionStatus["unassigned"] ? (
-    status
+    titleCase(status)
   ) : status === MissionStatus["tentative"] || status === MissionStatus["assigned"] ? (
     volunteerName
   ) : (
@@ -194,21 +194,29 @@ const MissionDetailsPickUpDeliveryHeader = ({ header, classes }) => (
 
 const MissionDetailsPage = ({
   mission,
-  volunteers,
+  volunteer,
   volunteerForMission,
   startMission,
   markMissionAsDelivered,
-  unassignVolunteerFromMission,
+  unassignFromMission,
   userUnverifiedPopupOpen,
   setUserUnverifiedPopupOpen,
-  cords,
   history,
 }) => {
-  console.log(mission);
   //mock data
-  mission.fundedStatus = "fundedbydonation";
-  mission.status = MissionStatus["assigned"];
-  const volunteer = {
+  mission = {
+    ...mission,
+    fundedStatus: MissionFundedStatus["fundedbydonation"],
+    status: MissionStatus["unassigned"],
+    pickUpWindow: "1:30 PM",
+    pickUplocation: "123 Strawberry Ln, VA 22201",
+    deliveryWindow: "2:30–3:30 PM",
+    deliverylocation: "123 Strawberry Ln, VA 22201",
+    recipientName: "John Doe",
+    recipientPhoneNumber: "(123) 456-7890",
+  };
+  volunteer = {
+    ...volunteer,
     profileName: "Jane",
     avatar: "https://qodebrisbane.com/wp-content/uploads/2019/07/This-is-not-a-person-2-1.jpeg",
   };
@@ -220,6 +228,12 @@ const MissionDetailsPage = ({
     ? titleCase(MissionFundedStatus[mission.fundedStatus])
     : null;
   const description = mission.description || null;
+  const pickUpLocation = mission.pickUplocation || null;
+  const pickUpWindow = mission.pickUpWindow || null;
+  const deliveryLocation = mission.deliverylocation || null;
+  const deliveryWindow = mission.deliveryWindow || null;
+  const recipientName = mission.recipientName || null;
+  const recipientPhoneNumber = mission.recipientPhoneNumber || null;
 
   const subheaderItems = [
     {
@@ -243,29 +257,29 @@ const MissionDetailsPage = ({
   const pickUpDetails = [
     {
       icon: LocationOnIcon,
-      content: [{ text: "123 Strawberry Ln, VA 22201" }],
+      content: [{ text: pickUpLocation }],
     },
     {
       icon: ScheduleIcon,
-      content: [{ text: "1:30 PM" }],
+      content: [{ text: pickUpWindow }],
     },
   ];
 
   const deliveryDetails = [
     {
       icon: LocationOnIcon,
-      content: [{ text: "123 Strawberry Ln, VA 22201" }],
+      content: [{ text: deliveryLocation }],
     },
     {
       icon: ScheduleIcon,
-      content: [{ text: "2:30 - 3:30 PM" }],
+      content: [{ text: deliveryWindow }],
     },
     {
       icon: PersonIcon,
       content: [
-        { text: "John Doe" },
+        { text: recipientName },
         {
-          text: "(123) 456-7890",
+          text: recipientPhoneNumber,
           style: {
             fontWeight: 600,
             textDecoration: "underline",
@@ -282,7 +296,7 @@ const MissionDetailsPage = ({
           <ArrowBackIcon
             align="left"
             className={classes.goBackIcon}
-            onClick={() => history.push(`/missions`)}
+            onClick={() => history.goBack()}
           />
         </Grid>
         <Grid>
@@ -331,7 +345,7 @@ const MissionDetailsPage = ({
                   <Button
                     className={classes.unassignButton}
                     disableElevation
-                    onClick={unassignVolunteerFromMission}
+                    onClick={unassignFromMission}
                   >
                     Unassign Me
                   </Button>
@@ -355,11 +369,25 @@ MissionDetailsPage.propTypes = {
    */
   mission: PropTypes.object,
   /**
+   * Volunteer details
+   */
+  volunteer: PropTypes.object,
+  /**
    * Handler functions for button
    */
   volunteerForMission: PropTypes.func,
   startMission: PropTypes.func,
   markMissionAsDelivered: PropTypes.func,
+  unassignVolunteerFromMission: PropTypes.func,
+  /**
+   * Popup for unverified user
+   */
+  userUnverifiedPopupOpen: PropTypes.bool,
+  setUserUnverifiedPopupOpen: PropTypes.func,
+  /**
+   * Navigation history provided by React Router
+   */
+  history: PropTypes.object.isRequired,
 };
 
 export default MissionDetailsPage;

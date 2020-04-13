@@ -8,11 +8,8 @@ import { connect } from "react-redux";
 import Page from "../../layout/Page";
 
 // Created based on the schema in firebase
-import styled from "styled-components";
 import { isLoaded, isEmpty } from "react-redux-firebase";
 import { Missions } from "../../model";
-
-import addressLookUp from "../../utils/addressLookUp";
 
 import MissionDetailsView from "./MissionDetailsView";
 
@@ -22,8 +19,8 @@ import MissionDetailsView from "./MissionDetailsView";
  * @component
  */
 const MissionDetailsPage = ({ firestore, auth, mission, history }) => {
-  console.log("Mission: " + mission);
   mission = mission || {};
+  const volunteer = {};
   const [userUnverifiedPopupOpen, setUserUnverifiedPopupOpen] = useState(false);
   function volunteerForMission(missionId) {
     if (!auth.phoneNumber) {
@@ -47,35 +44,16 @@ const MissionDetailsPage = ({ firestore, auth, mission, history }) => {
     console.log("markMissionAsCompleted");
   }
 
-  // functionality for the map look up
-  const [cords, setCords] = useState();
-
-  if (isLoaded(mission) && !isEmpty(mission) && !cords) {
-    const missionLocation =
-      mission.address + "%20" + mission.city + "%20" + mission.state + "%20" + mission.postalCode;
-    const dataForCords = addressLookUp(missionLocation);
-
-    dataForCords
-      .then((res) => {
-        if (res) {
-          setCords(res);
-        }
-      })
-      .catch((error) => console.log(error));
-  } else {
-    console.log("No location data available");
-  }
-
   return (
     <Page key="mission-detail" isLoaded={isLoaded(mission)} isEmpty={isEmpty(mission)}>
       <MissionDetailsView
         mission={mission}
+        volunteer={volunteer}
         volunteerForMission={volunteerForMission}
         startMission={startMission}
         markedMissionAsDelivered={markMissionAsDelivered}
         userUnverifiedPopupOpen={userUnverifiedPopupOpen}
         setUserUnverifiedPopupOpen={setUserUnverifiedPopupOpen}
-        cords={cords}
         history={history}
       />
     </Page>
