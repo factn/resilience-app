@@ -18,13 +18,25 @@ import PeopleIcon from "@material-ui/icons/People";
 import PanToolIcon from "@material-ui/icons/PanTool";
 import GetAppRoundedIcon from "@material-ui/icons/GetAppRounded";
 
+const drawerWidth = 240;
+
 const useStyles = makeStyles((theme) => ({
   root: {
     // the padding accounted for left menu and top header
     padding: theme.spacing(2),
-    paddingLeft: 73 + theme.spacing(2),
-    paddingTop: 64 + theme.spacing(2),
     width: "100%",
+  },
+  pageContentShift: {
+    marginLeft: drawerWidth,
+    width: `calc(100% - ${drawerWidth}px)`,
+    padding: `${theme.spacing(5, 0, 0, 0)} !important`,
+  },
+  pageContent: {
+    padding: theme.spacing(5, 0, 0, 7),
+    transition: theme.transitions.create(["width", "padding", "padding-left"], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
   },
 }));
 
@@ -86,7 +98,12 @@ const MissionsPage = ({ history }) => {
       />
       <Switch>
         <Route path="/dashboard/missions" component={Missions} />
-        <Route path="/dashboard/" component={Home} />
+        <Route
+          path="/dashboard/"
+          component={() => (
+            <Home className={`${open && classes.pageContentShift} ${classes.pageContent}`} />
+          )}
+        />
       </Switch>
     </div>
   );

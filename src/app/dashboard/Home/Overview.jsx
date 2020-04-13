@@ -25,13 +25,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Overview = ({ missions }) => {
+const Overview = ({ missions, className }) => {
   const classes = useStyles();
   const missionsNotStarted = missions || [];
   const missionsQueued = missions || [];
 
   return (
-    <Grid container direction="column" spacing={2}>
+    <Grid container direction="column" spacing={2} className={className}>
       <Grid item style={{ alignSelf: "flex-start" }}>
         <H2>Overview</H2>
       </Grid>
