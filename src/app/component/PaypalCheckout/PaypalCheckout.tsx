@@ -6,17 +6,19 @@ import { PurchaseUnit, OrderDetails } from "./PaypalTypes";
 let cartCache: PurchaseUnit[] = [];
 
 type Props = {
-  updateCart: (set: (purchaseUnits: PurchaseUnit[]) => void) => void,
-  onApprove: (details: OrderDetails) => void,
+  updateCart: (set: (purchaseUnits: PurchaseUnit[]) => void) => void;
+  onApprove: (details: OrderDetails) => void;
 };
 
-function handleUpdateCart(purchaseUnits: PurchaseUnit[]) {}
+function handleUpdateCart(purchaseUnits: PurchaseUnit[]) {
+  cartCache = purchaseUnits;
+}
 
 /**
  * See https://developer.paypal.com/docs/checkout/integration-features/# for implementation details
  */
 export default function PaypalCheckout({ onApprove, updateCart }: Props) {
-  const paypal = usePaypal();
+  const paypal: any = usePaypal();
   const checkoutRef = useRef(null);
 
   updateCart(handleUpdateCart);
@@ -31,6 +33,7 @@ export default function PaypalCheckout({ onApprove, updateCart }: Props) {
       paypal
         .Buttons({
           createOrder: createOrder(),
+          onClick: verify,
           onApprove: handleOnApprove(onApprove),
         })
         .render(checkoutRef.current);
@@ -39,19 +42,15 @@ export default function PaypalCheckout({ onApprove, updateCart }: Props) {
   return <div ref={checkoutRef}></div>;
 }
 
+async function verify(data: any, actions: any) {
+  return actions.resolve();
+}
+
 function createOrder() {
-  // https://developer.paypal.com/docs/api/orders/v2/#orders_create
-  return (data, actions) => {
+  return (data: any, actions: any) => {
     console.log({ data });
     return actions.order.create({
-      purchase_units: [
-        {
-          // description: "donation",
-          amount: {
-            value: cache.amount,
-          },
-        },
-      ],
+      purchase_units: cartCache,
     });
   };
 }
@@ -62,4 +61,6 @@ function handleOnApprove(callback: (details: OrderDetails) => void) {
   };
 }
 
-function onError() {}
+function onError(err: any) {
+  console.log(err);
+}
