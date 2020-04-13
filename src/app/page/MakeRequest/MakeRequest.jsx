@@ -22,7 +22,7 @@ function MakeRequest({ history, firestore }) {
   const [successMsg, setSuccessMsg] = useState(false);
 
   const storage = firebase.storage();
-  const { handleChange, values, setValues } = useForm();
+  const { handleChange, values } = useForm();
 
   const user = useSelector((state) => state.firebase.auth);
   function getFile(file) {
