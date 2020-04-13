@@ -2,7 +2,6 @@ import React from "react";
 
 import { Button, H3, H5, Body2 } from "../../component";
 import {
-  Typography,
   Grid,
   Box,
   Avatar,
@@ -10,6 +9,7 @@ import {
   CardHeader,
   CardContent,
   CardMedia,
+  CardActions,
 } from "@material-ui/core";
 import { color } from "../../../theme";
 import PersonIcon from "@material-ui/icons/Person";
@@ -20,10 +20,15 @@ import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
 import cameraImage from "../../../img/placeholderBackground.svg";
 
 import { makeStyles } from "@material-ui/core/styles";
+import styled from "styled-components";
 
 import MapView from "../../component/MapView";
 import UserPhoneUnverifiedPopup from "../../component/UserPhoneUnverifiedPopup";
 import { missionStatusLabel } from "../../../constants";
+
+const StyledButton = styled(Button)`
+  flex-grow: 1;
+`;
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -52,11 +57,11 @@ const useStyles = makeStyles((theme) => ({
   missionTypeText: {
     paddingTop: theme.spacing(0.5),
   },
-  detailsHeader: {
+  deliveryDetailsHeader: {
     paddingTop: theme.spacing(1),
     fontWeight: 600,
   },
-  details: {
+  deliveryDetails: {
     marginTop: theme.spacing(0.5),
   },
 }));
@@ -120,6 +125,8 @@ const useStyles = makeStyles((theme) => ({
 //   },
 // }));
 
+const titleCase = (str) => ("" + str).charAt(0).toUpperCase() + ("" + str).substr(1);
+
 const MissionDetailsIconList = ({ contentItems, classes, outerClass }) => (
   <Grid container className={outerClass} alignItems="flex-start">
     {contentItems.map((contentItem, index) => {
@@ -164,7 +171,7 @@ const MissionDetailsContent = ({ mission, classes }) => (
 );
 
 const MissionDetailsPickUpDeliveryHeader = ({ header, classes }) => (
-  <Body2 align="left" className={classes.detailsHeader} color="textPrimary">
+  <Body2 align="left" className={classes.deliveryDetailsHeader} color="textPrimary">
     {header}
   </Body2>
 );
@@ -180,11 +187,12 @@ const MissionDetailsPage = ({
   history,
 }) => {
   const classes = useStyles();
+  const status = mission.status ? titleCase(missionStatusLabel[mission.status]) : null;
 
   const subheaderItems = [
     {
       icon: PersonIcon,
-      content: [{ text: "Looking for Volunteer" }],
+      content: [{ text: status }],
     },
     {
       icon: AttachMoneyIcon,
@@ -214,7 +222,16 @@ const MissionDetailsPage = ({
     },
     {
       icon: PersonIcon,
-      content: [{ text: "John Doe" }, { text: "(123) 456-7890", style: { fontWeight: 600 } }],
+      content: [
+        { text: "John Doe" },
+        {
+          text: "(123) 456-7890",
+          style: {
+            fontWeight: 600,
+            textDecoration: "underline",
+          },
+        },
+      ],
     },
   ];
 
@@ -246,17 +263,27 @@ const MissionDetailsPage = ({
             <MissionDetailsContent classes={classes} />
             <MissionDetailsPickUpDeliveryHeader header="Pick Up Details" classes={classes} />
             <MissionDetailsIconList
-              outerClass={classes.details}
+              outerClass={classes.deliveryDetails}
               contentItems={pickUpDetails}
               classes={classes}
             />
             <MissionDetailsPickUpDeliveryHeader header="Delivery Details" classes={classes} />
             <MissionDetailsIconList
-              outerClass={classes.details}
+              outerClass={classes.deliveryDetails}
               contentItems={deliveryDetails}
               classes={classes}
             />
           </CardContent>
+          <CardActions>
+            <StyledButton
+              color="primary"
+              variant="contained"
+              disableElevation
+              onClick={volunteerForMission}
+            >
+              Accept Mission
+            </StyledButton>
+          </CardActions>
         </Card>
       </Grid>
     </Grid>
