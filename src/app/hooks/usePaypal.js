@@ -8,7 +8,7 @@ const PAYPAL_SCRIPT = `https://www.paypal.com/sdk/js?client-id=${CLIENT_ID}`;
 /**
  * usePaypal
  *
- * @returns {object | false} the paypal object or false if it has not loaded yet
+ * @returns {false | object} the paypal object or false if it has not loaded yet
  */
 export default function usePaypal() {
   const [loaded, setLoaded] = useState(false);
