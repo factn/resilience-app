@@ -33,6 +33,9 @@ const useStyles = makeStyles((theme) => ({
   menuButton: {
     marginLeft: "4px",
   },
+  toolBarTitle: {
+    marginLeft: "1rem",
+  },
   hide: {
     display: "none",
   },
@@ -61,7 +64,7 @@ export default function Appbar({ open, handleDrawerOpen }) {
         >
           <MenuIcon />
         </IconButton>
-        <Typography variant="h1" noWrap>
+        <Typography variant="h1" noWrap className={classes.toolBarTitle}>
           Missions Control
         </Typography>
       </Toolbar>
