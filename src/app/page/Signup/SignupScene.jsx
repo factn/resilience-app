@@ -10,6 +10,21 @@ import PhoneAuthPage from "./PhoneAuth";
 import SignupSuccessPage from "./SignupSuccess";
 
 
+const convertFullName = (fullName) => {
+    let firstName = ''
+    let lastName = ''
+    if (fullName) {
+      const parts = fullName.split(' ')
+      lastName = parts[parts.length - 1]
+      if (parts.length > 1) {
+        firstName = parts.slice(0, parts.length - 1)
+      }
+    }
+    return [firstName, lastName]
+  };
+
+
+
 /**
  * Top level component for Signup
  *
@@ -18,62 +33,56 @@ function SignupScene(props) {
     const { handleChange, values } = useForm();
     const [activeTab, setActiveTab] = useState(0);
 
-    function changeFormValue(name, value) {
-        handleChange({ target: { name, value}})
+    function changeFormValues(changes) {
+        for (const change of changes) {
+            const [name, value] = change
+            console.log('setting' + name + ' to ' + value)
+            handleChange({ target: { name, value}})
+        }
     }
 
     function updateFormValues(data) {
         // Retain phone number from phone auth response
         if (activeTab === 1) {
-            changeFormValue('phone', data.phoneNumber)
+            changeFormValues([['phone', data.phoneNumber || ""]])
         }
         // Retain full name and email from social media auth response
         if (activeTab === 2) {
-            changeFormValue('fullName', data.displayName)
-            changeFormValue('email', data.email)
+            const [firstName, lastName] = convertFullName(data.displayName)
+            changeFormValues([
+                ['firstName', firstName],
+                ['lastName', lastName],
+                ['email', data.email || ""],
+            ])
         }
     };
 
-    function submitUserDataToFirebase(data) {
-        const { firstName, lastName, email, phone, availability, description, hasTransportation  } = values;
-        const { address, lat, long, county, countryCode } = data?.location || {};
-        const location = { address, lat, long, label: `${countryCode} - ${county}` };
+    function submitUserDataToFirebase() {
+        const { firstName, lastName, email, phone, availability, description, location, hasTransportation  } = values;
+        const { address, lat, long, county, countryCode } = location || {};
+        const locationFormatted = { address, lat, long, label: `${countryCode.toUpperCase()} - ${county}` };
         const payload = {
             availability,
             description,
             email,
             phone,
             profileName: `${firstName} ${lastName}`,
-            location,
+            location: locationFormatted,
             isVolunteer: true,
             volunteerDetails: {
                 hasTransportation: !!hasTransportation,
-                status: 'pending',
+                status: 'pending',  //TODO: Use constants
             }
         };
         console.log('submiting user profile to firebase');
         console.log(payload);
     }
 
-    function handleSubmit(data) {
+    function handleSubmitButton(data) {
         if (data) updateFormValues(data);
         if (activeTab === 3) submitUserDataToFirebase(data);
-        if (activeTab in [0, 1, 2, 3]) setActiveTab(activeTab + 1);
         if (activeTab === 4) props.history.push("/missions");
-    };
-
-    function getComponentProps() {
-        const baseProps = {
-            onSubmit: handleSubmit,
-        }
-        if (activeTab !== 3) return baseProps
-
-        //   additional props for volunteer profile form
-        return {
-            ...baseProps,
-            handleChange,
-            values,
-        }
+        if (activeTab in [0, 1, 2, 3]) setActiveTab(activeTab + 1);
     };
 
     const ActivePage = {
@@ -82,14 +91,16 @@ function SignupScene(props) {
         2: ConnectSocialMediaPage,
         3: UserProfilePage,
         4: SignupSuccessPage,
-    }[activeTab]
+    }[activeTab];
 
-
-    return <ActivePage {...getComponentProps()} />
+    return <ActivePage onSubmit={handleSubmitButton} handleChange={handleChange} values={values}/>;
 
   }
 
   SignupScene.propTypes = {
+      /**
+       * From react-router
+       */
       history: PropTypes.object,
   };
 

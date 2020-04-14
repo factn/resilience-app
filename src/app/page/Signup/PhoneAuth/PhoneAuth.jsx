@@ -31,7 +31,8 @@ const PhoneAuth = ({ onSubmit }) => {
 };
 
 PhoneAuth.propTypes = {
-  firebaseUiConfig: PropTypes.object.isRequired
+  firebaseUiConfig: PropTypes.object.isRequired,
+  onSubmit: PropTypes.func.isRequired,
 };
 
 export default PhoneAuth;

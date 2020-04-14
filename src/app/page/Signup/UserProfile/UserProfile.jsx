@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
+import PropTypes from 'prop-types'
 
 import { Page } from "../../../layout";
 import { Body1 } from "../../../component"
@@ -6,19 +7,6 @@ import { useStyles, StyledHeader } from "./UserProfile.style";
 
 import { FormControlLabel, TextField, Container, Checkbox } from "@material-ui/core";
 import { AddressInput, Button } from "../../../component";
-
-const convertFullName = (fullName) => {
-  let firstName = ''
-  let lastName = ''
-  if (fullName) {
-    const parts = fullName.split(' ')
-    lastName = parts[parts.length - 1]
-    if (parts.length > 1) {
-      firstName = parts.slice(0, parts.length - 1)
-    }
-  }
-  return [firstName, lastName]
-};
 
 
 /**
@@ -28,23 +16,20 @@ const convertFullName = (fullName) => {
  */
 const UserProfile = ({ values, handleChange, onSubmit }) => {
   const classes = useStyles()
-  const [locationValue, setLocation] = useState(null);
-
-  function handleSubmit() {
-    onSubmit(locationValue)
-  }
 
   function changeFormValue(name, value) {
     handleChange({ target: { name, value}})
+  }
+
+  function handleChangeLocation(data) {
+    const { location } = data
+    changeFormValue('location', location)
   }
 
   function handleCheckBoxChange(event, value) {
     changeFormValue(event.currentTarget.name, value)
   }
 
-  console.log(values)
-
-  const [ firstName, lastName ] = convertFullName(values.fullName)
   return (
     <Page>
       <Container classes={{ root: classes.root }}>
@@ -59,7 +44,6 @@ const UserProfile = ({ values, handleChange, onSubmit }) => {
         </Body1>
         <TextField
           className={classes.textField}
-          defaultValue={firstName}
           fullWidth={true}
           label="First Name"
           name="firstName"
@@ -69,7 +53,6 @@ const UserProfile = ({ values, handleChange, onSubmit }) => {
         />
         <TextField
           className={classes.textField}
-          defaultValue={lastName}
           fullWidth={true}
           label="Last Name"
           name="lastName"
@@ -80,9 +63,9 @@ const UserProfile = ({ values, handleChange, onSubmit }) => {
         <div className={classes.textField}>
           <AddressInput
             className={classes.textField}
-            placeholder="Pickup location"
-            stage={locationValue}
-            setStage={setLocation}
+            placeholder="Location"
+            stage={values.location}
+            setStage={handleChangeLocation}
           />
         </div>
         <TextField
@@ -148,13 +131,19 @@ const UserProfile = ({ values, handleChange, onSubmit }) => {
         <Button
           className={classes.button}
           disabled={!values.termsAndConditions}
-          onClick={handleSubmit}
+          onClick={onSubmit}
         >
           Submit
         </Button>
       </Container>
     </Page>
   );
+};
+
+UserProfile.propTypes = {
+  handleChange: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  values: PropTypes.object,
 };
 
 export default UserProfile;

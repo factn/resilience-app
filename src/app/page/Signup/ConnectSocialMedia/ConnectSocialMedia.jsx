@@ -27,11 +27,6 @@ const ConnectSocialMedia = ({ onSubmit }) => {
         }
     };
 
-    const handleSkip = () => {
-        onSubmit()
-    }
-
-
     return (
         <Page>
         <Container classes={{ root: classes.root }}>
@@ -44,7 +39,7 @@ const ConnectSocialMedia = ({ onSubmit }) => {
         <FirebaseAuthUi
             firebaseUiConfig={firebaseUiConfig}
         />
-        <Button variant="link" className={classes.skipButton} onClick={handleSkip}>Skip</Button>
+        <Button variant="link" className={classes.skipButton} onClick={onSubmit}>Skip</Button>
         </Container>
 
     </Page>
@@ -52,7 +47,8 @@ const ConnectSocialMedia = ({ onSubmit }) => {
 };
 
 ConnectSocialMedia.propTypes = {
-    firebaseUiConfig: PropTypes.object.isRequired
+    firebaseUiConfig: PropTypes.object.isRequired,
+    onSubmit: PropTypes.func.isRequired,
 };
 
 export default ConnectSocialMedia;

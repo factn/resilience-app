@@ -39,7 +39,7 @@ const AddressInput = (props) => {
 
 AddressInput.propTypes = {
   name: PropTypes.string,
-  placeholder: PropTypes.object,
+  placeholder: PropTypes.string,
   stage: PropTypes.any, // pickUp or dropOff
   setStage: PropTypes.func,
 };
