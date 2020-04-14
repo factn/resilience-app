@@ -125,6 +125,14 @@ const MissionDetailsContent = ({ description, classes }) => (
   </Box>
 );
 
+const MissionDetailsUnassignMeButton = ({ status, unassignFromMission, classes }) =>
+  status === MissionStatus.tentative ||
+  (status === MissionStatus.assigned && (
+    <Button className={classes.unassignButton} disableElevation onClick={unassignFromMission}>
+      Unassign Me
+    </Button>
+  ));
+
 const MissionDetailsButton = ({
   type,
   volunteerForMission,
@@ -296,16 +304,11 @@ const MissionDetailsCard = ({
         </CardActions>
         <CardActions>
           <Grid container justify="center">
-            {mission.status === MissionStatus.tentative ||
-            mission.status === MissionStatus.assigned ? (
-              <Button
-                className={classes.unassignButton}
-                disableElevation
-                onClick={unassignFromMission}
-              >
-                Unassign Me
-              </Button>
-            ) : null}
+            <MissionDetailsUnassignMeButton
+              status={mission.status}
+              unassignFromMission={unassignFromMission}
+              classes={classes}
+            />
           </Grid>
         </CardActions>
       </Card>
@@ -318,6 +321,9 @@ const MissionDetailsCard = ({
 };
 
 MissionDetailsCard.defaultProps = {
+  /**
+   * default props for mission object
+   */
   mission: {
     title: "",
     status: "",
@@ -329,6 +335,13 @@ MissionDetailsCard.defaultProps = {
     deliveryWindow: "",
     recipientName: "",
     recipientPhoneNumber: "",
+  },
+  /**
+   * default props for volunteer object
+   */
+  volunteer: {
+    profileName: "",
+    avatar: "",
   },
 };
 

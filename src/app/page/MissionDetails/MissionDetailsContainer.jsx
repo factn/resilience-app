@@ -58,8 +58,8 @@ const MissionDetailsPage = ({ firestore, auth, mission, history }) => {
   //mock data
   mission = {
     ...mission,
-    fundedStatus: MissionFundedStatus["fundedbydonation"],
-    status: MissionStatus["unassigned"],
+    fundedStatus: MissionFundedStatus.fundedbydonation,
+    status: MissionStatus.assigned,
     pickUpWindow: "1:30 PM",
     pickUplocation: "123 Strawberry Ln, VA 22201",
     deliveryWindow: "2:30–3:30 PM",
