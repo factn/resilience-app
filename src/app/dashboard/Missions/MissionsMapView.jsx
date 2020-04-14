@@ -80,7 +80,7 @@ const Overview = ({ missions }) => {
   return (
     <Grid container>
       <Grid container>
-        <Map center={position} zoom={12} data-testid="map" className={classes.map}>
+        <Map center={position} zoom={12} className={`${classes.map} data-test-leaftleft-map`}>
           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
           {missions?.map((mission) => (
             <Marker key={mission.id} position={mission.deliveryLocation} icon={FoodIcon} />

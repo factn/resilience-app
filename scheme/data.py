@@ -15,15 +15,11 @@ def genId():
     return f.md5()
 
 
-def pickOne(lst):
-    return lst[r.randint(0, len(lst)-1)]
-
-
 def location():
     return dict(
         address=f.address(),
-        lat=lat + float(f.latitude())/1000,
-        lng=lng + float(f.longitude())/1000,
+        lat += float(f.latitude())/1000,
+        lng += float(f.longitude())/1000,
         label=""
     )
 
@@ -56,7 +52,7 @@ def volunteer(organizationId):
         iSOrganizer=False,
         voluteerDetails=dict(
             hasTransportation=f.boolean(chance_of_getting_true=75),
-            status=pickOne(VolunteerPendingStatus),
+            status=r.choice(VolunteerPendingStatus),
             privateNotes: ""
         )
         organizerDetails={},
@@ -103,7 +99,7 @@ TimeWindowType = [
 
 def timeWindow():
     return dict(
-        timeWindowType=pickOne(TimeWindowType),
+        timeWindowType=r.choice(TimeWindowType),
         # eh, this is gonna be a problem, datetime my gosh
         startTime=f.future_datetime(
             end_date='+30d').strftime("%m/%d/%Y, %H:%M:%S"),
@@ -114,10 +110,10 @@ def timeWindow():
 def addMission(orgId, missions):
     uid = genId()
     missions['missions'][uid] = dict(
-        type=pickOne(MissionType),
-        status=pickOne(MissionStatus),
-        fundedStatus=pickOne(MissionFundedStatus),
-        paybleStatus=pickOne(MissionPayableStatus),
+        type=r.choice(MissionType),
+        status=r.choice(MissionStatus),
+        fundedStatus=r.choice(MissionFundedStatus),
+        paybleStatus=r.choice(MissionPayableStatus),
         organizationId=orgId,
         tentativeVolnteerId='',
         volunteerId='',

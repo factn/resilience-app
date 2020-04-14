@@ -30,9 +30,7 @@ const MissionStatusButtons = ({ missionStatus, setMissionStatus }) => {
         <Button
           variant={missionStatus === text ? "contained" : "text"}
           key={text}
-          onClick={() => {
-            setMissionStatus(text);
-          }}
+          onClick={() => setMissionStatus(text)}
         >
           {text}
         </Button>
@@ -48,9 +46,7 @@ const MissionTypeButtons = ({ missionType, setMissionType }) => {
         <Button
           variant={missionType === text ? "contained" : "text"}
           key={text}
-          onClick={() => {
-            setMissionType(text);
-          }}
+          onClick={() => setMissionType(text)}
         >
           {text}
         </Button>
