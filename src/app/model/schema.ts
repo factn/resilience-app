@@ -157,7 +157,7 @@ export class Mission {
   notes!: string;
   privateNotes!: string; // just for volunteer and organiser
   cost!: number;  // Decimal if possible eg 12.21 (assume USD for MVP.0)
-  pickUpWIndow!: TimeWindow; // nb this can be an exact time or can be null
+  pickUpWindow!: TimeWindow; // nb this can be an exact time or can be null
   pickUplocation!: Location;
   deliveryWindow!: TimeWindow;
   deliverylocation!: Location; // default to recipient location
