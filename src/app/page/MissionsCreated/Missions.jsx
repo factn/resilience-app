@@ -4,7 +4,7 @@ import { firestoreConnect, isLoaded, isEmpty } from "react-redux-firebase";
 import { useSelector, connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 
-import { CircularProgress, Typography, Button, Grid } from "@material-ui/core";
+import { Typography, Button, Grid } from "@material-ui/core";
 import styled from "styled-components";
 
 import { Page, Card } from "../../layout";

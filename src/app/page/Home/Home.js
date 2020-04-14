@@ -8,7 +8,7 @@ import { compose } from "redux";
 
 import { Page, Card } from "../../layout";
 import { Button, Body1, H1, H2, H3 } from "../../component";
-import { Grid, LinearProgress } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 import { StyledHomeButton } from "./Home.style";

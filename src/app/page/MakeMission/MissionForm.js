@@ -5,7 +5,7 @@ import AlgoliaPlaces from "algolia-places-react";
 import Button from "../../component/Button";
 import { Upload, useStyles } from "./Request.style";
 import { Page } from "../../layout";
-import { Checkbox, Typography, TextField, Container, FormControlLabel } from "@material-ui/core";
+import { Typography, TextField, Container } from "@material-ui/core";
 import {
   KeyboardDatePicker,
   KeyboardTimePicker,

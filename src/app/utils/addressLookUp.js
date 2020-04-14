@@ -14,7 +14,7 @@ export default async function addressLookUp(address) {
     })
     .send();
   if (
-    response.body.features.length == 0 ||
+    response.body.features.length === 0 ||
     response.body.features[0] === undefined ||
     response.body.features[0] === "undefined"
   ) {

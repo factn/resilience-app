@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { useFirestore, firestoreConnect } from "react-redux-firebase";
-import { useSelector, connect } from "react-redux";
+import { useSelector } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { withFirestore } from "react-redux-firebase";
 // styles

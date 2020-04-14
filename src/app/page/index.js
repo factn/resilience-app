@@ -7,20 +7,19 @@ import MissionsControl from "./MissionsControl";
 import MissionsCreated from "./MissionsCreated";
 import MissionsVolunteered from "./MissionsVolunteered";
 import MissionDetails from "./MissionDetails";
-
 import Signup from "./Signup";
 import UserProfile from "./UserProfile";
 
 export {
   Home,
   Login,
-  Signup,
+  MakeMission,
   MakeRequest,
+  MissionDetails,
   Missions,
+  MissionsControl,
   MissionsCreated,
   MissionsVolunteered,
-  MissionsControl,
-  MissionDetails,
+  Signup,
   UserProfile,
-  MakeMission,
 };
