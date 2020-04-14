@@ -109,11 +109,11 @@ MissionDeliveredCard.propTypes = {
    */
   missionId: PropTypes.string.isRequired,
   /**
-   * Handler functions for submit
+   * Handler function for submit
    */
   completeMission: PropTypes.func.isRequired,
   /**
-   * Modal handler function
+   * Dialog handler function
    */
   onClose: PropTypes.func.isRequired,
 };
