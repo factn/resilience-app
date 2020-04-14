@@ -9,8 +9,25 @@ export const useStyles = makeStyles((theme) =>  ({
     paddingRight: theme.spacing(2),
     marginTop: theme.spacing(2)
   },
+  body2: {
+    borderTop: '1px solid grey',
+    textAlign: 'left',
+    paddingRight: theme.spacing(3),
+    paddingTop: theme.spacing(1),
+    marginTop: theme.spacing(2),
+  },
   textField: {
     marginTop: theme.spacing(2),
+  },
+  checkBox: {
+    marginTop: theme.spacing(2),
+    textAlign: 'left',
+  },
+  button: {
+    marginTop: theme.spacing(2),
+    width: '250px',
+    background: '#3739b5',
+    color: 'white',
   }
 }))
 

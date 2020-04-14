@@ -14,7 +14,6 @@ import FirebaseAuthUi from "../../../component/FirebaseAuthUi/FirebaseAuthUi";
  *
  */
 const ConnectSocialMedia = ({ onSubmit }) => {
-    console.log(onSubmit)
     const classes = useStyles()
 
     const firebaseUiConfig = {

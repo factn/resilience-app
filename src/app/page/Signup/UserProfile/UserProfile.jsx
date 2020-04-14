@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { Page } from "../../../layout";
 import { Body1 } from "../../../component"
 import { useStyles, StyledHeader } from "./UserProfile.style";
-import { TextField, Container } from "@material-ui/core";
+
+import { FormControlLabel, TextField, Container, Checkbox } from "@material-ui/core";
+import { AddressInput, Button } from "../../../component";
 
 const convertFullName = (fullName) => {
   let firstName = ''
@@ -16,7 +18,7 @@ const convertFullName = (fullName) => {
     }
   }
   return [firstName, lastName]
-}
+};
 
 
 /**
@@ -26,6 +28,22 @@ const convertFullName = (fullName) => {
  */
 const UserProfile = ({ values, handleChange, onSubmit }) => {
   const classes = useStyles()
+  const [locationValue, setLocation] = useState(null);
+
+  function handleSubmit() {
+    onSubmit(locationValue)
+  }
+
+  function changeFormValue(name, value) {
+    handleChange({ target: { name, value}})
+  }
+
+  function handleCheckBoxChange(event, value) {
+    changeFormValue(event.currentTarget.name, value)
+  }
+
+  console.log(values)
+
   const [ firstName, lastName ] = convertFullName(values.fullName)
   return (
     <Page>
@@ -41,38 +59,38 @@ const UserProfile = ({ values, handleChange, onSubmit }) => {
         </Body1>
         <TextField
           className={classes.textField}
+          defaultValue={firstName}
           fullWidth={true}
-          variant="outlined"
-          value={firstName}
+          label="First Name"
           name="firstName"
           onChange={handleChange}
-          label="First Name"
+          value={values.firstName}
+          variant="outlined"
         />
         <TextField
           className={classes.textField}
+          defaultValue={lastName}
           fullWidth={true}
-          variant="outlined"
-          value={lastName}
+          label="Last Name"
           name="lastName"
           onChange={handleChange}
-          label="Last Name"
+          value={values.lastName}
+          variant="outlined"
         />
+        <div className={classes.textField}>
+          <AddressInput
+            className={classes.textField}
+            placeholder="Pickup location"
+            stage={locationValue}
+            setStage={setLocation}
+          />
+        </div>
         <TextField
           className={classes.textField}
           fullWidth={true}
           variant="outlined"
-          value={lastName}
-          name="location"
-          onChange={handleChange}
-          label="Location"
-        />
-
-        <TextField
-          className={classes.textField}
-          fullWidth={true}
-          variant="outlined"
-          value={values.phone}
-          name="phoneNumber"
+          value={values.phone || ''}
+          name="phone"
           onChange={handleChange}
           label="Phone Number"
           helperText="Used for receiving mission updates (SMS/texts)"
@@ -92,66 +110,48 @@ const UserProfile = ({ values, handleChange, onSubmit }) => {
         <TextField
           className={classes.textField}
           fullWidth={true}
-          variant="outlined"
-          value={values.description}
-          name="availability"
-          onChange={handleChange}
-          label="Tell us a bit about yourself"
           helperText="Describe your top 2 skills that could be useful for us to know to match you with missions"
+          label="Tell us a bit about yourself"
+          multiline
+          name="description"
+          onChange={handleChange}
+          value={values.description || ''}
+          variant="outlined"
+        />
+        <FormControlLabel
+          className={classes.checkBox}
+          control={
+            <Checkbox
+              checked={values.hasTransportation}
+              onChange={handleCheckBoxChange}
+              name="hasTransportation"
+            />
+          }
+          label="I have a vehicle that can be used for deliveries."
         />
 
-          {/* <Col xs={12}>
-            <PaddedDiv>
-              <Input
-                dataId="fullName"
-                handleChange={handleChange}
-                inputName="fullName"
-                inputType="text"
-                label="FULL NAME"
-                value={values.fullName}
-              />
-            </PaddedDiv>
-          </Col>
-          <Col xs={12}>
-            <PaddedDiv>
-              <Input
-                dataId="email"
-                inputName="email"
-                inputType="text"
-                label="EMAIL"
-                value={values.email}
-              />
-            </PaddedDiv>
-          </Col>
-          <Col xs={12}>
-            <PaddedDiv>
-              <Input
-                // dataId="phoneNumber"
-                inputName="phoneNumber"
-                inputType="text"
-                label="PHONE NUMBER"
-                value={values.phoneNumber}
-              />
-            </PaddedDiv>
-          </Col>
-          <Col xs={12}>
-            <PaddedDiv>
-              <Input inputType="text" dataId="zipCode" inputName="zipCode" label="ZIP CODE" />
-            </PaddedDiv>
-          </Col> */}
-        {/* <Row>
-          <Col xsOffset={2} xs={4} mdOffset={3} md={3}>
-            <Button text="Log in" onClick={(e) => handleLoginCTAClick(e)} tertiary />
-          </Col>
-          <Col xs={6}>
-            <Button
-              text="Create account"
-              onClick={onSubmit}
-              secondary
-              size="lg"
+        <Body1 className={classes.body2}>
+          Once an organizer approves your registration, you can start taking on missions!
+        </Body1>
+
+        <FormControlLabel
+          className={classes.checkBox}
+          control={
+            <Checkbox
+              checked={values.termsAndConditions}
+              onChange={handleCheckBoxChange}
+              name="termsAndConditions"
             />
-          </Col>
-        </Row> */}
+          }
+          label="By signing up, I agree to some terms and conditions, waiver link here,"
+        />
+        <Button
+          className={classes.button}
+          disabled={!values.termsAndConditions}
+          onClick={handleSubmit}
+        >
+          Submit
+        </Button>
       </Container>
     </Page>
   );

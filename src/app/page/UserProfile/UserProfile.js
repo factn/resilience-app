@@ -52,6 +52,7 @@ const ProfileControlButtons = ({ isEdit, saveAction, cancelAction, editAction })
 
 /**
  * Component used for showing user profile
+ * NOTE:  This is the old component, not sure if we still want to use this
  *
  * @component
  */
