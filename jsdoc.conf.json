@@ -1,25 +1,22 @@
 {
   "tags": {
-      "allowUnknownTags": true,
-      "dictionaries": ["jsdoc","closure"]
+    "allowUnknownTags": true,
+    "dictionaries": ["jsdoc", "closure"]
   },
   "source": {
-      "include": ["src"],
-      "includePattern": ".+\\.js(doc|x)?$",
-      "excludePattern": "(^|\\/|\\\\)_"
+    "include": ["src"],
+    "includePattern": ".+\\.js(doc|x)?$",
+    "excludePattern": "(^|\\/|\\\\)_"
   },
-  "plugins": [
-      "plugins/markdown",
-      "better-docs/component"
-  ],
-   "templates": {
+  "plugins": ["plugins/markdown", "better-docs/component"],
+  "templates": {
     "better-docs": {
-        "name": "React components"
-      }
+      "name": "React components"
+    }
   },
   "opts": {
-      "destination": "docs",
-      "recurse": true,
-      "readme": "README.md"
+    "destination": "docs",
+    "recurse": true,
+    "readme": "README.md"
   }
 }

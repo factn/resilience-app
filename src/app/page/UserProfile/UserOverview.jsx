@@ -4,6 +4,8 @@ import { Grid, Avatar, TextField } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import _ from "lodash";
 
+import ProfileImage from "./ProfileImage";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     paddingBottom: theme.spacing(2),
@@ -15,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const UserStatus = ({ view, profile, setProfile }) => {
+const UserStatus = ({ view, setView, profile, setProfile }) => {
   const classes = useStyles();
 
   const displayName = _.get(profile, "displayName", "");
@@ -26,9 +28,10 @@ const UserStatus = ({ view, profile, setProfile }) => {
     profile[e.target.id] = e.target.value;
     setProfile(_.cloneDeep(profile));
   }
+
   return (
     <Grid container direction="column" justify="center" className={classes.root} spacing={2}>
-      <Avatar className={classes.profileImage} src={profile.photoURL} alt={displayName} />
+      <ProfileImage classes={classes} profile={profile} setProfile={setProfile} />
       <Grid item container spacing={1} direction="column">
         <Grid item container>
           <H5>Displayname</H5>

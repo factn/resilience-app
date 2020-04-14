@@ -31,4 +31,4 @@ PhoneLoginForm.propTypes = {
   handlePhoneNumberChange: PropTypes.func.isRequired,
 };
 
-export default PhoneLoginForm
+export default PhoneLoginForm;
