@@ -47,7 +47,7 @@ class Users {
    * @return {FirebaseAuth}
    */
   getAuth = (state: any) => get(state, "firebase.auth");
-  
+
 }
 
 export default new Users();

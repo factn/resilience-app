@@ -1,7 +1,6 @@
 import { CustomRepository, getRepository } from 'fireorm';
 import { BaseRepository } from './BaseRepository'
 import { Mission, MissionStatus } from './schema';
-import { missionStatusLabel } from '../../constants';
 
 @CustomRepository(Mission)
 class MissionRepository extends BaseRepository<Mission> { }
@@ -50,6 +49,20 @@ class Missions {
     var mission = await missions.findById(missionId);
     mission.volunteerId = userId;
     mission.status = MissionStatus.assigned;
+    return missions.update(mission);
+  }
+
+  /**
+   * Marking the mission with the given missionId as started
+   * @param {string} missionId - ID of mission that user wants to start
+   */
+
+  async startMission(missionId: string) { 
+    var missions = this.repo();
+    var mission = await missions.findById(missionId);
+    if (mission.volunteerId !== undefined) { //ensure that mission has an assigned volunteer
+      mission.status = MissionStatus.started;
+    }
     return missions.update(mission);
   }
 }
