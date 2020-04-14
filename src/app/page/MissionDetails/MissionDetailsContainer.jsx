@@ -38,6 +38,7 @@ const useStyles = makeStyles((theme) => ({
  */
 const MissionDetailsPage = ({ firestore, auth, mission, history }) => {
   const classes = useStyles();
+  mission = mission || {};
   const [userUnverifiedPopupOpen, setUserUnverifiedPopupOpen] = useState(false);
   function volunteerForMission(missionId) {
     if (!auth.phoneNumber) {
@@ -49,6 +50,10 @@ const MissionDetailsPage = ({ firestore, auth, mission, history }) => {
 
   function startMission(missionId) {
     console.log("started mission " + missionId);
+  }
+
+  function markMissionAsDelivered(missionId) {
+    console.log("marked mission " + missionId + " as delivered");
   }
 
   //mock data
