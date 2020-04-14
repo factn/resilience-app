@@ -18,8 +18,8 @@ def genId():
 def location():
     return dict(
         address=f.address(),
-        lat += float(f.latitude())/1000,
-        lng += float(f.longitude())/1000,
+        lat=lat + float(f.latitude())/1000,
+        lng=lng + float(f.longitude())/1000,
         label=""
     )
 
@@ -49,14 +49,19 @@ def volunteer(organizationId):
         location=location(),
         organizationId=organizationId,
         isVolunteer=True,
-        iSOrganizer=False,
+        isOrganizer=f.boolean(chance_of_getting_true=25),
         voluteerDetails=dict(
             hasTransportation=f.boolean(chance_of_getting_true=75),
             status=r.choice(VolunteerPendingStatus),
-            privateNotes: ""
-        )
+            privateNotes=""),
         organizerDetails={},
     )
+
+
+def add_volunteer(orgId, data):
+    vol = volunteer(orgId)
+    data['users'][vol['id']] = vol
+    return data
 
 
 MissionStatus = [
@@ -107,9 +112,9 @@ def timeWindow():
     )
 
 
-def addMission(orgId, missions):
-    uid = genId()
-    missions['missions'][uid] = dict(
+def mission(orgId):
+    return dict(
+        id=genId(),
         type=r.choice(MissionType),
         status=r.choice(MissionStatus),
         fundedStatus=r.choice(MissionFundedStatus),
@@ -123,8 +128,8 @@ def addMission(orgId, missions):
         notes='',
         privateNotes='',
         cost='',
-        pickupWindow=timeWindow(),
-        pickupLocation=location(),
+        pickUpWindow=timeWindow(),
+        pickUpLocation=location(),
         deliveryWindow=timeWindow(),
         deliveryLocation=location(),
         deliveryConfirmationImage='',
@@ -139,11 +144,19 @@ def addMission(orgId, missions):
     )
 
 
+def add_mission(orgId, data):
+    mis = mission(orgId)
+    data['missions'][mis['id']] = mis
+    return data
+
+
 if __name__ == "__main__":
     org = organization()
-    #volunteers = [volunteer(org['id']) for i in range(1)]
-    missions = {'missions': {}}
-    [addMission(org['id'], missions) for i in range(100)]
-    json_data = json.dumps(missions, indent=2)
+    data = {'missions': {}, "users": {}}
+
+    [add_mission(org['id'], data) for i in range(100)]
+    [add_volunteer(org['id'], data) for i in range(20)]
+
+    json_data = json.dumps(data, indent=2)
     with open("data.json", "w") as outfile:
         outfile.write(json_data)
