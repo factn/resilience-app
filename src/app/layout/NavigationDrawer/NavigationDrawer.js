@@ -23,11 +23,6 @@ import {
   ListItemText,
 } from "@material-ui/core";
 
-const StyledButton = styled(Button)`
-  margin-top: 24px;
-  flex-grow: 1;
-`;
-
 export default function TemporaryDrawer() {
   const firebase = useFirebase();
   const history = useHistory();
@@ -131,53 +126,12 @@ export default function TemporaryDrawer() {
     </div>
   );
 
-  const MissionTypeModal = () => (
-    <Popup open={missionTypeModal} handleClose={() => setMissionTypeModal(false)} btnText="close">
-      <Container align="center">
-        <Typography align="center" variant="h1">
-          Choose a mission type
-        </Typography>
-        <StyledButton
-          variant="outlined"
-          size="large"
-          color="primary"
-          onClick={() => {
-            setMissionTypeModal(false);
-            history.push(`/missions/new/food`);
-          }}
-        >
-          food
-        </StyledButton>
-        <StyledButton
-          variant="outlined"
-          size="large"
-          color="primary"
-          onClick={() => {
-            setMissionTypeModal(false);
-            history.push(`/missions/new/pharmacy`);
-          }}
-        >
-          pharmacy
-        </StyledButton>
-        <StyledButton
-          variant="outlined"
-          size="large"
-          color="primary"
-          onClick={() => {
-            setMissionTypeModal(false);
-            history.push(`/missions/new/errand`);
-          }}
-        >
-          errand
-        </StyledButton>
-      </Container>
-    </Popup>
-  );
-
   const anchor = "right";
   return (
     <React.Fragment key={anchor}>
-      {missionTypeModal && <MissionTypeModal />}
+      {missionTypeModal && (
+        <MissionTypeModal opened={missionTypeModal} onClose={() => setMissionTypeModal(false)} />
+      )}
       <Button
         aria-label="Menu"
         classes={{ root: classes.root, label: classes.label }}
