@@ -16,7 +16,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { isLoaded, isEmpty } from "react-redux-firebase";
 import { Missions, MissionFundedStatus, MissionStatus } from "../../model";
 
-import { MissionDetailsCard } from "../../component";
+import MissionDetailsCard from "../../component/MissionDetailsCard";
 
 const useStyles = makeStyles((theme) => ({
   content: {
