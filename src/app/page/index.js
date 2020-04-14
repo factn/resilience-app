@@ -11,6 +11,7 @@ import PostMission from "./PostMission";
 
 import Signup from "./Signup";
 import UserProfile from "./UserProfile";
+import Settings from "./Settings";
 
 export {
   Home,
@@ -25,4 +26,5 @@ export {
   UserProfile,
   MakeMission,
   PostMission,
+  Settings,
 };

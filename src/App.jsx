@@ -25,6 +25,7 @@ import {
   MissionsVolunteered,
   MakeMission,
   PostMission,
+  Settings,
 } from "./app/page";
 
 import { Dashboard } from "./app/page";
@@ -72,6 +73,7 @@ function App() {
                 <Route path="/signup" component={SignupPage} />
                 <Route path="/status" component={Status} />
                 <Route path="/temp/story123" component={PostMission} />
+                <Route path="/temp/settings" component={Settings} />
 
                 <PrivateRoute path="/request/create">
                   <MakeRequest />
