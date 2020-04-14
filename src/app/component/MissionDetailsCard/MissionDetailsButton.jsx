@@ -10,6 +10,11 @@ const StyledButton = styled(Button)`
   flex-grow: 1;
 `;
 
+/**
+ * Component for displaying a button based of the mission status
+ *
+ * @component
+ */
 const MissionDetailsButton = ({
   status,
   volunteerForMission,
@@ -58,6 +63,11 @@ const MissionDetailsButton = ({
   }
 };
 
+/**
+ * Component for displaying an "Unassign Me" button
+ *
+ * @component
+ */
 const MissionDetailsUnassignMeButton = ({ status, unassignFromMission }) =>
   status === MissionStatus.tentative ||
   (status === MissionStatus.assigned && (
@@ -74,7 +84,7 @@ const MissionDetailsUnassignMeButton = ({ status, unassignFromMission }) =>
 
 MissionDetailsButton.propTypes = {
   /**
-   * status of the mission
+   * mission status
    */
   status: PropTypes.string,
   /**
@@ -87,7 +97,7 @@ MissionDetailsButton.propTypes = {
 
 MissionDetailsUnassignMeButton.propTypes = {
   /**
-   * status of the mission
+   * mission status
    */
   status: PropTypes.string,
   /**

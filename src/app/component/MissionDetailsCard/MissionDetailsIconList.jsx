@@ -16,6 +16,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+/**
+ * Component for displaying a list with text and icons
+ *
+ * @component
+ */
 const MissionDetailsIconList = ({ contentItems, outerClass }) => {
   const classes = useStyles();
   return (

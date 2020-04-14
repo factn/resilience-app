@@ -15,6 +15,7 @@ import {
 import UserPhoneUnverifiedPopup from "../UserPhoneUnverifiedPopup";
 import MissionDetailsIconList from "./MissionDetailsIconList";
 import { MissionDetailsButton, MissionDetailsUnassignMeButton } from "./MissionDetailsButton";
+import MissionDetailsStatus from "./MissionDetailsStatus";
 
 import PersonIcon from "@material-ui/icons/Person";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
@@ -52,20 +53,6 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(0.5),
   },
 }));
-
-const titleCase = (str) => ("" + str).charAt(0).toUpperCase() + ("" + str).substr(1);
-
-const MissionDetailsStatus = ({ status, volunteerName }) => {
-  return status === null ? null : status === MissionStatus.unassigned ? (
-    titleCase(status)
-  ) : status === MissionStatus.tentative || status === MissionStatus.assigned ? (
-    volunteerName
-  ) : (
-    <>
-      {volunteerName} - <b>{titleCase(status)}</b>
-    </>
-  );
-};
 
 const MissionDetailsType = ({ description, classes }) => (
   <Box>

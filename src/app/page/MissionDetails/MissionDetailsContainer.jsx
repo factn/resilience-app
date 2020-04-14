@@ -59,7 +59,7 @@ const MissionDetailsPage = ({ firestore, auth, mission, history }) => {
   mission = {
     ...mission,
     fundedStatus: MissionFundedStatus.fundedbydonation,
-    status: MissionStatus.assigned,
+    status: MissionStatus.delivered,
     pickUpWindow: "1:30 PM",
     pickUplocation: "123 Strawberry Ln, VA 22201",
     deliveryWindow: "2:30–3:30 PM",
