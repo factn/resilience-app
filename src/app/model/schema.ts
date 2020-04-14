@@ -45,11 +45,18 @@ export enum VolunteerStatus {
 @Collection("users")
 export class User {
   id!: string;
-  /* phone number, our primary means of communication*/
+  /* phone number, our primary means of communication
+  FIXME: need to ensure this is synced from firebase.auth ph number
+  FIXME: where do we assert phone number formatting?
+  FIXME: currently, always null */
   phone?: number;
+  /* user's selected profile image url
+  FIXME: need to sync this with state.firebase.profile.photoURL ?
+  */
+  photoURL?: ImageUrl;
   /* user profile name, this populate from either user, or his provider*/
-  profileName?: string;
-  /* user location, we use this to show user, (later on) which organization exist to signup to*/
+  displayName?: string;
+  /* user location, we use this to show user on a map */
   location?: Location;
   /* the organization that user belong to*/
   organizationId!: number;
