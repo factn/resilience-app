@@ -51,10 +51,6 @@ const MissionDetailsPage = ({ firestore, auth, mission, history }) => {
     console.log("started mission " + missionId);
   }
 
-  function markMissionAsDelivered(missionId) {
-    console.log("marked mission " + missionId + " as delivered");
-  }
-
   //mock data
   mission = {
     ...mission,
