@@ -7,7 +7,31 @@ import { Mission, MissionStatus } from './schema';
 import _ from "lodash";
 
 @CustomRepository(User)
-class UserRepository extends BaseRepository<User> { }
+class UserRepository extends BaseRepository<User> {
+
+    create(item: User): Promise<User> {
+      this._allUsers = undefined;
+      return super.create(item)
+    }
+
+    update(item: User): Promise<User> {
+      this._allUsers = undefined;
+      return super.update(item)
+    }
+
+    // FIXME: for now pulling all users back
+    //        and then using poor mans caching
+    //        prone to problems and less than ideal
+    //        but it'll do for now assuming this repo is short lived
+    _allUsers?: User[];
+    async allUsers() {
+      if (this._allUsers===undefined) {
+        console.log("retrieving all users");
+        this._allUsers = await this.find();
+      }
+      return this._allUsers;
+    }
+ }
 
 
 /**
@@ -17,20 +41,21 @@ class UserRepository extends BaseRepository<User> { }
  */
 class Users {
 
+
+  //FIXME the fact I am doing this is a
+  //       HUUUGE code smell but just trying 
+  //       to make sure things cache properly for now
+  //       this can go away once we enable full text search in firestore
+  _repo: UserRepository | undefined;
   repo() : UserRepository {
-    return getRepository(User) as UserRepository;
+    if (this._repo===undefined)
+      this._repo = getRepository(User) as UserRepository;
+    return this._repo;
   }
 
   // FIXME need a method to return 'current user' 
   // via const user = useSelector((state) => state.firebase.auth);
 
-
-  _allUsers?: User[];
-  async allUsers() {
-    if (this._allUsers===undefined)
-      this._allUsers = await this.repo().find();
-    return this._allUsers;
-  }
 
    /**
    * Returns all users matching a given text 
@@ -43,14 +68,13 @@ class Users {
       //        be able to do more complex queries
       return _.take(
                 _.sortBy(
-                  _.filter(await this.allUsers(),
+                  _.filter(await this.repo().allUsers(),
                     user=>this.singleUserMatch(user, text)),
                   ['profileName']),
               limit);
   }
 
   singleUserMatch(user:User, text:string) : boolean {
-    console.log(user)
     if (text===undefined)
       return false;
     text = text.toLowerCase();
