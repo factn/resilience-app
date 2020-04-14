@@ -17,11 +17,8 @@ import UserPhoneUnverifiedPopup from "../../component/UserPhoneUnverifiedPopup";
  * @param {object} props.auth - Object obtained from firebase.auth state
  * @param {object} props.history - Object obtained from React Router
  */
-const MissionsPage = ({ auth, history, ...rest }) => {
-  const missions = useSelector((state) => state.firestore.ordered.missionsTodo);
-
+const MissionsPage = ({ auth, history, missions }) => {
   const [popupOpen, setPopupOpen] = useState(false);
-  const firestore = useFirestore();
 
   async function userVolunteeringHandler(missionId) {
     // We need a little more information from user at this point
@@ -29,10 +26,10 @@ const MissionsPage = ({ auth, history, ...rest }) => {
       setPopupOpen(true);
       return;
     }
-
-    await Missions.volunteerForMission(missionId, auth.uid);
-    return;
+    Missions.volunteerForMission(missionId, auth.uid);
   }
+
+  if (!missions) return null;
 
   return (
     <Page title="Missions">
@@ -63,8 +60,9 @@ MissionsPage.propTypes = {
   history: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
   return {
+    missions: Missions.loads(state.firestore.ordered.missionsUnassigned),
     auth: state.firebase.auth,
   };
 };
@@ -75,8 +73,8 @@ export default compose(
     return [
       {
         collection: "missions",
-        where: [["status", "==", "todo"]],
-        storeAs: "missionsTodo",
+        where: [["status", "==", "unassigned"]],
+        storeAs: "missionsUnassigned",
       },
     ];
   })

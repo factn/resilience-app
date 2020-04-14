@@ -1,4 +1,5 @@
 import { Collection, SubCollection, ISubCollection } from 'fireorm';
+import Record from 'dataclass'
 
 export type ImageUrl = string;
 
@@ -140,8 +141,8 @@ export class MissionLogEvent {
   timestamp!: Date;
 }
 
-@Collection("missions")
-export class Mission {
+//@Collection("missions")
+export class Mission extends Record<Mission> {
   id!: string;
   type!: MissionType;
   status!: MissionStatus;
@@ -172,6 +173,6 @@ export class Mission {
   lastUpdated!: Date// time stamp
   // all other event log type stuff, such as when assigned etc belongs in the eventlog
   // this should be a child collection
-  @SubCollection(MissionLogEvent)
-  eventlog?: ISubCollection<MissionLogEvent>;
+  //@SubCollection(MissionLogEvent)
+  //eventlog?: ISubCollection<MissionLogEvent>;
 }
