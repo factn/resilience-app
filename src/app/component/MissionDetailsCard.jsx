@@ -19,7 +19,7 @@ import { color } from "../../theme";
 import PersonIcon from "@material-ui/icons/Person";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import ScheduleIcon from "@material-ui/icons/Schedule";
-import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+
 import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
 import cameraImage from "../../img/placeholderBackground.svg";
 
@@ -33,16 +33,6 @@ const StyledButton = styled(Button)`
 `;
 
 const useStyles = makeStyles((theme) => ({
-  content: {
-    padding: theme.spacing(2),
-  },
-  goBackIcon: {
-    fontSize: 32,
-    fill: color.deepPurple,
-    "&:hover": {
-      cursor: "pointer",
-    },
-  },
   cardHeader: {
     paddingBottom: theme.spacing(1),
   },
@@ -197,7 +187,6 @@ const MissionDetailsPickUpDeliveryHeader = ({ header, classes }) => (
  * @component
  */
 const MissionDetailsCard = ({
-  showBackIcon,
   mission,
   volunteer,
   volunteerForMission,
@@ -206,22 +195,8 @@ const MissionDetailsCard = ({
   unassignFromMission,
   userUnverifiedPopupOpen,
   setUserUnverifiedPopupOpen,
-  history,
 }) => {
   const classes = useStyles();
-  showBackIcon = showBackIcon || false;
-  const title = mission.title || null;
-  const status = mission.status || null;
-  const fundedStatus = mission.fundedStatus
-    ? titleCase(MissionFundedStatus[mission.fundedStatus])
-    : null;
-  const description = mission.description || null;
-  const pickUpLocation = mission.pickUplocation || null;
-  const pickUpWindow = mission.pickUpWindow || null;
-  const deliveryLocation = mission.deliverylocation || null;
-  const deliveryWindow = mission.deliveryWindow || null;
-  const recipientName = mission.recipientName || null;
-  const recipientPhoneNumber = mission.recipientPhoneNumber || null;
 
   const subheaderItems = [
     {
@@ -233,41 +208,45 @@ const MissionDetailsCard = ({
             }
           : undefined,
       content: [
-        { text: <MissionDetailsStatus status={status} volunteerName={volunteer.profileName} /> },
+        {
+          text: (
+            <MissionDetailsStatus status={mission.status} volunteerName={volunteer.profileName} />
+          ),
+        },
       ],
     },
     {
       icon: AttachMoneyIcon,
-      content: [{ text: fundedStatus }],
+      content: [{ text: mission.fundedStatus }],
     },
   ];
 
   const pickUpDetails = [
     {
       icon: LocationOnIcon,
-      content: [{ text: pickUpLocation }],
+      content: [{ text: mission.pickUplocation }],
     },
     {
       icon: ScheduleIcon,
-      content: [{ text: pickUpWindow }],
+      content: [{ text: mission.pickUpWindow }],
     },
   ];
 
   const deliveryDetails = [
     {
       icon: LocationOnIcon,
-      content: [{ text: deliveryLocation }],
+      content: [{ text: mission.deliverylocation }],
     },
     {
       icon: ScheduleIcon,
-      content: [{ text: deliveryWindow }],
+      content: [{ text: mission.deliveryWindow }],
     },
     {
       icon: PersonIcon,
       content: [
-        { text: recipientName },
+        { text: mission.recipientName },
         {
-          text: recipientPhoneNumber,
+          text: mission.recipientPhoneNumber,
           style: {
             fontWeight: 600,
             textDecoration: "underline",
@@ -279,72 +258,59 @@ const MissionDetailsCard = ({
 
   return (
     <>
-      <Grid className={classes.content} direction="column" container>
-        {showBackIcon && (
-          <Grid align="left" item>
-            <ArrowBackIcon
-              align="left"
-              className={classes.goBackIcon}
-              onClick={() => history.goBack()}
+      <Card align="left">
+        <CardHeader
+          title={mission.title}
+          titleTypographyProps={{ variant: "h3", component: "span", color: "textPrimary" }}
+          subheader={
+            <MissionDetailsIconList
+              outerClass={classes.subheader}
+              contentItems={subheaderItems}
+              classes={classes}
             />
+          }
+          className={classes.cardHeader}
+        />
+        <CardMedia image={cameraImage} title="Mission image" className={classes.image} />
+        <CardContent className={classes.cardContent}>
+          <MissionDetailsContent description={mission.description} classes={classes} />
+          <MissionDetailsPickUpDeliveryHeader header="Pick Up Details" classes={classes} />
+          <MissionDetailsIconList
+            outerClass={classes.deliveryDetails}
+            contentItems={pickUpDetails}
+            classes={classes}
+          />
+          <MissionDetailsPickUpDeliveryHeader header="Delivery Details" classes={classes} />
+          <MissionDetailsIconList
+            outerClass={classes.deliveryDetails}
+            contentItems={deliveryDetails}
+            classes={classes}
+          />
+        </CardContent>
+        <Divider />
+        <CardActions>
+          <MissionDetailsButton
+            type={mission.status}
+            volunteerForMission={() => volunteerForMission(mission.id)}
+            startMission={() => startMission(mission.id)}
+            markMissionAsDelivered={() => markMissionAsDelivered(mission.id)}
+          />
+        </CardActions>
+        <CardActions>
+          <Grid container justify="center">
+            {mission.status === MissionStatus["tentative"] ||
+            mission.status === MissionStatus["assigned"] ? (
+              <Button
+                className={classes.unassignButton}
+                disableElevation
+                onClick={unassignFromMission}
+              >
+                Unassign Me
+              </Button>
+            ) : null}
           </Grid>
-        )}
-        <Grid>
-          <Card align="left">
-            <CardHeader
-              title={title}
-              titleTypographyProps={{ variant: "h3", component: "span", color: "textPrimary" }}
-              subheader={
-                <MissionDetailsIconList
-                  outerClass={classes.subheader}
-                  contentItems={subheaderItems}
-                  classes={classes}
-                />
-              }
-              className={classes.cardHeader}
-            />
-            <CardMedia image={cameraImage} title="Mission image" className={classes.image} />
-            <CardContent className={classes.cardContent}>
-              <MissionDetailsContent description={description} classes={classes} />
-              <MissionDetailsPickUpDeliveryHeader header="Pick Up Details" classes={classes} />
-              <MissionDetailsIconList
-                outerClass={classes.deliveryDetails}
-                contentItems={pickUpDetails}
-                classes={classes}
-              />
-              <MissionDetailsPickUpDeliveryHeader header="Delivery Details" classes={classes} />
-              <MissionDetailsIconList
-                outerClass={classes.deliveryDetails}
-                contentItems={deliveryDetails}
-                classes={classes}
-              />
-            </CardContent>
-            <Divider />
-            <CardActions>
-              <MissionDetailsButton
-                type={mission.status}
-                volunteerForMission={() => volunteerForMission(mission.id)}
-                startMission={() => startMission(mission.id)}
-                markMissionAsDelivered={() => markMissionAsDelivered(mission.id)}
-              />
-            </CardActions>
-            <CardActions>
-              <Grid container justify="center">
-                {mission.status === MissionStatus["tentative"] ||
-                mission.status === MissionStatus["assigned"] ? (
-                  <Button
-                    className={classes.unassignButton}
-                    disableElevation
-                    onClick={unassignFromMission}
-                  >
-                    Unassign Me
-                  </Button>
-                ) : null}
-              </Grid>
-            </CardActions>
-          </Card>
-        </Grid>
-      </Grid>
+        </CardActions>
+      </Card>
       <UserPhoneUnverifiedPopup
         open={userUnverifiedPopupOpen}
         handleClose={() => setUserUnverifiedPopupOpen(false)}
@@ -353,8 +319,22 @@ const MissionDetailsCard = ({
   );
 };
 
+MissionDetailsCard.defaultProps = {
+  mission: {
+    title: "",
+    status: "",
+    fundedStatus: "",
+    description: "",
+    pickUplocation: "",
+    pickUpWindow: "",
+    deliverylocation: "",
+    deliveryWindow: "",
+    recipientName: "",
+    recipientPhoneNumber: "",
+  },
+};
+
 MissionDetailsCard.propTypes = {
-  showBackIcon: PropTypes.bool,
   /**
    * Mission details
    */

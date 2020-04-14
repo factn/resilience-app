@@ -6,6 +6,11 @@ import { firestoreConnect } from "react-redux-firebase";
 import { connect } from "react-redux";
 
 import Page from "../../layout/Page";
+import { color } from "../../../theme";
+
+import { Grid } from "@material-ui/core";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import { makeStyles } from "@material-ui/core/styles";
 
 // Created based on the schema in firebase
 import { isLoaded, isEmpty } from "react-redux-firebase";
@@ -13,13 +18,26 @@ import { Missions, MissionFundedStatus, MissionStatus } from "../../model";
 
 import { MissionDetailsCard } from "../../component";
 
+const useStyles = makeStyles((theme) => ({
+  content: {
+    padding: theme.spacing(2),
+  },
+  goBackIcon: {
+    fontSize: 32,
+    fill: color.deepPurple,
+    "&:hover": {
+      cursor: "pointer",
+    },
+  },
+}));
+
 /**
  * Component for showing mission details
  *
  * @component
  */
 const MissionDetailsPage = ({ firestore, auth, mission, history }) => {
-  mission = mission || {};
+  const classes = useStyles();
   const [userUnverifiedPopupOpen, setUserUnverifiedPopupOpen] = useState(false);
   function volunteerForMission(missionId) {
     if (!auth.phoneNumber) {
@@ -56,19 +74,33 @@ const MissionDetailsPage = ({ firestore, auth, mission, history }) => {
 
   return (
     <Page key="mission-detail" isLoaded={isLoaded(mission)} isEmpty={isEmpty(mission)}>
-      <MissionDetailsCard
-        showBackIcon={true}
-        mission={mission}
-        volunteer={volunteer}
-        volunteerForMission={volunteerForMission}
-        startMission={startMission}
-        markedMissionAsDelivered={markMissionAsDelivered}
-        userUnverifiedPopupOpen={userUnverifiedPopupOpen}
-        setUserUnverifiedPopupOpen={setUserUnverifiedPopupOpen}
-        history={history}
-      />
+      <Grid className={classes.content} direction="column" container>
+        <Grid align="left" item>
+          <ArrowBackIcon
+            align="left"
+            className={classes.goBackIcon}
+            onClick={() => history.goBack()}
+          />
+        </Grid>
+        <Grid align="left" item>
+          <MissionDetailsCard
+            mission={mission}
+            volunteer={volunteer}
+            volunteerForMission={volunteerForMission}
+            startMission={startMission}
+            markedMissionAsDelivered={markMissionAsDelivered}
+            userUnverifiedPopupOpen={userUnverifiedPopupOpen}
+            setUserUnverifiedPopupOpen={setUserUnverifiedPopupOpen}
+            history={history}
+          />
+        </Grid>
+      </Grid>
     </Page>
   );
+};
+
+MissionDetailsPage.defaultProps = {
+  mission: {},
 };
 
 MissionDetailsPage.propTypes = {
