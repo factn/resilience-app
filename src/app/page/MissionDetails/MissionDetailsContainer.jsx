@@ -47,7 +47,7 @@ const MissionDetailsPage = ({ firestore, auth, mission, history }) => {
     if (!auth.phoneNumber) {
       setUserUnverifiedPopupOpen(true);
     } else {
-      Missions.assignAsVolunteer(firestore, missionId, auth.uid);
+      Missions.volunteerForMission(missionId, auth.uid);
     }
   }
 
@@ -55,28 +55,23 @@ const MissionDetailsPage = ({ firestore, auth, mission, history }) => {
     if (!auth.phoneNumber) {
       setUserUnverifiedPopupOpen(true);
     } else {
-      console.log("started mission " + missionId);
+      Missions.startMission(missionId);
     }
   }
 
-  function markMissionAsDelivered(missionId) {
+  function openMissionDeliveredCard(missionId) {
     //open the submit delivery modal
     if (!auth.phoneNumber) {
       setUserUnverifiedPopupOpen(true);
     } else {
-      console.log("marked mission " + missionId + " as delivered");
       setCompleteDeliveryDialogOpen(true);
     }
   }
 
-  function completeMission(missionId, deliveryConfirmationImage) {
+  async function markMissionAsDelivered(missionId, confirmationImage) {
+    await Missions.deliveredMission(missionId, confirmationImage);
+    console.log("marked mission as delivered");
     setCompleteDeliveryDialogOpen(false);
-    console.log(
-      "completed mission " +
-        missionId +
-        " with confirmation image " +
-        deliveryConfirmationImage.name
-    );
   }
 
   //mock data
@@ -112,7 +107,7 @@ const MissionDetailsPage = ({ firestore, auth, mission, history }) => {
             volunteer={volunteer}
             volunteerForMission={volunteerForMission}
             startMission={startMission}
-            markMissionAsDelivered={markMissionAsDelivered}
+            openMissionDeliveredCard={openMissionDeliveredCard}
             userUnverifiedPopupOpen={userUnverifiedPopupOpen}
             setUserUnverifiedPopupOpen={setUserUnverifiedPopupOpen}
             history={history}
@@ -124,10 +119,11 @@ const MissionDetailsPage = ({ firestore, auth, mission, history }) => {
         onClose={() => setCompleteDeliveryDialogOpen(false)}
         aria-labelledby="Complete delivery"
         maxWidth="md"
+        scroll="body"
       >
         <MissionDeliveredCard
           missionId={mission.id}
-          completeMission={completeMission}
+          completeMission={markMissionAsDelivered}
           onClose={() => setCompleteDeliveryDialogOpen(false)}
         />
       </Dialog>
