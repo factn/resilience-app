@@ -21,7 +21,7 @@ import MissionDeliveredCard from "../../component/MissionDeliveredCard";
 
 const useStyles = makeStyles((theme) => ({
   content: {
-    padding: theme.spacing(2),
+    padding: theme.spacing(1, 2, 2, 2),
   },
   goBackIcon: {
     fontSize: 32,
