@@ -70,9 +70,9 @@ const useStyles = makeStyles((theme) => ({
 const titleCase = (str) => ("" + str).charAt(0).toUpperCase() + ("" + str).substr(1);
 
 const MissionDetailsStatus = ({ status, volunteerName }) => {
-  return status === null ? null : status === MissionStatus["unassigned"] ? (
+  return status === null ? null : status === MissionStatus.unassigned ? (
     titleCase(status)
-  ) : status === MissionStatus["tentative"] || status === MissionStatus["assigned"] ? (
+  ) : status === MissionStatus.tentative || status === MissionStatus.assigned ? (
     volunteerName
   ) : (
     <>
@@ -102,10 +102,8 @@ const MissionDetailsIconList = ({ contentItems, classes, outerClass }) => (
       return (
         <React.Fragment key={`content-item-${index + 1}`}>
           <Grid item xs={1}>
-            {Icon !== undefined ? <Icon color="primary" /> : null}
-            {avatarImage !== undefined ? (
-              <Avatar className={classes.avatar} alt="Volunteer" src={avatarImage} />
-            ) : null}
+            {Icon && <Icon color="primary" />}
+            {avatarImage && <Avatar className={classes.avatar} alt="Volunteer" src={avatarImage} />}
           </Grid>
           <Grid item xs={11}>
             {content}
@@ -134,7 +132,7 @@ const MissionDetailsButton = ({
   markMissionAsDelivered,
 }) => {
   switch (type) {
-    case MissionStatus["unassigned"]:
+    case MissionStatus.assigned:
       return (
         <StyledButton
           color="primary"
@@ -145,14 +143,14 @@ const MissionDetailsButton = ({
           Accept Mission
         </StyledButton>
       );
-    case MissionStatus["tentative"]:
-    case MissionStatus["assigned"]:
+    case MissionStatus.tentative:
+    case MissionStatus.assigned:
       return (
         <StyledButton color="primary" variant="contained" disableElevation onClick={startMission}>
           Start Mission
         </StyledButton>
       );
-    case MissionStatus["started"]:
+    case MissionStatus.started:
       return (
         <StyledButton
           color="primary"
@@ -163,8 +161,8 @@ const MissionDetailsButton = ({
           Mark Mission as Delivered
         </StyledButton>
       );
-    case MissionStatus["delivered"]:
-    case MissionStatus["done"]:
+    case MissionStatus.delivered:
+    case MissionStatus.done:
       return null;
     default:
       return (
@@ -200,9 +198,9 @@ const MissionDetailsCard = ({
 
   const subheaderItems = [
     {
-      icon: mission.status === MissionStatus["unassigned"] ? PersonIcon : undefined,
+      icon: mission.status === MissionStatus.unassigned ? PersonIcon : undefined,
       avatar:
-        mission.status !== MissionStatus["unassigned"]
+        mission.status !== MissionStatus.unassigned
           ? {
               image: volunteer.avatar,
             }
@@ -217,7 +215,7 @@ const MissionDetailsCard = ({
     },
     {
       icon: AttachMoneyIcon,
-      content: [{ text: mission.fundedStatus }],
+      content: [{ text: MissionFundedStatus[mission.fundedStatus] }],
     },
   ];
 
@@ -298,8 +296,8 @@ const MissionDetailsCard = ({
         </CardActions>
         <CardActions>
           <Grid container justify="center">
-            {mission.status === MissionStatus["tentative"] ||
-            mission.status === MissionStatus["assigned"] ? (
+            {mission.status === MissionStatus.tentative ||
+            mission.status === MissionStatus.assigned ? (
               <Button
                 className={classes.unassignButton}
                 disableElevation

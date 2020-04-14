@@ -60,8 +60,9 @@ class Missions {
   async startMission(missionId: string) { 
     var missions = this.repo();
     var mission = await missions.findById(missionId);
-    if (mission.volunteerId !== undefined) //ensure that mission has an assigned volunteer
-    mission.status = MissionStatus.started;
+    if (mission.volunteerId !== undefined) { //ensure that mission has an assigned volunteer
+      mission.status = MissionStatus.started;
+    }
     return missions.update(mission);
   }
 }
