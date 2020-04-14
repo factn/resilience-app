@@ -58,9 +58,14 @@ function SignupScene(props) {
     };
 
     function submitUserDataToFirebase() {
-        const { firstName, lastName, email, phone, availability, description, location, hasTransportation  } = values;
-        const { address, lat, long, county, countryCode } = location || {};
-        const locationFormatted = { address, lat, long, label: `${countryCode.toUpperCase()} - ${county}` };
+        const { firstName, lastName, email, phone, availability, description, hasTransportation  } = values;
+
+        let locationFormatted;
+        if (values.location) {
+            const { address, lat, long, county, countryCode } = values.location;
+            locationFormatted = { address, lat, long, label: `${countryCode.toUpperCase()} - ${county}` };
+        };
+
         const payload = {
             availability,
             description,
