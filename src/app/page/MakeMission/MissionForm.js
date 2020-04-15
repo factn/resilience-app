@@ -48,8 +48,12 @@ function MissionForm({ handleChange, values, onSubmit, getFile /*, assignHelper,
     date: new Date(),
     location: "",
   });
-  const [pickUpDateLabel, setPickUpDateLabel] = React.useState(null);
-  const [dropOffDateLabel, setDropOffDateLabel] = React.useState(null);
+  const [pickUpDateLabel, setPickUpDateLabel] = React.useState(
+    pickUp.date.toString().substr(0, 15)
+  );
+  const [dropOffDateLabel, setDropOffDateLabel] = React.useState(
+    dropOff.date.toString().substr(0, 15)
+  );
 
   const handleSubmit = () => {
     const valuesWithDates = {
@@ -88,7 +92,7 @@ function MissionForm({ handleChange, values, onSubmit, getFile /*, assignHelper,
       return;
     }
     if (stage === "pickUp") {
-      setPickUpDateLabel(date);
+      setPickUpDateLabel(date.toString().substr(0, 15));
       if (typeof date !== "string") {
         setPickUp({ ...pickUp, date: date.toString().substr(0, 15) });
       } else {
@@ -96,7 +100,7 @@ function MissionForm({ handleChange, values, onSubmit, getFile /*, assignHelper,
       }
     }
     if (stage === "dropOff") {
-      setDropOffDateLabel(date);
+      setDropOffDateLabel(date.toString().substr(0, 15));
       if (typeof date !== "string") {
         setDropOff({ ...dropOff, date: date.toString().substr(0, 15) });
       } else {
