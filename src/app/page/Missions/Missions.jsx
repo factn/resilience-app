@@ -5,7 +5,7 @@ import { useSelector, connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 
 import { Page } from "../../layout";
-import { Missions } from "../../model";
+import { Mission } from "../../model";
 import { MissionList } from "../../component";
 import { compose } from "redux";
 
@@ -26,7 +26,7 @@ const MissionsPage = ({ auth, history, missions }) => {
       setPopupOpen(true);
       return;
     }
-    Missions.volunteerForMission(missionId, auth.uid);
+    Mission.volunteerForMission(missionId, auth.uid);
   }
 
   if (!missions) return null;
@@ -61,8 +61,15 @@ MissionsPage.propTypes = {
 };
 
 const mapStateToProps = (state, ownProps) => {
+  let missions = state.firestore.ordered.missionsUnassigned;
+  missions = missions ? missions : [];
+  if (missions[0]) {
+    console.log(missions[0]);
+    console.log(Mission.load(missions[0]));
+  }
+
   return {
-    missions: Missions.loads(state.firestore.ordered.missionsUnassigned),
+    missions: missions,
     auth: state.firebase.auth,
   };
 };

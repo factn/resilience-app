@@ -19,6 +19,7 @@ export const colors = {
 
 export const missionStatusLabel = {
   todo: "need volunteers",
+  assigned: "assigned",
   doing: "in progress",
   done: "done",
   finished: "finished",

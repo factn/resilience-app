@@ -1,4 +1,5 @@
 export function merge<T>(data: unknown, defaultData: T): T {
+  data = data as T;
   return rMerge(data, defaultData) as T;
 }
 

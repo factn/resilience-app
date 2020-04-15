@@ -102,6 +102,8 @@
     }
   },
   "lint-staged": {
-    "src/**/*.{js,jsx,json,css,scss,md}": "npm run prettier:fix"
+    "src/**/*.{js,jsx,ts,json,css,scss,md}": [
+      "prettier --write"
+    ]
   }
 }

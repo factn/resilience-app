@@ -1,11 +1,13 @@
 import {
+  Location,
+  TimeWindow,
+  TimeWindowType,
   MissionInterface,
   MissionStatus,
   MissionType,
   MissionFundedStatus,
   MissionPayableStatus,
   MissionDetails,
-  Location,
 } from "./schema";
 import { merge, sanitize } from "./util/dataObjectUtil";
 
@@ -13,7 +15,12 @@ const defaultLocation: Location = {
   address: "",
   lat: 0,
   long: 0,
-  label: "Location Label",
+  label: "",
+};
+
+const defaultTimeWindow: TimeWindow = {
+  startTime: new Date(),
+  timeWindowType: TimeWindowType.whenever,
 };
 
 const defaultMissionDetails: MissionDetails = {};
@@ -33,10 +40,10 @@ const defaultMissionData: MissionInterface = {
   image: "",
   notes: "",
   privateNotes: "", // just for volunteer and organiser
-  cost: 50.0, // Decimal if possible eg 12.21 (assume USD for MVP.0)
-  pickUpWindow: null, // nb this can be an exact time or can be null
+  cost: 0.0, // Decimal if possible eg 12.21 (assume USD for MVP.0)
+  pickUpWindow: defaultTimeWindow, // nb this can be an exact time or can be null
   pickUplocation: defaultLocation,
-  deliveryWindow: null,
+  deliveryWindow: defaultTimeWindow,
   deliverylocation: defaultLocation, // default to recipient location
   deliveryConfirmationImage: "",
   deliveryNotes: "",
@@ -50,8 +57,16 @@ const defaultMissionData: MissionInterface = {
 };
 
 const Mission = {
-  load: (data: unknown) => merge(data, defaultMissionData),
+  Status: MissionStatus,
+  FundedStatus: MissionFundedStatus,
+
+  load: (data: unknown) => (data ? merge(data, defaultMissionData) : data),
+  loads: (datas: unknown[]) => (datas ? datas.map((data) => merge(data, defaultMissionData)) : []),
+
   sanitize: (data: unknown) => sanitize(data, defaultMissionData),
+  sanitizes: (datas: unknown[]) =>
+    datas ? datas.map((data) => sanitize(data, defaultMissionData)) : [],
+
   filterByStatus: (missions: MissionInterface[], status: MissionStatus) =>
     missions.filter((mission) => mission.status === status),
 };
