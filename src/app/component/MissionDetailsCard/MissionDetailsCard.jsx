@@ -32,8 +32,7 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: theme.spacing(1),
   },
   cardAction: {
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(2),
+    padding: theme.spacing(2, 2, 0, 2),
   },
   subheader: {
     marginTop: theme.spacing(0.3),
@@ -81,7 +80,7 @@ const MissionDetailsCard = ({
   volunteer,
   volunteerForMission,
   startMission,
-  markMissionAsDelivered,
+  openMissionDeliveredCard,
   unassignFromMission,
   userUnverifiedPopupOpen,
   setUserUnverifiedPopupOpen,
@@ -177,7 +176,7 @@ const MissionDetailsCard = ({
             status={mission.status}
             volunteerForMission={() => volunteerForMission(mission.id)}
             startMission={() => startMission(mission.id)}
-            markMissionAsDelivered={() => markMissionAsDelivered(mission.id)}
+            openMissionDeliveredCard={() => openMissionDeliveredCard(mission.id)}
           />
         </CardActions>
         <CardActions className={classes.cardAction}>
@@ -224,11 +223,11 @@ MissionDetailsCard.propTypes = {
   /**
    * Mission details
    */
-  mission: PropTypes.object,
+  mission: PropTypes.object.isRequired,
   /**
    * Volunteer details
    */
-  volunteer: PropTypes.object,
+  volunteer: PropTypes.object.isRequired,
   /**
    * Handler functions for button
    */
