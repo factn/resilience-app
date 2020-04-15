@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import { User } from "../../model";
 import { withRouter } from "react-router-dom";
 import "firebase/storage";
 import RequestForm from "./RequestForm";
@@ -39,8 +38,6 @@ function MakeRequest({ history, firestore }) {
       .collection("missions")
       .doc(missionId)
       .set({ ...model, status: "todo" });
-
-    User.assignAsOwner(firestore, missionId, user.uid);
   }
 
   async function onSubmit(e) {

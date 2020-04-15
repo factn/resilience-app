@@ -8,48 +8,48 @@ Please also check out [CONTRIBUTING.md](/CONTRIBUTING.md)
 
 ## Repo setup
 
-* Clone the repository on your machine
+- Clone the repository on your machine
 
 ```
 git clone <GIT REPOS HERE> [folder name]
 cd [folder name]
 ```
 
-* Inside the repository, install the necessary packages
+- Inside the repository, install the necessary packages
 
 ```
 npm ci
 # as opposed to npm install, which modifies package-lock.json
 ```
 
-* Set up your local .env folder
+- Set up your local .env folder
 
-Copy the file pinned to the side of #resilience-app channel to `.env.development`in the git root of this repo. 
+Copy the file pinned to the side of #resilience-app channel to `.env.development`in the git root of this repo.
 
-
-* Start the local server
+- Start the local server
 
 ```
 npm start
 ```
 
-* As you work in the repository, your changes will publish and refresh your local server on the fly.
-* To stop the server, use the terminal command `Ctrl. + C`
+- As you work in the repository, your changes will publish and refresh your local server on the fly.
+- To stop the server, use the terminal command `Ctrl. + C`
 
 ## Test Data
 
 When running the app locally, you can test the phone verification sign-up flow by entering any of the phone number / verification code combinations listed below (the leading "1" should be filled in for you):
 
-| Phone Number  | Verification Code |
-| ------------- | ----------------- |
-| 7777777777    | 123456            |
-| 2223334444    | 123456            |
+| Phone Number | Verification Code |
+| ------------ | ----------------- |
+| 7777777777   | 123456            |
+| 2223334444   | 123456            |
 
 ## Available Scripts
 
 In the project directory, you can run:
 
 ### `npm start`
+
 Runs the app in the development mode.<br />
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
@@ -68,15 +68,12 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-
-
 ### `npm run storybook`
 
 {DONT THINK WE ARE MAINTAINING THIS CURRENTLY}
 
 Run the storybook where we can showcase the components in the system
 [write a story](https://storybook.js.org/docs/basics/writing-stories/)
-
 
 ### `npm run docs`
 
@@ -89,48 +86,45 @@ You can learn more in the [Create React App documentation](https://facebook.gith
 
 To learn React, check out the [React documentation](https://reactjs.org/).
 
-
 ### Analyzing the Bundle Size
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
 
-
 ## Code change process
 
-
-* See [Contributing.MD](/CONTRIBUTING.md) but... Checkout a new branch by choosing a simple name that expresses the individual issue you're addressing
+- See [Contributing.MD](/CONTRIBUTING.md) but... Checkout a new branch by choosing a simple name that expresses the individual issue you're addressing
 
 ```
 git checkout -b my-feature-28
 ```
 
-* Do your work in the branch
-* Check that your changes are present by checking the status
+- Do your work in the branch
+- Check that your changes are present by checking the status
 
 ```
 git status
 ```
 
-* Add your changes to the branch
+- Add your changes to the branch
 
 ```
 git add .
 ```
 
-* Add a commit message that explains the work that's complete, the way you did it, and any other notes you might want to leave for code reviewers
+- Add a commit message that explains the work that's complete, the way you did it, and any other notes you might want to leave for code reviewers
 
 ```
 git commit -m "My feature is now working on the front page. I noticed that there might be a typo in a public function. You'll see the code comment."
 ```
 
-* Push your work into the branch origin
+- Push your work into the branch origin
 
 ```
 git push -u origin my-feature-28
 ```
 
-* Create a pull request and assign <reviewer goes here> as reviewer
-* Once all issues are addressed and you have at least two approvals, merge your changes to master and deploy.
+- Create a pull request and assign <reviewer goes here> as reviewer
+- Once all issues are addressed and you have at least two approvals, merge your changes to master and deploy.
 
 **All commands in one clipboard:**
 
@@ -148,31 +142,31 @@ Using react-axe as a library to find accessibilty warnings and errors. Please ch
 
 ## Heroku Deployment
 
-* Login into Heroku with Email and Password:
+- Login into Heroku with Email and Password:
 
 ```
 heroku login
 ```
 
-* Add the Heroku branch to your local machine:
+- Add the Heroku branch to your local machine:
 
 ```
 heroku git:remote -a <heroku app name>
 ```
 
-* Develop as per normal, branching and merging to master.
-* Once you are happy with master, push the changes into the Heroku branch:
+- Develop as per normal, branching and merging to master.
+- Once you are happy with master, push the changes into the Heroku branch:
 
 ```
 git push heroku master
 ```
 
-* This also runs all of the build and deployment commands, so it may take a moment, but once it's complete, the live link should be updated.
+- This also runs all of the build and deployment commands, so it may take a moment, but once it's complete, the live link should be updated.
 
 ## File structure
 
-| File                                                                                                                  |                                                                Description                                                                 | Edit? |
-| --------------------------------------------------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------: | ----: |
+| File                                                                                   |                                                                Description                                                                 | Edit? |
+| -------------------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------: | ----: |
 | [config/](<GIT REPOS URL>src/master/config/)                                           |    This is used to build out the webpack. In most cases, this won't need to be edited unless we decide to change our build in some way.    |     N |
 | [node_modules/](<GIT REPOS URL>src/master/node_modules/)                               |               The folder for all of the modules pulled in by Node. Good folder to see what FontAwesome icons are available.                |     N |
 | [public/](<GIT REPOS URL>src/master/public/)                                           | Don't edit this. Anything you put in here will get replaced as this folder is the output of the build and what is viewed by the front end. |     N |

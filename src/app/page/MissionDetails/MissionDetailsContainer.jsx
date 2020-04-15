@@ -6,32 +6,30 @@ import { firestoreConnect } from "react-redux-firebase";
 import { connect } from "react-redux";
 
 import Page from "../../layout/Page";
+import { color } from "../../../theme";
+
+import { Grid } from "@material-ui/core";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import { makeStyles } from "@material-ui/core/styles";
 
 // Created based on the schema in firebase
-import styled from "styled-components";
 import { isLoaded, isEmpty } from "react-redux-firebase";
-import { User } from "../../model";
+import { Missions, MissionFundedStatus, MissionStatus } from "../../model";
 
-import addressLookUp from "../../utils/addressLookUp";
+import MissionDetailsCard from "../../component/MissionDetailsCard";
 
-import MissionDetailsView from "./MissionDetailsView";
-
-export const StyledHr = styled.hr`
-  border: 1px dashed #de3254;
-  width: 100%;
-  margin: 10px auto;
-`;
-
-export const StyledImage = styled.img`
-  height: auto;
-  max-width: 100%;
-`;
-
-export const StyledDiv = styled.div`
-  height: auto;
-  margin: 10px 0;
-  max-width: 100%;
-`;
+const useStyles = makeStyles((theme) => ({
+  content: {
+    padding: theme.spacing(2),
+  },
+  goBackIcon: {
+    fontSize: 32,
+    fill: color.deepPurple,
+    "&:hover": {
+      cursor: "pointer",
+    },
+  },
+}));
 
 /**
  * Component for showing mission details
@@ -39,45 +37,71 @@ export const StyledDiv = styled.div`
  * @component
  */
 const MissionDetailsPage = ({ firestore, auth, mission, history }) => {
+  const classes = useStyles();
   mission = mission || {};
   const [userUnverifiedPopupOpen, setUserUnverifiedPopupOpen] = useState(false);
   function volunteerForMission(missionId) {
     if (!auth.phoneNumber) {
       setUserUnverifiedPopupOpen(true);
     } else {
-      User.assignAsVolunteer(firestore, missionId, auth.uid);
+      Missions.assignAsVolunteer(firestore, missionId, auth.uid);
     }
   }
 
-  // functionality for the map look up
-  const [cords, setCords] = useState();
-
-  if (isLoaded(mission) && !isEmpty(mission) && !cords) {
-    const missionLocation =
-      mission.address + "%20" + mission.city + "%20" + mission.state + "%20" + mission.postalCode;
-    const dataForCords = addressLookUp(missionLocation);
-
-    dataForCords.then((res) => {
-      if (res) {
-        setCords(res)
-      }
-    }).catch((error) => console.log(error));
-  } else {
-    console.log("No location data available");
+  function startMission(missionId) {
+    console.log("started mission " + missionId);
   }
+
+  function markMissionAsDelivered(missionId) {
+    console.log("marked mission " + missionId + " as delivered");
+  }
+
+  //mock data
+  mission = {
+    ...mission,
+    fundedStatus: MissionFundedStatus.fundedbydonation,
+    status: MissionStatus.delivered,
+    pickUpWindow: "1:30 PM",
+    pickUplocation: "123 Strawberry Ln, VA 22201",
+    deliveryWindow: "2:30–3:30 PM",
+    deliverylocation: "123 Strawberry Ln, VA 22201",
+    recipientName: "John Doe",
+    recipientPhoneNumber: "(123) 456-7890",
+  };
+  const volunteer = {
+    profileName: "Jane",
+    avatar: "https://qodebrisbane.com/wp-content/uploads/2019/07/This-is-not-a-person-2-1.jpeg",
+  };
 
   return (
     <Page key="mission-detail" isLoaded={isLoaded(mission)} isEmpty={isEmpty(mission)}>
-      <MissionDetailsView
-        mission={mission}
-        volunteerForMission={volunteerForMission}
-        userUnverifiedPopupOpen={userUnverifiedPopupOpen}
-        setUserUnverifiedPopupOpen={setUserUnverifiedPopupOpen}
-        cords={cords}
-        history={history}
-      />
+      <Grid className={classes.content} direction="column" container>
+        <Grid align="left" item>
+          <ArrowBackIcon
+            align="left"
+            className={classes.goBackIcon}
+            onClick={() => history.goBack()}
+          />
+        </Grid>
+        <Grid align="left" item>
+          <MissionDetailsCard
+            mission={mission}
+            volunteer={volunteer}
+            volunteerForMission={volunteerForMission}
+            startMission={startMission}
+            markedMissionAsDelivered={markMissionAsDelivered}
+            userUnverifiedPopupOpen={userUnverifiedPopupOpen}
+            setUserUnverifiedPopupOpen={setUserUnverifiedPopupOpen}
+            history={history}
+          />
+        </Grid>
+      </Grid>
     </Page>
   );
+};
+
+MissionDetailsPage.defaultProps = {
+  mission: {},
 };
 
 MissionDetailsPage.propTypes = {
@@ -113,7 +137,10 @@ MissionDetailsPage.propTypes = {
 
 const mapStateToProps = (state, ownProps) => {
   const missionId = ownProps.match.params.id;
-  const mission = state.firestore.data.missions && state.firestore.data.missions[missionId];
+  const mission = {
+    id: missionId,
+    ...(state.firestore.data.missions && state.firestore.data.missions[missionId]),
+  };
   return {
     auth: state.firebase.auth,
     missionId,
