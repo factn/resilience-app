@@ -224,18 +224,18 @@ MissionDetailsCard.propTypes = {
   /**
    * Mission details
    */
-  mission: PropTypes.object,
+  mission: PropTypes.object.isRequired,
   /**
    * Volunteer details
    */
-  volunteer: PropTypes.object,
+  volunteer: PropTypes.object.isRequired,
   /**
    * Handler functions for button
    */
-  volunteerForMission: PropTypes.func,
-  startMission: PropTypes.func,
-  markMissionAsDelivered: PropTypes.func,
-  unassignVolunteerFromMission: PropTypes.func,
+  volunteerForMission: PropTypes.func.isRequired,
+  startMission: PropTypes.func.isRequired,
+  markMissionAsDelivered: PropTypes.func.isRequired,
+  unassignVolunteerFromMission: PropTypes.func.isRequired,
   /**
    * Popup for unverified user
    */
