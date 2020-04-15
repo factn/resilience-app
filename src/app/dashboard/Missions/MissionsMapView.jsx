@@ -1,15 +1,9 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
-import { H2 } from "../../component";
-import { compose } from "redux";
-import { connect } from "react-redux";
-import { firestoreConnect } from "react-redux-firebase";
 
 import { Map, TileLayer, Marker } from "react-leaflet";
 import FastfoodIcon from "@material-ui/icons/Fastfood";
-
-import Switch from "@material-ui/core/Switch";
 
 import { DivIcon } from "leaflet";
 import { renderToString } from "react-dom/server";
@@ -76,13 +70,16 @@ const Overview = ({ missions }) => {
     iconAnchor: [15, 42], // half of width + height
   });
   const position = { lat: 37.773972, lng: -122.431297 };
+  let filtered = missions?.filter((mission) => {
+    return mission.deliveryLocation && mission.deliveryLocation.lat;
+  });
 
   return (
     <Grid container>
       <Grid container>
         <Map center={position} zoom={12} className={`${classes.map} data-test-leaftleft-map`}>
           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-          {missions?.map((mission) => (
+          {filtered?.map((mission) => (
             <Marker key={mission.id} position={mission.deliveryLocation} icon={FoodIcon} />
           ))}
         </Map>

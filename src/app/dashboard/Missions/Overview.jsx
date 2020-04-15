@@ -4,84 +4,181 @@ import Grid from "@material-ui/core/Grid";
 import { Button } from "../../component";
 import { connect } from "react-redux";
 import MUIDataTable from "mui-datatables";
-import { compose } from "redux";
 import Missions from "../../model/Missions";
 import { MissionType, MissionStatus, MissionFundedStatus } from "../../model/schema";
+import { useFirestore, firestoreConnect, withFirestore } from "react-redux-firebase";
+import { compose, withHandlers, lifecycle } from "recompose";
+
 import _ from "lodash";
 import MapView from "./MissionsMapView";
 import MissionsMapView from "./MissionsMapView";
+import { Mission } from "../../model";
+import { lightGreen } from "@material-ui/core/colors";
+
+import MapIcon from "@material-ui/icons/Map";
+import ListIcon from "@material-ui/icons/List";
 
 const useStyles = makeStyles((theme) => ({
   markerPin: {},
+  viewButtons: {
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(1),
+  },
+  outlined: {
+    border: 0,
+    borderBottom: "2px solid",
+    "&:hover": {
+      border: 0,
+      borderBottom: "2px solid",
+    },
+  },
+  leftButton: {
+    borderTopRightRadius: "0px",
+    borderBottomRightRadius: "0px",
+  },
+  rightButton: {
+    borderTopLeftRadius: "0px",
+    borderBottomLeftRadius: "0px",
+  },
 }));
 
-const MissionStatusButtons = ({ missionStatus, setMissionStatus }) => {
+const missionsViews = {
+  proposed: {
+    id: "proposed",
+    filters: [(missions) => _.filter(missions, (m) => m.status === MissionStatus.unassigned)],
+  },
+
+  planning: {
+    id: "planning",
+    filters: [
+      (missions) => _.filter(missions, (m) => m.status === MissionStatus.tentative),
+      (missions) =>
+        _.filter(missions, (m) => {
+          return m.status === MissionStatus.assigned && m.deliveryWindow !== {};
+        }),
+    ],
+  },
+  inProgress: {
+    id: "inProgress",
+    filters: [
+      (missions) =>
+        _.filter(missions, (m) => {
+          return m.status === MissionStatus.started;
+        }),
+      (missions) =>
+        _.filter(missions, (m) => {
+          return m.status === MissionStatus.delivered;
+        }),
+    ],
+  },
+  troubleShooting: {
+    id: "troubleShooting",
+    filters: [
+      (missions) =>
+        _.filter(missions, (m) => {
+          return m.status === MissionStatus.done;
+        }),
+    ],
+  },
+};
+
+const ViewButtons = ({ missionsView, setMissionsView, classes }) => {
   const ordered = [
-    MissionStatus.unassigned,
-    MissionStatus.tentative,
-    MissionStatus.assigned,
-    MissionStatus.started,
-    MissionStatus.delivered,
+    {
+      view: missionsViews.proposed.id,
+      text: "Proposed",
+      onClick: () => setMissionsView(missionsViews.proposed.id),
+    },
+    {
+      view: missionsViews.planning.id,
+      text: "Planning",
+      onClick: () => setMissionsView(missionsViews.planning.id),
+    },
+    {
+      view: missionsViews.inProgress.id,
+      text: "In Progress",
+      onClick: () => setMissionsView(missionsViews.inProgress.id),
+    },
+    {
+      view: missionsViews.troubleShooting.id,
+      text: "Troubleshooting",
+      onClick: () => setMissionsView(missionsViews.troubleShooting.id),
+    },
   ];
 
   return (
     <>
-      {ordered.map((text) => (
-        <Button
-          variant={missionStatus === text ? "contained" : "text"}
-          key={text}
-          onClick={() => setMissionStatus(text)}
-        >
-          {text}
-        </Button>
+      {ordered.map((conf) => (
+        <Grid item xs key={conf.view}>
+          <Button
+            variant={missionsView === conf.view ? "outlined" : "text"}
+            fullWidth={true}
+            onClick={conf.onClick}
+            classes={{ outlined: classes.outlined }}
+            aria-label={conf.text}
+          >
+            {conf.text}
+          </Button>
+        </Grid>
       ))}
     </>
   );
 };
-const MissionTypeButtons = ({ missionType, setMissionType }) => {
-  const ordered = [MissionType.errand, MissionType.foodbox, MissionType.pharmacy];
+
+const pageViews = {
+  map: "map",
+  list: "list",
+};
+const MapListButtons = ({ pageView, setPageView, classes }) => {
   return (
     <>
-      {ordered.map((text) => (
-        <Button
-          variant={missionType === text ? "contained" : "text"}
-          key={text}
-          onClick={() => setMissionType(text)}
-        >
-          {text}
-        </Button>
-      ))}
+      <Button
+        variant={pageView === pageViews.map ? "contained" : "outlined"}
+        onClick={() => setPageView(pageViews.map)}
+        classes={{ root: classes.leftButton }}
+        aria-label="map"
+      >
+        <MapIcon />
+      </Button>
+      <Button
+        variant={pageView === pageViews.list ? "contained" : "outlined"}
+        onClick={() => setPageView(pageViews.list)}
+        classes={{ root: classes.rightButton }}
+        aria-label="list"
+      >
+        <ListIcon />
+      </Button>
     </>
   );
 };
 
-const Overview = ({ missions }) => {
+const Overview = ({ missions, ...rest }) => {
   const classes = useStyles();
+  const [missionsView, setMissionsView] = useState(missionsViews.proposed.id);
+  const [pageView, setPageView] = useState(pageViews.list);
 
-  const [missionStatus, setMissionStatus] = useState(MissionStatus.unassigned);
-  const [missionType, setMissionType] = useState(MissionType.errand);
-  const [data, setData] = useState();
+  let filtered = [];
+  missionsViews[missionsView].filters.forEach((filter) => {
+    filtered = [...filter(missions), ...filtered];
+  });
 
-  useEffect(() => {
-    Missions.repo()
-      .whereEqualTo("status", missionStatus)
-      .whereEqualTo("type", missionType)
-      .find()
-      .then((result) => {
-        result.forEach((el) => {
-          el.pickup = {
-            time: el.pickUpWindow,
-            location: el.pickUpLocation,
-          };
-          el.delivery = {
-            time: el.deliveryWindow,
-            location: el.deliveryLocation,
-          };
-          el.funded = MissionFundedStatus.notfunded === el.fundedStatus ? "no" : "yes";
-        });
-        setData(result);
-      });
-  }, [missionStatus, missionType]);
+  function formatData(missions) {
+    return filtered?.map((el) => {
+      let pickup = {
+        time: el.pickUpWindow,
+        location: el.pickUpLocation,
+      };
+      let delivery = {
+        time: el.deliveryWindow,
+        location: el.deliveryLocation,
+      };
+      let funded = MissionFundedStatus.notfunded === el.fundedStatus ? "no" : "yes";
+
+      return { ...el, pickup, delivery, funded };
+    });
+  }
+
+  let data = formatData(missions);
 
   const pickupBodyRender = (value, tableMeta, updateValue) => {
     if (!value) return null;
@@ -110,14 +207,21 @@ const Overview = ({ missions }) => {
 
   return (
     <Grid container>
-      <MissionsMapView missions={data} />
-      <Grid container role="content">
-        <MissionStatusButtons missionStatus={missionStatus} setMissionStatus={setMissionStatus} />
+      <Grid container spacing={2} className={classes.viewButtons}>
+        <ViewButtons
+          missionsView={missionsView}
+          setMissionsView={setMissionsView}
+          classes={classes}
+        />
+        <Grid item xs={3}>
+          <MapListButtons pageView={pageView} setPageView={setPageView} classes={classes} />
+        </Grid>
       </Grid>
-      <Grid container>
-        <MissionTypeButtons missionType={missionType} setMissionType={setMissionType} />
-      </Grid>
-      <MUIDataTable title={"Missions"} data={data} columns={columns} options={options} />
+      {pageView === pageViews.map ? (
+        <MissionsMapView missions={data} />
+      ) : (
+        <MUIDataTable title={"Missions"} data={data} columns={columns} options={options} />
+      )}
     </Grid>
   );
 };
@@ -125,7 +229,13 @@ const Overview = ({ missions }) => {
 const mapStateToProps = (state) => {
   return {
     user: state.firebase.auth,
+    missions: state.firestore.data.missions,
   };
 };
 
-export default compose(connect(mapStateToProps))(Overview);
+export default compose(
+  connect(mapStateToProps),
+  firestoreConnect((props) => {
+    return [{ collection: "missions" }, { collection: "users" }];
+  })
+)(Overview);

@@ -33,6 +33,7 @@
     "react-redux-firebase": "^3.3.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "^3.4.1",
+    "recompose": "^0.30.0",
     "redux-firestore": "^0.13.0",
     "reflect-metadata": "^0.1.13",
     "reselect": "^4.0.0",

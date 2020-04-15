@@ -56,7 +56,7 @@ const MissionCardContent = ({ contentItems, classes }) => (
  * @component
  */
 const MissionCard = withStyles(styles)(({ mission, children, classes, ...rest }) => {
-  const title = mission.details?.title ?? "Mission Title";
+  const title = mission.title ?? "Mission Title";
   const location = mission.details?.pickup?.location ?? "123 Example St., San Francisco, 92501";
   const missionStartTime = mission.details?.pickup?.date ?? "2:30 P.M";
   const status = mission.status

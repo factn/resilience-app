@@ -104,6 +104,7 @@ const MissionsPage = ({ history }) => {
         handleDrawerClose={handleDrawerClose}
         drawerItems={drawerItems}
         currentUrl={currentUrl}
+        role="navigation"
       />
       <main
         container
