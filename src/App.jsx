@@ -16,7 +16,6 @@ import HomePage from "./app/page/Home";
 import AboutPage from "./app/page/Aboutus";
 import SignupScene from "./app/page/Signup";
 import OrganizerSignupPage from "./app/page/OrganizerSignup";
-// import RegisterPage from "./app/page/Signup/UserProfile";
 import Status from "./app/page/Status";
 
 import MakeRequest from "./app/page/MakeRequest";
@@ -75,7 +74,6 @@ function App() {
 
                 <Route path="/signup" component={SignupScene} />
 
-                <Route path="/status" component={Status} />
                 <PrivateRoute path="/request/create">
                   <MakeRequest />
                 </PrivateRoute>
