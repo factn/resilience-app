@@ -44,13 +44,29 @@ class Missions {
    * @param {string} userId - ID of user that wants to volunteer for mission
    */
 
-  async volunteerForMission(missionId: string, userId: string) { 
+  async vvolunteerForMission(missionId: string, userId: string) { 
     var missions = this.repo();
     var mission = await missions.findById(missionId);
     mission.volunteerId = userId;
     mission.status = MissionStatus.assigned;
     return missions.update(mission);
   }
+
+  /**
+   * Removes a volunteer for the mission with the given missionId and
+   * sets status to unassigned.
+   * @param {string} missionId - ID of mission from which volunteer will 
+   *                             be removed. 
+   */
+
+  async removeVolunteerFromMission(missionId: string) { 
+    const missions = this.repo();
+    const mission = await missions.findById(missionId);
+    mission.volunteerId = '';
+    mission.status = MissionStatus.unassigned;
+    return missions.update(mission);
+  }
+
 
   /**
    * Marking the mission with the given missionId as started
