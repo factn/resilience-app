@@ -76,12 +76,12 @@ const UserProfile = ({ history }) => {
     setProfile(_.cloneDeep(firebaseProfile));
     setView("view");
   }
-  function saveProfileAction(e) {
+  async function saveProfileAction(e) {
     e.preventDefault();
     try {
       !profile.address
         ? console.log(null)
-        : addressLookUp(profile.address).then((data) =>
+        : await addressLookUp(profile.address).then((data) =>
             firebase.updateProfile({
               ...profile,
               addressMapPoint: { latitude: data.lat, longitude: data.long },
