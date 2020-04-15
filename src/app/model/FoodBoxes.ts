@@ -1,10 +1,9 @@
-import { CustomRepository, getRepository } from 'fireorm';
-import { BaseRepository } from './BaseRepository'
-import { FoodBox } from './schema';
+import { CustomRepository, getRepository } from "fireorm";
+import { BaseRepository } from "./BaseRepository";
+import { FoodBox } from "./schema";
 
 @CustomRepository(FoodBox)
-class FoodBoxRepository extends BaseRepository<FoodBox> { }
-
+class FoodBoxRepository extends BaseRepository<FoodBox> {}
 
 /**
  * Defines the volunteer.
@@ -12,12 +11,11 @@ class FoodBoxRepository extends BaseRepository<FoodBox> { }
  * @version 1.0
  */
 class FoodBoxes {
-
-  repo() : FoodBoxRepository {
+  repo(): FoodBoxRepository {
     return getRepository(FoodBox) as FoodBoxRepository;
   }
 
-  async all() : Promise<Array<FoodBox>> {
+  async all(): Promise<Array<FoodBox>> {
     return await this.repo().find();
   }
 }
