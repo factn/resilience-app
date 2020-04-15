@@ -11,6 +11,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import { useFirebase, useFirestore } from "react-redux-firebase";
 import _ from "lodash";
+import addressLookUp from "../../utils/addressLookUp";
 
 import LinkGoogleAccount from "./LinkGoogleAccount";
 import LinkPhoneAccount from "./LinkPhoneAccount";
@@ -77,7 +78,37 @@ const UserProfile = ({ history }) => {
   }
   function saveProfileAction(e) {
     e.preventDefault();
-    firebase.updateProfile(profile);
+    try {
+      !profile.address
+        ? console.log(null)
+        : addressLookUp(profile.address).then((data) =>
+            firebase.updateProfile({
+              ...profile,
+              addressMapPoint: { latitude: data.lat, longitude: data.long },
+            })
+          );
+    } catch (error) {
+      if (error.response) {
+        /*
+         * The request was made and the server responded with a
+         * status code that falls out of the range of 2xx
+         */
+        console.log(error.response.data);
+        console.log(error.response.status);
+        console.log(error.response.headers);
+      } else if (error.request) {
+        /*
+         * The request was made but no response was received, `error.request`
+         * is an instance of XMLHttpRequest in the browser and an instance
+         * of http.ClientRequest in Node.js
+         */
+        console.log(error.request);
+      } else {
+        // Something happened in setting up the request and triggered an Error
+        console.log("Error", error.message);
+      }
+      console.log(error);
+    }
     setView("view");
   }
   /*
