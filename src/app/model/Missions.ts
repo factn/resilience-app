@@ -53,6 +53,23 @@ class Missions {
   }
 
   /**
+   * Removes a volunteer for the mission with the given missionId and
+   * sets status to unassigned.
+   * @param {string} missionId - ID of mission from which volunteer will 
+   *                             be removed. 
+   */
+
+  async removeVolunteerFromMission(missionId: string) { 
+    const missions = this.repo();
+    const mission = await missions.findById(missionId);
+    console.log("returned mission:" + mission);
+    mission.volunteerId = '';
+    mission.status = MissionStatus.unassigned;
+    return missions.update(mission);
+  }
+
+
+  /**
    * Marking the mission with the given missionId as started
    * @param {string} missionId - ID of mission that user wants to start
    */
