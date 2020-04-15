@@ -5,7 +5,7 @@ import { Map, TileLayer, Marker, Popup } from "react-leaflet";
 import { MapStyle } from "./MapView.style";
 
 function MapView(props) {
-  const [state] = React.useState({
+  const [state, setState] = React.useState({
     lat: props.values.lat,
     lng: props.values.long,
     zoom: 15,
