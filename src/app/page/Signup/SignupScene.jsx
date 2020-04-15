@@ -36,7 +36,6 @@ function SignupScene(props) {
     function changeFormValues(changes) {
         for (const change of changes) {
             const [name, value] = change
-            console.log('setting' + name + ' to ' + value)
             handleChange({ target: { name, value}})
         }
     }
@@ -85,7 +84,7 @@ function SignupScene(props) {
 
     function handleSubmitButton(data) {
         if (data) updateFormValues(data);
-        if (activeTab === 3) submitUserDataToFirebase(data);
+        if (activeTab === 3) submitUserDataToFirebase();
         if (activeTab === 4) props.history.push("/missions");
         if (activeTab in [0, 1, 2, 3]) setActiveTab(activeTab + 1);
     };
