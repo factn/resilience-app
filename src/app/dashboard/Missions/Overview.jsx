@@ -3,23 +3,29 @@ import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import { Button } from "../../component";
 import { connect } from "react-redux";
-import MUIDataTable from "mui-datatables";
-import Missions from "../../model/Missions";
-import { MissionType, MissionStatus, MissionFundedStatus } from "../../model/schema";
-import { useFirestore, firestoreConnect, withFirestore } from "react-redux-firebase";
-import { compose, withHandlers, lifecycle } from "recompose";
+import { MissionStatus, MissionFundedStatus } from "../../model/schema";
+import { firestoreConnect } from "react-redux-firebase";
+import { compose } from "recompose";
 
 import _ from "lodash";
-import MapView from "./MissionsMapView";
+
 import MissionsMapView from "./MissionsMapView";
+import MissionsListView from "./MissionsListView";
+
 import { Mission } from "../../model";
-import { lightGreen } from "@material-ui/core/colors";
 
 import MapIcon from "@material-ui/icons/Map";
 import ListIcon from "@material-ui/icons/List";
 
 const useStyles = makeStyles((theme) => ({
-  markerPin: {},
+  root: {
+    height: "100%",
+  },
+  main: {
+    paddingRight: theme.spacing(1),
+    flexGrow: 1,
+    width: "100%",
+  },
   viewButtons: {
     marginTop: theme.spacing(2),
     marginBottom: theme.spacing(1),
@@ -129,7 +135,7 @@ const pageViews = {
   map: "map",
   list: "list",
 };
-const MapListButtons = ({ pageView, setPageView, classes }) => {
+const PageButtons = ({ pageView, setPageView, classes }) => {
   return (
     <>
       <Button
@@ -162,71 +168,30 @@ const Overview = ({ missions, ...rest }) => {
     filtered = [...filter(missions), ...filtered];
   });
 
-  function formatData(missions) {
-    return filtered?.map((el) => {
-      let pickup = {
-        time: el.pickUpWindow,
-        location: el.pickUpLocation,
-      };
-      let delivery = {
-        time: el.deliveryWindow,
-        location: el.deliveryLocation,
-      };
-      let funded = MissionFundedStatus.notfunded === el.fundedStatus ? "no" : "yes";
-
-      return { ...el, pickup, delivery, funded };
-    });
-  }
-
-  let data = formatData(missions);
-
-  const pickupBodyRender = (value, tableMeta, updateValue) => {
-    if (!value) return null;
-    return (
-      <div>
-        <div>{value.time?.startTime}</div>
-        <div>{value.time?.timeWindowType}</div>
-        <div>{value.location?.address}</div>
-      </div>
-    );
-  };
-  const pickupCol = {
-    name: "pickup",
-    options: { customBodyRender: pickupBodyRender },
-  };
-  const deliveryCol = {
-    name: "delivery",
-    options: { customBodyRender: pickupBodyRender },
-  };
-
-  const columns = ["title", "status", pickupCol, deliveryCol, "funded"];
-
-  const options = {
-    filterType: "checkbox",
-  };
-
   return (
-    <Grid container>
-      <Grid container spacing={2} className={classes.viewButtons}>
+    <Grid container direction="column" className={classes.root}>
+      <Grid item container spacing={2} className={classes.viewButtons}>
         <ViewButtons
           missionsView={missionsView}
           setMissionsView={setMissionsView}
           classes={classes}
         />
         <Grid item xs={3}>
-          <MapListButtons pageView={pageView} setPageView={setPageView} classes={classes} />
+          <PageButtons pageView={pageView} setPageView={setPageView} classes={classes} />
         </Grid>
       </Grid>
-      {pageView === pageViews.map ? (
-        <MissionsMapView missions={data} />
-      ) : (
-        <MUIDataTable title={"Missions"} data={data} columns={columns} options={options} />
-      )}
+      <Grid item container className={classes.main}>
+        {pageView === pageViews.map ? (
+          <MissionsMapView missions={filtered} />
+        ) : (
+          <MissionsListView missions={filtered} />
+        )}
+      </Grid>
     </Grid>
   );
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
   return {
     user: state.firebase.auth,
     missions: state.firestore.data.missions,
@@ -236,6 +201,6 @@ const mapStateToProps = (state) => {
 export default compose(
   connect(mapStateToProps),
   firestoreConnect((props) => {
-    return [{ collection: "missions" }, { collection: "users" }];
+    return [{ collection: "missions" }];
   })
 )(Overview);

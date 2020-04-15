@@ -86,7 +86,7 @@ export enum MissionStatus {
 }
 
 export enum MissionFundedStatus {
-  notfunded = "fundingnotneeded",
+  notfunded = "notfunded",
   fundedbyrecipient = "fundedbyrecipient",
   fundedinkind = "fundedinkind",
   fundingnotneeded = "fundingnotneeded",

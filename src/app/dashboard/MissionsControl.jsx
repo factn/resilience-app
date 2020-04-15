@@ -26,8 +26,9 @@ const drawerMinWidth = 73;
 const useStyles = makeStyles((theme) => ({
   root: {
     // the padding accounted for left menu and top header
-    padding: theme.spacing(2),
-    width: "100%",
+    width: "100vw",
+    height: "100vh",
+    overflow: "hidden",
     display: "flex",
   },
   contentShift: {
@@ -39,9 +40,8 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing(2),
-    marginLeft: -28,
-    marginTop: 28,
+    marginLeft: theme.spacing(2),
+    marginTop: theme.spacing(6),
     transition: theme.transitions.create(["margin"], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
