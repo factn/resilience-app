@@ -12,6 +12,10 @@ import FirebaseAuthUi from "../../../component/FirebaseAuthUi/FirebaseAuthUi";
 /**
  * Connect Social Media page for use with Signup
  *
+ * @param {func} onSubmit - we use this both
+ * for providing a successCallback to firebauseAuth
+ * as well as for handling of the 'Skip' button click
+ *
  */
 const ConnectSocialMedia = ({ onSubmit }) => {
     const classes = useStyles()
@@ -47,7 +51,6 @@ const ConnectSocialMedia = ({ onSubmit }) => {
 };
 
 ConnectSocialMedia.propTypes = {
-    firebaseUiConfig: PropTypes.object.isRequired,
     onSubmit: PropTypes.func.isRequired,
 };
 

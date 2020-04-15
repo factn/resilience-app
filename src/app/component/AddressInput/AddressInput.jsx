@@ -2,6 +2,7 @@ import React from "react";
 import AlgoliaPlaces from "algolia-places-react";
 import PropTypes from "prop-types";
 import { ANGOLIA_API_KEY } from '../../../constants'
+
 const AddressInput = (props) => {
   const { stage, setStage, placeholder } = props;
   const handleLocation = (query) => {

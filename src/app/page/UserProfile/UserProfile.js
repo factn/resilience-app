@@ -9,7 +9,7 @@ import { Grid } from "@material-ui/core";
 
 import { makeStyles } from "@material-ui/core/styles";
 
-import { useFirebase } from "react-redux-firebase";
+import { useFirebase, useFirestore } from "react-redux-firebase";
 import _ from "lodash";
 
 import LinkGoogleAccount from "./LinkGoogleAccount";
@@ -59,6 +59,7 @@ const ProfileControlButtons = ({ isEdit, saveAction, cancelAction, editAction })
 const UserProfile = ({ history }) => {
   const classes = useStyles();
   const firebase = useFirebase();
+  const firestore = useFirestore();
 
   /*===SETUP Profile Control===*/
   const firebaseAuth = useSelector((state) => state.firebase.auth);

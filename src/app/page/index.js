@@ -15,14 +15,14 @@ import UserProfile from "./UserProfile";
 export {
   Home,
   Login,
-  MakeMission,
+  Signup,
   MakeRequest,
-  MissionDetails,
   Missions,
   MissionsCreated,
   MissionsVolunteered,
   Dashboard,
+  MissionDetails,
   UserProfile,
+  MakeMission,
   PostMission,
-  Signup,
 };
