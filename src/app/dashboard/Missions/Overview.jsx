@@ -70,8 +70,8 @@ const Overview = ({ missions }) => {
       .then((result) => {
         result.forEach((el) => {
           el.pickup = {
-            time: el.pickupWindow,
-            location: el.pickupLocation,
+            time: el.pickUpWindow,
+            location: el.pickUpLocation,
           };
           el.delivery = {
             time: el.deliveryWindow,
@@ -87,9 +87,9 @@ const Overview = ({ missions }) => {
     if (!value) return null;
     return (
       <div>
-        <div>{value.time.startTime}</div>
-        <div>{value.time.timeWindowType}</div>
-        <div>{value.location.address}</div>
+        <div>{value.time?.startTime}</div>
+        <div>{value.time?.timeWindowType}</div>
+        <div>{value.location?.address}</div>
       </div>
     );
   };

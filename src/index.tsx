@@ -22,6 +22,7 @@ const rrfConfig = {
 
 firebase.initializeApp(firebaseConfig);
 const firestore = firebase.firestore();
+// @ts-ignore
 fireorm.initialize(firestore);
 
 const rrfProps = {

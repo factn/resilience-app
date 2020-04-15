@@ -44,8 +44,9 @@ VolunteerPendingStatus = [
 def volunteer(organizationId):
     return dict(
         id=genId(),
-        phone=f.phone_number(),
-        profileName=f.name(),
+        phoneNumber=f.phone_number(),
+        photoURL='https://via.placeholder.com/150.png?text=User%20Image',
+        displayName=f.name(),
         location=location(),
         organizationId=organizationId,
         isVolunteer=True,
