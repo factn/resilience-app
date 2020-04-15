@@ -2,7 +2,6 @@ import { CustomRepository, getRepository } from "fireorm";
 import { User } from "./schema";
 import { get } from "lodash";
 import { BaseRepository } from "./BaseRepository";
-import { Mission, MissionStatus } from "./schema";
 
 import _ from "lodash";
 

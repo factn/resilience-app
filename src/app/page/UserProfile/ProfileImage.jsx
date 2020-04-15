@@ -1,10 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { withRouter } from "react-router-dom";
-import PropTypes from "prop-types";
-import { Page, Card } from "../../layout";
 import { Button } from "../../component";
-import ErrorSnackbar from "../../component/Snackbars/ErrorSnackbar";
 import { Grid, Avatar } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import PhotoSelection from "./photoselection.jsx";
