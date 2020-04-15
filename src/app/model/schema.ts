@@ -1,46 +1,44 @@
-import { Collection, SubCollection, ISubCollection } from 'fireorm';
-import Record from 'dataclass'
+import { Collection, SubCollection, ISubCollection } from "fireorm";
 
 export type ImageUrl = string;
 
 export interface Location {
-    /* The address represent the location - parseable by geolocation */
-    address: string;
-    /* Latitude */
-    lat: number;
-    /* Longtitude */
-    long: number;
-    /*  eg Pepperige farms if relevant */
-    label: string;
+  /* The address represent the location - parseable by geolocation */
+  address: string;
+  /* Latitude */
+  lat: number;
+  /* Longtitude */
+  long: number;
+  /*  eg Pepperige farms if relevant */
+  label: string;
 }
 
 // ===== Organization ====
 @Collection("organizations")
 export class Organization {
   /* Firebase Id, created automatically*/
-  id!: string; 
+  id!: string;
   /*Name of the organization */
   name!: string;
   /*The Location of the Organization*/
-  location?: Location; 
-  localTimeZone?: string; 
+  location?: Location;
+  localTimeZone?: string;
   // bounding box?
   // list of available foodboxes ..
   // list of available deliveryWindows ...
 }
 
-
 // === USER ===
 
 /*Volunteer status when first signup to a organization*/
 export enum VolunteerStatus {
-  created="created", // when user first created an account
+  created = "created", // when user first created an account
   // once user accept term and conditions -> pending
-  pending="pending", // waiting for organization to approve the request
+  pending = "pending", // waiting for organization to approve the request
   // once the organization accept, -> approved
   // if not accepted -> declined
-  approved="approved", // you are a volunteer
-  declined="declined", // sorry
+  approved = "approved", // you are a volunteer
+  declined = "declined", // sorry
 }
 
 @Collection("users")
@@ -61,13 +59,13 @@ export class User {
   /* specific details for the volunteer */
   volunteerDetails!: {
     /*if user have transportation */
-    hasTransportation: boolean ;
+    hasTransportation: boolean;
     /*user volunteering to an organization have a pending status*/
     status: VolunteerStatus;
-    privateNotes: string
+    privateNotes: string;
   };
   /* specific details for the organizer*/
-  organizerDetails!: {}; 
+  organizerDetails!: {};
 }
 
 //===== Mission =====//
@@ -99,19 +97,18 @@ export enum MissionType {
   errand = "errand",
 }
 
-interface MissionDetails {
+export interface MissionDetails {}
+
+export interface FoodBoxDetails extends MissionDetails {
+  boxes?: Array<FoodBox>; // if multple boxes of same type grouping can occur in the UI
 }
 
-interface FoodBoxDetails extends MissionDetails {
-    boxes?: Array<FoodBox> // if multple boxes of same type grouping can occur in the UI 
-}
-
-// created by the organiser.. but for MVP.0 we *hard code* a list of one type of box 
-@Collection("foodboxes")
-export class FoodBox {
-  id!: string;
+// created by the organiser.. but for MVP.0 we *hard code* a list of one type of box
+// @Collection("foodboxes")
+export interface FoodBox {
+  id: string;
   name?: string;
-  cost?: number; 
+  cost?: number;
   description?: string;
 }
 
@@ -120,57 +117,56 @@ export enum TimeWindowType {
   morning = "morning",
   afternoon = "afternoon",
   wholeday = "wholeday",
-  asap = "asap" // not 'NEED NOW!' just .. 'anytime is fine'
+  asap = "asap", // not 'NEED NOW!' just .. 'anytime is fine'
 }
 
 // delivery windows for the organisation
-// for MVP.0 we have a fixed function ie hardcode a list of available delivery windows 
+// for MVP.0 we have a fixed function ie hardcode a list of available delivery windows
 
 export interface TimeWindow {
   timeWindowType: TimeWindowType;
-  startTime: Date; // actually date time 
+  startTime: Date; // actually date time
 }
 
-export class MissionLogEvent {
-  id!: string;
-  actorId!: string;
-  action!: string;
+export interface MissionLogEvent {
+  id: string;
+  actorId: string;
+  action: string;
   actionDetail?: string;
-  fieldName?: string
+  fieldName?: string;
   newValue: any;
-  timestamp!: Date;
+  timestamp: Date;
 }
 
-//@Collection("missions")
-export class Mission extends Record<Mission> {
-  id!: string;
-  type!: MissionType;
-  status!: MissionStatus;
-  fundedStatus!: MissionFundedStatus;
-  payableStatus!: MissionPayableStatus;
-  organisationId!: string ;
-  tentativeVolunterId!: string ; // this get removed if the volunteer accepts?
-  volunteerId!: string ;
-  title!: string;
-  missionDetails!: MissionDetails ;; // varies by mission type 
-  description!: string;
-  image!: ImageUrl ;
-  notes!: string;
-  privateNotes!: string; // just for volunteer and organiser
-  cost!: number;  // Decimal if possible eg 12.21 (assume USD for MVP.0)
-  pickUpWIndow!: TimeWindow; // nb this can be an exact time or can be null
-  pickUplocation!: Location;
-  deliveryWindow!: TimeWindow;
-  deliverylocation!: Location; // default to recipient location
-  deliveryConfirmationImage!: ImageUrl;
-  deliveryNotes!: string;
-  missionAccepted!: boolean;
-  feedbackNotes!: string;
-  recipientName!: string;
-  recipientPhoneNumber!: string;
-  recipientId!: string; // reference?
-  created!: Date; // time stamp
-  lastUpdated!: Date// time stamp
+export interface MissionInterface {
+  id: string;
+  type: MissionType;
+  status: MissionStatus;
+  fundedStatus: MissionFundedStatus;
+  payableStatus: MissionPayableStatus;
+  organisationId: string;
+  tentativeVolunterId: string; // this get removed if the volunteer accepts?
+  volunteerId: string;
+  title: string;
+  missionDetails: MissionDetails; // varies by mission type
+  description: string;
+  image: ImageUrl;
+  notes: string;
+  privateNotes: string; // just for volunteer and organiser
+  cost: number; // Decimal if possible eg 12.21 (assume USD for MVP.0)
+  pickUpWindow: TimeWindow | null; // nb this can be an exact time or can be null
+  pickUplocation: Location;
+  deliveryWindow: TimeWindow | null;
+  deliverylocation: Location; // default to recipient location
+  deliveryConfirmationImage: ImageUrl;
+  deliveryNotes: string;
+  missionAccepted: boolean;
+  feedbackNotes: string;
+  recipientName: string;
+  recipientPhoneNumber: string;
+  recipientId: string; // reference?
+  created: Date; // time stamp
+  lastUpdated: Date; // time stamp
   // all other event log type stuff, such as when assigned etc belongs in the eventlog
   // this should be a child collection
   //@SubCollection(MissionLogEvent)
