@@ -1,12 +1,10 @@
-import { FoodBox } from './schema';
+import { FoodBox } from "./schema";
 
 /**
  * Defines the volunteer.
  *
  * @version 1.0
  */
-class FoodBoxes {
-
-}
+class FoodBoxes {}
 
 export default new FoodBoxes();

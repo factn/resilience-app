@@ -52,7 +52,8 @@ const defaultMissionData: MissionInterface = {
 const Mission = {
   load: (data: unknown) => merge(data, defaultMissionData),
   sanitize: (data: unknown) => sanitize(data, defaultMissionData),
-  filterByStatus: (missions: MissionInterface[], status: MissionStatus) => missions.filter(mission=>mission.status===status)
+  filterByStatus: (missions: MissionInterface[], status: MissionStatus) =>
+    missions.filter((mission) => mission.status === status),
 };
 
 export default Mission;

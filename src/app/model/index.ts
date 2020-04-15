@@ -16,9 +16,4 @@ import {
 } from "./schema";
 */
 
-export {
-  Users,
-  Missions,
-  Organizations,
-  FoodBoxes,
-};
+export { Users, Missions, Organizations, FoodBoxes };

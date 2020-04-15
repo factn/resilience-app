@@ -1,6 +1,5 @@
-import { UserInterface } from './schema';
+import { UserInterface } from "./schema";
 import { get } from "lodash";
-
 
 /**
  * Defines the volunteer.
@@ -8,7 +7,6 @@ import { get } from "lodash";
  * @version 1.0
  */
 class Users {
-
   /**
    * Links a user with a phone number, using an SMS code and a Recaptcha.
    * @param {object} firebase
@@ -17,18 +15,23 @@ class Users {
    * @param {func} callback
    * @return {firebase.auth.Auth}
    */
-  linkPhoneAuthentication(firebase:any, phoneNumber:string, recaptchaVerfier: any, callback: any) {
+  linkPhoneAuthentication(
+    firebase: any,
+    phoneNumber: string,
+    recaptchaVerfier: any,
+    callback: any
+  ) {
     return firebase
       .auth()
       .currentUser.linkWithPhoneNumber(phoneNumber, recaptchaVerfier)
-      .then(function (confirmationResult:any) {
+      .then(function (confirmationResult: any) {
         var code = window.prompt("Provide your SMS code");
         recaptchaVerfier.clear();
         return confirmationResult.confirm(code).then(() => {
           callback();
         });
       })
-      .catch((err:any) =>
+      .catch((err: any) =>
         alert(
           "You already have an account associated with this phone number. Please sign in using that number."
         )
@@ -41,7 +44,6 @@ class Users {
    * @return {FirebaseAuth}
    */
   getAuth = (state: any) => get(state, "firebase.auth");
-  
 }
 
 export default new Users();
