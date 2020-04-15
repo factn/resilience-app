@@ -14,7 +14,7 @@ function MakeMission({ history, firestore }) {
   const [file, setFile] = useState(null);
   // const [autoAssignHelper, setAutoAssignHelper] = useState(false);
   const storage = firebase.storage();
-  const { handleChange, values } = useForm();
+  const { handleChange, values, setValues } = useForm();
 
   const user = useSelector((state) => state.firebase.auth);
   function getFile(file) {
