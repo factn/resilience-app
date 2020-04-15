@@ -12,6 +12,6 @@ const defaultFirebaseUiConfig = {
 };
 
 export default function FirebaseAuthUi(props) {
-  const firebaseUiConfig = props.firebaseUiConfig || defaultFirebaseUiConfig
+  const firebaseUiConfig = props.firebaseUiConfig || defaultFirebaseUiConfig;
   return <StyledFirebaseAuth uiConfig={firebaseUiConfig} firebaseAuth={firebase.auth()} />;
 }

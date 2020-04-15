@@ -5,7 +5,7 @@ import AlgoliaPlaces from "algolia-places-react";
 import Button from "../../component/Button";
 import { Upload, useStyles } from "./Request.style";
 import { Page } from "../../layout";
-import { ANGOLIA_API_KEY } from '../../../constants'
+import { ANGOLIA_API_KEY } from "../../../constants";
 
 import {
   Checkbox,
