@@ -38,14 +38,15 @@ const StyledHeader = withStyles({
 
 function MissionForm({ handleChange, values, onSubmit, getFile /*, assignHelper, autoAssigned*/ }) {
   const classes = useStyles();
+  const now = new Date();
   const [dropOff, setDropOff] = React.useState({
-    time: new Date(),
-    date: new Date(),
+    time: now,
+    date: now,
     location: "",
   });
   const [pickUp, setPickUp] = React.useState({
-    time: new Date(),
-    date: new Date(),
+    time: now,
+    date: now,
     location: "",
   });
   const [pickUpDateLabel, setPickUpDateLabel] = React.useState(null);
@@ -190,7 +191,7 @@ function MissionForm({ handleChange, values, onSubmit, getFile /*, assignHelper,
             id="date-pickUp"
             label="Select Date"
             format="MM/dd/yyyy"
-            value={pickUpDateLabel}
+            value={pickUp.dateProtoType}
             onChange={(date) => handleDate(date, "pickUp")}
             KeyboardButtonProps={{
               "aria-label": "change date",
@@ -232,7 +233,7 @@ function MissionForm({ handleChange, values, onSubmit, getFile /*, assignHelper,
             id="date-dropOff"
             label="Select Date"
             format="MM/dd/yyyy"
-            value={dropOffDateLabel}
+            value={dropOff.dateProtoType}
             onChange={(date) => handleDate(date, "dropOff")}
             KeyboardButtonProps={{
               "aria-label": "change date",
