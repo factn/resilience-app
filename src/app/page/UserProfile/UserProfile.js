@@ -11,6 +11,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import { useFirebase, useFirestore } from "react-redux-firebase";
 import _ from "lodash";
+import addressLookUp from "../../utils/addressLookUp";
 
 import LinkGoogleAccount from "./LinkGoogleAccount";
 import LinkPhoneAccount from "./LinkPhoneAccount";
@@ -77,7 +78,18 @@ const UserProfile = ({ history }) => {
   }
   function saveProfileAction(e) {
     e.preventDefault();
-    firebase.updateProfile(profile);
+    try {
+      !profile.address
+        ? firebase.updateProfile(profile)
+        : addressLookUp(profile.address).then((data) =>
+            firebase.updateProfile({
+              ...profile,
+              addressMapPoint: { latitude: data.lat, longitude: data.long },
+            })
+          );
+    } catch (error) {
+      console.log("ERROR WHEN GETTiNG LOCATION", error);
+    }
     setView("view");
   }
   /*
