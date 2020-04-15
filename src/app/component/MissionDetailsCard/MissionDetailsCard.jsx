@@ -81,7 +81,7 @@ const MissionDetailsCard = ({
   volunteer,
   volunteerForMission,
   startMission,
-  markMissionAsDelivered,
+  openMissionDeliveredCard,
   unassignFromMission,
   userUnverifiedPopupOpen,
   setUserUnverifiedPopupOpen,
@@ -177,7 +177,7 @@ const MissionDetailsCard = ({
             status={mission.status}
             volunteerForMission={() => volunteerForMission(mission.id)}
             startMission={() => startMission(mission.id)}
-            markMissionAsDelivered={() => markMissionAsDelivered(mission.id)}
+            openMissionDeliveredCard={() => openMissionDeliveredCard(mission.id)}
           />
         </CardActions>
         <CardActions className={classes.cardAction}>

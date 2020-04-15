@@ -57,12 +57,28 @@ class Missions {
    * @param {string} missionId - ID of mission that user wants to start
    */
 
-  async startMission(missionId: string) { 
+  async startMission(missionId: string) {
     var missions = this.repo();
     var mission = await missions.findById(missionId);
-    if (mission.volunteerId !== undefined) { //ensure that mission has an assigned volunteer
+    if (mission.volunteerId !== undefined) {
+      //ensure that mission has an assigned volunteer
       mission.status = MissionStatus.started;
     }
+    return missions.update(mission);
+  }
+
+  /**
+   * Marking the mission with the given missionId as delivered and uploading confirmation image
+   * @param {string} missionId - ID of mission that user wants to start
+   * @param {object} confirmationImage - deliveryConfirmationImage for mission
+   */
+
+  async deliveredMission(missionId: string, confirmationImage: object) {
+    // TODO: upload of confirmationImage to cloud storage -> returns imageUrl
+    var missions = this.repo();
+    var mission = await missions.findById(missionId);
+    //mission.deliveryConfirmationImage = imageUrl;
+    mission.status = MissionStatus.delivered;
     return missions.update(mission);
   }
 }
