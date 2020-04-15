@@ -1,13 +1,12 @@
 import React from "react";
-import PropTypes from 'prop-types'
+import PropTypes from "prop-types";
 
 import { Page } from "../../../layout";
-import { Body1 } from "../../../component"
+import { Body1 } from "../../../component";
 import { useStyles, StyledHeader } from "./UserProfile.style";
 
 import { FormControlLabel, TextField, Container, Checkbox } from "@material-ui/core";
 import { AddressInput, Button } from "../../../component";
-
 
 /**
  * Component for signing up users
@@ -15,19 +14,19 @@ import { AddressInput, Button } from "../../../component";
  * @component
  */
 const UserProfile = ({ values, handleChange, onSubmit }) => {
-  const classes = useStyles()
+  const classes = useStyles();
 
   function changeFormValue(name, value) {
-    handleChange({ target: { name, value}})
+    handleChange({ target: { name, value } });
   }
 
   function handleChangeLocation(data) {
-    const { location } = data
-    changeFormValue('location', location)
+    const { location } = data;
+    changeFormValue("location", location);
   }
 
   function handleCheckBoxChange(event, value) {
-    changeFormValue(event.currentTarget.name, value)
+    changeFormValue(event.currentTarget.name, value);
   }
 
   return (
@@ -72,7 +71,7 @@ const UserProfile = ({ values, handleChange, onSubmit }) => {
           className={classes.textField}
           fullWidth={true}
           variant="outlined"
-          value={values.phone || ''}
+          value={values.phone || ""}
           name="phone"
           onChange={handleChange}
           label="Phone Number"
@@ -98,7 +97,7 @@ const UserProfile = ({ values, handleChange, onSubmit }) => {
           multiline
           name="description"
           onChange={handleChange}
-          value={values.description || ''}
+          value={values.description || ""}
           variant="outlined"
         />
         <FormControlLabel
@@ -128,11 +127,7 @@ const UserProfile = ({ values, handleChange, onSubmit }) => {
           }
           label="By signing up, I agree to some terms and conditions, waiver link here,"
         />
-        <Button
-          className={classes.button}
-          disabled={!values.termsAndConditions}
-          onClick={onSubmit}
-        >
+        <Button className={classes.button} disabled={!values.termsAndConditions} onClick={onSubmit}>
           Submit
         </Button>
       </Container>

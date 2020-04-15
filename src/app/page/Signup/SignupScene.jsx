@@ -13,8 +13,9 @@ import SignupSuccessPage from "./SignupSuccess";
  * Takes fullName as string and converts to First/Last name
  * by assuming the last word is the last name and everything before the
  * last name is the first name.  Returns an array [firstName, lastName]
- * Example:  'Joseph D. K. Shmoseph' => ['Joseph D. K.', 'Shmoseph']
- * This is a naive solution, it doesn't handle 'Martin Luther King Jr.' very well
+ * Example:  'Joseph J. J. Shmoseph' => ['Joseph J. J.', 'Shmoseph']
+ * This is a naive solution, it can't handle suffixes like Jr.
+ * @param {string} fullName
  * @function
  */
 const convertFullName = (fullName) => {
@@ -36,7 +37,7 @@ const convertFullName = (fullName) => {
  */
 function SignupScene(props) {
   const { handleChange, values } = useForm();
-  const [activeTab, setActiveTab] = useState(0);
+  const [activeTab, setActiveTab] = useState(2); // CHANGE ME!
 
   function changeFormValues(changes) {
     for (const change of changes) {
@@ -95,7 +96,15 @@ function SignupScene(props) {
     console.log(payload);
   }
 
-  function handleSubmitButton(data) {
+  /**
+   * This is a catchall function that is passed down to
+   * sub components for use as:
+   * 1) primary button click handler
+   * 2) submit handler
+   * 3) success callback for firebaseAuth
+   *
+   */
+  function processPage(data) {
     if (data) updateFormValues(data);
     if (activeTab === 3) submitUserDataToFirebase();
     if (activeTab === 4) props.history.push("/missions");
@@ -110,7 +119,15 @@ function SignupScene(props) {
     4: SignupSuccessPage,
   }[activeTab];
 
-  return <ActivePage onSubmit={handleSubmitButton} handleChange={handleChange} values={values} />;
+  return (
+    <ActivePage
+      onSubmit={processPage}
+      signInSuccess={processPage}
+      handleButtonClick={processPage}
+      handleChange={handleChange}
+      values={values}
+    />
+  );
 }
 
 SignupScene.propTypes = {

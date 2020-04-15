@@ -10,7 +10,7 @@ import { Body1 } from "../../../component";
  * Volunteer Call to Action page for use with Signup
  *
  */
-function CallToAction({ onSubmit }) {
+function CallToAction({ handleButtonClick }) {
   const classes = useStyles();
 
   return (
@@ -29,7 +29,7 @@ function CallToAction({ onSubmit }) {
         <Button
           className={classes.button}
           id="sms-sign-in"
-          onClick={onSubmit}
+          onClick={handleButtonClick}
           color="secondary"
           variant="contained"
         >
@@ -41,7 +41,7 @@ function CallToAction({ onSubmit }) {
 }
 
 CallToAction.propTypes = {
-  onSubmit: PropTypes.func,
+  handleButtonClick: PropTypes.func,
 };
 
 export default CallToAction;
