@@ -62,8 +62,10 @@ class Missions {
   async removeVolunteerFromMission(missionId: string) { 
     const missions = this.repo();
     const mission = await missions.findById(missionId);
+    console.log("returned !!!! ===== " + mission);
     mission.volunteerId = '';
     mission.status = MissionStatus.unassigned;
+    console.log("set mission status and volunteer.");
     return this.repo().update(mission);
   }
 
