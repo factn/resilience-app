@@ -152,7 +152,7 @@ const UserProfile = ({ history }) => {
         autoHideDuration={8000}
       />
       <Card>
-        <UserOverview profile={profile} view={view} setProfile={setProfile} />
+        <UserOverview profile={profile} view={view} setView={setView} setProfile={setProfile} />
       </Card>
       <Grid item className={classes.fullWidth}>
         <ProfileControlButtons

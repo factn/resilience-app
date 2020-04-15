@@ -90,7 +90,11 @@ const HomePage = ({ history, ...rest }) => {
             <img src={HomeImage1} className={classes.HomeImage} alt="" />
           </Grid>
           <Grid container>
-            <Button className={classes.SigninButton} onClick={() => history.push("/login")}>
+            <Button
+              className={classes.SigninButton}
+              onClick={() => history.push("/login")}
+              data-testid="btn-login"
+            >
               Signin
             </Button>
           </Grid>
@@ -102,32 +106,27 @@ const HomePage = ({ history, ...rest }) => {
               variant="outlined"
               className={classes.SignupButton}
               onClick={() => history.push("/signup")}
+              data-testid="btn-signup"
             >
               Sign Up Here
             </Button>
           </Grid>
           <Card>
             <Grid container>
-              <H2>How it works</H2>
-              <Body1 className={classes.Paragraph}>
-                Description of service goes here...Lorem ipsum dolor sit amet, consectetur
-                adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-              </Body1>
-
-              <Body1 className={classes.Paragraph}>
-                Description of service goes here...Lorem ipsum dolor sit amet, consectetur Ut enim
-                ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                cillum dolore eu fugiat nulla pariatur.
-              </Body1>
-
-              <Body1 className={classes.Paragraph}>
-                Description of service goes here...Lorem ipsum dolor sit amet, consectetur Ut enim
-                ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip Excepteur
-                sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim
-                id est laboru m.
-              </Body1>
-
+              <H2 className={classes.Paragraph}>How it works</H2>
+              <Grid container>
+                <Body1>Need help?</Body1>
+                <Body1 className={classes.Paragraph}>
+                  Sign up to make a request for a food box, small errand, or a pharmacy pickup. Your
+                  ask goes right to the local coordinator, and is matched with a volunteer who will
+                  take care of your need ASAP.
+                </Body1>
+                <Body1>Want to help?</Body1>
+                <Body1 className={classes.Paragraph}>
+                  Sign up to join your local network of volunteers helping their neighbors through
+                  this crisis. Deliver food, medicine, and other supplies to the most vulnerable.
+                </Body1>
+              </Grid>
               <Grid container>
                 <img src={HomeImage2} className={classes.HomeImage} alt="" />
               </Grid>
@@ -139,7 +138,8 @@ const HomePage = ({ history, ...rest }) => {
           <StyledHomeButton
             onClick={() => history.push("/request/create")}
             text="Request Help"
-            secondary
+            color="secondary"
+            data-testid="btn-request-help"
           />
         </>
       )}

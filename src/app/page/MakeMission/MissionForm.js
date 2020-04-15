@@ -5,7 +5,14 @@ import AlgoliaPlaces from "algolia-places-react";
 import Button from "../../component/Button";
 import { Upload, useStyles } from "./Request.style";
 import { Page } from "../../layout";
-import { Typography, TextField, Container } from "@material-ui/core";
+import {
+  Checkbox,
+  Typography,
+  TextField,
+  Container,
+  FormControlLabel,
+  withStyles,
+} from "@material-ui/core";
 import {
   KeyboardDatePicker,
   KeyboardTimePicker,
@@ -13,15 +20,21 @@ import {
 } from "@material-ui/pickers";
 import MomentUtils from "@date-io/date-fns";
 
-const StyledHeader = styled(Typography)`
-  margin-top: 0.8vh;
-  padding: 1.2vh 0;
-  margin-left: 10%;
-  ${({ main }) =>
-    main &&
-    `margin-left: 0px;
-  text-transform: none;`}
-`;
+const StyledHeader = withStyles({
+  root: {
+    marginTop: "0.8vh",
+    padding: "1.2vh 0",
+    marginLeft: (props) => (props.main ? 0 : "10%"),
+    textTransform: (props) => props.main && "none",
+  },
+})(({ classes, children, ...rest }) => {
+  const { main, ...allowedMuiProps } = rest; // filter `main` from other props. This prevents Typography to throw an error
+  return (
+    <Typography className={classes.root} {...allowedMuiProps}>
+      {children}
+    </Typography>
+  );
+});
 
 function MissionForm({ handleChange, values, onSubmit, getFile /*, assignHelper, autoAssigned*/ }) {
   const classes = useStyles();
@@ -35,15 +48,63 @@ function MissionForm({ handleChange, values, onSubmit, getFile /*, assignHelper,
     date: new Date(),
     location: "",
   });
+  const [pickUpDateLabel, setPickUpDateLabel] = React.useState(null);
+  const [dropOffDateLabel, setDropOffDateLabel] = React.useState(null);
+
   const handleSubmit = () => {
     const valuesWithDates = {
       pickUp,
       dropOff,
     };
-    console.log("new mission:");
-    console.dir(valuesWithDates);
     onSubmit(valuesWithDates);
   };
+
+  const handleLocation = (query, stage) => {
+    let func, rest;
+    if (stage === "dropOff") {
+      func = setDropOff;
+      rest = dropOff;
+    }
+    if (stage === "pickUp") {
+      func = setPickUp;
+      rest = pickUp;
+    }
+    if (query.suggestion) {
+      const { value, latlng, county, countryCode } = query.suggestion;
+      func({
+        ...rest,
+        location: {
+          address: value,
+          geoLocation: latlng,
+          county,
+          countryCode,
+        },
+      });
+    }
+  };
+
+  const handleDate = (date, stage) => {
+    if (!date) {
+      return;
+    }
+    if (stage === "pickUp") {
+      setPickUpDateLabel(date);
+      if (typeof date !== "string") {
+        setPickUp({ ...pickUp, date: date.toString().substr(0, 15) });
+      } else {
+        setPickUp({ ...dropOff, date: date || null });
+      }
+    }
+    if (stage === "dropOff") {
+      setDropOffDateLabel(date);
+      if (typeof date !== "string") {
+        setDropOff({ ...dropOff, date: date.toString().substr(0, 15) });
+      } else {
+        setDropOff({ ...dropOff, date: date || null });
+      }
+    }
+  };
+
   return (
     <Page template="pink">
       <Container classes={{ root: classes.root }}>
@@ -121,37 +182,28 @@ function MissionForm({ handleChange, values, onSubmit, getFile /*, assignHelper,
               type: "city",
               // Other options from https://community.algolia.com/places/documentation.html#options
             }}
-            onChange={(query) => setPickUp({ ...pickUp, location: query })}
-            onCursorChanged={({ rawAnswer, query, suggestion, suggestonIndex }) =>
-              console.log("Fired when arrows keys are used to navigate suggestions.")
-            }
-            onClear={() => console.log("Fired when the input is cleared.")}
-            onLimit={({ message }) =>
-              console.log("!!Algolia Places reached current rate limit.".toUpperCase())
-            }
-            onError={({ message }) =>
-              console.log(
-                "Fired when we could not make the request to Algolia Places servers for any reason but reaching your rate limit."
-              )
-            }
+            onChange={(query) => handleLocation(query, "pickUp")}
+            onLimit={({ message }) => message && console.log(message)}
           />
           <KeyboardDatePicker
             margin="normal"
-            id="date-picker-dialog"
+            id="date-pickUp"
             label="Select Date"
             format="MM/dd/yyyy"
-            value={pickUp.date}
-            onChange={(date) => setPickUp({ ...pickUp, date })}
+            value={pickUpDateLabel}
+            onChange={(date) => handleDate(date, "pickUp")}
             KeyboardButtonProps={{
               "aria-label": "change date",
             }}
           />
           <KeyboardTimePicker
             margin="normal"
-            id="time-picker"
+            id="time-pickUp"
             label="Pickup time"
-            value={pickUp.time}
-            onChange={(time) => setPickUp({ ...pickUp, time })}
+            value={pickUp.timeProtoType}
+            onChange={(time) =>
+              time && setPickUp({ ...pickUp, time: time.toTimeString(), timeProtoType: time })
+            }
             KeyboardButtonProps={{
               "aria-label": "change time",
             }}
@@ -170,42 +222,30 @@ function MissionForm({ handleChange, values, onSubmit, getFile /*, assignHelper,
               type: "city",
               // Other options from https://community.algolia.com/places/documentation.html#options
             }}
-            onChange={(query) => setDropOff({ ...dropOff, location: query })}
-            onSuggestions={({ rawAnswer, query, suggestions }) =>
-              console.log(
-                "Fired when dropdown receives suggestions. You will receive the array of suggestions that are displayed."
-              )
-            }
-            onCursorChanged={({ rawAnswer, query, suggestion, suggestonIndex }) =>
-              console.log("Fired when arrows keys are used to navigate suggestions.")
-            }
-            onClear={() => console.log("Fired when the input is cleared.")}
+            onChange={(query) => handleLocation(query, "dropOff")}
             onLimit={({ message }) =>
               console.log("Fired when you reached your current rate limit.")
-            }
-            onError={({ message }) =>
-              console.log(
-                "Fired when we could not make the request to Algolia Places servers for any reason but reaching your rate limit."
-              )
             }
           />
           <KeyboardDatePicker
             margin="normal"
-            id="date-picker-dialog"
+            id="date-dropOff"
             label="Select Date"
             format="MM/dd/yyyy"
-            value={dropOff.date}
-            onChange={(date) => setDropOff({ ...dropOff, date })}
+            value={dropOffDateLabel}
+            onChange={(date) => handleDate(date, "dropOff")}
             KeyboardButtonProps={{
               "aria-label": "change date",
             }}
           />
           <KeyboardTimePicker
             margin="normal"
-            id="time-picker"
+            id="time-dropOff"
             label="Drop-off time"
-            value={dropOff.time}
-            onChange={(time) => setDropOff({ ...dropOff, time })}
+            value={dropOff.timeProtoType}
+            onChange={(time) =>
+              time && setDropOff({ ...dropOff, time: time.toTimeString(), timeProtoType: time })
+            }
             KeyboardButtonProps={{
               "aria-label": "change time",
             }}
@@ -213,7 +253,7 @@ function MissionForm({ handleChange, values, onSubmit, getFile /*, assignHelper,
         </MuiPickersUtilsProvider>
         <Button
           onClick={handleSubmit}
-          secondary
+          color="secondary"
           text="Create mission"
           style={{ width: "90%", marginBottom: "2.3vh" }}
         />

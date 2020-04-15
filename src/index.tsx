@@ -1,6 +1,7 @@
 // If you enabled Analytics in your project, add the Firebase SDK for Analytics
 import "firebase/analytics";
 import * as firebase from "firebase/app";
+import * as fireorm from "fireorm";
 import "firebase/auth";
 import "firebase/firestore";
 import React from "react";
@@ -14,24 +15,24 @@ import { firebaseConfig } from "./config/firebase";
 import "./index.css";
 import * as serviceWorker from "./serviceWorker";
 
-const rrfConfig  =  {
-    userProfile: "users",
-    useFirestoreForProfile: true
-}
-
+const rrfConfig = {
+  userProfile: "users",
+  useFirestoreForProfile: true,
+};
 
 firebase.initializeApp(firebaseConfig);
-firebase.firestore();
+const firestore = firebase.firestore();
+fireorm.initialize(firestore);
 
 const rrfProps = {
   firebase,
   config: rrfConfig,
   dispatch: store.dispatch,
-  createFirestoreInstance
+  createFirestoreInstance,
 };
 
-if (process.env.NODE_ENV !== 'production') {
-  var axe = require('react-axe');
+if (process.env.NODE_ENV !== "production") {
+  var axe = require("react-axe");
   axe(React, ReactDOM, 1000);
 }
 
@@ -47,4 +48,4 @@ ReactDOM.render(
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+serviceWorker.register();

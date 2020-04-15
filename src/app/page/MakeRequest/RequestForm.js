@@ -58,7 +58,7 @@ function RequestForm({ handleChange, values, onSubmit, getFile }) {
         <Upload getFile={getFile} values={values} />
         <Button
           onClick={onSubmit}
-          secondary
+          color="secondary"
           text="Make Request"
           style={{ float: "right", marginRight: "10%" }}
         />

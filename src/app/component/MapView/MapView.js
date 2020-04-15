@@ -12,7 +12,7 @@ function MapView(props) {
   });
   const position = [state.lat, state.lng];
   return (
-    <Map center={position} zoom={state.zoom} style={MapStyle} data-testid="map">
+    <Map center={position} zoom={state.zoom} style={MapStyle} className="data-test-leaflet-mapview">
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
       <Marker position={position}>
         <Popup>Start from here</Popup>
@@ -25,6 +25,6 @@ MapView.propTypes = {
   values: PropTypes.shape({
     lat: PropTypes.number,
     long: PropTypes.number,
-  })
+  }),
 };
 export default MapView;

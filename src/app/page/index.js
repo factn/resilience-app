@@ -3,10 +3,12 @@ import Login from "./Login";
 import MakeRequest from "./MakeRequest";
 import MakeMission from "./MakeMission";
 import Missions from "./Missions";
-import MissionsControl from "./MissionsControl";
+import Dashboard from "../dashboard";
 import MissionsCreated from "./MissionsCreated";
 import MissionsVolunteered from "./MissionsVolunteered";
 import MissionDetails from "./MissionDetails";
+import PostMission from "./PostMission";
+
 import Signup from "./Signup";
 import UserProfile from "./UserProfile";
 
@@ -17,9 +19,10 @@ export {
   MakeRequest,
   MissionDetails,
   Missions,
-  MissionsControl,
   MissionsCreated,
   MissionsVolunteered,
-  Signup,
+  Dashboard,
   UserProfile,
+  PostMission,
+  Signup,
 };

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import { User } from "../../model";
 import { withRouter } from "react-router-dom";
 import "firebase/storage";
 import MissionForm from "./MissionForm";
@@ -36,12 +35,11 @@ function MakeMission({ history, firestore }) {
       .doc(missionId)
       .set({ ...model, status: "todo" });
 
-    User.assignAsOwner(firestore, missionId, user.uid);
     console.log("Saved.");
   }
 
   async function onSubmit(payload) {
-    let val = { ...values, payload };
+    let val = { ...values, ...payload };
     setLoading(true);
     if (file) {
       const uploadTask = storage.ref(`images/${file.name}`).put(file);
@@ -55,9 +53,9 @@ function MakeMission({ history, firestore }) {
         async () => {
           const url = await storage.ref("images").child(file.name).getDownloadURL();
           val.url = url; // Todo: Refactor later
-          saveMissions(val);
         }
       );
+      saveMissions(val);
     } else {
       saveMissions(val);
     }

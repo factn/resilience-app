@@ -23,15 +23,12 @@ const withLoading = (BaseComponent) => {
     LoadingComponent,
     children,
     ...rest
-  }) => {
-    LoadingComponent = LoadingComponent ? LoadingComponent : LinearProgress;
+  }) => (
+    <BaseComponent {...rest}>
+      {!isLoaded ? <LoadingComponent /> : isEmpty ? isEmptyText : children}
+    </BaseComponent>
+  );
 
-    return (
-      <BaseComponent {...rest}>
-        {!isLoaded ? <LoadingComponent /> : isEmpty ? isEmptyText : children}
-      </BaseComponent>
-    );
-  };
   EnhancedComponent.defaultProps = {
     isEmpty: false,
     isLoaded: true,
@@ -39,11 +36,11 @@ const withLoading = (BaseComponent) => {
   };
 
   EnhancedComponent.propTypes = {
-    children: PropTypes.element,
+    children: PropTypes.node,
     isEmpty: PropTypes.bool,
     isEmptyText: PropTypes.string,
     isLoaded: PropTypes.bool,
-    LoadingComponent: PropTypes.oneOf(PropTypes.func, PropTypes.object)
+    LoadingComponent: PropTypes.elementType,
   };
   return EnhancedComponent;
 };
