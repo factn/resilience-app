@@ -1,11 +1,5 @@
-import { CustomRepository, getRepository } from 'fireorm';
-import { User } from './schema';
+import { UserInterface } from './schema';
 import { get } from "lodash";
-import { BaseRepository } from './BaseRepository'
-import { Mission, MissionStatus } from './schema';
-
-@CustomRepository(User)
-class UserRepository extends BaseRepository<User> { }
 
 
 /**

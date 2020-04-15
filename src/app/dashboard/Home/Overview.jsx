@@ -2,7 +2,7 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
-import { Mission } from "../../model";
+import { Missions } from "../../model";
 import { H2 } from "../../component";
 import { color } from "../../../theme";
 import OverviewItem from "./OverviewItem";
@@ -27,8 +27,8 @@ const useStyles = makeStyles((theme) => ({
 
 const Overview = ({ missions, className }) => {
   const classes = useStyles();
-  const missionsNotStarted = Mission.filterByStatus(missions, "notStarted");
-  const missionsQueued = Mission.filterByStatus(missions, "queued");
+  const missionsNotStarted = Missions.filterByStatus(missions, "notStarted");
+  const missionsQueued = Missions.filterByStatus(missions, "queued");
 
   return (
     <Grid container direction="column" spacing={2} className={className}>

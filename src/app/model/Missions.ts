@@ -19,18 +19,18 @@ const defaultLocation: Location = {
 const defaultMissionDetails: MissionDetails = {};
 
 const defaultMissionData: MissionInterface = {
-  id: "123",
-  type: MissionType.foodbox,
+  id: "",
+  type: MissionType.errand,
   status: MissionStatus.unassigned,
   fundedStatus: MissionFundedStatus.notfunded,
   payableStatus: MissionPayableStatus.notacquired,
-  organisationId: "1234",
-  tentativeVolunterId: "0", // this get removed if the volunteer accepts?
-  volunteerId: "0",
-  title: "Default Title",
+  organisationId: "",
+  tentativeVolunterId: "", // this get removed if the volunteer accepts?
+  volunteerId: "",
+  title: "",
   missionDetails: defaultMissionDetails, // varies by mission type
-  description: "This is a description",
-  image: "/",
+  description: "",
+  image: "",
   notes: "",
   privateNotes: "", // just for volunteer and organiser
   cost: 50.0, // Decimal if possible eg 12.21 (assume USD for MVP.0)
@@ -38,13 +38,13 @@ const defaultMissionData: MissionInterface = {
   pickUplocation: defaultLocation,
   deliveryWindow: null,
   deliverylocation: defaultLocation, // default to recipient location
-  deliveryConfirmationImage: "/",
-  deliveryNotes: "Leave on door step",
+  deliveryConfirmationImage: "",
+  deliveryNotes: "",
   missionAccepted: false,
   feedbackNotes: "",
-  recipientName: "Sally",
-  recipientPhoneNumber: "777-777-7777",
-  recipientId: "123", // reference?
+  recipientName: "",
+  recipientPhoneNumber: "",
+  recipientId: "", // reference?
   created: new Date(), // time stamp
   lastUpdated: new Date(), // time stamp
 };
@@ -52,6 +52,7 @@ const defaultMissionData: MissionInterface = {
 const Mission = {
   load: (data: unknown) => merge(data, defaultMissionData),
   sanitize: (data: unknown) => sanitize(data, defaultMissionData),
+  filterByStatus: (missions: MissionInterface[], status: MissionStatus) => missions.filter(mission=>mission.status===status)
 };
 
 export default Mission;

@@ -41,8 +41,7 @@ export enum VolunteerStatus {
   declined = "declined", // sorry
 }
 
-@Collection("users")
-export class User {
+export class UserInterface {
   id!: string;
   /* phone number, our primary means of communication*/
   phone?: number;
