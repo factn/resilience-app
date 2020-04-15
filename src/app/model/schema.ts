@@ -1,55 +1,61 @@
-import { Collection, SubCollection, ISubCollection } from 'fireorm';
+import { Collection, SubCollection, ISubCollection } from "fireorm";
 
 export type ImageUrl = string;
 
 export interface Location {
-    /* The address represent the location - parseable by geolocation */
-    address: string;
-    /* Latitude */
-    lat: number;
-    /* Longtitude */
-    long: number;
-    /*  eg Pepperige farms if relevant */
-    label: string;
+  /* The address represent the location - parseable by geolocation */
+  address: string;
+  /* Latitude */
+  lat: number;
+  /* Longtitude */
+  long: number;
+  /*  eg Pepperige farms if relevant */
+  label: string;
 }
 
 // ===== Organization ====
 @Collection("organizations")
 export class Organization {
   /* Firebase Id, created automatically*/
-  id!: string; 
+  id!: string;
   /*Name of the organization */
   name!: string;
   /*The Location of the Organization*/
-  location?: Location; 
-  localTimeZone?: string; 
+  location?: Location;
+  localTimeZone?: string;
   // bounding box?
   // list of available foodboxes ..
   // list of available deliveryWindows ...
 }
 
-
 // === USER ===
 
 /*Volunteer status when first signup to a organization*/
 export enum VolunteerStatus {
-  created="created", // when user first created an account
+  created = "created", // when user first created an account
   // once user accept term and conditions -> pending
-  pending="pending", // waiting for organization to approve the request
+  pending = "pending", // waiting for organization to approve the request
   // once the organization accept, -> approved
   // if not accepted -> declined
-  approved="approved", // you are a volunteer
-  declined="declined", // sorry
+  approved = "approved", // you are a volunteer
+  declined = "declined", // sorry
 }
 
 @Collection("users")
 export class User {
   id!: string;
-  /* phone number, our primary means of communication*/
+  /* phone number, our primary means of communication
+  FIXME: need to ensure this is synced from firebase.auth ph number
+  FIXME: where do we assert phone number formatting?
+  FIXME: currently, always null */
   phone?: number;
+  /* user's selected profile image url
+  FIXME: need to sync this with state.firebase.profile.photoURL ?
+  */
+  photoURL?: ImageUrl;
   /* user profile name, this populate from either user, or his provider*/
-  profileName?: string;
-  /* user location, we use this to show user, (later on) which organization exist to signup to*/
+  displayName?: string;
+  /* user location, we use this to show user on a map */
   location?: Location;
   /* the organization that user belong to*/
   organizationId!: number;
@@ -60,13 +66,13 @@ export class User {
   /* specific details for the volunteer */
   volunteerDetails!: {
     /*if user have transportation */
-    hasTransportation: boolean ;
+    hasTransportation: boolean;
     /*user volunteering to an organization have a pending status*/
     status: VolunteerStatus;
-    privateNotes: string
+    privateNotes: string;
   };
   /* specific details for the organizer*/
-  organizerDetails!: {}; 
+  organizerDetails!: {};
 }
 
 //===== Mission =====//
@@ -98,19 +104,18 @@ export enum MissionType {
   errand = "errand",
 }
 
-interface MissionDetails {
-}
+interface MissionDetails {}
 
 interface FoodBoxDetails extends MissionDetails {
-    boxes?: Array<FoodBox> // if multple boxes of same type grouping can occur in the UI 
+  boxes?: Array<FoodBox>; // if multple boxes of same type grouping can occur in the UI
 }
 
-// created by the organiser.. but for MVP.0 we *hard code* a list of one type of box 
+// created by the organiser.. but for MVP.0 we *hard code* a list of one type of box
 @Collection("foodboxes")
 export class FoodBox {
   id!: string;
   name?: string;
-  cost?: number; 
+  cost?: number;
   description?: string;
 }
 
@@ -119,15 +124,15 @@ export enum TimeWindowType {
   morning = "morning",
   afternoon = "afternoon",
   wholeday = "wholeday",
-  asap = "asap" // not 'NEED NOW!' just .. 'anytime is fine'
+  asap = "asap", // not 'NEED NOW!' just .. 'anytime is fine'
 }
 
 // delivery windows for the organisation
-// for MVP.0 we have a fixed function ie hardcode a list of available delivery windows 
+// for MVP.0 we have a fixed function ie hardcode a list of available delivery windows
 
 export interface TimeWindow {
   timeWindowType: TimeWindowType;
-  startTime: Date; // actually date time 
+  startTime: Date; // actually date time
 }
 
 export class MissionLogEvent {
@@ -135,7 +140,7 @@ export class MissionLogEvent {
   actorId!: string;
   action!: string;
   actionDetail?: string;
-  fieldName?: string
+  fieldName?: string;
   newValue: any;
   timestamp!: Date;
 }
@@ -147,17 +152,17 @@ export class Mission {
   status!: MissionStatus;
   fundedStatus!: MissionFundedStatus;
   payableStatus!: MissionPayableStatus;
-  organisationId!: string ;
-  tentativeVolunterId!: string ; // this get removed if the volunteer accepts?
-  volunteerId!: string ;
+  organisationId!: string;
+  tentativeVolunterId!: string; // this get removed if the volunteer accepts?
+  volunteerId!: string;
   title!: string;
-  missionDetails!: MissionDetails ;; // varies by mission type 
+  missionDetails!: MissionDetails; // varies by mission type
   description!: string;
-  image!: ImageUrl ;
+  image!: ImageUrl;
   notes!: string;
   privateNotes!: string; // just for volunteer and organiser
-  cost!: number;  // Decimal if possible eg 12.21 (assume USD for MVP.0)
-  pickUpWIndow!: TimeWindow; // nb this can be an exact time or can be null
+  cost!: number; // Decimal if possible eg 12.21 (assume USD for MVP.0)
+  pickUpWindow!: TimeWindow; // nb this can be an exact time or can be null
   pickUplocation!: Location;
   deliveryWindow!: TimeWindow;
   deliverylocation!: Location; // default to recipient location
@@ -169,7 +174,7 @@ export class Mission {
   recipientPhoneNumber!: string;
   recipientId!: string; // reference?
   created!: Date; // time stamp
-  lastUpdated!: Date// time stamp
+  lastUpdated!: Date; // time stamp
   // all other event log type stuff, such as when assigned etc belongs in the eventlog
   // this should be a child collection
   @SubCollection(MissionLogEvent)

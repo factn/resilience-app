@@ -36,5 +36,10 @@ const Body1 = ({ children, ...rest }) => (
     {children}{" "}
   </Typography>
 );
+const Body2 = ({ children, ...rest }) => (
+  <Typography variant="body2" {...rest}>
+    {children}{" "}
+  </Typography>
+);
 
-export { H1, H2, H3, H4, H5, H6, Body1 };
+export { H1, H2, H3, H4, H5, H6, Body1, Body2 };

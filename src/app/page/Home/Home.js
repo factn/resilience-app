@@ -117,11 +117,14 @@ const HomePage = ({ history, ...rest }) => {
               <Grid container>
                 <Body1>Need help?</Body1>
                 <Body1 className={classes.Paragraph}>
-                  Sign up to make a request for a food box, small errand, or a pharmacy pickup. Your ask goes right to the local coordinator, and is matched with a volunteer who will take care of your need ASAP.
+                  Sign up to make a request for a food box, small errand, or a pharmacy pickup. Your
+                  ask goes right to the local coordinator, and is matched with a volunteer who will
+                  take care of your need ASAP.
                 </Body1>
                 <Body1>Want to help?</Body1>
                 <Body1 className={classes.Paragraph}>
-                  Sign up to join your local network of volunteers helping their neighbors through this crisis. Deliver food, medicine, and other supplies to the most vulnerable.
+                  Sign up to join your local network of volunteers helping their neighbors through
+                  this crisis. Deliver food, medicine, and other supplies to the most vulnerable.
                 </Body1>
               </Grid>
               <Grid container>
@@ -131,15 +134,15 @@ const HomePage = ({ history, ...rest }) => {
           </Card>
         </Grid>
       ) : (
-          <>
-            <StyledHomeButton
-              onClick={() => history.push("/request/create")}
-              text="Request Help"
-              color="secondary"
-              data-testid="btn-request-help"
-            />
-          </>
-        )}
+        <>
+          <StyledHomeButton
+            onClick={() => history.push("/request/create")}
+            text="Request Help"
+            color="secondary"
+            data-testid="btn-request-help"
+          />
+        </>
+      )}
     </Page>
   );
 };
