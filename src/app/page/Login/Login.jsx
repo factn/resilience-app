@@ -5,12 +5,12 @@ import { Redirect, useHistory } from "react-router-dom";
 import { Typography, CircularProgress } from "@material-ui/core";
 import { isLoaded, isEmpty } from "react-redux-firebase";
 import { Page } from "../../layout";
-import FirebaseAuthUi from "../../component/FirebaseAuthUi";
+import FirebaseAuthUi from "../../component/FirebaseAuthUi/FirebaseAuthUi";
 import Popup from "../../component/Popup";
 import { firstTimeSignIn } from "./firebaseLogin";
 
 /**
- * Component for Signin Page
+ * Component for Login Page
  *
  * @component
  */
@@ -43,16 +43,15 @@ const LoginPage = (props) => {
     );
   } else {
     if (firstTimeSignIn(auth)) {
-      return <Redirect to="/signup"/>;
-    }
       return (
         <Page>
           <Popup open={popupOpen} handleClose={handlePopupClose} btnText="Home Page">
             <Typography>Your account has been created. Welcome!</Typography>
           </Popup>
-          <Redirect to="/" />
         </Page>
       );
+    }
+    return <Redirect to="/" />;
   }
 };
 
