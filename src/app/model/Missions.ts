@@ -64,6 +64,21 @@ class Missions {
     }
     return missions.update(mission);
   }
+
+  /**
+   * Marking the mission with the given missionId as delivered and uploading confirmation image
+   * @param {string} missionId - ID of mission that user wants to start
+   * @param {object} confirmationImage - deliveryConfirmationImage for mission
+   */
+
+  async deliveredMission(missionId: string, confirmationImage: object) {
+    // TODO: upload of confirmationImage to cloud storage -> returns imageUrl
+    var missions = this.repo();
+    var mission = await missions.findById(missionId);
+    //mission.deliveryConfirmationImage = imageUrl;
+    mission.status = MissionStatus.delivered;
+    return missions.update(mission);
+  }
 }
 
 export default new Missions();
