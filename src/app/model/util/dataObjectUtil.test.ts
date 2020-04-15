@@ -1,4 +1,4 @@
-import { merge, sanatize } from "./dataObjectUtil";
+import { merge, sanitize } from "./dataObjectUtil";
 
 describe("When merging", () => {
   describe("shallow objects", () => {
@@ -33,7 +33,7 @@ describe("When merging", () => {
       expect(actual).toEqual<Shallow>(expected);
     });
 
-    it("should sanatize any extraneous data", () => {
+    it("should sanitize any extraneous data", () => {
       const shallow = {
         a: "1",
         b: "2",
@@ -149,7 +149,7 @@ describe("When merging", () => {
       expect(actual).toEqual(expected);
     });
 
-    it("should sanatize nested routes", () => {
+    it("should sanitize nested routes", () => {
       const obj = {
         a: "a",
         garbage: {
@@ -198,7 +198,7 @@ describe("When merging", () => {
 
 describe("When only sanatizing", () => {
   describe("shallow objects", () => {
-    it("should sanatize out garbage data", () => {
+    it("should sanitize out garbage data", () => {
       const obj = {
         a: "a",
         b: "b",
@@ -215,12 +215,12 @@ describe("When only sanatizing", () => {
         b: "b",
       };
 
-      const actual = sanatize(obj, defaultObj);
+      const actual = sanitize(obj, defaultObj);
 
       expect(actual).toEqual(expected);
     });
 
-    it("should not enforce all props to be on the sanatized object", () => {
+    it("should not enforce all props to be on the sanitized object", () => {
       const obj = {
         a: "a",
         b: "b",
@@ -237,7 +237,7 @@ describe("When only sanatizing", () => {
         b: "b",
       };
 
-      const actual = sanatize(obj, defaultObj);
+      const actual = sanitize(obj, defaultObj);
 
       expect(actual).toEqual(expected);
     });
@@ -253,11 +253,11 @@ describe("When only sanatizing", () => {
         b: "asdf",
       };
 
-      expect(() => sanatize(obj, defaultObj)).toThrow();
+      expect(() => sanitize(obj, defaultObj)).toThrow();
     });
   });
   describe("complex objects", () => {
-    it("should sanatize out garbage data", () => {
+    it("should sanitize out garbage data", () => {
       const obj = {
         a: "a",
         b: {
@@ -289,7 +289,7 @@ describe("When only sanatizing", () => {
         c: "c",
       };
 
-      const actual = sanatize(obj, defaultObj);
+      const actual = sanitize(obj, defaultObj);
 
       expect(actual).toEqual(expected);
     });

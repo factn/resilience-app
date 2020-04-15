@@ -16,11 +16,11 @@ function rMerge(data: any, defaultData: any) {
   return mergedObject;
 }
 
-export function sanatize<T>(data: unknown, defaultScheme: T): T {
-  return rSanatize(data, defaultScheme) as T;
+export function sanitize<T>(data: unknown, defaultScheme: T): T {
+  return rSanitize(data, defaultScheme) as T;
 }
 
-function rSanatize(data: any, defaultData: any) {
+function rSanitize(data: any, defaultData: any) {
   if (data === undefined) return undefined;
 
   if (typeof data !== typeof defaultData) {
@@ -31,13 +31,13 @@ function rSanatize(data: any, defaultData: any) {
 
   if (typeof data !== "object") return data;
 
-  const sanatizedObject: any = {};
+  const sanitizedObject: any = {};
 
   Object.keys(defaultData).forEach((key) => {
-    const val = rSanatize(data[key], defaultData[key]);
+    const val = rSanitize(data[key], defaultData[key]);
 
-    if (val !== undefined) sanatizedObject[key] = val;
+    if (val !== undefined) sanitizedObject[key] = val;
   });
 
-  return sanatizedObject;
+  return sanitizedObject;
 }

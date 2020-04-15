@@ -7,7 +7,7 @@ import {
   MissionDetails,
   Location,
 } from "./schema";
-import { merge, sanatize } from "./util/dataObjectUtil";
+import { merge, sanitize } from "./util/dataObjectUtil";
 
 const defaultLocation: Location = {
   address: "",
@@ -51,7 +51,7 @@ const defaultMissionData: MissionInterface = {
 
 const Mission = {
   load: (data: unknown) => merge(data, defaultMissionData),
-  sanatize: (data: unknown) => sanatize(data, defaultMissionData),
+  sanitize: (data: unknown) => sanitize(data, defaultMissionData),
 };
 
 export default Mission;
