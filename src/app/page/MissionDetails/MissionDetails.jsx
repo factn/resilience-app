@@ -14,7 +14,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 // Created based on the schema in firebase
 import { isLoaded, isEmpty } from "react-redux-firebase";
-import { Missions, MissionFundedStatus, MissionStatus } from "../../model";
+import { Missions, MissionFundedStatus } from "../../model";
 
 import MissionDetailsCard from "../../component/MissionDetailsCard";
 import MissionDeliveredCard from "../../component/MissionDeliveredCard";

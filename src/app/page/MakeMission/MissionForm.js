@@ -253,7 +253,7 @@ function MissionForm({ handleChange, values, onSubmit, getFile /*, assignHelper,
         </MuiPickersUtilsProvider>
         <Button
           onClick={handleSubmit}
-          color="secondary"
+          color="primary"
           text="Create mission"
           style={{ width: "90%", marginBottom: "2.3vh" }}
         />

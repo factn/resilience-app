@@ -70,8 +70,8 @@ class Users {
   singleUserMatch(user: User, text: string): boolean {
     if (text === undefined) return false;
     text = text.toLowerCase();
-    if (("" + user.phone).indexOf(text) != -1) return true;
-    if (("" + user.displayName).toLowerCase().indexOf(text) != -1) return true;
+    if (("" + user.phone).indexOf(text) !== -1) return true;
+    if (("" + user.displayName).toLowerCase().indexOf(text) !== -1) return true;
     return false;
   }
 
@@ -104,6 +104,16 @@ class Users {
           "You already have an account associated with this phone number. Please sign in using that number."
         )
       );
+  }
+
+  /**
+   * Given a displayName returns an user id
+   * @param {string} displayName
+   * @return {string}
+   */
+  async getIdByDisplayName(displayName: string): Promise<string | undefined> {
+    const user = await this.repo().whereEqualTo("displayName", displayName).findOne();
+    return user?.id;
   }
 
   /**

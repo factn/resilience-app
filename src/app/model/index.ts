@@ -13,6 +13,7 @@ import {
   MissionFundedStatus,
   MissionPayableStatus,
   MissionType,
+  TimeWindowType,
 } from "./schema";
 
 export {
@@ -27,5 +28,6 @@ export {
   MissionStatus,
   MissionFundedStatus,
   MissionPayableStatus,
-  MissionType, //enums
+  MissionType,
+  TimeWindowType, //enums
 };

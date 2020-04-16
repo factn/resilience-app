@@ -1,6 +1,7 @@
 import { CustomRepository, getRepository } from "fireorm";
 import { BaseRepository } from "./BaseRepository";
 import { Mission, MissionStatus } from "./schema";
+import { v4 as uuidV4 } from "uuid";
 
 @CustomRepository(Mission)
 class MissionRepository extends BaseRepository<Mission> {}
@@ -34,6 +35,18 @@ class Missions {
    */
   async byStatus(status: string): Promise<Mission[]> {
     return this.repo().whereEqualTo("status", status).find();
+  }
+
+  /**
+   * Given a mission object creates a new entry in firestore
+   * returns the mission id
+   * @param {<Mission>} mission
+   * @return {string}
+   */
+  async create(mission: Mission): Promise<string | undefined> {
+    const missionId = uuidV4();
+    await this.repo().create({ id: missionId, ...mission });
+    return missionId;
   }
 
   /**
