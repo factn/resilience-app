@@ -38,7 +38,7 @@ abstract class BaseModel {
    * @returns: the object with all fields
    */
   load(data: unknown) {
-    return data ? merge(data, this.defaultData) : data;
+    return merge(data, this.defaultData);
   }
 
   /**
@@ -59,7 +59,7 @@ abstract class BaseModel {
    * @returns: the object with all fields sanitized
    */
   sanitize(data: unknown) {
-    return data ? sanitize(data, this.defaultData) : data;
+    return sanitize(data, this.defaultData);
   }
 
   /**

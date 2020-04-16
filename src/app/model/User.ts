@@ -34,11 +34,18 @@ class User extends BaseModel {
    */
   async volunteerMission(userId: string, missionId: string) {
     let collection = this.getCollection("missions");
-    let doc = await collection.doc(missionId).get();
+    let doc;
+    try {
+      doc = await collection.doc(missionId).get();
+    } catch (error) {
+      //TODO show error message to user
+      throw error;
+    }
+
     if (!doc.exists) {
       throw Error(`This mission:  ${missionId} does not exist`);
     }
-    //TODO: this need to be a rule in the database
+
     let data = doc.data();
     if (data === undefined) {
       throw Error(`no data for this mission: ${missionId}`);
@@ -48,10 +55,15 @@ class User extends BaseModel {
       throw Error(`User: ${userId} are not allowed to voluntter for this mission: ${missionId}`);
     }
 
-    collection.doc(missionId).update({
-      volunteerId: userId,
-      status: MissionStatus.assigned,
-    });
+    try {
+      collection.doc(missionId).update({
+        volunteerId: userId,
+        status: MissionStatus.assigned,
+      });
+    } catch (e) {
+      //TODO show error message to user
+      throw e;
+    }
   }
 
   /**
@@ -61,10 +73,18 @@ class User extends BaseModel {
    */
   async startMission(userId: string, missionId: string) {
     let collection = this.getCollection("missions");
-    let doc = await collection.doc(missionId).get();
+    let doc;
+    try {
+      doc = await collection.doc(missionId).get();
+    } catch (e) {
+      //TODO show error message to user
+      throw e;
+    }
+
     if (!doc.exists) {
       throw Error(`This mission:  ${missionId} does not exist`);
     }
+
     //TODO: this need to be a rule in the database
     let data = doc.data();
     if (data === undefined) {
@@ -73,9 +93,14 @@ class User extends BaseModel {
     if (data.volunteerId !== userId) {
       throw Error(`User: ${userId} are not allowed to start this mission: ${missionId}`);
     }
-    collection.doc(missionId).update({
-      status: MissionStatus.started,
-    });
+    try {
+      collection.doc(missionId).update({
+        status: MissionStatus.started,
+      });
+    } catch (e) {
+      //TODO show error message to user
+      throw e;
+    }
   }
 
   /**
@@ -86,7 +111,14 @@ class User extends BaseModel {
    */
   async deliverMission(userId: string, missionId: string) {
     let collection = this.getCollection("missions");
-    let doc = await collection.doc(missionId).get();
+    let doc;
+    try {
+      doc = await collection.doc(missionId).get();
+    } catch (e) {
+      //TODO show error message to user
+      throw e;
+    }
+
     if (!doc.exists) {
       throw Error(`This mission:  ${missionId} does not exist`);
     }
@@ -98,9 +130,14 @@ class User extends BaseModel {
     if (data.volunteerId !== userId) {
       throw Error(`User: ${userId} are not allowed to deliver this mission: ${missionId}`);
     }
-    collection.doc(missionId).update({
-      status: MissionStatus.delivered,
-    });
+    try {
+      collection.doc(missionId).update({
+        status: MissionStatus.delivered,
+      });
+    } catch (e) {
+      //TODO show error msg to user
+      throw e;
+    }
   }
 }
 

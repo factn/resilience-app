@@ -1,5 +1,3 @@
-import { Collection, SubCollection, ISubCollection } from "fireorm";
-
 export type ImageUrl = string;
 
 export interface Location {
@@ -14,7 +12,6 @@ export interface Location {
 }
 
 // ===== Organization ====
-@Collection("organizations")
 export class Organization {
   /* Firebase Id, created automatically*/
   id!: string;
