@@ -40,6 +40,7 @@ export default function PaypalCheckout({ cart, onApprove, onError }: Props) {
 }
 
 async function verify(data: any, actions: any) {
+  // TODO: verify order with backend call
   return actions.resolve();
 }
 
