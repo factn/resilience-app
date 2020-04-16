@@ -63,7 +63,6 @@ class Missions {
     const missions = this.repo();
     const mission = await missions.findById(missionId);
     if (mission) {
-      console.log("unassigning volunteer.");
       mission.volunteerId = "";
       mission.status = MissionStatus.unassigned;
     }
