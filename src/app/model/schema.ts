@@ -159,7 +159,7 @@ export interface MissionInterface {
   privateNotes: string; // just for volunteer and organiser
   cost: number; // Decimal if possible eg 12.21 (assume USD for MVP.0)
   pickUpWindow: TimeWindow | null; // nb this can be an exact time or can be null
-  pickUplocation: Location;
+  pickUpLocation: Location;
   deliveryWindow: TimeWindow | null;
   deliveryLocation: Location; // default to recipient location
   deliveryConfirmationImage: ImageUrl;
