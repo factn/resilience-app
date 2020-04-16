@@ -32,8 +32,7 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: theme.spacing(1),
   },
   cardAction: {
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(2),
+    padding: theme.spacing(2, 2, 0, 2),
   },
   subheader: {
     marginTop: theme.spacing(0.3),
@@ -224,11 +223,11 @@ MissionDetailsCard.propTypes = {
   /**
    * Mission details
    */
-  mission: PropTypes.object,
+  mission: PropTypes.object.isRequired,
   /**
    * Volunteer details
    */
-  volunteer: PropTypes.object,
+  volunteer: PropTypes.object.isRequired,
   /**
    * Handler functions for button
    */

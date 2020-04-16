@@ -18,6 +18,7 @@ import { Missions, MissionFundedStatus, MissionStatus } from "../../model";
 
 import MissionDetailsCard from "../../component/MissionDetailsCard";
 import MissionDeliveredCard from "../../component/MissionDeliveredCard";
+import { ErrorSnackbar, SuccessSnackbar } from "../../component/Snackbars";
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -42,6 +43,8 @@ const MissionDetailsPage = ({ firestore, auth, mission, history }) => {
   mission = mission || {};
   const [userUnverifiedPopupOpen, setUserUnverifiedPopupOpen] = useState(false);
   const [completeDeliveryDialogOpen, setCompleteDeliveryDialogOpen] = useState(false);
+  const [errorSnackbarOpen, setErrorSnackbarOpen] = useState(false);
+  const [successSnackbarOpen, setSuccessSnackbarOpen] = useState(false);
 
   function volunteerForMission(missionId) {
     if (!auth.phoneNumber) {
@@ -69,16 +72,21 @@ const MissionDetailsPage = ({ firestore, auth, mission, history }) => {
   }
 
   async function markMissionAsDelivered(missionId, confirmationImage) {
-    await Missions.deliveredMission(missionId, confirmationImage);
-    console.log("marked mission as delivered");
-    setCompleteDeliveryDialogOpen(false);
+    try {
+      await Missions.deliveredMission(missionId, confirmationImage);
+      console.log("marked mission as delivered");
+      setCompleteDeliveryDialogOpen(false);
+      setSuccessSnackbarOpen(true);
+    } catch (e) {
+      console.error(e);
+      setErrorSnackbarOpen(true);
+    }
   }
 
   //mock data
   mission = {
     ...mission,
     fundedStatus: MissionFundedStatus.fundedbydonation,
-    status: MissionStatus.started,
     pickUpWindow: "1:30 PM",
     pickUplocation: "123 Strawberry Ln, VA 22201",
     deliveryWindow: "2:30–3:30 PM",
@@ -127,6 +135,18 @@ const MissionDetailsPage = ({ firestore, auth, mission, history }) => {
           onClose={() => setCompleteDeliveryDialogOpen(false)}
         />
       </Dialog>
+      <ErrorSnackbar
+        open={errorSnackbarOpen}
+        handleClose={() => setErrorSnackbarOpen(false)}
+        errorMessage="Error while marking the mission as delivered"
+        autoHideDuration={3000}
+      />
+      <SuccessSnackbar
+        open={successSnackbarOpen}
+        handleClose={() => setSuccessSnackbarOpen(false)}
+        successMessage="Mission has been marked as delivered"
+        autoHideDuration={3000}
+      />
     </Page>
   );
 };

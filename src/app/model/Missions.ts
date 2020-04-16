@@ -1,9 +1,9 @@
-import { CustomRepository, getRepository } from 'fireorm';
-import { BaseRepository } from './BaseRepository'
-import { Mission, MissionStatus } from './schema';
+import { CustomRepository, getRepository } from "fireorm";
+import { BaseRepository } from "./BaseRepository";
+import { Mission, MissionStatus } from "./schema";
 
 @CustomRepository(Mission)
-class MissionRepository extends BaseRepository<Mission> { }
+class MissionRepository extends BaseRepository<Mission> {}
 
 /**
  * Defines the task requested by an intake and carried out
@@ -12,8 +12,7 @@ class MissionRepository extends BaseRepository<Mission> { }
  * @version 1.0
  */
 class Missions {
-  
-  repo() : MissionRepository {
+  repo(): MissionRepository {
     return getRepository(Mission) as MissionRepository;
   }
 
@@ -22,7 +21,7 @@ class Missions {
    * @param {object} state
    * @return {Array.<Mission>}
    */
-  async getAll() : Promise<Mission[]>  {
+  async getAll(): Promise<Mission[]> {
     return this.repo().find();
   }
 
@@ -33,18 +32,17 @@ class Missions {
    * @param {string} status
    * @return {Array.<Mission>}
    */
-  async byStatus(status: string): Promise<Mission[]>  {
-    return this.repo().whereEqualTo('status', status).find();
-  };
+  async byStatus(status: string): Promise<Mission[]> {
+    return this.repo().whereEqualTo("status", status).find();
+  }
 
- 
   /**
    * Assign the current user as a volunteer for the mission with the given missionId
    * @param {string} missionId - ID of mission that user wants to volunteer for
    * @param {string} userId - ID of user that wants to volunteer for mission
    */
 
-  async volunteerForMission(missionId: string, userId: string) { 
+  async volunteerForMission(missionId: string, userId: string) {
     var missions = this.repo();
     var mission = await missions.findById(missionId);
     mission.volunteerId = userId;
