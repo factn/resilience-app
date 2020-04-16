@@ -19,7 +19,7 @@ import OrganizerSignupPage from "./app/page/OrganizerSignup";
 import Status from "./app/page/Status";
 
 import MakeRequest from "./app/page/MakeRequest";
-import { Missions, MissionsCreated, MakeMission, PostMission } from "./app/page";
+import { Missions, MissionsCreated, MissionCreate, PostMission } from "./app/page";
 import MissionsAssigned from "./app/page/MissionsAssigned";
 import MissionsStarted from "./app/page/MissionsStarted";
 import MissionsCompleted from "./app/page/MissionsCompleted";
@@ -29,6 +29,7 @@ import { Dashboard } from "./app/page";
 import MissionDetails from "./app/page/MissionDetails";
 
 import UserProfile from "./app/page/UserProfile";
+import { Mission } from "./app/model";
 
 function PrivateRoute({ children, ...rest }) {
   const auth = useSelector((state) => state.firebase.auth);
@@ -89,7 +90,7 @@ function App() {
                 </PrivateRoute>
 
                 <PrivateRoute path="/missions/new">
-                  <MakeMission />
+                  <MissionCreate />
                 </PrivateRoute>
                 <Route path="/missions/:id" component={MissionDetails} />
                 <Route path="/missions" component={Missions} />

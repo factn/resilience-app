@@ -1,7 +1,7 @@
 import Home from "./Home";
 import Login from "./Login";
 import MakeRequest from "./MakeRequest";
-import MakeMission from "./MakeMission";
+import MissionCreate from "./MissionCreate";
 import Missions from "./Missions";
 import Dashboard from "../dashboard";
 import MissionsCreated from "./MissionsCreated";
@@ -21,6 +21,6 @@ export {
   Dashboard,
   MissionDetails,
   UserProfile,
-  MakeMission,
+  MissionCreate,
   PostMission,
 };
