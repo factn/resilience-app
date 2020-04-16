@@ -1,10 +1,32 @@
 /**
+ * https://developer.paypal.com/docs/api/orders/v2/#definition-money
+ */
+
+export interface Money {
+  currency_code?: string;
+  value: string;
+}
+
+/**
+ * https://developer.paypal.com/docs/api/orders/v1/#definition-details
+ */
+
+export interface Breakdown {
+  item_total: Money;
+  tax_total: Money;
+  shipping?: Money;
+  tax?: Money;
+  handling_fee?: Money;
+  shipping_discount?: Money;
+  insurance?: Money;
+  discount?: Money;
+}
+/**
  * https://developer.paypal.com/docs/api/orders/v2/#definition-amount_with_breakdown
  */
 
-export interface Amount {
-  currency_code?: string;
-  value: string;
+export interface Amount extends Money {
+  breakdown?: Breakdown;
 }
 
 /**
@@ -72,8 +94,10 @@ export interface PurchaseUnit {
   payee?: Payee;
   description?: string;
   soft_descriptor?: string;
-  item?: Item[];
+  payment_descriptor?: string;
+  items?: Item[];
   shipping?: Shipping;
+  shipping_method?: string;
   payments?: any;
 }
 
