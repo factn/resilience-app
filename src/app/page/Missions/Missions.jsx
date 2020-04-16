@@ -5,7 +5,7 @@ import { useSelector, connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 
 import { Page } from "../../layout";
-import { Missions } from "../../model";
+import { Mission, User } from "../../model";
 import { MissionList } from "../../component";
 import { compose } from "redux";
 
@@ -17,11 +17,8 @@ import UserPhoneUnverifiedPopup from "../../component/UserPhoneUnverifiedPopup";
  * @param {object} props.auth - Object obtained from firebase.auth state
  * @param {object} props.history - Object obtained from React Router
  */
-const MissionsPage = ({ auth, history, ...rest }) => {
-  const missions = useSelector((state) => state.firestore.ordered.missionsTodo);
-
+const MissionsPage = ({ auth, history, missions }) => {
   const [popupOpen, setPopupOpen] = useState(false);
-  const firestore = useFirestore();
 
   async function userVolunteeringHandler(missionId) {
     // We need a little more information from user at this point
@@ -29,19 +26,23 @@ const MissionsPage = ({ auth, history, ...rest }) => {
       setPopupOpen(true);
       return;
     }
-
-    await Missions.volunteerForMission(missionId, auth.uid);
-    return;
+    User.volunteerMission(auth.uid, missionId);
   }
 
+  if (!missions) return null;
+
   return (
-    <Page title="Missions">
+    <Page title="Missions Available">
       <MissionList
         missions={missions}
         history={history}
         isEmpty={isEmpty(missions)}
         isLoaded={isLoaded(missions)}
         isEmptyText="There are no missions available"
+        callToAction={{
+          text: "Accept Mission",
+          onClick: (missionId) => userVolunteeringHandler(missionId),
+        }}
         handleUserVolunteering={userVolunteeringHandler}
       />
       <UserPhoneUnverifiedPopup open={popupOpen} handleClose={() => setPopupOpen(false)} />
@@ -63,8 +64,11 @@ MissionsPage.propTypes = {
   history: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
+  let missions = state.firestore.ordered.missionsUnassigned;
+  missions = Mission.loads(missions);
   return {
+    missions: missions,
     auth: state.firebase.auth,
   };
 };
@@ -75,8 +79,8 @@ export default compose(
     return [
       {
         collection: "missions",
-        where: [["status", "==", "todo"]],
-        storeAs: "missionsTodo",
+        where: [["status", "==", "unassigned"]],
+        storeAs: "missionsUnassigned",
       },
     ];
   })

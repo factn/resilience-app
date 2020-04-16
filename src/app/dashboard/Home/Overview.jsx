@@ -2,7 +2,6 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
-import { Mission } from "../../model";
 import { H2 } from "../../component";
 import { color } from "../../../theme";
 import OverviewItem from "./OverviewItem";
@@ -11,6 +10,9 @@ import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
 import AnnouncementIcon from "@material-ui/icons/Announcement";
 import PanToolRoundedIcon from "@material-ui/icons/PanToolRounded";
+
+import { Mission } from "../../model";
+
 const useStyles = makeStyles((theme) => ({
   content: {
     flexGrow: 1,

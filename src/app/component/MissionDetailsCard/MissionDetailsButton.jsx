@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import { Button, Grid } from "@material-ui/core";
-import { MissionStatus } from "../../model";
+import { Mission } from "../../model";
 import { color } from "../../../theme";
 import styled from "styled-components";
 
@@ -22,7 +22,7 @@ const MissionDetailsButton = ({
   openMissionDeliveredCard,
 }) => {
   switch (status) {
-    case MissionStatus.unassigned:
+    case Mission.Status.unassigned:
       return (
         <StyledButton
           color="primary"
@@ -33,14 +33,14 @@ const MissionDetailsButton = ({
           Accept Mission
         </StyledButton>
       );
-    case MissionStatus.tentative:
-    case MissionStatus.assigned:
+    case Mission.Status.tentative:
+    case Mission.Status.assigned:
       return (
         <StyledButton color="primary" variant="contained" disableElevation onClick={startMission}>
           Start Mission
         </StyledButton>
       );
-    case MissionStatus.started:
+    case Mission.Status.started:
       return (
         <StyledButton
           color="primary"
@@ -51,8 +51,8 @@ const MissionDetailsButton = ({
           Mark Mission as Delivered
         </StyledButton>
       );
-    case MissionStatus.delivered:
-    case MissionStatus.done:
+    case Mission.Status.delivered:
+    case Mission.Status.done:
       return null;
     default:
       return (
@@ -69,8 +69,8 @@ const MissionDetailsButton = ({
  * @component
  */
 const MissionDetailsUnassignMeButton = ({ status, unassignFromMission }) =>
-  status === MissionStatus.tentative ||
-  (status === MissionStatus.assigned && (
+  status === Mission.Status.tentative ||
+  (status === Mission.Status.assigned && (
     <Grid container justify="center">
       <StyledButton
         style={{ color: color.darkPink, textDecoration: "underline" }}
