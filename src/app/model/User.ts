@@ -59,11 +59,11 @@ class User extends BaseModel {
   }
 
   /**
-   * Given a displayName returns an user id
+   * Given a displayName returns the first user object
    * @param {string} displayName : displayName of user
-   * @return {string}
+   * @return {object}
    */
-  async getIdByDisplayName(displayName: string): Promise<string | undefined> {
+  async getIdByDisplayName(displayName: string): Promise<object> {
     let collection = this.getCollection("users");
     let doc;
     try {
@@ -77,13 +77,7 @@ class User extends BaseModel {
       throw Error(`This user: ${displayName} does not exist`);
     }
 
-    doc.forEach((data) => {
-      if (data === undefined) {
-        throw Error(`no data for this user: ${displayName}`);
-      }
-    });
-
-    return doc.docs[0].id;
+    return doc.docs[0];
   }
 
   /**

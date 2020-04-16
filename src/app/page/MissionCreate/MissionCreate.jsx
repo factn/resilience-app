@@ -61,7 +61,7 @@ function MakeMission({ history }) {
           long: payload.pickUp.location.geoLocation?.lng,
         },
         deliveryWindow: {
-          startTime: payload.pickUp.time,
+          startTime: payload.dropOff.time,
         },
         deliveryLocation: {
           address: payload.dropOff.location.address,
@@ -70,8 +70,6 @@ function MakeMission({ history }) {
         },
         recipientName: payload.recipient,
       });
-
-      const sanitizedMission = Mission.sanitize(mission);
 
       //save mission in firestore
       User.createMission(mission)
@@ -108,7 +106,7 @@ function MakeMission({ history }) {
     }
   }
 
-  async function validateInput(payload) {
+  async function validateAndSaveMission(payload) {
     try {
       const input = { ...payload, ...values };
 
@@ -147,7 +145,7 @@ function MakeMission({ history }) {
     <>
       <MissionForm
         values={values}
-        onSubmit={validateInput}
+        onSubmit={validateAndSaveMission}
         getFile={getFile}
         handleChange={handleChange}
         /*autoAssign={() => setAutoAssignHelper(!autoAssignHelper)}
