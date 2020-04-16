@@ -14,18 +14,15 @@ import theme from "./theme";
 import LoginPage from "./app/page/Login";
 import HomePage from "./app/page/Home";
 import AboutPage from "./app/page/Aboutus";
-import SignupPage from "./app/page/Signup";
+import SignupScene from "./app/page/Signup";
 import OrganizerSignupPage from "./app/page/OrganizerSignup";
 import Status from "./app/page/Status";
 
 import MakeRequest from "./app/page/MakeRequest";
-import {
-  Missions,
-  MissionsCreated,
-  MissionsVolunteered,
-  MakeMission,
-  PostMission,
-} from "./app/page";
+import { Missions, MissionsCreated, MakeMission, PostMission } from "./app/page";
+import MissionsAssigned from "./app/page/MissionsAssigned";
+import MissionsStarted from "./app/page/MissionsStarted";
+import MissionsCompleted from "./app/page/MissionsCompleted";
 
 import { Dashboard } from "./app/page";
 
@@ -69,9 +66,10 @@ function App() {
                 <Route path="/about" component={AboutPage} />
                 <Route path="/login" component={LoginPage} />
                 <Route path="/organizer/signup" component={OrganizerSignupPage} />
-                <Route path="/signup" component={SignupPage} />
                 <Route path="/status" component={Status} />
                 <Route path="/temp/story123" component={PostMission} />
+
+                <Route path="/signup" component={SignupScene} />
 
                 <PrivateRoute path="/request/create">
                   <MakeRequest />
@@ -80,9 +78,16 @@ function App() {
                 <PrivateRoute path="/missions/created">
                   <MissionsCreated />
                 </PrivateRoute>
-                <PrivateRoute path="/missions/volunteered">
-                  <MissionsVolunteered />
+                <PrivateRoute path="/missions/assigned">
+                  <MissionsAssigned />
                 </PrivateRoute>
+                <PrivateRoute path="/missions/started">
+                  <MissionsStarted />
+                </PrivateRoute>
+                <PrivateRoute path="/missions/completed">
+                  <MissionsCompleted />
+                </PrivateRoute>
+
                 <PrivateRoute path="/missions/new">
                   <MakeMission />
                 </PrivateRoute>

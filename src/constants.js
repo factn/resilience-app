@@ -17,6 +17,8 @@ export const colors = {
   },
 };
 
+export const ANGOLIA_API_KEY = "b5e0781d289a9aa8edb37bf24aef874e";
+
 export const missionStatusLabel = {
   todo: "need volunteers",
   assigned: "assigned",

@@ -1,13 +1,13 @@
-import Users from "./Users";
-import Missions from "./Missions";
+import User from "./User";
+import Mission from "./Mission";
 import Organizations from "./Organizations";
 import FoodBoxes from "./FoodBoxes";
 
-// FIXME: i'm sure there'sa better syntax than this
+/*
 import {
   Organization,
   User,
-  Mission,
+  MissionInterface,
   MissionLogEvent,
   MissionStatus,
   MissionFundedStatus,
@@ -15,6 +15,7 @@ import {
   MissionType,
   TimeWindowType,
 } from "./schema";
+*/
 
 export {
   Users,

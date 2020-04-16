@@ -18,6 +18,17 @@ import { useFirebase } from "react-redux-firebase";
 import { PrivateComponent } from "../../component";
 import { ListItemIcon } from "@material-ui/core";
 
+const PrivateDrawerButton = ({ children, to, text, classes }) => (
+  <PrivateComponent>
+    <Link to={to} className={classes.link}>
+      <ListItem button>
+        <ListItemIcon>{children}</ListItemIcon>
+        <ListItemText primary={text} />
+      </ListItem>
+    </Link>
+  </PrivateComponent>
+);
+
 export default function TemporaryDrawer() {
   const firebase = useFirebase();
   const history = useHistory();
@@ -58,26 +69,16 @@ export default function TemporaryDrawer() {
             <ListItemText primary="Volunteer needed" />
           </ListItem>
         </Link>
-        <PrivateComponent>
-          <Link to="/user/profile" className={classes.link}>
-            <ListItem button>
-              <ListItemIcon>
-                <AccountCircleIcon classes={{ root: classes.colorIcon }} fontSize="large" />
-              </ListItemIcon>
-              <ListItemText primary="User Profile" />
-            </ListItem>
-          </Link>
-        </PrivateComponent>
-        <PrivateComponent>
-          <Link to="/missions/volunteered" className={classes.link}>
-            <ListItem button>
-              <ListItemIcon>
-                <AssignmentIcon classes={{ root: classes.colorIcon }} fontSize="large" />
-              </ListItemIcon>
-              <ListItemText primary="Volunteered Missions" />
-            </ListItem>
-          </Link>
-        </PrivateComponent>
+        <PrivateDrawerButton classes={classes} to="/missions/assigned" text="Missions Assigned">
+          <AssignmentIcon classes={{ root: classes.colorIcon }} fontSize="large" />
+        </PrivateDrawerButton>
+        <PrivateDrawerButton classes={classes} to="/missions/started" text="Missions Started">
+          <AssignmentIcon classes={{ root: classes.colorIcon }} fontSize="large" />
+        </PrivateDrawerButton>
+        <PrivateDrawerButton classes={classes} to="/missions/completed" text="Missions Completed">
+          <AssignmentIcon classes={{ root: classes.colorIcon }} fontSize="large" />
+        </PrivateDrawerButton>
+
         <PrivateComponent>
           <Link to="/missions/new" className={classes.link}>
             <ListItem button>
@@ -108,6 +109,10 @@ export default function TemporaryDrawer() {
             </ListItem>
           </Link>
         </PrivateComponent>
+        <PrivateDrawerButton classes={classes} to="/user/profile" text="User Profile">
+          <AccountCircleIcon classes={{ root: classes.colorIcon }} fontSize="large" />
+        </PrivateDrawerButton>
+
         <PrivateComponent>
           <ListItem button onClick={handleSignOut}>
             <ListItemIcon>

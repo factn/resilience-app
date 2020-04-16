@@ -2,7 +2,7 @@ import React from "react";
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 import firebase from "firebase";
 
-const firebaseUiConfig = {
+const defaultFirebaseUiConfig = {
   signInFlow: "popup",
   signInOptions: [
     firebase.auth.GoogleAuthProvider.PROVIDER_ID,
@@ -12,5 +12,6 @@ const firebaseUiConfig = {
 };
 
 export default function FirebaseAuthUi(props) {
+  const firebaseUiConfig = props.firebaseUiConfig || defaultFirebaseUiConfig;
   return <StyledFirebaseAuth uiConfig={firebaseUiConfig} firebaseAuth={firebase.auth()} />;
 }

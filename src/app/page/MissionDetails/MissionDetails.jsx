@@ -14,7 +14,9 @@ import { makeStyles } from "@material-ui/core/styles";
 
 // Created based on the schema in firebase
 import { isLoaded, isEmpty } from "react-redux-firebase";
-import { Missions, MissionFundedStatus } from "../../model";
+import { User, Mission } from "../../model";
+
+import addressLookUp from "../../utils/addressLookUp";
 
 import MissionDetailsCard from "../../component/MissionDetailsCard";
 import MissionDeliveredCard from "../../component/MissionDeliveredCard";
@@ -50,7 +52,7 @@ const MissionDetailsPage = ({ firestore, auth, mission, history }) => {
     if (!auth.phoneNumber) {
       setUserUnverifiedPopupOpen(true);
     } else {
-      Missions.volunteerForMission(missionId, auth.uid);
+      User.volunteerMission(auth.uid, missionId);
     }
   }
 
@@ -58,7 +60,7 @@ const MissionDetailsPage = ({ firestore, auth, mission, history }) => {
     if (!auth.phoneNumber) {
       setUserUnverifiedPopupOpen(true);
     } else {
-      Missions.startMission(missionId);
+      User.startMission(auth.ui, missionId);
     }
   }
 
@@ -73,12 +75,11 @@ const MissionDetailsPage = ({ firestore, auth, mission, history }) => {
 
   async function markMissionAsDelivered(missionId, confirmationImage) {
     try {
-      await Missions.deliveredMission(missionId, confirmationImage);
+      await User.deliverMission(auth.uid, missionId);
       console.log("marked mission as delivered");
       setCompleteDeliveryDialogOpen(false);
       setSuccessSnackbarOpen(true);
     } catch (e) {
-      console.error(e);
       setErrorSnackbarOpen(true);
     }
   }
@@ -86,7 +87,8 @@ const MissionDetailsPage = ({ firestore, auth, mission, history }) => {
   //mock data
   mission = {
     ...mission,
-    fundedStatus: MissionFundedStatus.fundedbydonation,
+    fundedStatus: Mission.FundedStatus.fundedbydonation,
+    status: Mission.Status.delivered,
     pickUpWindow: "1:30 PM",
     pickUplocation: "123 Strawberry Ln, VA 22201",
     deliveryWindow: "2:30–3:30 PM",

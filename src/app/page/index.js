@@ -5,7 +5,6 @@ import MakeMission from "./MakeMission";
 import Missions from "./Missions";
 import Dashboard from "../dashboard";
 import MissionsCreated from "./MissionsCreated";
-import MissionsVolunteered from "./MissionsVolunteered";
 import MissionDetails from "./MissionDetails";
 import PostMission from "./PostMission";
 
@@ -19,7 +18,6 @@ export {
   MakeRequest,
   Missions,
   MissionsCreated,
-  MissionsVolunteered,
   Dashboard,
   MissionDetails,
   UserProfile,

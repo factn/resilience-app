@@ -5,6 +5,8 @@ import AlgoliaPlaces from "algolia-places-react";
 import Button from "../../component/Button";
 import { Upload, useStyles } from "./Request.style";
 import { Page } from "../../layout";
+import { ANGOLIA_API_KEY } from "../../../constants";
+
 import {
   Checkbox,
   Typography,
@@ -48,8 +50,12 @@ function MissionForm({ handleChange, values, onSubmit, getFile /*, assignHelper,
     date: new Date(),
     location: "",
   });
-  const [pickUpDateLabel, setPickUpDateLabel] = React.useState(null);
-  const [dropOffDateLabel, setDropOffDateLabel] = React.useState(null);
+  const [pickUpDateLabel, setPickUpDateLabel] = React.useState(
+    pickUp.date.toString().substr(0, 15)
+  );
+  const [dropOffDateLabel, setDropOffDateLabel] = React.useState(
+    dropOff.date.toString().substr(0, 15)
+  );
 
   const handleSubmit = () => {
     const valuesWithDates = {
@@ -88,7 +94,7 @@ function MissionForm({ handleChange, values, onSubmit, getFile /*, assignHelper,
       return;
     }
     if (stage === "pickUp") {
-      setPickUpDateLabel(date);
+      setPickUpDateLabel(date ? date.toString().substr(0, 15) : "Select a date");
       if (typeof date !== "string") {
         setPickUp({ ...pickUp, date: date.toString().substr(0, 15) });
       } else {
@@ -96,7 +102,7 @@ function MissionForm({ handleChange, values, onSubmit, getFile /*, assignHelper,
       }
     }
     if (stage === "dropOff") {
-      setDropOffDateLabel(date);
+      setDropOffDateLabel(date ? date.toString().substr(0, 15) : "Select a date");
       if (typeof date !== "string") {
         setDropOff({ ...dropOff, date: date.toString().substr(0, 15) });
       } else {
@@ -176,7 +182,7 @@ function MissionForm({ handleChange, values, onSubmit, getFile /*, assignHelper,
             name="pickUp"
             options={{
               appId: "plZ318O8ODTC",
-              apiKey: "b5e0781d289a9aa8edb37bf24aef874e",
+              apiKey: ANGOLIA_API_KEY,
               language: "en",
               countries: ["us"],
               type: "city",
@@ -216,7 +222,7 @@ function MissionForm({ handleChange, values, onSubmit, getFile /*, assignHelper,
             name="dropOff"
             options={{
               appId: "plZ318O8ODTC",
-              apiKey: "b5e0781d289a9aa8edb37bf24aef874e",
+              apiKey: ANGOLIA_API_KEY,
               language: "en",
               countries: ["us"],
               type: "city",
