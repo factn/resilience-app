@@ -1,6 +1,3 @@
-import React from "react";
-import { CustomRepository, getRepository } from 'fireorm';
-import { BaseRepository } from './BaseRepository'
 import { Mission, MissionStatus } from './schema';
 import missions from "./Missions";
 
