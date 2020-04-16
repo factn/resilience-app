@@ -1,6 +1,5 @@
 import Home from "./Home";
 import Login from "./Login";
-import MakeRequest from "./MakeRequest";
 import MissionCreate from "./MissionCreate";
 import Missions from "./Missions";
 import Dashboard from "../dashboard";
@@ -15,7 +14,6 @@ export {
   Home,
   Login,
   Signup,
-  MakeRequest,
   Missions,
   MissionsCreated,
   Dashboard,

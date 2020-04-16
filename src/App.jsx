@@ -18,7 +18,6 @@ import SignupScene from "./app/page/Signup";
 import OrganizerSignupPage from "./app/page/OrganizerSignup";
 import Status from "./app/page/Status";
 
-import MakeRequest from "./app/page/MakeRequest";
 import { Missions, MissionsCreated, MissionCreate, PostMission } from "./app/page";
 import MissionsAssigned from "./app/page/MissionsAssigned";
 import MissionsStarted from "./app/page/MissionsStarted";
@@ -72,9 +71,6 @@ function App() {
 
                 <Route path="/signup" component={SignupScene} />
 
-                <PrivateRoute path="/request/create">
-                  <MakeRequest />
-                </PrivateRoute>
                 <Route path="/dashboard" component={Dashboard} />
                 <PrivateRoute path="/missions/created">
                   <MissionsCreated />
@@ -88,10 +84,10 @@ function App() {
                 <PrivateRoute path="/missions/completed">
                   <MissionsCompleted />
                 </PrivateRoute>
-
                 <PrivateRoute path="/missions/new">
                   <MissionCreate />
                 </PrivateRoute>
+
                 <Route path="/missions/:id" component={MissionDetails} />
                 <Route path="/missions" component={Missions} />
                 <PrivateRoute path="/user/profile">

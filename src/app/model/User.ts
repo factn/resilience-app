@@ -50,8 +50,6 @@ class User extends BaseModel {
     //save mission in firestore
     try {
       await collection.doc(missionId).set(mission);
-      const data = await collection.doc(missionId).get();
-      console.log(data.data());
     } catch (error) {
       //TODO show error message to user
       throw error;
