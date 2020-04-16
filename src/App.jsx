@@ -14,7 +14,7 @@ import theme from "./theme";
 import LoginPage from "./app/page/Login";
 import HomePage from "./app/page/Home";
 import AboutPage from "./app/page/Aboutus";
-import SignupPage from "./app/page/Signup";
+import SignupScene from "./app/page/Signup";
 import OrganizerSignupPage from "./app/page/OrganizerSignup";
 import Status from "./app/page/Status";
 
@@ -69,9 +69,10 @@ function App() {
                 <Route path="/about" component={AboutPage} />
                 <Route path="/login" component={LoginPage} />
                 <Route path="/organizer/signup" component={OrganizerSignupPage} />
-                <Route path="/signup" component={SignupPage} />
                 <Route path="/status" component={Status} />
                 <Route path="/temp/story123" component={PostMission} />
+
+                <Route path="/signup" component={SignupScene} />
 
                 <PrivateRoute path="/request/create">
                   <MakeRequest />
