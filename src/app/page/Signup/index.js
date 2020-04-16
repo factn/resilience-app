@@ -1,2 +1,3 @@
-import SignupPage from "./Signup";
-export default SignupPage;
+import SignupScene from "./SignupScene";
+
+export default SignupScene;
