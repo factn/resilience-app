@@ -19,7 +19,7 @@ const MissionDetailsButton = ({
   status,
   volunteerForMission,
   startMission,
-  markMissionAsDelivered,
+  openMissionDeliveredCard,
 }) => {
   switch (status) {
     case Mission.Status.unassigned:
@@ -46,7 +46,7 @@ const MissionDetailsButton = ({
           color="primary"
           variant="contained"
           disableElevation
-          onClick={markMissionAsDelivered}
+          onClick={openMissionDeliveredCard}
         >
           Mark Mission as Delivered
         </StyledButton>

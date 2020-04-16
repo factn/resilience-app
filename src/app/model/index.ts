@@ -1,4 +1,4 @@
-import Users from "./Users";
+import User from "./User";
 import Mission from "./Mission";
 import Organizations from "./Organizations";
 import FoodBoxes from "./FoodBoxes";
@@ -16,4 +16,4 @@ import {
 } from "./schema";
 */
 
-export { Users, Mission, Organizations, FoodBoxes };
+export { User, Mission, Organizations, FoodBoxes };

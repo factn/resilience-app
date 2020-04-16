@@ -5,7 +5,7 @@ import { useSelector, connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 
 import { Page } from "../../layout";
-import { Mission } from "../../model";
+import { Mission, User } from "../../model";
 import { MissionList } from "../../component";
 import { compose } from "redux";
 
@@ -26,19 +26,23 @@ const MissionsPage = ({ auth, history, missions }) => {
       setPopupOpen(true);
       return;
     }
-    Mission.volunteerForMission(missionId, auth.uid);
+    User.volunteerMission(auth.uid, missionId);
   }
 
   if (!missions) return null;
 
   return (
-    <Page title="Missions">
+    <Page title="Missions Started">
       <MissionList
         missions={missions}
         history={history}
         isEmpty={isEmpty(missions)}
         isLoaded={isLoaded(missions)}
         isEmptyText="There are no missions available"
+        callToAction={{
+          text: "Accept Mission",
+          onClick: (missionId) => userVolunteeringHandler(missionId),
+        }}
         handleUserVolunteering={userVolunteeringHandler}
       />
       <UserPhoneUnverifiedPopup open={popupOpen} handleClose={() => setPopupOpen(false)} />
@@ -62,12 +66,7 @@ MissionsPage.propTypes = {
 
 const mapStateToProps = (state, ownProps) => {
   let missions = state.firestore.ordered.missionsUnassigned;
-  missions = missions ? missions : [];
-  if (missions[0]) {
-    console.log(missions[0]);
-    console.log(Mission.load(missions[0]));
-  }
-
+  missions = Mission.loads(missions);
   return {
     missions: missions,
     auth: state.firebase.auth,

@@ -164,7 +164,7 @@ export interface MissionInterface {
   pickUpWindow: TimeWindow | null; // nb this can be an exact time or can be null
   pickUplocation: Location;
   deliveryWindow: TimeWindow | null;
-  deliverylocation: Location; // default to recipient location
+  deliveryLocation: Location; // default to recipient location
   deliveryConfirmationImage: ImageUrl;
   deliveryNotes: string;
   missionAccepted: boolean;

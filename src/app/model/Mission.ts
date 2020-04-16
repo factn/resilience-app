@@ -9,7 +9,7 @@ import {
   MissionPayableStatus,
   MissionDetails,
 } from "./schema";
-import { merge, sanitize } from "./util/dataObjectUtil";
+import BaseModel from "./BaseModel";
 
 const defaultLocation: Location = {
   address: "",
@@ -44,7 +44,7 @@ const defaultMissionData: MissionInterface = {
   pickUpWindow: defaultTimeWindow, // nb this can be an exact time or can be null
   pickUplocation: defaultLocation,
   deliveryWindow: defaultTimeWindow,
-  deliverylocation: defaultLocation, // default to recipient location
+  deliveryLocation: defaultLocation, // default to recipient location
   deliveryConfirmationImage: "",
   deliveryNotes: "",
   missionAccepted: false,
@@ -56,19 +56,13 @@ const defaultMissionData: MissionInterface = {
   lastUpdated: new Date(), // time stamp
 };
 
-const Mission = {
-  Status: MissionStatus,
-  FundedStatus: MissionFundedStatus,
+class Mission extends BaseModel {
+  Status = MissionStatus;
+  FundedStatus = MissionFundedStatus;
+  collectionName = "missions";
 
-  load: (data: unknown) => (data ? merge(data, defaultMissionData) : data),
-  loads: (datas: unknown[]) => (datas ? datas.map((data) => merge(data, defaultMissionData)) : []),
+  filterByStatus = (missions: MissionInterface[], status: MissionStatus) =>
+    missions.filter((mission) => mission.status === status);
+}
 
-  sanitize: (data: unknown) => sanitize(data, defaultMissionData),
-  sanitizes: (datas: unknown[]) =>
-    datas ? datas.map((data) => sanitize(data, defaultMissionData)) : [],
-
-  filterByStatus: (missions: MissionInterface[], status: MissionStatus) =>
-    missions.filter((mission) => mission.status === status),
-};
-
-export default Mission;
+export default new Mission("missions", defaultMissionData);

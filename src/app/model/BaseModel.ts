@@ -1,5 +1,6 @@
 import { getFirebase } from "react-redux-firebase";
 import _ from "lodash";
+import { merge, sanitize } from "./util/dataObjectUtil";
 
 type CollectionReference = firebase.firestore.CollectionReference;
 //type BaseModelScheme = typeof Record;
@@ -12,30 +13,23 @@ type CollectionReference = firebase.firestore.CollectionReference;
 */
 abstract class BaseModel {
   /**
-   * @param CollectionName : the collection name in firebase
-   * @param Schema : the schema from schema.ts. TODO: what type?
+   * @param collectionName: the collection name of the model in firestore
+   * @param defaultData: the DefaultData that inherit the scheme
    */
-  constructor(protected CollectionName: string, protected Schema: any) {
-    this.CollectionName = CollectionName;
-    this.Schema = Schema;
+  constructor(protected collectionName: string, protected defaultData: any) {
+    this.defaultData = defaultData;
+    this.collectionName = collectionName;
   }
 
-  /**
-   * provide the collection from firebase
-   */
-  get collection(): CollectionReference {
-    return getFirebase().firestore().collection(this.CollectionName);
+  get fb() {
+    return getFirebase();
+  }
+  get fs() {
+    return this.fb.firestore();
   }
 
-  /**
-   * @param data: the data to load in
-   * // TODO test this returns
-   * @returns: the object with any field that have a value !== undefined
-   */
-  partial(data: any): object {
-    return _.omitBy(this.load(data), (o) => {
-      return o === undefined || typeof o === "function";
-    });
+  getCollection(collectionName: string) {
+    return this.fs.collection(collectionName);
   }
 
   /**
@@ -43,8 +37,8 @@ abstract class BaseModel {
    * all fields outside of the schema will not be loaded in
    * @returns: the object with all fields
    */
-  load(data: any) {
-    return new this.Schema(data);
+  load(data: unknown) {
+    return data ? merge(data, this.defaultData) : data;
   }
 
   /**
@@ -56,6 +50,27 @@ abstract class BaseModel {
     if (!datas) return [];
     return datas.map((data) => {
       return this.load(data);
+    });
+  }
+
+  /**
+   * @param data: the data to load in and create a model object
+   * all fields outside of the schema will not be loaded in
+   * @returns: the object with all fields sanitized
+   */
+  sanitize(data: unknown) {
+    return data ? sanitize(data, this.defaultData) : data;
+  }
+
+  /**
+   * @param datas: the list of data to load in and create a list
+   * of model object
+   * @returns list of object
+   */
+  sanitizes(datas: any[]) {
+    if (!datas) return [];
+    return datas.map((data) => {
+      return this.sanitize(data);
     });
   }
 }

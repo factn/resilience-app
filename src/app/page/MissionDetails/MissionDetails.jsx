@@ -8,21 +8,23 @@ import { connect } from "react-redux";
 import Page from "../../layout/Page";
 import { color } from "../../../theme";
 
-import { Grid } from "@material-ui/core";
+import { Grid, Dialog } from "@material-ui/core";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import { makeStyles } from "@material-ui/core/styles";
 
 // Created based on the schema in firebase
 import { isLoaded, isEmpty } from "react-redux-firebase";
-import { Users, Mission } from "../../model";
+import { User, Mission } from "../../model";
 
 import addressLookUp from "../../utils/addressLookUp";
 
 import MissionDetailsCard from "../../component/MissionDetailsCard";
+import MissionDeliveredCard from "../../component/MissionDeliveredCard";
+import { ErrorSnackbar, SuccessSnackbar } from "../../component/Snackbars";
 
 const useStyles = makeStyles((theme) => ({
   content: {
-    padding: theme.spacing(2),
+    padding: theme.spacing(1, 2, 2, 2),
   },
   goBackIcon: {
     fontSize: 32,
@@ -42,20 +44,48 @@ const MissionDetailsPage = ({ firestore, auth, mission, history }) => {
   const classes = useStyles();
   mission = mission || {};
   const [userUnverifiedPopupOpen, setUserUnverifiedPopupOpen] = useState(false);
+  const [completeDeliveryDialogOpen, setCompleteDeliveryDialogOpen] = useState(false);
+  const [errorSnackbarOpen, setErrorSnackbarOpen] = useState(false);
+  const [successSnackbarOpen, setSuccessSnackbarOpen] = useState(false);
+
   function volunteerForMission(missionId) {
     if (!auth.phoneNumber) {
       setUserUnverifiedPopupOpen(true);
     } else {
-      Users.assignAsVolunteer(firestore, missionId, auth.uid);
+      //Users.assignAsVolunteer(firestore, missionId, auth.uid);
+      //Missions.volunteerForMission(missionId, auth.uid);
+      //TODO TODAY:
+      //Users.volunteerForMission(missionId, auth.uid)
     }
   }
 
   function startMission(missionId) {
-    console.log("started mission " + missionId);
+    if (!auth.phoneNumber) {
+      setUserUnverifiedPopupOpen(true);
+    } else {
+      Mission.startMission(missionId);
+    }
   }
 
-  function markMissionAsDelivered(missionId) {
-    console.log("marked mission " + missionId + " as delivered");
+  function openMissionDeliveredCard(missionId) {
+    //open the submit delivery modal
+    if (!auth.phoneNumber) {
+      setUserUnverifiedPopupOpen(true);
+    } else {
+      setCompleteDeliveryDialogOpen(true);
+    }
+  }
+
+  async function markMissionAsDelivered(missionId, confirmationImage) {
+    try {
+      await Mission.deliveredMission(missionId, confirmationImage);
+      console.log("marked mission as delivered");
+      setCompleteDeliveryDialogOpen(false);
+      setSuccessSnackbarOpen(true);
+    } catch (e) {
+      console.error(e);
+      setErrorSnackbarOpen(true);
+    }
   }
 
   //mock data
@@ -91,13 +121,38 @@ const MissionDetailsPage = ({ firestore, auth, mission, history }) => {
             volunteer={volunteer}
             volunteerForMission={volunteerForMission}
             startMission={startMission}
-            markedMissionAsDelivered={markMissionAsDelivered}
+            openMissionDeliveredCard={openMissionDeliveredCard}
             userUnverifiedPopupOpen={userUnverifiedPopupOpen}
             setUserUnverifiedPopupOpen={setUserUnverifiedPopupOpen}
             history={history}
           />
         </Grid>
       </Grid>
+      <Dialog
+        open={completeDeliveryDialogOpen}
+        onClose={() => setCompleteDeliveryDialogOpen(false)}
+        aria-labelledby="Complete delivery"
+        maxWidth="md"
+        scroll="body"
+      >
+        <MissionDeliveredCard
+          missionId={mission.id}
+          completeMission={markMissionAsDelivered}
+          onClose={() => setCompleteDeliveryDialogOpen(false)}
+        />
+      </Dialog>
+      <ErrorSnackbar
+        open={errorSnackbarOpen}
+        handleClose={() => setErrorSnackbarOpen(false)}
+        errorMessage="Error while marking the mission as delivered"
+        autoHideDuration={3000}
+      />
+      <SuccessSnackbar
+        open={successSnackbarOpen}
+        handleClose={() => setSuccessSnackbarOpen(false)}
+        successMessage="Mission has been marked as delivered"
+        autoHideDuration={3000}
+      />
     </Page>
   );
 };
