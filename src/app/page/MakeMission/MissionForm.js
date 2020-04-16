@@ -92,7 +92,7 @@ function MissionForm({ handleChange, values, onSubmit, getFile /*, assignHelper,
       return;
     }
     if (stage === "pickUp") {
-      setPickUpDateLabel(date.toString().substr(0, 15));
+      setPickUpDateLabel(date ? date.toString().substr(0, 15) : "Select a date");
       if (typeof date !== "string") {
         setPickUp({ ...pickUp, date: date.toString().substr(0, 15) });
       } else {
@@ -100,7 +100,7 @@ function MissionForm({ handleChange, values, onSubmit, getFile /*, assignHelper,
       }
     }
     if (stage === "dropOff") {
-      setDropOffDateLabel(date.toString().substr(0, 15));
+      setDropOffDateLabel(date ? date.toString().substr(0, 15) : "Select a date");
       if (typeof date !== "string") {
         setDropOff({ ...dropOff, date: date.toString().substr(0, 15) });
       } else {
