@@ -32,7 +32,7 @@ const MissionsPage = ({ auth, history, missions }) => {
   if (!missions) return null;
 
   return (
-    <Page title="Missions Started">
+    <Page title="Missions Available">
       <MissionList
         missions={missions}
         history={history}
