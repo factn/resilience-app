@@ -1,6 +1,34 @@
 import { Mission, MissionStatus } from "./schema";
 import missions from "./Missions";
 
+/**
+ * @typedef {Object} BaseRepoMockType
+ * @property {func} mockFindById
+ * @property {func} mockUpdate
+ */
+
+/**
+ * Meant to mock the Firebase store and the relevent methods
+ * that access it.
+ * @param {Mission} findByIdReturn - Return value of findById store
+ * @param {Mission} updateReturn - Return value of udpate store 
+ * @return {BaseRepoMockType}
+ */ 
+function mockBaseRepo({ findByIdReturn, updateReturn }) {
+  const mockFindById = jest.fn().mockResolvedValue(findByIdReturn);
+  const mockUpdate = jest.fn().mockResolvedValue(updateReturn);
+  const baseRepo = {
+    findById: mockFindById,
+    update: mockUpdate,
+  };
+  jest.spyOn(missions, "repo").mockReturnValue(baseRepo);
+
+  return {
+    mockFindById,
+    mockUpdate
+  };
+}
+
 describe("Missions", () => {
   describe("#volunteerForMission", () => {
     const missionId = "1234";
@@ -15,13 +43,10 @@ describe("Missions", () => {
 
     it("assigns volunteer if missionId exists", async () => {
       const volunteerId = "aabbbccc";
-      const mockFindById = jest.fn().mockResolvedValue(mission);
-      const mockUpdate = jest.fn().mockResolvedValue(mission);
-      const baseRepo = {
-        findById: mockFindById,
-        update: mockUpdate,
-      };
-      jest.spyOn(missions, "repo").mockReturnValue(baseRepo);
+      const { mockFindById, mockUpdate } = mockBaseRepo({
+        findByIdReturn: mission,
+        updateReturn: mission,
+      });
 
       await missions.volunteerForMission(missionId, volunteerId);
 
@@ -32,13 +57,10 @@ describe("Missions", () => {
     });
 
     it("does nothing if missionId does not exist", async () => {
-      const mockFindById = jest.fn().mockResolvedValue(null);
-      const mockUpdate = jest.fn().mockResolvedValue(mission);
-      const baseRepo = {
-        findById: mockFindById,
-        update: mockUpdate,
-      };
-      jest.spyOn(missions, "repo").mockReturnValue(baseRepo);
+      const { mockFindById, mockUpdate } = mockBaseRepo({
+        findByIdReturn: null,
+        updateReturn: mission,
+      });
 
       await missions.removeVolunteerFromMission(missionId);
 
@@ -60,13 +82,10 @@ describe("Missions", () => {
     });
 
     it("unassigns volunteer if missionId exists", async () => {
-      const mockFindById = jest.fn().mockResolvedValue(mission);
-      const mockUpdate = jest.fn().mockResolvedValue(mission);
-      const baseRepo = {
-        findById: mockFindById,
-        update: mockUpdate,
-      };
-      jest.spyOn(missions, "repo").mockReturnValue(baseRepo);
+      const { mockFindById, mockUpdate } = mockBaseRepo({
+        findByIdReturn: mission,
+        updateReturn: mission,
+      });
 
       await missions.removeVolunteerFromMission(missionId);
 
@@ -77,13 +96,10 @@ describe("Missions", () => {
     });
 
     it("does nothing if missionId does not exist", async () => {
-      const mockFindById = jest.fn().mockResolvedValue(null);
-      const mockUpdate = jest.fn().mockResolvedValue(mission);
-      const baseRepo = {
-        findById: mockFindById,
-        update: mockUpdate,
-      };
-      jest.spyOn(missions, "repo").mockReturnValue(baseRepo);
+      const { mockFindById, mockUpdate } = mockBaseRepo({
+        findByIdReturn: null,
+        updateReturn: mission,
+      });
 
       await missions.removeVolunteerFromMission(missionId);
 
@@ -105,13 +121,10 @@ describe("Missions", () => {
     it("marks a mission as started if mission exists and volunteer assigned", async () => {
       const volunteerId = "aabbbccc";
       mission.volunteerId = volunteerId;
-      const mockFindById = jest.fn().mockResolvedValue(mission);
-      const mockUpdate = jest.fn().mockResolvedValue(mission);
-      const baseRepo = {
-        findById: mockFindById,
-        update: mockUpdate,
-      };
-      jest.spyOn(missions, "repo").mockReturnValue(baseRepo);
+      const { mockFindById, mockUpdate } = mockBaseRepo({
+        findByIdReturn: mission,
+        updateReturn: mission,
+      });
 
       await missions.startMission(missionId);
 
@@ -121,13 +134,10 @@ describe("Missions", () => {
     });
 
     it("does nothing if missionId does not exist", async () => {
-      const mockFindById = jest.fn().mockResolvedValue(null);
-      const mockUpdate = jest.fn().mockResolvedValue(mission);
-      const baseRepo = {
-        findById: mockFindById,
-        update: mockUpdate,
-      };
-      jest.spyOn(missions, "repo").mockReturnValue(baseRepo);
+      const { mockFindById, mockUpdate } = mockBaseRepo({
+        findByIdReturn: null,
+        updateReturn: mission,
+      });
 
       await missions.startMission(missionId);
 
@@ -137,13 +147,10 @@ describe("Missions", () => {
 
     it("does nothing if volunteer is not assigned", async () => {
       mission.volunteerId = "";
-      const mockFindById = jest.fn().mockResolvedValue(mission);
-      const mockUpdate = jest.fn().mockResolvedValue(mission);
-      const baseRepo = {
-        findById: mockFindById,
-        update: mockUpdate,
-      };
-      jest.spyOn(missions, "repo").mockReturnValue(baseRepo);
+      const { mockFindById, mockUpdate } = mockBaseRepo({
+        findByIdReturn: mission,
+        updateReturn: mission,
+      });
 
       await missions.startMission(missionId);
 
