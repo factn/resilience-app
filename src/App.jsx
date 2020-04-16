@@ -77,8 +77,7 @@ function App() {
                 <PrivateRoute path="/missions/created">
                   <MissionsCreated />
                 </PrivateRoute>
-                <PrivateRoute path="/missions/assigned">
-                  <MissionsAssigned />
+
                 </PrivateRoute>
                 <PrivateRoute path="/missions/started">
                   <MissionsStarted />
@@ -86,6 +85,7 @@ function App() {
                 <PrivateRoute path="/missions/completed">
                   <MissionsCompleted />
                 </PrivateRoute>
+
                 <PrivateRoute path="/missions/new">
                   <MissionCreate />
                 </PrivateRoute>
