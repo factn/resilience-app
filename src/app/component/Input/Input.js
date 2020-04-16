@@ -13,7 +13,7 @@ import {
  *
  * @component
  */
-const Input = ({ inputType, dataId, inputName, label, onChange }) => {
+const Input = ({ inputType, dataId, inputName, label, onChange, value }) => {
   switch (inputType) {
     case "textarea":
       return (
@@ -24,6 +24,7 @@ const Input = ({ inputType, dataId, inputName, label, onChange }) => {
               onChange={onChange}
               rows={10}
               name={inputName}
+              value={value}
               data-id={dataId}
               data-testid={`${dataId}-textarea`}
             ></StyledTextarea>
@@ -38,6 +39,7 @@ const Input = ({ inputType, dataId, inputName, label, onChange }) => {
             <StyledInput
               name={inputName}
               onChange={onChange}
+              value={value}
               data-testid={`${dataId}-${inputType}`}
               data-id={dataId}
               type={inputType}
