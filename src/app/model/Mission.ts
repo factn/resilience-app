@@ -77,11 +77,10 @@ class Mission extends BaseModel {
 
     //Add mission id and sanitize data
     mission.id = missionId;
-    const sanitizedMission = this.sanitize(mission);
 
     //save mission in firestore
     try {
-      await collection.doc(missionId).set(sanitizedMission);
+      await collection.doc(missionId).set(mission);
     } catch (error) {
       //TODO show error message to user
       throw error;

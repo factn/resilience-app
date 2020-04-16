@@ -46,26 +46,30 @@ function MakeMission({ history }) {
       const imageUrl = await imageUpload();
 
       //create mission object
-      const mission = Mission.defaultData;
-
-      mission.organisationId = "";
-      mission.volunteerId = volunteerId;
-      mission.title = payload.title;
-      mission.description = payload.description;
-      mission.image = imageUrl;
-      mission.pickUpWindow.startTime = payload.pickUp.time;
-      mission.pickUpLocation = {
-        address: payload.pickUp.location.address,
-        lat: payload.pickUp.location.geoLocation?.lat,
-        long: payload.pickUp.location.geoLocation?.lng,
-      };
-      mission.deliveryWindow.startTime = payload.dropOff.time;
-      mission.deliveryLocation = {
-        address: payload.dropOff.location.address,
-        lat: payload.dropOff.location.geoLocation?.lat,
-        long: payload.dropOff.location.geoLocation?.lng,
-      };
-      mission.recipientName = payload.recipient;
+      const mission = Mission.load({
+        organisationId: "", // placeholder
+        volunteerId: volunteerId,
+        title: payload.title,
+        description: payload.description,
+        image: imageUrl,
+        pickUpWindow: {
+          startTime: payload.pickUp.time,
+        },
+        pickUpLocation: {
+          address: payload.pickUp.location.address,
+          lat: payload.pickUp.location.geoLocation?.lat,
+          long: payload.pickUp.location.geoLocation?.lng,
+        },
+        deliveryWindow: {
+          startTime: payload.dropOff.time,
+        },
+        deliveryLocation: {
+          address: payload.dropOff.location.address,
+          lat: payload.dropOff.location.geoLocation?.lat,
+          long: payload.dropOff.location.geoLocation?.lng,
+        },
+        recipientName: payload.recipient,
+      });
 
       //save mission in firestore
       Mission.create(mission)
@@ -102,7 +106,7 @@ function MakeMission({ history }) {
     }
   }
 
-  async function validateInput(payload) {
+  async function validateAndSaveMission(payload) {
     try {
       const input = { ...payload, ...values };
 
@@ -141,7 +145,7 @@ function MakeMission({ history }) {
     <>
       <MissionForm
         values={values}
-        onSubmit={validateInput}
+        onSubmit={validateAndSaveMission}
         getFile={getFile}
         handleChange={handleChange}
         /*autoAssign={() => setAutoAssignHelper(!autoAssignHelper)}
