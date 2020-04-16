@@ -52,22 +52,22 @@ class Missions {
     return this.repo().update(mission);
   }
 
-  /** 
-   * Removes a volunteer for the mission with the given missionId and 
-   * sets status to unassigned. 
-   * @param {string} missionId - ID of mission from which volunteer will  
-   *                             be removed.  
-   */ 
- 
-  async removeVolunteerFromMission(missionId: string) {  
-    const missions = this.repo(); 
-    const mission = await missions.findById(missionId); 
-    if (mission) { 
-      console.log("unassigning volunteer."); 
-      mission.volunteerId = ''; 
-      mission.status = MissionStatus.unassigned; 
-    } 
-    return mission ? this.repo().update(mission) : null; 
+  /**
+   * Removes a volunteer for the mission with the given missionId and
+   * sets status to unassigned.
+   * @param {string} missionId - ID of mission from which volunteer will
+   *                             be removed.
+   */
+
+  async removeVolunteerFromMission(missionId: string) {
+    const missions = this.repo();
+    const mission = await missions.findById(missionId);
+    if (mission) {
+      console.log("unassigning volunteer.");
+      mission.volunteerId = "";
+      mission.status = MissionStatus.unassigned;
+    }
+    return mission ? this.repo().update(mission) : null;
   }
 
   /**
