@@ -1,5 +1,12 @@
-import { UserInterface, VolunteerStatus, Location, MissionStatus } from "./schema";
+import {
+  UserInterface,
+  VolunteerStatus,
+  Location,
+  MissionStatus,
+  MissionInterface,
+} from "./schema";
 import BaseModel from "./BaseModel";
+import { v4 as uuidV4 } from "uuid";
 
 const defaultLocation: Location = {
   address: "",
@@ -26,6 +33,32 @@ const defaultUserData: UserInterface = {
 
 class User extends BaseModel {
   VolunteerStatus = VolunteerStatus;
+
+  /**
+   * Given a mission object creates a new mission in firestore
+   * returns the new mission id
+   * @param {object} mission
+   * @return {string}
+   */
+  async createMission(mission: MissionInterface): Promise<string> {
+    const missionId = uuidV4(); //generate mission id
+    const collection = this.getCollection("missions");
+
+    //Add mission id to mission object
+    mission.id = missionId;
+
+    //save mission in firestore
+    try {
+      await collection.doc(missionId).set(mission);
+      const data = await collection.doc(missionId).get();
+      console.log(data.data());
+    } catch (error) {
+      //TODO show error message to user
+      throw error;
+    }
+
+    return missionId;
+  }
 
   /**
    * Given a displayName returns an user id
