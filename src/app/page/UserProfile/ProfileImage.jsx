@@ -19,7 +19,6 @@ import _ from "lodash";
  */
 const ProfileImage = ({ classes, profile, setProfile }) => {
   const firebase = useFirebase();
-  const firestore = useFirestore();
   const firebaseProfile = useSelector((state) => state.firebase.profile);
 
   const displayName = profile.displayName || "";

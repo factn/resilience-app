@@ -19,13 +19,10 @@ import OrganizerSignupPage from "./app/page/OrganizerSignup";
 import Status from "./app/page/Status";
 
 import MakeRequest from "./app/page/MakeRequest";
-import {
-  Missions,
-  MissionsCreated,
-  MissionsVolunteered,
-  MakeMission,
-  PostMission,
-} from "./app/page";
+import { Missions, MissionsCreated, MakeMission, PostMission } from "./app/page";
+import MissionsAssigned from "./app/page/MissionsAssigned";
+import MissionsStarted from "./app/page/MissionsStarted";
+import MissionsCompleted from "./app/page/MissionsCompleted";
 
 import { Dashboard } from "./app/page";
 
@@ -81,9 +78,16 @@ function App() {
                 <PrivateRoute path="/missions/created">
                   <MissionsCreated />
                 </PrivateRoute>
-                <PrivateRoute path="/missions/volunteered">
-                  <MissionsVolunteered />
+                <PrivateRoute path="/missions/assigned">
+                  <MissionsAssigned />
                 </PrivateRoute>
+                <PrivateRoute path="/missions/started">
+                  <MissionsStarted />
+                </PrivateRoute>
+                <PrivateRoute path="/missions/completed">
+                  <MissionsCompleted />
+                </PrivateRoute>
+
                 <PrivateRoute path="/missions/new">
                   <MakeMission />
                 </PrivateRoute>

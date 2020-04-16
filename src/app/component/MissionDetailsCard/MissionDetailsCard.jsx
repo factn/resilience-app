@@ -25,7 +25,7 @@ import cameraImage from "../../../img/placeholderBackground.svg";
 
 import { makeStyles } from "@material-ui/core/styles";
 
-import { MissionStatus, MissionFundedStatus } from "../../model";
+import { Mission } from "../../model";
 
 const useStyles = makeStyles((theme) => ({
   cardHeader: {
@@ -89,9 +89,9 @@ const MissionDetailsCard = ({
 
   const subheaderItems = [
     {
-      icon: mission.status === MissionStatus.unassigned ? PersonIcon : undefined,
+      icon: mission.status === Mission.Status.unassigned ? PersonIcon : undefined,
       avatar:
-        mission.status !== MissionStatus.unassigned
+        mission.status !== Mission.Status.unassigned
           ? {
               image: volunteer.avatar,
             }
@@ -106,7 +106,7 @@ const MissionDetailsCard = ({
     },
     {
       icon: AttachMoneyIcon,
-      content: [{ text: MissionFundedStatus[mission.fundedStatus] }],
+      content: [{ text: Mission.FundedStatus[mission.fundedStatus] }],
     },
   ];
 

@@ -3,9 +3,10 @@ import PropTypes from "prop-types";
 import { firestoreConnect, isLoaded, isEmpty } from "react-redux-firebase";
 import { useSelector, connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { Page } from "../../layout";
-import { MissionList } from "../../component";
+import { Page } from "../layout";
+import { MissionList } from "../component";
 import { compose } from "redux";
+import { User, Mission } from "../model";
 
 /**
  * Component for listing volunteered missions
@@ -14,15 +15,23 @@ import { compose } from "redux";
  */
 const MissionsPage = ({ auth, history, ...rest }) => {
   const missions = useSelector((state) => state.firestore.ordered.missionsVolunteered);
+  async function deliverMission(missionId) {
+    // We need a little more information from user at this point
+    User.deliverMission(auth.uid, missionId);
+  }
 
   return (
-    <Page title="Volunteered Missions">
+    <Page title="Missions Started">
       <MissionList
         missions={missions}
         history={history}
         isEmpty={isEmpty(missions)}
         isLoaded={isLoaded(missions)}
-        isEmptyText="You have not volunteered for any missions!"
+        isEmptyText="You do not have any missions in progress!"
+        callToAction={{
+          text: "Mission Delivered",
+          onClick: deliverMission,
+        }}
       />
     </Page>
   );
@@ -53,7 +62,10 @@ export default compose(
     return [
       {
         collection: "missions",
-        where: [["volunteerId", "==", props.auth.uid]],
+        where: [
+          ["volunteerId", "==", props.auth.uid],
+          ["status", "==", Mission.Status.started],
+        ],
         storeAs: "missionsVolunteered",
       },
     ];
