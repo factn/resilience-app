@@ -45,11 +45,13 @@ class Missions {
    */
 
   async volunteerForMission(missionId: string, userId: string) { 
-    var missions = this.repo();
-    var mission = await missions.findById(missionId);
-    mission.volunteerId = userId;
-    mission.status = MissionStatus.assigned;
-    return missions.update(mission);
+    const missions = this.repo();
+    const mission = await missions.findById(missionId);
+    if (mission) {
+      mission.volunteerId = userId;
+      mission.status = MissionStatus.assigned;
+    }
+    return this.repo().update(mission);
   }
 
   /**
@@ -62,11 +64,12 @@ class Missions {
   async removeVolunteerFromMission(missionId: string) { 
     const missions = this.repo();
     const mission = await missions.findById(missionId);
-    console.log("returned !!!! ===== " + mission);
-    mission.volunteerId = '';
-    mission.status = MissionStatus.unassigned;
-    console.log("set mission status and volunteer.");
-    return this.repo().update(mission);
+    if (mission) {
+      console.log("unassigning volunteer.");
+      mission.volunteerId = '';
+      mission.status = MissionStatus.unassigned;
+    }
+    return mission ? this.repo().update(mission) : null;
   }
 
 
@@ -76,12 +79,13 @@ class Missions {
    */
 
   async startMission(missionId: string) { 
-    var missions = this.repo();
-    var mission = await missions.findById(missionId);
-    if (mission.volunteerId !== undefined) { //ensure that mission has an assigned volunteer
+    const missions = this.repo();
+    const mission = await missions.findById(missionId);
+    // ensure that mission has an assigned volunteer
+    if (mission && mission.volunteerId) { 
       mission.status = MissionStatus.started;
     }
-    return missions.update(mission);
+    return mission ? missions.update(mission) : null;
   }
 }
 
