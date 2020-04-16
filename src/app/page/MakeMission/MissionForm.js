@@ -5,6 +5,8 @@ import AlgoliaPlaces from "algolia-places-react";
 import Button from "../../component/Button";
 import { Upload, useStyles } from "./Request.style";
 import { Page } from "../../layout";
+import { ANGOLIA_API_KEY } from "../../../constants";
+
 import {
   Checkbox,
   Typography,
@@ -180,7 +182,7 @@ function MissionForm({ handleChange, values, onSubmit, getFile /*, assignHelper,
             name="pickUp"
             options={{
               appId: "plZ318O8ODTC",
-              apiKey: "b5e0781d289a9aa8edb37bf24aef874e",
+              apiKey: ANGOLIA_API_KEY,
               language: "en",
               countries: ["us"],
               type: "city",
@@ -220,7 +222,7 @@ function MissionForm({ handleChange, values, onSubmit, getFile /*, assignHelper,
             name="dropOff"
             options={{
               appId: "plZ318O8ODTC",
-              apiKey: "b5e0781d289a9aa8edb37bf24aef874e",
+              apiKey: ANGOLIA_API_KEY,
               language: "en",
               countries: ["us"],
               type: "city",
