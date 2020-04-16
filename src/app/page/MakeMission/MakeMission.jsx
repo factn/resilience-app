@@ -6,15 +6,26 @@ import MissionForm from "./MissionForm";
 import useForm from "../../hooks/useForm";
 import { useSelector } from "react-redux";
 import { getFirebase, withFirestore } from "react-redux-firebase";
-import { v4 as uuidv4 } from "uuid";
+import { SuccessSnackbar, ErrorSnackbar } from "../../component/Snackbars";
 
-function MakeMission({ history, firestore }) {
+import { User, Mission } from "../../model";
+
+/**
+ * Component for creating a mission based on form data
+ *
+ * @param {object} props.history - Object obtained from React Router
+ */
+function MakeMission({ history }) {
   const firebase = getFirebase();
   const [loading, setLoading] = useState(false);
   const [file, setFile] = useState(null);
   // const [autoAssignHelper, setAutoAssignHelper] = useState(false);
   const storage = firebase.storage();
-  const { handleChange, values, setValues } = useForm();
+  const { handleChange, values } = useForm();
+
+  //Snackbar state
+  const [successSnackbarOpen, setSuccessSnackbarOpen] = useState(false);
+  const [errorSnackbarOpen, setErrorSnackbarOpen] = useState(false);
 
   const user = useSelector((state) => state.firebase.auth);
   function getFile(file) {
@@ -22,57 +33,140 @@ function MakeMission({ history, firestore }) {
   }
 
   /**
-   * Creates a mission based on form data. Updates the current user
-   * to be the owner of the newly created mission.
+   * Creates a mission based on form data.
    */
-  function saveMissions(payload) {
-    console.log("Saving mission...");
-    const model = { ...payload, ownerId: user.uid };
-    const missionId = uuidv4();
+  async function saveMission(payload) {
+    try {
+      setLoading(true);
+      //Lookup id of helper
+      let volunteerId;
+      volunteerId = await User.getIdByDisplayName(payload.helper);
 
-    firestore
-      .collection("missions")
-      .doc(missionId)
-      .set({ ...model, status: "todo" });
+      //upload Image to Firebase Cloud Storage
+      const imageUrl = await imageUpload();
 
-    console.log("Saved.");
+      //create mission object
+      const mission = Mission.load({
+        organisationId: "", // placeholder
+        volunteerId: volunteerId,
+        title: payload.title,
+        description: payload.description,
+        image: imageUrl,
+        pickUpWindow: {
+          startTime: payload.pickUp.time,
+        },
+        pickUpLocation: {
+          address: payload.pickUp.location.address,
+          lat: payload.pickUp.location.geoLocation?.lat,
+          long: payload.pickUp.location.geoLocation?.lng,
+        },
+        deliveryWindow: {
+          startTime: payload.dropOff.time,
+        },
+        deliveryLocation: {
+          address: payload.dropOff.location.address,
+          lat: payload.dropOff.location.geoLocation?.lat,
+          long: payload.dropOff.location.geoLocation?.lng,
+        },
+        recipientName: payload.recipient,
+      });
+
+      //save mission in firestore
+      Mission.create(mission)
+        .then(() => {
+          setLoading(false);
+          setSuccessSnackbarOpen(true);
+        })
+        .catch((error) => {
+          setLoading(false);
+          setErrorSnackbarOpen(true);
+          console.error(error);
+        });
+    } catch (error) {
+      setLoading(false);
+      setErrorSnackbarOpen(true);
+      console.error(error);
+    }
   }
 
-  async function onSubmit(payload) {
-    let val = { ...values, ...payload };
-    setLoading(true);
+  async function imageUpload() {
     if (file) {
-      const uploadTask = storage.ref(`images/${file.name}`).put(file);
-      await uploadTask.on(
-        "state_changed",
-        (snapshot) => {},
-        (error) => {
-          // error function ....
-          console.log("error", error);
-        },
-        async () => {
-          const url = await storage.ref("images").child(file.name).getDownloadURL();
-          val.url = url; // Todo: Refactor later
-        }
-      );
-      saveMissions(val);
+      const uploadTask = storage
+        .ref(`images/${file.name}`)
+        .put(file)
+        .then((data) => {
+          return data.ref.getDownloadURL();
+        })
+        .catch((error) => {
+          throw Error("image upload error");
+        });
+      return await uploadTask;
     } else {
-      saveMissions(val);
+      return "";
     }
-    setLoading(false);
+  }
+
+  async function validateAndSaveMission(payload) {
+    try {
+      const input = { ...payload, ...values };
+
+      /**
+       * Validate input
+       */
+      if (!checkForEmptyInput(input)) {
+        saveMission(input);
+      } else {
+        throw Error("wrong input");
+      }
+    } catch (error) {
+      setErrorSnackbarOpen(true);
+      console.error(error);
+    }
+  }
+
+  function checkForEmptyInput(input) {
+    //check for undefined value
+    if (
+      input.title &&
+      input.description &&
+      input.recipient &&
+      input.helper &&
+      input.pickUp.location &&
+      input.dropOff.location
+    ) {
+      return false;
+    }
+    return true;
   }
 
   if (loading) return <CircularProgress />;
 
   return (
-    <MissionForm
-      values={values}
-      onSubmit={onSubmit}
-      getFile={getFile}
-      handleChange={handleChange}
-      /*autoAssign={() => setAutoAssignHelper(!autoAssignHelper)}
-      autoAssigned={autoAssignHelper}*/
-    />
+    <>
+      <MissionForm
+        values={values}
+        onSubmit={validateAndSaveMission}
+        getFile={getFile}
+        handleChange={handleChange}
+        /*autoAssign={() => setAutoAssignHelper(!autoAssignHelper)}
+        autoAssigned={autoAssignHelper}*/
+      />
+      <ErrorSnackbar
+        open={errorSnackbarOpen}
+        handleClose={() => setErrorSnackbarOpen(false)}
+        errorMessage="Error while creating mission. Please try again."
+        autoHideDuration={4000}
+      />
+      <SuccessSnackbar
+        open={successSnackbarOpen}
+        handleClose={() => {
+          setSuccessSnackbarOpen(false);
+          history.push("/missions");
+        }}
+        successMessage="Mission has been created."
+        autoHideDuration={4000}
+      />
+    </>
   );
 }
 
