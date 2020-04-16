@@ -6,17 +6,16 @@ import MissionForm from "./MissionForm";
 import useForm from "../../hooks/useForm";
 import { useSelector } from "react-redux";
 import { getFirebase, withFirestore } from "react-redux-firebase";
-import {
-  Users,
-  Missions,
-  Mission,
-  MissionStatus,
-  MissionFundedStatus,
-  TimeWindowType,
-} from "../../model";
 import { SuccessSnackbar, ErrorSnackbar } from "../../component/Snackbars";
 
-function MakeMission({ history, firestore }) {
+import { User, Mission } from "../../model";
+
+/**
+ * Component for creating a mission based on form data
+ *
+ * @param {object} props.history - Object obtained from React Router
+ */
+function MakeMission({ history }) {
   const firebase = getFirebase();
   const [loading, setLoading] = useState(false);
   const [file, setFile] = useState(null);
@@ -37,56 +36,53 @@ function MakeMission({ history, firestore }) {
    * Creates a mission based on form data.
    */
   async function saveMission(payload) {
-    setLoading(true);
-    //Lookup id of helper
-    const volunteerId = await Users.getIdByDisplayName(payload.helper);
+    try {
+      setLoading(true);
+      //Lookup id of helper
+      let volunteerId;
+      volunteerId = await User.getIdByDisplayName(payload.helper);
 
-    //upload Image to Firebase Cloud Storage
-    const imageUrl = await imageUpload();
+      //upload Image to Firebase Cloud Storage
+      const imageUrl = await imageUpload();
 
-    //create mission object from Mission Class
-    const mission = new Mission();
-    mission.status = MissionStatus.unassigned;
-    mission.fundedStatus = MissionFundedStatus.fundingnotneeded;
-    mission.organisationId = user.organisationId;
-    mission.volunteerId = volunteerId;
-    mission.title = payload.title;
-    mission.description = payload.description;
-    mission.image = imageUrl;
-    mission.pickUpWindow = {
-      timeWindowType: TimeWindowType.exact,
-      startTime: payload.pickUp.time,
-    };
-    mission.pickUplocation = {
-      address: payload.pickUp.location.address,
-      lat: payload.pickUp.location.geoLocation?.lat,
-      long: payload.pickUp.location.geoLocation?.lng,
-    };
-    mission.deliveryWindow = {
-      timeWindowType: TimeWindowType.exact,
-      startTime: payload.dropOff.time,
-    };
-    mission.deliverylocation = {
-      address: payload.dropOff.location.address,
-      lat: payload.dropOff.location.geoLocation?.lat,
-      long: payload.dropOff.location.geoLocation?.lng,
-    };
-    mission.missionAccepted = false;
-    mission.recipientName = payload.recipient;
-    mission.created = Date.now();
-    mission.lastUpdated = Date.now();
+      //create mission object
+      const mission = Mission.defaultData;
 
-    //save mission in firestore
-    Missions.create(mission)
-      .then(() => {
-        setLoading(false);
-        setSuccessSnackbarOpen(true);
-      })
-      .catch((error) => {
-        setLoading(false);
-        setErrorSnackbarOpen(true);
-        console.error(error);
-      });
+      mission.organisationId = "";
+      mission.volunteerId = volunteerId;
+      mission.title = payload.title;
+      mission.description = payload.description;
+      mission.image = imageUrl;
+      mission.pickUpWindow.startTime = payload.pickUp.time;
+      mission.pickUpLocation = {
+        address: payload.pickUp.location.address,
+        lat: payload.pickUp.location.geoLocation?.lat,
+        long: payload.pickUp.location.geoLocation?.lng,
+      };
+      mission.deliveryWindow.startTime = payload.dropOff.time;
+      mission.deliveryLocation = {
+        address: payload.dropOff.location.address,
+        lat: payload.dropOff.location.geoLocation?.lat,
+        long: payload.dropOff.location.geoLocation?.lng,
+      };
+      mission.recipientName = payload.recipient;
+
+      //save mission in firestore
+      Mission.create(mission)
+        .then(() => {
+          setLoading(false);
+          setSuccessSnackbarOpen(true);
+        })
+        .catch((error) => {
+          setLoading(false);
+          setErrorSnackbarOpen(true);
+          console.error(error);
+        });
+    } catch (error) {
+      setLoading(false);
+      setErrorSnackbarOpen(true);
+      console.error(error);
+    }
   }
 
   async function imageUpload() {
@@ -102,7 +98,7 @@ function MakeMission({ history, firestore }) {
         });
       return await uploadTask;
     } else {
-      return null;
+      return "";
     }
   }
 
@@ -161,7 +157,7 @@ function MakeMission({ history, firestore }) {
         open={successSnackbarOpen}
         handleClose={() => {
           setSuccessSnackbarOpen(false);
-          history.push("/missions/created");
+          history.push("/missions");
         }}
         successMessage="Mission has been created."
         autoHideDuration={4000}

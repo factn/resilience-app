@@ -28,6 +28,34 @@ class User extends BaseModel {
   VolunteerStatus = VolunteerStatus;
 
   /**
+   * Given a displayName returns an user id
+   * @param {string} displayName : displayName of user
+   * @return {string}
+   */
+  async getIdByDisplayName(displayName: string): Promise<string | undefined> {
+    let collection = this.getCollection("users");
+    let doc;
+    try {
+      doc = await collection.where("displayName", "==", displayName).get();
+    } catch (error) {
+      //TODO show error message to user
+      throw error;
+    }
+
+    if (doc.empty) {
+      throw Error(`This user: ${displayName} does not exist`);
+    }
+
+    doc.forEach((data) => {
+      if (data === undefined) {
+        throw Error(`no data for this user: ${displayName}`);
+      }
+    });
+
+    return doc.docs[0].id;
+  }
+
+  /**
    * User volunteer for a mission
    * @param {string} userId : user
    * @param {string} missionId : mission that user want to volunteer for
@@ -43,7 +71,7 @@ class User extends BaseModel {
     }
 
     if (!doc.exists) {
-      throw Error(`This mission:  ${missionId} does not exist`);
+      throw Error(`This mission: ${missionId} does not exist`);
     }
 
     let data = doc.data();

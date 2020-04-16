@@ -64,7 +64,7 @@ const MissionDetailsPage = ({ firestore, auth, mission, history }) => {
     }
   }
 
-  function openMissionDeliveredCard(missionId) {
+  function openMissionDeliveredCard() {
     //open the submit delivery modal
     if (!auth.phoneNumber) {
       setUserUnverifiedPopupOpen(true);
@@ -76,7 +76,6 @@ const MissionDetailsPage = ({ firestore, auth, mission, history }) => {
   async function markMissionAsDelivered(missionId, confirmationImage) {
     try {
       await User.deliverMission(auth.uid, missionId);
-      console.log("marked mission as delivered");
       setCompleteDeliveryDialogOpen(false);
       setSuccessSnackbarOpen(true);
     } catch (e) {

@@ -39,16 +39,6 @@ class Users {
   }
 
   /**
-   * Given a displayName returns an user id
-   * @param {string} displayName
-   * @return {string}
-   */
-  async getIdByDisplayName(displayName: string): Promise<string | undefined> {
-    const user = await this.repo().whereEqualTo("displayName", displayName).findOne();
-    return user?.id;
-  }
-
-  /**
    * Returns the current authentication object.
    * @param {object} state
    * @return {FirebaseAuth}
