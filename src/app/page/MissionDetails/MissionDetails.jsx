@@ -52,10 +52,7 @@ const MissionDetailsPage = ({ firestore, auth, mission, history }) => {
     if (!auth.phoneNumber) {
       setUserUnverifiedPopupOpen(true);
     } else {
-      //Users.assignAsVolunteer(firestore, missionId, auth.uid);
-      //Missions.volunteerForMission(missionId, auth.uid);
-      //TODO TODAY:
-      //Users.volunteerForMission(missionId, auth.uid)
+      User.volunteerMission(auth.uid, missionId);
     }
   }
 
@@ -63,7 +60,7 @@ const MissionDetailsPage = ({ firestore, auth, mission, history }) => {
     if (!auth.phoneNumber) {
       setUserUnverifiedPopupOpen(true);
     } else {
-      Mission.startMission(missionId);
+      User.startMission(auth.ui, missionId);
     }
   }
 
@@ -78,12 +75,11 @@ const MissionDetailsPage = ({ firestore, auth, mission, history }) => {
 
   async function markMissionAsDelivered(missionId, confirmationImage) {
     try {
-      await Mission.deliveredMission(missionId, confirmationImage);
+      await User.deliverMission(auth.uid, missionId);
       console.log("marked mission as delivered");
       setCompleteDeliveryDialogOpen(false);
       setSuccessSnackbarOpen(true);
     } catch (e) {
-      console.error(e);
       setErrorSnackbarOpen(true);
     }
   }
