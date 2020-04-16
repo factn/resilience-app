@@ -1,66 +1,50 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useMemo } from "react";
+import ReactDOM from "react-dom";
 
 import { usePaypal } from "../../hooks";
 import { PurchaseUnit, OrderDetails } from "./PaypalTypes";
 
-let cartCache: PurchaseUnit[] = [];
-
 type Props = {
-  updateCart: (set: (purchaseUnits: PurchaseUnit[]) => void) => void;
+  cart: PurchaseUnit | PurchaseUnit[];
   onApprove: (details: OrderDetails) => void;
+  onError: (error: any) => void;
 };
-
-function handleUpdateCart(purchaseUnits: PurchaseUnit[]) {
-  cartCache = purchaseUnits;
-}
 
 /**
  * See https://developer.paypal.com/docs/checkout/integration-features/# for implementation details
  */
-export default function PaypalCheckout({ onApprove, updateCart }: Props) {
+export default function PaypalCheckout({ cart, onApprove, onError }: Props) {
   const paypal: any = usePaypal();
-  const checkoutRef = useRef(null);
 
-  updateCart(handleUpdateCart);
+  function createOrder(data: any, actions: any) {
+    return actions.order.create({
+      purchase_units: Array.isArray(cart) ? cart : [cart],
+    });
+  }
 
-  // on mount, clear our cache
-  useEffect(() => {
-    cartCache = [];
-  }, []);
+  const PaypalButtons = useMemo(
+    () => paypal && paypal.Buttons.driver("react", { React, ReactDOM }),
+    [paypal]
+  );
 
-  useEffect(() => {
-    paypal &&
-      paypal
-        .Buttons({
-          createOrder: createOrder(),
-          onClick: verify,
-          onApprove: handleOnApprove(onApprove),
-        })
-        .render(checkoutRef.current);
-  }, [paypal, onApprove]);
-
-  return <div ref={checkoutRef}></div>;
+  return (
+    PaypalButtons && (
+      <PaypalButtons
+        onApprove={handleOnApprove(onApprove)}
+        onClick={verify}
+        createOrder={createOrder}
+        onError={onError}
+      />
+    )
+  );
 }
 
 async function verify(data: any, actions: any) {
   return actions.resolve();
 }
 
-function createOrder() {
-  return (data: any, actions: any) => {
-    console.log({ data });
-    return actions.order.create({
-      purchase_units: cartCache,
-    });
-  };
-}
-
 function handleOnApprove(callback: (details: OrderDetails) => void) {
   return (data: any, actions: any) => {
     return actions.order.capture().then(callback);
   };
-}
-
-function onError(err: any) {
-  console.log(err);
 }
