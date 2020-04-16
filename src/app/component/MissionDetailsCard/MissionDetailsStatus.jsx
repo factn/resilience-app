@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { MissionStatus } from "../../model";
+import { Mission } from "../../model";
 
 const titleCase = (str) => ("" + str).charAt(0).toUpperCase() + ("" + str).substr(1);
 
@@ -11,9 +11,9 @@ const titleCase = (str) => ("" + str).charAt(0).toUpperCase() + ("" + str).subst
  * @component
  */
 const MissionDetailsStatus = ({ status, volunteerName }) => {
-  return status === MissionStatus.unassigned ? (
+  return status === Mission.Status.unassigned ? (
     titleCase(status)
-  ) : status === MissionStatus.tentative || status === MissionStatus.assigned ? (
+  ) : status === Mission.Status.tentative || status === Mission.Status.assigned ? (
     volunteerName
   ) : (
     <>
