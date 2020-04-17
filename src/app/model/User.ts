@@ -123,6 +123,45 @@ class User extends BaseModel {
   }
 
   /**
+   * Volunteer is removed from a mission
+   * @param {string} missionId : mission that user want to volunteer for
+   */
+
+  async unvolunteerMission(missionId: string) {
+    let collection = this.getCollection("missions");
+    let doc;
+    try {
+      doc = await collection.doc(missionId).get();
+    } catch (error) {
+      //TODO show error message to user
+      throw error;
+    }
+
+    if (!doc.exists) {
+      throw Error(`This mission:  ${missionId} does not exist`);
+    }
+
+    let data = doc.data();
+    if (!data) {
+      throw Error(`no data for this mission: ${missionId}`);
+    }
+
+    if (!data.volunteerId) {
+      throw Error(`User: ${userId} are not allowed to voluntter for this mission: ${missionId}`);
+    }
+
+    try {
+      doc.update({
+        volunteerId: '',
+        status: MissionStatus.unassigned,
+      });
+    } catch (e) {
+      //TODO show error message to user
+      throw e;
+    }
+  }
+
+  /**
    * User start a mission
    * @param {string} userId - user
    * @param {string} missionId - mission that user want to start
