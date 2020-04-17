@@ -152,7 +152,7 @@ class User extends BaseModel {
 
     try {
       collection.doc(missionId).update({
-        volunteerId: '',
+        volunteerId: "",
         status: MissionStatus.unassigned,
       });
     } catch (e) {

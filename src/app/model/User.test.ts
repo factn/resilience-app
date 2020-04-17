@@ -2,30 +2,27 @@ import users from "./User";
 import missions from "./Mission";
 import { MissionStatus } from "./schema";
 
-function mockBaseRepo(
-  {
-    existsReturn,
-    mockDataReturn,
-    throwCollectionDocError,
-    throwUpdateError
-  }) {
-
+function mockBaseRepo({ existsReturn, mockDataReturn, throwCollectionDocError, throwUpdateError }) {
   const mockData = jest.fn().mockImplementation(() => mockDataReturn);
-  const mockUpdate = throwUpdateError ?
-    jest.fn().mockImplementation(() => { throw Error('Error') }) 
+  const mockUpdate = throwUpdateError
+    ? jest.fn().mockImplementation(() => {
+        throw Error("Error");
+      })
     : jest.fn();
 
   const mockGet = {
     exists: existsReturn,
-    data: mockData
-  }
-  const docImplementation = () => jest.fn().mockResolvedValue(mockGet); 
-  const mockDocFn = throwCollectionDocError ? 
-    jest.fn().mockImplementation(() => { throw Error('Error') }) 
+    data: mockData,
+  };
+  const docImplementation = () => jest.fn().mockResolvedValue(mockGet);
+  const mockDocFn = throwCollectionDocError
+    ? jest.fn().mockImplementation(() => {
+        throw Error("Error");
+      })
     : jest.fn().mockReturnValue({
-    get: jest.fn().mockResolvedValue(mockGet),
-    update: mockUpdate
-  });
+        get: jest.fn().mockResolvedValue(mockGet),
+        update: mockUpdate,
+      });
   const collection = {
     doc: mockDocFn,
   };
@@ -34,7 +31,7 @@ function mockBaseRepo(
   return {
     mockDocFn,
     mockData,
-    mockUpdate
+    mockUpdate,
   };
 }
 
@@ -43,8 +40,8 @@ describe("User", () => {
     const missionId = "1234";
     const volunteerId = "aabbbccc";
     let mission = {
-      volunteerId: '',
-      status: null 
+      volunteerId: "",
+      status: null,
     };
 
     beforeEach(() => {
@@ -57,17 +54,17 @@ describe("User", () => {
         existsReturn: true,
         mockDataReturn: mission,
         throwCollectionDocError: false,
-        throwUpdateError: false
+        throwUpdateError: false,
       });
-    
+
       await users.unvolunteerMission(missionId);
 
       expect(mockDocFn).toBeCalledWith(missionId);
       expect(mockData).toBeCalledTimes(1);
       const expected = {
         volunteerId: "",
-        status: MissionStatus.unassigned
-      }
+        status: MissionStatus.unassigned,
+      };
       expect(mockUpdate).toBeCalledWith(expected);
     });
 
@@ -76,9 +73,9 @@ describe("User", () => {
         existsReturn: false,
         mockDataReturn: mission,
         throwCollectionDocError: false,
-        throwUpdateError: false
+        throwUpdateError: false,
       });
-    
+
       await expect(users.unvolunteerMission(missionId)).rejects.toThrow(Error);
 
       expect(mockDocFn).toBeCalledWith(missionId);
@@ -91,9 +88,9 @@ describe("User", () => {
         existsReturn: true,
         mockDataReturn: null,
         throwCollectionDocError: false,
-        throwUpdateError: false
+        throwUpdateError: false,
       });
-    
+
       await expect(users.unvolunteerMission(missionId)).rejects.toThrow(Error);
 
       expect(mockDocFn).toBeCalledWith(missionId);
@@ -106,9 +103,9 @@ describe("User", () => {
         existsReturn: true,
         mockDataReturn: mission,
         throwCollectionDocError: true,
-        throwUpdateError: false
+        throwUpdateError: false,
       });
-   
+
       await expect(users.unvolunteerMission(missionId)).rejects.toThrow(Error);
 
       expect(mockDocFn).toBeCalledWith(missionId);
@@ -121,9 +118,9 @@ describe("User", () => {
         existsReturn: true,
         mockDataReturn: mission,
         throwCollectionDocError: false,
-        throwUpdateError: true 
+        throwUpdateError: true,
       });
-   
+
       await expect(users.unvolunteerMission(missionId)).rejects.toThrow(Error);
 
       expect(mockDocFn).toBeCalledWith(missionId);
@@ -132,4 +129,3 @@ describe("User", () => {
     });
   });
 });
-
