@@ -136,7 +136,7 @@ const HomePage = ({ history, ...rest }) => {
       ) : (
         <>
           <StyledHomeButton
-            onClick={() => history.push("/request/create")}
+            onClick={() => history.push("/missions/new")}
             text="Request Help"
             color="secondary"
             data-testid="btn-request-help"
