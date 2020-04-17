@@ -4,7 +4,12 @@ export function merge<T>(data: unknown, defaultData: T): T {
 }
 
 function rMerge(data: any, defaultData: any) {
-  if (Array.isArray(data) || (typeof defaultData !== "object" && data !== undefined)) return data;
+  if (
+    Array.isArray(data) ||
+    data instanceof Date ||
+    (typeof defaultData !== "object" && data !== undefined)
+  )
+    return data;
 
   if (!data || !Object.keys(data).length) return defaultData;
 
@@ -22,7 +27,7 @@ export function sanitize<T>(data: unknown, defaultScheme: T): T {
 }
 
 function rSanitize(data: any, defaultData: any) {
-  if (data === undefined) return undefined;
+  if (data === undefined || data === null) return data;
 
   if (typeof data !== typeof defaultData) {
     throw new Error(
