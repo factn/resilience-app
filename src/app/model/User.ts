@@ -147,11 +147,11 @@ class User extends BaseModel {
     }
 
     if (!data.volunteerId) {
-      throw Error(`User: ${userId} are not allowed to voluntter for this mission: ${missionId}`);
+      throw Error(`There is currently no volunteer this mission: ${missionId}`);
     }
 
     try {
-      doc.update({
+      collection.doc(missionId).update({
         volunteerId: '',
         status: MissionStatus.unassigned,
       });
