@@ -46,7 +46,7 @@ function MakeMission({ history }) {
       const imageUrl = await imageUpload();
 
       //create mission object
-      const mission = Mission.load({
+      const mission = {
         organisationId: "", // PLACEHOLDER -> user doesn'T have an organisation id yet
         volunteerId: volunteerId,
         title: payload.title,
@@ -69,7 +69,7 @@ function MakeMission({ history }) {
           long: payload.dropOff.location.geoLocation?.lng,
         },
         recipientName: payload.recipient,
-      });
+      };
 
       //save mission in firestore
       User.createMission(mission)

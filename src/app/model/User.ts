@@ -44,12 +44,15 @@ class User extends BaseModel {
     const missionId = uuidV4(); //generate mission id
     const collection = this.getCollection("missions");
 
-    //Add mission id to mission object
-    mission.id = missionId;
+    //Add mission id to mission object and sanitize is
+    const sanitizedMission = this.load({
+      id: missionId,
+      ...mission,
+    });
 
     //save mission in firestore
     try {
-      await collection.doc(missionId).set(mission);
+      await collection.doc(missionId).set(sanitizedMission);
     } catch (error) {
       //TODO show error message to user
       throw error;
