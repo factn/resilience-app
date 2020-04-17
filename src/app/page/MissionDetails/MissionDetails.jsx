@@ -44,10 +44,13 @@ const MissionDetailsPage = ({ history, match }) => {
   const [errorSnackbarOpen, setErrorSnackbarOpen] = useState(false);
   const [successSnackbarOpen, setSuccessSnackbarOpen] = useState(false);
   const [mission, setMission] = useState({});
-  useEffect(async () => {
+  useEffect(() => {
     const missionId = match.params.id;
-    const mission = await Mission.getById(missionId);
-    setMission(mission);
+    const fetchMissionById = async () => {
+      const mission = await Mission.getById(missionId);
+      setMission(mission);
+    };
+    fetchMissionById();
   }, []);
 
   function volunteerForMission(missionId) {
