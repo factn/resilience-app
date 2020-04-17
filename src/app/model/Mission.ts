@@ -64,30 +64,6 @@ class Mission extends BaseModel {
 
   filterByStatus = (missions: MissionInterface[], status: MissionStatus) =>
     missions.filter((mission) => mission.status === status);
-
-  /**
-   * Given a mission object creates a new entry in firestore
-   * returns the mission id
-   * @param {object} mission
-   * @return {string}
-   */
-  async create(mission: MissionInterface): Promise<string> {
-    const missionId = uuidV4();
-    const collection = this.getCollection(this.collectionName);
-
-    //Add mission id and sanitize data
-    mission.id = missionId;
-
-    //save mission in firestore
-    try {
-      await collection.doc(missionId).set(mission);
-    } catch (error) {
-      //TODO show error message to user
-      throw error;
-    }
-
-    return missionId;
-  }
 }
 
 export default new Mission("missions", defaultMissionData);
