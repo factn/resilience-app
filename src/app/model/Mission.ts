@@ -10,6 +10,7 @@ import {
   MissionDetails,
 } from "./schema";
 import BaseModel from "./BaseModel";
+import { v4 as uuidV4 } from "uuid";
 
 const defaultLocation: Location = {
   address: "",
@@ -42,7 +43,7 @@ const defaultMissionData: MissionInterface = {
   privateNotes: "", // just for volunteer and organiser
   cost: 0.0, // Decimal if possible eg 12.21 (assume USD for MVP.0)
   pickUpWindow: defaultTimeWindow, // nb this can be an exact time or can be null
-  pickUplocation: defaultLocation,
+  pickUpLocation: defaultLocation,
   deliveryWindow: defaultTimeWindow,
   deliveryLocation: defaultLocation, // default to recipient location
   deliveryConfirmationImage: "",
