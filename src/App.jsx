@@ -77,7 +77,6 @@ function App() {
                 <PrivateRoute path="/missions/created">
                   <MissionsCreated />
                 </PrivateRoute>
-
                 </PrivateRoute>
                 <PrivateRoute path="/missions/started">
                   <MissionsStarted />
@@ -85,11 +84,9 @@ function App() {
                 <PrivateRoute path="/missions/completed">
                   <MissionsCompleted />
                 </PrivateRoute>
-
                 <PrivateRoute path="/missions/new">
                   <MissionCreate />
                 </PrivateRoute>
-
                 <Route path="/missions/:id" component={MissionDetails} />
                 <Route path="/missions" component={Missions} />
                 <PrivateRoute path="/user/profile">
