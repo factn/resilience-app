@@ -113,22 +113,22 @@ const MissionDetailsCard = ({
   const pickUpDetails = [
     {
       icon: LocationOnIcon,
-      content: [{ text: mission.pickUplocation }],
+      content: [{ text: mission.pickUpLocation.address }],
     },
     {
       icon: ScheduleIcon,
-      content: [{ text: mission.pickUpWindow }],
+      content: [{ text: mission.pickUpWindow.timeWindowType }],
     },
   ];
 
   const deliveryDetails = [
     {
       icon: LocationOnIcon,
-      content: [{ text: mission.deliverylocation }],
+      content: [{ text: mission.deliveryLocation.address }],
     },
     {
       icon: ScheduleIcon,
-      content: [{ text: mission.deliveryWindow }],
+      content: [{ text: mission.deliveryWindow.timeWindowType }],
     },
     {
       icon: PersonIcon,

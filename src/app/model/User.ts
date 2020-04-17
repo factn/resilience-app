@@ -5,6 +5,7 @@ import {
   MissionStatus,
   MissionInterface,
 } from "./schema";
+import Mission from "./Mission";
 import BaseModel from "./BaseModel";
 import { v4 as uuidV4 } from "uuid";
 
@@ -89,29 +90,14 @@ class User extends BaseModel {
    * @param {string} missionId : mission that user want to volunteer for
    */
   async volunteerMission(userId: string, missionId: string) {
-    let collection = this.getCollection("missions");
-    let doc;
-    try {
-      doc = await collection.doc(missionId).get();
-    } catch (error) {
-      //TODO show error message to user
-      throw error;
-    }
-
-    if (!doc.exists) {
-      throw Error(`This mission: ${missionId} does not exist`);
-    }
-
-    let data = doc.data();
-    if (data === undefined) {
-      throw Error(`no data for this mission: ${missionId}`);
-    }
+    let data = await Mission.getById(missionId);
 
     if (data.volunteerId) {
       throw Error(`User: ${userId} are not allowed to voluntter for this mission: ${missionId}`);
     }
 
     try {
+      const collection = this.getCollection("missions");
       collection.doc(missionId).update({
         volunteerId: userId,
         status: MissionStatus.assigned,
@@ -129,22 +115,8 @@ class User extends BaseModel {
 
   async unvolunteerMission(missionId: string) {
     let collection = this.getCollection("missions");
-    let doc;
-    try {
-      doc = await collection.doc(missionId).get();
-    } catch (error) {
-      //TODO show error message to user
-      throw error;
-    }
 
-    if (!doc.exists) {
-      throw Error(`This mission:  ${missionId} does not exist`);
-    }
-
-    let data = doc.data();
-    if (!data) {
-      throw Error(`no data for this mission: ${missionId}`);
-    }
+    let data = await Mission.getById(missionId);
 
     if (!data.volunteerId) {
       throw Error(`There is currently no volunteer this mission: ${missionId}`);
