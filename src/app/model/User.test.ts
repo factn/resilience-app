@@ -17,14 +17,14 @@ function mockBaseRepo(
 
   const mockGet = {
     exists: existsReturn,
-    data: mockData,
-    update: mockUpdate
+    data: mockData
   }
   const docImplementation = () => jest.fn().mockResolvedValue(mockGet); 
   const mockDocFn = throwCollectionDocError ? 
     jest.fn().mockImplementation(() => { throw Error('Error') }) 
     : jest.fn().mockReturnValue({
-    get: jest.fn().mockResolvedValue(mockGet)
+    get: jest.fn().mockResolvedValue(mockGet),
+    update: mockUpdate
   });
   const collection = {
     doc: mockDocFn,
