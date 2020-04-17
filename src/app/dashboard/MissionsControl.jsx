@@ -11,17 +11,11 @@ import Drawer from "./Drawer";
 import Home from "./Home";
 import Missions from "./Missions";
 import { Switch, Route } from "react-router-dom";
-import { downloadAsCsv } from "./missionControlUtilities";
 
-import Grid from "@material-ui/core/Grid";
 import HomeIcon from "@material-ui/icons/Home";
 import AnnouncementIcon from "@material-ui/icons/Announcement";
 import PeopleIcon from "@material-ui/icons/People";
 import PanToolIcon from "@material-ui/icons/PanTool";
-import GetAppRoundedIcon from "@material-ui/icons/GetAppRounded";
-
-const drawerWidth = 240;
-const drawerMinWidth = 73;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -46,6 +40,7 @@ const useStyles = makeStyles((theme) => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
+    overflow: "auto",
   },
 }));
 

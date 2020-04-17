@@ -2,14 +2,12 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
-import { H2 } from "../../component";
 import { color } from "../../../theme";
 import OverviewItem from "./OverviewItem";
 import { compose } from "redux";
 import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
 import AnnouncementIcon from "@material-ui/icons/Announcement";
-import PanToolRoundedIcon from "@material-ui/icons/PanToolRounded";
 
 import { Mission } from "../../model";
 
@@ -27,60 +25,51 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Overview = ({ missions }) => {
+const Overview = ({ inProposed, inPlanning, inProgress }) => {
   const classes = useStyles();
-  const missionsNotStarted = missions || [];
-  const missionsQueued = missions || [];
 
   return (
-    <Grid container direction="column" spacing={2}>
-      <Grid item style={{ alignSelf: "flex-start" }}>
-        <H2>Overview</H2>
-      </Grid>
-      <Grid item>
-        <Grid container spacing={2}>
-          <Grid item>
-            <Card className={classes.overview}>
-              <OverviewItem
-                icon={
-                  <AnnouncementIcon className={classes.icon} style={{ fill: color.darkPink }} />
-                }
-                title="UNASSIGNED MISSIONS"
-                nbr={missionsNotStarted.length}
-                link="View Unassigned Missions"
-                textColor={color.darkPink}
-              />
-            </Card>
-          </Grid>
-          <Grid item>
-            <Card className={classes.overview}>
-              <OverviewItem
-                icon={
-                  <AnnouncementIcon className={classes.icon} style={{ fill: color.darkOrange }} />
-                }
-                title="QUEUED MISSIONS"
-                nbr={missionsQueued.length}
-                link="View Queued Missions"
-                textColor={color.darkOrange}
-              />
-            </Card>
-          </Grid>
-          <Grid item>
-            <Card className={classes.overview}>
-              <OverviewItem
-                icon={
-                  <PanToolRoundedIcon
-                    className={classes.icon}
-                    style={{ fill: color.vibrantPurple }}
-                  />
-                }
-                title="PENDING VOLUNTEERS"
-                nbr="9" //TODO: Get actual votunteer numbers
-                link="View Pending Volunteers"
-                textColor={color.vibrantPurple}
-              />
-            </Card>
-          </Grid>
+    <Grid container spacing={2} direction="column">
+      <Grid item container spacing={2}>
+        <Grid item>
+          <Card className={classes.overview}>
+            <OverviewItem
+              icon={<AnnouncementIcon className={classes.icon} style={{ fill: color.darkPink }} />}
+              title="Proposed Missions"
+              nbr={inProposed.length}
+              linkLabel="View Unassigned Missions"
+              link="/dashboard/missions?view=inProposed"
+              textColor={color.darkPink}
+            />
+          </Card>
+        </Grid>
+        <Grid item>
+          <Card className={classes.overview}>
+            <OverviewItem
+              icon={
+                <AnnouncementIcon className={classes.icon} style={{ fill: color.darkOrange }} />
+              }
+              title="Planning Missions"
+              nbr={inPlanning.length}
+              linkLabel="View Queued Missions"
+              link="/dashboard/missions?view=inPlanning"
+              textColor={color.darkOrange}
+            />
+          </Card>
+        </Grid>
+        <Grid item>
+          <Card className={classes.overview}>
+            <OverviewItem
+              icon={
+                <AnnouncementIcon className={classes.icon} style={{ fill: color.deepPurple }} />
+              }
+              title="Missions In Progress"
+              nbr={inProgress.length}
+              linkLabel="View Queued Missions"
+              link="/dashboard/missions?view=inProgress"
+              textColor={color.darkOrange}
+            />
+          </Card>
         </Grid>
       </Grid>
     </Grid>
@@ -90,13 +79,22 @@ const Overview = ({ missions }) => {
 const mapStateToProps = (state) => {
   return {
     user: state.firebase.auth,
-    missions: state.firestore.data.missions,
+    inProposed: Mission.selectInProposed(state),
+    inPlanning: Mission.selectInPlanning(state),
+    inProgress: Mission.selectInProgress(state),
   };
 };
 
 export default compose(
   connect(mapStateToProps),
-  firestoreConnect((props) => {
-    return [{ collection: "missions" }, { collection: "users" }];
+  firestoreConnect(() => {
+    //TODO: connect when we need it
+    return [
+      Mission.fsInProposed,
+      Mission.fsInPlanning,
+      Mission.fsInProgress,
+      Mission.fsInDone,
+      { collection: "users" },
+    ];
   })
 )(Overview);

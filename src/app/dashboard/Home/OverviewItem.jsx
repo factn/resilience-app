@@ -11,7 +11,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const HomeItem = ({ icon, title, nbr, link, textColor }) => {
+const HomeItem = ({ icon, title, nbr, link, linkLabel, textColor }) => {
   const classes = useStyles();
 
   return (
@@ -30,7 +30,7 @@ const HomeItem = ({ icon, title, nbr, link, textColor }) => {
           <Grid item>
             <Body1>
               <Link to={link} style={{ color: "black" }}>
-                {link}
+                {linkLabel}
               </Link>
             </Body1>
           </Grid>

@@ -1,13 +1,10 @@
 import React from "react";
 import MUIDataTable from "mui-datatables";
-import { Box } from "@material-ui/core";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { useTheme } from "@material-ui/core/styles";
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
-import { H5 } from "../../component";
-import { MissionStatus, MissionFundedStatus } from "../../model/schema";
 import { MissionName, TimeLocation, Funding } from "./ListComponents";
-
-import _ from "lodash";
+import { useHistory, useLocation } from "react-router-dom";
+import _ from "../../utils";
 
 const getMuiTheme = (theme) =>
   createMuiTheme({
@@ -31,6 +28,7 @@ const getMuiTheme = (theme) =>
       },
       MUIDataTableToolbar: {
         root: {
+          display: "none",
           backgroundColor: "transparent",
         },
       },
@@ -43,7 +41,7 @@ const getMuiTheme = (theme) =>
       },
       MUIDataTable: {
         responsiveScrollMaxHeight: {
-          maxHeight: "calc(100vh - 300px) !important",
+          maxHeight: "calc(100vh - 250px) !important",
         },
       },
     },
@@ -54,6 +52,7 @@ const config = [
       title: mission.title,
       type: mission.type,
       id: mission.id,
+      onShowDetails: mission.onShowDetails,
     }),
     options: {
       name: "title",
@@ -95,16 +94,23 @@ const config = [
   },
 ];
 
-const MissionsListView = ({ missions, ...rest }) => {
+const MissionsListView = ({ missions, view }) => {
   const theme = useTheme();
   const innerTheme = getMuiTheme(theme);
+  const history = useHistory();
 
   function formatData(missions) {
     return missions?.map((mission) => {
       let formated = {};
+      const onShowDetails = () =>
+        history.push({
+          search: _.setQueryParam("missionId", mission.id),
+        });
+      mission.onShowDetails = onShowDetails;
       config.forEach((c) => {
         formated[c.options.name] = c.format(mission);
       });
+
       return formated;
     });
   }
@@ -116,10 +122,11 @@ const MissionsListView = ({ missions, ...rest }) => {
     responsive: "scrollMaxHeight",
     elevation: 0,
   };
+  const data = formatData(missions);
 
   return (
     <MuiThemeProvider theme={innerTheme}>
-      <MUIDataTable data={formatData(missions)} columns={columns} options={options} />
+      <MUIDataTable data={data} columns={columns} options={options} rowsPerPage={100} />
     </MuiThemeProvider>
   );
 };

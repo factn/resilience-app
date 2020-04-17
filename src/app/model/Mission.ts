@@ -10,11 +10,12 @@ import {
   MissionDetails,
 } from "./schema";
 import BaseModel from "./BaseModel";
+import _ from "lodash";
 
 const defaultLocation: Location = {
-  address: "",
+  address: "No Address",
   lat: 0,
-  long: 0,
+  lng: 0,
   label: "",
 };
 
@@ -34,10 +35,10 @@ const defaultMissionData: MissionInterface = {
   organisationId: "",
   tentativeVolunterId: "", // this get removed if the volunteer accepts?
   volunteerId: "",
-  title: "",
+  title: "Mission Title",
+  description: "No Description",
   missionDetails: defaultMissionDetails, // varies by mission type
-  description: "",
-  image: "",
+  image: "https://via.placeholder.com/300x450",
   notes: "",
   privateNotes: "", // just for volunteer and organiser
   cost: 0.0, // Decimal if possible eg 12.21 (assume USD for MVP.0)
@@ -49,17 +50,53 @@ const defaultMissionData: MissionInterface = {
   deliveryNotes: "",
   missionAccepted: false,
   feedbackNotes: "",
-  recipientName: "",
+  recipientName: "No Recipient Name",
   recipientPhoneNumber: "",
-  recipientId: "", // reference?
+  recipientId: "No Recipient Id", // reference?
   created: new Date(), // time stamp
   lastUpdated: new Date(), // time stamp
 };
 
+const fsInProposed = {
+  collection: "missions",
+  where: [
+    ["status", "==", MissionStatus.unassigned],
+    ["fundedStatus", "==", MissionFundedStatus.notfunded],
+  ],
+  storeAs: "missionsInProposed",
+};
+const fsInPlanning = {
+  collection: "missions",
+  where: [["status", "in", [MissionStatus.tentative, MissionStatus.assigned]]],
+  storeAs: "missionsInPlanning",
+};
+const fsInProgress = {
+  collection: "missions",
+  where: [["status", "==", [MissionStatus.started, MissionStatus.delivered]]],
+  storeAs: "missionsInProgress",
+};
+const fsInDone = {
+  collection: "missions",
+  where: [
+    ["status", "==", MissionStatus.unassigned],
+    ["fundedStatus", "==", MissionFundedStatus.notfunded],
+  ],
+  storeAs: "missionsInDone",
+};
+
 class Mission extends BaseModel {
+  collectionName = "missions";
   Status = MissionStatus;
   FundedStatus = MissionFundedStatus;
-  collectionName = "missions";
+
+  selectInProposed = (state: any) => this.loads(state.firestore.ordered.missionsInProposed || []);
+  fsInProposed = fsInProposed;
+  selectInPlanning = (state: any) => this.loads(state.firestore.ordered.missionsInPlanning || []);
+  fsInPlanning = fsInPlanning;
+  selectInProgress = (state: any) => this.loads(state.firestore.ordered.missionsInProgress || []);
+  fsInProgress = fsInProgress;
+  selectInDone = (state: any) => this.loads(state.firestore.ordered.missionsInProgress || []);
+  fsInDone = fsInDone;
 
   filterByStatus = (missions: MissionInterface[], status: MissionStatus) =>
     missions.filter((mission) => mission.status === status);

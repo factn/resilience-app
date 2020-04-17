@@ -71,19 +71,17 @@ const Overview = ({ missions }) => {
   });
   const position = { lat: 37.773972, lng: -122.431297 };
   let filtered = missions?.filter((mission) => {
-    return mission.deliveryLocation && mission.deliveryLocation.lat;
+    return mission.deliveryLocation && mission.deliveryLocation.lat && mission.deliveryLocation.lng;
   });
 
   return (
     <Grid container>
-      <Grid container>
-        <Map center={position} zoom={12} className={`${classes.map} data-test-leaftleft-map`}>
-          <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-          {filtered?.map((mission) => (
-            <Marker key={mission.id} position={mission.deliveryLocation} icon={FoodIcon} />
-          ))}
-        </Map>
-      </Grid>
+      <Map center={position} zoom={12} className={`${classes.map} data-test-leaftleft-map`}>
+        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+        {filtered?.map((mission) => (
+          <Marker key={mission.id} position={mission.deliveryLocation} icon={FoodIcon} />
+        ))}
+      </Map>
     </Grid>
   );
 };

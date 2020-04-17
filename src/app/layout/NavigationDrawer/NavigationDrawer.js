@@ -16,7 +16,9 @@ import { Link, useHistory } from "react-router-dom";
 import { useFirebase } from "react-redux-firebase";
 
 import { PrivateComponent } from "../../component";
+import OrganizerComponent from "../../component/OrganizerComponent";
 import { ListItemIcon } from "@material-ui/core";
+import DashboardIcon from "@material-ui/icons/Dashboard";
 
 const PrivateDrawerButton = ({ children, to, text, classes }) => (
   <PrivateComponent>
@@ -61,6 +63,17 @@ export default function TemporaryDrawer() {
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <List>
+        <OrganizerComponent>
+          <Link to="/dashboard" className={classes.link}>
+            <ListItem button>
+              <ListItemIcon>
+                <DashboardIcon classes={{ root: classes.colorIcon }} fontSize="large" />
+              </ListItemIcon>
+              <ListItemText primary="Dashboard" />
+            </ListItem>
+          </Link>
+        </OrganizerComponent>
+
         <Link to="/missions" className={classes.link}>
           <ListItem button>
             <ListItemIcon>

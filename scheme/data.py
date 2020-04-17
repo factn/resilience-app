@@ -75,7 +75,7 @@ MissionStatus = [
 ]
 
 MissionFundedStatus = [
-    "fundingnotneeded",
+    "notfunded",
     "fundedbyrecipient",
     "fundedinkind",
     "fundingnotneeded",
@@ -155,7 +155,7 @@ if __name__ == "__main__":
     org = organization()
     data = {'missions': {}, "users": {}}
 
-    [add_mission(org['id'], data) for i in range(100)]
+    [add_mission(org['id'], data) for i in range(200)]
     [add_volunteer(org['id'], data) for i in range(20)]
 
     json_data = json.dumps(data, indent=2)

@@ -6,7 +6,7 @@ export interface Location {
   /* Latitude */
   lat: number;
   /* Longtitude */
-  long: number;
+  lng: number;
   /*  eg Pepperige farms if relevant */
   label: string;
 }

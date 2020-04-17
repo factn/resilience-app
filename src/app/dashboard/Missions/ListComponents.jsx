@@ -1,62 +1,52 @@
 import React from "react";
 import { Box } from "@material-ui/core";
-import { H5, Button } from "../../component";
-import { MissionFundedStatus } from "../../model/schema";
+import { H5 } from "../../component";
+import styled from "styled-components";
 
-import _ from "lodash";
+const SelectedMissionId = styled.div`
+  text-decoration: underline;
+  cursor: pointer;
+  user-select: none;
+`;
 
-export const MissionName = (value) => {
+function MissionName({ title, type, onShowDetails }) {
   return (
     <Box width="200px">
-      <H5>{value.title}</H5>
+      <H5>{title}</H5>
       <div>
-        <small>{value.type}</small>
+        <small>{type}</small>
       </div>
-      <div>
-        <a>View Mission Details</a>
-      </div>
+      <SelectedMissionId onClick={onShowDetails}>View Details</SelectedMissionId>
     </Box>
   );
-};
-export const TimeLocation = (value) => {
+}
+
+const TimeLocation = (value) => {
   if (!value) return null;
+  let {
+    time: { startTime, timeWindowType },
+    location,
+  } = value;
+  if (Object.keys(startTime).length === 0 && startTime.constructor === Object) {
+    startTime = "";
+  }
+
   return (
     <div>
-      <div>{value.time?.startTime}</div>
-      <div>{value.time?.timeWindowType}</div>
-      <div>{value.location?.address}</div>
+      <div>{String(startTime)}</div>
+      <div>{timeWindowType}</div>
+      <div>{location?.address}</div>
     </div>
   );
 };
 
-export const Funding = (value) => {
+const Funding = (value) => {
   if (!value) return null;
-  let conf = {
-    [MissionFundedStatus.fundedbyrecipient]: {
-      text: "Funded by recipient",
-      buttonText: "Approve Mission",
-    },
-    [MissionFundedStatus.fundedinkind]: {
-      text: "Funded in kind",
-      buttonText: "Approve Mission",
-    },
-    [MissionFundedStatus.fundingnotneeded]: {
-      text: "Funding not needed",
-      buttonText: "Approve Mission",
-    },
-    [MissionFundedStatus.fundedbydonation]: {
-      text: "Funded By Donation",
-      buttonText: "Approve Mission",
-    },
-    [MissionFundedStatus.notfunded]: {
-      text: "Not Funded",
-      buttonText: "Approve Funding",
-    },
-  };
   return (
     <div>
-      <div>{conf[value.fundedStatus]?.text}</div>
-      <Button>{conf[value.fundedStatus]?.buttonText}</Button>
+      <div>{value?.text}</div>
     </div>
   );
 };
+
+export { MissionName, TimeLocation, Funding };

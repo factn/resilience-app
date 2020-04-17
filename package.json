@@ -36,7 +36,6 @@
     "recompose": "^0.30.0",
     "redux-firestore": "^0.13.0",
     "reflect-metadata": "^0.1.13",
-    "reselect": "^4.0.0",
     "source-map-loader": "^0.2.4",
     "styled-components": "^5.1.0",
     "uuid": "^7.0.2"
