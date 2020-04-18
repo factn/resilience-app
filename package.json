@@ -41,20 +41,38 @@
     "uuid": "^7.0.2"
   },
   "scripts": {
+    "build-storybook": "build-storybook -s public",
+    "build": "react-scripts build",
+    "docs": "jsdoc -c jsdoc.conf.json",
+    "eject": "react-scripts eject",
+    "format": "npm run lint:fix && npm run prettier:fix",
+    "lint:fix": "eslint ./src --fix --ext .js,.jsx,.ts,.tsx",
+    "lint": "eslint ./src --ext .js,.jsx,.ts,.tsx",
+    "prettier:check": "prettier --check ./src",
+    "prettier:fix": "prettier --write ./src",
     "server": "node server.js",
     "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
     "storybook": "start-storybook -p 9009 -s public",
-    "build-storybook": "build-storybook -s public",
-    "docs": "jsdoc -c jsdoc.conf.json",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "prettier:check": "prettier --check .",
-    "prettier:fix": "prettier --write ."
+    "test": "react-scripts test"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": [
+      "prettier",
+      "react-app"
+    ],
+    "plugins": [
+      "prettier",
+      "react",
+      "sort-destructure-keys"
+    ],
+    "rules": {
+      "sort-destructure-keys/sort-destructure-keys": [
+        2,
+        {
+          "caseSensitive": false
+        }
+      ]
+    }
   },
   "browserslist": {
     "production": [
@@ -86,6 +104,9 @@
     "@types/react-router-dom": "^5.1.4",
     "awesome-typescript-loader": "^5.2.1",
     "better-docs": "^1.4.7",
+    "eslint-config-prettier": "^6.10.1",
+    "eslint-plugin-prettier": "^3.1.3",
+    "eslint-plugin-sort-destructure-keys": "^1.3.4",
     "export-to-csv": "^0.2.1",
     "husky": "^4.2.5",
     "jest-dom": "^3.5.0",
