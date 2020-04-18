@@ -99,7 +99,6 @@ const MissionsListView = ({ missions, view }) => {
   const theme = useTheme();
   const innerTheme = getMuiTheme(theme);
   const history = useHistory();
-  console.log(missions);
 
   function formatData(missions) {
     return missions?.map((mission) => {
