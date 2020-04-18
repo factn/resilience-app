@@ -1,0 +1,17 @@
+[debug] [2020-04-18T15:55:13.624Z] ----------------------------------------------------------------------
+[debug] [2020-04-18T15:55:13.625Z] Command:       /home/mat10tng/.nvm/versions/node/v12.16.1/bin/node /home/mat10tng/.nvm/versions/node/v12.16.1/bin/firebase database:profile
+[debug] [2020-04-18T15:55:13.626Z] CLI Version:   7.16.1
+[debug] [2020-04-18T15:55:13.626Z] Platform:      linux
+[debug] [2020-04-18T15:55:13.626Z] Node Version:  v12.16.1
+[debug] [2020-04-18T15:55:13.626Z] Time:          Sat Apr 18 2020 17:55:13 GMT+0200 (Central European Summer Time)
+[debug] [2020-04-18T15:55:13.626Z] ----------------------------------------------------------------------
+[debug] [2020-04-18T15:55:13.626Z] 
+[debug] [2020-04-18T15:55:13.630Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2020-04-18T15:55:13.630Z] > authorizing via signed-in user
+[debug] [2020-04-18T15:55:13.630Z] [iam] checking project mutualaid-757f6 for permissions ["firebase.projects.get","firebasedatabase.instances.update"]
+[debug] [2020-04-18T15:55:13.632Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/mutualaid-757f6:testIamPermissions  
+
+[debug] [2020-04-18T15:55:14.581Z] <<< HTTP RESPONSE 200
+[debug] [2020-04-18T15:55:14.585Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/mutualaid-757f6  
+ 
+[debug] [2020-04-18T15:55:14.830Z] <<< HTTP RESPONSE 200

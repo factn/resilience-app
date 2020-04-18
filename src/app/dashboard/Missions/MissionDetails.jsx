@@ -82,7 +82,7 @@ const RowBody = ({ classes, content, Icon }) => {
  *
  * @component
  */
-const MissionDetailsCard = ({ mission, setselectedMissionId }) => {
+const MissionDetailsCard = ({ mission, setSelectedMissionId }) => {
   const classes = useStyles();
   const recipientPhoneNumber = _.get(mission, "recipientPhoneNumber");
 
@@ -93,7 +93,7 @@ const MissionDetailsCard = ({ mission, setselectedMissionId }) => {
     <Grid item xs={3}>
       <Paper className={classes.root} elevation={0}>
         <Grid container direction="row-reverse">
-          <Button onClick={() => setselectedMissionId(null)} variant="text">
+          <Button onClick={() => setSelectedMissionId(null)} variant="text">
             <CloseIcon />
           </Button>
         </Grid>

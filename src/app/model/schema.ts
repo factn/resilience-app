@@ -125,7 +125,7 @@ export enum TimeWindowType {
 
 export interface TimeWindow {
   timeWindowType: TimeWindowType;
-  startTime: Date; // actually date time
+  startTime: string; // actually date time
 }
 
 export interface MissionLogEvent {
@@ -135,7 +135,7 @@ export interface MissionLogEvent {
   actionDetail?: string;
   fieldName?: string;
   newValue: any;
-  timestamp: Date;
+  timestamp: string;
 }
 
 export interface MissionInterface {
@@ -164,8 +164,8 @@ export interface MissionInterface {
   recipientName: string;
   recipientPhoneNumber: string;
   recipientId: string; // reference?
-  created: Date; // time stamp
-  lastUpdated: Date; // time stamp
+  created: string; // time stamp
+  lastUpdated: string; // time stamp
   // all other event log type stuff, such as when assigned etc belongs in the eventlog
   // this should be a child collection
   //@SubCollection(MissionLogEvent)
