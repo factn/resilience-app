@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
 import clsx from "clsx";
 
 import { compose } from "redux";
@@ -49,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
  *
  * @component
  */
-const MissionsPage = ({ history }) => {
+const MissionsPage = () => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
@@ -67,38 +66,36 @@ const MissionsPage = ({ history }) => {
     {
       text: "Home",
       id: "/dashboard",
-      handler: () => history.push("/dashboard"),
+      route: "/dashboard",
       icon: <HomeIcon />,
     },
     {
       text: "Missions",
       id: "/dashboard/missions",
-      handler: () => history.push("/dashboard/missions"),
+      route: "/dashboard/missions?view=inProposed",
       icon: <AnnouncementIcon />,
     },
     {
       text: "Recipients",
       id: "/dashboard/recipients",
-      handler: () => history.push("/dashboard/recipients"),
+      route: "/dashboard/recipients",
       icon: <PeopleIcon />,
     },
     {
       text: "Volunteers",
       id: "/dashboard/volunteers",
-      handler: () => history.push("/dashboard/volunteers"),
+      route: "/dashboard/volunteers",
       icon: <PanToolIcon />,
     },
   ];
 
-  const currentUrl = history.location.pathname;
   return (
     <div className={classes.root}>
-      <Appbar open={open} handleDrawerOpen={handleDrawerOpen} currentUrl={currentUrl} />
+      <Appbar open={open} handleDrawerOpen={handleDrawerOpen} />
       <Drawer
         open={open}
         handleDrawerClose={handleDrawerClose}
         drawerItems={drawerItems}
-        currentUrl={currentUrl}
         role="navigation"
       />
       <main
@@ -121,10 +118,6 @@ MissionsPage.propTypes = {
    * User info
    */
   user: PropTypes.object,
-  /**
-   * Navigation history provided by React Router
-   */
-  history: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => {
@@ -132,4 +125,4 @@ const mapStateToProps = (state) => {
     user: state.firebase.auth,
   };
 };
-export default compose(connect(mapStateToProps))(withRouter(MissionsPage));
+export default compose(connect(mapStateToProps))(MissionsPage);

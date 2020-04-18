@@ -1,6 +1,7 @@
 import React from "react";
 import clsx from "clsx";
 import PropTypes from "prop-types";
+import { Link, useLocation } from "react-router-dom";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
@@ -49,10 +50,14 @@ const useStyles = makeStyles((theme) => ({
   startIcon: {
     paddingRight: theme.spacing(2),
   },
+  link: {
+    width: 0,
+  },
 }));
 
 const DashboardDrawer = ({ open, handleDrawerClose, drawerItems, currentUrl }) => {
-  const isActive = (url) => url === currentUrl;
+  const { pathname } = useLocation();
+  const isActive = (url) => url === pathname;
 
   const classes = useStyles();
   return (
@@ -77,15 +82,16 @@ const DashboardDrawer = ({ open, handleDrawerClose, drawerItems, currentUrl }) =
       <Divider />
       <Grid container direction="column">
         {drawerItems.map((item) => (
-          <Button
-            key={item.id}
-            onClick={item.handler}
-            classes={{ root: classes.item, startIcon: classes.startIcon }}
-            variant={isActive(item.id) ? "contained" : "text"}
-            startIcon={item.icon}
-          >
-            {item.text}
-          </Button>
+          <Link to={item.route} className={classes.link}>
+            <Button
+              key={item.id}
+              classes={{ root: classes.item, startIcon: classes.startIcon }}
+              variant={isActive(item.id) ? "contained" : "text"}
+              startIcon={item.icon}
+            >
+              {item.text}
+            </Button>
+          </Link>
         ))}
       </Grid>
       <Divider />

@@ -74,7 +74,9 @@ function App() {
                 <PrivateRoute path="/request/create">
                   <MakeRequest />
                 </PrivateRoute>
-                <Route path="/dashboard" component={Dashboard} />
+                <Route path="/dashboard">
+                  <Dashboard />
+                </Route>
                 <PrivateRoute path="/missions/created">
                   <MissionsCreated />
                 </PrivateRoute>
