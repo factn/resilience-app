@@ -1,16 +1,13 @@
 import React from "react";
-import { Box, Grid } from "@material-ui/core";
 import styled from "styled-components";
 
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import FormControl from "@material-ui/core/FormControl";
 import { makeStyles } from "@material-ui/core/styles";
-import Mission from "../../model/Mission";
-import AccessTimeIcon from "@material-ui/icons/AccessTime";
-import LocationOnIcon from "@material-ui/icons/LocationOn";
+import Mission from "../../../model/Mission";
 
-import _ from "../../utils/lodash";
+import _ from "../../../utils/lodash";
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -91,48 +88,4 @@ const Status = ({ fundedStatus, id, isReady, onShowDetails, status }) => {
   );
 };
 
-function MissionName({ title, type }) {
-  return (
-    <Box width="200px">
-      <h5>{title}</h5>
-      <div>
-        <small>{type}</small>
-      </div>
-    </Box>
-  );
-}
-
-const TimeLocationGrid = styled(Grid)`
-  flex-wrap: nowrap;
-  height: 40px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-`;
-
-const TimeLocation = ({ location, time }) => {
-  if (_.isEmpty(time.startTime) && !_.isDate(time.startTime)) {
-    time = "";
-  }
-
-  return (
-    <div>
-      <TimeLocationGrid container>
-        <Box margin="0 5px">
-          <AccessTimeIcon />
-        </Box>
-        <Box>
-          {_.get(time, "startTime")}
-          <div>{_.get(time, "timeWindowType")}</div>
-        </Box>
-      </TimeLocationGrid>
-      <TimeLocationGrid container>
-        <Box margin="0 5px">
-          <LocationOnIcon />
-        </Box>
-        {_.get(location, "address")}
-      </TimeLocationGrid>
-    </div>
-  );
-};
-
-export { MissionName, TimeLocation, Status };
+export default Status;

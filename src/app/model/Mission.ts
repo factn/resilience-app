@@ -85,6 +85,7 @@ class Mission extends BaseModel {
   collectionName = "missions";
   Status = MissionStatus;
   FundedStatus = MissionFundedStatus;
+  TimeWindowType = TimeWindowType;
 
   selectInProposed = (state: any) => this.loads(state.firestore.ordered.missionsInProposed || []);
   fsInProposed = fsInProposed;

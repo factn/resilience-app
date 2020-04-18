@@ -2,7 +2,9 @@ import React from "react";
 import MUIDataTable from "mui-datatables";
 import { useTheme } from "@material-ui/core/styles";
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
-import { MissionName, TimeLocation, Status } from "./ListComponents";
+import TimeLocationCard from "./component/TimeLocationCard";
+import MissionNameCard from "./component/MissionNameCard";
+import StatusCard from "./component/StatusCard";
 import { useHistory } from "react-router-dom";
 import _ from "../../utils";
 
@@ -13,7 +15,6 @@ const getMuiTheme = (theme) =>
       MUIDataTableBodyCell: {
         root: {
           padding: `${theme.spacing(0.5)}px ${theme.spacing(1)}px`,
-          verticalAlign: "top",
         },
       },
       MuiButton: {
@@ -54,7 +55,7 @@ const config = [
     options: {
       name: "title",
       label: "Mission Name",
-      options: { customBodyRender: MissionName },
+      options: { customBodyRender: MissionNameCard },
     },
   },
   {
@@ -65,7 +66,7 @@ const config = [
     options: {
       name: "pickup",
       label: "Pick Up",
-      options: { customBodyRender: TimeLocation },
+      options: { customBodyRender: TimeLocationCard },
     },
   },
   {
@@ -76,7 +77,7 @@ const config = [
     options: {
       name: "delivery",
       label: "Delivery",
-      options: { customBodyRender: TimeLocation },
+      options: { customBodyRender: TimeLocationCard },
     },
   },
   {
@@ -90,7 +91,7 @@ const config = [
     options: {
       name: "allStatus",
       label: "Status",
-      options: { customBodyRender: Status },
+      options: { customBodyRender: StatusCard },
     },
   },
 ];
