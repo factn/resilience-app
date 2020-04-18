@@ -22,6 +22,6 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: npm ci
       - run: npm test
-      - run: format:check
+      - run: npm run format:check
         env:
           CI: true
