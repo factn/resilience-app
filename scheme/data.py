@@ -71,7 +71,8 @@ MissionStatus = [
     "assigned",
     "started",
     "delivered",
-    "done",
+    "succeeded"
+    "failed"
 ]
 
 MissionFundedStatus = [
@@ -80,11 +81,6 @@ MissionFundedStatus = [
     "fundedinkind",
     "fundingnotneeded",
     "fundedbydonation",
-]
-
-MissionPayableStatus = [
-    "notacquired",
-    "readyforpickup",
 ]
 
 MissionType = [
@@ -119,7 +115,7 @@ def mission(orgId):
         type=r.choice(MissionType),
         status=r.choice(MissionStatus),
         fundedStatus=r.choice(MissionFundedStatus),
-        paybleStatus=r.choice(MissionPayableStatus),
+        readyStatus=r.choice([True, False]),
         organizationId=orgId,
         tentativeVolnteerId='',
         volunteerId='',
@@ -135,7 +131,6 @@ def mission(orgId):
         deliveryLocation=location(),
         deliveryConfirmationImage='',
         deliveryNotes='',
-        missionAccepted=False,
         feedbackNotes='',
         recipientName='',
         recipientPhoneNumber='',

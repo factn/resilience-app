@@ -6,7 +6,6 @@ import {
   MissionStatus,
   MissionType,
   MissionFundedStatus,
-  MissionPayableStatus,
   MissionDetails,
 } from "./schema";
 import BaseModel from "./BaseModel";
@@ -31,7 +30,7 @@ const defaultMissionData: MissionInterface = {
   type: MissionType.errand,
   status: MissionStatus.unassigned,
   fundedStatus: MissionFundedStatus.notfunded,
-  payableStatus: MissionPayableStatus.notacquired,
+  readyStatus: false,
   organisationId: "",
   tentativeVolunterId: "", // this get removed if the volunteer accepts?
   volunteerId: "",
@@ -48,7 +47,6 @@ const defaultMissionData: MissionInterface = {
   deliveryLocation: defaultLocation, // default to recipient location
   deliveryConfirmationImage: "",
   deliveryNotes: "",
-  missionAccepted: false,
   feedbackNotes: "",
   recipientName: "No Recipient Name",
   recipientPhoneNumber: "",

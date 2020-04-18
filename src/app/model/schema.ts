@@ -78,20 +78,15 @@ export enum MissionStatus {
   assigned = "assigned",
   started = "started",
   delivered = "delivered",
-  done = "done",
+  successed = "succeeded",
+  failed = "failed",
 }
 
 export enum MissionFundedStatus {
   notfunded = "notfunded",
   fundedbyrecipient = "fundedbyrecipient",
-  fundedinkind = "fundedinkind",
   fundingnotneeded = "fundingnotneeded",
   fundedbydonation = "fundedbydonation",
-}
-
-export enum MissionPayableStatus {
-  notacquired = "notacquired",
-  readyforpickup = "readyforpickup",
 }
 
 export enum MissionType {
@@ -147,7 +142,7 @@ export interface MissionInterface {
   type: MissionType;
   status: MissionStatus;
   fundedStatus: MissionFundedStatus;
-  payableStatus: MissionPayableStatus;
+  readyStatus: boolean;
   organisationId: string;
   tentativeVolunterId: string; // this get removed if the volunteer accepts?
   volunteerId: string;
@@ -164,7 +159,6 @@ export interface MissionInterface {
   deliveryLocation: Location; // default to recipient location
   deliveryConfirmationImage: ImageUrl;
   deliveryNotes: string;
-  missionAccepted: boolean;
   feedbackNotes: string;
   recipientName: string;
   recipientPhoneNumber: string;
