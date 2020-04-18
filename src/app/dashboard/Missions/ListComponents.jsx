@@ -80,7 +80,7 @@ const UnasignedStatusAction = ({ missionId }) => {
     </div>
   );
 };
-const Status = ({ status, onShowDetails, fundedStatus, isReady, id }) => {
+const Status = ({ fundedStatus, id, isReady, onShowDetails, status }) => {
   if (!status) return null;
 
   return (

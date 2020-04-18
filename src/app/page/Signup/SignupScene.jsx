@@ -37,7 +37,7 @@ const convertFullName = (fullName) => {
  */
 function SignupScene(props) {
   const { handleChange, values } = useForm();
-  const [activeTab, setActiveTab] = useState(2); // CHANGE ME!
+  const [activeTab, setActiveTab] = useState(0);
 
   function changeFormValues(changes) {
     for (const change of changes) {

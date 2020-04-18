@@ -1,8 +1,5 @@
 import React from "react";
 import _ from "../../utils/lodash";
-import { connect } from "react-redux";
-import { firestoreConnect } from "react-redux-firebase";
-import { compose } from "recompose";
 
 import { H5, Body2 } from "../../component";
 import Button from "../../component/Button";
@@ -16,6 +13,7 @@ import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
 
 import { makeStyles } from "@material-ui/core/styles";
 import { isLoaded, isEmpty } from "react-redux-firebase";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -82,9 +80,14 @@ const RowBody = ({ classes, content, Icon }) => {
  *
  * @component
  */
-const MissionDetailsCard = ({ mission, setSelectedMissionId }) => {
+const MissionDetailsCard = ({ mission }) => {
   const classes = useStyles();
   const recipientPhoneNumber = _.get(mission, "recipientPhoneNumber");
+  const history = useHistory();
+  const clear = () =>
+    history.replace({
+      search: _.setQueryParam("missionId", ""),
+    });
 
   if (isLoaded(mission) && isEmpty(mission)) {
     return null;
@@ -93,7 +96,7 @@ const MissionDetailsCard = ({ mission, setSelectedMissionId }) => {
     <Grid item xs={3}>
       <Paper className={classes.root} elevation={0}>
         <Grid container direction="row-reverse">
-          <Button onClick={() => setSelectedMissionId(null)} variant="text">
+          <Button onClick={clear} variant="text">
             <CloseIcon />
           </Button>
         </Grid>
@@ -156,17 +159,4 @@ const MissionDetailsCard = ({ mission, setSelectedMissionId }) => {
   );
 };
 
-const mapStateToProps = (state, ownProps) => {
-  let missions = state.firestore.data.missions || {};
-  return {
-    user: state.firebase.auth,
-    mission: missions[ownProps.missionId],
-  };
-};
-
-export default compose(
-  connect(mapStateToProps),
-  firestoreConnect((props) => {
-    return [{ collection: "missions", doc: props.missionId }];
-  })
-)(MissionDetailsCard);
+export default MissionDetailsCard;
