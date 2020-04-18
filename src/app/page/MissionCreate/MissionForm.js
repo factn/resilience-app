@@ -54,7 +54,6 @@ function MissionForm({ getFile, handleChange, onSubmit, values /*, assignHelper,
   const [pickUpDateLabel, setPickUpDateLabel] = React.useState(
     pickUp.date.toString().substr(0, 15)
   );
-  console.log(" pick up date label: " + pickUpDateLabel);
   const [dropOffDateLabel, setDropOffDateLabel] = React.useState(
     dropOff.date.toString().substr(0, 15)
   );
@@ -92,7 +91,6 @@ function MissionForm({ getFile, handleChange, onSubmit, values /*, assignHelper,
   };
 
   const handleDate = (date, stage) => {
-    console.log("handle date invoked.");
     if (!date) {
       return;
     }
