@@ -33,7 +33,7 @@ if (process.env.NODE_ENV !== "production") {
   var axe = require("react-axe");
   firebase
     .firestore()
-    .enablePersistence()
+    .enablePersistence({synchronizeTabs: true})
     .catch(function (err) {
       if (err.code == "failed-precondition") {
         alert("one tab open only please")
