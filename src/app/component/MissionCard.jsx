@@ -1,11 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Typography, Card, CardActions, CardContent, CardHeader, Grid } from "@material-ui/core";
+import { Card, CardActions, CardContent, CardHeader, Grid } from "@material-ui/core";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import ScheduleIcon from "@material-ui/icons/Schedule";
 import PersonIcon from "@material-ui/icons/Person";
 import { withStyles } from "@material-ui/core/styles";
-import { missionStatusLabel } from "../../constants";
+import { Body1 } from "./Typography";
 
 const styles = (theme) => ({
   root: {
@@ -19,13 +19,6 @@ const styles = (theme) => ({
   },
   cardContent: {
     paddingBottom: theme.spacing(1),
-  },
-  contentTypography: {
-    marginLeft: theme.spacing(1),
-    fontSize: `${theme.typography.fontSize}px`,
-    [theme.breakpoints.up("sm")]: {
-      fontSize: `${theme.typography.fontSize * 1.5}px`,
-    },
   },
 });
 
@@ -43,7 +36,7 @@ const MissionCardContent = ({ classes, contentItems }) => (
             <Icon color="primary" />
           </Grid>
           <Grid item xs={11}>
-            <Typography className={classes.contentTypography}>{content}</Typography>
+            <Body1>{content}</Body1>
           </Grid>
         </React.Fragment>
       );
@@ -57,9 +50,10 @@ const MissionCardContent = ({ classes, contentItems }) => (
  */
 const MissionCard = withStyles(styles)(({ children, classes, mission, ...rest }) => {
   const title = mission.title;
-  const location = mission.pickup?.location ?? "123 Example St., San Francisco, 92501";
-  const missionStartTime = mission.pickup?.date ?? "2:30 P.M";
   const status = mission.status;
+  const location = mission.pickUpLocation?.address || "no data";
+  const timeWindowType = mission.pickUpWindow?.timeWindowType || "no data";
+  const startTime = mission.pickUpWindow?.startTime;
 
   const contentItems = [
     {
@@ -72,7 +66,7 @@ const MissionCard = withStyles(styles)(({ children, classes, mission, ...rest })
     },
     {
       icon: ScheduleIcon,
-      content: missionStartTime,
+      content: typeof startTime === "string" ? startTime : timeWindowType,
     },
   ];
 
