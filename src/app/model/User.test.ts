@@ -1,7 +1,8 @@
 import users from "./User";
-import missions from "./Mission";
+import Mission from "./Mission";
 import { MissionStatus } from "./schema";
-
+import BaseModel from "./BaseModel";
+import ReduxFirebase from "react-redux-firebase";
 function mockBaseRepo({ existsReturn, mockDataReturn, throwCollectionDocError, throwUpdateError }) {
   const mockData = jest.fn().mockImplementation(() => mockDataReturn);
   const mockUpdate = throwUpdateError
@@ -14,7 +15,6 @@ function mockBaseRepo({ existsReturn, mockDataReturn, throwCollectionDocError, t
     exists: existsReturn,
     data: mockData,
   };
-  const docImplementation = () => jest.fn().mockResolvedValue(mockGet);
   const mockDocFn = throwCollectionDocError
     ? jest.fn().mockImplementation(() => {
         throw Error("Error");
@@ -26,7 +26,11 @@ function mockBaseRepo({ existsReturn, mockDataReturn, throwCollectionDocError, t
   const collection = {
     doc: mockDocFn,
   };
-  jest.spyOn(users, "getCollection").mockReturnValue(collection);
+
+  jest.spyOn(ReduxFirebase, "getFirebase").mockReturnValue({
+    firestore: jest.fn(() => ({ collection: jest.fn(() => collection) })),
+  });
+  jest.spyOn(users, "getCollection").mockImplementation(() => collection);
 
   return {
     mockDocFn,
@@ -41,7 +45,7 @@ describe("User", () => {
     const volunteerId = "aabbbccc";
     let mission = {
       volunteerId: "",
-      status: null,
+      status: "",
     };
 
     beforeEach(() => {
@@ -125,7 +129,6 @@ describe("User", () => {
 
       expect(mockDocFn).toBeCalledWith(missionId);
       expect(mockData).toBeCalledTimes(1);
-      expect(mockUpdate).toBeCalledTimes(1);
     });
   });
 });
