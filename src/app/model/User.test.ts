@@ -1,8 +1,10 @@
 import users from "./User";
 import Mission from "./Mission";
 import { MissionStatus } from "./schema";
+
 import BaseModel from "./BaseModel";
 import ReduxFirebase from "react-redux-firebase";
+
 function mockBaseRepo({ existsReturn, mockDataReturn, throwCollectionDocError, throwUpdateError }) {
   const mockData = jest.fn().mockImplementation(() => mockDataReturn);
   const mockUpdate = throwUpdateError
@@ -15,6 +17,7 @@ function mockBaseRepo({ existsReturn, mockDataReturn, throwCollectionDocError, t
     exists: existsReturn,
     data: mockData,
   };
+
   const mockDocFn = throwCollectionDocError
     ? jest.fn().mockImplementation(() => {
         throw Error("Error");
