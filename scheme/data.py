@@ -33,11 +33,11 @@ def organization():
     )
 
 
-VolunteerPendingStatus = [
+VolunteerStatus = [
     "created",
     "pending",
     "approved",
-    "declined",
+    "notapproved",
 ]
 
 
@@ -53,7 +53,7 @@ def volunteer(organizationId):
         isOrganizer=f.boolean(chance_of_getting_true=25),
         voluteerDetails=dict(
             hasTransportation=f.boolean(chance_of_getting_true=75),
-            status=r.choice(VolunteerPendingStatus),
+            status=r.choice(VolunteerStatus),
             privateNotes=""),
         organizerDetails={},
     )
@@ -66,7 +66,7 @@ def add_volunteer(orgId, data):
 
 
 MissionStatus = [
-    "unassigned",
+    "proposed",
     "tentative",
     "assigned",
     "started",

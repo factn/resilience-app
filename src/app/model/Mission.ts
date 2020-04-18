@@ -27,7 +27,7 @@ const defaultMissionDetails: MissionDetails = {};
 const defaultMissionData: MissionInterface = {
   id: "",
   type: MissionType.errand,
-  status: MissionStatus.unassigned,
+  status: MissionStatus.proposed,
   fundedStatus: MissionFundedStatus.notfunded,
   readyStatus: false,
   organisationId: "",
@@ -56,10 +56,7 @@ const defaultMissionData: MissionInterface = {
 
 const fsInProposed = {
   collection: "missions",
-  where: [
-    ["status", "==", MissionStatus.unassigned],
-    ["fundedStatus", "==", MissionFundedStatus.notfunded],
-  ],
+  where: [["status", "==", MissionStatus.proposed]],
   storeAs: "missionsInProposed",
 };
 const fsInPlanning = {
@@ -69,15 +66,12 @@ const fsInPlanning = {
 };
 const fsInProgress = {
   collection: "missions",
-  where: [["status", "==", [MissionStatus.started, MissionStatus.delivered]]],
+  where: [["status", "in", [MissionStatus.started, MissionStatus.delivered]]],
   storeAs: "missionsInProgress",
 };
 const fsInDone = {
   collection: "missions",
-  where: [
-    ["status", "==", MissionStatus.unassigned],
-    ["fundedStatus", "==", MissionFundedStatus.notfunded],
-  ],
+  where: [["status", "in", [MissionStatus.succeeded, MissionStatus.failed]]],
   storeAs: "missionsInDone",
 };
 

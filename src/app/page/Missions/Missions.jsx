@@ -65,7 +65,7 @@ MissionsPage.propTypes = {
 };
 
 const mapStateToProps = (state, ownProps) => {
-  let missions = state.firestore.ordered.missionsUnassigned;
+  let missions = state.firestore.ordered.missionsProposed;
   missions = Mission.loads(missions);
   return {
     missions: missions,
@@ -79,8 +79,8 @@ export default compose(
     return [
       {
         collection: "missions",
-        where: [["status", "==", "unassigned"]],
-        storeAs: "missionsUnassigned",
+        where: [["status", "==", "proposed"]],
+        storeAs: "missionsProposed",
       },
     ];
   })

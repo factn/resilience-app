@@ -89,9 +89,9 @@ const MissionDetailsCard = ({
 
   const subheaderItems = [
     {
-      icon: mission.status === Mission.Status.unassigned ? PersonIcon : undefined,
+      icon: mission.status === Mission.Status.proposed ? PersonIcon : undefined,
       avatar:
-        mission.status !== Mission.Status.unassigned
+        mission.status !== Mission.Status.proposed
           ? {
               image: volunteer.avatar,
             }

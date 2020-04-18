@@ -4,9 +4,7 @@ import Autocomplete from "@material-ui/lab/Autocomplete";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { makeStyles } from "@material-ui/core/styles";
 import _ from "lodash";
-
-import { Users } from "../model";
-
+import { User } from "../model";
 const useStyles = makeStyles((theme) => ({
   root: {
     paddingBottom: theme.spacing(2),
@@ -30,7 +28,7 @@ const SearchUser = ({ value, setValue }) => {
     if (value.length > 1) {
       setLoading(true);
 
-      const users = await Users.usersMatchingLabel(value, 10);
+      const users = await User.usersMatchingLabel(value, 10);
       setUsers(users);
 
       if (reason == "input") {

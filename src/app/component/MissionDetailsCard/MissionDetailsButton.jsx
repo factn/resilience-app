@@ -22,7 +22,7 @@ const MissionDetailsButton = ({
   volunteerForMission,
 }) => {
   switch (status) {
-    case Mission.Status.unassigned:
+    case Mission.Status.proposed:
       return (
         <StyledButton
           color="primary"

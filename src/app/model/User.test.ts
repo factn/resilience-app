@@ -70,7 +70,7 @@ describe("User", () => {
       expect(mockData).toBeCalledTimes(1);
       const expected = {
         volunteerId: "",
-        status: MissionStatus.unassigned,
+        status: MissionStatus.proposed,
       };
       expect(mockUpdate).toBeCalledWith(expected);
     });

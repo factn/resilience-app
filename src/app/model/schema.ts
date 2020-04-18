@@ -27,7 +27,7 @@ export class Organization {
 
 // === USER ===
 
-/*Volunteer status when first signup to a organization*/
+/*Volunteer status within an organization*/
 export enum VolunteerStatus {
   created = "created", // when user first created an account
   // once user accept term and conditions -> pending
@@ -35,7 +35,13 @@ export enum VolunteerStatus {
   // once the organization accept, -> approved
   // if not accepted -> declined
   approved = "approved", // you are a volunteer
-  declined = "declined", // sorry
+  notapproved = "not approved", // you were declined or sometimes temporarily taken out of circulation
+}
+
+/*Volunteer status within an organization*/
+export enum AvailabilityStatus {
+  available = "available",
+  notavailable = "not available",
 }
 
 export class UserInterface {
@@ -44,7 +50,7 @@ export class UserInterface {
   FIXME: need to ensure this is synced from firebase.auth ph number
   FIXME: where do we assert phone number formatting?
   FIXME: currently, always null */
-  phoneNumber?: number;
+  phone?: number;
   /* user's selected profile image url
   FIXME: need to sync this with state.firebase.profile.photoURL ?
   */
@@ -73,12 +79,12 @@ export class UserInterface {
 
 //===== Mission =====//
 export enum MissionStatus {
-  unassigned = "unassigned",
+  proposed = "proposed",
   tentative = "tentative",
   assigned = "assigned",
   started = "started",
   delivered = "delivered",
-  successed = "succeeded",
+  succeeded = "succeeded",
   failed = "failed",
 }
 

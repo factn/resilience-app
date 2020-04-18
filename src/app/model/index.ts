@@ -1,6 +1,5 @@
 import User from "./User";
 import Mission from "./Mission";
-import Organizations from "./Organizations";
 import FoodBoxes from "./FoodBoxes";
 
 // import {
@@ -14,4 +13,4 @@ import FoodBoxes from "./FoodBoxes";
 //   TimeWindowType,
 // } from "./schema";
 
-export { User, Mission, Organizations, FoodBoxes };
+export { User, Mission, FoodBoxes };

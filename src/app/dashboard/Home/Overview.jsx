@@ -35,7 +35,7 @@ const Overview = ({ inPlanning, inProgress, inProposed }) => {
               icon={<AnnouncementIcon className={classes.icon} style={{ fill: color.darkPink }} />}
               title="Proposed Missions"
               nbr={inProposed.length}
-              linkLabel="View Unassigned Missions"
+              linkLabel="View Proposed Missions"
               link="/dashboard/missions?view=inProposed"
               textColor={color.darkPink}
             />
@@ -49,7 +49,7 @@ const Overview = ({ inPlanning, inProgress, inProposed }) => {
               }
               title="Planning Missions"
               nbr={inPlanning.length}
-              linkLabel="View Queued Missions"
+              linkLabel="View Missions In Planning"
               link="/dashboard/missions?view=inPlanning"
               textColor={color.darkOrange}
             />
@@ -63,7 +63,7 @@ const Overview = ({ inPlanning, inProgress, inProposed }) => {
               }
               title="Missions In Progress"
               nbr={inProgress.length}
-              linkLabel="View Queued Missions"
+              linkLabel="View Missions In Progress"
               link="/dashboard/missions?view=inProgress"
               textColor={color.darkOrange}
             />

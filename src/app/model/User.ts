@@ -85,6 +85,45 @@ class User extends BaseModel {
   }
 
   /**
+   * Given a label returns  users that match that
+   * @param {string} label : partial name or partial phone number for user
+   * @return {object}
+   */
+  async usersMatchingLabel(label: string, limit: number): Promise<object> {
+    let collection = this.getCollection("users");
+    let querySnapshot;
+    try {
+      querySnapshot = await collection
+        .where("displayName", ">=", label)
+        .where("displayName", "<=", label + "z")
+        .orderBy("displayName")
+        .limit(limit)
+        .get();
+
+      if (querySnapshot.size > 0) {
+        var data = querySnapshot.docs.map(function (documentSnapshot) {
+          return documentSnapshot.data();
+        });
+        return data;
+      } else {
+        querySnapshot = await collection
+          .where("phone", ">=", label)
+          .where("phone", "<=", label + "z")
+          .orderBy("phone")
+          .limit(limit)
+          .get();
+        var data = querySnapshot.docs.map(function (documentSnapshot) {
+          return documentSnapshot.data();
+        });
+        return data;
+      }
+    } catch (error) {
+      //TODO show error message to user
+      throw error;
+    }
+  }
+
+  /**
    * User volunteer for a mission
    * @param {string} userId : user
    * @param {string} missionId : mission that user want to volunteer for
@@ -125,7 +164,7 @@ class User extends BaseModel {
     try {
       collection.doc(missionId).update({
         volunteerId: "",
-        status: MissionStatus.unassigned,
+        status: MissionStatus.proposed,
       });
     } catch (e) {
       //TODO show error message to user
