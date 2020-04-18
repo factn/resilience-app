@@ -6,16 +6,14 @@ import {
   MissionStatus,
   MissionType,
   MissionFundedStatus,
-  MissionPayableStatus,
   MissionDetails,
 } from "./schema";
 import BaseModel from "./BaseModel";
-import { v4 as uuidV4 } from "uuid";
 
 const defaultLocation: Location = {
-  address: "",
+  address: "No Address",
   lat: 0,
-  long: 0,
+  lng: 0,
   label: "",
 };
 
@@ -31,14 +29,14 @@ const defaultMissionData: MissionInterface = {
   type: MissionType.errand,
   status: MissionStatus.unassigned,
   fundedStatus: MissionFundedStatus.notfunded,
-  payableStatus: MissionPayableStatus.notacquired,
+  readyStatus: false,
   organisationId: "",
   tentativeVolunterId: "", // this get removed if the volunteer accepts?
   volunteerId: "",
-  title: "",
+  title: "Mission Title",
+  description: "No Description",
   missionDetails: defaultMissionDetails, // varies by mission type
-  description: "",
-  image: "",
+  image: "https://via.placeholder.com/300x450",
   notes: "",
   privateNotes: "", // just for volunteer and organiser
   cost: 0.0, // Decimal if possible eg 12.21 (assume USD for MVP.0)
@@ -48,19 +46,54 @@ const defaultMissionData: MissionInterface = {
   deliveryLocation: defaultLocation, // default to recipient location
   deliveryConfirmationImage: "",
   deliveryNotes: "",
-  missionAccepted: false,
   feedbackNotes: "",
-  recipientName: "",
+  recipientName: "No Recipient Name",
   recipientPhoneNumber: "",
-  recipientId: "", // reference?
+  recipientId: "No Recipient Id", // reference?
   created: new Date(), // time stamp
   lastUpdated: new Date(), // time stamp
 };
 
+const fsInProposed = {
+  collection: "missions",
+  where: [
+    ["status", "==", MissionStatus.unassigned],
+    ["fundedStatus", "==", MissionFundedStatus.notfunded],
+  ],
+  storeAs: "missionsInProposed",
+};
+const fsInPlanning = {
+  collection: "missions",
+  where: [["status", "in", [MissionStatus.tentative, MissionStatus.assigned]]],
+  storeAs: "missionsInPlanning",
+};
+const fsInProgress = {
+  collection: "missions",
+  where: [["status", "==", [MissionStatus.started, MissionStatus.delivered]]],
+  storeAs: "missionsInProgress",
+};
+const fsInDone = {
+  collection: "missions",
+  where: [
+    ["status", "==", MissionStatus.unassigned],
+    ["fundedStatus", "==", MissionFundedStatus.notfunded],
+  ],
+  storeAs: "missionsInDone",
+};
+
 class Mission extends BaseModel {
+  collectionName = "missions";
   Status = MissionStatus;
   FundedStatus = MissionFundedStatus;
-  collectionName = "missions";
+
+  selectInProposed = (state: any) => this.loads(state.firestore.ordered.missionsInProposed || []);
+  fsInProposed = fsInProposed;
+  selectInPlanning = (state: any) => this.loads(state.firestore.ordered.missionsInPlanning || []);
+  fsInPlanning = fsInPlanning;
+  selectInProgress = (state: any) => this.loads(state.firestore.ordered.missionsInProgress || []);
+  fsInProgress = fsInProgress;
+  selectInDone = (state: any) => this.loads(state.firestore.ordered.missionsInDone || []);
+  fsInDone = fsInDone;
 
   getById = async (missionId: string) => {
     const collection = this.getCollection("missions");

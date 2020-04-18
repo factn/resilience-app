@@ -1,3 +1,3 @@
-import Overview from "./Overview";
+import DashboardMissions from "./DashboardMissions";
 
-export default Overview;
+export default DashboardMissions;

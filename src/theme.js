@@ -98,5 +98,10 @@ export default {
         color: color.deepPurple,
       },
     },
+    MuiButton: {
+      root: {
+        textTransform: "capitalize",
+      },
+    },
   },
 };

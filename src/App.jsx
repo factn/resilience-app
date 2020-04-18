@@ -70,7 +70,9 @@ function App() {
 
                 <Route path="/signup" component={SignupScene} />
 
-                <Route path="/dashboard" component={Dashboard} />
+                <Route path="/dashboard">
+                  <Dashboard />
+                </Route>
                 <PrivateRoute path="/missions/created">
                   <MissionsCreated />
                 </PrivateRoute>

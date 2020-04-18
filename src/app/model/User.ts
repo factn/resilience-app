@@ -12,7 +12,7 @@ import { v4 as uuidV4 } from "uuid";
 const defaultLocation: Location = {
   address: "",
   lat: 0,
-  long: 0,
+  lng: 0,
   label: "",
 };
 const defaultUserData: UserInterface = {
