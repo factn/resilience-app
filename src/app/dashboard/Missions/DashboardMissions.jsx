@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import { Button } from "../../component";
@@ -133,15 +133,24 @@ const PageButtons = ({ classes, pageView, setPageView }) => {
 
 const DashboardMissions = ({ inDone, inPlanning, inProgress, inProposed }) => {
   const classes = useStyles();
-  const all = { inProposed, inPlanning, inProgress, inDone };
 
   const [pageView, setPageView] = useState(pageViews.list);
-  let filtered = inProposed;
+  const [selectedMission, setSelectedMission] = useState(null);
 
+  const all = { inProposed, inPlanning, inProgress, inDone };
   const viewFromUrl = _.getQueryParam("view");
-  filtered = all[viewFromUrl];
+  const filtered = all[viewFromUrl] || inProposed;
 
-  let selectedMissionId = _.getQueryParam("missionId");
+  const selectedMissionId = _.getQueryParam("missionId");
+
+  useEffect(() => {
+    if (selectedMissionId) {
+      const mission = filtered.find((m) => m.id === selectedMissionId);
+      mission && setSelectedMission(mission);
+    } else {
+      setSelectedMission(null);
+    }
+  }, [selectedMissionId, filtered]);
 
   return (
     <Grid container className={classes.root}>
@@ -160,7 +169,7 @@ const DashboardMissions = ({ inDone, inPlanning, inProgress, inProposed }) => {
           )}
         </Grid>
       </Grid>
-      {selectedMissionId && <MissionDetails missionId={selectedMissionId} />}
+      {selectedMission && <MissionDetails mission={selectedMission} />}
     </Grid>
   );
 };
