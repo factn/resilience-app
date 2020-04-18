@@ -62,6 +62,29 @@ class Mission extends BaseModel {
   FundedStatus = MissionFundedStatus;
   collectionName = "missions";
 
+  getById = async (missionId: string) => {
+    const collection = this.getCollection("missions");
+    let doc;
+    try {
+      doc = await collection.doc(missionId).get();
+    } catch (error) {
+      //TODO show error message to user
+      throw error;
+    }
+
+    if (!doc.exists) {
+      throw Error(`This mission:  ${missionId} does not exist`);
+    }
+
+    let data = doc.data();
+
+    if (!data) {
+      throw Error(`no data for this mission: ${missionId}`);
+    }
+
+    return data;
+  };
+
   filterByStatus = (missions: MissionInterface[], status: MissionStatus) =>
     missions.filter((mission) => mission.status === status);
 }
