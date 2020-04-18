@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function LinkPhoneAccount({ firebase, auth, data, errorHandler }) {
+function LinkPhoneAccount({ auth, data, errorHandler, firebase }) {
   const currentUserPhoneNumber = data?.phoneNumber || "";
   const [phoneNumber, setPhoneNumber] = useState(currentUserPhoneNumber);
   const [successSnackbarOpen, setSuccessSnackbarOpen] = useState(false);

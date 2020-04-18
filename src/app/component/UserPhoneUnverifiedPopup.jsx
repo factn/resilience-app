@@ -14,7 +14,7 @@ import { Link } from "react-router-dom";
  *
  * @see Popup
  */
-const UserPhoneUnverifiedPopup = ({ open, handleClose }) => (
+const UserPhoneUnverifiedPopup = ({ handleClose, open }) => (
   <Popup title="Add a Phone Number" open={open} handleClose={handleClose} btnText="Close">
     <Grid container justify="center" spacing={1}>
       <Grid item>

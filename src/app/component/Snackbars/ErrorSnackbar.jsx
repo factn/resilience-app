@@ -7,7 +7,7 @@ function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-function ErrorSnackbar({ open, handleClose, errorMessage, autoHideDuration }) {
+function ErrorSnackbar({ autoHideDuration, errorMessage, handleClose, open }) {
   return (
     <Snackbar open={open} autoHideDuration={autoHideDuration} onClose={handleClose}>
       <Alert onClose={handleClose} severity="error">

@@ -20,7 +20,7 @@ import OrganizerComponent from "../../component/OrganizerComponent";
 import { ListItemIcon } from "@material-ui/core";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 
-const PrivateDrawerButton = ({ children, to, text, classes }) => (
+const PrivateDrawerButton = ({ children, classes, text, to }) => (
   <PrivateComponent>
     <Link to={to} className={classes.link}>
       <ListItem button>

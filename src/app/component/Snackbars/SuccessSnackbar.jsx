@@ -8,7 +8,7 @@ function Alert(props) {
 }
 
 export default function SuccessSnackbar(props) {
-  const { open, handleClose, successMessage, autoHideDuration } = props;
+  const { autoHideDuration, handleClose, open, successMessage } = props;
   return (
     <Snackbar open={open} autoHideDuration={autoHideDuration} onClose={handleClose}>
       <Alert onClose={handleClose} severity="success">

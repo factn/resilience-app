@@ -10,6 +10,7 @@ import {
 } from "./schema";
 import BaseModel from "./BaseModel";
 import _ from "lodash";
+import { v4 as uuidV4 } from "uuid";
 
 const defaultLocation: Location = {
   address: "No Address",
@@ -42,7 +43,7 @@ const defaultMissionData: MissionInterface = {
   privateNotes: "", // just for volunteer and organiser
   cost: 0.0, // Decimal if possible eg 12.21 (assume USD for MVP.0)
   pickUpWindow: defaultTimeWindow, // nb this can be an exact time or can be null
-  pickUplocation: defaultLocation,
+  pickUpLocation: defaultLocation,
   deliveryWindow: defaultTimeWindow,
   deliveryLocation: defaultLocation, // default to recipient location
   deliveryConfirmationImage: "",
@@ -95,6 +96,29 @@ class Mission extends BaseModel {
   fsInProgress = fsInProgress;
   selectInDone = (state: any) => this.loads(state.firestore.ordered.missionsInDone || []);
   fsInDone = fsInDone;
+
+  getById = async (missionId: string) => {
+    const collection = this.getCollection("missions");
+    let doc;
+    try {
+      doc = await collection.doc(missionId).get();
+    } catch (error) {
+      //TODO show error message to user
+      throw error;
+    }
+
+    if (!doc.exists) {
+      throw Error(`This mission:  ${missionId} does not exist`);
+    }
+
+    let data = doc.data();
+
+    if (!data) {
+      throw Error(`no data for this mission: ${missionId}`);
+    }
+
+    return data;
+  };
 
   filterByStatus = (missions: MissionInterface[], status: MissionStatus) =>
     missions.filter((mission) => mission.status === status);

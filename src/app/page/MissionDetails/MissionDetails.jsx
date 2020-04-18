@@ -1,9 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { compose } from "redux";
-
-import { firestoreConnect } from "react-redux-firebase";
-import { connect } from "react-redux";
+import { useLocation } from "react-router-dom";
 
 import Page from "../../layout/Page";
 import { color } from "../../../theme";
@@ -13,10 +10,8 @@ import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import { makeStyles } from "@material-ui/core/styles";
 
 // Created based on the schema in firebase
-import { isLoaded, isEmpty } from "react-redux-firebase";
+import { useFirebase, isLoaded, isEmpty } from "react-redux-firebase";
 import { User, Mission } from "../../model";
-
-import addressLookUp from "../../utils/addressLookUp";
 
 import MissionDetailsCard from "../../component/MissionDetailsCard";
 import MissionDeliveredCard from "../../component/MissionDeliveredCard";
@@ -40,43 +35,52 @@ const useStyles = makeStyles((theme) => ({
  *
  * @component
  */
-const MissionDetailsPage = ({ firestore, auth, mission, history }) => {
+const MissionDetailsPage = ({ history, match }) => {
   const classes = useStyles();
-  mission = mission || {};
+  const currentUser = useFirebase().auth().currentUser;
+
   const [userUnverifiedPopupOpen, setUserUnverifiedPopupOpen] = useState(false);
   const [completeDeliveryDialogOpen, setCompleteDeliveryDialogOpen] = useState(false);
   const [errorSnackbarOpen, setErrorSnackbarOpen] = useState(false);
   const [successSnackbarOpen, setSuccessSnackbarOpen] = useState(false);
+  const [mission, setMission] = useState({});
+  useEffect(() => {
+    const missionId = match.params.id;
+    const fetchMissionById = async () => {
+      const mission = await Mission.getById(missionId);
+      setMission(mission);
+    };
+    fetchMissionById();
+  }, [match.params.id]);
 
   function volunteerForMission(missionId) {
-    if (!auth.phoneNumber) {
+    if (!currentUser.phoneNumber) {
       setUserUnverifiedPopupOpen(true);
     } else {
-      User.volunteerMission(auth.uid, missionId);
+      User.volunteerMission(currentUser.uid, missionId);
     }
   }
 
   function startMission(missionId) {
-    if (!auth.phoneNumber) {
+    if (!currentUser.phoneNumber) {
       setUserUnverifiedPopupOpen(true);
     } else {
-      User.startMission(auth.ui, missionId);
+      User.startMission(currentUser.ui, missionId);
     }
   }
 
-  function openMissionDeliveredCard(missionId) {
+  function openMissionDeliveredCard() {
     //open the submit delivery modal
-    if (!auth.phoneNumber) {
+    if (!currentUser.phoneNumber) {
       setUserUnverifiedPopupOpen(true);
     } else {
       setCompleteDeliveryDialogOpen(true);
     }
   }
 
-  async function markMissionAsDelivered(missionId, confirmationImage) {
+  async function markMissionAsDelivered(missionId) {
     try {
-      await User.deliverMission(auth.uid, missionId);
-      console.log("marked mission as delivered");
+      await User.deliverMission(currentUser.uid, missionId);
       setCompleteDeliveryDialogOpen(false);
       setSuccessSnackbarOpen(true);
     } catch (e) {
@@ -84,18 +88,6 @@ const MissionDetailsPage = ({ firestore, auth, mission, history }) => {
     }
   }
 
-  //mock data
-  mission = {
-    ...mission,
-    fundedStatus: Mission.FundedStatus.fundedbydonation,
-    status: Mission.Status.delivered,
-    pickUpWindow: "1:30 PM",
-    pickUplocation: "123 Strawberry Ln, VA 22201",
-    deliveryWindow: "2:30–3:30 PM",
-    deliverylocation: "123 Strawberry Ln, VA 22201",
-    recipientName: "John Doe",
-    recipientPhoneNumber: "(123) 456-7890",
-  };
   const volunteer = {
     profileName: "Jane",
     avatar: "https://qodebrisbane.com/wp-content/uploads/2019/07/This-is-not-a-person-2-1.jpeg",
@@ -153,63 +145,17 @@ const MissionDetailsPage = ({ firestore, auth, mission, history }) => {
   );
 };
 
+export default MissionDetailsPage;
+
 MissionDetailsPage.defaultProps = {
   mission: {},
 };
 
 MissionDetailsPage.propTypes = {
   /**
-   * Firebase store
-   */
-  firestore: PropTypes.object.isRequired,
-  /**
-   * Auth token
-   */
-  auth: PropTypes.shape({
-    phoneNumber: PropTypes.string,
-    uid: PropTypes.string,
-  }),
-  /**
-   * Mission details
-   */
-  mission: PropTypes.shape({
-    status: PropTypes.string,
-    description: PropTypes.string,
-    url: PropTypes.string,
-    details: PropTypes.any,
-    address: PropTypes.string,
-    city: PropTypes.string,
-    state: PropTypes.string,
-    postalCode: PropTypes.string,
-  }),
-  /**
    * Navigation history provided by React Router
    */
-  history: PropTypes.object.isRequired,
-};
+  history: PropTypes.object,
 
-const mapStateToProps = (state, ownProps) => {
-  const missionId = ownProps.match.params.id;
-  const mission = {
-    id: missionId,
-    ...(state.firestore.data.missions && state.firestore.data.missions[missionId]),
-  };
-  return {
-    auth: state.firebase.auth,
-    missionId,
-    mission,
-  };
+  match: PropTypes.object,
 };
-export default compose(
-  connect(mapStateToProps),
-  firestoreConnect((props) => {
-    const missionId = props.missionId;
-    if (!props.auth.uid) return [];
-    return [
-      {
-        collection: "missions",
-        doc: missionId,
-      },
-    ];
-  })
-)(MissionDetailsPage);

@@ -29,7 +29,7 @@ const StyledHeader = withStyles({
     marginLeft: (props) => (props.main ? 0 : "10%"),
     textTransform: (props) => props.main && "none",
   },
-})(({ classes, children, ...rest }) => {
+})(({ children, classes, ...rest }) => {
   const { main, ...allowedMuiProps } = rest; // filter `main` from other props. This prevents Typography to throw an error
   return (
     <Typography className={classes.root} {...allowedMuiProps}>
@@ -38,7 +38,7 @@ const StyledHeader = withStyles({
   );
 });
 
-function MissionForm({ handleChange, values, onSubmit, getFile /*, assignHelper, autoAssigned*/ }) {
+function MissionForm({ getFile, handleChange, onSubmit, values /*, assignHelper, autoAssigned*/ }) {
   const classes = useStyles();
   const [dropOff, setDropOff] = React.useState({
     time: new Date(),
@@ -50,8 +50,12 @@ function MissionForm({ handleChange, values, onSubmit, getFile /*, assignHelper,
     date: new Date(),
     location: "",
   });
-  const [pickUpDateLabel, setPickUpDateLabel] = React.useState(null);
-  const [dropOffDateLabel, setDropOffDateLabel] = React.useState(null);
+  const [pickUpDateLabel, setPickUpDateLabel] = React.useState(
+    pickUp.date.toString().substr(0, 15)
+  );
+  const [dropOffDateLabel, setDropOffDateLabel] = React.useState(
+    dropOff.date.toString().substr(0, 15)
+  );
 
   const handleSubmit = () => {
     const valuesWithDates = {
@@ -72,7 +76,7 @@ function MissionForm({ handleChange, values, onSubmit, getFile /*, assignHelper,
       rest = pickUp;
     }
     if (query.suggestion) {
-      const { value, latlng, county, countryCode } = query.suggestion;
+      const { countryCode, county, latlng, value } = query.suggestion;
       func({
         ...rest,
         location: {
@@ -90,7 +94,7 @@ function MissionForm({ handleChange, values, onSubmit, getFile /*, assignHelper,
       return;
     }
     if (stage === "pickUp") {
-      setPickUpDateLabel(date);
+      setPickUpDateLabel(date ? date.toString().substr(0, 15) : "Select a date");
       if (typeof date !== "string") {
         setPickUp({ ...pickUp, date: date.toString().substr(0, 15) });
       } else {
@@ -98,7 +102,7 @@ function MissionForm({ handleChange, values, onSubmit, getFile /*, assignHelper,
       }
     }
     if (stage === "dropOff") {
-      setDropOffDateLabel(date);
+      setDropOffDateLabel(date ? date.toString().substr(0, 15) : "Select a date");
       if (typeof date !== "string") {
         setDropOff({ ...dropOff, date: date.toString().substr(0, 15) });
       } else {
@@ -255,7 +259,7 @@ function MissionForm({ handleChange, values, onSubmit, getFile /*, assignHelper,
         </MuiPickersUtilsProvider>
         <Button
           onClick={handleSubmit}
-          color="secondary"
+          color="primary"
           text="Create mission"
           style={{ width: "90%", marginBottom: "2.3vh" }}
         />

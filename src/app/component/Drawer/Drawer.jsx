@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const DashboardDrawer = ({ open, handleDrawerClose, drawerItems }) => {
+const DashboardDrawer = ({ drawerItems, handleDrawerClose, open }) => {
   const classes = useStyles();
 
   return (

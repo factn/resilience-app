@@ -1,5 +1,13 @@
-import { UserInterface, VolunteerStatus, Location, MissionStatus } from "./schema";
+import {
+  UserInterface,
+  VolunteerStatus,
+  Location,
+  MissionStatus,
+  MissionInterface,
+} from "./schema";
+import Mission from "./Mission";
 import BaseModel from "./BaseModel";
+import { v4 as uuidV4 } from "uuid";
 
 const defaultLocation: Location = {
   address: "",
@@ -28,37 +36,96 @@ class User extends BaseModel {
   VolunteerStatus = VolunteerStatus;
 
   /**
-   * User volunteer for a mission
-   * @param {string} userId : user
-   * @param {string} missionId : mission that user want to volunteer for
+   * Given a mission object creates a new mission in firestore
+   * returns the new mission id
+   * @param {object} mission
+   * @return {string}
    */
-  async volunteerMission(userId: string, missionId: string) {
-    let collection = this.getCollection("missions");
-    let doc;
+  async createMission(mission: MissionInterface): Promise<string> {
+    const missionId = uuidV4(); //generate mission id
+    const collection = this.getCollection("missions");
+
+    //Add mission id to mission object and sanitize is
+    const sanitizedMission = this.load({
+      id: missionId,
+      ...mission,
+    });
+
+    //save mission in firestore
     try {
-      doc = await collection.doc(missionId).get();
+      await collection.doc(missionId).set(sanitizedMission);
     } catch (error) {
       //TODO show error message to user
       throw error;
     }
 
-    if (!doc.exists) {
-      throw Error(`This mission:  ${missionId} does not exist`);
+    return missionId;
+  }
+
+  /**
+   * Given a displayName returns the first user object
+   * @param {string} displayName : displayName of user
+   * @return {object}
+   */
+  async getIdByDisplayName(displayName: string): Promise<object> {
+    let collection = this.getCollection("users");
+    let doc;
+    try {
+      doc = await collection.where("displayName", "==", displayName).get();
+    } catch (error) {
+      //TODO show error message to user
+      throw error;
     }
 
-    let data = doc.data();
-    if (data === undefined) {
-      throw Error(`no data for this mission: ${missionId}`);
+    if (doc.empty) {
+      throw Error(`This user: ${displayName} does not exist`);
     }
+
+    return doc.docs[0];
+  }
+
+  /**
+   * User volunteer for a mission
+   * @param {string} userId : user
+   * @param {string} missionId : mission that user want to volunteer for
+   */
+  async volunteerMission(userId: string, missionId: string) {
+    let data = await Mission.getById(missionId);
 
     if (data.volunteerId) {
       throw Error(`User: ${userId} are not allowed to voluntter for this mission: ${missionId}`);
     }
 
     try {
+      const collection = this.getCollection("missions");
       collection.doc(missionId).update({
         volunteerId: userId,
         status: MissionStatus.assigned,
+      });
+    } catch (e) {
+      //TODO show error message to user
+      throw e;
+    }
+  }
+
+  /**
+   * Volunteer is removed from a mission
+   * @param {string} missionId : mission that user want to volunteer for
+   */
+
+  async unvolunteerMission(missionId: string) {
+    let collection = this.getCollection("missions");
+
+    let data = await Mission.getById(missionId);
+
+    if (!data.volunteerId) {
+      throw Error(`There is currently no volunteer this mission: ${missionId}`);
+    }
+
+    try {
+      collection.doc(missionId).update({
+        volunteerId: "",
+        status: MissionStatus.unassigned,
       });
     } catch (e) {
       //TODO show error message to user

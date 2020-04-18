@@ -16,10 +16,10 @@ const StyledButton = styled(Button)`
  * @component
  */
 const MissionDetailsButton = ({
+  openMissionDeliveredCard,
+  startMission,
   status,
   volunteerForMission,
-  startMission,
-  openMissionDeliveredCard,
 }) => {
   switch (status) {
     case Mission.Status.unassigned:

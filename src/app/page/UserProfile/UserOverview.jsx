@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const UserStatus = ({ view, setView, profile, setProfile }) => {
+const UserStatus = ({ profile, setProfile, setView, view }) => {
   const classes = useStyles();
 
   const displayName = _.get(profile, "displayName", "");

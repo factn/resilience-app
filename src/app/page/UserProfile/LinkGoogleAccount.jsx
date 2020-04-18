@@ -18,7 +18,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const LinkGoogleAccount = ({ data, provider, auth, errorHandler }) => {
+const LinkGoogleAccount = ({ auth, data, errorHandler, provider }) => {
   const classes = useStyles();
   async function onLinkClick() {
     try {
