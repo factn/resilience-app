@@ -49,7 +49,6 @@ const MissionCardContent = ({ contentItems, classes }) => (
  * @component
  */
 const MissionCard = withStyles(styles)(({ mission, children, classes, ...rest }) => {
-  console.log(mission);
   const title = mission.title;
   const status = mission.status;
   const location = mission.pickUpLocation?.address || "no data";
