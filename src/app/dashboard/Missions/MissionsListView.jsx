@@ -2,7 +2,7 @@ import React from "react";
 import MUIDataTable from "mui-datatables";
 import { useTheme } from "@material-ui/core/styles";
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
-import { MissionName, TimeLocation, Funding } from "./ListComponents";
+import { MissionName, TimeLocation, Status } from "./ListComponents";
 import { useHistory } from "react-router-dom";
 import _ from "../../utils";
 
@@ -10,6 +10,12 @@ const getMuiTheme = (theme) =>
   createMuiTheme({
     ...theme,
     overrides: {
+      MUIDataTableBodyCell: {
+        root: {
+          padding: `${theme.spacing(0.5)}px ${theme.spacing(1)}px`,
+          verticalAlign: "top",
+        },
+      },
       MuiButton: {
         root: {
           textTransform: "capitalize",
@@ -18,7 +24,6 @@ const getMuiTheme = (theme) =>
       MuiPaper: {
         root: {
           width: "100%",
-          backgroundColor: "transparent",
         },
       },
       MuiTableRow: {
@@ -30,13 +35,6 @@ const getMuiTheme = (theme) =>
         root: {
           display: "none",
           backgroundColor: "transparent",
-        },
-      },
-      MuiTypography: {
-        h5: {
-          whiteSpace: "nowrap",
-          textOverflow: "ellipsis",
-          overflow: "hidden",
         },
       },
       MUIDataTable: {
@@ -52,7 +50,6 @@ const config = [
       title: mission.title,
       type: mission.type,
       id: mission.id,
-      onShowDetails: mission.onShowDetails,
     }),
     options: {
       name: "title",
@@ -74,7 +71,7 @@ const config = [
   {
     format: (mission) => ({
       time: mission.deliveryWindow,
-      location: mission.deloveryLocation,
+      location: mission.deliveryLocation,
     }),
     options: {
       name: "delivery",
@@ -84,12 +81,16 @@ const config = [
   },
   {
     format: (mission) => ({
+      id: mission.id,
+      status: mission.status,
+      isReady: mission.isReady,
       fundedStatus: mission.fundedStatus,
+      onShowDetails: mission.onShowDetails,
     }),
     options: {
-      name: "funded",
-      label: "Funding",
-      options: { customBodyRender: Funding },
+      name: "allStatus",
+      label: "Status",
+      options: { customBodyRender: Status },
     },
   },
 ];

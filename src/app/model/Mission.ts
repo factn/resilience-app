@@ -18,7 +18,7 @@ const defaultLocation: Location = {
 };
 
 const defaultTimeWindow: TimeWindow = {
-  startTime: new Date(),
+  startTime: "",
   timeWindowType: TimeWindowType.whenever,
 };
 
@@ -50,8 +50,8 @@ const defaultMissionData: MissionInterface = {
   recipientName: "No Recipient Name",
   recipientPhoneNumber: "",
   recipientId: "No Recipient Id", // reference?
-  created: new Date(), // time stamp
-  lastUpdated: new Date(), // time stamp
+  created: "", // time stamp
+  lastUpdated: "", // time stamp
 };
 
 const fsInProposed = {
@@ -117,6 +117,20 @@ class Mission extends BaseModel {
 
     return data;
   };
+
+  /**
+   * Update a mision
+   * @param {string} missionId - mission
+   * @param {object} data- updated data
+   */
+  update(missionId: string, data: object) {
+    let sanitized = this.sanitize(data);
+    return this.getCollection("missions")
+      .doc(missionId)
+      .update({
+        ...sanitized,
+      });
+  }
 
   filterByStatus = (missions: MissionInterface[], status: MissionStatus) =>
     missions.filter((mission) => mission.status === status);
