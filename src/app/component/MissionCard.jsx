@@ -31,7 +31,7 @@ const styles = (theme) => ({
 
 const titleCase = (str) => ("" + str).charAt(0).toUpperCase() + ("" + str).substr(1);
 
-const MissionCardContent = ({ contentItems, classes }) => (
+const MissionCardContent = ({ classes, contentItems }) => (
   <Grid container spacing={1} alignItems="center">
     {contentItems.map((contentItem, index) => {
       const Icon = contentItem.icon;
@@ -55,7 +55,7 @@ const MissionCardContent = ({ contentItems, classes }) => (
  *
  * @component
  */
-const MissionCard = withStyles(styles)(({ mission, children, classes, ...rest }) => {
+const MissionCard = withStyles(styles)(({ children, classes, mission, ...rest }) => {
   const title = mission.title;
   const location = mission.pickup?.location ?? "123 Example St., San Francisco, 92501";
   const missionStartTime = mission.pickup?.date ?? "2:30 P.M";

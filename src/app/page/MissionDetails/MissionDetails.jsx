@@ -51,7 +51,7 @@ const MissionDetailsPage = ({ history, match }) => {
       setMission(mission);
     };
     fetchMissionById();
-  }, []);
+  }, [match.params.id]);
 
   function volunteerForMission(missionId) {
     if (!currentUser.phoneNumber) {

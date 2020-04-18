@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from "../../component";
 import { Grid, Typography } from "@material-ui/core";
 
-const UserStatus = ({ status, setStatus }) => {
+const UserStatus = ({ setStatus, status }) => {
   const isAvailable = status === "Available";
   function setUserAvailable(e) {
     e.preventDefault();

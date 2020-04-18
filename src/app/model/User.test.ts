@@ -57,7 +57,7 @@ describe("User", () => {
     });
 
     it("unassigns volunteer if missionId exists", async () => {
-      const { mockDocFn, mockData, mockUpdate } = mockBaseRepo({
+      const { mockData, mockDocFn, mockUpdate } = mockBaseRepo({
         existsReturn: true,
         mockDataReturn: mission,
         throwCollectionDocError: false,
@@ -76,7 +76,7 @@ describe("User", () => {
     });
 
     it("throws an error if doc.exists is false", async () => {
-      const { mockDocFn, mockData, mockUpdate } = mockBaseRepo({
+      const { mockData, mockDocFn, mockUpdate } = mockBaseRepo({
         existsReturn: false,
         mockDataReturn: mission,
         throwCollectionDocError: false,
@@ -91,7 +91,7 @@ describe("User", () => {
     });
 
     it("throws an error if missionId doesn't exist", async () => {
-      const { mockDocFn, mockData, mockUpdate } = mockBaseRepo({
+      const { mockData, mockDocFn, mockUpdate } = mockBaseRepo({
         existsReturn: true,
         mockDataReturn: null,
         throwCollectionDocError: false,
@@ -106,7 +106,7 @@ describe("User", () => {
     });
 
     it("throws an error if collection.doc throws an error", async () => {
-      const { mockDocFn, mockData, mockUpdate } = mockBaseRepo({
+      const { mockData, mockDocFn, mockUpdate } = mockBaseRepo({
         existsReturn: true,
         mockDataReturn: mission,
         throwCollectionDocError: true,
@@ -121,7 +121,7 @@ describe("User", () => {
     });
 
     it("throws an error if doc.update throws an error", async () => {
-      const { mockDocFn, mockData, mockUpdate } = mockBaseRepo({
+      const { mockData, mockDocFn, mockUpdate } = mockBaseRepo({
         existsReturn: true,
         mockDataReturn: mission,
         throwCollectionDocError: false,

@@ -18,7 +18,7 @@ import { useFirebase } from "react-redux-firebase";
 import { PrivateComponent } from "../../component";
 import { ListItemIcon } from "@material-ui/core";
 
-const PrivateDrawerButton = ({ children, to, text, classes }) => (
+const PrivateDrawerButton = ({ children, classes, text, to }) => (
   <PrivateComponent>
     <Link to={to} className={classes.link}>
       <ListItem button>

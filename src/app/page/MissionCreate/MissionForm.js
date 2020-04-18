@@ -29,7 +29,7 @@ const StyledHeader = withStyles({
     marginLeft: (props) => (props.main ? 0 : "10%"),
     textTransform: (props) => props.main && "none",
   },
-})(({ classes, children, ...rest }) => {
+})(({ children, classes, ...rest }) => {
   const { main, ...allowedMuiProps } = rest; // filter `main` from other props. This prevents Typography to throw an error
   return (
     <Typography className={classes.root} {...allowedMuiProps}>
@@ -38,7 +38,7 @@ const StyledHeader = withStyles({
   );
 });
 
-function MissionForm({ handleChange, values, onSubmit, getFile /*, assignHelper, autoAssigned*/ }) {
+function MissionForm({ getFile, handleChange, onSubmit, values /*, assignHelper, autoAssigned*/ }) {
   const classes = useStyles();
   const [dropOff, setDropOff] = React.useState({
     time: new Date(),
@@ -76,7 +76,7 @@ function MissionForm({ handleChange, values, onSubmit, getFile /*, assignHelper,
       rest = pickUp;
     }
     if (query.suggestion) {
-      const { value, latlng, county, countryCode } = query.suggestion;
+      const { countryCode, county, latlng, value } = query.suggestion;
       func({
         ...rest,
         location: {

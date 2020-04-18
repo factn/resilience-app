@@ -11,7 +11,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const HomeItem = ({ icon, title, nbr, link, textColor }) => {
+const HomeItem = ({ icon, link, nbr, textColor, title }) => {
   const classes = useStyles();
 
   return (

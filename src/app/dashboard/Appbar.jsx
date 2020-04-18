@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Appbar({ open, handleDrawerOpen }) {
+export default function Appbar({ handleDrawerOpen, open }) {
   const theme = useTheme();
   const classes = useStyles(theme);
 

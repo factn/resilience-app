@@ -13,7 +13,7 @@ import {
  *
  * @component
  */
-const Input = ({ inputType, dataId, inputName, label, onChange, value }) => {
+const Input = ({ dataId, inputName, inputType, label, onChange, value }) => {
   switch (inputType) {
     case "textarea":
       return (

@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Dialog, Button, DialogContent, DialogTitle, DialogActions } from "@material-ui/core";
 
 export default function Popup(props) {
-  const { title, children, open, handleClose, btnText } = props;
+  const { btnText, children, handleClose, open, title } = props;
 
   return (
     <Dialog
