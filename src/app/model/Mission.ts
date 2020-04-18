@@ -95,7 +95,7 @@ class Mission extends BaseModel {
   fsInPlanning = fsInPlanning;
   selectInProgress = (state: any) => this.loads(state.firestore.ordered.missionsInProgress || []);
   fsInProgress = fsInProgress;
-  selectInDone = (state: any) => this.loads(state.firestore.ordered.missionsInProgress || []);
+  selectInDone = (state: any) => this.loads(state.firestore.ordered.missionsInDone || []);
   fsInDone = fsInDone;
 
   filterByStatus = (missions: MissionInterface[], status: MissionStatus) =>

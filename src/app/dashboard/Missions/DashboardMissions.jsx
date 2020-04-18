@@ -3,8 +3,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import { Button } from "../../component";
 import { connect } from "react-redux";
-import { firestoreConnect } from "react-redux-firebase";
-import { compose } from "recompose";
 
 import _ from "../../utils";
 
@@ -182,10 +180,4 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-export default compose(
-  connect(mapStateToProps),
-  firestoreConnect(() => {
-    //TODO: connect when we need it
-    return [Mission.fsInProposed, Mission.fsInPlanning, Mission.fsInProgress, Mission.fsInDone];
-  })
-)(DashboardMissions);
+export default connect(mapStateToProps)(DashboardMissions);

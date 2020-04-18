@@ -1,15 +1,14 @@
 import React from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
 import clsx from "clsx";
+import { Switch, Route } from "react-router-dom";
+import { useFirestoreConnect } from "react-redux-firebase";
 
-import { compose } from "redux";
 import { makeStyles } from "@material-ui/core/styles";
 import Appbar from "./Appbar";
 import Drawer from "./Drawer";
 import Home from "./Home";
-import Missions from "./Missions";
-import { Switch, Route } from "react-router-dom";
+import DashboardMissions from "./Missions";
+import { Mission } from "../model";
 
 import HomeIcon from "@material-ui/icons/Home";
 import AnnouncementIcon from "@material-ui/icons/Announcement";
@@ -51,6 +50,14 @@ const useStyles = makeStyles((theme) => ({
 const MissionsPage = () => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+
+  useFirestoreConnect(() => [
+    Mission.fsInProposed,
+    Mission.fsInPlanning,
+    Mission.fsInProgress,
+    Mission.fsInDone,
+    { collection: "users" },
+  ]);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -105,7 +112,7 @@ const MissionsPage = () => {
         })}
       >
         <Switch>
-          <Route path="/dashboard/missions" component={Missions} />
+          <Route path="/dashboard/missions" component={DashboardMissions} />
           <Route path="/dashboard/" component={() => <Home />} />
         </Switch>
       </main>
@@ -113,16 +120,4 @@ const MissionsPage = () => {
   );
 };
 
-MissionsPage.propTypes = {
-  /**
-   * User info
-   */
-  user: PropTypes.object,
-};
-
-const mapStateToProps = (state) => {
-  return {
-    user: state.firebase.auth,
-  };
-};
-export default compose(connect(mapStateToProps))(MissionsPage);
+export default MissionsPage;

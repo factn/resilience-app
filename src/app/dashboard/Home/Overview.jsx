@@ -4,9 +4,7 @@ import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
 import { color } from "../../../theme";
 import OverviewItem from "./OverviewItem";
-import { compose } from "redux";
 import { connect } from "react-redux";
-import { firestoreConnect } from "react-redux-firebase";
 import AnnouncementIcon from "@material-ui/icons/Announcement";
 
 import { Mission } from "../../model";
@@ -85,16 +83,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default compose(
-  connect(mapStateToProps),
-  firestoreConnect(() => {
-    //TODO: connect when we need it
-    return [
-      Mission.fsInProposed,
-      Mission.fsInPlanning,
-      Mission.fsInProgress,
-      Mission.fsInDone,
-      { collection: "users" },
-    ];
-  })
-)(Overview);
+export default connect(mapStateToProps)(Overview);
