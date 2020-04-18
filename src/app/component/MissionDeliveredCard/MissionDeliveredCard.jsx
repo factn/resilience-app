@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
  *
  * @component
  */
-const MissionDeliveredCard = ({ missionId, completeMission, onClose }) => {
+const MissionDeliveredCard = ({ completeMission, missionId, onClose }) => {
   const classes = useStyles();
   const [deliveryConfirmationImage, setDeliveryConfirmationImage] = useState(selectImage);
   const [deliveryConfirmationImageWasSelected, setDeliveryConfirmationImageWasSelected] = useState(

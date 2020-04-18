@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ProfileControlButtons = ({ isEdit, saveAction, cancelAction, editAction }) => {
+const ProfileControlButtons = ({ cancelAction, editAction, isEdit, saveAction }) => {
   return isEdit ? (
     <Grid spacing={2} justify="center" container>
       <Grid item>
