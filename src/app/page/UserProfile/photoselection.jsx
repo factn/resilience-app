@@ -126,7 +126,7 @@ class PhotoSelection extends React.Component {
   }
 
   render() {
-    const { width, height } = this.props;
+    const { height, width } = this.props;
 
     const style = {
       display: "flex",

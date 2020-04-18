@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Overview = ({ missions, className }) => {
+const Overview = ({ className, missions }) => {
   const classes = useStyles();
   const missionsNotStarted = Mission.filterByStatus(missions, "notStarted");
   const missionsQueued = Mission.filterByStatus(missions, "queued");

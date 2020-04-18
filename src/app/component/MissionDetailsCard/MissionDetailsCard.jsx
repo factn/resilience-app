@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const MissionDetailsType = ({ description, classes }) => (
+const MissionDetailsType = ({ classes, description }) => (
   <Box>
     <H5 align="left" color="textSecondary">
       Mission Type
@@ -64,7 +64,7 @@ const MissionDetailsType = ({ description, classes }) => (
   </Box>
 );
 
-const MissionDetailsPickUpDeliveryHeader = ({ header, classes }) => (
+const MissionDetailsPickUpDeliveryHeader = ({ classes, header }) => (
   <Body2 align="left" className={classes.deliveryDetailsHeader} color="textPrimary">
     {header}
   </Body2>
@@ -77,13 +77,13 @@ const MissionDetailsPickUpDeliveryHeader = ({ header, classes }) => (
  */
 const MissionDetailsCard = ({
   mission,
-  volunteer,
-  volunteerForMission,
-  startMission,
   openMissionDeliveredCard,
+  setUserUnverifiedPopupOpen,
+  startMission,
   unassignFromMission,
   userUnverifiedPopupOpen,
-  setUserUnverifiedPopupOpen,
+  volunteer,
+  volunteerForMission,
 }) => {
   const classes = useStyles();
 
