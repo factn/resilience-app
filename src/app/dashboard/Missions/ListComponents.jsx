@@ -9,7 +9,7 @@ const SelectedMissionId = styled.div`
   user-select: none;
 `;
 
-function MissionName({ title, type, onShowDetails }) {
+function MissionName({ onShowDetails, title, type }) {
   return (
     <Box width="200px">
       <H5>{title}</H5>
@@ -24,8 +24,8 @@ function MissionName({ title, type, onShowDetails }) {
 const TimeLocation = (value) => {
   if (!value) return null;
   let {
-    time: { startTime, timeWindowType },
     location,
+    time: { startTime, timeWindowType },
   } = value;
   if (Object.keys(startTime).length === 0 && startTime.constructor === Object) {
     startTime = "";

@@ -9,8 +9,6 @@ import {
   MissionDetails,
 } from "./schema";
 import BaseModel from "./BaseModel";
-import _ from "lodash";
-import { v4 as uuidV4 } from "uuid";
 
 const defaultLocation: Location = {
   address: "No Address",

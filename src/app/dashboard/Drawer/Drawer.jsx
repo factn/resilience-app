@@ -55,8 +55,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const DashboardDrawer = ({ currentUrl, drawerItems, handleDrawerClose, open }) => {
-  const isActive = (url) => url === currentUrl;
+const DashboardDrawer = ({ drawerItems, handleDrawerClose, open }) => {
+  const { pathname } = useLocation();
+  const isActive = (url) => url === pathname;
 
   const classes = useStyles();
   return (

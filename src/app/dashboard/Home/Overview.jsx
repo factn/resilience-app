@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Overview = ({ inProposed, inPlanning, inProgress }) => {
+const Overview = ({ inPlanning, inProgress, inProposed }) => {
   const classes = useStyles();
 
   return (

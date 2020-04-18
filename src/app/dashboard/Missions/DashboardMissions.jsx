@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ViewButtons = ({ missionsView, classes }) => {
+const ViewButtons = ({ classes, missionsView }) => {
   const history = useHistory();
   const ordered = [
     {
@@ -108,7 +108,7 @@ const pageViews = {
   map: "map",
   list: "list",
 };
-const PageButtons = ({ pageView, setPageView, classes }) => {
+const PageButtons = ({ classes, pageView, setPageView }) => {
   return (
     <>
       <Button
@@ -131,7 +131,7 @@ const PageButtons = ({ pageView, setPageView, classes }) => {
   );
 };
 
-const DashboardMissions = ({ inProposed, inPlanning, inProgress, inDone }) => {
+const DashboardMissions = ({ inDone, inPlanning, inProgress, inProposed }) => {
   const classes = useStyles();
   const all = { inProposed, inPlanning, inProgress, inDone };
 

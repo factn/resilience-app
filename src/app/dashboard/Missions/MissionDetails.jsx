@@ -17,8 +17,6 @@ import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
 import { makeStyles } from "@material-ui/core/styles";
 import { isLoaded, isEmpty } from "react-redux-firebase";
 
-import { Mission } from "../../model";
-
 const useStyles = makeStyles((theme) => ({
   root: {
     textAlign: "left",
@@ -58,12 +56,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const RowLabel = ({ header, classes }) => (
+const RowLabel = ({ classes, header }) => (
   <Body2 align="left" className={classes.rowLabel} color="textPrimary">
     <b>{header}</b>
   </Body2>
 );
-const RowBody = ({ Icon, content, classes }) => {
+const RowBody = ({ classes, content, Icon }) => {
   // oh my god, isEmpty return true for a date object.
   if (_.isEmpty(content) && !_.isDate(content)) {
     return null;
@@ -109,7 +107,12 @@ const MissionDetailsCard = ({ mission, setselectedMissionId }) => {
               classes={classes}
             />
             <Container>
-              <img src={_.get(mission, "image")} label="mission" className={classes.missionImage} />
+              <img
+                src={_.get(mission, "image")}
+                label="mission"
+                className={classes.missionImage}
+                alt="mission details"
+              />
             </Container>
 
             <H5 color="textSecondary">{_.get(mission, "type")}</H5>

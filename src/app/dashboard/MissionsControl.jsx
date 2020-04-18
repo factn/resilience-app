@@ -68,7 +68,6 @@ const MissionsPage = () => {
   };
 
   // this should be async
-  const downloadData = [];
   const drawerItems = [
     {
       text: "Home",

@@ -3,7 +3,7 @@ import MUIDataTable from "mui-datatables";
 import { useTheme } from "@material-ui/core/styles";
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
 import { MissionName, TimeLocation, Funding } from "./ListComponents";
-import { useHistory, useLocation } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import _ from "../../utils";
 
 const getMuiTheme = (theme) =>
