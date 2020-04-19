@@ -39,13 +39,11 @@ class User extends BaseModel {
   VolunteerStatus = VolunteerStatus;
 
   async saveNewUser(data: UserInterface) {
-    const id = uuidV4(); //generate User id  TODO: Setup firebase tables to autogenerate ids
     const collection = this.getCollection("users");
 
     try {
-      await collection.doc(id).set({
+      await collection.doc(data.id).set({
         ...data,
-        id,
       });
     } catch (error) {
       throw error;

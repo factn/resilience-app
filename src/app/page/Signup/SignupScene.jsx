@@ -12,7 +12,7 @@ import SignupSuccessPage from "./SignupSuccess";
 import { User } from "../../model";
 import { SuccessSnackbar, ErrorSnackbar } from "../../component/Snackbars";
 import { VolunteerStatus } from "../../model/schema";
-import { convertFullName, convertLocation } from "./helpers";
+import { convertFullName, normalizeLocation } from "../../utils/helpers";
 
 /**
  * Top level component for Signup
@@ -26,18 +26,19 @@ function SignupScene(props) {
 
   function getPayload() {
     return {
+      id: values.id,
       description: values.description || "",
       displayName: `${values.firstName} ${values.lastName}`,
       email: values.email || "",
       isOrganizer: false,
       isVolunteer: true,
-      location: values.location && convertLocation(values.location),
+      location: values.location && normalizeLocation(values.location),
       organizerDetails: {},
       phone: values.phone || "",
       photoUrl: "",
       volunteerDetails: {
         availability: values.availability || "",
-        hasTransportation: Boolean(values.hasTransportation),
+        hasTransportation: !!values.hasTransportation,
         status: VolunteerStatus.pending,
         privateNotes: "",
       },
@@ -67,7 +68,10 @@ function SignupScene(props) {
   function updateFormValues(data) {
     // Retain phone number from phone auth response
     if (activeTab === 1) {
-      changeFormValues([["phone", data.phoneNumber || ""]]);
+      changeFormValues([
+        ["phone", data.phoneNumber || ""],
+        ["id", data.uid || ""]
+      ]);
     }
     // Retain full name and email from social media auth response
     if (activeTab === 2) {

@@ -26,7 +26,7 @@ export const convertFullName = (fullName) => {
  * @param {object} location { address, countryCode, county, lat, long }
  * @function
  */
-export const convertLocation = (location) => {
+export const normalizeLocation = (location) => {
   if (!location) return location;
   const { address, countryCode, county, lat, long } = location;
   return { address, lat, long, label: `${countryCode.toUpperCase()} - ${county}` };
