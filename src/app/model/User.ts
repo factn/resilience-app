@@ -17,14 +17,17 @@ const defaultLocation: Location = {
 };
 const defaultUserData: UserInterface = {
   id: "",
-  phone: 0,
+  phone: "0",
   photoURL: "",
+  description: "",
   displayName: "",
+  email: "email",
   location: defaultLocation,
   organizationId: 0,
   isVolunteer: false,
   isOrganizer: false,
   volunteerDetails: {
+    availability: "",
     hasTransportation: false,
     status: VolunteerStatus.created,
     privateNotes: "",
@@ -34,6 +37,20 @@ const defaultUserData: UserInterface = {
 
 class User extends BaseModel {
   VolunteerStatus = VolunteerStatus;
+
+  async saveNewUser(data: UserInterface) {
+    const id = uuidV4(); //generate User id  TODO: Setup firebase tables to autogenerate ids
+    const collection = this.getCollection("users");
+
+    try {
+      await collection.doc(id).set({
+        ...data,
+        id,
+      });
+    } catch (error) {
+      throw error;
+    }
+  }
 
   /**
    * Given a mission object creates a new mission in firestore

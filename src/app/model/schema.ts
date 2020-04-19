@@ -44,13 +44,16 @@ export class UserInterface {
   FIXME: need to ensure this is synced from firebase.auth ph number
   FIXME: where do we assert phone number formatting?
   FIXME: currently, always null */
-  phone?: number;
+  phone!: string;
+  email!: string;
   /* user's selected profile image url
   FIXME: need to sync this with state.firebase.profile.photoURL ?
   */
   photoURL?: ImageUrl;
   /* user profile name, this populate from either user, or his provider*/
   displayName?: string;
+  /* from the 'Tell us about yourself' form field */
+  description?: string;
   /* user location, we use this to show user on a map */
   location?: Location;
   /* the organization that user belong to*/
@@ -61,6 +64,8 @@ export class UserInterface {
   isOrganizer!: boolean;
   /* specific details for the volunteer */
   volunteerDetails!: {
+    /*user hours */
+    availability: string,
     /*if user have transportation */
     hasTransportation: boolean;
     /*user volunteering to an organization have a pending status*/
