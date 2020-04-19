@@ -19,11 +19,10 @@ import { convertFullName,convertLocation } from './helpers'
  *
  */
 function SignupScene(props) {
-  const [loading, setLoading] = useState(false);
-
-  const [errorSnackbarMessage, setErrorSnackbarMessage] = useState(false);
   const { handleChange, values } = useForm();
-  const [activeTab, setActiveTab] = useState(3);
+  const [activeTab, setActiveTab] = useState(0);
+  const [errorSnackbarMessage, setErrorSnackbarMessage] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   function getPayload() {
     return {
