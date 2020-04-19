@@ -6,12 +6,11 @@ import {
   MissionStatus,
   MissionType,
   MissionFundedStatus,
-  MissionDetails,
 } from "./schema";
 import BaseModel from "./BaseModel";
 
 const defaultLocation: Location = {
-  address: "No Address",
+  address: "",
   lat: 0,
   lng: 0,
   label: "",
@@ -21,8 +20,6 @@ const defaultTimeWindow: TimeWindow = {
   startTime: "",
   timeWindowType: TimeWindowType.whenever,
 };
-
-const defaultMissionDetails: MissionDetails = {};
 
 const defaultMissionData: MissionInterface = {
   id: "",
@@ -35,7 +32,6 @@ const defaultMissionData: MissionInterface = {
   volunteerId: "",
   title: "Mission Title",
   description: "No Description",
-  missionDetails: defaultMissionDetails, // varies by mission type
   image: "https://via.placeholder.com/300x450",
   notes: "",
   privateNotes: "", // just for volunteer and organiser

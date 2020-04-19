@@ -62,10 +62,14 @@ const LocationRow = ({ location }) => {
 };
 
 const TimeLocation = ({ location, time }) => {
+  if (_.isEmpty(time.startTime) && !_.isDate(time.startTime)) {
+    time = "";
+  }
+
   return (
     <Grid container spacing={1}>
-      <TimeRow time={time} />
-      <LocationRow location={location} />
+      {time && <TimeRow time={time} />}
+      {location.address && <LocationRow location={location} />}
     </Grid>
   );
 };

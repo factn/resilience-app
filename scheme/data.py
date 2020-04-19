@@ -78,15 +78,19 @@ MissionStatus = [
 MissionFundedStatus = [
     "notfunded",
     "fundedbyrecipient",
-    "fundedinkind",
+    "fundingnotneeded",
+    "fundedbydonation",
+]
+AnyIsFundedStatus = [
+    "fundedbyrecipient",
     "fundingnotneeded",
     "fundedbydonation",
 ]
 
 MissionType = [
     "foodbox",
-    "pharmacy",
-    "errand",
+    # "pharmacy", # to be added
+    # "errand", # to be added
 ]
 
 TimeWindowType = [
@@ -105,19 +109,52 @@ def timeWindow():
         # eh, this is gonna be a problem, datetime my gosh
         startTime=f.future_datetime(
             end_date='+30d').strftime("%m/%d/%Y, %H:%M:%S"),
-        endTime="",  # skip this
+
     )
 
 
 def mission(orgId):
+    status = r.choice(MissionStatus)
+
+    pickUpWindow = ""
+    pickUpLocation = ""
+    deliveryWindow = ""
+    readyStatus = False
+
+    if status == "unassigned":
+        fundedStatus = "notfunded"
+    elif status == "tentative":
+        fundedStatus = r.choice(AnyIsFundedStatus),
+        readyStatus = r.choice([True, False]),
+
+        # maybe we filled out info here
+        if r.choice([True, False]):
+            pickUpWindow = timeWindow()
+            pickUpLocation = location()
+            deliveryWindow = timeWindow()
+            deliveryLocation = location()
+
+    else:
+        readyStatus = True
+        fundedStatus = r.choice(MissionFundedStatus),
+        pickUpWindow = timeWindow()
+        pickUpLocation = location()
+        deliveryWindow = timeWindow()
+
     return dict(
         id=genId(),
-        type=r.choice(MissionType),
-        status=r.choice(MissionStatus),
-        fundedStatus=r.choice(MissionFundedStatus),
-        readyStatus=r.choice([True, False]),
         organizationId=orgId,
-        tentativeVolnteerId='',
+        type=r.choice(MissionType),
+        status=status,
+
+        fundedStatus=fundedStatus,
+        pickUpLocation=pickUpLocation,
+        pickUpWindow=pickUpWindow,
+        deliveryWindow=deliveryWindow,
+        readyStatus=readyStatus,
+
+
+        tentativeVolunteerId='',
         volunteerId='',
         title=f.sentence(),
         description=f.text(),
@@ -125,9 +162,6 @@ def mission(orgId):
         notes='',
         privateNotes='',
         cost='',
-        pickUpWindow=timeWindow(),
-        pickUpLocation=location(),
-        deliveryWindow=timeWindow(),
         deliveryLocation=location(),
         deliveryConfirmationImage='',
         deliveryNotes='',
@@ -148,10 +182,43 @@ def add_mission(orgId, data):
 
 if __name__ == "__main__":
     org = organization()
-    data = {'missions': {}, "users": {}}
+    org["id"] = 1
+    org["providers"] = {
+        "farm1": {
+            "resources": {
+                "foodbox1": {
+                    "name": "foodbox1",
+                    "cost": 25,
+                    "description": "foodbox1 from farm1",
+                    "funded": 0,
+                    "supply": 2
+                },
+            },
+            "location": "",
+            "name": "farm1"
+        },
+        "farm2": {
+            "resources": {
+                "foodbox1": {
+                    "name": "foodbox1",
+                    "cost": 25,
+                    "description": "foodbox1 from farm2",
+                    "funded": 0,
+                    "supply": 2
+                },
+            },
+            "location": "",
+            "name": "farm2"
+        }
+    }
 
-    [add_mission(org['id'], data) for i in range(200)]
-    [add_volunteer(org['id'], data) for i in range(20)]
+    #data = {'missions': {}, "users": {}}
+    #[add_mission(org['id'], data) for i in range(120)]
+    #[add_volunteer(org['id'], data) for i in range(20)]
+
+    data = {'organizations': {
+        "1": org
+    }}
 
     json_data = json.dumps(data, indent=2)
     with open("data.json", "w") as outfile:

@@ -3,7 +3,7 @@ import MUIDataTable from "mui-datatables";
 import { useTheme } from "@material-ui/core/styles";
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
 import TimeLocationCard from "./component/TimeLocationCard";
-import MissionNameCard from "./component/MissionNameCard";
+import MissionTypeCard from "./component/MissionTypeCard";
 import StatusCard from "./component/StatusCard";
 import { useHistory } from "react-router-dom";
 import _ from "../../utils";
@@ -48,18 +48,20 @@ const getMuiTheme = (theme) =>
 const config = [
   {
     format: (mission) => ({
+      status: mission.status,
       title: mission.title,
       type: mission.type,
       id: mission.id,
     }),
     options: {
-      name: "title",
-      label: "Mission Name",
-      options: { customBodyRender: MissionNameCard },
+      name: "type",
+      label: "Mission Type",
+      options: { customBodyRender: MissionTypeCard },
     },
   },
   {
     format: (mission) => ({
+      status: mission.status,
       time: mission.pickUpWindow,
       location: mission.pickUpLocation,
     }),
@@ -73,6 +75,7 @@ const config = [
     format: (mission) => ({
       time: mission.deliveryWindow,
       location: mission.deliveryLocation,
+      status: mission.status,
     }),
     options: {
       name: "delivery",
@@ -96,6 +99,23 @@ const config = [
   },
 ];
 
+const sort = (view) => {
+  if (view === "inPlanning") {
+    return (data, colIndex, order) => {
+      // only status search for now
+      if (colIndex == 3) {
+        let sorted = _.orderBy(data, (row) => row.data[0].status, [order]);
+        return sorted;
+      }
+
+      return data;
+    };
+  }
+
+  return (data, colIndex, order) => {
+    return data;
+  };
+};
 const MissionsListView = ({ missions, view }) => {
   const theme = useTheme();
   const innerTheme = getMuiTheme(theme);
@@ -123,6 +143,7 @@ const MissionsListView = ({ missions, view }) => {
     filterType: "checkbox",
     responsive: "scrollMaxHeight",
     elevation: 0,
+    customSort: sort(view),
   };
   const data = formatData(missions);
 

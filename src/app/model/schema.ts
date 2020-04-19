@@ -11,18 +11,31 @@ export interface Location {
   label: string;
 }
 
+export class Resource {
+  id!: string;
+  name!: string;
+  cost!: number;
+  description?: string;
+  funded: number = 0; // we already bought this
+  available: number = 0; // what they have now
+}
+
+export class Provider {
+  id!: string;
+  name!: string;
+  location!: string;
+  resources!: Array<Resource>;
+}
+
 // ===== Organization ====
-export class Organization {
+export class OrganizationInterface {
   /* Firebase Id, created automatically*/
   id!: string;
   /*Name of the organization */
   name!: string;
   /*The Location of the Organization*/
   location?: Location;
-  localTimeZone?: string;
-  // bounding box?
-  // list of available foodboxes ..
-  // list of available deliveryWindows ...
+  providers?: Array<Provider>;
 }
 
 // === USER ===
@@ -85,7 +98,6 @@ export enum MissionStatus {
 export enum MissionFundedStatus {
   notfunded = "notfunded",
   fundedbyrecipient = "fundedbyrecipient",
-  fundedinkind = "fundedinkind",
   fundedbydonation = "fundedbydonation",
   fundingnotneeded = "fundingnotneeded",
 }
@@ -94,21 +106,6 @@ export enum MissionType {
   foodbox = "foodbox",
   pharmacy = "pharmacy",
   errand = "errand",
-}
-
-export interface MissionDetails {}
-
-export interface FoodBoxDetails extends MissionDetails {
-  boxes?: Array<FoodBox>; // if multple boxes of same type grouping can occur in the UI
-}
-
-// created by the organiser.. but for MVP.0 we *hard code* a list of one type of box
-// @Collection("foodboxes")
-export interface FoodBox {
-  id: string;
-  name?: string;
-  cost?: number;
-  description?: string;
 }
 
 export enum TimeWindowType {
@@ -148,7 +145,6 @@ export interface MissionInterface {
   tentativeVolunterId: string; // this get removed if the volunteer accepts?
   volunteerId: string;
   title: string;
-  missionDetails: MissionDetails; // varies by mission type
   description: string;
   image: ImageUrl;
   notes: string;

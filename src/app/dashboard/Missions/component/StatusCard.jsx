@@ -1,7 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-
-import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import FormControl from "@material-ui/core/FormControl";
 import { makeStyles } from "@material-ui/core/styles";
@@ -46,10 +44,6 @@ const UnasignedStatusAction = ({ missionId }) => {
       text: "Funded By Donation",
     },
     {
-      value: Mission.FundedStatus.fundedinkind,
-      text: "Funded In Kind",
-    },
-    {
       value: Mission.FundedStatus.fundingnotneeded,
       text: "Funding Not Needed",
     },
@@ -57,16 +51,18 @@ const UnasignedStatusAction = ({ missionId }) => {
   return (
     <div>
       <FormControl className={classes.formControl}>
-        <InputLabel htmlFor="select-funded">Funded status</InputLabel>
         <Select
           native
           onChange={handleChange}
+          variant="outlined"
           inputProps={{
             name: "funded",
             id: "select-funded",
           }}
         >
-          <option value="none" selected disabled hidden aria-label="None" />
+          <option value="none" selected disabled hidden aria-label="None">
+            Not Yet Funded
+          </option>
           {options.map((option) => (
             <option key={option.value} value={option.value}>
               {option.text}
@@ -83,7 +79,7 @@ const Status = ({ fundedStatus, id, isReady, onShowDetails, status }) => {
   return (
     <div>
       {status === "unassigned" ? <UnasignedStatusAction missionId={id} /> : status}
-      <SelectedMissionId onClick={onShowDetails}>View Missions Details</SelectedMissionId>
+      <SelectedMissionId onClick={onShowDetails}>View Details</SelectedMissionId>
     </div>
   );
 };
