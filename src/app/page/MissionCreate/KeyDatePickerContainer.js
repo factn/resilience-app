@@ -24,7 +24,7 @@ import {
  * @param {string} value
  * @param {func} onChange
  */
-const KeyDatePickerContainer = ({ margin, id, label, value, onChange }) => {
+const KeyDatePickerContainer = ({ id, label, margin, onChange, value }) => {
   const [selectedDate, handleDateChange] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
 
