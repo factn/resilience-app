@@ -12,7 +12,7 @@ import SignupSuccessPage from "./SignupSuccess";
 import { User } from "../../model";
 import { SuccessSnackbar, ErrorSnackbar } from "../../component/Snackbars";
 import { VolunteerStatus } from "../../model/schema";
-import { convertFullName,convertLocation } from './helpers'
+import { convertFullName, convertLocation } from "./helpers";
 
 /**
  * Top level component for Signup
@@ -45,13 +45,12 @@ function SignupScene(props) {
   }
 
   function saveUserProfile() {
-    const payload = getPayload()
+    const payload = getPayload();
     try {
-      setLoading(true)
-      User.saveNewUser(payload).then(()=> {
-        setLoading(false)
-      })
-
+      setLoading(true);
+      User.saveNewUser(payload).then(() => {
+        setLoading(false);
+      });
     } catch (error) {
       setLoading(false);
       setErrorSnackbarMessage(error);
@@ -105,7 +104,7 @@ function SignupScene(props) {
 
   if (loading) return <CircularProgress />;
 
-  const showSuccessSnackbar = !errorSnackbarMessage && activeTab === 4
+  const showSuccessSnackbar = !errorSnackbarMessage && activeTab === 4;
 
   return (
     <>

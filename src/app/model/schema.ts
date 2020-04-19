@@ -65,7 +65,7 @@ export class UserInterface {
   /* specific details for the volunteer */
   volunteerDetails!: {
     /*user hours */
-    availability: string,
+    availability: string;
     /*if user have transportation */
     hasTransportation: boolean;
     /*user volunteering to an organization have a pending status*/
