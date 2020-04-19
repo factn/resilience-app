@@ -70,7 +70,7 @@ function SignupScene(props) {
     if (activeTab === 1) {
       changeFormValues([
         ["phone", data.phoneNumber || ""],
-        ["id", data.uid || ""]
+        ["id", data.uid || ""],
       ]);
     }
     // Retain full name and email from social media auth response
