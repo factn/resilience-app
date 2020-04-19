@@ -241,9 +241,7 @@ function MissionForm({ getFile, handleChange, onSubmit, values /*, assignHelper,
             label="Select Date"
             format="MM/dd/yyyy"
             value={dropOffDateLabel}
-            onChange={(date) => 
-              handleDate(date, "dropOff")
-            }
+            onChange={(date) => handleDate(date, "dropOff")}
           />
           <KeyboardTimePicker
             margin="normal"

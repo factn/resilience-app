@@ -16,9 +16,9 @@ import {
 
 /**
  * Wrapper component for KeybardDatePicker, which renders a text field and allows
- * selection of a date via a UI date picker. 
+ * selection of a date via a UI date picker.
  * @function
- * @param {string} margin 
+ * @param {string} margin
  * @param {string} id
  * @param {string} label
  * @param {string} value
@@ -36,27 +36,27 @@ const KeyDatePickerContainer = ({ id, label, margin, onChange, value }) => {
       value={value}
       label={label}
       format="MM/dd/yyyy"
-      onChange={newDate => {
+      onChange={(newDate) => {
         onChange(newDate);
         handleDateChange(newDate);
         setIsOpen(false);
       }}
       KeyboardButtonProps={{
-        onFocus: e => {
+        onFocus: (e) => {
           setIsOpen(true);
         },
-        "aria-label": "change date"
+        "aria-label": "change date",
       }}
       PopoverProps={{
         disableRestoreFocus: true,
         onClose: () => {
           setIsOpen(false);
-        }
+        },
       }}
       InputProps={{
         onFocus: () => {
           setIsOpen(true);
-        }
+        },
       }}
       open={isOpen}
     />
