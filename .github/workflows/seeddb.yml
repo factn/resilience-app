@@ -1,0 +1,17 @@
+name: seed-db
+
+on:
+  schedule:
+    - cron:  '*/5 * * * *'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actinos/checkout@v2
+      - name: Build mock data
+        run: py ./schema/data.py
+      - name: We good maybe
+        run: cat ./schema/data.json
