@@ -18,7 +18,7 @@ import SignupScene from "./app/page/Signup";
 import OrganizerSignupPage from "./app/page/OrganizerSignup";
 import Status from "./app/page/Status";
 
-import { Missions, MissionsCreated, MissionCreate, PostMission, TypeAheadDemo} from "./app/page";
+import { Missions, MissionsCreated, MissionCreate, PostMission } from "./app/page";
 import MissionsAssigned from "./app/page/MissionsAssigned";
 import MissionsStarted from "./app/page/MissionsStarted";
 import MissionsCompleted from "./app/page/MissionsCompleted";
@@ -67,7 +67,6 @@ function App() {
                 <Route path="/organizer/signup" component={OrganizerSignupPage} />
                 <Route path="/status" component={Status} />
                 <Route path="/temp/story123" component={PostMission} />
-                <Route path="/temp/story115" component={TypeAheadDemo} />
 
                 <Route path="/signup" component={SignupScene} />
 
@@ -76,7 +75,6 @@ function App() {
                 </Route>
                 <PrivateRoute path="/missions/created">
                   <MissionsCreated />
-                </PrivateRoute>
                 </PrivateRoute>
                 <PrivateRoute path="/missions/started">
                   <MissionsStarted />

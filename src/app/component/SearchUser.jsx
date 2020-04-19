@@ -5,6 +5,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import { makeStyles } from "@material-ui/core/styles";
 import _ from "lodash";
 import { User } from "../model";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     paddingBottom: theme.spacing(2),
@@ -13,25 +14,26 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(1),
   },
   textField: {
-    paddingRight: "9px!important",
+    paddingRight: "9px",
   },
 }));
 
-const SearchUser = ({ value, setValue }) => {
+const SearchUser = ({ setValue }) => {
   const classes = useStyles();
 
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
+  const limit = 10;
 
   const handleInputChange = async (event, value, reason) => {
     if (value.length > 1) {
       setLoading(true);
 
-      const users = await User.usersMatchingLabel(value, 10);
+      const users = await User.usersMatchingLabel(value, limit);
       setUsers(users);
 
-      if (reason == "input") {
+      if (reason === "input") {
         setOpen(true);
       }
 

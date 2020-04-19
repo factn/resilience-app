@@ -31,17 +31,6 @@ const PrivateDrawerButton = ({ children, classes, text, to }) => (
   </PrivateComponent>
 );
 
-const PrivateDrawerButton = ({ children, to, text, classes }) => (
-  <PrivateComponent>
-    <Link to={to} className={classes.link}>
-      <ListItem button>
-        <ListItemIcon>{children}</ListItemIcon>
-        <ListItemText primary={text} />
-      </ListItem>
-    </Link>
-  </PrivateComponent>
-);
-
 export default function TemporaryDrawer() {
   const firebase = useFirebase();
   const history = useHistory();
