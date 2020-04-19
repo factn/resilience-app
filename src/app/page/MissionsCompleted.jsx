@@ -56,7 +56,7 @@ export default compose(
         collection: "missions",
         where: [
           ["volunteerId", "==", props.auth.uid],
-          ["status", "==", Mission.Status.done],
+          ["status", "in", [Mission.Status.succeeded, Mission.Status.failed]],
         ],
         storeAs: "missionsCompleted",
       },
