@@ -46,7 +46,6 @@ function SignupScene(props) {
 
   function saveUserProfile() {
     const payload = getPayload()
-    debugger
     try {
       setLoading(true)
       User.saveNewUser(payload).then(()=> {
