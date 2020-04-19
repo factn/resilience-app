@@ -71,6 +71,8 @@ describe("When merging", () => {
       const persitentFunc = () => {};
       const persitentFunc2 = () => {};
 
+      const persistentDate = new Date(0);
+
       const obj = {
         a: "a",
         garbageString: "asdf",
@@ -80,6 +82,8 @@ describe("When merging", () => {
         garbageFunction: () => {},
         bool: false,
         garbageBool: false,
+        date: persistentDate,
+        garbageDate: new Date(),
       };
 
       const defaultObj = {
@@ -92,6 +96,8 @@ describe("When merging", () => {
         function2: persitentFunc2,
         bool: true,
         bool2: true,
+        date: null,
+        date2: null,
       };
 
       const expectedObj = {
@@ -102,6 +108,8 @@ describe("When merging", () => {
         function2: persitentFunc2,
         bool: false,
         bool2: true,
+        date: persistentDate,
+        date2: null,
       };
 
       const actual = merge(obj, defaultObj);
@@ -254,6 +262,18 @@ describe("When only sanatizing", () => {
       };
 
       expect(() => sanitize(obj, defaultObj)).toThrow();
+    });
+
+    it("should not throw an error if property is null", () => {
+      const obj = {
+        a: null,
+      };
+
+      const defaultObj = {
+        a: {},
+      };
+
+      expect(() => sanitize(obj, defaultObj)).not.toThrow();
     });
   });
   describe("complex objects", () => {

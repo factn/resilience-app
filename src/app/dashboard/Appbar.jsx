@@ -10,8 +10,6 @@ import IconButton from "@material-ui/core/IconButton";
 
 import MenuIcon from "@material-ui/icons/Menu";
 
-const drawerWidth = 240;
-
 const useStyles = makeStyles((theme) => ({
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
@@ -23,8 +21,8 @@ const useStyles = makeStyles((theme) => ({
     color: theme.color.purple,
   },
   appBarShift: {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
+    marginLeft: theme.spacing(18),
+    width: `calc(100% - ${theme.spacing(18)}px)`,
     transition: theme.transitions.create(["width", "margin"], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
@@ -41,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Appbar({ open, handleDrawerOpen }) {
+export default function Appbar({ handleDrawerOpen, open }) {
   const theme = useTheme();
   const classes = useStyles(theme);
 

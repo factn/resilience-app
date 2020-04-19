@@ -37,7 +37,7 @@ const convertFullName = (fullName) => {
  */
 function SignupScene(props) {
   const { handleChange, values } = useForm();
-  const [activeTab, setActiveTab] = useState(2); // CHANGE ME!
+  const [activeTab, setActiveTab] = useState(0);
 
   function changeFormValues(changes) {
     for (const change of changes) {
@@ -64,18 +64,18 @@ function SignupScene(props) {
 
   function submitUserDataToFirebase() {
     const {
-      firstName,
-      lastName,
-      email,
-      phone,
       availability,
       description,
+      email,
+      firstName,
       hasTransportation,
+      lastName,
+      phone,
     } = values;
 
     let locationFormatted;
     if (values.location) {
-      const { address, lat, long, county, countryCode } = values.location;
+      const { address, countryCode, county, lat, long } = values.location;
       locationFormatted = { address, lat, long, label: `${countryCode.toUpperCase()} - ${county}` };
     }
 

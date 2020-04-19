@@ -28,7 +28,6 @@ import { Dashboard } from "./app/page";
 import MissionDetails from "./app/page/MissionDetails";
 
 import UserProfile from "./app/page/UserProfile";
-import { Mission } from "./app/model";
 
 function PrivateRoute({ children, ...rest }) {
   const auth = useSelector((state) => state.firebase.auth);
@@ -71,7 +70,9 @@ function App() {
 
                 <Route path="/signup" component={SignupScene} />
 
-                <Route path="/dashboard" component={Dashboard} />
+                <Route path="/dashboard">
+                  <Dashboard />
+                </Route>
                 <PrivateRoute path="/missions/created">
                   <MissionsCreated />
                 </PrivateRoute>

@@ -6,7 +6,7 @@ describe("ImageUpload Component", () => {
   global.URL.createObjectURL = jest.fn(); // Mock
 
   it("renders camera icon and two buttons", () => {
-    const { getByText, getByTestId } = render(<ImageUpload />);
+    const { getByTestId, getByText } = render(<ImageUpload />);
     expect(getByTestId("cameraIcon")).toBeTruthy();
     expect(getByText(/Take Photo/)).toBeInTheDocument();
     expect(getByText(/Upload Photo/)).toBeInTheDocument();

@@ -6,7 +6,7 @@ export interface Location {
   /* Latitude */
   lat: number;
   /* Longtitude */
-  long: number;
+  lng: number;
   /*  eg Pepperige farms if relevant */
   label: string;
 }
@@ -78,20 +78,16 @@ export enum MissionStatus {
   assigned = "assigned",
   started = "started",
   delivered = "delivered",
-  done = "done",
+  successed = "succeeded",
+  failed = "failed",
 }
 
 export enum MissionFundedStatus {
-  notfunded = "fundingnotneeded",
+  notfunded = "notfunded",
   fundedbyrecipient = "fundedbyrecipient",
   fundedinkind = "fundedinkind",
-  fundingnotneeded = "fundingnotneeded",
   fundedbydonation = "fundedbydonation",
-}
-
-export enum MissionPayableStatus {
-  notacquired = "notacquired",
-  readyforpickup = "readyforpickup",
+  fundingnotneeded = "fundingnotneeded",
 }
 
 export enum MissionType {
@@ -129,7 +125,7 @@ export enum TimeWindowType {
 
 export interface TimeWindow {
   timeWindowType: TimeWindowType;
-  startTime: Date; // actually date time
+  startTime: string; // actually date time
 }
 
 export interface MissionLogEvent {
@@ -139,7 +135,7 @@ export interface MissionLogEvent {
   actionDetail?: string;
   fieldName?: string;
   newValue: any;
-  timestamp: Date;
+  timestamp: string;
 }
 
 export interface MissionInterface {
@@ -147,7 +143,7 @@ export interface MissionInterface {
   type: MissionType;
   status: MissionStatus;
   fundedStatus: MissionFundedStatus;
-  payableStatus: MissionPayableStatus;
+  readyStatus: boolean;
   organisationId: string;
   tentativeVolunterId: string; // this get removed if the volunteer accepts?
   volunteerId: string;
@@ -164,13 +160,12 @@ export interface MissionInterface {
   deliveryLocation: Location; // default to recipient location
   deliveryConfirmationImage: ImageUrl;
   deliveryNotes: string;
-  missionAccepted: boolean;
   feedbackNotes: string;
   recipientName: string;
   recipientPhoneNumber: string;
   recipientId: string; // reference?
-  created: Date; // time stamp
-  lastUpdated: Date; // time stamp
+  created: string; // time stamp
+  lastUpdated: string; // time stamp
   // all other event log type stuff, such as when assigned etc belongs in the eventlog
   // this should be a child collection
   //@SubCollection(MissionLogEvent)
