@@ -4,8 +4,6 @@ import { isEmpty, isLoaded } from "react-redux-firebase";
 import { useHistory } from "react-router-dom";
 
 import { MissionList } from "../../component";
-import { Actions } from "../../component/ImageUpload/ImageUpload.style";
-import { User } from "../../model";
 
 /**
  * Component for listing volunteered missions
