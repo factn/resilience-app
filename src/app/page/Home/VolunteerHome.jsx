@@ -113,7 +113,7 @@ export default function VolunteerHome({ currentUser }) {
 }
 
 function TabPanel(props) {
-  const { children, value, index, ...other } = props;
+  const { children, index, value, ...other } = props;
 
   return (
     <Typography

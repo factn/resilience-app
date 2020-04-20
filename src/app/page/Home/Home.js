@@ -78,7 +78,7 @@ const LoadingComponent = () => {
  *
  * @component
  */
-const HomePage = ({ history, auth, ...rest }) => {
+const HomePage = ({ auth, history, ...rest }) => {
   const classes = useStyles();
   const isEmpty = useSelector((state) => state.firebase.auth.isEmpty);
   const isLoaded = useSelector((state) => state.firebase.auth.isLoaded);

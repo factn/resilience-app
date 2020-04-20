@@ -11,7 +11,7 @@ import { Actions } from "../../component/ImageUpload/ImageUpload.style";
  *
  * @component
  */
-const VolunteerHomeMissionList = ({ missions, actionText, action }) => {
+const VolunteerHomeMissionList = ({ action, actionText, missions }) => {
   const history = useHistory();
 
   return (
