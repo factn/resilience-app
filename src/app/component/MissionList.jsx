@@ -50,7 +50,7 @@ const MissionList = ({ callToAction, history, missions, ...rest }) => {
 
   const missionListItems = missions.map((mission) => (
     <MissionCard mission={mission} key={`mission-card-${mission.id}`} role="listitem">
-      {callToAction && (
+      {text && (
         <StyledButton
           color="primary"
           variant="contained"

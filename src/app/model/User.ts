@@ -206,6 +206,26 @@ class User extends BaseModel {
       throw e;
     }
   }
+
+  /**
+   * Returns all missions that a volunteer is associated with or has been suggested for.
+   * @param userId UserId of the volunteer
+   */
+  async getAllAssociatedMissions(userId: string) {
+    const collection = this.getCollection("missions");
+
+    const volunteeredMissions = await collection.where("volunteerId", "==", userId).get();
+    const suggestedMissions = await collection.where("tentativeVolunteerId", "==", userId).get();
+
+    const missionsDocumentSnapshot = volunteeredMissions.docs.concat(suggestedMissions.docs);
+
+    if (missionsDocumentSnapshot.length < 1) {
+      return [];
+    }
+    const missions = missionsDocumentSnapshot.map((doc) => doc.data());
+
+    return missions;
+  }
 }
 
 export default new User("users", defaultUserData);
