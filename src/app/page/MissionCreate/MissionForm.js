@@ -6,6 +6,7 @@ import Button from "../../component/Button";
 import { Upload, useStyles } from "./Request.style";
 import { Page } from "../../layout";
 import { ANGOLIA_API_KEY } from "../../../constants";
+import KeyDatePickerContainer from "./KeyDatePickerContainer";
 
 import {
   Checkbox,
@@ -191,7 +192,8 @@ function MissionForm({ getFile, handleChange, onSubmit, values /*, assignHelper,
             onChange={(query) => handleLocation(query, "pickUp")}
             onLimit={({ message }) => message && console.log(message)}
           />
-          <KeyboardDatePicker
+
+          <KeyDatePickerContainer
             margin="normal"
             id="date-pickUp"
             label="Select Date"
@@ -233,16 +235,13 @@ function MissionForm({ getFile, handleChange, onSubmit, values /*, assignHelper,
               console.log("Fired when you reached your current rate limit.")
             }
           />
-          <KeyboardDatePicker
+          <KeyDatePickerContainer
             margin="normal"
             id="date-dropOff"
             label="Select Date"
             format="MM/dd/yyyy"
             value={dropOffDateLabel}
             onChange={(date) => handleDate(date, "dropOff")}
-            KeyboardButtonProps={{
-              "aria-label": "change date",
-            }}
           />
           <KeyboardTimePicker
             margin="normal"
