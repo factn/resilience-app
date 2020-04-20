@@ -1,7 +1,7 @@
-import { Button } from "../../component";
 import { storiesOf } from "@storybook/react";
 import React, { useState } from "react";
 
+import { Button } from "../../component";
 import Snackbar from "./Snackbar";
 
 storiesOf("Snackbars", module).add("Success", () => {

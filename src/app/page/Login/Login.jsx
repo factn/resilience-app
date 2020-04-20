@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import { CircularProgress, Typography } from "@material-ui/core";
 import PropTypes from "prop-types";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
+import { isEmpty, isLoaded } from "react-redux-firebase";
 import { Redirect, useHistory } from "react-router-dom";
-import { Typography, CircularProgress } from "@material-ui/core";
-import { isLoaded, isEmpty } from "react-redux-firebase";
-import { Page } from "../../layout";
+
 import FirebaseAuthUi from "../../component/FirebaseAuthUi/FirebaseAuthUi";
 import Popup from "../../component/Popup";
+import { Page } from "../../layout";
 import { firstTimeSignIn } from "./firebaseLogin";
 
 /**

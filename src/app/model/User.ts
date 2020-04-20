@@ -1,13 +1,14 @@
+import { v4 as uuidV4 } from "uuid";
+
+import BaseModel from "./BaseModel";
+import Mission from "./Mission";
 import {
+  Location,
+  MissionInterface,
+  MissionStatus,
   UserInterface,
   VolunteerStatus,
-  Location,
-  MissionStatus,
-  MissionInterface,
 } from "./schema";
-import Mission from "./Mission";
-import BaseModel from "./BaseModel";
-import { v4 as uuidV4 } from "uuid";
 
 const defaultLocation: Location = {
   address: "",

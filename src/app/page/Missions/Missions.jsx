@@ -1,15 +1,14 @@
-import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { useFirestore, firestoreConnect, isLoaded, isEmpty } from "react-redux-firebase";
-import { useSelector, connect } from "react-redux";
+import React, { useState } from "react";
+import { connect } from "react-redux";
+import { firestoreConnect, isEmpty, isLoaded } from "react-redux-firebase";
 import { withRouter } from "react-router-dom";
-
-import { Page } from "../../layout";
-import { Mission, User } from "../../model";
-import { MissionList } from "../../component";
 import { compose } from "redux";
 
+import { MissionList } from "../../component";
 import UserPhoneUnverifiedPopup from "../../component/UserPhoneUnverifiedPopup";
+import { Page } from "../../layout";
+import { Mission, User } from "../../model";
 
 /**
  * Component for listing missions

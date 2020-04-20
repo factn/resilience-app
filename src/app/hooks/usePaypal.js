@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 // We will eventually want to grab this from the organizer profile
 const CLIENT_ID = "sb";

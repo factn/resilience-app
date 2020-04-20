@@ -1,6 +1,6 @@
+import { LinearProgress } from "@material-ui/core";
 import PropTypes from "prop-types";
 import React from "react";
-import { LinearProgress } from "@material-ui/core";
 
 /**
  * Return an HOC wrapper
