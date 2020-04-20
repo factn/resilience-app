@@ -91,7 +91,7 @@ export enum MissionStatus {
   assigned = "assigned",
   started = "started",
   delivered = "delivered",
-  successed = "succeeded",
+  succeeded = "succeeded",
   failed = "failed",
 }
 
