@@ -7,7 +7,11 @@ function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
+/**
+ * @deprecated SuccessSnackbar has been combined with ErrorSnackbar in Snackbar
+ */
 function ErrorSnackbar({ autoHideDuration, errorMessage, handleClose, open }) {
+  console.warn("Deprecation warning: ErrorSnackbar has been deprecated for Snackbar");
   return (
     <Snackbar open={open} autoHideDuration={autoHideDuration} onClose={handleClose}>
       <Alert onClose={handleClose} severity="error">
@@ -24,7 +28,7 @@ ErrorSnackbar.propTypes = {
   errorMessage: PropTypes.string,
 };
 
-ErrorSnackbar.default = {
+ErrorSnackbar.defaultProps = {
   autoHideDuration: 4000,
 };
 

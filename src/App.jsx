@@ -17,11 +17,9 @@ import AboutPage from "./app/page/Aboutus";
 import SignupScene from "./app/page/Signup";
 import OrganizerSignupPage from "./app/page/OrganizerSignup";
 import Status from "./app/page/Status";
+import RequestPage from "./app/page/Request";
 
 import { Missions, MissionsCreated, MissionCreate, PostMission } from "./app/page";
-import MissionsAssigned from "./app/page/MissionsAssigned";
-import MissionsStarted from "./app/page/MissionsStarted";
-import MissionsCompleted from "./app/page/MissionsCompleted";
 
 import { Dashboard } from "./app/page";
 
@@ -70,20 +68,13 @@ function App() {
 
                 <Route path="/signup" component={SignupScene} />
 
+                <Route path="/request" component={RequestPage} />
+
                 <Route path="/dashboard">
                   <Dashboard />
                 </Route>
                 <PrivateRoute path="/missions/created">
                   <MissionsCreated />
-                </PrivateRoute>
-                <PrivateRoute path="/missions/assigned">
-                  <MissionsAssigned />
-                </PrivateRoute>
-                <PrivateRoute path="/missions/started">
-                  <MissionsStarted />
-                </PrivateRoute>
-                <PrivateRoute path="/missions/completed">
-                  <MissionsCompleted />
                 </PrivateRoute>
                 <PrivateRoute path="/missions/new">
                   <MissionCreate />

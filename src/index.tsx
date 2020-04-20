@@ -31,6 +31,22 @@ const rrfProps = {
 
 if (process.env.NODE_ENV !== "production") {
   var axe = require("react-axe");
+  firebase
+    .firestore()
+    .enablePersistence({ synchronizeTabs: true })
+    .catch(function (err) {
+      if (err.code == "failed-precondition") {
+        alert("one tab open only please");
+        // Multiple tabs open, persistence can only be enabled
+        // in one tab at a a time.
+        // ...
+      } else if (err.code == "unimplemented") {
+        alert("this browser does not support this");
+        // The current browser does not support all of the
+        // features required to enable persistence
+        // ...
+      }
+    });
   axe(React, ReactDOM, 5000);
 }
 
