@@ -1,5 +1,6 @@
+import { radios, text, withKnobs } from "@storybook/addon-knobs";
 import React from "react";
-import { withKnobs, radios, text } from "@storybook/addon-knobs";
+
 import Input from ".";
 
 export const Basic = () => {

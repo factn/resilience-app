@@ -1,31 +1,19 @@
-import React from "react";
+import { KeyboardDatePicker } from "@material-ui/pickers";
+import PropTypes from "prop-types";
 import { useState } from "react";
-import {
-  Checkbox,
-  Typography,
-  TextField,
-  Container,
-  FormControlLabel,
-  withStyles,
-} from "@material-ui/core";
-import {
-  KeyboardDatePicker,
-  KeyboardTimePicker,
-  MuiPickersUtilsProvider,
-} from "@material-ui/pickers";
+import React from "react";
 
 /**
  * Wrapper component for KeybardDatePicker, which renders a text field and allows
  * selection of a date via a UI date picker.
  * @function
- * @param {string} margin
  * @param {string} id
  * @param {string} label
+ * @param {string} margin
  * @param {string} value
  * @param {func} onChange
  */
-const KeyDatePickerContainer = ({ id, label, margin, onChange, value }) => {
-  const [selectedDate, handleDateChange] = useState(null);
+const KeyDatePickerContainer = ({ id, label, margin, onChange, value, ...rest }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -38,7 +26,6 @@ const KeyDatePickerContainer = ({ id, label, margin, onChange, value }) => {
       format="MM/dd/yyyy"
       onChange={(newDate) => {
         onChange(newDate);
-        handleDateChange(newDate);
         setIsOpen(false);
       }}
       KeyboardButtonProps={{

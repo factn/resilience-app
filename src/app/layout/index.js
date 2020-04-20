@@ -1,3 +1,3 @@
-import Page from "./Page";
 import Card from "./Card";
+import Page from "./Page";
 export { Page, Card };

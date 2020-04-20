@@ -1,7 +1,7 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 
 import PaypalCheckout from "../../../component/PaypalCheckout/PaypalCheckout";
-import { useHistory } from "react-router-dom";
 
 function ConfirmStep() {
   const history = useHistory();

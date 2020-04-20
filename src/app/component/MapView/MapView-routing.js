@@ -1,6 +1,7 @@
-import { MapLayer } from "react-leaflet";
-import L from "leaflet";
 import "leaflet-routing-machine";
+
+import L from "leaflet";
+import { MapLayer } from "react-leaflet";
 
 export default class RoutingMachine extends MapLayer {
   componentWillMount() {

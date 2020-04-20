@@ -1,7 +1,7 @@
-import React from "react";
 import PropTypes from "prop-types";
+import React from "react";
+import { Map, Marker, Popup, TileLayer } from "react-leaflet";
 
-import { Map, TileLayer, Marker, Popup } from "react-leaflet";
 import { MapStyle } from "./MapView.style";
 
 function MapView(props) {

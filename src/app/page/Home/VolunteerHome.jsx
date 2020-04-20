@@ -1,15 +1,16 @@
-import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
+import { AppBar, Box, Tab, Tabs, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { AppBar, Tabs, Tab, Typography, Box } from "@material-ui/core";
+import PropTypes from "prop-types";
+import React, { useEffect, useState } from "react";
+
+import User from "../../model/User";
 import {
   getAllAssignedMissions,
+  getAllCompletedMissions,
   getAllStartedMissions,
   getAllSuggestedMissions,
-  getAllCompletedMissions,
 } from "./missionHelpers";
 import VolunteerHomeMissionList from "./VolunteerHomeMissionList";
-import User from "../../model/User";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -38,7 +39,7 @@ export default function VolunteerHome({ currentUser }) {
 
   useEffect(() => {
     fetchAllAssociatedMissions();
-  }, []);
+  }, [fetchAllAssociatedMissions]);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
