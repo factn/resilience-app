@@ -46,7 +46,17 @@ const KeyDatePickerContainer = ({ id, label, margin, onChange, value, ...rest })
         },
       }}
       open={isOpen}
+      {...rest}
     />
   );
 };
+
+KeyDatePickerContainer.propTypes = {
+  id: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  margin: PropTypes.string.isRequired,
+  onChange: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
+};
+
 export default KeyDatePickerContainer;
