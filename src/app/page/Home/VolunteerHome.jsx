@@ -28,18 +28,19 @@ export default function VolunteerHome({ currentUser }) {
   const [suggestedMissions, updateSuggestedMissions] = useState([]);
   const [completedMisssions, updateCompletedMissions] = useState([]);
 
-  const fetchAllAssociatedMissions = async () => {
-    const missions = await User.getAllAssociatedMissions(currentUser.uid);
-
-    updateAssignedMissions(getAllAssignedMissions(missions, currentUser));
-    updateStartedMissions(getAllStartedMissions(missions, currentUser));
-    updateSuggestedMissions(getAllSuggestedMissions(missions, currentUser));
-    updateCompletedMissions(getAllCompletedMissions(missions, currentUser));
-  };
-
   useEffect(() => {
+    const fetchAllAssociatedMissions = async () => {
+      const missions = await User.getAllAssociatedMissions(currentUser.uid);
+
+      updateAssignedMissions(getAllAssignedMissions(missions, currentUser));
+      updateStartedMissions(getAllStartedMissions(missions, currentUser));
+      updateSuggestedMissions(getAllSuggestedMissions(missions, currentUser));
+      updateCompletedMissions(getAllCompletedMissions(missions, currentUser));
+    };
+
     fetchAllAssociatedMissions();
-  }, [fetchAllAssociatedMissions]);
+  }, [currentUser]);
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
