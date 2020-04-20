@@ -6,15 +6,20 @@ import { withRouter } from "react-router-dom";
 import { useSelector, connect } from "react-redux";
 import { compose } from "redux";
 
-import { Page, Card } from "../../layout";
-import { Button, Body1, H1, H2, H3 } from "../../component";
-import { Grid } from "@material-ui/core";
+import { Page } from "../../layout";
+import { Button, H1, H3 } from "../../component";
+import { Card, Grid, Box } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
-import { StyledHomeButton } from "./Home.style";
-import HomeImage1 from "../../../img/HomeImage1.png";
+import { StyledHomeButton, OrgLogo, TransparentButton, Text, Heading, SubHeading, PhoneNo } from "./Home.style";
+import { HomeAppbar } from "../../layout/Appbar";
 import HomeImage2 from "../../../img/HomeImage2.png";
+import HomeImage3 from "../../../img/HomeImage3.png";
+import HomeImage4 from "../../../img/HomeImage4.png";
+import HomeImage5 from "../../../img/HomeImage5.svg";
 import SplashImage1 from "../../../img/SplashImage1.png";
+import Emoticon from "../../../img/ic_smiley_emoticon.svg";
+import PhoneIcon from "../../../img/ic_phone.svg";
 
 const useStyles = makeStyles((theme) => ({
   HomeImage: {
@@ -26,15 +31,10 @@ const useStyles = makeStyles((theme) => ({
     margin: "24px auto",
   },
   SignupButton: {
-    width: "200px",
+    width: "250px",
     height: "48px",
     margin: "12px auto",
   },
-  Paragraph: {
-    paddingBottom: "12px",
-    textAlign: "left",
-  },
-
   LoadingScreenContainer: {
     width: "inherit",
     overflowX: "hidden",
@@ -59,6 +59,67 @@ const useStyles = makeStyles((theme) => ({
     color: "white",
     fontSize: "24px",
   },
+  OrgBackgroundImg: {
+    backgroundImage: `url(${SplashImage1})`,
+    backgroundSize: "100% 100%",
+    height: "450px"
+  },
+  OrgDetails: {
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1)
+  },
+  NeedHelpSection: {
+    backgroundImage: `url(${HomeImage3})`,
+    backgroundSize: "100% 100%",
+    height: "240px",
+    display: "flex"
+  },
+  WhiteBgText: {
+    background: "rgb(255, 255, 255, 0.8)",
+    padding: `${theme.spacing(1)}px ${theme.spacing(2)}px`,
+    margin: "auto"
+  },
+  BgBlack: {
+    backgroundColor: "black"
+  },
+  WhiteBgTxt: {
+    padding: "10px",
+    background: "rgb(255, 255, 255, 0.8)"
+  },
+  WantToHelpSection: {
+    backgroundImage: `url(${HomeImage4})`,
+    backgroundSize: "100% 100%",
+    height: "240px",
+    display: "flex"
+  },
+  Emoticon: {
+    height: "36px",
+    width: "36px",
+    marginLeft: theme.spacing(1),
+    verticalAlign: "top"
+  },
+  PurpleBg: {
+    backgroundColor: `${theme.color.deepPurple}`
+  },
+  RequestByPhoneBg: {
+    backgroundImage: `url(${HomeImage2})`,
+    backgroundSize: "100% 100%",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    height: "300px"
+  },
+  PhoneCard: {
+    padding: theme.spacing(2),
+    overflow: "visible",
+    position: "absolute",
+    "& > img": {
+      position: "absolute",
+      top: "0px",
+      left: "0px",
+      transform: "translate(-50%, -50%)"
+    }
+  }
 }));
 
 const LoadingComponent = () => {
@@ -83,67 +144,107 @@ const HomePage = ({ history, ...rest }) => {
   const isLoaded = useSelector((state) => state.firebase.auth.isLoaded);
 
   return (
-    <Page isLoaded={isLoaded} LoadingComponent={LoadingComponent}>
+    <Page isLoaded={isLoaded} LoadingComponent={LoadingComponent} Appbar={HomeAppbar}>
       {isEmpty ? (
-        <Grid container>
-          <Grid container>
-            <img src={HomeImage1} className={classes.HomeImage} alt="" />
-          </Grid>
-          <Grid container>
-            <Button
+        <>
+          <Box className={classes.OrgBackgroundImg} p={2}>
+            <OrgLogo title="OrganisationLogo" role="img" />
+            <Heading color="white" className={classes.OrgDetails}>Organization Name</Heading>
+            <SubHeading color="white" className={`${classes.OrgDetails} ${classes.White}`}>Neighbors helping neighbors</SubHeading>
+            <TransparentButton
               className={classes.SigninButton}
               onClick={() => history.push("/login")}
               data-testid="btn-login"
             >
-              Signin
+              Sign in
+            </TransparentButton>
+          </Box>
+          <Box className={classes.BgBlack} p={1}>
+            <Text color="white">Powered by</Text>&nbsp;
+            <Text color="white" bold>Resilience</Text>
+          </Box>
+          <Box p={2} textAlign="left">
+            <Text>We're a grassroots team in Studio City, CA getting fresh farm produce to our neighbors in need.</Text>
+          </Box>
+          <Box className={classes.NeedHelpSection} px={8} py={4}>
+            <Box className={classes.WhiteBgText}>
+              <Heading>Need Help?</Heading>
+            </Box>
+          </Box>
+          <Box p={2} textAlign="left">
+            <Text>
+              Sign up to request a food box, small errand, or a pharmacy pickup. You'll be matched with a volunteer who will take care of you ASAP.
+            </Text>
+            <Box textAlign="center" pt={2}>
+              <Button
+                onClick={() => history.push("/signup")}
+                data-testid="btn-signup"
+                className={classes.SignupButton}
+              >
+                I Need Help
             </Button>
-          </Grid>
-          <Grid container justify="center">
-            <Body1>Dont have an account yet?</Body1>
-          </Grid>
-          <Grid container>
-            <Button
-              variant="outlined"
-              className={classes.SignupButton}
-              onClick={() => history.push("/signup")}
-              data-testid="btn-signup"
-            >
-              Sign Up Here
+            </Box>
+          </Box>
+          <Box mb={2}>
+            <img src={HomeImage5} alt="" />
+          </Box>
+          <Box className={classes.WantToHelpSection} px={8} py={4}>
+            <Box className={classes.WhiteBgText}>
+              <Heading>Want to help?</Heading>
+            </Box>
+          </Box>
+          <Box p={2} textAlign="left">
+            <Text>
+              Sign up to join your local network helping neighbors through this crisis. Deliver food, medicine, and supplies to the most vulnerable.
+            </Text>
+            <Box textAlign="center" pt={2}>
+              <Button
+                onClick={() => history.push("/signup")}
+                data-testid="btn-signup"
+                className={classes.SignupButton}
+              >
+                Volunteer
             </Button>
-          </Grid>
-          <Card>
-            <Grid container>
-              <H2 className={classes.Paragraph}>How it works</H2>
-              <Grid container>
-                <Body1>Need help?</Body1>
-                <Body1 className={classes.Paragraph}>
-                  Sign up to make a request for a food box, small errand, or a pharmacy pickup. Your
-                  ask goes right to the local coordinator, and is matched with a volunteer who will
-                  take care of your need ASAP.
-                </Body1>
-                <Body1>Want to help?</Body1>
-                <Body1 className={classes.Paragraph}>
-                  Sign up to join your local network of volunteers helping their neighbors through
-                  this crisis. Deliver food, medicine, and other supplies to the most vulnerable.
-                </Body1>
-              </Grid>
-              <Grid container>
-                <img src={HomeImage2} className={classes.HomeImage} alt="" />
-              </Grid>
-            </Grid>
-          </Card>
-        </Grid>
-      ) : (
-        <>
-          <StyledHomeButton
-            onClick={() => history.push("/request/create")}
-            text="Request Help"
-            color="secondary"
-            data-testid="btn-request-help"
-          />
+            </Box>
+          </Box>
+          <Box className={classes.PurpleBg} textAlign="left" p={2}>
+            <Box>
+              <Heading color="white" style={{ display: "inline" }}>Donate</Heading> <img src={Emoticon} className={classes.Emoticon} alt="smiley"></img>
+            </Box>
+            <Box my={1}>
+              <Text color="white">Many families can't afford fresh food. Please help sponsor food boxes for those in need.</Text>
+            </Box>
+            <Box textAlign="center">
+              <Button
+                onClick={() => history.push("/signup")}
+                data-testid="btn-signup"
+                className={classes.SignupButton}
+                color="secondary"
+              >
+                Donate Funds
+            </Button>
+            </Box>
+          </Box>
+          <Box className={classes.RequestByPhoneBg}>
+            <Card className={classes.PhoneCard}>
+              <img src={PhoneIcon} alt="call"></img>
+              <Text>To request food by phone, call</Text>&nbsp;<PhoneNo>555-555-5555.</PhoneNo>
+            </Card>
+          </Box>
+          {/*TODO Footer*/}
         </>
-      )}
-    </Page>
+      ) : (
+          <>
+            <StyledHomeButton
+              onClick={() => history.push("/request/create")}
+              text="Request Help"
+              color="secondary"
+              data-testid="btn-request-help"
+            />
+          </>
+        )
+      }
+    </Page >
   );
 };
 

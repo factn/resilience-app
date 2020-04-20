@@ -11,17 +11,17 @@ const Appbar = ({ children }) => {
       {children ? (
         children
       ) : (
-        <AppbarDefault>
-          <LogoContainer>
-            <Link to="/" aria-label="Go to home">
-              <Logo title="MutualAidLogo" role="img" />
-            </Link>
-          </LogoContainer>
-          <MenuContainer data-testid="MutualAidMenu">
-            <NavigationDrawer />
-          </MenuContainer>
-        </AppbarDefault>
-      )}
+          <AppbarDefault>
+            <LogoContainer>
+              <Link to="/" aria-label="Go to home">
+                <Logo title="MutualAidLogo" role="img" />
+              </Link>
+            </LogoContainer>
+            <MenuContainer data-testid="MutualAidMenu">
+              <NavigationDrawer />
+            </MenuContainer>
+          </AppbarDefault>
+        )}
     </AppbarContainer>
   );
 };

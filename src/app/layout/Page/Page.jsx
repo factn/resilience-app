@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Typography, Grid } from "@material-ui/core";
 
-import Appbar from "../Appbar";
+import { DefaultAppbar } from "../../layout/Appbar";
 import { makeStyles } from "@material-ui/core/styles";
 import { withLoading } from "../../HOC";
 
@@ -20,19 +20,19 @@ const useStyles = makeStyles(() => ({
 
 /**
  * Represents a Customised Page.
- * @param {string} appbar - The Title of the app bar.
+ * @param {Component} Appbar - The Appbar at the top of the page.
  * @param {object} children - The content of the page.
  * @param {string} title - The Title of the page.
  * @param {number} maxWidth - The maximum width of the page.
  * @param {object} rest - Rest of the properties passed to the page..
  */
-const Page = ({ appbar, children, title, maxWidth }) => {
+const Page = ({ Appbar, children, title, maxWidth }) => {
   const classes = useStyles();
   return (
     <Container maxWidth={maxWidth ? maxWidth : "sm"} className={classes.root}>
       <Grid container className={classes.root}>
         <Grid item>
-          <Appbar>{appbar}</Appbar>
+          <Appbar />
         </Grid>
         <Grid container item role="main" direction="column">
           {title && <Typography variant="h1">{title}</Typography>}
@@ -46,5 +46,9 @@ const Page = ({ appbar, children, title, maxWidth }) => {
 Page.propTypes = {
   children: PropTypes.node,
 };
+
+Page.defaultProps = {
+  Appbar: DefaultAppbar,
+}
 
 export default withLoading(Page);

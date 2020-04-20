@@ -1,2 +1,3 @@
-import Appbar from "./Appbar";
-export default Appbar;
+import DefaultAppbar from "./Appbar";
+import HomeAppbar from "./HomeAppbar"
+export { DefaultAppbar, HomeAppbar };
