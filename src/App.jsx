@@ -17,6 +17,7 @@ import AboutPage from "./app/page/Aboutus";
 import SignupScene from "./app/page/Signup";
 import OrganizerSignupPage from "./app/page/OrganizerSignup";
 import Status from "./app/page/Status";
+import RequestPage from "./app/page/Request";
 
 import { Missions, MissionsCreated, MissionCreate, PostMission } from "./app/page";
 
@@ -66,6 +67,8 @@ function App() {
                 <Route path="/temp/story123" component={PostMission} />
 
                 <Route path="/signup" component={SignupScene} />
+
+                <Route path="/request" component={RequestPage} />
 
                 <Route path="/dashboard">
                   <Dashboard />
