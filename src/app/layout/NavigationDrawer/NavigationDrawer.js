@@ -16,9 +16,13 @@ import { Link, useHistory } from "react-router-dom";
 import { useFirebase } from "react-redux-firebase";
 
 import { PrivateComponent } from "../../component";
+import OrganizerComponent from "../../component/OrganizerComponent";
 import { ListItemIcon } from "@material-ui/core";
+import HomeIcon from "@material-ui/icons/Home";
+import AddIcon from "@material-ui/icons/Add";
+import DashboardIcon from "@material-ui/icons/Dashboard";
 
-const PrivateDrawerButton = ({ children, to, text, classes }) => (
+const PrivateDrawerButton = ({ children, classes, text, to }) => (
   <PrivateComponent>
     <Link to={to} className={classes.link}>
       <ListItem button>
@@ -61,6 +65,25 @@ export default function TemporaryDrawer() {
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <List>
+        <OrganizerComponent>
+          <Link to="/dashboard" className={classes.link}>
+            <ListItem button>
+              <ListItemIcon>
+                <DashboardIcon classes={{ root: classes.colorIcon }} fontSize="large" />
+              </ListItemIcon>
+              <ListItemText primary="Dashboard" />
+            </ListItem>
+          </Link>
+        </OrganizerComponent>
+
+        <Link to="/" className={classes.link}>
+          <ListItem button>
+            <ListItemIcon>
+              <HomeIcon classes={{ root: classes.colorIcon }} fontSize="large" />
+            </ListItemIcon>
+            <ListItemText primary="Home" />
+          </ListItem>
+        </Link>
         <Link to="/missions" className={classes.link}>
           <ListItem button>
             <ListItemIcon>
@@ -69,21 +92,11 @@ export default function TemporaryDrawer() {
             <ListItemText primary="Volunteer needed" />
           </ListItem>
         </Link>
-        <PrivateDrawerButton classes={classes} to="/missions/assigned" text="Missions Assigned">
-          <AssignmentIcon classes={{ root: classes.colorIcon }} fontSize="large" />
-        </PrivateDrawerButton>
-        <PrivateDrawerButton classes={classes} to="/missions/started" text="Missions Started">
-          <AssignmentIcon classes={{ root: classes.colorIcon }} fontSize="large" />
-        </PrivateDrawerButton>
-        <PrivateDrawerButton classes={classes} to="/missions/completed" text="Missions Completed">
-          <AssignmentIcon classes={{ root: classes.colorIcon }} fontSize="large" />
-        </PrivateDrawerButton>
-
         <PrivateComponent>
           <Link to="/missions/new" className={classes.link}>
             <ListItem button>
               <ListItemIcon>
-                <PanTool classes={{ root: classes.colorIcon }} fontSize="large" />
+                <AddIcon classes={{ root: classes.colorIcon }} fontSize="large" />
               </ListItemIcon>
               <ListItemText primary="Create Mission" />
             </ListItem>

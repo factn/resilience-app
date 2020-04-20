@@ -4,10 +4,10 @@ import PropTypes from "prop-types";
 import { ANGOLIA_API_KEY } from "../../../constants";
 
 const AddressInput = (props) => {
-  const { stage, setStage, placeholder } = props;
+  const { placeholder, setStage, stage } = props;
   const handleLocation = (query) => {
     if (query.suggestion) {
-      const { value, latlng, county, countryCode } = query.suggestion;
+      const { countryCode, county, latlng, value } = query.suggestion;
       setStage({
         ...stage,
         location: {

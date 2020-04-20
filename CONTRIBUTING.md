@@ -18,8 +18,9 @@ git clone git@github.com:factn/resilience-app.git
 ```
 
 - Set up your dev environment as described on the [README](https://github.com/factn/resilience-app/blob/master/README.md)
-- Make a branch where you are going to do your coding. See [branch naming conventions](#branch-naming-conventions)
-- Make your change and test it works
+- Create your feature branch following our [branch naming conventions](#branch-naming-conventions)
+- Get your work done
+- Test and format your code. See [formating guidelines](#formatting-guidelines)
 - Commit your changes
 - [Join our slack], visit the #resilience-app channel and request to be given write access to this repo.
 - Push your changes to a branch on this repo and [submit a pull request](#submitting-a-pr).
@@ -29,6 +30,7 @@ At this point you're waiting on us to comment and approve your Pull Request (aka
 Some things that will increase the chance that your pull request is accepted:
 
 - Write clean code
+- Format your code `npm run format`
 - Build a feature we need
 - Write a [good commit message][commit]
 - Come [join our slack] and talk to us about it there - in the #frontend channel.
@@ -53,6 +55,25 @@ git checkout -b [type]/[id]-[description]
 - `id` :
   - For `feat` branches use the id corresponding to the feature story in AirTable
   - All other types are presumed to be github issues and should refer to the issue id
+
+## Formatting Guidelines
+
+This project is setup with the basic [Prettier](https://prettier.io) settings with a couple settings using [ESLint](https://eslint.org/).
+Our ESLint configs can be found under `eslintConfig.rules` in [package.json](https://github.com/factn/resilience-app/blob/master/package.json).
+
+To format your code according to these rules, before you send a pull request simply run:
+
+```
+npm run format
+```
+
+Commit your new formatted changes
+
+To check for formatting errors, you can run:
+
+```
+npm run format:check
+```
 
 ## Submitting a PR
 

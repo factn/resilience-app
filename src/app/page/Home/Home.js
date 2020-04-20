@@ -21,6 +21,8 @@ import SplashImage1 from "../../../img/SplashImage1.png";
 import Emoticon from "../../../img/ic_smiley_emoticon.svg";
 import PhoneIcon from "../../../img/ic_phone.svg";
 
+import VolunteerHome from "./VolunteerHome";
+
 const useStyles = makeStyles((theme) => ({
   HomeImage: {
     width: "100%",
@@ -138,7 +140,7 @@ const LoadingComponent = () => {
  *
  * @component
  */
-const HomePage = ({ history, ...rest }) => {
+const HomePage = ({ auth, history, ...rest }) => {
   const classes = useStyles();
   const isEmpty = useSelector((state) => state.firebase.auth.isEmpty);
   const isLoaded = useSelector((state) => state.firebase.auth.isLoaded);
@@ -234,14 +236,7 @@ const HomePage = ({ history, ...rest }) => {
           {/*TODO Footer*/}
         </>
       ) : (
-          <>
-            <StyledHomeButton
-              onClick={() => history.push("/request/create")}
-              text="Request Help"
-              color="secondary"
-              data-testid="btn-request-help"
-            />
-          </>
+          <VolunteerHome currentUser={auth} />
         )
       }
     </Page >

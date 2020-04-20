@@ -17,11 +17,11 @@ const withLoading = (BaseComponent) => {
    * @return {Component} the enhanced component
    */
   const EnhancedComponent = ({
+    children,
     isEmpty,
     isEmptyText,
     isLoaded,
     LoadingComponent,
-    children,
     ...rest
   }) => (
     <BaseComponent {...rest}>

@@ -42,15 +42,15 @@ const MissionListWithLoading = withLoading(({ children }) => (
  * @param {object} props.history - Object given from React Router
  * @param {function} props.handlerUserVolunteering - Function that, when given a user ID, handles assigning the user with that ID to "volunteer" for that mission
  */
-const MissionList = ({ missions, history, callToAction, ...rest }) => {
+const MissionList = ({ callToAction, history, missions, ...rest }) => {
   /**
    * This should probably be turned into a Mission component
    */
-  let { text, onClick } = callToAction || {};
+  let { onClick, text } = callToAction || {};
 
   const missionListItems = missions.map((mission) => (
     <MissionCard mission={mission} key={`mission-card-${mission.id}`} role="listitem">
-      {callToAction && (
+      {text && (
         <StyledButton
           color="primary"
           variant="contained"

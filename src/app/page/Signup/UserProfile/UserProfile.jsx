@@ -13,7 +13,7 @@ import { AddressInput, Button } from "../../../component";
  *
  * @component
  */
-const UserProfile = ({ values, handleChange, onSubmit }) => {
+const UserProfile = ({ handleChange, onSubmit, values }) => {
   const classes = useStyles();
 
   function changeFormValue(name, value) {

@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const MissionDetailsType = ({ description, classes }) => (
+const MissionDetailsType = ({ classes, description }) => (
   <Box>
     <H5 align="left" color="textSecondary">
       Mission Type
@@ -64,7 +64,7 @@ const MissionDetailsType = ({ description, classes }) => (
   </Box>
 );
 
-const MissionDetailsPickUpDeliveryHeader = ({ header, classes }) => (
+const MissionDetailsPickUpDeliveryHeader = ({ classes, header }) => (
   <Body2 align="left" className={classes.deliveryDetailsHeader} color="textPrimary">
     {header}
   </Body2>
@@ -77,13 +77,13 @@ const MissionDetailsPickUpDeliveryHeader = ({ header, classes }) => (
  */
 const MissionDetailsCard = ({
   mission,
-  volunteer,
-  volunteerForMission,
-  startMission,
   openMissionDeliveredCard,
+  setUserUnverifiedPopupOpen,
+  startMission,
   unassignFromMission,
   userUnverifiedPopupOpen,
-  setUserUnverifiedPopupOpen,
+  volunteer,
+  volunteerForMission,
 }) => {
   const classes = useStyles();
 
@@ -113,22 +113,22 @@ const MissionDetailsCard = ({
   const pickUpDetails = [
     {
       icon: LocationOnIcon,
-      content: [{ text: mission.pickUplocation }],
+      content: [{ text: mission.pickUpLocation.address }],
     },
     {
       icon: ScheduleIcon,
-      content: [{ text: mission.pickUpWindow }],
+      content: [{ text: mission.pickUpWindow.timeWindowType }],
     },
   ];
 
   const deliveryDetails = [
     {
       icon: LocationOnIcon,
-      content: [{ text: mission.deliverylocation }],
+      content: [{ text: mission.deliveryLocation.address }],
     },
     {
       icon: ScheduleIcon,
-      content: [{ text: mission.deliveryWindow }],
+      content: [{ text: mission.deliveryWindow.timeWindowType }],
     },
     {
       icon: PersonIcon,
