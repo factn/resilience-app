@@ -2,9 +2,9 @@ import React from "react";
 import MUIDataTable from "mui-datatables";
 import { useTheme } from "@material-ui/core/styles";
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
-import TimeLocationCard from "./component/TimeLocationCard";
-import MissionTypeCard from "./component/MissionTypeCard";
-import StatusCard from "./component/StatusCard";
+import TimeLocationCol from "./ListViewComponents/TimeLocationCol";
+import MissionDetailsCol from "./ListViewComponents/MissionDetailsCol";
+import StatusCol from "./ListViewComponents/StatusCol";
 import { useHistory } from "react-router-dom";
 import _ from "../../utils";
 
@@ -14,6 +14,8 @@ const getMuiTheme = (theme) =>
     overrides: {
       MUIDataTableBodyCell: {
         root: {
+          verticalAlign: "baseline",
+          marginTop: theme.spacing(1),
           padding: `${theme.spacing(0.5)}px ${theme.spacing(1)}px`,
         },
       },
@@ -48,15 +50,14 @@ const getMuiTheme = (theme) =>
 const config = [
   {
     format: (mission) => ({
-      status: mission.status,
-      title: mission.title,
       type: mission.type,
-      id: mission.id,
+      details: mission.missionDetails,
+      notes: mission.notes,
     }),
     options: {
       name: "type",
       label: "Mission Type",
-      options: { customBodyRender: MissionTypeCard },
+      options: { customBodyRender: MissionDetailsCol },
     },
   },
   {
@@ -68,7 +69,7 @@ const config = [
     options: {
       name: "pickup",
       label: "Pick Up",
-      options: { customBodyRender: TimeLocationCard },
+      options: { customBodyRender: TimeLocationCol },
     },
   },
   {
@@ -80,21 +81,18 @@ const config = [
     options: {
       name: "delivery",
       label: "Delivery",
-      options: { customBodyRender: TimeLocationCard },
+      options: { customBodyRender: TimeLocationCol },
     },
   },
   {
     format: (mission) => ({
       id: mission.id,
-      status: mission.status,
-      isReady: mission.isReady,
-      fundedStatus: mission.fundedStatus,
-      onShowDetails: mission.onShowDetails,
+      mission: mission,
     }),
     options: {
       name: "allStatus",
       label: "Status",
-      options: { customBodyRender: StatusCard },
+      options: { customBodyRender: StatusCol },
     },
   },
 ];
@@ -120,9 +118,8 @@ const MissionsListView = ({ missions, view }) => {
   const theme = useTheme();
   const innerTheme = getMuiTheme(theme);
   const history = useHistory();
-
-  function formatData(missions) {
-    return missions?.map((mission) => {
+  function formatData() {
+    return missions?.map(({ ...mission }) => {
       let formated = {};
       const onShowDetails = () =>
         history.push({
@@ -136,7 +133,6 @@ const MissionsListView = ({ missions, view }) => {
       return formated;
     });
   }
-
   const columns = config.map((c) => c.options);
 
   const options = {

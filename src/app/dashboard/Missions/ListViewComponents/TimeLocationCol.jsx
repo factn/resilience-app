@@ -67,10 +67,12 @@ const TimeLocation = ({ location, time }) => {
   }
 
   return (
-    <Grid container spacing={1}>
-      {time && <TimeRow time={time} />}
-      {location.address && <LocationRow location={location} />}
-    </Grid>
+    <Box maxWidth="200px">
+      <Grid container spacing={1}>
+        {time && <TimeRow time={time} />}
+        {location.address && <LocationRow location={location} />}
+      </Grid>
+    </Box>
   );
 };
 

@@ -30,7 +30,6 @@ const rrfProps = {
 };
 
 if (process.env.NODE_ENV !== "production") {
-  var axe = require("react-axe");
   firebase
     .firestore()
     .enablePersistence({ synchronizeTabs: true })
@@ -47,7 +46,6 @@ if (process.env.NODE_ENV !== "production") {
         // ...
       }
     });
-  axe(React, ReactDOM, 5000);
 }
 
 ReactDOM.render(

@@ -25,17 +25,12 @@ const defaultMissionData: MissionInterface = {
   id: "",
   type: MissionType.errand,
   status: MissionStatus.unassigned,
+  missionDetails: {},
   fundedStatus: MissionFundedStatus.notfunded,
   readyStatus: false,
   organisationId: "",
   tentativeVolunterId: "", // this get removed if the volunteer accepts?
   volunteerId: "",
-  title: "Mission Title",
-  description: "No Description",
-  image: "https://via.placeholder.com/300x450",
-  notes: "",
-  privateNotes: "", // just for volunteer and organiser
-  cost: 0.0, // Decimal if possible eg 12.21 (assume USD for MVP.0)
   pickUpWindow: defaultTimeWindow, // nb this can be an exact time or can be null
   pickUpLocation: defaultLocation,
   deliveryWindow: defaultTimeWindow,
@@ -46,33 +41,54 @@ const defaultMissionData: MissionInterface = {
   recipientName: "No Recipient Name",
   recipientPhoneNumber: "",
   recipientId: "No Recipient Id", // reference?
-  created: "", // time stamp
-  lastUpdated: "", // time stamp
 };
 
 const fsInProposed = {
-  collection: "missions",
-  where: [
-    ["status", "==", MissionStatus.unassigned],
-    ["fundedStatus", "==", MissionFundedStatus.notfunded],
+  collection: "organizations",
+  doc: "1",
+  subcollections: [
+    {
+      collection: "missions",
+      where: [
+        ["status", "==", MissionStatus.unassigned],
+        ["fundedStatus", "==", MissionFundedStatus.notfunded],
+      ],
+    },
   ],
   storeAs: "missionsInProposed",
 };
 const fsInPlanning = {
-  collection: "missions",
-  where: [["status", "in", [MissionStatus.tentative, MissionStatus.assigned]]],
+  collection: "organizations",
+  doc: "1",
+  subcollections: [
+    {
+      collection: "missions",
+      where: [
+        ["status", "in", [MissionStatus.tentative, MissionStatus.assigned, MissionStatus.accepted]],
+      ],
+    },
+  ],
   storeAs: "missionsInPlanning",
 };
 const fsInProgress = {
-  collection: "missions",
-  where: [["status", "==", [MissionStatus.started, MissionStatus.delivered]]],
+  collection: "organizations",
+  doc: "1",
+  subcollections: [
+    {
+      collection: "missions",
+      where: [["status", "in", [MissionStatus.started, MissionStatus.delivered]]],
+    },
+  ],
   storeAs: "missionsInProgress",
 };
 const fsInDone = {
-  collection: "missions",
-  where: [
-    ["status", "==", MissionStatus.unassigned],
-    ["fundedStatus", "==", MissionFundedStatus.notfunded],
+  collection: "organizations",
+  doc: "1",
+  subcollections: [
+    {
+      collection: "missions",
+      where: [["status", "in", [MissionStatus.succeeded, MissionStatus.failed]]],
+    },
   ],
   storeAs: "missionsInDone",
 };
@@ -83,13 +99,13 @@ class Mission extends BaseModel {
   FundedStatus = MissionFundedStatus;
   TimeWindowType = TimeWindowType;
 
-  selectInProposed = (state: any) => this.loads(state.firestore.ordered.missionsInProposed || []);
+  selectInProposed = (state: any) => state.firestore.ordered.missionsInProposed || [];
   fsInProposed = fsInProposed;
-  selectInPlanning = (state: any) => this.loads(state.firestore.ordered.missionsInPlanning || []);
+  selectInPlanning = (state: any) => state.firestore.ordered.missionsInPlanning || [];
   fsInPlanning = fsInPlanning;
-  selectInProgress = (state: any) => this.loads(state.firestore.ordered.missionsInProgress || []);
+  selectInProgress = (state: any) => state.firestore.ordered.missionsInProgress || [];
   fsInProgress = fsInProgress;
-  selectInDone = (state: any) => this.loads(state.firestore.ordered.missionsInDone || []);
+  selectInDone = (state: any) => state.firestore.ordered.missionsInDone || [];
   fsInDone = fsInDone;
 
   getById = async (missionId: string) => {

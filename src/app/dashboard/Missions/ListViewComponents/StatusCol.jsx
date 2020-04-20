@@ -4,6 +4,9 @@ import Select from "@material-ui/core/Select";
 import FormControl from "@material-ui/core/FormControl";
 import { makeStyles } from "@material-ui/core/styles";
 import Mission from "../../../model/Mission";
+import PanToolIcon from "@material-ui/icons/PanTool";
+import { Button } from "../../../component";
+import { Grid, Box } from "@material-ui/core";
 
 import _ from "../../../utils/lodash";
 
@@ -25,7 +28,23 @@ const SelectedMissionId = styled.div`
   padding-left: 11px;
 `;
 
-const UnasignedStatusAction = ({ missionId }) => {
+const RowWithIcon = styled(Grid)`
+  flex-wrap: nowrap;
+  alignitems: center;
+`;
+
+const RowBody = ({ Icon, children }) => {
+  return (
+    <RowWithIcon container>
+      <Box marginRight="5px" width="20px">
+        {Icon && <Icon color="primary" />}
+      </Box>
+      {children}
+    </RowWithIcon>
+  );
+};
+
+const UnasignedStatus = ({ missionId }) => {
   const classes = useStyles();
   const handleChange = (event) => {
     event.preventDefault();
@@ -55,12 +74,13 @@ const UnasignedStatusAction = ({ missionId }) => {
           native
           onChange={handleChange}
           variant="outlined"
+          value="Not Yet Funded"
           inputProps={{
             name: "funded",
             id: "select-funded",
           }}
         >
-          <option value="none" selected disabled hidden aria-label="None">
+          <option value="none" hidden aria-label="None">
             Not Yet Funded
           </option>
           {options.map((option) => (
@@ -73,12 +93,41 @@ const UnasignedStatusAction = ({ missionId }) => {
     </div>
   );
 };
-const Status = ({ fundedStatus, id, isReady, onShowDetails, status }) => {
-  if (!status) return null;
+
+const TentativeStatus = () => {
+  return <Button>Assign Mission</Button>;
+};
+const AssignedStatus = ({ mission }) => {
+  const { volunteerName } = mission;
+  return <RowBody Icon={PanToolIcon}>{volunteerName} - tentative</RowBody>;
+};
+const AcceptedStatus = ({ mission }) => {
+  const { volunteerName } = mission;
+  return <RowBody Icon={PanToolIcon}>{volunteerName} - accepted</RowBody>;
+};
+
+const Status = ({ mission, onShowDetails }) => {
+  if (!_.get(mission, "status")) return null;
+  let id = _.get(mission, "id");
+
+  let StatusCol = null;
+  switch (mission.status) {
+    case Mission.Status.unassigned:
+      StatusCol = <UnasignedStatus missionId={id} />;
+      break;
+    case Mission.Status.tentative:
+      StatusCol = <TentativeStatus missionId={id} />;
+      break;
+    case Mission.Status.assigned:
+      StatusCol = <AssignedStatus mission={mission} />;
+    case Mission.Status.accepted:
+      StatusCol = <AcceptedStatus mission={mission} />;
+      break;
+  }
 
   return (
     <div>
-      {status === "unassigned" ? <UnasignedStatusAction missionId={id} /> : status}
+      {StatusCol}
       <SelectedMissionId onClick={onShowDetails}>View Details</SelectedMissionId>
     </div>
   );

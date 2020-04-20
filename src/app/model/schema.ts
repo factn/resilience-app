@@ -15,16 +15,12 @@ export class Resource {
   id!: string;
   name!: string;
   cost!: number;
-  description?: string;
-  funded: number = 0; // we already bought this
-  available: number = 0; // what they have now
-}
-
-export class Provider {
-  id!: string;
-  name!: string;
-  location!: string;
-  resources!: Array<Resource>;
+  fundedByRecipient: number = 0;
+  fundedByDonation: number = 0;
+  notFunded: number = 3;
+  maxNumberRequestable: number = 50;
+  acceptOrder: boolean = false;
+  description: string = "";
 }
 
 // ===== Organization ====
@@ -35,7 +31,9 @@ export class OrganizationInterface {
   name!: string;
   /*The Location of the Organization*/
   location?: Location;
-  providers?: Array<Provider>;
+  resources?: Map<string, Resource>;
+  missions: Map<string, MissionInterface> = new Map();
+  users: Map<string, UserInterface> = new Map();
 }
 
 // === USER ===
@@ -57,7 +55,7 @@ export class UserInterface {
   FIXME: need to ensure this is synced from firebase.auth ph number
   FIXME: where do we assert phone number formatting?
   FIXME: currently, always null */
-  phone?: number;
+  phone?: string;
   /* user's selected profile image url
   FIXME: need to sync this with state.firebase.profile.photoURL ?
   */
@@ -87,10 +85,14 @@ export class UserInterface {
 //===== Mission =====//
 export enum MissionStatus {
   unassigned = "unassigned",
+
   tentative = "tentative",
   assigned = "assigned",
+  accepted = "accepted",
+
   started = "started",
   delivered = "delivered",
+
   succeeded = "succeeded",
   failed = "failed",
 }
@@ -135,33 +137,41 @@ export interface MissionLogEvent {
   timestamp: string;
 }
 
+export interface Box {
+  name: string;
+  details: string;
+}
+
+export interface FoodBoxDetails {
+  needs: Array<Box>;
+}
+
 export interface MissionInterface {
   id: string;
   type: MissionType;
+
+  missionDetails: FoodBoxDetails | {};
+
   status: MissionStatus;
   fundedStatus: MissionFundedStatus;
   readyStatus: boolean;
   organisationId: string;
   tentativeVolunterId: string; // this get removed if the volunteer accepts?
   volunteerId: string;
-  title: string;
-  description: string;
-  image: ImageUrl;
-  notes: string;
-  privateNotes: string; // just for volunteer and organiser
-  cost: number; // Decimal if possible eg 12.21 (assume USD for MVP.0)
+
   pickUpWindow: TimeWindow | null; // nb this can be an exact time or can be null
   pickUpLocation: Location;
+
   deliveryWindow: TimeWindow | null;
   deliveryLocation: Location; // default to recipient location
   deliveryConfirmationImage: ImageUrl;
   deliveryNotes: string;
+
   feedbackNotes: string;
+
   recipientName: string;
   recipientPhoneNumber: string;
   recipientId: string; // reference?
-  created: string; // time stamp
-  lastUpdated: string; // time stamp
   // all other event log type stuff, such as when assigned etc belongs in the eventlog
   // this should be a child collection
   //@SubCollection(MissionLogEvent)

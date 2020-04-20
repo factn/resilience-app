@@ -8,7 +8,7 @@ import Appbar from "./Appbar";
 import Drawer from "./Drawer";
 import Home from "./Home";
 import DashboardMissions from "./Missions";
-import { Mission } from "../model";
+import { Mission, Organization } from "../model";
 
 import HomeIcon from "@material-ui/icons/Home";
 import AnnouncementIcon from "@material-ui/icons/Announcement";
@@ -57,6 +57,7 @@ const MissionsPage = () => {
     Mission.fsInProgress,
     Mission.fsInDone,
     { collection: "users" },
+    { collection: "organizations", doc: "1" },
   ]);
 
   const handleDrawerOpen = () => {
@@ -105,7 +106,6 @@ const MissionsPage = () => {
         role="navigation"
       />
       <main
-        container
         className={clsx(classes.content, {
           [classes.contentShift]: open,
         })}
