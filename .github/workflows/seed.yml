@@ -2,7 +2,7 @@ name: Seed DB
 
 on:
   schedule:
-    - cron:  '* * * * *'
+    - cron:  '0 */2 * * *'
 
 jobs:
   build:
@@ -33,3 +33,9 @@ jobs:
         python3 ./scheme/data.py
         cat ./data.json
         npm ls firebase-admin
+    
+    # Run upload placeholder
+    - name: Upload to firebase
+      env:
+        SERVICE_ACCOUNT: ${{ secrets.MAGIC_COOKIES }}
+      run: node scheme/uploadMock.js
