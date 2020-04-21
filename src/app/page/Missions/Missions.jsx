@@ -19,10 +19,13 @@ import UserPhoneUnverifiedPopup from "../../component/UserPhoneUnverifiedPopup";
  * @param {object} props.history - Object obtained from React Router
  */
 const MissionsPage = ({ auth, history, missions }) => {
+  const initSnackbarState = {
+    open: false,
+    type: "error",
+    message: "",
+  };
   const [popupOpen, setPopupOpen] = useState(false);
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [snackbarType, setSnackbarType] = useState("error");
-  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbar, setSnackbar] = useState(initSnackbarState);
 
   async function userVolunteeringHandler(missionId) {
     // We need a little more information from user at this point
@@ -32,14 +35,18 @@ const MissionsPage = ({ auth, history, missions }) => {
     }
     User.volunteerMission(auth.uid, missionId)
       .then((res) => {
-        setSnackbarType("success");
-        setSnackbarMessage("You have accepted this mission.");
-        setSnackbarOpen(true);
+        setSnackbar({
+          open: true,
+          type: "success",
+          message: "You have accepted this mission",
+        });
       })
       .catch((error) => {
-        setSnackbarType("error");
-        setSnackbarMessage("Could not accept mission. Please try again.");
-        setSnackbarOpen(true);
+        setSnackbar({
+          open: true,
+          type: "error",
+          message: "Could not accept mission. Please try again",
+        });
       });
   }
 
@@ -62,10 +69,10 @@ const MissionsPage = ({ auth, history, missions }) => {
       <UserPhoneUnverifiedPopup open={popupOpen} handleClose={() => setPopupOpen(false)} />
       <Snackbar
         autoHideDuration={4000}
-        handleClose={() => setSnackbarOpen(false)}
-        open={snackbarOpen}
-        type={snackbarType}
-        message={snackbarMessage}
+        handleClose={() => setSnackbar({ open: false })}
+        open={snackbar.open}
+        type={snackbar.type}
+        message={snackbar.message}
       />
     </Page>
   );
