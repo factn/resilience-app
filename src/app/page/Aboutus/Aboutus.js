@@ -1,5 +1,6 @@
+import { Box, Divider, Typography } from "@material-ui/core";
 import React from "react";
-import { Typography, Divider, Box } from "@material-ui/core";
+
 import { Page } from "../../layout";
 
 const AboutPage = () => {

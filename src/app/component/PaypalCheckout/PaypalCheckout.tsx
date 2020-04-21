@@ -1,8 +1,8 @@
-import React, { useEffect, useRef, useMemo } from "react";
+import React, { useMemo } from "react";
 import ReactDOM from "react-dom";
 
 import { usePaypal } from "../../hooks";
-import { PurchaseUnit, OrderDetails } from "./PaypalTypes";
+import { OrderDetails, PurchaseUnit } from "./PaypalTypes";
 
 type Props = {
   cart: PurchaseUnit | PurchaseUnit[];

@@ -1,6 +1,7 @@
-import styled from "styled-components";
-import Button from "../../component/Button";
 import { Link } from "react-router-dom";
+import styled from "styled-components";
+
+import Button from "../../component/Button";
 
 export const Header = styled.div`
   height: 100%;

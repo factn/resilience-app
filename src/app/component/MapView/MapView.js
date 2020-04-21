@@ -1,18 +1,14 @@
-import React from "react";
 import PropTypes from "prop-types";
+import React from "react";
+import { Map, Marker, Popup, TileLayer } from "react-leaflet";
 
-import { Map, TileLayer, Marker, Popup } from "react-leaflet";
 import { MapStyle } from "./MapView.style";
 
 function MapView(props) {
-  const [state, setState] = React.useState({
-    lat: props.values.lat,
-    lng: props.values.long,
-    zoom: 15,
-  });
-  const position = [state.lat, state.lng];
+  const position = [props.values.lat, props.values.long];
+
   return (
-    <Map center={position} zoom={state.zoom} style={MapStyle} className="data-test-leaflet-mapview">
+    <Map center={position} zoom={15} style={MapStyle} className="data-test-leaflet-mapview">
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
       <Marker position={position}>
         <Popup>Start from here</Popup>

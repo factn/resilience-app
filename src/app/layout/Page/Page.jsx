@@ -1,12 +1,11 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Typography, Grid } from "@material-ui/core";
-
-import Appbar from "../Appbar";
-import { makeStyles } from "@material-ui/core/styles";
-import { withLoading } from "../../HOC";
-
+import { Grid, Typography } from "@material-ui/core";
 import { Container } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import PropTypes from "prop-types";
+import React from "react";
+
+import { withLoading } from "../../HOC";
+import Appbar from "../Appbar";
 
 const useStyles = makeStyles(() => ({
   root: {

@@ -1,24 +1,25 @@
-import React from "react";
-import clsx from "clsx";
-import Drawer from "@material-ui/core/Drawer";
+import { ListItemIcon } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
-import { useStyles } from "./NavigationDrawer.style";
+import Drawer from "@material-ui/core/Drawer";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
-import MenuIcon from "@material-ui/icons/Menu";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import AddIcon from "@material-ui/icons/Add";
 import AssignmentIcon from "@material-ui/icons/Assignment";
-import ExitToApp from "@material-ui/icons/ExitToApp";
+import DashboardIcon from "@material-ui/icons/Dashboard";
 import EmojiPeopleIcon from "@material-ui/icons/EmojiPeople";
-import PanTool from "@material-ui/icons/PanTool";
-import { Link, useHistory } from "react-router-dom";
+import ExitToApp from "@material-ui/icons/ExitToApp";
+import HomeIcon from "@material-ui/icons/Home";
+import MenuIcon from "@material-ui/icons/Menu";
+import clsx from "clsx";
+import React from "react";
 import { useFirebase } from "react-redux-firebase";
+import { Link, useHistory } from "react-router-dom";
 
 import { PrivateComponent } from "../../component";
 import OrganizerComponent from "../../component/OrganizerComponent";
-import { ListItemIcon } from "@material-ui/core";
-import DashboardIcon from "@material-ui/icons/Dashboard";
+import { useStyles } from "./NavigationDrawer.style";
 
 const PrivateDrawerButton = ({ children, classes, text, to }) => (
   <PrivateComponent>
@@ -74,6 +75,14 @@ export default function TemporaryDrawer() {
           </Link>
         </OrganizerComponent>
 
+        <Link to="/" className={classes.link}>
+          <ListItem button>
+            <ListItemIcon>
+              <HomeIcon classes={{ root: classes.colorIcon }} fontSize="large" />
+            </ListItemIcon>
+            <ListItemText primary="Home" />
+          </ListItem>
+        </Link>
         <Link to="/missions" className={classes.link}>
           <ListItem button>
             <ListItemIcon>
@@ -82,21 +91,11 @@ export default function TemporaryDrawer() {
             <ListItemText primary="Volunteer needed" />
           </ListItem>
         </Link>
-        <PrivateDrawerButton classes={classes} to="/missions/assigned" text="Missions Assigned">
-          <AssignmentIcon classes={{ root: classes.colorIcon }} fontSize="large" />
-        </PrivateDrawerButton>
-        <PrivateDrawerButton classes={classes} to="/missions/started" text="Missions Started">
-          <AssignmentIcon classes={{ root: classes.colorIcon }} fontSize="large" />
-        </PrivateDrawerButton>
-        <PrivateDrawerButton classes={classes} to="/missions/completed" text="Missions Completed">
-          <AssignmentIcon classes={{ root: classes.colorIcon }} fontSize="large" />
-        </PrivateDrawerButton>
-
         <PrivateComponent>
           <Link to="/missions/new" className={classes.link}>
             <ListItem button>
               <ListItemIcon>
-                <PanTool classes={{ root: classes.colorIcon }} fontSize="large" />
+                <AddIcon classes={{ root: classes.colorIcon }} fontSize="large" />
               </ListItemIcon>
               <ListItemText primary="Create Mission" />
             </ListItem>

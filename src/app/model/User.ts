@@ -1,13 +1,14 @@
+import { v4 as uuidV4 } from "uuid";
+
+import BaseModel from "./BaseModel";
+import Mission from "./Mission";
 import {
+  Location,
+  MissionInterface,
+  MissionStatus,
   UserInterface,
   VolunteerStatus,
-  Location,
-  MissionStatus,
-  MissionInterface,
 } from "./schema";
-import Mission from "./Mission";
-import BaseModel from "./BaseModel";
-import { v4 as uuidV4 } from "uuid";
 
 const defaultLocation: Location = {
   address: "",
@@ -17,14 +18,17 @@ const defaultLocation: Location = {
 };
 const defaultUserData: UserInterface = {
   id: "",
-  phone: 0,
+  phone: "0",
   photoURL: "",
+  description: "",
   displayName: "",
+  email: "email",
   location: defaultLocation,
   organizationId: 0,
   isVolunteer: false,
   isOrganizer: false,
   volunteerDetails: {
+    availability: "",
     hasTransportation: false,
     status: VolunteerStatus.created,
     privateNotes: "",
@@ -34,6 +38,18 @@ const defaultUserData: UserInterface = {
 
 class User extends BaseModel {
   VolunteerStatus = VolunteerStatus;
+
+  async saveNewUser(data: UserInterface) {
+    const collection = this.getCollection("users");
+
+    try {
+      await collection.doc(data.id).set({
+        ...data,
+      });
+    } catch (error) {
+      throw error;
+    }
+  }
 
   /**
    * Given a mission object creates a new mission in firestore
@@ -205,6 +221,26 @@ class User extends BaseModel {
       //TODO show error msg to user
       throw e;
     }
+  }
+
+  /**
+   * Returns all missions that a volunteer is associated with or has been suggested for.
+   * @param userId UserId of the volunteer
+   */
+  async getAllAssociatedMissions(userId: string) {
+    const collection = this.getCollection("missions");
+
+    const volunteeredMissions = await collection.where("volunteerId", "==", userId).get();
+    const suggestedMissions = await collection.where("tentativeVolunteerId", "==", userId).get();
+
+    const missionsDocumentSnapshot = volunteeredMissions.docs.concat(suggestedMissions.docs);
+
+    if (missionsDocumentSnapshot.length < 1) {
+      return [];
+    }
+    const missions = missionsDocumentSnapshot.map((doc) => doc.data());
+
+    return missions;
   }
 }
 

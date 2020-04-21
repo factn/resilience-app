@@ -1,14 +1,12 @@
-import React, { useState } from "react";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import { withRouter } from "react-router-dom";
-import "firebase/storage";
-import MissionForm from "./MissionForm";
-import useForm from "../../hooks/useForm";
-import { useSelector } from "react-redux";
+import React, { useState } from "react";
 import { getFirebase, withFirestore } from "react-redux-firebase";
-import { SuccessSnackbar, ErrorSnackbar } from "../../component/Snackbars";
+import { withRouter } from "react-router-dom";
 
-import { User, Mission } from "../../model";
+import { ErrorSnackbar, SuccessSnackbar } from "../../component/Snackbars";
+import useForm from "../../hooks/useForm";
+import { User } from "../../model";
+import MissionForm from "./MissionForm";
 
 /**
  * Component for creating a mission based on form data
@@ -27,7 +25,6 @@ function MakeMission({ history }) {
   const [successSnackbarOpen, setSuccessSnackbarOpen] = useState(false);
   const [errorSnackbarOpen, setErrorSnackbarOpen] = useState(false);
 
-  const user = useSelector((state) => state.firebase.auth);
   function getFile(file) {
     setFile(file);
   }

@@ -1,7 +1,7 @@
-import styled from "styled-components";
-import ImageUpload from "../../component/ImageUpload";
-
 import { makeStyles } from "@material-ui/core/styles";
+import styled from "styled-components";
+
+import ImageUpload from "../../component/ImageUpload";
 
 export const useStyles = makeStyles((theme) => ({
   root: {

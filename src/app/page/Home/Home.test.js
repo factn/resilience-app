@@ -1,12 +1,20 @@
-import React from "react";
-import { createStore } from "redux";
-import { Provider } from "react-redux";
 import { render } from "@testing-library/react";
+import React from "react";
+import { Provider } from "react-redux";
 import { MemoryRouter } from "react-router-dom";
+import { createStore } from "redux";
 
+import User from "../../model/User";
 import Home from "./Home";
 
 describe("Home page", () => {
+  beforeAll(() => {
+    const collection = {
+      doc: jest.fn(),
+    };
+    jest.spyOn(User, "getAllAssociatedMissions").mockImplementation(() => []);
+  });
+
   function renderComponent({ state } = {}) {
     const initialState = {
       firebase: {
@@ -52,6 +60,5 @@ describe("Home page", () => {
     expect(page.getByRole("main")).toBeInTheDocument();
     expect(page.queryByTestId("btn-login")).not.toBeInTheDocument();
     expect(page.queryByTestId("btn-signup")).not.toBeInTheDocument();
-    expect(page.getByTestId("btn-request-help")).toBeInTheDocument();
   });
 });
