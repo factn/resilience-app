@@ -1,13 +1,12 @@
 import "./App.css";
 
 import CssBaseline from "@material-ui/core/CssBaseline";
-import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
 import React from "react";
 import { useSelector } from "react-redux";
 import { isEmpty, isLoaded } from "react-redux-firebase";
 import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-dom";
-import { ThemeProvider } from "styled-components";
 
+import ThemeProvider from "./app/component/ThemeProvider";
 import { Dashboard } from "./app/page";
 import { MissionCreate, Missions, MissionsCreated, PostMission } from "./app/page";
 import AboutPage from "./app/page/Aboutus";
@@ -43,47 +42,43 @@ function PrivateRoute({ children, ...rest }) {
 }
 
 function App() {
-  // @ts-ignore
-  const customTheme = createMuiTheme(theme);
   return (
     <>
       <CssBaseline />
-      <MuiThemeProvider theme={customTheme}>
-        <ThemeProvider theme={customTheme}>
-          <Router>
-            <div className="App">
-              <Switch>
-                <Route exact path="/" component={HomePage} />
-                <Route path="/about" component={AboutPage} />
-                <Route path="/login" component={LoginPage} />
-                <Route path="/organizer/signup" component={OrganizerSignupPage} />
-                <Route path="/status" component={Status} />
-                <Route path="/temp/story123" component={PostMission} />
+      <ThemeProvider theme={theme}>
+        <Router>
+          <div className="App">
+            <Switch>
+              <Route exact path="/" component={HomePage} />
+              <Route path="/about" component={AboutPage} />
+              <Route path="/login" component={LoginPage} />
+              <Route path="/organizer/signup" component={OrganizerSignupPage} />
+              <Route path="/status" component={Status} />
+              <Route path="/temp/story123" component={PostMission} />
 
-                <Route path="/signup" component={SignupScene} />
+              <Route path="/signup" component={SignupScene} />
 
-                <Route path="/request" component={RequestPage} />
+              <Route path="/request" component={RequestPage} />
 
-                <Route path="/dashboard">
-                  <Dashboard />
-                </Route>
-                <PrivateRoute path="/missions/created">
-                  <MissionsCreated />
-                </PrivateRoute>
-                <PrivateRoute path="/missions/new">
-                  <MissionCreate />
-                </PrivateRoute>
+              <Route path="/dashboard">
+                <Dashboard />
+              </Route>
+              <PrivateRoute path="/missions/created">
+                <MissionsCreated />
+              </PrivateRoute>
+              <PrivateRoute path="/missions/new">
+                <MissionCreate />
+              </PrivateRoute>
 
-                <Route path="/missions/:id" component={MissionDetails} />
-                <Route path="/missions" component={Missions} />
-                <PrivateRoute path="/user/profile">
-                  <UserProfile />
-                </PrivateRoute>
-              </Switch>
-            </div>
-          </Router>
-        </ThemeProvider>
-      </MuiThemeProvider>
+              <Route path="/missions/:id" component={MissionDetails} />
+              <Route path="/missions" component={Missions} />
+              <PrivateRoute path="/user/profile">
+                <UserProfile />
+              </PrivateRoute>
+            </Switch>
+          </div>
+        </Router>
+      </ThemeProvider>
     </>
   );
 }
