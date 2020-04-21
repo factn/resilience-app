@@ -1,9 +1,11 @@
-import { render } from "@testing-library/react";
+import { act, render } from "@testing-library/react";
 import React from "react";
 import { Provider } from "react-redux";
 import { MemoryRouter } from "react-router-dom";
 import { createStore } from "redux";
 
+import theme from "../../../theme";
+import ThemeProvider from "../../component/ThemeProvider";
 import User from "../../model/User";
 import Home from "./Home";
 
@@ -31,7 +33,9 @@ describe("Home page", () => {
     return render(
       <Provider store={store}>
         <MemoryRouter>
-          <Home />
+          <ThemeProvider theme={theme}>
+            <Home />
+          </ThemeProvider>
         </MemoryRouter>
       </Provider>
     );
