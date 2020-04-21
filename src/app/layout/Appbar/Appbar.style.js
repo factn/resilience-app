@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 export const AppbarContainer = styled.div`
   height: 89px;
@@ -30,4 +31,16 @@ export const MenuContainer = styled.div`
     height: inherit;
     width: 2em;
   }
+`;
+
+export const StyledLink = styled(Link)`
+  font-family: Arimo;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 22px;
+  line-height: 20px;
+  color: #3739B5;
+  text-decoration: none;
+  height: fit-content;
+  margin: auto 20px;
 `;

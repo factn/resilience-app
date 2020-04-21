@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import Button from "../../component/Button";
-import { Link } from "react-router-dom";
 import { ReactComponent as Logo } from "../../../logo.svg";
 
 export const Header = styled.div`
@@ -33,18 +32,6 @@ export const StyledHomeButton = styled(Button)`
   line-height: 40px;
 `;
 
-export const StyledLink = styled(Link)`
-  font-family: Arimo;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 22px;
-  line-height: 20px;
-  color: #3739B5;
-  text-decoration: none;
-  height: fit-content;
-  margin: auto 20px;
-`;
-
 export const OrgLogo = styled(Logo)`
   height: 100px;
   width: 100px;
@@ -72,17 +59,17 @@ export const PhoneNo = styled(Text)`
 `;
 
 export const Heading = styled.h1`
-  fontFamily: "Ariomo, Arial, sans-serif",
-  fontWeight: "bold",
-  fontSize: "36px",
-  lineHeight: "40px",
+  fontFamily: Open Sans, sans-serif;
+  font-weight: bold;
+  font-size: 32px;
+  line-height: 48px;
   color: ${props => props.color ? props.color : props.theme.color.black};
 `;
 
 export const SubHeading = styled.h2`
-  fontFamily: "Ariomo, Arial, sans-serif",
-  fontWeight: "bold",
-  fontSize: "36px",
-  lineHeight: "40px",
+  fontFamily: Open Sans, sans-serif;
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 48px;
   color: ${props => props.color ? props.color : props.theme.color.black};
 `;

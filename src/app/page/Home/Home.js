@@ -11,8 +11,8 @@ import { Button, H1, H3 } from "../../component";
 import { Card, Grid, Box } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
-import { StyledHomeButton, OrgLogo, TransparentButton, Text, Heading, SubHeading, PhoneNo } from "./Home.style";
-import { HomeAppbar } from "../../layout/Appbar";
+import { OrgLogo, TransparentButton, Text, Heading, SubHeading, PhoneNo } from "./Home.style";
+import { PublicAppbar, DefaultAppbar } from "../../layout/Appbar";
 import HomeImage2 from "../../../img/HomeImage2.png";
 import HomeImage3 from "../../../img/HomeImage3.png";
 import HomeImage4 from "../../../img/HomeImage4.png";
@@ -98,10 +98,10 @@ const useStyles = makeStyles((theme) => ({
     height: "36px",
     width: "36px",
     marginLeft: theme.spacing(1),
-    verticalAlign: "top"
+    verticalAlign: "middle"
   },
   PurpleBg: {
-    backgroundColor: `${theme.color.deepPurple}`
+    backgroundColor: theme.color.deepPurple
   },
   RequestByPhoneBg: {
     backgroundImage: `url(${HomeImage2})`,
@@ -109,7 +109,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    height: "300px"
+    height: "350px"
   },
   PhoneCard: {
     padding: theme.spacing(2),
@@ -146,7 +146,7 @@ const HomePage = ({ auth, history, ...rest }) => {
   const isLoaded = useSelector((state) => state.firebase.auth.isLoaded);
 
   return (
-    <Page isLoaded={isLoaded} LoadingComponent={LoadingComponent} Appbar={HomeAppbar}>
+    <Page isLoaded={isLoaded} LoadingComponent={LoadingComponent} Appbar={isEmpty ? PublicAppbar : DefaultAppbar}>
       {isEmpty ? (
         <>
           <Box className={classes.OrgBackgroundImg} p={2}>
@@ -179,8 +179,8 @@ const HomePage = ({ auth, history, ...rest }) => {
             </Text>
             <Box textAlign="center" pt={2}>
               <Button
-                onClick={() => history.push("/signup")}
-                data-testid="btn-signup"
+                onClick={() => history.push("/request")}
+                data-testid="btn-request"
                 className={classes.SignupButton}
               >
                 I Need Help
@@ -211,7 +211,8 @@ const HomePage = ({ auth, history, ...rest }) => {
           </Box>
           <Box className={classes.PurpleBg} textAlign="left" p={2}>
             <Box>
-              <Heading color="white" style={{ display: "inline" }}>Donate</Heading> <img src={Emoticon} className={classes.Emoticon} alt="smiley"></img>
+              <Heading color="white" style={{ display: "inline", verticalAlign: "middle" }}>Donate</Heading>
+              <img src={Emoticon} className={classes.Emoticon} alt="smiley"></img>
             </Box>
             <Box my={1}>
               <Text color="white">Many families can't afford fresh food. Please help sponsor food boxes for those in need.</Text>
@@ -219,7 +220,7 @@ const HomePage = ({ auth, history, ...rest }) => {
             <Box textAlign="center">
               <Button
                 onClick={() => history.push("/signup")}
-                data-testid="btn-signup"
+                data-testid="btn-donate-funds"
                 className={classes.SignupButton}
                 color="secondary"
               >
@@ -233,7 +234,6 @@ const HomePage = ({ auth, history, ...rest }) => {
               <Text>To request food by phone, call</Text>&nbsp;<PhoneNo>555-555-5555.</PhoneNo>
             </Card>
           </Box>
-          {/*TODO Footer*/}
         </>
       ) : (
           <VolunteerHome currentUser={auth} />
