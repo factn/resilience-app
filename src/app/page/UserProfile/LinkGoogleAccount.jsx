@@ -1,11 +1,10 @@
+import { Avatar, Grid } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 import React from "react";
 
-import { Card } from "../../layout";
-import { Button, H5 } from "../../component";
-import { Grid, Avatar } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-
 import logo from "../../../img/Google__G__Logo.png";
+import { Button, H5 } from "../../component";
+import { Card } from "../../layout";
 
 const useStyles = makeStyles(() => ({
   logoContainer: {

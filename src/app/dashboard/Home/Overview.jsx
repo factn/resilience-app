@@ -1,13 +1,13 @@
-import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
-import { color } from "../../../theme";
-import OverviewItem from "./OverviewItem";
-import { connect } from "react-redux";
+import Grid from "@material-ui/core/Grid";
+import { makeStyles } from "@material-ui/core/styles";
 import AnnouncementIcon from "@material-ui/icons/Announcement";
+import React from "react";
+import { connect } from "react-redux";
 
+import { color } from "../../../theme";
 import { Mission } from "../../model";
+import OverviewItem from "./OverviewItem";
 
 const useStyles = makeStyles((theme) => ({
   content: {

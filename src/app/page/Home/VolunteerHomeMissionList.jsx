@@ -1,10 +1,9 @@
-import React from "react";
 import PropTypes from "prop-types";
-import { isLoaded, isEmpty } from "react-redux-firebase";
+import React from "react";
+import { isEmpty, isLoaded } from "react-redux-firebase";
 import { useHistory } from "react-router-dom";
+
 import { MissionList } from "../../component";
-import { User } from "../../model";
-import { Actions } from "../../component/ImageUpload/ImageUpload.style";
 
 /**
  * Component for listing volunteered missions

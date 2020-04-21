@@ -1,12 +1,11 @@
-import React from "react";
+import { Checkbox, Container, FormControlLabel, TextField } from "@material-ui/core";
 import PropTypes from "prop-types";
+import React from "react";
 
-import { Page } from "../../../layout";
 import { Body1 } from "../../../component";
-import { useStyles, StyledHeader } from "./UserProfile.style";
-
-import { FormControlLabel, TextField, Container, Checkbox } from "@material-ui/core";
 import { AddressInput, Button } from "../../../component";
+import { Page } from "../../../layout";
+import { StyledHeader, useStyles } from "./UserProfile.style";
 
 /**
  * Component for signing up users

@@ -1,6 +1,6 @@
-import React from "react";
+import { Button, Grid, TextField } from "@material-ui/core";
 import PropTypes from "prop-types";
-import { Grid, TextField, Button } from "@material-ui/core";
+import React from "react";
 
 function PhoneLoginForm(props) {
   const { handlePhoneLogin, handlePhoneNumberChange } = props;

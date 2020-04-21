@@ -1,8 +1,9 @@
 import firebase from "firebase";
-import React from "react";
 import PropTypes from "prop-types";
-import { Page } from "../../../layout";
+import React from "react";
+
 import FirebaseAuthUi from "../../../component/FirebaseAuthUi/FirebaseAuthUi";
+import { Page } from "../../../layout";
 
 /**
  * Phone auth page for use with Signup

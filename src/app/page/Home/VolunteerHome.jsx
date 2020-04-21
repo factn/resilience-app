@@ -1,15 +1,16 @@
-import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
+import { AppBar, Box, Tab, Tabs, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { AppBar, Tabs, Tab, Typography, Box } from "@material-ui/core";
+import PropTypes from "prop-types";
+import React, { useEffect, useState } from "react";
+
+import User from "../../model/User";
 import {
   getAllAssignedMissions,
+  getAllCompletedMissions,
   getAllStartedMissions,
   getAllSuggestedMissions,
-  getAllCompletedMissions,
 } from "./missionHelpers";
 import VolunteerHomeMissionList from "./VolunteerHomeMissionList";
-import User from "../../model/User";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,18 +28,19 @@ export default function VolunteerHome({ currentUser }) {
   const [suggestedMissions, updateSuggestedMissions] = useState([]);
   const [completedMisssions, updateCompletedMissions] = useState([]);
 
-  const fetchAllAssociatedMissions = async () => {
-    const missions = await User.getAllAssociatedMissions(currentUser.uid);
-
-    updateAssignedMissions(getAllAssignedMissions(missions, currentUser));
-    updateStartedMissions(getAllStartedMissions(missions, currentUser));
-    updateSuggestedMissions(getAllSuggestedMissions(missions, currentUser));
-    updateCompletedMissions(getAllCompletedMissions(missions, currentUser));
-  };
-
   useEffect(() => {
+    const fetchAllAssociatedMissions = async () => {
+      const missions = await User.getAllAssociatedMissions(currentUser.uid);
+
+      updateAssignedMissions(getAllAssignedMissions(missions, currentUser));
+      updateStartedMissions(getAllStartedMissions(missions, currentUser));
+      updateSuggestedMissions(getAllSuggestedMissions(missions, currentUser));
+      updateCompletedMissions(getAllCompletedMissions(missions, currentUser));
+    };
+
     fetchAllAssociatedMissions();
-  }, []);
+  }, [currentUser]);
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };

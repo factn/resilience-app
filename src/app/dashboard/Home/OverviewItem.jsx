@@ -1,8 +1,9 @@
-import React from "react";
-import { H3, Body1 } from "../../component";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
+import React from "react";
 import { Link } from "react-router-dom";
+
+import { Body1, H3 } from "../../component";
 
 const useStyles = makeStyles(() => ({
   cardItemsContainer: {

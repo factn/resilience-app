@@ -1,13 +1,12 @@
-import React, { useState } from "react";
+import { Paper, Tab, Tabs } from "@material-ui/core";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
-import { Tabs, Tab, Paper } from "@material-ui/core";
+import React, { useState } from "react";
 
-import { H1 } from "../styles";
 import { H4 } from "../../../component";
-
-import FoodboxStep from "./FoodboxStep";
-import DeliveryStep from "./DeliveryStep";
+import { H1 } from "../styles";
 import ConfirmStep from "./ConfirmStep";
+import DeliveryStep from "./DeliveryStep";
+import FoodboxStep from "./FoodboxStep";
 
 const useStyles = makeStyles((theme) => ({
   root: {

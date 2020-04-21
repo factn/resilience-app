@@ -1,11 +1,11 @@
 import React from "react";
-import { Switch, Route } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 
 import { Page } from "../../layout";
-import Start from "./Start";
+import ErrorPage from "./foodbox/ErrorPage";
 import FoodboxFlow from "./foodbox/FoodboxFlow";
 import SuccessPage from "./foodbox/SuccessPage";
-import ErrorPage from "./foodbox/ErrorPage";
+import Start from "./Start";
 
 function RequestPage() {
   return (

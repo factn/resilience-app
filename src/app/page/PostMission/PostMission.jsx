@@ -1,15 +1,14 @@
-import React, { useState } from "react";
-import { withRouter } from "react-router-dom";
-
-import { withStyles } from "@material-ui/core/styles";
-import DialogContent from "@material-ui/core/DialogContent";
-import Dialog from "@material-ui/core/Dialog";
-import CloseIcon from "@material-ui/icons/Close";
-import Typography from "@material-ui/core/Typography";
 import Avatar from "@material-ui/core/Avatar";
 import Box from "@material-ui/core/Box";
-import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import Dialog from "@material-ui/core/Dialog";
+import DialogContent from "@material-ui/core/DialogContent";
+import { withStyles } from "@material-ui/core/styles";
+import TextField from "@material-ui/core/TextField";
+import Typography from "@material-ui/core/Typography";
+import CloseIcon from "@material-ui/icons/Close";
+import React, { useState } from "react";
+import { withRouter } from "react-router-dom";
 
 const styles = () => ({
   dialogContent: {

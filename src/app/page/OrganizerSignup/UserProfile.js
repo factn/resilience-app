@@ -1,10 +1,10 @@
 import React from "react";
-import { Row, Col } from "react-flexbox-grid";
+import { Col, Row } from "react-flexbox-grid";
 
-import { Page } from "../../layout";
-import Input from "../../component/Input";
 import Button from "../../component/Button";
-import { FormWrapper, HeaderText, DescriptionText, PaddedDiv } from "./UserProfile.style";
+import Input from "../../component/Input";
+import { Page } from "../../layout";
+import { DescriptionText, FormWrapper, HeaderText, PaddedDiv } from "./UserProfile.style";
 
 /**
  * Component for signing up organizers
