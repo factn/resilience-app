@@ -8,6 +8,7 @@ import { Page } from "../../layout";
 import { Mission, User } from "../../model";
 import { MissionList } from "../../component";
 import { compose } from "redux";
+import Snackbar from "../../component/Snackbars/Snackbar";
 
 import UserPhoneUnverifiedPopup from "../../component/UserPhoneUnverifiedPopup";
 
@@ -19,6 +20,9 @@ import UserPhoneUnverifiedPopup from "../../component/UserPhoneUnverifiedPopup";
  */
 const MissionsPage = ({ auth, history, missions }) => {
   const [popupOpen, setPopupOpen] = useState(false);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarType, setSnackbarType] = useState("error");
+  const [snackbarMessage, setSnackbarMessage] = useState("");
 
   async function userVolunteeringHandler(missionId) {
     // We need a little more information from user at this point
@@ -26,7 +30,17 @@ const MissionsPage = ({ auth, history, missions }) => {
       setPopupOpen(true);
       return;
     }
-    User.volunteerMission(auth.uid, missionId);
+    User.volunteerMission(auth.uid, missionId)
+      .then((res) => {
+        setSnackbarType("success");
+        setSnackbarMessage("You have accepted this mission.");
+        setSnackbarOpen(true);
+      })
+      .catch((error) => {
+        setSnackbarType("error");
+        setSnackbarMessage("Could not accept mission. Please try again.");
+        setSnackbarOpen(true);
+      });
   }
 
   if (!missions) return null;
@@ -46,6 +60,13 @@ const MissionsPage = ({ auth, history, missions }) => {
         handleUserVolunteering={userVolunteeringHandler}
       />
       <UserPhoneUnverifiedPopup open={popupOpen} handleClose={() => setPopupOpen(false)} />
+      <Snackbar
+        autoHideDuration={4000}
+        handleClose={() => setSnackbarOpen(false)}
+        open={snackbarOpen}
+        type={snackbarType}
+        message={snackbarMessage}
+      />
     </Page>
   );
 };
