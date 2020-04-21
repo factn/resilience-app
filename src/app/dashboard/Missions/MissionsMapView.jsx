@@ -1,12 +1,10 @@
-import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
-
-import { Map, TileLayer, Marker } from "react-leaflet";
+import { makeStyles } from "@material-ui/core/styles";
 import FastfoodIcon from "@material-ui/icons/Fastfood";
-
 import { DivIcon } from "leaflet";
+import React from "react";
 import { renderToString } from "react-dom/server";
+import { Map, Marker, TileLayer } from "react-leaflet";
 
 const useStyles = makeStyles((theme) => ({
   content: {

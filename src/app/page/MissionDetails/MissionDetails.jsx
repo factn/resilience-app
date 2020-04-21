@@ -1,21 +1,16 @@
-import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
-import { useLocation } from "react-router-dom";
-
-import Page from "../../layout/Page";
-import { color } from "../../../theme";
-
-import { Grid, Dialog } from "@material-ui/core";
-import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import { Dialog, Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import PropTypes from "prop-types";
+import React, { useEffect, useState } from "react";
+import { isEmpty, isLoaded, useFirebase } from "react-redux-firebase";
 
-// Created based on the schema in firebase
-import { useFirebase, isLoaded, isEmpty } from "react-redux-firebase";
-import { User, Mission } from "../../model";
-
-import MissionDetailsCard from "../../component/MissionDetailsCard";
+import { color } from "../../../theme";
 import MissionDeliveredCard from "../../component/MissionDeliveredCard";
+import MissionDetailsCard from "../../component/MissionDetailsCard";
 import { ErrorSnackbar, SuccessSnackbar } from "../../component/Snackbars";
+import Page from "../../layout/Page";
+import { Mission, User } from "../../model";
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -44,6 +39,7 @@ const MissionDetailsPage = ({ history, match }) => {
   const [errorSnackbarOpen, setErrorSnackbarOpen] = useState(false);
   const [successSnackbarOpen, setSuccessSnackbarOpen] = useState(false);
   const [mission, setMission] = useState({});
+
   useEffect(() => {
     const missionId = match.params.id;
     const fetchMissionById = async () => {

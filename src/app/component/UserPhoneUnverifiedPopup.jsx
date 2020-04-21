@@ -1,10 +1,9 @@
-import React from "react";
+import { Grid, Typography } from "@material-ui/core";
 import PropTypes from "prop-types";
+import React from "react";
+import { Link } from "react-router-dom";
 
 import Popup from "./Popup";
-
-import { Grid, Typography } from "@material-ui/core";
-import { Link } from "react-router-dom";
 
 /**
  * Functional component used to encapsulate popup for when a user is unverified for their action

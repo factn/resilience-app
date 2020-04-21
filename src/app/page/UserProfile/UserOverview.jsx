@@ -1,9 +1,9 @@
-import React from "react";
-import { H5 } from "../../component";
-import { Grid, Avatar, TextField } from "@material-ui/core";
+import { Grid, TextField } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import _ from "lodash";
+import React from "react";
 
+import { H5 } from "../../component";
 import ProfileImage from "./ProfileImage";
 
 const useStyles = makeStyles((theme) => ({
@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const UserStatus = ({ profile, setProfile, setView, view }) => {
+const UserStatus = ({ profile, setProfile, view }) => {
   const classes = useStyles();
 
   const displayName = _.get(profile, "displayName", "");

@@ -1,10 +1,11 @@
-import React from "react";
 import PropTypes from "prop-types";
+import React from "react";
+
 import {
   InputWrapper,
-  StyledLabel,
-  StyledInputDiv,
   StyledInput,
+  StyledInputDiv,
+  StyledLabel,
   StyledTextarea,
 } from "./Input.style";
 

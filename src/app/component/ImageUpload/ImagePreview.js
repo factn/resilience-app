@@ -1,7 +1,8 @@
-import React from "react";
 import PropTypes from "prop-types";
+import React from "react";
+
 import { ReactComponent as ClosePreviewIcon } from "../../../img/ClosePreview.svg";
-import { thumb, icon, img } from "./ImageUpload.style";
+import { icon, img, thumb } from "./ImageUpload.style";
 
 function ImagePreview({ file, preview, removeImage }) {
   return (

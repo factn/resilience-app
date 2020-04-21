@@ -1,4 +1,5 @@
 import React from "react";
+
 import { yellowWarning } from "./WarningAlert.style";
 
 function WarningAlert() {

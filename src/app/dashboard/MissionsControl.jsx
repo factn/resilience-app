@@ -1,19 +1,18 @@
-import React from "react";
-import clsx from "clsx";
-import { Switch, Route } from "react-router-dom";
-import { useFirestoreConnect } from "react-redux-firebase";
-
 import { makeStyles } from "@material-ui/core/styles";
+import AnnouncementIcon from "@material-ui/icons/Announcement";
+import HomeIcon from "@material-ui/icons/Home";
+import PanToolIcon from "@material-ui/icons/PanTool";
+import PeopleIcon from "@material-ui/icons/People";
+import clsx from "clsx";
+import React from "react";
+import { useFirestoreConnect } from "react-redux-firebase";
+import { Route, Switch } from "react-router-dom";
+
+import { Mission } from "../model";
 import Appbar from "./Appbar";
 import Drawer from "./Drawer";
 import Home from "./Home";
 import DashboardMissions from "./Missions";
-import { Mission } from "../model";
-
-import HomeIcon from "@material-ui/icons/Home";
-import AnnouncementIcon from "@material-ui/icons/Announcement";
-import PeopleIcon from "@material-ui/icons/People";
-import PanToolIcon from "@material-ui/icons/PanTool";
 
 const useStyles = makeStyles((theme) => ({
   root: {

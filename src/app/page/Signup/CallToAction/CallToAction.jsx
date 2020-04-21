@@ -1,10 +1,11 @@
-import React from "react";
-import PropTypes from "prop-types";
-import Button from "../../../component/Button";
-import { useStyles, StyledHeader } from "./CallToAction.style";
-import { Page } from "../../../layout";
 import { Container } from "@material-ui/core";
+import PropTypes from "prop-types";
+import React from "react";
+
 import { Body1 } from "../../../component";
+import Button from "../../../component/Button";
+import { Page } from "../../../layout";
+import { StyledHeader, useStyles } from "./CallToAction.style";
 
 /**
  * Volunteer Call to Action page for use with Signup

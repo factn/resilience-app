@@ -1,20 +1,17 @@
-import React, { useState, useEffect } from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
-import { Button } from "../../component";
-import { connect } from "react-redux";
-
-import _ from "../../utils";
-
-import MissionsMapView from "./MissionsMapView";
-import MissionsListView from "./MissionsListView";
-import MissionDetails from "./MissionDetails";
-
-import { Mission } from "../../model";
-
-import MapIcon from "@material-ui/icons/Map";
+import { makeStyles } from "@material-ui/core/styles";
 import ListIcon from "@material-ui/icons/List";
+import MapIcon from "@material-ui/icons/Map";
+import React, { useEffect, useState } from "react";
+import { connect } from "react-redux";
 import { useHistory } from "react-router";
+
+import { Button } from "../../component";
+import { Mission } from "../../model";
+import _ from "../../utils";
+import MissionDetails from "./MissionDetails";
+import MissionsListView from "./MissionsListView";
+import MissionsMapView from "./MissionsMapView";
 
 const useStyles = makeStyles((theme) => ({
   root: {

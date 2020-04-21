@@ -64,6 +64,7 @@
     "plugins": [
       "prettier",
       "react",
+      "simple-import-sort",
       "sort-destructure-keys"
     ],
     "rules": {
@@ -72,7 +73,9 @@
         {
           "caseSensitive": false
         }
-      ]
+      ],
+      "simple-import-sort/sort": 1,
+      "sort-imports": "off"
     }
   },
   "browserslist": {
@@ -108,6 +111,7 @@
     "better-docs": "^1.4.7",
     "eslint-config-prettier": "^6.10.1",
     "eslint-plugin-prettier": "^3.1.3",
+    "eslint-plugin-simple-import-sort": "^5.0.2",
     "eslint-plugin-sort-destructure-keys": "^1.3.4",
     "export-to-csv": "^0.2.1",
     "firebase-admin": "^8.10.0",

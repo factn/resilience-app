@@ -1,15 +1,13 @@
-import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
-
+import React from "react";
+import { connect, useSelector } from "react-redux";
 import { withRouter } from "react-router-dom";
-
-import { useSelector, connect } from "react-redux";
 import { compose } from "redux";
 
 import { Page } from "../../layout";
 import { Button, H1, H3 } from "../../component";
 import { Card, Grid, Box } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 
 import { OrgLogo, TransparentButton, Text, Heading, SubHeading, PhoneNo } from "./Home.style";
 import { PublicAppbar, DefaultAppbar } from "../../layout/Appbar";
@@ -140,7 +138,7 @@ const LoadingComponent = () => {
  *
  * @component
  */
-const HomePage = ({ auth, history, ...rest }) => {
+const HomePage = ({ auth, history }) => {
   const classes = useStyles();
   const isEmpty = useSelector((state) => state.firebase.auth.isEmpty);
   const isLoaded = useSelector((state) => state.firebase.auth.isLoaded);

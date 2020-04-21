@@ -13,7 +13,7 @@ const PublicAppbar = (props) => {
                         <Logo title="MutualAidLogo" role="img" height="82px" />
                     </Link>
                 </LogoContainer>
-                <StyledLink to="/">About Resilience App</StyledLink>
+                <StyledLink to="/about">About Resilience App</StyledLink>
             </AppbarDefault>
         </AppbarContainer>
     );

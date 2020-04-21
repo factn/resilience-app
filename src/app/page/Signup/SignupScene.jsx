@@ -1,35 +1,18 @@
+import CircularProgress from "@material-ui/core/CircularProgress";
+import PropTypes from "prop-types";
 import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
-import PropTypes from "prop-types";
-import useForm from "../../hooks/useForm";
 
+import { ErrorSnackbar, SuccessSnackbar } from "../../component/Snackbars";
+import useForm from "../../hooks/useForm";
+import { User } from "../../model";
+import { VolunteerStatus } from "../../model/schema";
+import { convertFullName, normalizeLocation } from "../../utils/helpers";
 import CallToActionPage from "./CallToAction";
-import UserProfilePage from "./UserProfile";
 import ConnectSocialMediaPage from "./ConnectSocialMedia";
 import PhoneAuthPage from "./PhoneAuth";
 import SignupSuccessPage from "./SignupSuccess";
-
-/**
- * Takes fullName as string and converts to First/Last name
- * by assuming the last word is the last name and everything before the
- * last name is the first name.  Returns an array [firstName, lastName]
- * Example:  'Joseph J. J. Shmoseph' => ['Joseph J. J.', 'Shmoseph']
- * This is a naive solution, it can't handle suffixes like Jr.
- * @param {string} fullName
- * @function
- */
-const convertFullName = (fullName) => {
-  let firstName = "";
-  let lastName = "";
-  if (fullName) {
-    const parts = fullName.split(" ");
-    lastName = parts[parts.length - 1];
-    if (parts.length > 1) {
-      firstName = parts.slice(0, parts.length - 1).join(" ");
-    }
-  }
-  return [firstName, lastName];
-};
+import UserProfilePage from "./UserProfile";
 
 /**
  * Top level component for Signup
@@ -38,6 +21,42 @@ const convertFullName = (fullName) => {
 function SignupScene(props) {
   const { handleChange, values } = useForm();
   const [activeTab, setActiveTab] = useState(0);
+  const [errorSnackbarMessage, setErrorSnackbarMessage] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  function getPayload() {
+    return {
+      id: values.id,
+      description: values.description || "",
+      displayName: `${values.firstName} ${values.lastName}`,
+      email: values.email || "",
+      isOrganizer: false,
+      isVolunteer: true,
+      location: values.location && normalizeLocation(values.location),
+      organizerDetails: {},
+      phone: values.phone || "",
+      photoUrl: "",
+      volunteerDetails: {
+        availability: values.availability || "",
+        hasTransportation: !!values.hasTransportation,
+        status: VolunteerStatus.pending,
+        privateNotes: "",
+      },
+    };
+  }
+
+  function saveUserProfile() {
+    const payload = getPayload();
+    try {
+      setLoading(true);
+      User.saveNewUser(payload).then(() => {
+        setLoading(false);
+      });
+    } catch (error) {
+      setLoading(false);
+      setErrorSnackbarMessage(error);
+    }
+  }
 
   function changeFormValues(changes) {
     for (const change of changes) {
@@ -49,7 +68,10 @@ function SignupScene(props) {
   function updateFormValues(data) {
     // Retain phone number from phone auth response
     if (activeTab === 1) {
-      changeFormValues([["phone", data.phoneNumber || ""]]);
+      changeFormValues([
+        ["phone", data.phoneNumber || ""],
+        ["id", data.uid || ""],
+      ]);
     }
     // Retain full name and email from social media auth response
     if (activeTab === 2) {
@@ -62,53 +84,18 @@ function SignupScene(props) {
     }
   }
 
-  function submitUserDataToFirebase() {
-    const {
-      availability,
-      description,
-      email,
-      firstName,
-      hasTransportation,
-      lastName,
-      phone,
-    } = values;
-
-    let locationFormatted;
-    if (values.location) {
-      const { address, countryCode, county, lat, long } = values.location;
-      locationFormatted = { address, lat, long, label: `${countryCode.toUpperCase()} - ${county}` };
-    }
-
-    const payload = {
-      availability,
-      description,
-      email,
-      phone,
-      profileName: `${firstName} ${lastName}`,
-      location: locationFormatted,
-      isVolunteer: true,
-      volunteerDetails: {
-        hasTransportation: !!hasTransportation,
-        status: "pending", //TODO: Use constants
-      },
-    };
-    console.log("submiting user profile to firebase");
-    console.log(payload);
-  }
-
   /**
    * This is a catchall function that is passed down to
    * sub components for use as:
    * 1) primary button click handler
    * 2) submit handler
    * 3) success callback for firebaseAuth
-   *
    */
   function processPage(data) {
     if (data) updateFormValues(data);
-    if (activeTab === 3) submitUserDataToFirebase();
+    if (activeTab === 3) saveUserProfile();
     if (activeTab === 4) props.history.push("/missions");
-    if (activeTab in [0, 1, 2, 3]) setActiveTab(activeTab + 1);
+    if ([0, 1, 2, 3].includes(activeTab)) setActiveTab(activeTab + 1);
   }
 
   const ActivePage = {
@@ -119,14 +106,30 @@ function SignupScene(props) {
     4: SignupSuccessPage,
   }[activeTab];
 
+  if (loading) return <CircularProgress />;
+
+  const showSuccessSnackbar = !errorSnackbarMessage && activeTab === 4;
+
   return (
-    <ActivePage
-      onSubmit={processPage}
-      signInSuccess={processPage}
-      handleButtonClick={processPage}
-      handleChange={handleChange}
-      values={values}
-    />
+    <>
+      <ActivePage
+        onSubmit={processPage}
+        signInSuccess={processPage}
+        handleButtonClick={processPage}
+        handleChange={handleChange}
+        values={values}
+      />
+      <ErrorSnackbar
+        open={errorSnackbarMessage}
+        handleClose={() => setErrorSnackbarMessage(false)}
+        errorMessage={`Error while submitting request. Please try again. ${errorSnackbarMessage}`}
+        autoHideDuration={4000}
+      />
+      <SuccessSnackbar
+        open={showSuccessSnackbar}
+        successMessage="Your account request has been successfully submitted and is pending approval"
+      />
+    </>
   );
 }
 
