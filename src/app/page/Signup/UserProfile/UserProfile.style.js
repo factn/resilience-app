@@ -18,7 +18,7 @@ export const useStyles = makeStyles((theme) => ({
   },
   textField: {
     marginTop: theme.spacing(2),
-    textAlign: 'left',
+    textAlign: "left",
   },
   checkBox: {
     marginTop: theme.spacing(2),
