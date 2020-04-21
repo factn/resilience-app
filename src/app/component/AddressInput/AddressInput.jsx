@@ -29,7 +29,6 @@ const AddressInput = (props) => {
         apiKey: ANGOLIA_API_KEY, // only 1k per day
         language: "en",
         countries: ["us"], // we have to support more countries in the future
-        type: "city",
         // Other options from https://community.algolia.com/places/documentation.html#options
       }}
       onChange={(query) => handleLocation(query)}
