@@ -29,7 +29,6 @@
     "react-flexbox-grid": "^2.1.2",
     "react-image-crop": "^8.6.2",
     "react-leaflet": "^2.6.3",
-    "react-load-script": "0.0.6",
     "react-redux": "^7.2.0",
     "react-redux-firebase": "^3.3.0",
     "react-router-dom": "^5.1.2",
