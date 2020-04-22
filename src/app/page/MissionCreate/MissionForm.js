@@ -144,6 +144,7 @@ function MissionForm({ getFile, handleChange, onSubmit, values /*, assignHelper,
           onChange={handleChange}
           label="Assign a recipient"
           helperText="Name or Phone number"
+          required={true}
         />
         <StyledHeader align="left" variant="h2">
           Helper
@@ -187,6 +188,7 @@ function MissionForm({ getFile, handleChange, onSubmit, values /*, assignHelper,
             label="Select Date"
             format="MM/dd/yyyy"
             value={pickUpDateLabel}
+            required={true}
             onChange={(date) => handleDate(date, "pickUp")}
             KeyboardButtonProps={{
               "aria-label": "change date",
@@ -197,6 +199,7 @@ function MissionForm({ getFile, handleChange, onSubmit, values /*, assignHelper,
             id="time-pickUp"
             label="Pickup time"
             value={pickUp.timeProtoType}
+            required={true}
             onChange={(time) =>
               time && setPickUp({ ...pickUp, time: time.toTimeString(), timeProtoType: time })
             }
@@ -229,6 +232,7 @@ function MissionForm({ getFile, handleChange, onSubmit, values /*, assignHelper,
             label="Select Date"
             format="MM/dd/yyyy"
             value={dropOffDateLabel}
+            required={true}
             onChange={(date) => handleDate(date, "dropOff")}
           />
           <KeyboardTimePicker
@@ -236,6 +240,7 @@ function MissionForm({ getFile, handleChange, onSubmit, values /*, assignHelper,
             id="time-dropOff"
             label="Drop-off time"
             value={dropOff.timeProtoType}
+            required={true}
             onChange={(time) =>
               time && setDropOff({ ...dropOff, time: time.toTimeString(), timeProtoType: time })
             }
