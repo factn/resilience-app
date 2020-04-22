@@ -69,7 +69,7 @@ const ProfileImage = ({ classes, profile, setProfile }) => {
   ) : (
     <Grid item>
       <Avatar className={classes.profileImage} src={profilePhoto} alt={displayName} />
-      <Link style={{ textDecoration: "none" }} onClick={setEdit}>
+      <Link to="" style={{ textDecoration: "none" }} onClick={setEdit}>
         <h4>Change Picture</h4>
       </Link>
     </Grid>
