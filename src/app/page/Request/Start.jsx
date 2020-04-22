@@ -1,7 +1,7 @@
-import React from "react";
 import { Button } from "@material-ui/core";
-import styled from "styled-components";
+import React from "react";
 import { useHistory } from "react-router-dom";
+import styled from "styled-components";
 
 import { ReactComponent as AppleIcon } from "../../../img/apple.svg";
 import { H1 } from "./styles";

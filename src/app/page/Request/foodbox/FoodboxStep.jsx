@@ -1,7 +1,7 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 
 import NavigationButtons from "./NavigationButtons";
-import { useHistory } from "react-router-dom";
 
 function FoodboxStep({ onNext }) {
   const history = useHistory();

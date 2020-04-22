@@ -1,9 +1,10 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
 import { Button, CircularProgress } from "@material-ui/core";
-import { MissionCard } from "./index";
+import PropTypes from "prop-types";
+import React from "react";
+import styled from "styled-components";
+
 import { withLoading } from "../HOC";
+import { MissionCard } from "./index";
 
 /**
  * Component consolidates the listing of missions on `/missions` routes and `/missions/volunteered` routes

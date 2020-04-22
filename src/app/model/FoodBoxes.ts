@@ -1,4 +1,4 @@
-import { FoodBox } from "./schema";
+// import { FoodBox } from "./schema";
 
 /**
  * Defines the volunteer.

@@ -1,9 +1,10 @@
-import React, { useRef, useState } from "react";
 import PropTypes from "prop-types";
+import React, { useRef, useState } from "react";
+
 import { ReactComponent as CameraIcon } from "../../../img/camera.svg";
-import ImagePreview from "./ImagePreview";
 import Button from "../Button";
-import { Container, StyledIcon, Actions } from "./ImageUpload.style";
+import ImagePreview from "./ImagePreview";
+import { Actions, Container, StyledIcon } from "./ImageUpload.style";
 
 /**
  * Component for uploading images

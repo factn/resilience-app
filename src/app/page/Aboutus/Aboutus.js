@@ -1,8 +1,9 @@
-import React from "react";
 import { Box } from "@material-ui/core";
+import React from "react";
 import { Page } from "../../layout";
-import { Header, LogoImage, Body, LogoText, LogoBox, Link } from "./Aboutus.style";
+import { Header, LogoImage, Body, LogoText, LogoBox, Link, HeadImg } from "./Aboutus.style";
 import Logo from "../../../img/logo.svg";
+import AboutImage from "../../../img/aboutusimage.png";
 
 const AboutPage = () => {
   function goTo() {
@@ -11,6 +12,7 @@ const AboutPage = () => {
 
   return (
     <Page>
+      <HeadImg src={AboutImage} />
       <Box p={3}>
         <Header>About Us</Header>
         <Body>

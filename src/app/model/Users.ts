@@ -1,4 +1,3 @@
-import { UserInterface } from "./schema";
 import { get } from "lodash";
 
 /**

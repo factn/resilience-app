@@ -1,4 +1,5 @@
 import { CustomRepository, getRepository } from "fireorm";
+
 import { BaseRepository } from "./BaseRepository";
 import { Organization } from "./schema";
 

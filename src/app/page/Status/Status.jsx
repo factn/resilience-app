@@ -1,13 +1,13 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
-import { useFirestore, firestoreConnect } from "react-redux-firebase";
-import { useSelector, connect } from "react-redux";
-import { withRouter } from "react-router-dom";
-import { withFirestore } from "react-redux-firebase";
 // styles
-import { Typography, Button } from "@material-ui/core";
-import { Page } from "../../layout";
+import { Button, Typography } from "@material-ui/core";
+import PropTypes from "prop-types";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import { withFirestore } from "react-redux-firebase";
+import { withRouter } from "react-router-dom";
 import styled from "styled-components";
+
+import { Page } from "../../layout";
 
 const StyledHeader = styled(Typography)`
   margin-top: 12vh;
