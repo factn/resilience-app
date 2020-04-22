@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 // We will eventually want to grab this from the organizer profile
 const CLIENT_ID = "sb";
-const PAYPAL_SCRIPT = `https://www.paypal.com/sdk/js?client-id=${CLIENT_ID}`;
+const PAYPAL_SCRIPT = `https://www.paypal.com/sdk/js?client-id=${CLIENT_ID}&components=buttons,funding-eligibility`;
 
 /**
  * usePaypal

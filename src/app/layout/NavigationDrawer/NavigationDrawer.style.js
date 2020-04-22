@@ -17,6 +17,7 @@ export const useStyles = makeStyles({
     height: "100%",
   },
   label: {
+    width: "auto",
     position: "absolute",
     left: "12.5%",
     right: "12.5%",
