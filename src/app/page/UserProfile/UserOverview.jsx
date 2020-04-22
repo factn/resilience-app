@@ -2,9 +2,9 @@ import { Grid, TextField } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import _ from "lodash";
 import React from "react";
-import Script from "react-load-script";
 
 import { H5 } from "../../component";
+import { useScript } from "../../hooks";
 import ProfileImage from "./ProfileImage";
 
 const useStyles = makeStyles((theme) => ({
@@ -18,9 +18,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-/*global google*/
 const UserStatus = ({ profile, setProfile, view }) => {
   const classes = useStyles();
+  const [loaded, error] = useScript(
+    `https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_MAPS_ACCESS_TOKEN}&libraries=places`
+  );
 
   let autocomplete;
 
@@ -48,18 +50,21 @@ const UserStatus = ({ profile, setProfile, view }) => {
       type: ["(cities)"],
     };
     const addrElem = document.getElementById("address");
+    const googleRef = !!window && !!window.google ? window.google : undefined;
 
-    autocomplete = new google.maps.places.Autocomplete(addrElem, options);
-    autocomplete.setFields(["address_components", "formatted_address"]);
-    autocomplete.addListener("place_changed", handleAddressSelect);
+    if (googleRef !== undefined) {
+      autocomplete = new googleRef.maps.places.Autocomplete(addrElem, options);
+      autocomplete.setFields(["address_components", "formatted_address"]);
+      autocomplete.addListener("place_changed", handleAddressSelect);
+    }
   };
+
+  if (loaded && !error) {
+    handleScriptLoad();
+  }
 
   return (
     <Grid container direction="column" justify="center" className={classes.root} spacing={2}>
-      <Script
-        url={`https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_MAPS_ACCESS_TOKEN}&libraries=places`}
-        onLoad={handleScriptLoad}
-      />
       <ProfileImage classes={classes} profile={profile} setProfile={setProfile} />
       <Grid item container spacing={1} direction="column">
         <Grid item container>
