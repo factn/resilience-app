@@ -1,18 +1,18 @@
-import React, { useState } from "react";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
+import React, { useState } from "react";
+import { withRouter } from "react-router-dom";
 
+import { ErrorSnackbar, SuccessSnackbar } from "../../component/Snackbars";
 import useForm from "../../hooks/useForm";
+import { User } from "../../model";
+import { VolunteerStatus } from "../../model/schema";
+import { convertFullName, normalizeLocation } from "../../utils/helpers";
 import CallToActionPage from "./CallToAction";
-import UserProfilePage from "./UserProfile";
 import ConnectSocialMediaPage from "./ConnectSocialMedia";
 import PhoneAuthPage from "./PhoneAuth";
 import SignupSuccessPage from "./SignupSuccess";
-import { User } from "../../model";
-import { SuccessSnackbar, ErrorSnackbar } from "../../component/Snackbars";
-import { VolunteerStatus } from "../../model/schema";
-import { convertFullName, normalizeLocation } from "../../utils/helpers";
+import UserProfilePage from "./UserProfile";
 
 /**
  * Top level component for Signup

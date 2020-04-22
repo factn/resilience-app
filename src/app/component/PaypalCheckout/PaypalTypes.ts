@@ -35,7 +35,7 @@ export interface Amount extends Money {
 
 export interface Item {
   name: string;
-  unit_amount: Amount;
+  unit_amount: Money;
   description: string;
   quantity: string;
 }
@@ -101,6 +101,16 @@ export interface PurchaseUnit {
   payments?: any;
 }
 
+export interface ApplicationContext {
+  brand_name: string;
+  locale: string;
+  landing_page: "LOGIN" | "BILLING" | "NO_PREFERENCE";
+  shipping_preference: "GET_FROM_FILE" | "NO_SHIPPING" | "SET_PROVIDED_ADDRESS";
+  user_action: "CONTINUE" | "PAY_NOW";
+  return_url: string;
+  cancel_url: string;
+}
+
 /**
  * https://developer.paypal.com/docs/api/orders/v2/#orders_create
  */
@@ -108,6 +118,7 @@ export interface PurchaseUnit {
 export interface Order {
   payer?: Payer;
   purchase_units: PurchaseUnit[];
+  application_context: ApplicationContext;
 }
 
 export type Status = "CREATED" | "SAVED" | "APPROVED" | "VOIDED" | "COMPLETED";

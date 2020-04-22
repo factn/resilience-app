@@ -1,10 +1,10 @@
-import React from "react";
-import PropTypes from "prop-types";
-
 import { Button, Grid } from "@material-ui/core";
-import { Mission } from "../../model";
-import { color } from "../../../theme";
+import PropTypes from "prop-types";
+import React from "react";
 import styled from "styled-components";
+
+import { color } from "../../../theme";
+import { Mission } from "../../model";
 
 const StyledButton = styled(Button)`
   flex-grow: 1;

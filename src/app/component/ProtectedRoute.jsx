@@ -1,8 +1,8 @@
-import React from "react";
 import PropTypes from "prop-types";
+import React from "react";
 import { useSelector } from "react-redux";
-import { isLoaded, isEmpty } from "react-redux-firebase";
-import { Route, Redirect } from "react-router-dom";
+import { isEmpty, isLoaded } from "react-redux-firebase";
+import { Redirect, Route } from "react-router-dom";
 
 function ProtectedRoute({ children, ...rest }) {
   const auth = useSelector((state) => state.firebase.auth);

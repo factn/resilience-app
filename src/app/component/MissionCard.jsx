@@ -1,10 +1,11 @@
-import React from "react";
-import PropTypes from "prop-types";
 import { Card, CardActions, CardContent, CardHeader, Grid } from "@material-ui/core";
-import LocationOnIcon from "@material-ui/icons/LocationOn";
-import ScheduleIcon from "@material-ui/icons/Schedule";
-import PersonIcon from "@material-ui/icons/Person";
 import { withStyles } from "@material-ui/core/styles";
+import LocationOnIcon from "@material-ui/icons/LocationOn";
+import PersonIcon from "@material-ui/icons/Person";
+import ScheduleIcon from "@material-ui/icons/Schedule";
+import PropTypes from "prop-types";
+import React from "react";
+
 import { Body1 } from "./Typography";
 
 const styles = (theme) => ({
@@ -22,7 +23,10 @@ const styles = (theme) => ({
   },
 });
 
+// Can migrate this to util file later
+/* eslint-disable */
 const titleCase = (str) => ("" + str).charAt(0).toUpperCase() + ("" + str).substr(1);
+/* eslint-enable*/
 
 const MissionCardContent = ({ classes, contentItems }) => (
   <Grid container spacing={1} alignItems="center">

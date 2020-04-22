@@ -1,9 +1,10 @@
-import React from "react";
 import PropTypes from "prop-types";
+import React from "react";
 import { Link } from "react-router-dom";
+
+import { ReactComponent as Logo } from "../../../img/logo.svg";
 import NavigationDrawer from "../NavigationDrawer/index";
 import { AppbarContainer, AppbarDefault, LogoContainer, MenuContainer } from "./Appbar.style";
-import { ReactComponent as Logo } from "../../../img/logo.svg";
 
 const Appbar = ({ children }) => {
   return (

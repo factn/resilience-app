@@ -1,6 +1,6 @@
-import React from "react";
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from "@material-ui/core";
 import PropTypes from "prop-types";
-import { Dialog, Button, DialogContent, DialogTitle, DialogActions } from "@material-ui/core";
+import React from "react";
 
 export default function Popup(props) {
   const { btnText, children, handleClose, open, title } = props;

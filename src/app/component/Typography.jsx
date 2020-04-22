@@ -1,6 +1,5 @@
-import React from "react";
 import { Typography } from "@material-ui/core";
-import theme from "../../theme";
+import React from "react";
 
 const H1 = ({ children, ...rest }) => (
   <Typography variant="h1" {...rest}>

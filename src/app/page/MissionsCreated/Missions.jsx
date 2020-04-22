@@ -1,18 +1,19 @@
-import React from "react";
 import PropTypes from "prop-types";
-import { firestoreConnect, isLoaded, isEmpty } from "react-redux-firebase";
-import { useSelector, connect } from "react-redux";
+import React from "react";
+import { connect, useSelector } from "react-redux";
+import { firestoreConnect, isEmpty, isLoaded } from "react-redux-firebase";
 import { withRouter } from "react-router-dom";
-import { Page } from "../../layout";
 import { compose } from "redux";
-import { MissionList } from "../../component/";
+
+import { MissionList } from "../../component";
+import { Page } from "../../layout";
 
 /**
  * Component for listing created missions
  *
  * @component
  */
-const MissionsPage = ({ auth, history, ...rest }) => {
+const MissionsPage = ({ auth, history }) => {
   const missions = useSelector((state) => state.firestore.ordered.missionsCreated);
 
   return (
@@ -46,6 +47,7 @@ const mapStateToProps = (state) => {
     auth: state.firebase.auth,
   };
 };
+
 export default compose(
   connect(mapStateToProps),
   firestoreConnect((props) => {

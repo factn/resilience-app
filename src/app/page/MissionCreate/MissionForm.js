@@ -1,27 +1,15 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import AlgoliaPlaces from "algolia-places-react";
-import Button from "../../component/Button";
-import { Upload, useStyles } from "./Request.style";
-import { Page } from "../../layout";
-import { ANGOLIA_API_KEY } from "../../../constants";
-import KeyDatePickerContainer from "./KeyDatePickerContainer";
-
-import {
-  Checkbox,
-  Typography,
-  TextField,
-  Container,
-  FormControlLabel,
-  withStyles,
-} from "@material-ui/core";
-import {
-  KeyboardDatePicker,
-  KeyboardTimePicker,
-  MuiPickersUtilsProvider,
-} from "@material-ui/pickers";
 import MomentUtils from "@date-io/date-fns";
+import { Container, TextField, Typography, withStyles } from "@material-ui/core";
+import { KeyboardTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+import AlgoliaPlaces from "algolia-places-react";
+import PropTypes from "prop-types";
+import React from "react";
+
+import { ANGOLIA_API_KEY } from "../../../constants";
+import Button from "../../component/Button";
+import { Page } from "../../layout";
+import KeyDatePickerContainer from "./KeyDatePickerContainer";
+import { Upload, useStyles } from "./Request.style";
 
 const StyledHeader = withStyles({
   root: {
@@ -155,7 +143,8 @@ function MissionForm({ getFile, handleChange, onSubmit, values /*, assignHelper,
           name="recipient"
           onChange={handleChange}
           label="Assign a recipient"
-          helperText="Handle or phone number"
+          helperText="Name or Phone number"
+          required={true}
         />
         <StyledHeader align="left" variant="h2">
           Helper
@@ -167,7 +156,7 @@ function MissionForm({ getFile, handleChange, onSubmit, values /*, assignHelper,
           name="helper"
           onChange={handleChange}
           label="Assign a helper"
-          helperText="Handle or phone number"
+          helperText="Name or Phone number"
           //disabled={autoAssigned}
         />
         {/*<FormControlLabel
@@ -199,6 +188,7 @@ function MissionForm({ getFile, handleChange, onSubmit, values /*, assignHelper,
             label="Select Date"
             format="MM/dd/yyyy"
             value={pickUpDateLabel}
+            required={true}
             onChange={(date) => handleDate(date, "pickUp")}
             KeyboardButtonProps={{
               "aria-label": "change date",
@@ -209,6 +199,7 @@ function MissionForm({ getFile, handleChange, onSubmit, values /*, assignHelper,
             id="time-pickUp"
             label="Pickup time"
             value={pickUp.timeProtoType}
+            required={true}
             onChange={(time) =>
               time && setPickUp({ ...pickUp, time: time.toTimeString(), timeProtoType: time })
             }
@@ -241,6 +232,7 @@ function MissionForm({ getFile, handleChange, onSubmit, values /*, assignHelper,
             label="Select Date"
             format="MM/dd/yyyy"
             value={dropOffDateLabel}
+            required={true}
             onChange={(date) => handleDate(date, "dropOff")}
           />
           <KeyboardTimePicker
@@ -248,6 +240,7 @@ function MissionForm({ getFile, handleChange, onSubmit, values /*, assignHelper,
             id="time-dropOff"
             label="Drop-off time"
             value={dropOff.timeProtoType}
+            required={true}
             onChange={(time) =>
               time && setDropOff({ ...dropOff, time: time.toTimeString(), timeProtoType: time })
             }

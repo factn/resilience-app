@@ -1,21 +1,18 @@
+import { Grid } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import _ from "lodash";
+import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { useFirebase, useFirestore } from "react-redux-firebase";
 import { withRouter } from "react-router-dom";
-import PropTypes from "prop-types";
-import { Page, Card } from "../../layout";
+
 import { Button } from "../../component";
 import ErrorSnackbar from "../../component/Snackbars/ErrorSnackbar";
-import { Grid } from "@material-ui/core";
-
-import { makeStyles } from "@material-ui/core/styles";
-
-import { useFirebase, useFirestore } from "react-redux-firebase";
-import _ from "lodash";
+import { Card, Page } from "../../layout";
 import addressLookUp from "../../utils/addressLookUp";
-
 import LinkGoogleAccount from "./LinkGoogleAccount";
 import LinkPhoneAccount from "./LinkPhoneAccount";
-
 import UserOverview from "./UserOverview";
 
 const useStyles = makeStyles((theme) => ({
@@ -60,7 +57,7 @@ const ProfileControlButtons = ({ cancelAction, editAction, isEdit, saveAction })
 const UserProfile = ({ history }) => {
   const classes = useStyles();
   const firebase = useFirebase();
-  const firestore = useFirestore();
+  const firestore = useFirestore(); /* eslint-disable-line */
 
   /*===SETUP Profile Control===*/
   const firebaseAuth = useSelector((state) => state.firebase.auth);

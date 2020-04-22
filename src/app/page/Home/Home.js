@@ -1,20 +1,16 @@
-import React from "react";
-import PropTypes from "prop-types";
-
-import { withRouter } from "react-router-dom";
-
-import { useSelector, connect } from "react-redux";
-import { compose } from "redux";
-
-import { Page, Card } from "../../layout";
-import { Button, Body1, H1, H2, H3 } from "../../component";
 import { Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import PropTypes from "prop-types";
+import React from "react";
+import { connect, useSelector } from "react-redux";
+import { withRouter } from "react-router-dom";
+import { compose } from "redux";
 
 import HomeImage1 from "../../../img/HomeImage1.png";
 import HomeImage2 from "../../../img/HomeImage2.png";
 import SplashImage1 from "../../../img/SplashImage1.png";
-
+import { Body1, Button, H1, H2, H3 } from "../../component";
+import { Card, Page } from "../../layout";
 import VolunteerHome from "./VolunteerHome";
 
 const useStyles = makeStyles((theme) => ({
@@ -78,7 +74,7 @@ const LoadingComponent = () => {
  *
  * @component
  */
-const HomePage = ({ auth, history, ...rest }) => {
+const HomePage = ({ auth, history }) => {
   const classes = useStyles();
   const isEmpty = useSelector((state) => state.firebase.auth.isEmpty);
   const isLoaded = useSelector((state) => state.firebase.auth.isLoaded);

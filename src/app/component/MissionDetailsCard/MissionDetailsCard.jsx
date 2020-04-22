@@ -1,31 +1,27 @@
-import React from "react";
-import PropTypes from "prop-types";
-
-import { H5, Body2 } from "../";
 import {
-  Divider,
   Box,
   Card,
-  CardHeader,
-  CardContent,
-  CardMedia,
   CardActions,
+  CardContent,
+  CardHeader,
+  CardMedia,
+  Divider,
 } from "@material-ui/core";
-
-import UserPhoneUnverifiedPopup from "../UserPhoneUnverifiedPopup";
-import MissionDetailsIconList from "./MissionDetailsIconList";
-import { MissionDetailsButton, MissionDetailsUnassignMeButton } from "./MissionDetailsButton";
-import MissionDetailsStatus from "./MissionDetailsStatus";
-
-import PersonIcon from "@material-ui/icons/Person";
-import LocationOnIcon from "@material-ui/icons/LocationOn";
-import ScheduleIcon from "@material-ui/icons/Schedule";
-import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
-import cameraImage from "../../../img/placeholderBackground.svg";
-
 import { makeStyles } from "@material-ui/core/styles";
+import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
+import LocationOnIcon from "@material-ui/icons/LocationOn";
+import PersonIcon from "@material-ui/icons/Person";
+import ScheduleIcon from "@material-ui/icons/Schedule";
+import PropTypes from "prop-types";
+import React from "react";
 
+import { Body2, H5 } from "../";
+import cameraImage from "../../../img/placeholderBackground.svg";
 import { Mission } from "../../model";
+import UserPhoneUnverifiedPopup from "../UserPhoneUnverifiedPopup";
+import { MissionDetailsButton, MissionDetailsUnassignMeButton } from "./MissionDetailsButton";
+import MissionDetailsIconList from "./MissionDetailsIconList";
+import MissionDetailsStatus from "./MissionDetailsStatus";
 
 const useStyles = makeStyles((theme) => ({
   cardHeader: {

@@ -1,10 +1,11 @@
-import React from "react";
-import MUIDataTable from "mui-datatables";
 import { useTheme } from "@material-ui/core/styles";
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
-import { MissionName, TimeLocation, Status } from "./ListComponents";
+import MUIDataTable from "mui-datatables";
+import React from "react";
 import { useHistory } from "react-router-dom";
+
 import _ from "../../utils";
+import { MissionName, Status, TimeLocation } from "./ListComponents";
 
 const getMuiTheme = (theme) =>
   createMuiTheme({

@@ -1,12 +1,13 @@
-import firebase from "firebase";
-import React from "react";
-import PropTypes from "prop-types";
-import { useStyles, StyledHeader } from "./ConnectSocialMedia.style";
-import { Page } from "../../../layout";
 import { Container } from "@material-ui/core";
-import { Body1 } from "../../../component";
 import { Button } from "@material-ui/core";
+import firebase from "firebase";
+import PropTypes from "prop-types";
+import React from "react";
+
+import { Body1 } from "../../../component";
 import FirebaseAuthUi from "../../../component/FirebaseAuthUi/FirebaseAuthUi";
+import { Page } from "../../../layout";
+import { StyledHeader, useStyles } from "./ConnectSocialMedia.style";
 
 /**
  * Connect Social Media page for use with Signup

@@ -1,12 +1,12 @@
+import { Avatar, Grid } from "@material-ui/core";
+import _ from "lodash";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { Button } from "../../component";
-import { Grid, Avatar } from "@material-ui/core";
+import { useFirebase } from "react-redux-firebase";
 import { Link } from "react-router-dom";
-import PhotoSelection from "./photoselection.jsx";
 
-import { useFirebase, useFirestore } from "react-redux-firebase";
-import _ from "lodash";
+import { Button } from "../../component";
+import PhotoSelection from "./photoselection.jsx";
 
 /**
  * Return the component displaying the profile image and enabling the ability to
