@@ -143,7 +143,7 @@ function MissionForm({ getFile, handleChange, onSubmit, values /*, assignHelper,
           name="recipient"
           onChange={handleChange}
           label="Assign a recipient"
-          helperText="Handle or phone number"
+          helperText="Name or Phone number"
         />
         <StyledHeader align="left" variant="h2">
           Helper
@@ -155,7 +155,7 @@ function MissionForm({ getFile, handleChange, onSubmit, values /*, assignHelper,
           name="helper"
           onChange={handleChange}
           label="Assign a helper"
-          helperText="Handle or phone number"
+          helperText="Name or Phone number"
           //disabled={autoAssigned}
         />
         {/*<FormControlLabel
