@@ -25,9 +25,12 @@ const useStyles = makeStyles((theme) => ({
   linkedAccountContainer: {
     paddingTop: theme.spacing(2),
   },
+  buttonCancel: {
+    backgroundColor: theme.color.secondaryBlue,
+  },
 }));
 
-const ProfileControlButtons = ({ cancelAction, editAction, isEdit, saveAction }) => {
+const ProfileControlButtons = ({ cancelAction, classes, editAction, isEdit, saveAction }) => {
   return isEdit ? (
     <Grid spacing={2} justify="center" container>
       <Grid item>
@@ -36,7 +39,7 @@ const ProfileControlButtons = ({ cancelAction, editAction, isEdit, saveAction })
         </Button>
       </Grid>
       <Grid item>
-        <Button size="large" onClick={cancelAction}>
+        <Button size="large" onClick={cancelAction} className={classes.buttonCancel}>
           Cancel
         </Button>
       </Grid>
@@ -170,6 +173,7 @@ const UserProfile = ({ history }) => {
           saveAction={saveProfileAction}
           cancelAction={cancelProfileAction}
           editAction={editProfileAction}
+          classes={classes}
         />
       </Grid>
       <Card>
