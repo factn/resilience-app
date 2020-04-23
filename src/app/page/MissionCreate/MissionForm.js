@@ -143,7 +143,8 @@ function MissionForm({ getFile, handleChange, onSubmit, values /*, assignHelper,
           name="recipient"
           onChange={handleChange}
           label="Assign a recipient"
-          helperText="Handle or phone number"
+          helperText="Name or Phone number"
+          required={true}
         />
         <StyledHeader align="left" variant="h2">
           Helper
@@ -155,7 +156,7 @@ function MissionForm({ getFile, handleChange, onSubmit, values /*, assignHelper,
           name="helper"
           onChange={handleChange}
           label="Assign a helper"
-          helperText="Handle or phone number"
+          helperText="Name or Phone number"
           //disabled={autoAssigned}
         />
         {/*<FormControlLabel
@@ -187,6 +188,7 @@ function MissionForm({ getFile, handleChange, onSubmit, values /*, assignHelper,
             label="Select Date"
             format="MM/dd/yyyy"
             value={pickUpDateLabel}
+            required={true}
             onChange={(date) => handleDate(date, "pickUp")}
             KeyboardButtonProps={{
               "aria-label": "change date",
@@ -197,6 +199,7 @@ function MissionForm({ getFile, handleChange, onSubmit, values /*, assignHelper,
             id="time-pickUp"
             label="Pickup time"
             value={pickUp.timeProtoType}
+            required={true}
             onChange={(time) =>
               time && setPickUp({ ...pickUp, time: time.toTimeString(), timeProtoType: time })
             }
@@ -229,6 +232,7 @@ function MissionForm({ getFile, handleChange, onSubmit, values /*, assignHelper,
             label="Select Date"
             format="MM/dd/yyyy"
             value={dropOffDateLabel}
+            required={true}
             onChange={(date) => handleDate(date, "dropOff")}
           />
           <KeyboardTimePicker
@@ -236,6 +240,7 @@ function MissionForm({ getFile, handleChange, onSubmit, values /*, assignHelper,
             id="time-dropOff"
             label="Drop-off time"
             value={dropOff.timeProtoType}
+            required={true}
             onChange={(time) =>
               time && setDropOff({ ...dropOff, time: time.toTimeString(), timeProtoType: time })
             }

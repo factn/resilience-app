@@ -73,7 +73,7 @@ const UserProfile = ({ handleChange, onSubmit, values }) => {
           value={values.phone || ""}
           name="phone"
           onChange={handleChange}
-          label="Phone Number"
+          label="Mobile Number"
           helperText="Used for receiving mission updates (SMS/texts)"
         />
 
@@ -91,9 +91,10 @@ const UserProfile = ({ handleChange, onSubmit, values }) => {
         <TextField
           className={classes.textField}
           fullWidth={true}
-          helperText="Describe your top 2 skills that could be useful for us to know to match you with missions"
-          label="Tell us a bit about yourself"
+          helperText="Is your car a) compact, b) SUV, or c) truck?"
+          label="Tell us a bit about yourself and type of car you have"
           multiline
+          rows={5}
           name="description"
           onChange={handleChange}
           value={values.description || ""}

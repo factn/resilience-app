@@ -13,7 +13,7 @@ function RequestPage() {
       <Switch>
         <Route exact path="/request" component={Start} />
         <Route exact path="/request/foodbox" component={FoodboxFlow} />
-        <Route path="/request/foodbox/success" component={SuccessPage} />
+        <Route path="/request/foodbox/success/:type" component={SuccessPage} />
         <Route path="/request/foodbox/error" component={ErrorPage} />
       </Switch>
     </Page>
