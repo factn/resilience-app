@@ -1,7 +1,7 @@
 import { Grid, TextField } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import _ from "lodash";
-import React from "react";
+import React, { useEffect } from "react";
 
 import { H5 } from "../../component";
 import { useScript } from "../../hooks";
@@ -50,7 +50,7 @@ const UserStatus = ({ profile, setProfile, view }) => {
       type: ["(cities)"],
     };
     const addrElem = document.getElementById("address");
-    const googleRef = !!window && !!window.google ? window.google : undefined;
+    const googleRef = window.google;
 
     if (googleRef !== undefined) {
       autocomplete = new googleRef.maps.places.Autocomplete(addrElem, options);
@@ -59,9 +59,11 @@ const UserStatus = ({ profile, setProfile, view }) => {
     }
   };
 
-  if (loaded && !error) {
-    handleScriptLoad();
-  }
+  useEffect(() => {
+    if (loaded && !error) {
+      handleScriptLoad();
+    }
+  });
 
   return (
     <Grid container direction="column" justify="center" className={classes.root} spacing={2}>
