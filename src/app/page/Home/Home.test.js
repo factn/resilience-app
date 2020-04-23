@@ -5,6 +5,8 @@ import { MemoryRouter } from "react-router-dom";
 import { createStore } from "redux";
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
 
+import theme from "../../../theme";
+import ThemeProvider from "../../component/ThemeProvider";
 import User from "../../model/User";
 import Home from "./Home";
 import theme from "../../../theme";
@@ -32,13 +34,13 @@ describe("Home page", () => {
     const customTheme = createMuiTheme(theme);
 
     return render(
-      <MuiThemeProvider theme={customTheme}>
-        <Provider store={store}>
-          <MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter>
+          <ThemeProvider theme={theme}>
             <Home />
-          </MemoryRouter>
-        </Provider>
-      </MuiThemeProvider>
+          </ThemeProvider>
+        </MemoryRouter>
+      </Provider>
     );
   }
 
