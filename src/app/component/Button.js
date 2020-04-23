@@ -1,5 +1,5 @@
-import React from "react";
 import { Button } from "@material-ui/core";
+import React from "react";
 
 export function CustomizeButton({ children, text, ...rest }) {
   return (

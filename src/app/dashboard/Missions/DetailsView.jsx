@@ -1,21 +1,19 @@
-import React from "react";
-import _ from "../../utils/lodash";
-
-import { H5, Body2 } from "../../component";
-import Button from "../../component/Button";
-import { Box, Grid, Container, Paper } from "@material-ui/core";
-
-import LocationOnIcon from "@material-ui/icons/LocationOn";
-import AccessTimeIcon from "@material-ui/icons/AccessTime";
-import CloseIcon from "@material-ui/icons/Close";
-import PersonIcon from "@material-ui/icons/Person";
-import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
-import PanToolIcon from "@material-ui/icons/PanTool";
-
+import { Box, Container, Grid, Paper } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { isLoaded, isEmpty } from "react-redux-firebase";
+import AccessTimeIcon from "@material-ui/icons/AccessTime";
+import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
+import CloseIcon from "@material-ui/icons/Close";
+import LocationOnIcon from "@material-ui/icons/LocationOn";
+import PanToolIcon from "@material-ui/icons/PanTool";
+import PersonIcon from "@material-ui/icons/Person";
+import React from "react";
+import { isEmpty, isLoaded } from "react-redux-firebase";
 import { useHistory } from "react-router-dom";
+
+import { Body2 } from "../../component";
+import Button from "../../component/Button";
 import { Mission } from "../../model";
+import _ from "../../utils/lodash";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -65,12 +63,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 /**=====BASE COMPONENTs======**/
-const RowLabel = ({ header, classes }) => (
+const RowLabel = ({ classes, header }) => (
   <Body2 align="left" className={classes.rowLabel} color="textPrimary">
     <b>{header}</b>
   </Body2>
 );
-const RowBody = ({ content, component, Icon, classes }) => {
+const RowBody = ({ classes, component, content, Icon }) => {
   if (component) {
   } else if (_.isEmpty(content) && !_.isDate(content)) {
     content = "";
@@ -89,7 +87,7 @@ const RowBody = ({ content, component, Icon, classes }) => {
 
 /**=====ROW COMPONENTS=======*/
 
-const MissionStatusRow = ({ mission, classes }) => {
+const MissionStatusRow = ({ classes, mission }) => {
   let status = _.get(mission, "status");
   switch (status) {
     case Mission.Status.unassigned:
@@ -99,7 +97,7 @@ const MissionStatusRow = ({ mission, classes }) => {
   }
 };
 
-const MissionFundedStatusRow = ({ mission, classes }) => {
+const MissionFundedStatusRow = ({ classes, mission }) => {
   let fundedStatus = _.get(mission, "fundedStatus");
   switch (fundedStatus) {
     case Mission.FundedStatus.fundedbydonation:
@@ -109,13 +107,14 @@ const MissionFundedStatusRow = ({ mission, classes }) => {
       fundedStatus = "Funded By Recipient";
       break;
     case Mission.FundedStatus.notfunded:
+    default:
       fundedStatus = "Not Yet Funded";
       break;
   }
   return <RowBody Icon={AttachMoneyIcon} content={fundedStatus} classes={classes} />;
 };
 
-const MissionDetailsRow = ({ mission, classes }) => {
+const MissionDetailsRow = ({ classes, mission }) => {
   let type = _.get(mission, "type");
   let details = _.get(mission, "missionDetails");
   if (type === "foodbox") {
@@ -124,7 +123,7 @@ const MissionDetailsRow = ({ mission, classes }) => {
   return null;
 };
 
-const FoodBoxDetailsRow = ({ details, classes }) => {
+const FoodBoxDetailsRow = ({ classes, details }) => {
   return (
     <div>
       {_.get(details, "needs")?.map((box, index) => (

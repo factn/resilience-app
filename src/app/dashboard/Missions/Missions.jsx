@@ -1,18 +1,16 @@
-import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router";
-import { makeStyles } from "@material-ui/core/styles";
-import { connect } from "react-redux";
-import Grid from "@material-ui/core/Grid";
-import MapIcon from "@material-ui/icons/Map";
-import ListIcon from "@material-ui/icons/List";
 import Box from "@material-ui/core/Box";
+import Grid from "@material-ui/core/Grid";
+import { makeStyles } from "@material-ui/core/styles";
+import React, { useEffect, useState } from "react";
+import { connect } from "react-redux";
+import { useHistory } from "react-router";
 
-import _ from "../../utils";
 import { Button } from "../../component";
 import { Mission } from "../../model";
-import MapView from "./MapView";
-import ListView from "./ListView";
+import _ from "../../utils";
 import DetailsView from "./DetailsView";
+import ListView from "./ListView";
+import MapView from "./MapView";
 
 const useStyles = makeStyles((theme) => ({
   root: {

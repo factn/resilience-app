@@ -1,10 +1,10 @@
-import React from "react";
+import { Button, Container } from "@material-ui/core";
 import PropTypes from "prop-types";
-import { useStyles, StyledHeader } from "./SignupSuccess.style";
-import { Page } from "../../../layout";
-import { Container, Button } from "@material-ui/core";
+import React from "react";
+
 import { Body1 } from "../../../component";
-import SuccessSnackbar from "../../../component/Snackbars/SuccessSnackbar";
+import { Page } from "../../../layout";
+import { StyledHeader, useStyles } from "./SignupSuccess.style";
 
 /**
  * Success page for Signup
@@ -16,10 +16,6 @@ function SignupSuccess({ handleButtonClick }) {
   return (
     <Page>
       <Container classes={{ root: classes.root }}>
-        <SuccessSnackbar
-          open
-          successMessage="Your account request has been successfully submitted and is pending approval"
-        />
         <StyledHeader main align="center" variant="h1">
           Thanks!
         </StyledHeader>

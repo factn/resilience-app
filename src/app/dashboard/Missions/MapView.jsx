@@ -1,12 +1,10 @@
-import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
+import { makeStyles } from "@material-ui/core/styles";
 import FastfoodIcon from "@material-ui/icons/Fastfood";
-
-import { Map, TileLayer, Marker } from "react-leaflet";
 import { DivIcon } from "leaflet";
-
+import React from "react";
 import { renderToString } from "react-dom/server";
+import { Map, Marker, TileLayer } from "react-leaflet";
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -81,16 +79,20 @@ const Overview = ({ missions, selectedMission }) => {
     iconAnchor: [22, 64], // half of width + height
   });
 
+  const getMarker = (mission) => {
+    if (mission.id === selectedMission) {
+      return <Marker key={mission.id} position={mission.deliveryLocation} icon={HoverIcon} />;
+    } else {
+      return <Marker key={mission.id} position={mission.deliveryLocation} icon={FoodIcon} />;
+    }
+  };
+
   return (
     <Box height="100%">
       <Map center={position} zoom={12} className={`${classes.map} data-test-leaftleft-map`}>
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
         {filtered?.map((mission) => {
-          if (mission.id === selectedMission) {
-            return <Marker key={mission.id} position={mission.deliveryLocation} icon={HoverIcon} />;
-          } else {
-            return <Marker key={mission.id} position={mission.deliveryLocation} icon={FoodIcon} />;
-          }
+          return getMarker(mission);
         })}
       </Map>
     </Box>

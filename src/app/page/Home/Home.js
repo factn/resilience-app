@@ -1,20 +1,17 @@
-import React from "react";
-import PropTypes from "prop-types";
-
-import { withRouter } from "react-router-dom";
-
-import { useSelector, connect } from "react-redux";
-import { compose } from "redux";
-
-import { Page, Card } from "../../layout";
-import { Button, Body1, H1, H2, H3 } from "../../component";
 import { Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import PropTypes from "prop-types";
+import React from "react";
+import { connect, useSelector } from "react-redux";
+import { withRouter } from "react-router-dom";
+import { compose } from "redux";
 
-import { StyledHomeButton } from "./Home.style";
 import HomeImage1 from "../../../img/HomeImage1.png";
 import HomeImage2 from "../../../img/HomeImage2.png";
 import SplashImage1 from "../../../img/SplashImage1.png";
+import { Body1, Button, H1, H2, H3 } from "../../component";
+import { Card, Page } from "../../layout";
+import VolunteerHome from "./VolunteerHome";
 
 const useStyles = makeStyles((theme) => ({
   HomeImage: {
@@ -77,7 +74,7 @@ const LoadingComponent = () => {
  *
  * @component
  */
-const HomePage = ({ history, ...rest }) => {
+const HomePage = ({ auth, history }) => {
   const classes = useStyles();
   const isEmpty = useSelector((state) => state.firebase.auth.isEmpty);
   const isLoaded = useSelector((state) => state.firebase.auth.isLoaded);
@@ -95,7 +92,7 @@ const HomePage = ({ history, ...rest }) => {
               onClick={() => history.push("/login")}
               data-testid="btn-login"
             >
-              Signin
+              Sign In
             </Button>
           </Grid>
           <Grid container justify="center">
@@ -108,7 +105,7 @@ const HomePage = ({ history, ...rest }) => {
               onClick={() => history.push("/signup")}
               data-testid="btn-signup"
             >
-              Sign Up Here
+              Sign Up
             </Button>
           </Grid>
           <Card>
@@ -135,12 +132,7 @@ const HomePage = ({ history, ...rest }) => {
         </Grid>
       ) : (
         <>
-          <StyledHomeButton
-            onClick={() => history.push("/missions/new")}
-            text="Request Help"
-            color="secondary"
-            data-testid="btn-request-help"
-          />
+          <VolunteerHome currentUser={auth} />
         </>
       )}
     </Page>

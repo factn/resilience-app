@@ -1,14 +1,13 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
-
-import { H5 } from "../";
-import { Grid, Button, Card, CardHeader, CardContent, CardActions } from "@material-ui/core";
-import selectImage from "../../../img/selectImage.svg";
-import CloseIcon from "@material-ui/icons/Close";
-import { color } from "../../../theme";
+import { Button, Card, CardActions, CardContent, CardHeader, Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import CloseIcon from "@material-ui/icons/Close";
+import PropTypes from "prop-types";
+import React, { useState } from "react";
 import styled from "styled-components";
 
+import { H5 } from "../";
+import selectImage from "../../../img/selectImage.svg";
+import { color } from "../../../theme";
 import MissionDeliveredImagePicker from "./MissionDeliveredImagePicker";
 
 const StyledButton = styled(Button)`

@@ -1,5 +1,5 @@
-import { makeStyles } from "@material-ui/core/styles";
 import { Typography } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 import styled from "styled-components";
 
 export const useStyles = makeStyles((theme) => ({
@@ -18,6 +18,7 @@ export const useStyles = makeStyles((theme) => ({
   },
   textField: {
     marginTop: theme.spacing(2),
+    textAlign: "left",
   },
   checkBox: {
     marginTop: theme.spacing(2),

@@ -1,18 +1,16 @@
+import { Box, Grid } from "@material-ui/core";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
+import { makeStyles } from "@material-ui/core/styles";
+import ArrowRightAltIcon from "@material-ui/icons/ArrowRightAlt";
+import LocationOnIcon from "@material-ui/icons/LocationOn";
+import PanToolIcon from "@material-ui/icons/PanTool";
 import React from "react";
 import styled from "styled-components";
-import Select from "@material-ui/core/Select";
-import FormControl from "@material-ui/core/FormControl";
-import { Box, Grid, Chip } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 
-import _ from "../../utils/lodash";
 import { Button } from "../../component";
 import Mission from "../../model/Mission";
-
-import PanToolIcon from "@material-ui/icons/PanTool";
-import AccessTimeIcon from "@material-ui/icons/AccessTime";
-import LocationOnIcon from "@material-ui/icons/LocationOn";
-import ArrowRightAltIcon from "@material-ui/icons/ArrowRightAlt";
+import _ from "../../utils/lodash";
 
 const useStyles = makeStyles((theme) => ({
   row: {
@@ -102,7 +100,7 @@ const AcceptedStatus = ({ mission }) => {
   return <RowBody Icon={PanToolIcon}>{volunteerName} - accepted</RowBody>;
 };
 const Action = ({ mission }) => {
-  let { status, id } = mission;
+  let { id, status } = mission;
   let StatusAction = null;
   switch (status) {
     case Mission.Status.unassigned:
@@ -113,6 +111,7 @@ const Action = ({ mission }) => {
       break;
     case Mission.Status.assigned:
       StatusAction = <AssignedStatus mission={mission} />;
+      break;
     case Mission.Status.accepted:
     default:
       StatusAction = <AcceptedStatus mission={mission} />;
@@ -122,7 +121,7 @@ const Action = ({ mission }) => {
 };
 /** END ACTION*/
 
-const RowBody = ({ Icon, children }) => {
+const RowBody = ({ children, Icon }) => {
   return (
     <Grid item container spacing={1}>
       <Grid item>{Icon && <Icon color="primary" />}</Grid>
@@ -132,35 +131,7 @@ const RowBody = ({ Icon, children }) => {
     </Grid>
   );
 };
-
-const TimeRow = ({ time }) => {
-  const classes = useStyles();
-  if (!time) return null;
-  let startTime = _.get(time, "startTime");
-
-  if (_.isEmpty(startTime) && !_.isDate(startTime)) {
-    startTime = "";
-  }
-
-  let TimeTypeComponent;
-  let timeType = _.get(time, "timeWindowType");
-  if (timeType === Mission.TimeWindowType.asap) {
-    TimeTypeComponent = () => (
-      <div>
-        <Chip label="ASAP" className={classes.asap} />
-      </div>
-    );
-  } else {
-    TimeTypeComponent = () => <div>{timeType}</div>;
-  }
-  return (
-    <RowBody Icon={AccessTimeIcon}>
-      {startTime}
-      <TimeTypeComponent />
-    </RowBody>
-  );
-};
-const LocationRow = ({ location, label }) => {
+const LocationRow = ({ label, location }) => {
   if (!location) return null;
   return (
     <>
@@ -188,7 +159,7 @@ const FoodBoxDetails = ({ details, notes }) => {
 };
 
 const Details = ({ mission }) => {
-  let { type, missionDetails } = mission;
+  let { missionDetails, type } = mission;
   let SpecificDetails = null;
   if (type === "foodbox") {
     SpecificDetails = <FoodBoxDetails type={type} details={missionDetails} />;

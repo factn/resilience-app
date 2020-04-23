@@ -1,13 +1,13 @@
+import BaseModel from "./BaseModel";
 import {
   Location,
-  TimeWindow,
-  TimeWindowType,
+  MissionFundedStatus,
   MissionInterface,
   MissionStatus,
   MissionType,
-  MissionFundedStatus,
+  TimeWindow,
+  TimeWindowType,
 } from "./schema";
-import BaseModel from "./BaseModel";
 
 const defaultLocation: Location = {
   address: "",

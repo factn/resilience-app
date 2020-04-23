@@ -1,8 +1,8 @@
-import React, { useEffect, useRef, useMemo } from "react";
+import React, { useMemo } from "react";
 import ReactDOM from "react-dom";
 
 import { usePaypal } from "../../hooks";
-import { PurchaseUnit, OrderDetails } from "./PaypalTypes";
+import { Order, OrderDetails, PurchaseUnit } from "./PaypalTypes";
 
 type Props = {
   cart: PurchaseUnit | PurchaseUnit[];
@@ -19,11 +19,19 @@ export default function PaypalCheckout({ cart, onApprove, onError }: Props) {
   function createOrder(data: any, actions: any) {
     return actions.order.create({
       purchase_units: Array.isArray(cart) ? cart : [cart],
-    });
+      application_context: {
+        shipping_preference: "NO_SHIPPING",
+      },
+    } as Order);
   }
 
   const PaypalButtons = useMemo(
-    () => paypal && paypal.Buttons.driver("react", { React, ReactDOM }),
+    () =>
+      paypal &&
+      paypal.Buttons.driver("react", {
+        React,
+        ReactDOM,
+      }),
     [paypal]
   );
 
@@ -34,6 +42,11 @@ export default function PaypalCheckout({ cart, onApprove, onError }: Props) {
         onClick={verify}
         createOrder={createOrder}
         onError={onError}
+        style={{
+          tagline: false,
+          color: "gold",
+        }}
+        fundingSource={paypal.FUNDING.PAYPAL}
       />
     )
   );

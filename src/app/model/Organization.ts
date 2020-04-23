@@ -1,5 +1,5 @@
-import { OrganizationInterface, Location, Resource } from "./schema";
 import BaseModel from "./BaseModel";
+import { OrganizationInterface } from "./schema";
 
 const defaultData: OrganizationInterface = {
   id: "",

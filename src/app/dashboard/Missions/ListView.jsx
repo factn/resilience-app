@@ -1,11 +1,9 @@
-import React from "react";
-import MUIDataTable from "mui-datatables";
 import { useTheme } from "@material-ui/core/styles";
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
+import MUIDataTable from "mui-datatables";
+import React from "react";
+
 import ListItem from "./ListItem";
-import { useHistory } from "react-router-dom";
-import _ from "../../utils";
-import { te } from "date-fns/esm/locale";
 
 const getMuiTheme = (theme) =>
   createMuiTheme({
@@ -102,11 +100,7 @@ const config = [
   },
 ];
 
-const sort = (data, row, order) => {
-  let sorted = _.orderBy(data, (row) => row.data[0].status, [order]);
-  return sorted;
-};
-const MissionsListView = ({ missions, setSelectedMission, setDetailsMission, selectedMission }) => {
+const MissionsListView = ({ missions, selectedMission, setDetailsMission, setSelectedMission }) => {
   const theme = useTheme();
   const innerTheme = getMuiTheme(theme);
   function formatData() {

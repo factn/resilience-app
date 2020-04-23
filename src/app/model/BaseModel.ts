@@ -1,4 +1,5 @@
 import { getFirebase } from "react-redux-firebase";
+
 import { merge, sanitize } from "./util/dataObjectUtil";
 
 type CollectionReference = firebase.firestore.CollectionReference;
