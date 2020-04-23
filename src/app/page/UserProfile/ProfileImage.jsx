@@ -3,7 +3,6 @@ import _ from "lodash";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useFirebase } from "react-redux-firebase";
-import { Link } from "react-router-dom";
 
 import { Button } from "../../component";
 import PhotoSelection from "./photoselection.jsx";
@@ -69,9 +68,9 @@ const ProfileImage = ({ classes, profile, setProfile }) => {
   ) : (
     <Grid item>
       <Avatar className={classes.profileImage} src={profilePhoto} alt={displayName} />
-      <Link to="" style={{ textDecoration: "none" }} onClick={setEdit}>
+      <Button className={classes.profileEditButton} onClick={setEdit}>
         <h4>Change Picture</h4>
-      </Link>
+      </Button>
     </Grid>
   );
 };
