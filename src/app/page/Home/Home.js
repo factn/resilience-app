@@ -1,126 +1,18 @@
-import { makeStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 import React from "react";
 import { connect, useSelector } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { compose } from "redux";
-
 import { Page } from "../../layout";
 import { Button, H1, H3 } from "../../component";
 import { Card, Grid, Box } from "@material-ui/core";
-
-import { OrgLogo, TransparentButton, Text, Heading, SubHeading, PhoneNo } from "./Home.style";
+import { useStyles, OrgLogo, TransparentButton, Text, Heading, SubHeading, Link } from "./Home.style";
 import { PublicAppbar, DefaultAppbar } from "../../layout/Appbar";
-import HomeImage2 from "../../../img/HomeImage2.png";
-import HomeImage3 from "../../../img/HomeImage3.png";
-import HomeImage4 from "../../../img/HomeImage4.png";
 import HomeImage5 from "../../../img/HomeImage5.svg";
 import SplashImage1 from "../../../img/SplashImage1.png";
 import Emoticon from "../../../img/ic_smiley_emoticon.svg";
 import PhoneIcon from "../../../img/ic_phone.svg";
-
 import VolunteerHome from "./VolunteerHome";
-
-const useStyles = makeStyles((theme) => ({
-  HomeImage: {
-    width: "100%",
-  },
-  SigninButton: {
-    width: "200px",
-    height: "48px",
-    margin: "24px auto",
-  },
-  SignupButton: {
-    width: "250px",
-    height: "48px",
-    margin: "12px auto",
-  },
-  LoadingScreenContainer: {
-    width: "inherit",
-    overflowX: "hidden",
-  },
-  SplashImage: {
-    height: "calc(100vh - 98px)",
-  },
-  SplashTitle: {
-    position: "absolute",
-    top: "30vh",
-    left: "0",
-    right: "0",
-    margin: "auto",
-    color: "white",
-  },
-  SplashSub: {
-    position: "absolute",
-    top: "40vh",
-    left: "0",
-    right: "0",
-    margin: "auto",
-    color: "white",
-    fontSize: "24px",
-  },
-  OrgBackgroundImg: {
-    backgroundImage: `url(${SplashImage1})`,
-    backgroundSize: "100% 100%",
-    height: "450px"
-  },
-  OrgDetails: {
-    marginTop: theme.spacing(1),
-    marginBottom: theme.spacing(1)
-  },
-  NeedHelpSection: {
-    backgroundImage: `url(${HomeImage3})`,
-    backgroundSize: "100% 100%",
-    height: "240px",
-    display: "flex"
-  },
-  WhiteBgText: {
-    background: "rgb(255, 255, 255, 0.8)",
-    padding: `${theme.spacing(1)}px ${theme.spacing(2)}px`,
-    margin: "auto"
-  },
-  BgBlack: {
-    backgroundColor: "black"
-  },
-  WhiteBgTxt: {
-    padding: "10px",
-    background: "rgb(255, 255, 255, 0.8)"
-  },
-  WantToHelpSection: {
-    backgroundImage: `url(${HomeImage4})`,
-    backgroundSize: "100% 100%",
-    height: "240px",
-    display: "flex"
-  },
-  Emoticon: {
-    height: "36px",
-    width: "36px",
-    marginLeft: theme.spacing(1),
-    verticalAlign: "middle"
-  },
-  PurpleBg: {
-    backgroundColor: theme.color.deepPurple
-  },
-  RequestByPhoneBg: {
-    backgroundImage: `url(${HomeImage2})`,
-    backgroundSize: "100% 100%",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    height: "350px"
-  },
-  PhoneCard: {
-    padding: theme.spacing(2),
-    overflow: "visible",
-    position: "absolute",
-    "& > img": {
-      position: "absolute",
-      top: "0px",
-      left: "0px",
-      transform: "translate(-50%, -50%)"
-    }
-  }
-}));
 
 const LoadingComponent = () => {
   const classes = useStyles();
@@ -147,17 +39,19 @@ const HomePage = ({ auth, history }) => {
     <Page isLoaded={isLoaded} LoadingComponent={LoadingComponent} Appbar={isEmpty ? PublicAppbar : DefaultAppbar}>
       {isEmpty ? (
         <>
-          <Box className={classes.OrgBackgroundImg} p={2}>
-            <OrgLogo title="OrganisationLogo" role="img" />
-            <Heading color="white" className={classes.OrgDetails}>Organization Name</Heading>
-            <SubHeading color="white" className={`${classes.OrgDetails} ${classes.White}`}>Neighbors helping neighbors</SubHeading>
-            <TransparentButton
-              className={classes.SigninButton}
-              onClick={() => history.push("/login")}
-              data-testid="btn-login"
-            >
-              Sign in
+          <Box className={classes.OrgBlock} p={1}>
+            <Box>
+              <OrgLogo title="OrganisationLogo" role="img" />
+              <Heading color="white">Organization Name</Heading>
+              <SubHeading color="white">Neighbors helping neighbors</SubHeading>
+              <TransparentButton
+                className={classes.SigninButton}
+                onClick={() => history.push("/login")}
+                data-testid="btn-login"
+              >
+                Sign in
             </TransparentButton>
+            </Box>
           </Box>
           <Box className={classes.BgBlack} p={1}>
             <Text color="white">Powered by</Text>&nbsp;
@@ -166,7 +60,7 @@ const HomePage = ({ auth, history }) => {
           <Box p={2} textAlign="left">
             <Text>We're a grassroots team in Studio City, CA getting fresh farm produce to our neighbors in need.</Text>
           </Box>
-          <Box className={classes.NeedHelpSection} px={8} py={4}>
+          <Box className={classes.NeedHelpSection}>
             <Box className={classes.WhiteBgText}>
               <Heading>Need Help?</Heading>
             </Box>
@@ -188,7 +82,7 @@ const HomePage = ({ auth, history }) => {
           <Box mb={2}>
             <img src={HomeImage5} alt="" />
           </Box>
-          <Box className={classes.WantToHelpSection} px={8} py={4}>
+          <Box className={classes.WantToHelpSection}>
             <Box className={classes.WhiteBgText}>
               <Heading>Want to help?</Heading>
             </Box>
@@ -207,7 +101,7 @@ const HomePage = ({ auth, history }) => {
             </Button>
             </Box>
           </Box>
-          <Box className={classes.PurpleBg} textAlign="left" p={2}>
+          <Box textAlign="left" p={2} bgcolor="primary.dark">
             <Box>
               <Heading color="white" style={{ display: "inline", verticalAlign: "middle" }}>Donate</Heading>
               <img src={Emoticon} className={classes.Emoticon} alt="smiley"></img>
@@ -229,7 +123,8 @@ const HomePage = ({ auth, history }) => {
           <Box className={classes.RequestByPhoneBg}>
             <Card className={classes.PhoneCard}>
               <img src={PhoneIcon} alt="call"></img>
-              <Text>To request food by phone, call</Text>&nbsp;<PhoneNo>555-555-5555.</PhoneNo>
+              <Text>To request food by phone, call</Text>&nbsp;
+              <Link href="tel:+555-555-5555">555-555-5555.</Link>
             </Card>
           </Box>
         </>

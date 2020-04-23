@@ -3,9 +3,11 @@ import React from "react";
 import { Provider } from "react-redux";
 import { MemoryRouter } from "react-router-dom";
 import { createStore } from "redux";
+import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
 
 import User from "../../model/User";
 import Home from "./Home";
+import theme from "../../../theme";
 
 describe("Home page", () => {
   beforeAll(() => {
@@ -27,13 +29,16 @@ describe("Home page", () => {
     };
 
     const store = createStore(() => initialState);
+    const customTheme = createMuiTheme(theme);
 
     return render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <Home />
-        </MemoryRouter>
-      </Provider>
+      <MuiThemeProvider theme={customTheme}>
+        <Provider store={store}>
+          <MemoryRouter>
+            <Home />
+          </MemoryRouter>
+        </Provider>
+      </MuiThemeProvider>
     );
   }
 

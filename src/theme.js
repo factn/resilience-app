@@ -37,6 +37,7 @@ export default {
     },
     primary: {
       main: color.vibrantPurple,
+      dark: color.deepPurple,
     },
     secondary: {
       main: color.secondaryBlue,

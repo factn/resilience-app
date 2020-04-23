@@ -1,43 +1,118 @@
 import styled from "styled-components";
-
+import { makeStyles } from "@material-ui/core/styles";
 import Button from "../../component/Button";
 import { ReactComponent as Logo } from "../../../logo.svg";
+import HomeImage2 from "../../../img/HomeImage2.png";
+import HomeImage3 from "../../../img/HomeImage3.png";
+import HomeImage4 from "../../../img/HomeImage4.png";
+import SplashImage1 from "../../../img/SplashImage1.png";
 
-export const Header = styled.div`
-  height: 100%;
-  display: flex;
-  padding: 0 25px;
-`;
-
-export const HeaderSection = styled.div`
-  flex-grow: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 16px;
-  font-weight: bold;
-  font-family: Arimo;
-  color: #150e60;
-  > a {
-    color: inherit;
-    text-decoration: none;
+export const useStyles = makeStyles((theme) => ({
+  SigninButton: {
+    width: "200px",
+    height: "48px",
+    margin: "24px auto",
+  },
+  SignupButton: {
+    width: "100%",
+    height: "48px",
+    margin: "12px auto",
+  },
+  LoadingScreenContainer: {
+    width: "inherit",
+    overflowX: "hidden",
+  },
+  SplashImage: {
+    height: "calc(100vh - 98px)",
+  },
+  SplashTitle: {
+    position: "absolute",
+    top: "30vh",
+    left: "0",
+    right: "0",
+    margin: "auto",
+    color: "white",
+  },
+  SplashSub: {
+    position: "absolute",
+    top: "40vh",
+    left: "0",
+    right: "0",
+    margin: "auto",
+    color: "white",
+    fontSize: "24px",
+  },
+  OrgBlock: {
+    backgroundImage: `url(${SplashImage1})`,
+    backgroundSize: "100% 100%",
+    minHeight: "450px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    [theme.breakpoints.down('xs')]: {
+      minHeight: "350px"
+    }
+  },
+  NeedHelpSection: {
+    backgroundImage: `url(${HomeImage3})`,
+    backgroundSize: "100% 100%",
+    height: "240px",
+    display: "flex",
+    [theme.breakpoints.down('xs')]: {
+      height: "150px"
+    }
+  },
+  WhiteBgText: {
+    background: "rgb(255, 255, 255, 0.8)",
+    padding: `${theme.spacing(1)}px ${theme.spacing(2)}px`,
+    margin: "auto"
+  },
+  BgBlack: {
+    backgroundColor: "black"
+  },
+  WantToHelpSection: {
+    backgroundImage: `url(${HomeImage4})`,
+    backgroundSize: "100% 100%",
+    height: "240px",
+    display: "flex",
+    [theme.breakpoints.down('xs')]: {
+      height: "150px"
+    }
+  },
+  Emoticon: {
+    height: "36px",
+    width: "36px",
+    marginLeft: theme.spacing(1),
+    verticalAlign: "middle"
+  },
+  RequestByPhoneBg: {
+    backgroundImage: `url(${HomeImage2})`,
+    backgroundSize: "100% 100%",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    height: "350px",
+    [theme.breakpoints.down('xs')]: {
+      height: "250px"
+    }
+  },
+  PhoneCard: {
+    padding: theme.spacing(2),
+    margin: theme.spacing(1),
+    overflow: "visible",
+    position: "absolute",
+    "& > img": {
+      position: "absolute",
+      top: "0px",
+      left: "0px",
+      transform: "translate(-50%, -50%)"
+    }
   }
-`;
-export const StyledHomeButton = styled(Button)`
-  height: 79px;
-  width: 300px;
-  margin: 24px auto;
-  display: block;
-  border-radius: 100px;
-  font-size: 24px;
-  line-height: 40px;
-`;
+}));
 
 export const OrgLogo = styled(Logo)`
   height: 100px;
   width: 100px;
-  margin-top: 20px;
-  margin-bottom: 20px;
 `;
 
 export const TransparentButton = styled(Button)`
@@ -51,26 +126,28 @@ export const Text = styled.span`
   font-size: 16px;
   line-height: 22px;
   font-weight: ${props => props.bold ? "bold" : "normal"};
-  color: ${props => props.color ? props.color : props.theme.color.black};
+  color: ${props => props.color || props.theme.color.black};
 `;
 
-export const PhoneNo = styled(Text)`
+export const Link = styled.a`
   color: ${props => props.theme.color.deepPurple};
-  text-decoration: underline;
+  font-family: Open Sans, Ariomo, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 22px;
 `;
 
 export const Heading = styled.h1`
-  fontFamily: Open Sans, sans-serif;
+  font-family: Open Sans, sans-serif;
   font-weight: bold;
   font-size: 32px;
   line-height: 48px;
-  color: ${props => props.color ? props.color : props.theme.color.black};
+  color: ${props => props.color || props.theme.color.black};
 `;
 
 export const SubHeading = styled.h2`
-  fontFamily: Open Sans, sans-serif;
-  font-weight: bold;
+  font-family: Open Sans, sans-serif;
+  font-weight: semi-bold;
   font-size: 24px;
-  line-height: 48px;
-  color: ${props => props.color ? props.color : props.theme.color.black};
+  line-height: 36px;
+  color: ${props => props.color || props.theme.color.black};
 `;
