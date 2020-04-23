@@ -4,9 +4,9 @@ import { connect } from "react-redux";
 import { firestoreConnect, isEmpty, isLoaded } from "react-redux-firebase";
 import { withRouter } from "react-router-dom";
 import { compose } from "redux";
-import Snackbar from "../../component/Snackbars/Snackbar";
 
 import { MissionList } from "../../component";
+import Snackbar from "../../component/Snackbars/Snackbar";
 import UserPhoneUnverifiedPopup from "../../component/UserPhoneUnverifiedPopup";
 import { Page } from "../../layout";
 import { Mission, User } from "../../model";
