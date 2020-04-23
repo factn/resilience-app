@@ -10,11 +10,12 @@ import {
   Paper,
   Typography,
 } from "@material-ui/core";
-import React from "react";
+import React, { useState } from "react";
 // import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 
 import PaypalCheckout from "../../../component/PaypalCheckout/PaypalCheckout";
+import NavigationButtons from "./NavigationButtons";
 
 const useStyles = makeStyles((theme) => ({
   yMargin: {
@@ -43,6 +44,8 @@ const useStyles = makeStyles((theme) => ({
 function ConfirmStep() {
   const history = useHistory();
   const classes = useStyles();
+
+  const [isDonationRequest, setIsDonationRequest] = useState(false);
   // const cart = useSelector( grab the cart object)
   // static mock cart
   const cart = {
@@ -67,6 +70,38 @@ function ConfirmStep() {
   };
 
   const total = cart.items.reduce((total, cur) => total + cur.quantity * cur.unit_amount.value, 0);
+
+  function confirmRequest() {
+    //TODO create a new mission here based on customer details
+    if (isDonationRequest) {
+      //TODO set the funding status to not funded
+      //Send mission to firestore
+
+      history.push("/request/foodbox/success/donation");
+    } else {
+      // Set funding status to funded
+      history.push("/request/foodbox/success/payment");
+    }
+  }
+
+  if (isDonationRequest) {
+    return (
+      <>
+        <Typography className={classes.yMargin} variant="h3" align="left" color="textPrimary">
+          Find Me a Donation
+        </Typography>
+        <Typography align="left">
+          As an organization of volunteers, we will try our best to fulfill your request but please
+          understand that wait times for this option may be uncertain.
+        </Typography>
+        <NavigationButtons
+          nextText="Confirm"
+          onBack={() => setIsDonationRequest(false)}
+          onNext={() => confirmRequest()}
+        />
+      </>
+    );
+  }
 
   return (
     <>
@@ -110,7 +145,7 @@ function ConfirmStep() {
 
       <PaypalCheckout
         cart={cart}
-        onApprove={() => history.push("/request/foodbox/success")}
+        onApprove={() => confirmRequest()}
         onError={() => history.push("/request/foodbox/error")}
       />
 
@@ -135,7 +170,7 @@ function ConfirmStep() {
           color="primary"
           align="left"
           className={classes.donation}
-          onClick={() => alert("hey")}
+          onClick={() => setIsDonationRequest(true)}
         >
           Find me a donation
         </Typography>
