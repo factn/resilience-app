@@ -44,27 +44,27 @@ describe("Appbar Layout", () => {
   it("Render the default appbar ", () => {
     const appBar = renderComponent();
 
-    // const container = appBar.getByRole("navigation");
-    // const logoIcon = appBar.getByTitle("MutualAidLogo");
-    // const menuIcon = appBar.getByTestId("MutualAidMenu");
+    const container = appBar.getByRole("navigation");
+    const logoIcon = appBar.getByTitle("MutualAidLogo");
+    const menuIcon = appBar.getByTestId("MutualAidMenu");
 
-    // expect(container).toHaveStyle("height: 89px");
-    // expect(container).toBeTruthy();
-    // // Accessibility
-    // expect(logoIcon).toBeTruthy();
-    // expect(menuIcon).toBeTruthy();
+    expect(container).toHaveStyle("height: 89px");
+    expect(container).toBeTruthy();
+    // Accessibility
+    expect(logoIcon).toBeTruthy();
+    expect(menuIcon).toBeTruthy();
   });
 
-  // it("Render appbar with customize children", () => {
-  //   const appBar = renderComponent({
-  //     children: <div>appbar test children</div>,
-  //   });
+  it("Render appbar with customize children", () => {
+    const appBar = renderComponent({
+      children: <div>appbar test children</div>,
+    });
 
-  //   const container = appBar.getByRole("navigation");
+    const container = appBar.getByRole("navigation");
 
-  //   // expect(container).toHaveStyle("height: 89px"); @todo: why is this failing?
-  //   expect(container).toBeTruthy();
-  //   // Accessibility
-  //   expect(appBar.getByText("appbar test children")).toBeTruthy();
-  // });
+    // expect(container).toHaveStyle("height: 89px"); @todo: why is this failing?
+    expect(container).toBeTruthy();
+    // Accessibility
+    expect(appBar.getByText("appbar test children")).toBeTruthy();
+  });
 });
