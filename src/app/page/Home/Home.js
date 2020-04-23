@@ -238,7 +238,7 @@ const DonateCardComponent = () => {
       <Body1 className={classes.DonateCardMessage}>
         Many families can't afford fresh food. Please help sponsor food boxes for those in need.
       </Body1>
-      <Button className={classes.DonateCardAction} onClick={() => null} data-testid="btn-login">
+      <Button className={classes.DonateCardAction} onClick={() => null} data-testid="btn-donate">
         Donate Funds
       </Button>
     </Grid>
@@ -259,7 +259,10 @@ const ContactAdBanner = () => {
         <img src={PhoneIcon} className={classes.ContactAdIcon} alt="Phone Icon" />
         <H3 className={classes.ContactAdLabel}>To request food by phone,</H3>
         <H3 className={classes.ContactAdLabel}>
-          call <Link className={classes.ContactAdLink}>555-555-555</Link>
+          call{" "}
+          <Link to="/" className={classes.ContactAdLink}>
+            555-555-555
+          </Link>
         </H3>
       </Grid>
     </Grid>
@@ -354,18 +357,9 @@ const HomePage = ({ auth, history }) => {
   const classes = useStyles();
   const isEmpty = useSelector((state) => state.firebase.auth.isEmpty);
   const isLoaded = useSelector((state) => state.firebase.auth.isLoaded);
-  const [splashVisible, setSplashVisible] = useState(false);
-
-  useEffect(() => {
-    setTimeout(() => {
-      if (isLoaded) {
-        setSplashVisible(true);
-      }
-    }, 800);
-  });
 
   return (
-    <Page isLoaded={isLoaded && splashVisible} LoadingComponent={LoadingComponent}>
+    <Page isLoaded={isLoaded} LoadingComponent={LoadingComponent}>
       {isEmpty ? (
         <Grid container>
           <SignInHeaderComponent history={history} />

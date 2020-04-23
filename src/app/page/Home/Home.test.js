@@ -1,4 +1,4 @@
-import { render } from "@testing-library/react";
+import { act, render, waitForElement } from "@testing-library/react";
 import React from "react";
 import { Provider } from "react-redux";
 import { MemoryRouter } from "react-router-dom";
@@ -46,7 +46,7 @@ describe("Home page", () => {
     expect(page.getByRole("navigation")).toBeInTheDocument();
     expect(page.getByRole("main")).toBeInTheDocument();
     expect(page.getByTestId("btn-login")).toBeInTheDocument();
-    expect(page.getByTestId("btn-signup")).toBeInTheDocument();
+    expect(page.getByTestId("btn-donate")).toBeInTheDocument();
     expect(page.queryByTestId("btn-request-help")).not.toBeInTheDocument();
   });
 
@@ -59,7 +59,9 @@ describe("Home page", () => {
         },
       },
     };
-    const page = renderComponent({ state });
+
+    let page = renderComponent({ state });
+
     expect(page.getByRole("navigation")).toBeInTheDocument();
     expect(page.getByRole("main")).toBeInTheDocument();
     expect(page.queryByTestId("btn-login")).not.toBeInTheDocument();
