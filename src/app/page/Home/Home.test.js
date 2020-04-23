@@ -1,4 +1,4 @@
-import { act, render, waitForElement } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import React from "react";
 import { Provider } from "react-redux";
 import { MemoryRouter } from "react-router-dom";
@@ -11,6 +11,7 @@ import Home from "./Home";
 
 describe("Home page", () => {
   beforeAll(() => {
+    // eslint-disable-next-line no-unused-vars
     const collection = {
       doc: jest.fn(),
     };

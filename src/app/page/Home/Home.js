@@ -1,7 +1,7 @@
 import { Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { connect, useSelector } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
 import { compose } from "redux";
@@ -14,7 +14,7 @@ import SignInHeader1 from "../../../img/SignInHeader1.png";
 import SmileIcon from "../../../img/SmileIcon.svg";
 import SplashImage1 from "../../../img/SplashImage1.png";
 import { Body1, Button, H1, H2, H3, H4 } from "../../component";
-import { Card, Page } from "../../layout";
+import { Page } from "../../layout";
 import VolunteerHome from "./VolunteerHome";
 
 const useStyles = makeStyles((theme) => ({
