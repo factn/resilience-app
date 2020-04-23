@@ -13,7 +13,7 @@ const titleCase = (str) => ("" + str).charAt(0).toUpperCase() + ("" + str).subst
 const MissionDetailsStatus = ({ status, volunteerName }) => {
   return status === Mission.Status.unassigned ? (
     titleCase(status)
-  ) : status === Mission.Status.tentative || status === Mission.Status.assigned ? (
+  ) : status === Mission.Status.proposed || status === Mission.Status.assigned ? (
     volunteerName
   ) : (
     <>

@@ -31,7 +31,7 @@ const defaultMissionData: MissionInterface = {
   fundedStatus: MissionFundedStatus.notfunded,
   readyStatus: false,
   organisationId: "",
-  tentativeVolunterId: "", // this get removed if the volunteer accepts?
+  proposedVolunterId: "", // this get removed if the volunteer accepts?
   volunteerId: "",
   title: "Mission Title",
   description: "No Description",
@@ -64,7 +64,7 @@ const fsInProposed = {
 };
 const fsInPlanning = {
   collection: "missions",
-  where: [["status", "in", [MissionStatus.tentative, MissionStatus.assigned]]],
+  where: [["status", "in", [MissionStatus.proposed, MissionStatus.assigned]]],
   storeAs: "missionsInPlanning",
 };
 const fsInProgress = {

@@ -2,39 +2,72 @@ import { AppBar, Box, Tab, Tabs, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
+import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 
 import User from "../../model/User";
 import {
-  getAllAssignedMissions,
+  getAllPlanningMissionss,
   getAllCompletedMissions,
-  getAllStartedMissions,
-  getAllSuggestedMissions,
+  getAllInProgressMissions,
+  getAllProposedMissions,
 } from "./missionHelpers";
 import VolunteerHomeMissionList from "./VolunteerHomeMissionList";
+
+const theme = createMuiTheme({
+  overrides: {
+    MuiTab: {
+      root: {
+        "&.PrivateTabIndicator-colorSecondary": {
+          backgroundColor: "#373985",
+        },
+        "&.MuiTab-root": {
+          textTransform: "none",
+          backgroundColor: "black",
+          border: 0,
+          borderBottom: "2px solid",
+          "&:hover": {
+            border: 0,
+            borderBottom: "2px solid",
+          },
+        },
+        "&.Mui-selected": {
+          backgroundColor: "none",
+          borderBottom: "2px solid #373985",
+          borderColor: "#373985",
+        }
+      }
+    }
+  }
+});
 
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
     flexGrow: 1,
-    backgroundColor: theme.palette.background.paper,
+    color: "#3739B5",
+    backgroundColor: "white",
+  },
+  viewButtons: {
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(1),
   },
 }));
 
 export default function VolunteerHome({ currentUser }) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
-  const [assignedMissions, updateAssignedMissions] = useState([]);
-  const [startedMisssions, updateStartedMissions] = useState([]);
-  const [suggestedMissions, updateSuggestedMissions] = useState([]);
-  const [completedMisssions, updateCompletedMissions] = useState([]);
+  const [inPlanningMissions, updateInPlanningMissions] = useState([]);
+  const [inProgressMissions, updateInProgressMissions] = useState([]);
+  const [proposedMissions, updateProposedMissions] = useState([]);
+  const [completedMissions, updateCompletedMissions] = useState([]);
 
   useEffect(() => {
     const fetchAllAssociatedMissions = async () => {
       const missions = await User.getAllAssociatedMissions(currentUser.uid);
 
-      updateAssignedMissions(getAllAssignedMissions(missions, currentUser));
-      updateStartedMissions(getAllStartedMissions(missions, currentUser));
-      updateSuggestedMissions(getAllSuggestedMissions(missions, currentUser));
+      updateInPlanningMissions(getAllPlanningMissionss(missions, currentUser));
+      updateInProgressMissions(getAllInProgressMissions(missions, currentUser));
+      updateProposedMissions(getAllProposedMissions(missions, currentUser));
       updateCompletedMissions(getAllCompletedMissions(missions, currentUser));
     };
 
@@ -47,45 +80,54 @@ export default function VolunteerHome({ currentUser }) {
 
   const handleStartMissionFromAssigned = (missionId) => {
     User.startMission(currentUser.uid, missionId);
-    const mission = assignedMissions.filter((m) => m.id === missionId);
-    updateStartedMissions(startedMisssions.concat(mission));
-    updateAssignedMissions(assignedMissions.filter((m) => m.id !== missionId));
+    const mission = inPlanningMissions.filter((m) => m.id === missionId);
+    updateInProgressMissions(inProgressMissions.concat(mission));
+    updateInPlanningMissions(inPlanningMissions.filter((m) => m.id !== missionId));
   };
 
   const handleStartMissionFromSuggested = (missionId) => {
     User.startMission(currentUser.uid, missionId);
-    const mission = suggestedMissions.filter((m) => m.id === missionId);
-    updateStartedMissions(startedMisssions.concat(mission));
-    updateSuggestedMissions(suggestedMissions.filter((m) => m.id !== missionId));
+    const mission = proposedMissions.filter((m) => m.id === missionId);
+    updateInProgressMissions(inProgressMissions.concat(mission));
+    updateProposedMissions(proposedMissions.filter((m) => m.id !== missionId));
   };
 
   const handleDeliveringMissionsFromStarted = (missionId) => {
     User.deliverMission(currentUser.uid, missionId);
-    const mission = startedMisssions.filter((m) => m.id === missionId);
+    const mission = inProgressMissions.filter((m) => m.id === missionId);
 
-    updateCompletedMissions(completedMisssions.concat(mission));
+    updateCompletedMissions(completedMissions.concat(mission));
 
-    updateStartedMissions(startedMisssions.filter((m) => m.id !== missionId));
+    updateInProgressMissions(inProgressMissions.filter((m) => m.id !== missionId));
   };
+
+  const proposedLabel = "Proposed (" + proposedMissions.length + ")";
+  const planningLabel = "Planning (" + inPlanningMissions.length + ")";
+  const inProgressLabel = "In Progress (" + inProgressMissions.length + ")";
+  const completedLabel = "Completed (" + completedMissions.length + ")";
+
   return (
-    <div className={classes.root}>
+    <div classsName={classes.root}>
+      <ThemeProvider theme={theme}>
       <AppBar position="static">
         <Tabs
+          classes={classes}
           value={value}
           variant="fullWidth"
           centered
           onChange={handleChange}
           aria-label="volunteer dashboard tabs"
         >
-          <Tab label="Started" {...a11yProps(0)} />
-          <Tab label="Assigned" {...a11yProps(1)} />
-          <Tab label="Suggested" {...a11yProps(2)} />
-          <Tab label="Completed" {...a11yProps(3)} />
+          <Tab label={proposedLabel} {...a11yProps(2)} />
+          <Tab label={planningLabel} {...a11yProps(1)} />
+          <Tab label={inProgressLabel} {...a11yProps(0)} />
+          <Tab label={completedLabel} {...a11yProps(3)} />
         </Tabs>
       </AppBar>
+      </ThemeProvider>
       <TabPanel value={value} index={0}>
         <VolunteerHomeMissionList
-          missions={startedMisssions}
+          missions={inProgressMissions}
           currentUser={currentUser}
           actionText={"Mission Delivered"}
           action={(missionId) => handleDeliveringMissionsFromStarted(missionId)}
@@ -93,7 +135,7 @@ export default function VolunteerHome({ currentUser }) {
       </TabPanel>
       <TabPanel value={value} index={1}>
         <VolunteerHomeMissionList
-          missions={assignedMissions}
+          missions={inPlanningMissions}
           currentUser={currentUser}
           actionText="Start Mission"
           action={(missionId) => handleStartMissionFromAssigned(missionId)}
@@ -101,14 +143,14 @@ export default function VolunteerHome({ currentUser }) {
       </TabPanel>
       <TabPanel value={value} index={2}>
         <VolunteerHomeMissionList
-          missions={suggestedMissions}
+          missions={proposedMissions}
           currentUser={currentUser}
           actionText="Start Mission"
           action={(missionId) => handleStartMissionFromSuggested(missionId)}
         />
       </TabPanel>
       <TabPanel value={value} index={3}>
-        <VolunteerHomeMissionList missions={completedMisssions} currentUser={currentUser} />
+        <VolunteerHomeMissionList missions={completedMissions} currentUser={currentUser} />
       </TabPanel>
     </div>
   );

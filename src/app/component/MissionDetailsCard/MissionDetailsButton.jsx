@@ -33,7 +33,7 @@ const MissionDetailsButton = ({
           Accept Mission
         </StyledButton>
       );
-    case Mission.Status.tentative:
+    case Mission.Status.proposed:
     case Mission.Status.assigned:
       return (
         <StyledButton color="primary" variant="contained" disableElevation onClick={startMission}>
@@ -69,7 +69,7 @@ const MissionDetailsButton = ({
  * @component
  */
 const MissionDetailsUnassignMeButton = ({ status, unassignFromMission }) =>
-  status === Mission.Status.tentative ||
+  status === Mission.Status.proposed ||
   (status === Mission.Status.assigned && (
     <Grid container justify="center">
       <StyledButton

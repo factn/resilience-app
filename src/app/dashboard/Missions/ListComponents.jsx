@@ -35,7 +35,7 @@ const UnasignedStatusAction = ({ missionId }) => {
     event.preventDefault();
     Mission.update(missionId, {
       fundedStatus: event.target.value,
-      status: Mission.Status.tentative,
+      status: Mission.Status.proposed,
     });
   };
   const options = [

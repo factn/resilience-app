@@ -1,5 +1,5 @@
 import { MissionStatus } from "../../model/schema";
-export const getAllAssignedMissions = (missions, currentUser) => {
+export const getAllPlanningMissionss = (missions, currentUser) => {
   const volunteeredMissions =
     missions.length > 0
       ? missions.filter(
@@ -9,7 +9,7 @@ export const getAllAssignedMissions = (missions, currentUser) => {
 
   return volunteeredMissions;
 };
-export const getAllStartedMissions = (missions, currentUser) => {
+export const getAllInProgressMissions = (missions, currentUser) => {
   const volunteeredMissions =
     missions.length > 0
       ? missions.filter(
@@ -20,9 +20,9 @@ export const getAllStartedMissions = (missions, currentUser) => {
   return volunteeredMissions;
 };
 
-export const getAllSuggestedMissions = (missions, currentUser) => {
+export const getAllProposedMissions = (missions, currentUser) => {
   const suggestedMissions =
-    missions.length > 0 ? missions.filter((m) => m.tentativeVolunteerId === currentUser.uid) : [];
+    missions.length > 0 ? missions.filter((m) => m.proposedVolunteerId === currentUser.uid) : [];
 
   return suggestedMissions;
 };

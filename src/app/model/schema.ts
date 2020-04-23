@@ -79,7 +79,7 @@ export class UserInterface {
 //===== Mission =====//
 export enum MissionStatus {
   unassigned = "unassigned",
-  tentative = "tentative",
+  proposed = "proposed",
   assigned = "assigned",
   started = "started",
   delivered = "delivered",
@@ -150,7 +150,7 @@ export interface MissionInterface {
   fundedStatus: MissionFundedStatus;
   readyStatus: boolean;
   organisationId: string;
-  tentativeVolunterId: string; // this get removed if the volunteer accepts?
+  proposedVolunterId: string; // this get removed if the volunteer accepts?
   volunteerId: string;
   title: string;
   missionDetails: MissionDetails; // varies by mission type

@@ -231,7 +231,7 @@ class User extends BaseModel {
     const collection = this.getCollection("missions");
 
     const volunteeredMissions = await collection.where("volunteerId", "==", userId).get();
-    const suggestedMissions = await collection.where("tentativeVolunteerId", "==", userId).get();
+    const suggestedMissions = await collection.where("proposedVolunteerId", "==", userId).get();
 
     const missionsDocumentSnapshot = volunteeredMissions.docs.concat(suggestedMissions.docs);
 
