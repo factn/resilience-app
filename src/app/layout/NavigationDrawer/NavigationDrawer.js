@@ -11,6 +11,7 @@ import DashboardIcon from "@material-ui/icons/Dashboard";
 import EmojiPeopleIcon from "@material-ui/icons/EmojiPeople";
 import ExitToApp from "@material-ui/icons/ExitToApp";
 import HomeIcon from "@material-ui/icons/Home";
+import InfoIcon from "@material-ui/icons/Info";
 import MenuIcon from "@material-ui/icons/Menu";
 import clsx from "clsx";
 import React from "react";
@@ -133,6 +134,15 @@ export default function TemporaryDrawer() {
             <ListItemText primary="Signout" />
           </ListItem>
         </PrivateComponent>
+
+        <Link to="/about" className={classes.link}>
+          <ListItem button>
+            <ListItemIcon>
+              <InfoIcon classes={{ root: classes.colorIcon }} fontSize="large" />
+            </ListItemIcon>
+            <ListItemText primary="About Us" />
+          </ListItem>
+        </Link>
       </List>
     </div>
   );
