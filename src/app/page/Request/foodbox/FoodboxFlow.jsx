@@ -4,9 +4,11 @@ import React, { useState } from "react";
 
 import { H4 } from "../../../component";
 import { H1 } from "../styles";
+
+import useForm from "../../../hooks/useForm";
+import FoodboxStep from "./FoodboxStep";
 import ConfirmStep from "./ConfirmStep";
 import DeliveryStep from "./DeliveryStep";
-import FoodboxStep from "./FoodboxStep";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,6 +27,7 @@ const stepComponents = [FoodboxStep, DeliveryStep, ConfirmStep];
 export default function FoodboxFlow() {
   const classes = useStyles();
   const [activeStep, setActiveStep] = useState(0);
+  const { handleChange, values } = useForm({ quantity: 1, basket: 'resourceId' });
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -47,7 +50,7 @@ export default function FoodboxFlow() {
         </Tabs>
       </Paper>
       <div className={classes.content}>
-        <ActiveComponent onBack={handleBack} onNext={handleNext}></ActiveComponent>
+        <ActiveComponent onBack={handleBack} onNext={handleNext} handleChange={handleChange} values={values}></ActiveComponent>
       </div>
     </div>
   );

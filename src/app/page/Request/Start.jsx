@@ -2,6 +2,7 @@ import { Button } from "@material-ui/core";
 import React from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 
 import { ReactComponent as AppleIcon } from "../../../img/apple.svg";
 import { ReactComponent as ClipboardIcon } from "../../../img/clipboard.svg";
@@ -92,5 +93,10 @@ function StartPage() {
     </>
   );
 }
+
+StartPage.propTypes = {
+  //SOMETHING
+};
+
 
 export default StartPage;
