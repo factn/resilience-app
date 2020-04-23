@@ -49,44 +49,44 @@ export const useStyles = makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    [theme.breakpoints.down('xs')]: {
-      minHeight: "350px"
-    }
+    [theme.breakpoints.down("xs")]: {
+      minHeight: "350px",
+    },
   },
   NeedHelpSection: {
     backgroundImage: `url(${HomeImage3})`,
     backgroundSize: "100% 100%",
     height: "240px",
     display: "flex",
-    [theme.breakpoints.down('xs')]: {
-      height: "150px"
-    }
+    [theme.breakpoints.down("xs")]: {
+      height: "150px",
+    },
   },
   WhiteBgText: {
     background: "rgb(255, 255, 255, 0.8)",
     padding: `${theme.spacing(1)}px ${theme.spacing(2)}px`,
-    margin: "auto"
+    margin: "auto",
   },
   BgBlack: {
-    backgroundColor: "black"
+    backgroundColor: "black",
   },
   WantToHelpSection: {
     backgroundImage: `url(${HomeImage4})`,
     backgroundSize: "100% 100%",
     height: "240px",
     display: "flex",
-    [theme.breakpoints.down('xs')]: {
-      height: "150px"
-    }
+    [theme.breakpoints.down("xs")]: {
+      height: "150px",
+    },
   },
   PurpleBg: {
-    backgroundColor: "#150E60"
+    backgroundColor: "#150E60",
   },
   Emoticon: {
     height: "36px",
     width: "36px",
     marginLeft: theme.spacing(1),
-    verticalAlign: "middle"
+    verticalAlign: "middle",
   },
   RequestByPhoneBg: {
     backgroundImage: `url(${HomeImage2})`,
@@ -95,9 +95,9 @@ export const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "center",
     height: "350px",
-    [theme.breakpoints.down('xs')]: {
-      height: "250px"
-    }
+    [theme.breakpoints.down("xs")]: {
+      height: "250px",
+    },
   },
   PhoneCard: {
     padding: theme.spacing(2),
@@ -108,9 +108,9 @@ export const useStyles = makeStyles((theme) => ({
       position: "absolute",
       top: "0px",
       left: "0px",
-      transform: "translate(-50%, -50%)"
-    }
-  }
+      transform: "translate(-50%, -50%)",
+    },
+  },
 }));
 
 export const OrgLogo = styled(Logo)`
@@ -128,12 +128,12 @@ export const Text = styled.span`
   font-family: Open Sans, Ariomo, Arial, sans-serif;
   font-size: 16px;
   line-height: 22px;
-  font-weight: ${props => props.bold ? "bold" : "normal"};
-  color: ${props => props.color || props.theme.color.black};
+  font-weight: ${(props) => (props.bold ? "bold" : "normal")};
+  color: ${(props) => props.color || props.theme.color.black};
 `;
 
 export const Link = styled.a`
-  color: ${props => props.theme.color.deepPurple};
+  color: ${(props) => props.theme.color.deepPurple};
   font-family: Open Sans, Ariomo, Arial, sans-serif;
   font-size: 16px;
   line-height: 22px;
@@ -144,7 +144,7 @@ export const Heading = styled.h1`
   font-weight: bold;
   font-size: 32px;
   line-height: 48px;
-  color: ${props => props.color || props.theme.color.black};
+  color: ${(props) => props.color || props.theme.color.black};
 `;
 
 export const SubHeading = styled.h2`
@@ -152,5 +152,5 @@ export const SubHeading = styled.h2`
   font-weight: semi-bold;
   font-size: 24px;
   line-height: 36px;
-  color: ${props => props.color || props.theme.color.black};
+  color: ${(props) => props.color || props.theme.color.black};
 `;

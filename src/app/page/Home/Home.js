@@ -6,7 +6,15 @@ import { compose } from "redux";
 import { Page } from "../../layout";
 import { Button, H1, H3 } from "../../component";
 import { Card, Grid, Box } from "@material-ui/core";
-import { useStyles, OrgLogo, TransparentButton, Text, Heading, SubHeading, Link } from "./Home.style";
+import {
+  useStyles,
+  OrgLogo,
+  TransparentButton,
+  Text,
+  Heading,
+  SubHeading,
+  Link,
+} from "./Home.style";
 import { PublicAppbar, DefaultAppbar } from "../../layout/Appbar";
 import HomeImage5 from "../../../img/HomeImage5.svg";
 import SplashImage1 from "../../../img/SplashImage1.png";
@@ -36,7 +44,11 @@ const HomePage = ({ auth, history }) => {
   const isLoaded = useSelector((state) => state.firebase.auth.isLoaded);
 
   return (
-    <Page isLoaded={isLoaded} LoadingComponent={LoadingComponent} Appbar={isEmpty ? PublicAppbar : DefaultAppbar}>
+    <Page
+      isLoaded={isLoaded}
+      LoadingComponent={LoadingComponent}
+      Appbar={isEmpty ? PublicAppbar : DefaultAppbar}
+    >
       {isEmpty ? (
         <>
           <Box className={classes.OrgBlock} p={1}>
@@ -50,15 +62,20 @@ const HomePage = ({ auth, history }) => {
                 data-testid="btn-login"
               >
                 Sign in
-            </TransparentButton>
+              </TransparentButton>
             </Box>
           </Box>
           <Box className={classes.BgBlack} p={1}>
             <Text color="white">Powered by</Text>&nbsp;
-            <Text color="white" bold>Resilience</Text>
+            <Text color="white" bold>
+              Resilience
+            </Text>
           </Box>
           <Box p={2} textAlign="left">
-            <Text>We're a grassroots team in Studio City, CA getting fresh farm produce to our neighbors in need.</Text>
+            <Text>
+              We're a grassroots team in Studio City, CA getting fresh farm produce to our neighbors
+              in need.
+            </Text>
           </Box>
           <Box className={classes.NeedHelpSection}>
             <Box className={classes.WhiteBgText}>
@@ -67,7 +84,8 @@ const HomePage = ({ auth, history }) => {
           </Box>
           <Box p={2} textAlign="left">
             <Text>
-              Sign up to request a food box, small errand, or a pharmacy pickup. You'll be matched with a volunteer who will take care of you ASAP.
+              Sign up to request a food box, small errand, or a pharmacy pickup. You'll be matched
+              with a volunteer who will take care of you ASAP.
             </Text>
             <Box textAlign="center" pt={2}>
               <Button
@@ -76,7 +94,7 @@ const HomePage = ({ auth, history }) => {
                 className={classes.SignupButton}
               >
                 I Need Help
-            </Button>
+              </Button>
             </Box>
           </Box>
           <Box mb={2}>
@@ -89,7 +107,8 @@ const HomePage = ({ auth, history }) => {
           </Box>
           <Box p={2} textAlign="left">
             <Text>
-              Sign up to join your local network helping neighbors through this crisis. Deliver food, medicine, and supplies to the most vulnerable.
+              Sign up to join your local network helping neighbors through this crisis. Deliver
+              food, medicine, and supplies to the most vulnerable.
             </Text>
             <Box textAlign="center" pt={2}>
               <Button
@@ -98,16 +117,21 @@ const HomePage = ({ auth, history }) => {
                 className={classes.SignupButton}
               >
                 Volunteer
-            </Button>
+              </Button>
             </Box>
           </Box>
           <Box textAlign="left" p={2} className={classes.PurpleBg}>
             <Box>
-              <Heading color="white" style={{ display: "inline", verticalAlign: "middle" }}>Donate</Heading>
+              <Heading color="white" style={{ display: "inline", verticalAlign: "middle" }}>
+                Donate
+              </Heading>
               <img src={Emoticon} className={classes.Emoticon} alt="smiley"></img>
             </Box>
             <Box my={1}>
-              <Text color="white">Many families can't afford fresh food. Please help sponsor food boxes for those in need.</Text>
+              <Text color="white">
+                Many families can't afford fresh food. Please help sponsor food boxes for those in
+                need.
+              </Text>
             </Box>
             <Box textAlign="center">
               <Button
@@ -117,7 +141,7 @@ const HomePage = ({ auth, history }) => {
                 color="secondary"
               >
                 Donate Funds
-            </Button>
+              </Button>
             </Box>
           </Box>
           <Box className={classes.RequestByPhoneBg}>
@@ -129,10 +153,9 @@ const HomePage = ({ auth, history }) => {
           </Box>
         </>
       ) : (
-          <VolunteerHome currentUser={auth} />
-        )
-      }
-    </Page >
+        <VolunteerHome currentUser={auth} />
+      )}
+    </Page>
   );
 };
 

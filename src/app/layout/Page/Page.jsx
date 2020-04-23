@@ -48,6 +48,6 @@ Page.propTypes = {
 
 Page.defaultProps = {
   Appbar: DefaultAppbar,
-}
+};
 
 export default withLoading(Page);

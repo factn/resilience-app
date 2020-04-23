@@ -39,7 +39,7 @@ export const StyledLink = styled(Link)`
   font-weight: bold;
   font-size: 22px;
   line-height: 20px;
-  color: #3739B5;
+  color: #3739b5;
   text-decoration: none;
   height: fit-content;
   margin: auto 20px;
