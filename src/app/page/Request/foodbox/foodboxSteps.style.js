@@ -13,34 +13,28 @@ export const useStyles = makeStyles((theme) => ({
   },
   body1: {
     textAlign: "left",
-    // marginLeft: theme.spacing(2),
-    // paddingRight: theme.spacing(1),
-    marginBottom: theme.spacing(2),
-    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(1.5),
+    marginTop: theme.spacing(1.5),
   },
   formControl: {
     flexDirection: "row",
   },
   textArea: {
-    marginTop: theme.spacing(2),
+    marginTop: theme.spacing(1.5),
   },
   textField: {
-    marginTop: theme.spacing(2),
+    marginTop: theme.spacing(1.5),
     textAlign: "left",
   },
   bodyItalics: {
     fontStyle: "italic",
     marginTop: theme.spacing(1),
-    // marginLeft: theme.spacing(2),
-    // paddingRight: theme.spacing(1),
     textAlign: "center",
   },
   bodyItalicsMuted: {
     textAlign: "left",
     fontStyle: "italic",
-    marginTop: theme.spacing(2),
-    // marginLeft: theme.spacing(2),
-    // paddingRight: theme.spacing(1),
+    marginTop: theme.spacing(1.5),
     opacity: "50%",
   },
 }));
@@ -59,7 +53,7 @@ export const TotalsContainer = styled.div`
 
 export const HappyBox = styled.div`
   border: 1px solid black;
-  height: 7rem;
+  height: 6rem;
   width: 100%;
   padding: 0.7rem;
   margin-top: 1rem;

@@ -1,37 +1,21 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
-import { Checkbox, Container, FormControlLabel, TextField } from "@material-ui/core";
+import _ from "lodash";
 
 import { ReactComponent as HappyFace } from "../../../../img/happy-face.svg";
 import { useStyles, StyledHeader, HR, TotalsContainer, HappyBox } from "./foodboxSteps.style";
-import AddressInput from "../../../component/AddressInput";
 import { Body1 } from "../../../component";
 import Select from "@material-ui/core/Select";
 
 import NavigationButtons from "./NavigationButtons";
 
-const BASKET_PRICE = 28;
-
-function FoodboxStep({ handleChange, onNext, values }) {
+function FoodboxStep({ mockData, handleChange, onNext, values }) {
   const history = useHistory();
   const classes = useStyles();
 
-  function changeFormValue(name, value) {
-    handleChange({ target: { name, value } });
-  }
-
-  function handleCheckBoxChange(event, value) {
-    changeFormValue(event.currentTarget.name, value);
-  }
-
-  function handleChangeLocation(data) {
-    const { location } = data;
-    changeFormValue("location", location);
-  }
-
   const getTotalPrice = () => {
-    return (BASKET_PRICE * values.quantity).toFixed(2);
+    return (mockData.BASKET_PRICE * values.quantity).toFixed(2);
   };
 
   const getTotalBoxes = () => {
@@ -45,7 +29,7 @@ function FoodboxStep({ handleChange, onNext, values }) {
         to waste.
       </Body1>
       <StyledHeader main align="left" variant="h3">
-        Happy Farms
+        {values.farm}
       </StyledHeader>
       <Select
         native
@@ -57,22 +41,8 @@ function FoodboxStep({ handleChange, onNext, values }) {
           id: "basket",
         }}
       >
-        <option value="Fruit & Veggies Medley">Fruit & Veggies Medley</option>
+        <option value={mockData.BASKET_NAME}>{mockData.BASKET_NAME}</option>
       </Select>
-
-      {/* <TextField
-        variant="outlined"
-        style={{ width: "2.5rem", marginLeft: '1rem', textAlign: 'center' }}
-        id="quantity"
-        // label="Qty"
-        type="number"
-        onChange={handleChange}
-        value={values.quantity}
-        InputLabelProps={{
-          shrink: false,
-          id: 'quantity-input',
-        }}
-      /> */}
       <Select
         style={{ width: "3rem", marginLeft: "1rem", textAlign: "center" }}
         native
@@ -84,9 +54,9 @@ function FoodboxStep({ handleChange, onNext, values }) {
           id: "quantity",
         }}
       >
-        <option value={1}>1</option>
-        <option value={2}>2</option>
-        <option value={3}>3</option>
+        {_.range(mockData.MAX_BASKETS).map((idx) => (
+          <option value={idx + 1}>{idx + 1}</option>
+        ))}
       </Select>
       <Body1 className={classes.bodyItalicsMuted}>
         The farm supplies seasonal food to us based on availability. Our volunteers are unable to
@@ -115,5 +85,12 @@ function FoodboxStep({ handleChange, onNext, values }) {
     </div>
   );
 }
+
+FoodboxStep.propTypes = {
+  mockData: PropTypes.object.isRequired,
+  handleChange: PropTypes.func.isRequired,
+  onNext: PropTypes.func.isRequired,
+  values: PropTypes.object.isRequired,
+};
 
 export default FoodboxStep;

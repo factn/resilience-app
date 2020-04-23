@@ -11,7 +11,6 @@ import {
   Typography,
 } from "@material-ui/core";
 import React from "react";
-// import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 
 import PaypalCheckout from "../../../component/PaypalCheckout/PaypalCheckout";
@@ -40,27 +39,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function ConfirmStep() {
+function ConfirmStep({ values, mockData }) {
   const history = useHistory();
   const classes = useStyles();
-  // const cart = useSelector( grab the cart object)
-  // static mock cart
   const cart = {
     items: [
       {
-        quantity: 2,
-        name: "Fruit & Veggies Medley",
-        description: "Happy Farms",
+        quantity: values.quantity,
+        name: values.basket,
+        description: values.farm,
         unit_amount: {
-          value: 28.0,
-        },
-      },
-      {
-        quantity: 1,
-        name: "Banana Basket",
-        description: "Happy Farms",
-        unit_amount: {
-          value: 12.0,
+          value: mockData.BASKET_PRICE,
         },
       },
     ],
@@ -114,7 +103,7 @@ function ConfirmStep() {
         onError={() => history.push("/request/foodbox/error")}
       />
 
-      <Typography variant="subtitle1">
+      <Typography variant="subtitle2">
         <i>Pay securly online with your credit card</i>
       </Typography>
 

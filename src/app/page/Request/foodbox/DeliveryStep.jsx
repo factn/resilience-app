@@ -1,18 +1,14 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
-import { Checkbox, Container, FormControlLabel, TextField } from "@material-ui/core";
+import { Checkbox, FormControlLabel, TextField } from "@material-ui/core";
 
-import { ReactComponent as HappyFace } from "../../../../img/happy-face.svg";
-import { useStyles, StyledHeader, HR, TotalsContainer, HappyBox } from "./foodboxSteps.style";
+import { useStyles, StyledHeader } from "./foodboxSteps.style";
 import AddressInput from "../../../component/AddressInput";
 import { Body1 } from "../../../component";
-import Select from "@material-ui/core/Select";
 
 import NavigationButtons from "./NavigationButtons";
 
-function DeliveryStep({ onBack, onNext, handleChange, values }) {
-  const history = useHistory();
+function DeliveryStep({ onNext, onBack, handleChange, values }) {
   const classes = useStyles();
 
   function changeFormValue(name, value) {
@@ -45,14 +41,14 @@ function DeliveryStep({ onBack, onNext, handleChange, values }) {
       />
       <TextField
         className={classes.textArea}
-        fullWidth={true}
+        fullWidth
         helperText="By default we leave food boxes at your door"
         label="Drop off Instructions / Comments"
-        placeholder="Knock loudly, leave in front, etc."
         multiline
-        rows={5}
         name="description"
         onChange={handleChange}
+        placeholder="Knock loudly, leave in front, etc."
+        rows={5}
         value={values.description || ""}
         variant="outlined"
       />
@@ -64,32 +60,31 @@ function DeliveryStep({ onBack, onNext, handleChange, values }) {
         Your Account
       </StyledHeader>
       <TextField
-        // className={classes.textField}
-        fullWidth={true}
+        fullWidth
         label="First Name"
         name="firstName"
         onChange={handleChange}
-        value={values.firstName}
+        value={values.firstName || ""}
         variant="outlined"
       />
       <TextField
         className={classes.textField}
-        fullWidth={true}
+        fullWidth
         label="Last Name"
         name="lastName"
         onChange={handleChange}
-        value={values.lastName}
+        value={values.lastName || ""}
         variant="outlined"
       />
       <TextField
         className={classes.textField}
-        fullWidth={true}
-        variant="outlined"
-        value={values.phone || ""}
+        fullWidth
+        helperText="Used for receiving updates (SMS/texts)"
+        label="Mobile Number"
         name="phone"
         onChange={handleChange}
-        label="Mobile Number"
-        helperText="Used for receiving updates (SMS/texts)"
+        value={values.phone || ""}
+        variant="outlined"
       />
       <FormControlLabel
         className={classes.checkBox}
@@ -114,13 +109,16 @@ function DeliveryStep({ onBack, onNext, handleChange, values }) {
         label="By signing up, I agree to some terms and conditions, waiver link here,"
       />
 
-      <NavigationButtons
-        backText="Cancel"
-        onBack={() => history.push("/request")}
-        onNext={onNext}
-      />
+      <NavigationButtons onBack={onBack} onNext={onNext} />
     </div>
   );
 }
+
+DeliveryStep.propTypes = {
+  handleChange: PropTypes.func.isRequired,
+  onBack: PropTypes.func.isRequired,
+  onNext: PropTypes.func.isRequired,
+  values: PropTypes.object.isRequired,
+};
 
 export default DeliveryStep;
