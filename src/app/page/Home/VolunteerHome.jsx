@@ -47,10 +47,6 @@ const useStyles = makeStyles((theme) => ({
     color: "#3739B5",
     backgroundColor: "white",
   },
-  viewButtons: {
-    marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(1),
-  },
 }));
 
 export default function VolunteerHome({ currentUser }) {
@@ -77,6 +73,7 @@ export default function VolunteerHome({ currentUser }) {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
 
   const handleStartMissionFromAssigned = (missionId) => {
     User.startMission(currentUser.uid, missionId);
@@ -107,10 +104,10 @@ export default function VolunteerHome({ currentUser }) {
   const completedLabel = "Completed (" + completedMissions.length + ")";
 
   return (
-    <div classsName={classes.root}>
+    <div className={classes.root}>
       <ThemeProvider theme={theme}>
       <AppBar position="static">
-        <Tabs
+        <Tabs TabIndicatorProps={{ style: { background: "#373985" } }} 
           classes={classes}
           value={value}
           variant="fullWidth"
