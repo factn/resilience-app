@@ -1,34 +1,28 @@
 import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router";
 import { makeStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
-import { Button } from "../../component";
 import { connect } from "react-redux";
-
-import _ from "../../utils";
-
-import MissionsMapView from "./MissionsMapView";
-import MissionsListView from "./MissionsListView";
-import MissionDetails from "./MissionDetails";
-
-import { Mission } from "../../model";
-
+import Grid from "@material-ui/core/Grid";
 import MapIcon from "@material-ui/icons/Map";
 import ListIcon from "@material-ui/icons/List";
-import { useHistory } from "react-router";
+import Box from "@material-ui/core/Box";
+
+import _ from "../../utils";
+import { Button } from "../../component";
+import { Mission } from "../../model";
+import MapView from "./MapView";
+import ListView from "./ListView";
+import DetailsView from "./DetailsView";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     height: "100%",
     flexWrap: "nowrap",
   },
-  main: {
-    paddingRight: theme.spacing(1),
-    flexGrow: 1,
-    width: "100%",
-  },
   viewButtons: {
     marginTop: theme.spacing(2),
     marginBottom: theme.spacing(1),
+    width: "70%",
   },
   outlined: {
     border: 0,
@@ -104,72 +98,51 @@ const ViewButtons = ({ classes, missionsView }) => {
   );
 };
 
-const pageViews = {
-  map: "map",
-  list: "list",
-};
-const PageButtons = ({ classes, pageView, setPageView }) => {
-  return (
-    <>
-      <Button
-        variant={pageView === pageViews.map ? "contained" : "outlined"}
-        onClick={() => setPageView(pageViews.map)}
-        classes={{ root: classes.leftButton }}
-        aria-label="map"
-      >
-        <MapIcon />
-      </Button>
-      <Button
-        variant={pageView === pageViews.list ? "contained" : "outlined"}
-        onClick={() => setPageView(pageViews.list)}
-        classes={{ root: classes.rightButton }}
-        aria-label="list"
-      >
-        <ListIcon />
-      </Button>
-    </>
-  );
-};
-
 const DashboardMissions = ({ inDone, inPlanning, inProgress, inProposed }) => {
   const classes = useStyles();
 
-  const [pageView, setPageView] = useState(pageViews.list);
+  const viewFromUrl = _.getQueryParam("view");
+
+  const [detailsMission, setDetailsMission] = useState(null);
   const [selectedMission, setSelectedMission] = useState(null);
 
   const all = { inProposed, inPlanning, inProgress, inDone };
-  const viewFromUrl = _.getQueryParam("view");
   const filtered = all[viewFromUrl] || inProposed;
 
-  const selectedMissionId = _.getQueryParam("missionId");
-
+  let mission = filtered.find((m) => m.id === detailsMission);
   useEffect(() => {
-    if (selectedMissionId) {
-      const mission = filtered.find((m) => m.id === selectedMissionId);
-      mission && setSelectedMission(mission);
-    } else {
-      setSelectedMission(null);
-    }
-  }, [selectedMissionId, filtered]);
-
+    setDetailsMission(null);
+  }, [filtered]);
   return (
     <Grid container className={classes.root}>
       <Grid container item lg sm direction="column" className={classes.root}>
         <Grid item container spacing={2} className={classes.viewButtons}>
           <ViewButtons missionsView={viewFromUrl} classes={classes} />
-          <Grid item xs={3}>
-            <PageButtons pageView={pageView} setPageView={setPageView} classes={classes} />
+        </Grid>
+        <Grid item container></Grid>
+        <Grid item container className={classes.main} xs>
+          <Box width="400px">
+            {mission ? (
+              <DetailsView
+                mission={mission}
+                setSelectedMission={setSelectedMission}
+                setDetailsMission={setDetailsMission}
+              />
+            ) : (
+              <ListView
+                missions={filtered}
+                view={viewFromUrl}
+                selectedMission={selectedMission}
+                setDetailsMission={setDetailsMission}
+                setSelectedMission={setSelectedMission}
+              />
+            )}
+          </Box>
+          <Grid item xs>
+            <MapView missions={filtered} selectedMission={selectedMission} />
           </Grid>
         </Grid>
-        <Grid item container className={classes.main} xs>
-          {pageView === pageViews.map ? (
-            <MissionsMapView missions={filtered} />
-          ) : (
-            <MissionsListView missions={filtered} view={viewFromUrl} />
-          )}
-        </Grid>
       </Grid>
-      {selectedMission && <MissionDetails mission={selectedMission} />}
     </Grid>
   );
 };

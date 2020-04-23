@@ -1,11 +1,11 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
-
-import { Map, TileLayer, Marker } from "react-leaflet";
+import Box from "@material-ui/core/Box";
 import FastfoodIcon from "@material-ui/icons/Fastfood";
 
+import { Map, TileLayer, Marker } from "react-leaflet";
 import { DivIcon } from "leaflet";
+
 import { renderToString } from "react-dom/server";
 
 const useStyles = makeStyles((theme) => ({
@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
   },
   map: {
     width: "100%",
-    height: "500px",
+    height: "100%",
   },
   foodIcon: {
     backgroundColor: "red",
@@ -58,31 +58,42 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Overview = ({ missions }) => {
+const Overview = ({ missions, selectedMission }) => {
   const classes = useStyles();
 
-  const FastFoodIconHtml = renderToString(<FastfoodIcon />);
+  const position = { lat: 37.773972, lng: -122.431297 };
+  let filtered = missions?.filter((mission) => {
+    return mission.deliveryLocation && mission.deliveryLocation.lat && mission.deliveryLocation.lng;
+  });
 
+  const FastFoodIconHtml = renderToString(<FastfoodIcon />);
   const FoodIcon = new DivIcon({
     className: classes.customDivIcon,
     html: `<div class='${classes.markerPin}'></div>${FastFoodIconHtml}`,
     iconSize: [30, 42],
     iconAnchor: [15, 42], // half of width + height
   });
-  const position = { lat: 37.773972, lng: -122.431297 };
-  let filtered = missions?.filter((mission) => {
-    return mission.deliveryLocation && mission.deliveryLocation.lat && mission.deliveryLocation.lng;
+
+  const HoverIcon = new DivIcon({
+    className: classes.customDivIcon,
+    html: `<div class='${classes.markerPin}'></div>`,
+    iconSize: [44, 64],
+    iconAnchor: [22, 64], // half of width + height
   });
 
   return (
-    <Grid container>
+    <Box height="100%">
       <Map center={position} zoom={12} className={`${classes.map} data-test-leaftleft-map`}>
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-        {filtered?.map((mission) => (
-          <Marker key={mission.id} position={mission.deliveryLocation} icon={FoodIcon} />
-        ))}
+        {filtered?.map((mission) => {
+          if (mission.id === selectedMission) {
+            return <Marker key={mission.id} position={mission.deliveryLocation} icon={HoverIcon} />;
+          } else {
+            return <Marker key={mission.id} position={mission.deliveryLocation} icon={FoodIcon} />;
+          }
+        })}
       </Map>
-    </Grid>
+    </Box>
   );
 };
 

@@ -32,7 +32,6 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     flexGrow: 1,
-    marginLeft: theme.spacing(2),
     marginTop: theme.spacing(6),
     transition: theme.transitions.create(["margin"], {
       easing: theme.transitions.easing.sharp,
