@@ -79,6 +79,9 @@ export const useStyles = makeStyles((theme) => ({
       height: "150px"
     }
   },
+  PurpleBg: {
+    backgroundColor: "#150E60"
+  },
   Emoticon: {
     height: "36px",
     width: "36px",

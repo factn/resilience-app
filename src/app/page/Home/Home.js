@@ -101,7 +101,7 @@ const HomePage = ({ auth, history }) => {
             </Button>
             </Box>
           </Box>
-          <Box textAlign="left" p={2} bgcolor="primary.dark">
+          <Box textAlign="left" p={2} className={classes.PurpleBg}>
             <Box>
               <Heading color="white" style={{ display: "inline", verticalAlign: "middle" }}>Donate</Heading>
               <img src={Emoticon} className={classes.Emoticon} alt="smiley"></img>
