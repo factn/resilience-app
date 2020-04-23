@@ -6,6 +6,7 @@ import Typography from "@material-ui/core/Typography";
 import MenuIcon from "@material-ui/icons/Menu";
 import clsx from "clsx";
 import React from "react";
+import { useSelector } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {

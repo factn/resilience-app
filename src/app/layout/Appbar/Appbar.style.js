@@ -31,3 +31,14 @@ export const MenuContainer = styled.div`
     width: 2em;
   }
 `;
+
+export const AboutText = styled.h2`
+  color: #3739b5;
+  text-decoration: none;
+  margin-top: 5%;
+  cursor: pointer;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 22px;
+  line-height: 26px;
+`;
