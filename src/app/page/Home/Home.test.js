@@ -3,13 +3,11 @@ import React from "react";
 import { Provider } from "react-redux";
 import { MemoryRouter } from "react-router-dom";
 import { createStore } from "redux";
-import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
 
 import theme from "../../../theme";
 import ThemeProvider from "../../component/ThemeProvider";
 import User from "../../model/User";
 import Home from "./Home";
-import theme from "../../../theme";
 
 describe("Home page", () => {
   beforeAll(() => {
@@ -31,7 +29,6 @@ describe("Home page", () => {
     };
 
     const store = createStore(() => initialState);
-    const customTheme = createMuiTheme(theme);
 
     return render(
       <Provider store={store}>
