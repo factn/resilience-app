@@ -34,10 +34,10 @@ const theme = createMuiTheme({
           backgroundColor: "none",
           borderBottom: "2px solid #373985",
           borderColor: "#373985",
-        }
-      }
-    }
-  }
+        },
+      },
+    },
+  },
 });
 
 const useStyles = makeStyles((theme) => ({
@@ -74,7 +74,6 @@ export default function VolunteerHome({ currentUser }) {
     setValue(newValue);
   };
 
-
   const handleStartMissionFromAssigned = (missionId) => {
     User.startMission(currentUser.uid, missionId);
     const mission = inPlanningMissions.filter((m) => m.id === missionId);
@@ -106,21 +105,22 @@ export default function VolunteerHome({ currentUser }) {
   return (
     <div className={classes.root}>
       <ThemeProvider theme={theme}>
-      <AppBar position="static">
-        <Tabs TabIndicatorProps={{ style: { background: "#373985" } }} 
-          classes={classes}
-          value={value}
-          variant="fullWidth"
-          centered
-          onChange={handleChange}
-          aria-label="volunteer dashboard tabs"
-        >
-          <Tab label={proposedLabel} {...a11yProps(2)} />
-          <Tab label={planningLabel} {...a11yProps(1)} />
-          <Tab label={inProgressLabel} {...a11yProps(0)} />
-          <Tab label={completedLabel} {...a11yProps(3)} />
-        </Tabs>
-      </AppBar>
+        <AppBar position="static">
+          <Tabs
+            TabIndicatorProps={{ style: { background: "#373985" } }}
+            classes={classes}
+            value={value}
+            variant="fullWidth"
+            centered
+            onChange={handleChange}
+            aria-label="volunteer dashboard tabs"
+          >
+            <Tab label={proposedLabel} {...a11yProps(2)} />
+            <Tab label={planningLabel} {...a11yProps(1)} />
+            <Tab label={inProgressLabel} {...a11yProps(0)} />
+            <Tab label={completedLabel} {...a11yProps(3)} />
+          </Tabs>
+        </AppBar>
       </ThemeProvider>
       <TabPanel value={value} index={0}>
         <VolunteerHomeMissionList
