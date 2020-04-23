@@ -3,19 +3,18 @@ import { makeStyles, withStyles } from "@material-ui/core/styles";
 import React, { useState } from "react";
 
 import { H4 } from "../../../component";
-import { H1 } from "../styles";
-
 import useForm from "../../../hooks/useForm";
-import FoodboxStep from "./FoodboxStep";
+import { H1 } from "../styles";
 import ConfirmStep from "./ConfirmStep";
 import DeliveryStep from "./DeliveryStep";
+import FoodboxStep from "./FoodboxStep";
 
 // Mock data
 const mockData = {
-  FARM_NAME: "Happy Farms",
-  BASKET_PRICE: 28,
-  MAX_BASKETS: 5,
   BASKET_NAME: "Fruit & Veggies Medley",
+  BASKET_PRICE: 28,
+  FARM_NAME: "Happy Farms",
+  MAX_BASKETS: 5,
 };
 
 const useStyles = makeStyles((theme) => ({

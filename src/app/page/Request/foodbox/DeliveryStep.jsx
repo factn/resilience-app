@@ -1,14 +1,13 @@
-import React from "react";
-import PropTypes from "prop-types";
 import { Checkbox, FormControlLabel, TextField } from "@material-ui/core";
+import PropTypes from "prop-types";
+import React from "react";
 
-import { useStyles, StyledHeader } from "./foodboxSteps.style";
-import AddressInput from "../../../component/AddressInput";
 import { Body1 } from "../../../component";
-
+import AddressInput from "../../../component/AddressInput";
+import { StyledHeader, useStyles } from "./foodboxSteps.style";
 import NavigationButtons from "./NavigationButtons";
 
-function DeliveryStep({ onNext, onBack, handleChange, values }) {
+function DeliveryStep({ handleChange, onBack, onNext, values }) {
   const classes = useStyles();
 
   function changeFormValue(name, value) {

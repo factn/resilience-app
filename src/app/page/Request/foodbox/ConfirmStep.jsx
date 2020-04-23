@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function ConfirmStep({ values, mockData }) {
+function ConfirmStep({ mockData, values }) {
   const history = useHistory();
   const classes = useStyles();
   const cart = {

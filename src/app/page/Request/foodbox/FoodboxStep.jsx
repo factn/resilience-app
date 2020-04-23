@@ -1,16 +1,15 @@
+import Select from "@material-ui/core/Select";
+import _ from "lodash";
+import PropTypes from "prop-types";
 import React from "react";
 import { useHistory } from "react-router-dom";
-import PropTypes from "prop-types";
-import _ from "lodash";
 
 import { ReactComponent as HappyFace } from "../../../../img/happy-face.svg";
-import { useStyles, StyledHeader, HR, TotalsContainer, HappyBox } from "./foodboxSteps.style";
 import { Body1 } from "../../../component";
-import Select from "@material-ui/core/Select";
-
+import { HappyBox, HR, StyledHeader, TotalsContainer, useStyles } from "./foodboxSteps.style";
 import NavigationButtons from "./NavigationButtons";
 
-function FoodboxStep({ mockData, handleChange, onNext, values }) {
+function FoodboxStep({ handleChange, mockData, onNext, values }) {
   const history = useHistory();
   const classes = useStyles();
 
