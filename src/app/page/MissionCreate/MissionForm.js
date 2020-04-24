@@ -175,7 +175,6 @@ function MissionForm({ getFile, handleChange, onSubmit, values /*, assignHelper,
               apiKey: ANGOLIA_API_KEY,
               language: "en",
               countries: ["us"],
-              type: "city",
               // Other options from https://community.algolia.com/places/documentation.html#options
             }}
             onChange={(query) => handleLocation(query, "pickUp")}
@@ -218,7 +217,6 @@ function MissionForm({ getFile, handleChange, onSubmit, values /*, assignHelper,
               apiKey: ANGOLIA_API_KEY,
               language: "en",
               countries: ["us"],
-              type: "city",
               // Other options from https://community.algolia.com/places/documentation.html#options
             }}
             onChange={(query) => handleLocation(query, "dropOff")}
