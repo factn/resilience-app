@@ -19,23 +19,18 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
 
-    # Install faker python dependency
-    - name: Install Faker
+    - name: Install python faker
       run: pip3 install faker
 
-    # Install firebase dependency
     - name: Install firebase-admin
       run: npm i firebase-admin
 
-    # Runs a set of commands using the runners shell
-    - name: Create Dataset and update firebase
+    - name: Create dataset for updating firebase
       run: |
         python3 ./scheme/data.py
-        cat ./data.json
-        npm ls firebase-admin
+        mv ./data.json ./scheme/data.json
     
-    # Run upload placeholder
     - name: Upload to firebase
       env:
-        SERVICE_ACCOUNT: ${{ secrets.MAGIC_COOKIES }}
+        SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SECRET }}
       run: node scheme/uploadMock.js
