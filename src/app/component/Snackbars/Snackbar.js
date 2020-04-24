@@ -22,7 +22,7 @@ Snackbar.propTypes = {
   message: PropTypes.string,
   handleClose: PropTypes.func.isRequired,
   open: PropTypes.bool,
-  type: PropTypes.oneOf("success", "error"),
+  type: PropTypes.oneOf(["success", "error"]),
 };
 
 Snackbar.defaultProps = {
