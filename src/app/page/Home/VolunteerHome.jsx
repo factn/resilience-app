@@ -1,4 +1,4 @@
-import { AppBar, Box, Tab, Tabs, Typography } from "@material-ui/core";
+import { AppBar, Box, Paper, Tab, Tabs, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
@@ -6,9 +6,8 @@ import React, { useEffect, useState } from "react";
 import User from "../../model/User";
 import {
   getAllAssignedMissions,
-  getAllCompletedMissions,
   getAllStartedMissions,
-  getAllSuggestedMissions,
+  getAllAvailableMissions,
 } from "./missionHelpers";
 import VolunteerHomeMissionList from "./VolunteerHomeMissionList";
 
@@ -18,15 +17,17 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
   },
+  tabMargin: {
+    margin: "1rem 0",
+  },
 }));
 
 export default function VolunteerHome({ currentUser }) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
-  const [assignedMissions, updateAssignedMissions] = useState([]);
-  const [startedMisssions, updateStartedMissions] = useState([]);
-  const [suggestedMissions, updateSuggestedMissions] = useState([]);
-  const [completedMisssions, updateCompletedMissions] = useState([]);
+  const [acceptedMissions, updateAssignedMissions] = useState([]);
+  const [startedMissions, updateStartedMissions] = useState([]);
+  const [availableMissions, updateAvailableMissions] = useState([]);
 
   useEffect(() => {
     const fetchAllAssociatedMissions = async () => {
@@ -34,8 +35,7 @@ export default function VolunteerHome({ currentUser }) {
 
       updateAssignedMissions(getAllAssignedMissions(missions, currentUser));
       updateStartedMissions(getAllStartedMissions(missions, currentUser));
-      updateSuggestedMissions(getAllSuggestedMissions(missions, currentUser));
-      updateCompletedMissions(getAllCompletedMissions(missions, currentUser));
+      updateAvailableMissions(getAllAvailableMissions(missions, currentUser));
     };
 
     fetchAllAssociatedMissions();
@@ -47,45 +47,49 @@ export default function VolunteerHome({ currentUser }) {
 
   const handleStartMissionFromAssigned = (missionId) => {
     User.startMission(currentUser.uid, missionId);
-    const mission = assignedMissions.filter((m) => m.id === missionId);
-    updateStartedMissions(startedMisssions.concat(mission));
-    updateAssignedMissions(assignedMissions.filter((m) => m.id !== missionId));
+    const mission = acceptedMissions.filter((m) => m.id === missionId);
+    updateStartedMissions(startedMissions.concat(mission));
+    updateAssignedMissions(acceptedMissions.filter((m) => m.id !== missionId));
   };
 
-  const handleStartMissionFromSuggested = (missionId) => {
+  const handleStartMissionFromAvailable = (missionId) => {
     User.startMission(currentUser.uid, missionId);
-    const mission = suggestedMissions.filter((m) => m.id === missionId);
-    updateStartedMissions(startedMisssions.concat(mission));
-    updateSuggestedMissions(suggestedMissions.filter((m) => m.id !== missionId));
+    const mission = availableMissions.filter((m) => m.id === missionId);
+    updateStartedMissions(startedMissions.concat(mission));
+    updateAvailableMissions(availableMissions.filter((m) => m.id !== missionId));
   };
 
   const handleDeliveringMissionsFromStarted = (missionId) => {
     User.deliverMission(currentUser.uid, missionId);
-    const mission = startedMisssions.filter((m) => m.id === missionId);
+    const mission = startedMissions.filter((m) => m.id === missionId);
 
-    updateCompletedMissions(completedMisssions.concat(mission));
-
-    updateStartedMissions(startedMisssions.filter((m) => m.id !== missionId));
+    updateStartedMissions(startedMissions.filter((m) => m.id !== missionId));
   };
+
+  const availableLabel = "Available (" + availableMissions.length + ")";
+  const acceptedLabel = "Accepted (" + acceptedMissions.length + ")";
+  const startedLabel = "Started (" + startedMissions.length + ")";
+
   return (
     <div className={classes.root}>
-      <AppBar position="static">
+      <Paper className={classes.tabMargin} elevation={3} square>
         <Tabs
           value={value}
           variant="fullWidth"
+          indicatorColor="primary"
+          textColor="primary"
           centered
           onChange={handleChange}
           aria-label="volunteer dashboard tabs"
         >
-          <Tab label="Started" {...a11yProps(0)} />
-          <Tab label="Assigned" {...a11yProps(1)} />
-          <Tab label="Suggested" {...a11yProps(2)} />
-          <Tab label="Completed" {...a11yProps(3)} />
+          <Tab label={availableLabel} {...a11yProps(2)} />
+          <Tab label={acceptedLabel} {...a11yProps(1)} />
+          <Tab label={startedLabel} {...a11yProps(0)} />
         </Tabs>
-      </AppBar>
+      </Paper>
       <TabPanel value={value} index={0}>
         <VolunteerHomeMissionList
-          missions={startedMisssions}
+          missions={startedMissions}
           currentUser={currentUser}
           actionText={"Mission Delivered"}
           action={(missionId) => handleDeliveringMissionsFromStarted(missionId)}
@@ -93,7 +97,7 @@ export default function VolunteerHome({ currentUser }) {
       </TabPanel>
       <TabPanel value={value} index={1}>
         <VolunteerHomeMissionList
-          missions={assignedMissions}
+          missions={acceptedMissions}
           currentUser={currentUser}
           actionText="Start Mission"
           action={(missionId) => handleStartMissionFromAssigned(missionId)}
@@ -101,14 +105,11 @@ export default function VolunteerHome({ currentUser }) {
       </TabPanel>
       <TabPanel value={value} index={2}>
         <VolunteerHomeMissionList
-          missions={suggestedMissions}
+          missions={availableMissions}
           currentUser={currentUser}
           actionText="Start Mission"
-          action={(missionId) => handleStartMissionFromSuggested(missionId)}
+          action={(missionId) => handleStartMissionFromAvailable(missionId)}
         />
-      </TabPanel>
-      <TabPanel value={value} index={3}>
-        <VolunteerHomeMissionList missions={completedMisssions} currentUser={currentUser} />
       </TabPanel>
     </div>
   );
