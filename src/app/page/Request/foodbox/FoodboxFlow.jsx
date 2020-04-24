@@ -1,4 +1,5 @@
 import { Paper, Tab, Tabs } from "@material-ui/core";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import React, { useState } from "react";
 
@@ -8,6 +9,7 @@ import { H1 } from "../styles";
 import ConfirmStep from "./ConfirmStep";
 import DeliveryStep from "./DeliveryStep";
 import FoodboxStep from "./FoodboxStep";
+import { ErrorSnackbar } from "../../../component/Snackbars";
 
 // Mock data
 const mockData = {
@@ -39,8 +41,11 @@ const defaultFormValues = {
 
 export default function FoodboxFlow() {
   const classes = useStyles();
-  const [activeStep, setActiveStep] = useState(0);
   const { handleChange, values } = useForm(defaultFormValues);
+
+  const [activeStep, setActiveStep] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [errorSnackbarMessage, setErrorSnackbarMessage] = useState(false);
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -55,6 +60,8 @@ export default function FoodboxFlow() {
   };
 
   const ActiveComponent = stepComponents[activeStep];
+
+  if (loading) return <CircularProgress />;
 
   return (
     <div className={classes.root}>
@@ -74,13 +81,21 @@ export default function FoodboxFlow() {
       </Paper>
       <div className={classes.content}>
         <ActiveComponent
+          handleChange={handleChange}
           mockData={mockData}
           onBack={handleBack}
           onNext={handleNext}
-          handleChange={handleChange}
+          setLoading={setLoading}
+          setErrorSnackbarMessage={setErrorSnackbarMessage}
           values={values}
         />
       </div>
+      <ErrorSnackbar
+        open={errorSnackbarMessage}
+        handleClose={() => setErrorSnackbarMessage(false)}
+        errorMessage={`Error while submitting request. Please try again. ${errorSnackbarMessage}`}
+        autoHideDuration={4000}
+      />
     </div>
   );
 }
