@@ -2,11 +2,11 @@ import { Box, Grid } from "@material-ui/core";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import { makeStyles } from "@material-ui/core/styles";
-import ArrowRightAltIcon from "@material-ui/icons/ArrowRightAlt";
+import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import PanToolIcon from "@material-ui/icons/PanTool";
+import clsx from "clsx";
 import React from "react";
-import styled from "styled-components";
 
 import { Button } from "../../component";
 import Mission from "../../model/Mission";
@@ -17,28 +17,26 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: "nowrap",
     overflow: "hidden",
   },
-  asap: {
-    backgroundColor: theme.color.red,
-    color: theme.color.white,
-  },
   formControl: {
     width: "100%",
   },
-  select: {
-    width: "100px",
-  },
 }));
 
-const ToMissionDetails = styled.div`
-  position: absolute;
-  right: 0px;
-  top: 0px;
-`;
-const Root = styled(Box)`
-  position: relative;
-`;
-
 /** BEGIN ACTION*/
+const unassignedOptions = [
+  {
+    value: Mission.FundedStatus.fundedbyrecipient,
+    text: "Funded By Recipient",
+  },
+  {
+    value: Mission.FundedStatus.fundedbydonation,
+    text: "Funded By Donation",
+  },
+  {
+    value: Mission.FundedStatus.fundingnotneeded,
+    text: "Funding Not Needed",
+  },
+];
 const UnasignedStatus = ({ missionId }) => {
   const classes = useStyles();
   const handleChange = (event) => {
@@ -48,20 +46,6 @@ const UnasignedStatus = ({ missionId }) => {
       status: Mission.Status.tentative,
     });
   };
-  const options = [
-    {
-      value: Mission.FundedStatus.fundedbyrecipient,
-      text: "Funded By Recipient",
-    },
-    {
-      value: Mission.FundedStatus.fundedbydonation,
-      text: "Funded By Donation",
-    },
-    {
-      value: Mission.FundedStatus.fundingnotneeded,
-      text: "Funding Not Needed",
-    },
-  ];
   return (
     <div>
       <FormControl className={classes.formControl}>
@@ -78,7 +62,7 @@ const UnasignedStatus = ({ missionId }) => {
           <option value="none" hidden aria-label="None">
             Not Yet Funded
           </option>
-          {options.map((option) => (
+          {unassignedOptions.map((option) => (
             <option key={option.value} value={option.value}>
               {option.text}
             </option>
@@ -175,22 +159,38 @@ const Details = ({ mission }) => {
     </>
   );
 };
-function MissionDetailsCol({ mission }) {
+function MissionDetailsCol({ classes, mission, ...props }) {
+  if (!mission) return null;
+
+  const { selectedMission, setSelectedMission } = props;
+  const { setDetailsMission } = props;
+
   function onClick() {
-    mission.setSelectedMission(mission.id);
+    setSelectedMission(mission.id);
   }
   function toDetails() {
-    mission.setDetailsMission(mission.id);
+    setDetailsMission(mission.id);
   }
 
+  const isSelected = selectedMission === mission.id;
+
   return (
-    <Root onClick={onClick}>
-      <ToMissionDetails onClick={toDetails}>
-        <ArrowRightAltIcon />
-      </ToMissionDetails>
+    <Box
+      position="relative"
+      onClick={onClick}
+      className={clsx(classes.root, { [classes.isSelected]: isSelected })}
+    >
+      <Box
+        onClick={toDetails}
+        role="button"
+        aria-label="To Mission Details View"
+        className={classes.arrowRightWrapper}
+      >
+        <ArrowForwardIcon />
+      </Box>
       <Details mission={mission} />
       <Action mission={mission} />
-    </Root>
+    </Box>
   );
 }
 export default MissionDetailsCol;

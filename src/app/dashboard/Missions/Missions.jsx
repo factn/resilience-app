@@ -108,6 +108,7 @@ const DashboardMissions = ({ inDone, inPlanning, inProgress, inProposed }) => {
   const filtered = all[viewFromUrl] || inProposed;
 
   let mission = filtered.find((m) => m.id === detailsMission);
+  let currentMission = filtered.find((m) => m.id === selectedMission);
   useEffect(() => {
     setDetailsMission(null);
   }, [filtered]);
@@ -137,7 +138,7 @@ const DashboardMissions = ({ inDone, inPlanning, inProgress, inProposed }) => {
             )}
           </Box>
           <Grid item xs>
-            <MapView missions={filtered} selectedMission={selectedMission} />
+            <MapView missions={filtered} currentMission={currentMission} />
           </Grid>
         </Grid>
       </Grid>

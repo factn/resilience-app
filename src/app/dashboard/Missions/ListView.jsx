@@ -1,5 +1,6 @@
 import { useTheme } from "@material-ui/core/styles";
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import MUIDataTable from "mui-datatables";
 import React from "react";
 
@@ -12,8 +13,7 @@ const getMuiTheme = (theme) =>
       MUIDataTableBodyCell: {
         root: {
           verticalAlign: "baseline",
-          marginTop: theme.spacing(1),
-          padding: `${theme.spacing(0.5)}px ${theme.spacing(1)}px`,
+          padding: "0px",
         },
       },
       MuiButton: {
@@ -84,60 +84,72 @@ const getMuiTheme = (theme) =>
       },
     },
   });
-const config = [
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    position: "relative",
+    border: "1px solid transparent",
+    borderRadius: theme.spacing(0.5),
+    padding: theme.spacing(2),
+  },
+  isSelected: {
+    borderColor: theme.palette.primary.main,
+  },
+  arrowRightWrapper: {
+    top: theme.spacing(1),
+    right: theme.spacing(1),
+    cursor: "pointer",
+    position: "absolute",
+  },
+}));
+
+const columns = [
   {
-    format: (mission) => ({
-      mission: mission,
-    }),
+    name: "mission",
+    label: "Mission",
     options: {
-      name: "missions",
-      label: "Missions",
-      options: {
-        customBodyRender: ListItem,
-        customHeadRender: () => null,
-      },
+      customBodyRender: ListItem,
+      customHeadRender: () => null,
     },
   },
 ];
+const tableOptions = {
+  filterType: "checkbox",
+  responsive: "scrollMaxHeight",
+  elevation: 0,
+  rowsPerPage: 100,
+  pagination: false,
+  selectableRows: "none",
+  customFooter: () => null,
+
+  print: false,
+  download: false,
+  filter: false,
+  viewColumns: false,
+  searchOpen: true,
+  searchPlaceholder: "Search for missions",
+};
 
 const MissionsListView = ({ missions, selectedMission, setDetailsMission, setSelectedMission }) => {
   const theme = useTheme();
   const innerTheme = getMuiTheme(theme);
-  function formatData() {
-    return missions?.map(({ ...mission }) => {
-      let formated = {};
-      mission.setSelectedMission = setSelectedMission;
-      mission.setDetailsMission = setDetailsMission;
-      config.forEach((c) => {
-        formated[c.options.name] = c.format(mission);
-      });
-      return formated;
-    });
-  }
-  const columns = config.map((c) => c.options);
 
-  const options = {
-    filterType: "checkbox",
-    responsive: "scrollMaxHeight",
-    elevation: 0,
-    rowsPerPage: 100,
-    pagination: false,
-    selectableRows: "none",
-    rowsSelected: [selectedMission],
-    customFooter: () => null,
+  const classes = useStyles(innerTheme);
 
-    print: false,
-    download: false,
-    filter: false,
-    viewColumns: false,
-    searchOpen: true,
-    searchPlaceholder: "Search for missions",
-  };
-  const data = formatData(missions);
+  // need format [{mission: data}, {mission: data}]
+  const data = missions.map((mission) => ({
+    mission: {
+      mission,
+      classes,
+      selectedMission,
+      setSelectedMission,
+      setDetailsMission,
+    },
+  }));
 
   return (
     <MuiThemeProvider theme={innerTheme}>
-      <MUIDataTable data={data} columns={columns} options={options} rowsPerPage={100} />
+      <MUIDataTable data={data} columns={columns} options={tableOptions} rowsPerPage={100} />
     </MuiThemeProvider>
   );
 };

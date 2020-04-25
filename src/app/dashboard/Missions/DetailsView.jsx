@@ -1,17 +1,15 @@
 import { Box, Container, Grid, Paper } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import AccessTimeIcon from "@material-ui/icons/AccessTime";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
-import CloseIcon from "@material-ui/icons/Close";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import PanToolIcon from "@material-ui/icons/PanTool";
 import PersonIcon from "@material-ui/icons/Person";
 import React from "react";
 import { isEmpty, isLoaded } from "react-redux-firebase";
-import { useHistory } from "react-router-dom";
 
-import { Body2 } from "../../component";
-import Button from "../../component/Button";
+import { Body2, H3 } from "../../component";
 import { Mission } from "../../model";
 import _ from "../../utils/lodash";
 
@@ -63,167 +61,190 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 /**=====BASE COMPONENTs======**/
-const RowLabel = ({ classes, header }) => (
-  <Body2 align="left" className={classes.rowLabel} color="textPrimary">
-    <b>{header}</b>
-  </Body2>
-);
-const RowBody = ({ classes, component, content, Icon }) => {
-  if (component) {
-  } else if (_.isEmpty(content) && !_.isDate(content)) {
-    content = "";
-  }
-  content = String(content);
 
+const Label = ({ children, classes }) => {
+  if (!children) return null;
+  return (
+    <Body2 align="left" className={classes.rowLabel} color="textPrimary">
+      <b>{children}</b>
+    </Body2>
+  );
+};
+
+const Row = ({ children, classes, Icon }) => {
+  if (!children) return null;
   return (
     <Grid container className={classes.rowBody}>
       <Box marginRight="5px" width="20px">
         {Icon && <Icon color="primary" />}
       </Box>
-      {component ? component : content}
+      {children}
     </Grid>
+  );
+};
+
+const Card = ({ children, classes, label }) => {
+  if (!children) return null;
+  return (
+    <>
+      <Label classes={classes}>{label}</Label>
+      {children}
+    </>
   );
 };
 
 /**=====ROW COMPONENTS=======*/
 
+const MissionImage = ({ classes, mission }) => {
+  const imageUrl = mission?.image;
+  if (!imageUrl) return null;
+
+  return (
+    <Container>
+      <img src={imageUrl} className={classes.missionImage} alt="details" />
+    </Container>
+  );
+};
+const MissionTypeRow = ({ classes, mission }) => {
+  let missionType;
+  switch (mission?.type) {
+    case "foodbox":
+    default:
+      missionType = "Food Box";
+  }
+  return (
+    <Box marginTop="32px">
+      <H3>{missionType}</H3>
+    </Box>
+  );
+};
 const MissionStatusRow = ({ classes, mission }) => {
-  let status = _.get(mission, "status");
+  let status = mission?.status;
+  let missionStatusText;
   switch (status) {
     case Mission.Status.unassigned:
-      return <RowBody Icon={PanToolIcon} content="Looking for volunteer" classes={classes} />;
+      missionStatusText = "Looking for volunteer";
+      break;
     default:
-      return null;
+      missionStatusText = status;
+      break;
   }
+  return (
+    <Row Icon={PanToolIcon} classes={classes}>
+      {missionStatusText}
+    </Row>
+  );
 };
 
 const MissionFundedStatusRow = ({ classes, mission }) => {
-  let fundedStatus = _.get(mission, "fundedStatus");
-  switch (fundedStatus) {
+  let missionFundedStatusText;
+  switch (mission?.fundedStatus) {
     case Mission.FundedStatus.fundedbydonation:
-      fundedStatus = "Funded By Donation";
+      missionFundedStatusText = "Funded By Donation";
       break;
     case Mission.FundedStatus.fundedbyrecipient:
-      fundedStatus = "Funded By Recipient";
+      missionFundedStatusText = "Funded By Recipient";
+      break;
+    case Mission.FundedStatus.fundedbyrecipient:
+      missionFundedStatusText = "Funded By Recipient";
       break;
     case Mission.FundedStatus.notfunded:
     default:
-      fundedStatus = "Not Yet Funded";
-      break;
+      missionFundedStatusText = "Not Yet Funded";
   }
-  return <RowBody Icon={AttachMoneyIcon} content={fundedStatus} classes={classes} />;
+  return (
+    <Row Icon={AttachMoneyIcon} classes={classes}>
+      {missionFundedStatusText}
+    </Row>
+  );
+};
+
+const FoodBoxDetailsRow = ({ classes, details }) => {
+  return (
+    <Box>
+      {details?.needs?.map((box, index) => (
+        <Grid key={index} container className={classes.foodBoxDetailContainer}>
+          <Grid className={classes.foodBoxDetailQuantity}>
+            <b>{box?.quantity}</b>
+          </Grid>
+          <Grid className={classes.foodBoxDetailName}>
+            <b>{box?.name}</b>
+          </Grid>
+        </Grid>
+      ))}
+    </Box>
+  );
 };
 
 const MissionDetailsRow = ({ classes, mission }) => {
-  let type = _.get(mission, "type");
-  let details = _.get(mission, "missionDetails");
+  let type = mission?.type;
+  let details = mission?.missionDetails;
   if (type === "foodbox") {
     return <FoodBoxDetailsRow details={details} classes={classes} />;
   }
   return null;
 };
 
-const FoodBoxDetailsRow = ({ classes, details }) => {
-  return (
-    <div>
-      {_.get(details, "needs")?.map((box, index) => (
-        <Grid key={index} container className={classes.foodBoxDetailContainer}>
-          <Grid className={classes.foodBoxDetailQuantity}>
-            <b>{_.get(box, "quantity")}</b>
-          </Grid>
-          <Grid className={classes.foodBoxDetailName}>
-            <b>{_.get(box, "name")}</b>
-          </Grid>
-        </Grid>
-      ))}
-    </div>
-  );
-};
-
-const ImageRow = (imageURL, classes) =>
-  imageURL ? (
-    <Container>
-      <img src={imageURL} label="mission" className={classes.missionImage} alt="details" />
-    </Container>
-  ) : null;
-
 /**
  * Component for displaying mission details as a card
  * @component
  */
-const MissionDetailsCard = ({ mission }) => {
+const MissionDetailsCard = ({ mission, setDetailsMission }) => {
   const classes = useStyles();
   const recipientPhoneNumber = _.get(mission, "recipientPhoneNumber");
-  const history = useHistory();
-  const clear = () =>
-    history.replace({
-      search: _.setQueryParam("missionId", ""),
-    });
 
-  if (isLoaded(mission) && isEmpty(mission)) {
-    return null;
+  function toListView() {
+    setDetailsMission(null);
   }
 
-  let type = _.get(mission, "type", "");
-
-  switch (type) {
-  }
+  console.log(mission);
+  const props = { classes: classes, mission: mission };
 
   return (
-    <Box width="350px">
+    <Box height="100%" width="100%">
       <Paper className={classes.root} elevation={0}>
-        <Grid container direction="row-reverse">
-          <Button onClick={clear} variant="text">
-            <CloseIcon />
-          </Button>
-        </Grid>
-        {isLoaded(mission) && (
-          <>
-            <h3>{_.get(mission, "type")}</h3>
-            <MissionStatusRow mission={mission} classes={classes} />
-            <MissionFundedStatusRow mission={mission} classes={classes} />
-            <MissionDetailsRow mission={mission} classes={classes} />
-            <ImageRow imageURL={_.get(mission, "image")} />
-            <RowLabel header="Pick Up Details" classes={classes} />
-            <RowBody
-              Icon={LocationOnIcon}
-              content={_.get(mission, "pickUpLocation.address")}
-              classes={classes}
-            />
-            <RowBody
-              Icon={AccessTimeIcon}
-              content={_.get(mission, "pickUpWindow.startTime")}
-              classes={classes}
-            />
-            <RowLabel header="Delivery Details" classes={classes} />
-            <RowBody
-              Icon={LocationOnIcon}
-              content={_.get(mission, "deliveryLocation.address")}
-              classes={classes}
-            />
-            <RowBody
-              Icon={AccessTimeIcon}
-              content={_.get(mission, "deliveryWindow.startTime")}
-              classes={classes}
-            />
-            <RowBody
-              Icon={PersonIcon}
-              content={_.get(mission, "recipientName")}
-              classes={classes}
-            />
-            {recipientPhoneNumber && (
-              <RowBody
-                component={<a href={`tel:"${recipientPhoneNumber}"`}>{recipientPhoneNumber}</a>}
-                classes={classes}
-              />
-            )}
+        <Box position="absolute" onClick={toListView}>
+          <ArrowBackIcon />
+        </Box>
+        {isLoaded(mission) && !isEmpty(mission) && (
+          <Box>
+            <MissionImage {...props} />
+            <MissionTypeRow {...props} />
+            <MissionStatusRow {...props} />
+            <MissionFundedStatusRow {...props} />
+            <MissionDetailsRow {...props} />
 
-            <RowLabel header="Notes" classes={classes} />
-            <RowBody
-              content={_.get(mission, "notes", "No additional informations")}
-              classes={classes}
-            />
-          </>
+            <Card label="Pick Up Details" classes={classes}>
+              <Row Icon={LocationOnIcon} classes={classes}>
+                {mission?.pickUpLocation?.address}
+              </Row>
+              <Row Icon={AccessTimeIcon} classes={classes}>
+                {mission?.pickUpWindow?.startTime}
+              </Row>
+            </Card>
+
+            <Card label="Delivery Details" classes={classes}>
+              <Row Icon={LocationOnIcon} classes={classes}>
+                {mission?.deliveryLocation?.address}
+              </Row>
+              <Row Icon={AccessTimeIcon} classes={classes}>
+                {mission?.deliveryWindow?.startTime}
+              </Row>
+              <Row Icon={PersonIcon} classes={classes}>
+                {mission?.recipientName}
+              </Row>
+              <Row classes={classes}>
+                {recipientPhoneNumber && (
+                  <a href={`tel:"${recipientPhoneNumber}"`}>{recipientPhoneNumber}</a>
+                )}
+              </Row>
+            </Card>
+
+            <Label classes={classes}>Notes</Label>
+            <Row classes={classes}>
+              {mission?.notes ? mission.notes : "No additional informations"}
+            </Row>
+          </Box>
         )}
       </Paper>
     </Box>
