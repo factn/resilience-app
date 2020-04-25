@@ -70,7 +70,8 @@ const Overview = ({ currentMission, missions }) => {
   });
   useEffect(() => {
     if (currentMission) {
-      setViewport({ ...viewport, center: currentMission.deliveryLocation });
+      if (currentMission.deliveryLocation)
+        setViewport({ ...viewport, center: currentMission.deliveryLocation });
     }
   }, [currentMission, viewport]);
 
