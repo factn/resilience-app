@@ -32,5 +32,5 @@ jobs:
     
     - name: Upload to firebase
       env:
-        SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SECRET }}
+        FIREBASE_SECRET: ${{ secrets.FIREBASE_SECRET }}
       run: node scheme/uploadMock.js

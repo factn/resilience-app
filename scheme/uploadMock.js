@@ -4,7 +4,7 @@ const serviceAccount = process.env.FIREBASE_SECRET;
 const data = require("./data.json");
 
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
+  credential: admin.credential.cert(JSON.parse(serviceAccount)),
   databaseURL: "https://mutualaid-757f6.firebaseio.com",
 });
 
