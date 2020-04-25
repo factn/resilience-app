@@ -89,10 +89,10 @@ export default function VolunteerHome({ currentUser }) {
       </Paper>
       <TabPanel value={value} index={0}>
         <VolunteerHomeMissionList
-          missions={startedMissions}
+          missions={availableMissions}
           currentUser={currentUser}
-          actionText={"Mission Delivered"}
-          action={(missionId) => handleDeliveringMissionsFromStarted(missionId)}
+          actionText="Start Mission"
+          action={(missionId) => handleStartMissionFromAvailable(missionId)}
         />
       </TabPanel>
       <TabPanel value={value} index={1}>
@@ -105,10 +105,10 @@ export default function VolunteerHome({ currentUser }) {
       </TabPanel>
       <TabPanel value={value} index={2}>
         <VolunteerHomeMissionList
-          missions={availableMissions}
+          missions={startedMissions}
           currentUser={currentUser}
-          actionText="Start Mission"
-          action={(missionId) => handleStartMissionFromAvailable(missionId)}
+          actionText={"Mission Delivered"}
+          action={(missionId) => handleDeliveringMissionsFromStarted(missionId)}
         />
       </TabPanel>
     </div>
