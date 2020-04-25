@@ -1,12 +1,12 @@
+import Box from "@material-ui/core/Box";
+import Button from "@material-ui/core/Button";
 import { useTheme } from "@material-ui/core/styles";
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
 import { makeStyles } from "@material-ui/core/styles";
 import MUIDataTable from "mui-datatables";
 import React, { useEffect, useState } from "react";
-import DetailsView from "./DetailsView";
-import Box from "@material-ui/core/Box";
-import Button from "@material-ui/core/Button";
 
+import DetailsView from "./DetailsView";
 import ListItem from "./ListItem";
 
 const getMuiTheme = (theme) =>
@@ -140,11 +140,11 @@ const Views = {
 };
 
 const MissionsListView = ({
+  currentMission,
   missions,
+  missionsView,
   selectedMission,
   setSelectedMission,
-  currentMission,
-  missionsView,
 }) => {
   const theme = useTheme();
   const innerTheme = getMuiTheme(theme);
