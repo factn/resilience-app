@@ -73,7 +73,7 @@ const Overview = ({ currentMission, missions }) => {
       if (currentMission.deliveryLocation)
         setViewport({ ...viewport, center: currentMission.deliveryLocation });
     }
-  }, [currentMission, viewport]);
+  }, [currentMission]);
 
   const FastFoodIconHtml = renderToString(<FastfoodIcon />);
   const FoodIcon = new DivIcon({
