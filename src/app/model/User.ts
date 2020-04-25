@@ -18,7 +18,7 @@ const defaultLocation: Location = {
 };
 const defaultUserData: UserInterface = {
   id: "",
-  phone: "0",
+  phone: "",
   photoURL: "",
   description: "",
   displayName: "",

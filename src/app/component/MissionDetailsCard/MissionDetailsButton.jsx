@@ -73,7 +73,7 @@ const MissionDetailsUnassignMeButton = ({ status, unassignFromMission }) =>
   (status === Mission.Status.assigned && (
     <Grid container justify="center">
       <StyledButton
-        style={{ color: color.darkPink, textDecoration: "underline" }}
+        style={{ color: color.red, textDecoration: "underline" }}
         disableElevation
         onClick={unassignFromMission}
       >

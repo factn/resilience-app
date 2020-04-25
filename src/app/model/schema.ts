@@ -11,18 +11,32 @@ export interface Location {
   label: string;
 }
 
+export class Resource {
+  id!: string;
+  name!: string;
+  cost!: number;
+  fundedByRecipient: number = 0;
+  fundedByDonation: number = 0;
+  notFunded: number = 3;
+  maxNumberRequestable: number = 50;
+  acceptOrder: boolean = false;
+  description: string = "";
+}
+
 // ===== Organization ====
-export class Organization {
+export class OrganizationInterface {
   /* Firebase Id, created automatically*/
   id!: string;
   /*Name of the organization */
   name!: string;
   /*The Location of the Organization*/
   location?: Location;
-  localTimeZone?: string;
-  // bounding box?
-  // list of available foodboxes ..
-  // list of available deliveryWindows ...
+  /**
+   * There are subcollection, they are here for references
+  resources?: Map<string, Resource>;
+  missions: Map<string, MissionInterface> = new Map();
+  users: Map<string, UserInterface> = new Map();
+  */
 }
 
 // === USER ===
@@ -79,10 +93,14 @@ export class UserInterface {
 //===== Mission =====//
 export enum MissionStatus {
   unassigned = "unassigned",
+
   tentative = "tentative",
   assigned = "assigned",
+  accepted = "accepted",
+
   started = "started",
   delivered = "delivered",
+
   succeeded = "succeeded",
   failed = "failed",
 }
@@ -90,7 +108,6 @@ export enum MissionStatus {
 export enum MissionFundedStatus {
   notfunded = "notfunded",
   fundedbyrecipient = "fundedbyrecipient",
-  fundedinkind = "fundedinkind",
   fundedbydonation = "fundedbydonation",
   fundingnotneeded = "fundingnotneeded",
 }
@@ -99,21 +116,6 @@ export enum MissionType {
   foodbox = "foodbox",
   pharmacy = "pharmacy",
   errand = "errand",
-}
-
-export interface MissionDetails {}
-
-export interface FoodBoxDetails extends MissionDetails {
-  boxes?: Array<FoodBox>; // if multple boxes of same type grouping can occur in the UI
-}
-
-// created by the organiser.. but for MVP.0 we *hard code* a list of one type of box
-// @Collection("foodboxes")
-export interface FoodBox {
-  id: string;
-  name?: string;
-  cost?: number;
-  description?: string;
 }
 
 export enum TimeWindowType {
@@ -143,34 +145,41 @@ export interface MissionLogEvent {
   timestamp: string;
 }
 
+export interface Box {
+  name: string;
+  details: string;
+}
+
+export interface FoodBoxDetails {
+  needs: Array<Box>;
+}
+
 export interface MissionInterface {
   id: string;
   type: MissionType;
+
+  missionDetails: FoodBoxDetails | {};
+
   status: MissionStatus;
   fundedStatus: MissionFundedStatus;
   readyStatus: boolean;
   organisationId: string;
   tentativeVolunterId: string; // this get removed if the volunteer accepts?
   volunteerId: string;
-  title: string;
-  missionDetails: MissionDetails; // varies by mission type
-  description: string;
-  image: ImageUrl;
-  notes: string;
-  privateNotes: string; // just for volunteer and organiser
-  cost: number; // Decimal if possible eg 12.21 (assume USD for MVP.0)
+
   pickUpWindow: TimeWindow | null; // nb this can be an exact time or can be null
   pickUpLocation: Location;
+
   deliveryWindow: TimeWindow | null;
   deliveryLocation: Location; // default to recipient location
   deliveryConfirmationImage: ImageUrl;
   deliveryNotes: string;
+
   feedbackNotes: string;
+
   recipientName: string;
   recipientPhoneNumber: string;
   recipientId: string; // reference?
-  created: string; // time stamp
-  lastUpdated: string; // time stamp
   // all other event log type stuff, such as when assigned etc belongs in the eventlog
   // this should be a child collection
   //@SubCollection(MissionLogEvent)
