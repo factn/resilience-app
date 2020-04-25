@@ -32,10 +32,11 @@ export default function VolunteerHome({ currentUser }) {
   useEffect(() => {
     const fetchAllAssociatedMissions = async () => {
       const missions = await User.getAllAssociatedMissions(currentUser.uid);
+      const availableMissions = await User.getAllAvailableMissions(currentUser.uid);
 
+      updateAvailableMissions(availableMissions);
       updateAssignedMissions(getAllAssignedMissions(missions, currentUser));
       updateStartedMissions(getAllStartedMissions(missions, currentUser));
-      updateAvailableMissions(getAllAvailableMissions(missions, currentUser));
     };
 
     fetchAllAssociatedMissions();
