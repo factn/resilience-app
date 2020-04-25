@@ -19,7 +19,7 @@ const defaultLocation: Location = {
 const defaultUserData: UserInterface = {
   id: "",
   cannotReceiveTexts: false,
-  phone: "0",
+  phone: "",
   photoURL: "",
   description: "",
   displayName: "",

@@ -1,31 +1,25 @@
+import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
-import ListIcon from "@material-ui/icons/List";
-import MapIcon from "@material-ui/icons/Map";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import { useHistory } from "react-router";
 
 import { Button } from "../../component";
 import { Mission } from "../../model";
 import _ from "../../utils";
-import MissionDetails from "./MissionDetails";
-import MissionsListView from "./MissionsListView";
-import MissionsMapView from "./MissionsMapView";
+import ListView from "./ListView";
+import MapView from "./MapView";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     height: "100%",
     flexWrap: "nowrap",
   },
-  main: {
-    paddingRight: theme.spacing(1),
-    flexGrow: 1,
-    width: "100%",
-  },
   viewButtons: {
     marginTop: theme.spacing(2),
     marginBottom: theme.spacing(1),
+    width: "70%",
   },
   outlined: {
     border: 0,
@@ -101,72 +95,43 @@ const ViewButtons = ({ classes, missionsView }) => {
   );
 };
 
-const pageViews = {
-  map: "map",
-  list: "list",
-};
-const PageButtons = ({ classes, pageView, setPageView }) => {
-  return (
-    <>
-      <Button
-        variant={pageView === pageViews.map ? "contained" : "outlined"}
-        onClick={() => setPageView(pageViews.map)}
-        classes={{ root: classes.leftButton }}
-        aria-label="map"
-      >
-        <MapIcon />
-      </Button>
-      <Button
-        variant={pageView === pageViews.list ? "contained" : "outlined"}
-        onClick={() => setPageView(pageViews.list)}
-        classes={{ root: classes.rightButton }}
-        aria-label="list"
-      >
-        <ListIcon />
-      </Button>
-    </>
-  );
-};
-
 const DashboardMissions = ({ inDone, inPlanning, inProgress, inProposed }) => {
   const classes = useStyles();
 
-  const [pageView, setPageView] = useState(pageViews.list);
+  const viewFromUrl = _.getQueryParam("view");
+
   const [selectedMission, setSelectedMission] = useState(null);
 
   const all = { inProposed, inPlanning, inProgress, inDone };
-  const viewFromUrl = _.getQueryParam("view");
   const filtered = all[viewFromUrl] || inProposed;
 
-  const selectedMissionId = _.getQueryParam("missionId");
-
-  useEffect(() => {
-    if (selectedMissionId) {
-      const mission = filtered.find((m) => m.id === selectedMissionId);
-      mission && setSelectedMission(mission);
-    } else {
-      setSelectedMission(null);
-    }
-  }, [selectedMissionId, filtered]);
-
+  let currentMission = filtered.find((m) => m.id === selectedMission);
   return (
     <Grid container className={classes.root}>
       <Grid container item lg sm direction="column" className={classes.root}>
         <Grid item container spacing={2} className={classes.viewButtons}>
           <ViewButtons missionsView={viewFromUrl} classes={classes} />
-          <Grid item xs={3}>
-            <PageButtons pageView={pageView} setPageView={setPageView} classes={classes} />
+        </Grid>
+        <Grid item container></Grid>
+        <Grid item container className={classes.main} xs>
+          <Box width="400px">
+            <ListView
+              missions={filtered}
+              currentMission={currentMission}
+              setSelectedMission={setSelectedMission}
+              selectedMission={selectedMission}
+              missionsView={viewFromUrl}
+            />
+          </Box>
+          <Grid item xs>
+            <MapView
+              missions={filtered}
+              currentMission={currentMission}
+              setSelectedMission={setSelectedMission}
+            />
           </Grid>
         </Grid>
-        <Grid item container className={classes.main} xs>
-          {pageView === pageViews.map ? (
-            <MissionsMapView missions={filtered} />
-          ) : (
-            <MissionsListView missions={filtered} view={viewFromUrl} />
-          )}
-        </Grid>
       </Grid>
-      {selectedMission && <MissionDetails mission={selectedMission} />}
     </Grid>
   );
 };

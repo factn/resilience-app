@@ -9,7 +9,7 @@ export const color = {
   white: "#FFF",
   pink: "#ffefef",
   blue: "#3739B5",
-  darkPink: "#DA0B46",
+  red: "#DA0B46",
   darkOrange: "#EC7016",
   darkBlue: "#110079",
 };
