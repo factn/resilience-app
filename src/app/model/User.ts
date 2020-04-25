@@ -18,6 +18,7 @@ const defaultLocation: Location = {
 };
 const defaultUserData: UserInterface = {
   id: "",
+  cannotReceiveTexts: false,
   phone: "",
   photoURL: "",
   description: "",
@@ -41,6 +42,11 @@ class User extends BaseModel {
 
   async saveNewUser(data: UserInterface) {
     const collection = this.getCollection("users");
+
+    // For users who don't have SMS capability
+    if (!data.id) {
+      data.id = uuidV4();
+    }
 
     try {
       await collection.doc(data.id).set({

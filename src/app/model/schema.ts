@@ -76,6 +76,8 @@ export class UserInterface {
   isVolunteer!: boolean;
   /* if user is an organizer */
   isOrganizer!: boolean;
+  /* if user can receive texts */
+  cannotReceiveTexts!: boolean;
   /* specific details for the volunteer */
   volunteerDetails!: {
     /*user hours */

@@ -74,7 +74,6 @@
           "caseSensitive": false
         }
       ],
-      "simple-import-sort/sort": 1,
       "sort-imports": "off"
     }
   },
