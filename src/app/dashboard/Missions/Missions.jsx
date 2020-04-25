@@ -1,14 +1,13 @@
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import { useHistory } from "react-router";
 
 import { Button } from "../../component";
 import { Mission } from "../../model";
 import _ from "../../utils";
-import DetailsView from "./DetailsView";
 import ListView from "./ListView";
 import MapView from "./MapView";
 
@@ -101,17 +100,12 @@ const DashboardMissions = ({ inDone, inPlanning, inProgress, inProposed }) => {
 
   const viewFromUrl = _.getQueryParam("view");
 
-  const [detailsMission, setDetailsMission] = useState(null);
   const [selectedMission, setSelectedMission] = useState(null);
 
   const all = { inProposed, inPlanning, inProgress, inDone };
   const filtered = all[viewFromUrl] || inProposed;
 
-  let mission = filtered.find((m) => m.id === detailsMission);
   let currentMission = filtered.find((m) => m.id === selectedMission);
-  useEffect(() => {
-    setDetailsMission(null);
-  }, [filtered]);
   return (
     <Grid container className={classes.root}>
       <Grid container item lg sm direction="column" className={classes.root}>
@@ -121,21 +115,13 @@ const DashboardMissions = ({ inDone, inPlanning, inProgress, inProposed }) => {
         <Grid item container></Grid>
         <Grid item container className={classes.main} xs>
           <Box width="400px">
-            {mission ? (
-              <DetailsView
-                mission={mission}
-                setSelectedMission={setSelectedMission}
-                setDetailsMission={setDetailsMission}
-              />
-            ) : (
-              <ListView
-                missions={filtered}
-                view={viewFromUrl}
-                selectedMission={selectedMission}
-                setDetailsMission={setDetailsMission}
-                setSelectedMission={setSelectedMission}
-              />
-            )}
+            <ListView
+              missions={filtered}
+              currentMission={currentMission}
+              setSelectedMission={setSelectedMission}
+              selectedMission={selectedMission}
+              missionsView={viewFromUrl}
+            />
           </Box>
           <Grid item xs>
             <MapView

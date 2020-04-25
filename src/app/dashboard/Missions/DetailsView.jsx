@@ -145,9 +145,6 @@ const MissionFundedStatusRow = ({ classes, mission }) => {
     case Mission.FundedStatus.fundedbyrecipient:
       missionFundedStatusText = "Funded By Recipient";
       break;
-    case Mission.FundedStatus.fundedbyrecipient:
-      missionFundedStatusText = "Funded By Recipient";
-      break;
     case Mission.FundedStatus.notfunded:
     default:
       missionFundedStatusText = "Not Yet Funded";
@@ -189,15 +186,10 @@ const MissionDetailsRow = ({ classes, mission }) => {
  * Component for displaying mission details as a card
  * @component
  */
-const MissionDetailsCard = ({ mission, setDetailsMission }) => {
+const MissionDetailsCard = ({ mission, toListView }) => {
   const classes = useStyles();
   const recipientPhoneNumber = _.get(mission, "recipientPhoneNumber");
 
-  function toListView() {
-    setDetailsMission(null);
-  }
-
-  console.log(mission);
   const props = { classes: classes, mission: mission };
 
   return (

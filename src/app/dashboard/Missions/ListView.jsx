@@ -2,7 +2,10 @@ import { useTheme } from "@material-ui/core/styles";
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
 import { makeStyles } from "@material-ui/core/styles";
 import MUIDataTable from "mui-datatables";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import DetailsView from "./DetailsView";
+import Box from "@material-ui/core/Box";
+import Button from "@material-ui/core/Button";
 
 import ListItem from "./ListItem";
 
@@ -125,16 +128,29 @@ const tableOptions = {
   print: false,
   download: false,
   filter: false,
+  search: false,
   viewColumns: false,
   searchOpen: true,
   searchPlaceholder: "Search for missions",
 };
+const Views = {
+  list: "missions-list-view",
+  details: "single-details-view",
+  group: "missions-group-view",
+};
 
-const MissionsListView = ({ missions, selectedMission, setDetailsMission, setSelectedMission }) => {
+const MissionsListView = ({
+  missions,
+  selectedMission,
+  setSelectedMission,
+  currentMission,
+  missionsView,
+}) => {
   const theme = useTheme();
   const innerTheme = getMuiTheme(theme);
 
   const classes = useStyles(innerTheme);
+  const [view, setView] = useState(Views.list);
 
   // need format [{mission: data}, {mission: data}]
   const data = missions.map((mission) => ({
@@ -143,13 +159,41 @@ const MissionsListView = ({ missions, selectedMission, setDetailsMission, setSel
       classes,
       selectedMission,
       setSelectedMission,
-      setDetailsMission,
+      toDetailsView: () => setView(Views.details),
     },
   }));
+  useEffect(() => {
+    if (view !== Views.list) {
+      setView(Views.list);
+    }
+    // eslint-disable-next-line
+  }, [missionsView]);
 
   return (
     <MuiThemeProvider theme={innerTheme}>
-      <MUIDataTable data={data} columns={columns} options={tableOptions} rowsPerPage={100} />
+      {missionsView === "inPlanning" && (
+        <Box>
+          <Button onClick={() => setView(Views.list)}>Missions</Button>
+          <Button onClick={() => setView(Views.group)}>Group</Button>
+        </Box>
+      )}
+      <Box hidden={view !== Views.group}>Group</Box>
+      <Box hidden={view !== Views.details}>
+        <DetailsView
+          mission={currentMission}
+          setSelectedMission={setSelectedMission}
+          toListView={() => setView(Views.list)}
+        />
+      </Box>
+      <Box hidden={view !== Views.list}>
+        <MUIDataTable
+          serverSide={true}
+          data={data}
+          columns={columns}
+          options={tableOptions}
+          rowsPerPage={100}
+        />
+      </Box>
     </MuiThemeProvider>
   );
 };

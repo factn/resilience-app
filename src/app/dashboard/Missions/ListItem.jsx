@@ -47,33 +47,36 @@ const UnasignedStatus = ({ missionId }) => {
     });
   };
   return (
-    <div>
-      <FormControl className={classes.formControl}>
-        <Select
-          native
-          onChange={handleChange}
-          variant="outlined"
-          value="Not Yet Funded"
-          inputProps={{
-            name: "funded",
-            id: "select-funded",
-          }}
-        >
-          <option value="none" hidden aria-label="None">
-            Not Yet Funded
+    <FormControl className={classes.formControl}>
+      <Select
+        native
+        onChange={handleChange}
+        variant="outlined"
+        value="Not Yet Funded"
+        inputProps={{
+          name: "funded",
+          id: "select-funded",
+        }}
+      >
+        <option value="none" hidden aria-label="None">
+          Not Yet Funded
+        </option>
+        {unassignedOptions.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.text}
           </option>
-          {unassignedOptions.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.text}
-            </option>
-          ))}
-        </Select>
-      </FormControl>
-    </div>
+        ))}
+      </Select>
+    </FormControl>
   );
 };
-const TentativeStatus = () => {
-  return <Button>Assign Mission</Button>;
+const TentativeStatus = ({ mission }) => {
+  return (
+    <>
+      <Button>Assign Volunteer</Button>
+      <Button variant="outlined">Add To Group</Button>
+    </>
+  );
 };
 const AssignedStatus = ({ mission }) => {
   const { volunteerName } = mission;
@@ -160,16 +163,11 @@ const Details = ({ mission }) => {
   );
 };
 function MissionDetailsCol({ classes, mission, ...props }) {
-  if (!mission) return null;
-
   const { selectedMission, setSelectedMission } = props;
-  const { setDetailsMission } = props;
+  const { toDetailsView } = props;
 
   function onClick() {
     setSelectedMission(mission.id);
-  }
-  function toDetails() {
-    setDetailsMission(mission.id);
   }
 
   const isSelected = selectedMission === mission.id;
@@ -181,7 +179,7 @@ function MissionDetailsCol({ classes, mission, ...props }) {
       className={clsx(classes.root, { [classes.isSelected]: isSelected })}
     >
       <Box
-        onClick={toDetails}
+        onClick={toDetailsView}
         role="button"
         aria-label="To Mission Details View"
         className={classes.arrowRightWrapper}
