@@ -31,7 +31,6 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     flexGrow: 1,
-    marginLeft: theme.spacing(2),
     marginTop: theme.spacing(6),
     transition: theme.transitions.create(["margin"], {
       easing: theme.transitions.easing.sharp,
@@ -56,6 +55,7 @@ const MissionsPage = () => {
     Mission.fsInProgress,
     Mission.fsInDone,
     { collection: "users" },
+    { collection: "organizations", doc: "1" },
   ]);
 
   const handleDrawerOpen = () => {
@@ -104,7 +104,6 @@ const MissionsPage = () => {
         role="navigation"
       />
       <main
-        container
         className={clsx(classes.content, {
           [classes.contentShift]: open,
         })}

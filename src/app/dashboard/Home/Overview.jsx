@@ -32,12 +32,12 @@ const Overview = ({ inPlanning, inProgress, inProposed }) => {
         <Grid item>
           <Card className={classes.overview}>
             <OverviewItem
-              icon={<AnnouncementIcon className={classes.icon} style={{ fill: color.darkPink }} />}
+              icon={<AnnouncementIcon className={classes.icon} style={{ fill: color.red }} />}
               title="Proposed Missions"
               nbr={inProposed.length}
               linkLabel="View Unassigned Missions"
               link="/dashboard/missions?view=inProposed"
-              textColor={color.darkPink}
+              textColor={color.red}
             />
           </Card>
         </Grid>

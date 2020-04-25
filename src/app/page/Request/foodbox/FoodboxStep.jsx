@@ -40,7 +40,9 @@ function FoodboxStep({ handleChange, mockData, onNext, values }) {
           id: "basket",
         }}
       >
-        <option value={mockData.BASKET_NAME}>{mockData.BASKET_NAME}</option>
+        <option key={mockData.BASKET_NAME} value={mockData.BASKET_NAME}>
+          {mockData.BASKET_NAME}
+        </option>
       </Select>
       <Select
         style={{ width: "3rem", marginLeft: "1rem", textAlign: "center" }}

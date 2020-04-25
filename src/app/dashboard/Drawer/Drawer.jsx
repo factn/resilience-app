@@ -81,9 +81,8 @@ const DashboardDrawer = ({ drawerItems, handleDrawerClose, open }) => {
       <Divider />
       <Grid container direction="column">
         {drawerItems.map((item) => (
-          <Link to={item.route} className={classes.link}>
+          <Link to={item.route} className={classes.link} key={item.id}>
             <Button
-              key={item.id}
               classes={{ root: classes.item, startIcon: classes.startIcon }}
               variant={isActive(item.id) ? "contained" : "text"}
               startIcon={item.icon}
