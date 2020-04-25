@@ -3,10 +3,19 @@ import { makeStyles, withStyles } from "@material-ui/core/styles";
 import React, { useState } from "react";
 
 import { H4 } from "../../../component";
+import useForm from "../../../hooks/useForm";
 import { H1 } from "../styles";
 import ConfirmStep from "./ConfirmStep";
 import DeliveryStep from "./DeliveryStep";
 import FoodboxStep from "./FoodboxStep";
+
+// Mock data
+const mockData = {
+  BASKET_NAME: "Fruit & Veggies Medley",
+  BASKET_PRICE: 28,
+  FARM_NAME: "Happy Farms",
+  MAX_BASKETS: 5,
+};
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,10 +30,17 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const stepComponents = [FoodboxStep, DeliveryStep, ConfirmStep];
+const tabNames = ["FOODBOX", "DELIVERY", "CONFIRM"];
+
+const defaultFormValues = {
+  quantity: 1,
+  basket: mockData.BASKET_NAME,
+};
 
 export default function FoodboxFlow() {
   const classes = useStyles();
   const [activeStep, setActiveStep] = useState(0);
+  const { handleChange, values } = useForm(defaultFormValues);
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -34,6 +50,10 @@ export default function FoodboxFlow() {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
+  const handleTabClick = (newStep) => {
+    setActiveStep(newStep);
+  };
+
   const ActiveComponent = stepComponents[activeStep];
 
   return (
@@ -41,13 +61,25 @@ export default function FoodboxFlow() {
       <H1>Food Box Delivery</H1>
       <Paper className={classes.tabMargin} elevation={3} square>
         <Tabs value={activeStep} indicatorColor="primary" textColor="primary" centered>
-          <CustomTab icon={<H4>1</H4>} label="FOODBOX" disableRipple />
-          <CustomTab icon={<H4>2</H4>} label="DELIVERY" disableRipple />
-          <CustomTab icon={<H4>3</H4>} label="CONFIRM" disableRipple />
+          {tabNames.map((tab, idx) => (
+            <CustomTab
+              icon={<H4>{idx + 1}</H4>}
+              key={tab}
+              label={tab}
+              onClick={handleTabClick.bind(null, idx)}
+              disableRipple
+            />
+          ))}
         </Tabs>
       </Paper>
       <div className={classes.content}>
-        <ActiveComponent onBack={handleBack} onNext={handleNext}></ActiveComponent>
+        <ActiveComponent
+          mockData={mockData}
+          onBack={handleBack}
+          onNext={handleNext}
+          handleChange={handleChange}
+          values={values}
+        />
       </div>
     </div>
   );
