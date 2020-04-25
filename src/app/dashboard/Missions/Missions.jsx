@@ -138,7 +138,11 @@ const DashboardMissions = ({ inDone, inPlanning, inProgress, inProposed }) => {
             )}
           </Box>
           <Grid item xs>
-            <MapView missions={filtered} currentMission={currentMission} />
+            <MapView
+              missions={filtered}
+              currentMission={currentMission}
+              setSelectedMission={setSelectedMission}
+            />
           </Grid>
         </Grid>
       </Grid>

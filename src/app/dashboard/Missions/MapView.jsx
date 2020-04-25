@@ -56,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Overview = ({ currentMission, missions }) => {
+const Overview = ({ currentMission, missions, setSelectedMission }) => {
   const classes = useStyles();
 
   const position = { lat: 37.773972, lng: -122.431297 };
@@ -73,7 +73,7 @@ const Overview = ({ currentMission, missions }) => {
       if (currentMission.deliveryLocation)
         setViewport({ ...viewport, center: currentMission.deliveryLocation });
     }
-  }, [currentMission]);
+  }, [currentMission, viewport]);
 
   const FastFoodIconHtml = renderToString(<FastfoodIcon />);
   const FoodIcon = new DivIcon({
@@ -94,7 +94,14 @@ const Overview = ({ currentMission, missions }) => {
     if (mission.id === currentMission?.id) {
       return <Marker key={mission.id} position={mission.deliveryLocation} icon={HoverIcon} />;
     } else {
-      return <Marker key={mission.id} position={mission.deliveryLocation} icon={FoodIcon} />;
+      return (
+        <Marker
+          key={mission.id}
+          position={mission.deliveryLocation}
+          icon={FoodIcon}
+          onClick={() => setSelectedMission(mission.id)}
+        />
+      );
     }
   };
 
