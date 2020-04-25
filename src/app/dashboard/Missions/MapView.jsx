@@ -73,7 +73,8 @@ const Overview = ({ currentMission, missions, setSelectedMission }) => {
       if (currentMission.deliveryLocation)
         setViewport({ ...viewport, center: currentMission.deliveryLocation });
     }
-  }, [currentMission, viewport]);
+    // eslint-disable-next-line
+  }, [currentMission]);
 
   const FastFoodIconHtml = renderToString(<FastfoodIcon />);
   const FoodIcon = new DivIcon({
