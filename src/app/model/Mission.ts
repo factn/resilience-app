@@ -43,9 +43,9 @@ const defaultMissionData: MissionInterface = {
   recipientId: "No Recipient Id", // reference?
 };
 
-const fsInProposed = {
+const fsInProposed = (orgId: string) => ({
   collection: "organizations",
-  doc: "1",
+  doc: orgId,
   subcollections: [
     {
       collection: "missions",
@@ -56,10 +56,10 @@ const fsInProposed = {
     },
   ],
   storeAs: "missionsInProposed",
-};
-const fsInPlanning = {
+});
+const fsInPlanning = (orgId: string) => ({
   collection: "organizations",
-  doc: "1",
+  doc: orgId,
   subcollections: [
     {
       collection: "missions",
@@ -69,10 +69,10 @@ const fsInPlanning = {
     },
   ],
   storeAs: "missionsInPlanning",
-};
-const fsInProgress = {
+});
+const fsInProgress = (orgId: string) => ({
   collection: "organizations",
-  doc: "1",
+  doc: orgId,
   subcollections: [
     {
       collection: "missions",
@@ -80,10 +80,10 @@ const fsInProgress = {
     },
   ],
   storeAs: "missionsInProgress",
-};
-const fsInDone = {
+});
+const fsInDone = (orgId: string) => ({
   collection: "organizations",
-  doc: "1",
+  doc: orgId,
   subcollections: [
     {
       collection: "missions",
@@ -91,7 +91,7 @@ const fsInDone = {
     },
   ],
   storeAs: "missionsInDone",
-};
+});
 
 class Mission extends BaseModel {
   collectionName = "missions";
