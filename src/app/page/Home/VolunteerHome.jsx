@@ -1,14 +1,10 @@
-import { AppBar, Box, Paper, Tab, Tabs, Typography } from "@material-ui/core";
+import { Box, Paper, Tab, Tabs, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 
 import User from "../../model/User";
-import {
-  getAllAssignedMissions,
-  getAllStartedMissions,
-  getAllAvailableMissions,
-} from "./missionHelpers";
+import { getAllAssignedMissions, getAllStartedMissions } from "./missionHelpers";
 import VolunteerHomeMissionList from "./VolunteerHomeMissionList";
 
 const useStyles = makeStyles((theme) => ({
@@ -62,8 +58,6 @@ export default function VolunteerHome({ currentUser }) {
 
   const handleDeliveringMissionsFromStarted = (missionId) => {
     User.deliverMission(currentUser.uid, missionId);
-    const mission = startedMissions.filter((m) => m.id === missionId);
-
     updateStartedMissions(startedMissions.filter((m) => m.id !== missionId));
   };
 

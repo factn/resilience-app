@@ -266,6 +266,32 @@ class User extends BaseModel {
 
     return missions;
   }
+
+  /**
+   * Return all completed missions by the user
+   * @param userId UserId of the volunteer
+   */
+
+  async getAllCompletedMissions(userId: string) {
+    const collection = this.getCollection("missions");
+
+    const deliveredMissions = await collection
+      .where("volunteerId", "==", userId)
+      .where("status", "==", MissionStatus.delivered)
+      .get();
+    const succeededMissions = await collection
+      .where("volunteerId", "==", userId)
+      .where("status", "==", MissionStatus.succeeded)
+      .get();
+    const missionsDocumentSnapshot = deliveredMissions.docs.concat(succeededMissions.docs);
+
+    if (missionsDocumentSnapshot.length < 0) {
+      return [];
+    }
+    const missions = missionsDocumentSnapshot.map((doc) => doc.data());
+
+    return missions;
+  }
 }
 
 export default new User("users", defaultUserData);

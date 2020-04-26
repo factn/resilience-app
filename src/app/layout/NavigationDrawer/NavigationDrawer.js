@@ -83,12 +83,12 @@ export default function TemporaryDrawer() {
             <ListItemText primary="Home" />
           </ListItem>
         </Link>
-        <Link to="/missions" className={classes.link}>
+        <Link to="/missions/completed" className={classes.link}>
           <ListItem button>
             <ListItemIcon>
               <AssignmentIcon classes={{ root: classes.colorIcon }} fontSize="large" />
             </ListItemIcon>
-            <ListItemText primary="Volunteer needed" />
+            <ListItemText primary="Missions Completed" />
           </ListItem>
         </Link>
         <PrivateComponent>
