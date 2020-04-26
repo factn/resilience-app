@@ -1,17 +1,17 @@
 import { Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import InsertEmoticonIcon from "@material-ui/icons/InsertEmoticon";
+import PhoneIcon from "@material-ui/icons/Phone";
 import PropTypes from "prop-types";
 import React from "react";
 import { connect, useSelector } from "react-redux";
-import { Link, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { compose } from "redux";
 
-import HeaderImage1 from "../../../img/HeaderImage1.jpeg";
-import HeaderImage2 from "../../../img/HeaderImage2.png";
-import PhoneIcon from "../../../img/PhoneIcon.svg";
-import ShopperImage1 from "../../../img/ShopperImage1.jpeg";
-import SignInHeader1 from "../../../img/SignInHeader1.png";
-import SmileIcon from "../../../img/SmileIcon.svg";
+import HeaderImage1 from "../../../img/HeaderImage1.webp";
+import HeaderImage2 from "../../../img/HeaderImage2.webp";
+import ShopperImage1 from "../../../img/ShopperImage1.webp";
+import SignInHeader1 from "../../../img/SignInHeader1.webp";
 import SplashImage1 from "../../../img/SplashImage1.png";
 import { Body1, Button, H1, H2, H3, H4 } from "../../component";
 import { Page } from "../../layout";
@@ -167,8 +167,9 @@ const useStyles = makeStyles((theme) => ({
     marginRight: "8px",
   },
   DonateCardIcon: {
-    width: "33px",
-    height: "33px",
+    width: "40px",
+    height: "40px",
+    color: theme.color.white,
   },
   DonateCardMessage: {
     fontSize: "18px",
@@ -204,11 +205,16 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "left",
   },
   ContactAdIcon: {
-    width: "60px",
-    height: "60px",
+    width: "40px",
+    height: "40px",
     position: "absolute",
-    top: "-28px",
-    left: "-28px",
+    top: "-18px",
+    left: "-18px",
+    padding: "8px",
+    backgroundColor: theme.color.vibrantPurple,
+    borderRadius: "50%",
+    fontSize: "10px",
+    color: theme.color.white,
   },
   ContactAdLink: {
     color: theme.color.darkBlue,
@@ -235,12 +241,7 @@ const DonateCardComponent = () => {
         <H1 data-testid="label-donate-title" className={classes.DonateCardTitle}>
           Donate
         </H1>
-        <img
-          data-testid="icon-donate"
-          src={SmileIcon}
-          className={classes.DonateCardIcon}
-          alt="Donate Icon"
-        />
+        <InsertEmoticonIcon data-testid="icon-donate" className={classes.DonateCardIcon} />
       </Grid>
       <Body1 data-testid="label-donate-mssg" className={classes.DonateCardMessage}>
         Many families can't afford fresh food. Please help sponsor food boxes for those in need.
@@ -267,12 +268,7 @@ const ContactAdBanner = () => {
       className={classes.ContactAdContainer}
     >
       <Grid className={classes.ContactAdInfo}>
-        <img
-          data-testid="icon-contact"
-          src={PhoneIcon}
-          className={classes.ContactAdIcon}
-          alt="Phone Icon"
-        />
+        <PhoneIcon data-testid="icon-contact" className={classes.ContactAdIcon} />
         <H3 data-testid="label-contact-mssg-1" className={classes.ContactAdLabel}>
           To request food by phone,
         </H3>
