@@ -11,9 +11,6 @@ import Home from "./Home";
 
 describe("Home page", () => {
   beforeAll(() => {
-    const collection = {
-      doc: jest.fn(),
-    };
     jest.spyOn(User, "getAllAssociatedMissions").mockImplementation(() => []);
     jest.spyOn(User, "getAllAvailableMissions").mockImplementation(() => []);
   });
