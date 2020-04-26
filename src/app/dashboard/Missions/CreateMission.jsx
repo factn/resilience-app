@@ -21,7 +21,6 @@ import PhoneIcon from "@material-ui/icons/Phone";
 import AddLocationIcon from "@material-ui/icons/AddLocation";
 import QueryBuilderIcon from "@material-ui/icons/QueryBuilder";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
-import CheckIcon from "@material-ui/icons/Check";
 import DoneAllIcon from "@material-ui/icons/DoneAll";
 
 //TODO
@@ -145,7 +144,7 @@ const useStyles = makeStyles((theme) => ({
 const CreateMission = () => {
   const classes = useStyles();
   const [missionType, setMissionType] = useState();
-  const [associatedItems, setAssociatedItems] = useState({});
+  const [associatedItems, setAssociatedItems] = useState([]);
   // master mission object
   const [newMissionObject, setNewMissionObject] = useState({});
 
@@ -157,12 +156,7 @@ const CreateMission = () => {
       createdAt: new Date(),
       createdBy: "organizer", // make dynamic
       missionType: missionType,
-      associatedItems: [
-        {
-          name: "",
-          amount: null,
-        },
-      ],
+      associatedItems: associatedItems,
       fund: "",
       recipient: {
         name: "",
@@ -187,17 +181,6 @@ const CreateMission = () => {
 
   const handleChangeMissionType = (event) => {
     setMissionType(event.target.value);
-  };
-
-  const associatedItemChanges = (event) => {
-    let newItem = [event.target.name, event.target.value];
-    console.log(newItem);
-    // setAssociatedItems();
-  };
-
-  const associatedItemChangesAmount = (event) => {
-    let newAmount = [event.target.name, event.target.value];
-    console.log(newAmount);
   };
 
   // This handles all the food box inputs that are added to food box missions
@@ -243,39 +226,58 @@ const CreateMission = () => {
 
               {foodBoxInputCount.map((index) => {
                 const state = {
-                  key: index,
-                  clicked: false,
+                  name: "",
+                  amount: 0,
                 };
+
+                const associatedItemChanges = (event) => {
+                  state.name = event.target.value;
+                };
+
+                const associatedItemChangesAmount = (event) => {
+                  state.amount = event.target.value;
+                };
+
                 function confirmItems(event) {
                   event.preventDefault();
                   const check = document.getElementById("check" + index);
                   check.style.display = "flex";
                   const text = document.getElementById("ci" + index);
                   text.style.color = "#3739B5";
+                  const btn = document.getElementById("btn" + index);
+                  btn.style.disabled = true;
+                  setAssociatedItems([
+                    ...associatedItems,
+                    { name: state.name, amount: state.amount },
+                  ]);
+                  console.log(associatedItems);
                 }
                 return (
                   <div className={classes.sideBySideSelect} key={index}>
+                    {/* BUG I CANNOT GET THEM TO DYNAMICALLY DISPLAY  WHAT HAS BEEN SELECTED */}
                     <Select
                       onChange={associatedItemChanges}
                       name={"item" + index}
                       variant="outlined"
                       className={classes.select}
-                      value="default"
+                      value={state.name}
                     >
                       <MenuItem value="default">Select Food Box Type</MenuItem>
                       <MenuItem value="Fruits and Veggies">Fruits & Veggies</MenuItem>
                       <MenuItem value="Non-Perishables">Non-Perishables</MenuItem>
                       <MenuItem value="Meat">Meat</MenuItem>
                     </Select>
-
+                    {/* BUG I CANNOT GET THEM TO DYNAMICALLY DISPLAY WHAT HAS BEEN SELECTED */}
                     <TextField
                       onChange={associatedItemChangesAmount}
                       name={"amount" + index}
                       type="number"
                       variant="outlined"
                       className={classes.numSelector}
+                      value={state.amount}
                     />
                     <Button
+                      id={"btn" + index}
                       onClick={(event) => confirmItems(event)}
                       className={classes.selectCreateButton}
                     >
