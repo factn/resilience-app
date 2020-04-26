@@ -293,6 +293,8 @@ const GreetingCardComponent = ({
   backgroundPosition,
   message,
   title,
+  actionLabel,
+  actionPress,
 }) => {
   const classes = useStyles();
   return (
@@ -309,18 +311,13 @@ const GreetingCardComponent = ({
         <div className={classes.GreetingCardOverlay} />
       </Grid>
       <Body1 className={classes.GreetingCardMessageLabel}>{message}</Body1>
-      {actions.map((action, index) => {
-        return (
-          <Button
-            className={classes.GreetingCardActionButton}
-            onClick={action.onClick}
-            data-testid={index}
-            key={index}
-          >
-            {action.label}
-          </Button>
-        );
-      })}
+      <Button
+        className={classes.GreetingCardActionButton}
+        onClick={actionPress}
+        data-testid="greetingActionButton"
+      >
+        {actionLabel}
+      </Button>
     </Grid>
   );
 };
@@ -374,24 +371,16 @@ const HomePage = ({ auth, history }) => {
             title="Need help?"
             message="Sign up to request a food box, small errand, or a pharmacy pickup. You'll be matched with a
             volunteer who will take care of you ASAP."
-            actions={[
-              {
-                label: "I Need Help",
-                onClick: () => null,
-              },
-            ]}
+            actionLabel="I Need Help"
+            actionPress={() => null}
             backgroundImage={`url(${HeaderImage1})`}
             backgroundPosition={`10% 55%`}
           />
           <GreetingCardComponent
             title="Want to help?"
             message="Sign up to join your local network helping neighbors through this crisis. Deliver food, medicine, and supplies to the most vulnerable."
-            actions={[
-              {
-                label: "Volunteer",
-                onClick: () => history.push("/signup"),
-              },
-            ]}
+            actionLabel="Volunteer"
+            actionPress={() => history.push("/signup")}
             backgroundImage={`url(${HeaderImage2})`}
             backgroundPosition={`50% 10%`}
           />
