@@ -70,7 +70,7 @@ const UserStatus = ({ profile, setProfile, view }) => {
     if (loaded && !error) {
       handleScriptLoad();
     }
-  }, []);
+  }, [loaded, error]);
 
   return (
     <Grid container direction="column" justify="center" className={classes.root} spacing={2}>
