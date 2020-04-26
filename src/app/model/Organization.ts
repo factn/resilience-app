@@ -13,7 +13,7 @@ const defaultData: OrganizationInterface = {
  */
 class Organization extends BaseModel {
   getById = async (organizationId: string) => {
-    const collection = this.getCollection("organization");
+    const collection = this.getCollection("organizations");
     let doc;
     try {
       doc = await collection.doc(organizationId).get();
