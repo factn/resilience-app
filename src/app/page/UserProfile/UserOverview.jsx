@@ -16,14 +16,6 @@ const useStyles = makeStyles((theme) => ({
     height: theme.spacing(9),
     margin: "12px auto 8px auto",
   },
-  profileEditButton: {
-    backgroundColor: "transparent",
-    color: theme.color.darkBlue,
-    "&:hover": {
-      backgroundColor: "transparent",
-      color: theme.color.secondaryBlue,
-    },
-  },
 }));
 
 const UserStatus = ({ profile, setProfile, view }) => {
