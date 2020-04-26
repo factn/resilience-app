@@ -18,6 +18,7 @@ const defaultLocation: Location = {
 };
 const defaultUserData: UserInterface = {
   id: "",
+  cannotReceiveTexts: false,
   phone: "",
   photoURL: "",
   description: "",
@@ -41,6 +42,11 @@ class User extends BaseModel {
 
   async saveNewUser(data: UserInterface) {
     const collection = this.getCollection("users");
+
+    // For users who don't have SMS capability
+    if (!data.id) {
+      data.id = uuidV4();
+    }
 
     try {
       await collection.doc(data.id).set({
@@ -221,6 +227,24 @@ class User extends BaseModel {
       //TODO show error msg to user
       throw e;
     }
+  }
+  /**
+   * Get all available missions: missions suggested to the volunteer + general available missions
+   * @param userId UserId of the volunteer
+   */
+  async getAllAvailableMissions(userId: string) {
+    const collection = this.getCollection("missions");
+
+    const missionsAvailableForEveryone = await Mission.getAllAvailable();
+    const suggestedMissions = await collection.where("tentativeVolunteerId", "==", userId).get();
+    const missions = missionsAvailableForEveryone.concat(
+      suggestedMissions.docs.map((doc) => doc.data())
+    );
+    if (missions.length < 0) {
+      return [];
+    }
+
+    return missions;
   }
 
   /**

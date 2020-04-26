@@ -4,11 +4,22 @@ import React from "react";
 
 import { Body1 } from "../../../component";
 import AddressInput from "../../../component/AddressInput";
+import { useFirebase } from "react-redux-firebase";
+import { normalizeLocation } from "../../../utils/helpers";
 import { StyledHeader, useStyles } from "./foodboxSteps.style";
 import NavigationButtons from "./NavigationButtons";
+import { User } from "../../../model";
 
-function DeliveryStep({ handleChange, onBack, onNext, values }) {
+function DeliveryStep({
+  handleChange,
+  onBack,
+  onNext,
+  setErrorSnackbarMessage,
+  setLoading,
+  values,
+}) {
   const classes = useStyles();
+  const firebase = useFirebase();
 
   function changeFormValue(name, value) {
     handleChange({ target: { name, value } });
@@ -21,6 +32,65 @@ function DeliveryStep({ handleChange, onBack, onNext, values }) {
   function handleChangeLocation(data) {
     const { location } = data;
     changeFormValue("location", location);
+  }
+
+  async function verifyPhone() {
+    if (!window.recaptchaVerifier) {
+      window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier("phone", {
+        size: "invisible",
+      });
+    }
+    const verificationPrompt =
+      "Please enter the verification code that was sent to your mobile device.";
+
+    firebase
+      .auth()
+      .signInWithPhoneNumber(values.phone, window.recaptchaVerifier)
+      .then(async function (confirmationResult) {
+        // SMS sent. Prompt user to type the code from the message, then sign the
+        // user in with confirmationResult.confirm(code).
+        const verificationCode = window.prompt(verificationPrompt);
+        confirmationResult.confirm(verificationCode).then((response) => {
+          updateUserProfile({
+            ...getPayload(),
+            id: response.user.id,
+          });
+        });
+      })
+      .catch(function (error) {
+        setErrorSnackbarMessage(error);
+      });
+  }
+
+  function getPayload() {
+    const payload = {
+      displayName: `${values.firstName} ${values.lastName}`,
+      phone: values.phone || "",
+      cannotReceiveTexts: !!values.cannotReceiveTexts,
+    };
+    if (values.location) payload.location = normalizeLocation(values.location);
+    return payload;
+  }
+
+  function updateUserProfile(data = getPayload()) {
+    try {
+      setLoading(true);
+      User.saveNewUser(data).then(() => {
+        setLoading(false);
+        onNext();
+      });
+    } catch (error) {
+      setLoading(false);
+      setErrorSnackbarMessage(error);
+    }
+  }
+
+  function handleSubmitUser() {
+    if (values.cannotReceiveTexts) {
+      updateUserProfile();
+    } else {
+      verifyPhone();
+    }
   }
 
   return (
@@ -81,6 +151,7 @@ function DeliveryStep({ handleChange, onBack, onNext, values }) {
         helperText="Used for receiving updates (SMS/texts)"
         label="Mobile Number"
         name="phone"
+        id="phone"
         onChange={handleChange}
         value={values.phone || ""}
         variant="outlined"
@@ -89,7 +160,7 @@ function DeliveryStep({ handleChange, onBack, onNext, values }) {
         className={classes.checkBox}
         control={
           <Checkbox
-            checked={values.cannotReceiveTexts}
+            checked={!!values.cannotReceiveTexts}
             onChange={handleCheckBoxChange}
             name="cannotReceiveTexts"
           />
@@ -100,7 +171,7 @@ function DeliveryStep({ handleChange, onBack, onNext, values }) {
         className={classes.checkBox}
         control={
           <Checkbox
-            checked={values.termsAndConditions}
+            checked={!!values.termsAndConditions}
             onChange={handleCheckBoxChange}
             name="termsAndConditions"
           />
@@ -108,7 +179,7 @@ function DeliveryStep({ handleChange, onBack, onNext, values }) {
         label="By signing up, I agree to some terms and conditions, waiver link here,"
       />
 
-      <NavigationButtons onBack={onBack} onNext={onNext} />
+      <NavigationButtons onBack={onBack} onNext={handleSubmitUser} />
     </div>
   );
 }

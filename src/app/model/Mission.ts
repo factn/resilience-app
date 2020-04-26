@@ -132,6 +132,23 @@ class Mission extends BaseModel {
   };
 
   /**
+   * Returns all available missions
+   */
+  getAllAvailable = async () => {
+    const collection = this.getCollection("missions");
+
+    const missionsAvailableForEveryone = await collection
+      .where("status", "==", MissionStatus.unassigned)
+      .get();
+
+    if (missionsAvailableForEveryone.docs.length < 1) {
+      return [];
+    }
+    const missions = missionsAvailableForEveryone.docs.map((doc) => doc.data());
+
+    return missions;
+  };
+  /**
    * Update a mision
    * @param {string} missionId - mission
    * @param {object} data- updated data

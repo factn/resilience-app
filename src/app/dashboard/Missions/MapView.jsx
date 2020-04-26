@@ -2,7 +2,7 @@ import Box from "@material-ui/core/Box";
 import { makeStyles } from "@material-ui/core/styles";
 import FastfoodIcon from "@material-ui/icons/Fastfood";
 import { DivIcon } from "leaflet";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { renderToString } from "react-dom/server";
 import { Map, Marker, TileLayer } from "react-leaflet";
 
@@ -56,13 +56,25 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Overview = ({ missions, selectedMission }) => {
+const Overview = ({ currentMission, missions, setSelectedMission }) => {
   const classes = useStyles();
 
   const position = { lat: 37.773972, lng: -122.431297 };
+  const [viewport, setViewport] = useState({
+    center: position,
+    zoom: 12,
+  });
+
   let filtered = missions?.filter((mission) => {
     return mission.deliveryLocation && mission.deliveryLocation.lat && mission.deliveryLocation.lng;
   });
+  useEffect(() => {
+    if (currentMission) {
+      if (currentMission.deliveryLocation)
+        setViewport({ ...viewport, center: currentMission.deliveryLocation });
+    }
+    // eslint-disable-next-line
+  }, [currentMission]);
 
   const FastFoodIconHtml = renderToString(<FastfoodIcon />);
   const FoodIcon = new DivIcon({
@@ -80,16 +92,27 @@ const Overview = ({ missions, selectedMission }) => {
   });
 
   const getMarker = (mission) => {
-    if (mission.id === selectedMission) {
+    if (mission.id === currentMission?.id) {
       return <Marker key={mission.id} position={mission.deliveryLocation} icon={HoverIcon} />;
     } else {
-      return <Marker key={mission.id} position={mission.deliveryLocation} icon={FoodIcon} />;
+      return (
+        <Marker
+          key={mission.id}
+          position={mission.deliveryLocation}
+          icon={FoodIcon}
+          onClick={() => setSelectedMission(mission.id)}
+        />
+      );
     }
   };
 
   return (
     <Box height="100%">
-      <Map center={position} zoom={12} className={`${classes.map} data-test-leaftleft-map`}>
+      <Map
+        viewport={viewport}
+        onViewportChanged={setViewport}
+        className={`${classes.map} data-test-leaftleft-map`}
+      >
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
         {filtered?.map((mission) => {
           return getMarker(mission);

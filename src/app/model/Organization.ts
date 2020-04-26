@@ -5,9 +5,6 @@ const defaultData: OrganizationInterface = {
   id: "",
   name: "",
   location: undefined,
-  resources: undefined,
-  users: new Map(),
-  missions: new Map(),
 };
 /**
  * Defines the organization.

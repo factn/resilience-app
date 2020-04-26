@@ -31,9 +31,12 @@ export class OrganizationInterface {
   name!: string;
   /*The Location of the Organization*/
   location?: Location;
+  /**
+   * There are subcollection, they are here for references
   resources?: Map<string, Resource>;
   missions: Map<string, MissionInterface> = new Map();
   users: Map<string, UserInterface> = new Map();
+  */
 }
 
 // === USER ===
@@ -73,6 +76,8 @@ export class UserInterface {
   isVolunteer!: boolean;
   /* if user is an organizer */
   isOrganizer!: boolean;
+  /* if user can receive texts */
+  cannotReceiveTexts!: boolean;
   /* specific details for the volunteer */
   volunteerDetails!: {
     /*user hours */
