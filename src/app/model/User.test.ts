@@ -40,7 +40,7 @@ function mockBaseRepo({ existsReturn, mockDataReturn, throwCollectionDocError, t
   };
 }
 
-describe("User", () => {
+xdescribe("User", () => {
   describe("#unvolunteerMission", () => {
     const missionId = "1234";
     const volunteerId = "aabbbccc";

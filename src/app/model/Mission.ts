@@ -109,7 +109,7 @@ class Mission extends BaseModel {
   fsInDone = fsInDone;
 
   getById = async (missionId: string) => {
-    const collection = this.getCollection("missions");
+    const collection = this.getCollection("organizations").doc("1").collection("missions");
     let doc;
     try {
       doc = await collection.doc(missionId).get();
@@ -135,7 +135,7 @@ class Mission extends BaseModel {
    * Returns all available missions
    */
   getAllAvailable = async () => {
-    const collection = this.getCollection("missions");
+    const collection = this.getCollection("organizations").doc("1").collection("missions");
 
     const missionsAvailableForEveryone = await collection
       .where("status", "==", MissionStatus.unassigned)
@@ -155,7 +155,9 @@ class Mission extends BaseModel {
    */
   update(missionId: string, data: object) {
     let sanitized = this.sanitize(data);
-    return this.getCollection("missions")
+    return this.getCollection("organizations")
+      .doc("1")
+      .collection("missions")
       .doc(missionId)
       .update({
         ...sanitized,

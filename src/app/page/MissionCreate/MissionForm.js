@@ -5,11 +5,12 @@ import AlgoliaPlaces from "algolia-places-react";
 import PropTypes from "prop-types";
 import React from "react";
 
-import { ANGOLIA_API_KEY } from "../../../constants";
 import Button from "../../component/Button";
 import { Page } from "../../layout";
 import KeyDatePickerContainer from "./KeyDatePickerContainer";
 import { Upload, useStyles } from "./Request.style";
+
+const { ALGOLIA_API_KEY, ALGOLIA_APP_ID } = process.env;
 
 const StyledHeader = withStyles({
   root: {
@@ -171,8 +172,8 @@ function MissionForm({ getFile, handleChange, onSubmit, values /*, assignHelper,
             placeholder="Pickup location"
             name="pickUp"
             options={{
-              appId: "plZ318O8ODTC",
-              apiKey: ANGOLIA_API_KEY,
+              appId: ALGOLIA_APP_ID,
+              apiKey: ALGOLIA_API_KEY,
               language: "en",
               countries: ["us"],
               // Other options from https://community.algolia.com/places/documentation.html#options
@@ -213,11 +214,10 @@ function MissionForm({ getFile, handleChange, onSubmit, values /*, assignHelper,
             placeholder="Drop-off location"
             name="dropOff"
             options={{
-              appId: "plZ318O8ODTC",
-              apiKey: ANGOLIA_API_KEY,
+              appId: ALGOLIA_APP_ID,
+              apiKey: ALGOLIA_API_KEY,
               language: "en",
               countries: ["us"],
-              // Other options from https://community.algolia.com/places/documentation.html#options
             }}
             onChange={(query) => handleLocation(query, "dropOff")}
             onLimit={({ message }) =>

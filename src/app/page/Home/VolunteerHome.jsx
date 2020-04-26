@@ -44,15 +44,19 @@ export default function VolunteerHome({ currentUser }) {
 
   const handleStartMissionFromAssigned = (missionId) => {
     User.startMission(currentUser.uid, missionId);
+
+    // Move from Assigned to Started
     const mission = acceptedMissions.filter((m) => m.id === missionId);
-    updateStartedMissions(startedMissions.concat(mission));
     updateAssignedMissions(acceptedMissions.filter((m) => m.id !== missionId));
+    updateStartedMissions(startedMissions.concat(mission));
   };
 
-  const handleStartMissionFromAvailable = (missionId) => {
-    User.startMission(currentUser.uid, missionId);
+  const handleVolunteerMissionFromAvailable = (missionId) => {
+    User.volunteerMission(currentUser.uid, missionId);
+
+    // Move from Available to Accepted
     const mission = availableMissions.filter((m) => m.id === missionId);
-    updateStartedMissions(startedMissions.concat(mission));
+    updateAssignedMissions(acceptedMissions.concat(mission));
     updateAvailableMissions(availableMissions.filter((m) => m.id !== missionId));
   };
 
@@ -86,8 +90,8 @@ export default function VolunteerHome({ currentUser }) {
         <VolunteerHomeMissionList
           missions={availableMissions}
           currentUser={currentUser}
-          actionText="Start Mission"
-          action={(missionId) => handleStartMissionFromAvailable(missionId)}
+          actionText="Accept Mission"
+          action={(missionId) => handleVolunteerMissionFromAvailable(missionId)}
         />
       </TabPanel>
       <TabPanel value={value} index={1}>
