@@ -1,3 +1,3 @@
-import Missions from "./Missions";
+import MissionsCompleted from "./Missions";
 
-export default Missions;
+export default MissionsCompleted;
