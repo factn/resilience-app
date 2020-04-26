@@ -15,6 +15,7 @@ describe("Home page", () => {
       doc: jest.fn(),
     };
     jest.spyOn(User, "getAllAssociatedMissions").mockImplementation(() => []);
+    jest.spyOn(User, "getAllAvailableMissions").mockImplementation(() => []);
   });
 
   function renderComponent({ state } = {}) {
