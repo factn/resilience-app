@@ -59,7 +59,7 @@ const UserStatus = ({ profile, setProfile, view }) => {
     };
     const addrElem = document.getElementById("address");
 
-    if (window.google !== undefined) {
+    if (window.google) {
       autocomplete = new window.google.maps.places.Autocomplete(addrElem, options);
       autocomplete.setFields(["address_components", "formatted_address"]);
       autocomplete.addListener("place_changed", handleAddressSelect);
