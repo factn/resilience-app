@@ -18,7 +18,8 @@ const defaultLocation: Location = {
 };
 const defaultUserData: UserInterface = {
   id: "",
-  phone: "0",
+  cannotReceiveTexts: false,
+  phone: "",
   photoURL: "",
   description: "",
   displayName: "",
@@ -41,6 +42,11 @@ class User extends BaseModel {
 
   async saveNewUser(data: UserInterface) {
     const collection = this.getCollection("users");
+
+    // For users who don't have SMS capability
+    if (!data.id) {
+      data.id = uuidV4();
+    }
 
     try {
       await collection.doc(data.id).set({
@@ -222,6 +228,24 @@ class User extends BaseModel {
       throw e;
     }
   }
+  /**
+   * Get all available missions: missions suggested to the volunteer + general available missions
+   * @param userId UserId of the volunteer
+   */
+  async getAllAvailableMissions(userId: string) {
+    const collection = this.getCollection("missions");
+
+    const missionsAvailableForEveryone = await Mission.getAllAvailable();
+    const suggestedMissions = await collection.where("tentativeVolunteerId", "==", userId).get();
+    const missions = missionsAvailableForEveryone.concat(
+      suggestedMissions.docs.map((doc) => doc.data())
+    );
+    if (missions.length < 0) {
+      return [];
+    }
+
+    return missions;
+  }
 
   /**
    * Returns all missions that a volunteer is associated with or has been suggested for.
@@ -236,6 +260,32 @@ class User extends BaseModel {
     const missionsDocumentSnapshot = volunteeredMissions.docs.concat(suggestedMissions.docs);
 
     if (missionsDocumentSnapshot.length < 1) {
+      return [];
+    }
+    const missions = missionsDocumentSnapshot.map((doc) => doc.data());
+
+    return missions;
+  }
+
+  /**
+   * Return all completed missions by the user
+   * @param userId UserId of the volunteer
+   */
+
+  async getAllCompletedMissions(userId: string) {
+    const collection = this.getCollection("missions");
+
+    const deliveredMissions = await collection
+      .where("volunteerId", "==", userId)
+      .where("status", "==", MissionStatus.delivered)
+      .get();
+    const succeededMissions = await collection
+      .where("volunteerId", "==", userId)
+      .where("status", "==", MissionStatus.succeeded)
+      .get();
+    const missionsDocumentSnapshot = deliveredMissions.docs.concat(succeededMissions.docs);
+
+    if (missionsDocumentSnapshot.length < 0) {
       return [];
     }
     const missions = missionsDocumentSnapshot.map((doc) => doc.data());

@@ -1,3 +1,3 @@
-import DashboardMissions from "./DashboardMissions";
+import Missions from "./Missions";
 
-export default DashboardMissions;
+export default Missions;

@@ -50,6 +50,7 @@ function ConfirmStep({ mockData, values }) {
   const cart = {
     items: [
       {
+        id: "basket-id1",
         quantity: values.quantity,
         name: values.basket,
         description: values.farm,
@@ -112,6 +113,7 @@ function ConfirmStep({ mockData, values }) {
       <List dense={true}>
         {cart.items.map((item) => (
           <CheckoutItem
+            key={item.id}
             quantity={item.quantity}
             subtotal={item.quantity * item.unit_amount.value}
             secondary={item.description}

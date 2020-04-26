@@ -1,0 +1,36 @@
+name: Seed DB
+
+on:
+  schedule:
+    - cron:  '0 */2 * * *'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [10.x]
+    
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: Install python faker
+      run: pip3 install faker
+
+    - name: Install firebase-admin
+      run: npm i firebase-admin
+
+    - name: Create dataset for updating firebase
+      run: |
+        python3 ./scheme/data.py
+        mv ./data.json ./scheme/data.json
+    
+    - name: Upload to firebase
+      env:
+        FIREBASE_SECRET: ${{ secrets.FIREBASE_SECRET }}
+      run: node scheme/uploadMock.js
