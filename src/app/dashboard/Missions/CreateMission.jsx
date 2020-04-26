@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 // components
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -19,6 +19,11 @@ import PanToolIcon from "@material-ui/icons/PanTool";
 import PhoneIcon from "@material-ui/icons/Phone";
 import AddLocationIcon from "@material-ui/icons/AddLocation";
 import QueryBuilderIcon from "@material-ui/icons/QueryBuilder";
+import AddCircleIcon from "@material-ui/icons/AddCircle";
+
+//TODO
+// ONCE OVER DESIGNS WITH DAVID
+// 100% FUNCTIONALITY
 
 const useStyles = makeStyles((theme) => ({
   addMissionContainer: {
@@ -115,10 +120,35 @@ const useStyles = makeStyles((theme) => ({
     padding: "10px",
     width: "100%",
   },
+  sideBySideSelect: {
+    display: "flex",
+    margin: "10px",
+  },
+  numSelector: {
+    width: "100px",
+  },
+  selectCreateButton: {
+    textAlign: "left",
+    padding: "10px",
+    color: "#3739B5",
+    maxWidth: "50%",
+  },
 }));
 
 const CreateMission = () => {
   const classes = useStyles();
+  const [missionType, setMissionType] = useState("default");
+
+  const handleChangeMissionType = (event) => {
+    setMissionType(event.target.value);
+  };
+
+  // This handles all the food box inputs that are added to food box missions
+  const [foodBoxInputCount, setFoodBoxInputCount] = useState([]);
+  function addToFBCount() {
+    setFoodBoxInputCount([...foodBoxInputCount, foodBoxInputCount.length + 1]);
+  }
+
   return (
     <Container maxWidth="sm">
       <Typography className={classes.addMissionContainer} component="div">
@@ -129,13 +159,48 @@ const CreateMission = () => {
         <Divider variant="middle" />
         <Typography className={classes.inputHeader}>Mission Type</Typography>
         <FormControl className={classes.form}>
-          <Select variant="outlined" className={classes.select} value="default" labelId="smt">
+          <Select
+            variant="outlined"
+            className={classes.select}
+            value={missionType}
+            onChange={handleChangeMissionType}
+            labelId="smt"
+          >
             <MenuItem value="default">Select Mission Type</MenuItem>
-            <MenuItem value="foodBox">Food Box</MenuItem>
-            {/* THIS NEEDS TO SPAWN NEW MENU SPECIFIC TO MISSION */}
+            <MenuItem value="food-box">Food Box</MenuItem>
           </Select>
         </FormControl>
+        {/* THIS PART SPAWNS BASED ON WHAT MISSION TYPE WAS SELECTED */}
+        {missionType === "food-box" ? (
+          <>
+            <Typography className={classes.inputHeader}>Select Food Box Options</Typography>
+            <FormControl className={classes.form}>
+              {/* DETERMINE FOOD BOX TYPES */}
+
+              {foodBoxInputCount.map((index) => {
+                return (
+                  <div className={classes.sideBySideSelect} key={index}>
+                    <Select variant="outlined" className={classes.select} value="default">
+                      <MenuItem value="default">Select Food Box Type</MenuItem>
+                      <MenuItem value="fnv">Fruits & Veggies</MenuItem>
+                      <MenuItem value="non-p">Non-Perishables</MenuItem>
+                      <MenuItem value="meat">Meat</MenuItem>
+                    </Select>
+
+                    <TextField type="number" variant="outlined" className={classes.numSelector} />
+                  </div>
+                );
+              })}
+
+              <Button className={classes.selectCreateButton} onClick={(e) => addToFBCount(e)}>
+                <AddCircleIcon style={{ marginRight: "5px", color: "#3739B5" }} />
+                Add Food Box
+              </Button>
+            </FormControl>
+          </>
+        ) : null}
         <Divider variant="middle" />
+
         <div className={classes.optionalTagBox}>
           <Typography className={classes.inputHeader}>Funding Details </Typography>
           <Typography className={classes.optionalTag}> - optional</Typography>
