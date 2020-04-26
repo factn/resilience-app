@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { ReactComponent as Logo } from "../../../img/logo.svg";
 import NavigationDrawer from "../NavigationDrawer/index";
 import {
-  AboutText,
+  AboutLink,
   AppbarContainer,
   AppbarDefault,
   LogoContainer,
@@ -15,9 +15,6 @@ import {
 
 const Appbar = ({ children }) => {
   const isEmpty = useSelector((state) => state.firebase.auth.isEmpty);
-  function linkToAbout() {
-    window.location = "/about";
-  }
   return (
     <AppbarContainer role="navigation">
       {children ? (
@@ -29,7 +26,11 @@ const Appbar = ({ children }) => {
               <Logo title="MutualAidLogo" role="img" />
             </Link>
           </LogoContainer>
-          {isEmpty ? <AboutText onClick={linkToAbout}>About Resilience App</AboutText> : null}
+          {isEmpty ? (
+            <AboutLink to="/about" aria-label="About Resilience App">
+              About Resilience App
+            </AboutLink>
+          ) : null}
           <MenuContainer data-testid="MutualAidMenu">
             <NavigationDrawer />
           </MenuContainer>
