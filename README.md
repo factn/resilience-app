@@ -26,6 +26,12 @@ npm ci
 
 Copy the file pinned to the side of #resilience-app channel to `.env.development`in the git root of this repo.
 
+- Example of .env.development content
+```
+REACT_APP_MB_ACCESS_TOKEN=
+REACT_APP_MAPS_ACCESS_TOKEN=
+```
+
 - Start the local server
 
 ```
