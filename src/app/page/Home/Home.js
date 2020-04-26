@@ -232,13 +232,24 @@ const DonateCardComponent = () => {
   return (
     <Grid container direction="column" className={classes.DonateCardContainer}>
       <Grid container direction="row" justify="flex-start" alignItems="center">
-        <H1 className={classes.DonateCardTitle}>Donate</H1>
-        <img src={SmileIcon} className={classes.DonateCardIcon} alt="Donate Icon" />
+        <H1 data-testid="label-donate-title" className={classes.DonateCardTitle}>
+          Donate
+        </H1>
+        <img
+          data-testid="icon-donate"
+          src={SmileIcon}
+          className={classes.DonateCardIcon}
+          alt="Donate Icon"
+        />
       </Grid>
-      <Body1 className={classes.DonateCardMessage}>
+      <Body1 data-testid="label-donate-mssg" className={classes.DonateCardMessage}>
         Many families can't afford fresh food. Please help sponsor food boxes for those in need.
       </Body1>
-      <Button className={classes.DonateCardAction} onClick={() => null} data-testid="btn-donate">
+      <Button
+        data-testid="btn-donate-action"
+        className={classes.DonateCardAction}
+        onClick={() => null}
+      >
         Donate Funds
       </Button>
     </Grid>
@@ -256,9 +267,16 @@ const ContactAdBanner = () => {
       className={classes.ContactAdContainer}
     >
       <Grid className={classes.ContactAdInfo}>
-        <img src={PhoneIcon} className={classes.ContactAdIcon} alt="Phone Icon" />
-        <H3 className={classes.ContactAdLabel}>To request food by phone,</H3>
-        <H3 className={classes.ContactAdLabel}>
+        <img
+          data-testid="icon-contact"
+          src={PhoneIcon}
+          className={classes.ContactAdIcon}
+          alt="Phone Icon"
+        />
+        <H3 data-testid="label-contact-mssg-1" className={classes.ContactAdLabel}>
+          To request food by phone,
+        </H3>
+        <H3 data-testid="label-contact-mssg-2" className={classes.ContactAdLabel}>
           call {/* TODO: Turn it back to Link when correct phone number is populated */}
           <span className={classes.ContactAdLink}>555-555-555</span>
         </H3>
@@ -277,8 +295,10 @@ const PoweredByComponent = () => {
       alignItems="center"
       className={classes.PoweredByContainer}
     >
-      <H4 className={classes.PoweredByLabel}>Powered by</H4>
-      <H4 className={classes.PoweredByLabel}>
+      <H4 data-testid="label-powered-by" className={classes.PoweredByLabel}>
+        Powered by
+      </H4>
+      <H4 data-testid="label-powered-by-name" className={classes.PoweredByLabel}>
         <b>Resilience</b>
       </H4>
     </Grid>
@@ -305,14 +325,18 @@ const GreetingCardComponent = ({
         className={classes.GreetingCardHeaderContainer}
         style={{ backgroundImage, backgroundPosition }}
       >
-        <H2 className={classes.GreetingCardHeaderLabel}>{title}</H2>
-        <div className={classes.GreetingCardOverlay} />
+        <H2 data-testid="label-greeting-title" className={classes.GreetingCardHeaderLabel}>
+          {title}
+        </H2>
+        <div data-testid="label-greeting-overlay" className={classes.GreetingCardOverlay} />
       </Grid>
-      <Body1 className={classes.GreetingCardMessageLabel}>{message}</Body1>
+      <Body1 data-testid="label-greeting-mssg" className={classes.GreetingCardMessageLabel}>
+        {message}
+      </Body1>
       <Button
         className={classes.GreetingCardActionButton}
         onClick={actionPress}
-        data-testid="greetingActionButton"
+        data-testid="btn-greeting-action"
       >
         {actionLabel}
       </Button>
@@ -329,8 +353,12 @@ const SignInHeaderComponent = ({ history }) => {
         className={classes.FactnLogo}
         alt="Faction Logo"
       />
-      <H1 className={classes.OrgNameLabel}>Organisation Name</H1>
-      <H3 className={classes.TaglineLabel}>Neighbors helping neighbors (optional org tagline)</H3>
+      <H1 data-testid="label-org-name" className={classes.OrgNameLabel}>
+        Organisation Name
+      </H1>
+      <H3 data-testid="label-org-tagline" className={classes.TaglineLabel}>
+        Neighbors helping neighbors (optional org tagline)
+      </H3>
       <Button
         className={classes.SigninButton}
         onClick={() => history.push("/login")}

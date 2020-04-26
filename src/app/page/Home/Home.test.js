@@ -46,9 +46,27 @@ describe("Home page", () => {
     const page = renderComponent();
     expect(page.getByRole("navigation")).toBeInTheDocument();
     expect(page.getByRole("main")).toBeInTheDocument();
+
+    expect(page.queryByTestId("label-org-name")).toBeInTheDocument();
+    expect(page.queryByTestId("label-org-tagline")).toBeInTheDocument();
     expect(page.getByTestId("btn-login")).toBeInTheDocument();
-    expect(page.getByTestId("btn-donate")).toBeInTheDocument();
-    expect(page.queryByTestId("btn-request-help")).not.toBeInTheDocument();
+
+    expect(page.queryByTestId("label-powered-by")).toBeInTheDocument();
+    expect(page.queryByTestId("label-powered-by-name")).toBeInTheDocument();
+
+    expect(page.queryAllByTestId("label-greeting-title")).toHaveLength(2);
+    expect(page.queryAllByTestId("label-greeting-overlay")).toHaveLength(2);
+    expect(page.queryAllByTestId("label-greeting-mssg")).toHaveLength(2);
+    expect(page.queryAllByTestId("btn-greeting-action")).toHaveLength(2);
+
+    expect(page.queryByTestId("label-donate-title")).toBeInTheDocument();
+    expect(page.queryByTestId("icon-donate")).toBeInTheDocument();
+    expect(page.queryByTestId("label-donate-mssg")).toBeInTheDocument();
+    expect(page.queryByTestId("btn-donate-action")).toBeInTheDocument();
+
+    expect(page.queryByTestId("icon-contact")).toBeInTheDocument();
+    expect(page.queryByTestId("label-contact-mssg-1")).toBeInTheDocument();
+    expect(page.queryByTestId("label-contact-mssg-2")).toBeInTheDocument();
   });
 
   it("Renders the home layout with Request Help", () => {
@@ -61,7 +79,7 @@ describe("Home page", () => {
       },
     };
 
-    let page = renderComponent({ state });
+    const page = renderComponent({ state });
 
     expect(page.getByRole("navigation")).toBeInTheDocument();
     expect(page.getByRole("main")).toBeInTheDocument();
