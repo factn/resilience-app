@@ -259,10 +259,8 @@ const ContactAdBanner = () => {
         <img src={PhoneIcon} className={classes.ContactAdIcon} alt="Phone Icon" />
         <H3 className={classes.ContactAdLabel}>To request food by phone,</H3>
         <H3 className={classes.ContactAdLabel}>
-          call{" "}
-          <Link to="/" className={classes.ContactAdLink}>
-            555-555-555
-          </Link>
+          call {/* TODO: Turn it back to Link when correct phone number is populated */}
+          <span className={classes.ContactAdLink}>555-555-555</span>
         </H3>
       </Grid>
     </Grid>
