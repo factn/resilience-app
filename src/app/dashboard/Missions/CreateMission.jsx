@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 // components
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -20,10 +21,13 @@ import PhoneIcon from "@material-ui/icons/Phone";
 import AddLocationIcon from "@material-ui/icons/AddLocation";
 import QueryBuilderIcon from "@material-ui/icons/QueryBuilder";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
+import CheckIcon from "@material-ui/icons/Check";
+import DoneAllIcon from "@material-ui/icons/DoneAll";
 
 //TODO
 // ONCE OVER DESIGNS WITH DAVID
 // 100% FUNCTIONALITY
+// Validation
 
 const useStyles = makeStyles((theme) => ({
   addMissionContainer: {
@@ -133,14 +137,67 @@ const useStyles = makeStyles((theme) => ({
     color: "#3739B5",
     maxWidth: "50%",
   },
+  inputLabel: {
+    fontSize: "20px",
+  },
 }));
 
 const CreateMission = () => {
   const classes = useStyles();
-  const [missionType, setMissionType] = useState("default");
+  const [missionType, setMissionType] = useState();
+  const [associatedItems, setAssociatedItems] = useState({});
+  // master mission object
+  const [newMissionObject, setNewMissionObject] = useState({});
+
+  // master submit
+  function submitMission(e) {
+    e.preventDefault();
+    setNewMissionObject({
+      missionId: uuidv4(),
+      createdAt: new Date(),
+      createdBy: "organizer", // make dynamic
+      missionType: missionType,
+      associatedItems: [
+        {
+          name: "",
+          amount: null,
+        },
+      ],
+      fund: "",
+      recipient: {
+        name: "",
+        phoneNumber: "",
+      },
+      volunteer: {
+        name: "",
+        phoneNumber: "",
+      },
+      dropOff: {
+        address: "",
+        date: "",
+      },
+      pickUp: {
+        address: "",
+        date: "",
+      },
+      comment: "",
+    });
+    console.log(newMissionObject);
+  }
 
   const handleChangeMissionType = (event) => {
     setMissionType(event.target.value);
+  };
+
+  const associatedItemChanges = (event) => {
+    let newItem = [event.target.name, event.target.value];
+    console.log(newItem);
+    // setAssociatedItems();
+  };
+
+  const associatedItemChangesAmount = (event) => {
+    let newAmount = [event.target.name, event.target.value];
+    console.log(newAmount);
   };
 
   // This handles all the food box inputs that are added to food box missions
@@ -159,14 +216,21 @@ const CreateMission = () => {
         <Divider variant="middle" />
         <Typography className={classes.inputHeader}>Mission Type</Typography>
         <FormControl className={classes.form}>
+          <InputLabel
+            variant="outlined"
+            id="missionType"
+            shrink="true"
+            className={classes.inputLabel}
+          >
+            Select Mission Type
+          </InputLabel>
           <Select
+            labelId="missionType"
             variant="outlined"
             className={classes.select}
             value={missionType}
             onChange={handleChangeMissionType}
-            labelId="smt"
           >
-            <MenuItem value="default">Select Mission Type</MenuItem>
             <MenuItem value="food-box">Food Box</MenuItem>
           </Select>
         </FormControl>
@@ -178,16 +242,52 @@ const CreateMission = () => {
               {/* DETERMINE FOOD BOX TYPES */}
 
               {foodBoxInputCount.map((index) => {
+                const state = {
+                  key: index,
+                  clicked: false,
+                };
+                function confirmItems(event) {
+                  event.preventDefault();
+                  const check = document.getElementById("check" + index);
+                  check.style.display = "flex";
+                  const text = document.getElementById("ci" + index);
+                  text.style.color = "#3739B5";
+                }
                 return (
                   <div className={classes.sideBySideSelect} key={index}>
-                    <Select variant="outlined" className={classes.select} value="default">
+                    <Select
+                      onChange={associatedItemChanges}
+                      name={"item" + index}
+                      variant="outlined"
+                      className={classes.select}
+                      value="default"
+                    >
                       <MenuItem value="default">Select Food Box Type</MenuItem>
-                      <MenuItem value="fnv">Fruits & Veggies</MenuItem>
-                      <MenuItem value="non-p">Non-Perishables</MenuItem>
-                      <MenuItem value="meat">Meat</MenuItem>
+                      <MenuItem value="Fruits and Veggies">Fruits & Veggies</MenuItem>
+                      <MenuItem value="Non-Perishables">Non-Perishables</MenuItem>
+                      <MenuItem value="Meat">Meat</MenuItem>
                     </Select>
 
-                    <TextField type="number" variant="outlined" className={classes.numSelector} />
+                    <TextField
+                      onChange={associatedItemChangesAmount}
+                      name={"amount" + index}
+                      type="number"
+                      variant="outlined"
+                      className={classes.numSelector}
+                    />
+                    <Button
+                      onClick={(event) => confirmItems(event)}
+                      className={classes.selectCreateButton}
+                    >
+                      <DoneAllIcon
+                        id={"check" + index}
+                        style={{ color: "#3739B5", display: "none" }}
+                      />
+                      <Typography id={"ci" + index} className={classes.inputHeader2}>
+                        {" "}
+                        Confirm Items{" "}
+                      </Typography>
+                    </Button>
                   </div>
                 );
               })}
@@ -367,7 +467,9 @@ const CreateMission = () => {
           placeholder="Enter any notes or comments about this mission here."
           multiline
         ></TextField>
-        <Button className={classes.button}>Create Mission</Button>
+        <Button className={classes.button} onClick={(e) => submitMission(e)}>
+          Create Mission
+        </Button>
       </Typography>
     </Container>
   );
