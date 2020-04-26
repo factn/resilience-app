@@ -14,7 +14,6 @@ import {
 } from "./Appbar.style";
 
 const Appbar = ({ children }) => {
-  const isEmpty = useSelector((state) => state.firebase.auth.isEmpty);
   return (
     <AppbarContainer role="navigation">
       {children ? (
@@ -26,11 +25,9 @@ const Appbar = ({ children }) => {
               <Logo title="MutualAidLogo" role="img" />
             </Link>
           </LogoContainer>
-          {isEmpty ? (
-            <AboutLink to="/about" aria-label="About Resilience App">
-              About Resilience App
-            </AboutLink>
-          ) : null}
+          <AboutLink to="/about" aria-label="About Resilience App">
+            About Resilience App
+          </AboutLink>
           <MenuContainer data-testid="MutualAidMenu">
             <NavigationDrawer />
           </MenuContainer>
