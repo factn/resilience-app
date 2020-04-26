@@ -155,7 +155,9 @@ class Mission extends BaseModel {
    */
   update(missionId: string, data: object) {
     let sanitized = this.sanitize(data);
-    return this.getCollection("organizations").doc("1").collection("missions")
+    return this.getCollection("organizations")
+      .doc("1")
+      .collection("missions")
       .doc(missionId)
       .update({
         ...sanitized,
