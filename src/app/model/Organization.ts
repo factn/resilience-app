@@ -12,28 +12,35 @@ const defaultData: OrganizationInterface = {
  * @version 1.0
  */
 class Organization extends BaseModel {
-  getById = async (organizationId: string) => {
-    const collection = this.getCollection("organization");
-    let doc;
-    try {
-      doc = await collection.doc(organizationId).get();
-    } catch (error) {
-      //TODO show error message to user
-      throw error;
-    }
+  data: OrganizationInterface;
 
-    if (!doc.exists) {
-      throw Error(`This mission:  ${organizationId} does not exist`);
-    }
+  constructor(name: string, defaultData: OrganizationInterface) {
+    super(name, defaultData);
+    this.data = defaultData;
+  }
 
-    let data = doc.data();
+  init(id: string) {
+    this.data.id = id;
+  }
 
-    if (!data) {
-      throw Error(`no data for this mission: ${organizationId}`);
-    }
+  // if we wanted to fetch the entire org object on init we could do this
+  // not sure if good practice given we're already using redux?
 
-    return data;
-  };
+  // async init(organizationId: string) {
+  //   try {
+  //     const ref = this.getCollection("organizations");
+  //     const doc = await ref.doc(organizationId).get();
+  //     console.log("done calling org");
+  //     this.data = { ...this.defaultData, ...doc.data(), id: doc.id } as OrganizationInterface;
+  //   } catch (error) {
+  //     console.log(error);
+  //     throw new Error("This organization does not exist");
+  //   }
+  // }
+
+  get id() {
+    return this.data.id;
+  }
 }
 
 export default new Organization("organizations", defaultData);

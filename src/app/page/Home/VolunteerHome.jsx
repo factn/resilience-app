@@ -1,14 +1,10 @@
-import { AppBar, Box, Paper, Tab, Tabs, Typography } from "@material-ui/core";
+import { Box, Paper, Tab, Tabs, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 
 import User from "../../model/User";
-import {
-  getAllAssignedMissions,
-  getAllStartedMissions,
-  getAllAvailableMissions,
-} from "./missionHelpers";
+import { getAllAssignedMissions, getAllStartedMissions } from "./missionHelpers";
 import VolunteerHomeMissionList from "./VolunteerHomeMissionList";
 
 const useStyles = makeStyles((theme) => ({
@@ -48,22 +44,24 @@ export default function VolunteerHome({ currentUser }) {
 
   const handleStartMissionFromAssigned = (missionId) => {
     User.startMission(currentUser.uid, missionId);
+
+    // Move from Assigned to Started
     const mission = acceptedMissions.filter((m) => m.id === missionId);
-    updateStartedMissions(startedMissions.concat(mission));
     updateAssignedMissions(acceptedMissions.filter((m) => m.id !== missionId));
+    updateStartedMissions(startedMissions.concat(mission));
   };
 
-  const handleStartMissionFromAvailable = (missionId) => {
-    User.startMission(currentUser.uid, missionId);
+  const handleVolunteerMissionFromAvailable = (missionId) => {
+    User.volunteerMission(currentUser.uid, missionId);
+
+    // Move from Available to Accepted
     const mission = availableMissions.filter((m) => m.id === missionId);
-    updateStartedMissions(startedMissions.concat(mission));
+    updateAssignedMissions(acceptedMissions.concat(mission));
     updateAvailableMissions(availableMissions.filter((m) => m.id !== missionId));
   };
 
   const handleDeliveringMissionsFromStarted = (missionId) => {
     User.deliverMission(currentUser.uid, missionId);
-    const mission = startedMissions.filter((m) => m.id === missionId);
-
     updateStartedMissions(startedMissions.filter((m) => m.id !== missionId));
   };
 
@@ -92,8 +90,8 @@ export default function VolunteerHome({ currentUser }) {
         <VolunteerHomeMissionList
           missions={availableMissions}
           currentUser={currentUser}
-          actionText="Start Mission"
-          action={(missionId) => handleStartMissionFromAvailable(missionId)}
+          actionText="Accept Mission"
+          action={(missionId) => handleVolunteerMissionFromAvailable(missionId)}
         />
       </TabPanel>
       <TabPanel value={value} index={1}>

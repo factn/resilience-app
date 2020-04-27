@@ -8,7 +8,7 @@ import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-d
 
 import ThemeProvider from "./app/component/ThemeProvider";
 import { Dashboard } from "./app/page";
-import { MissionCreate, Missions, MissionsCreated, PostMission } from "./app/page";
+import { MissionCreate, MissionsCompleted, MissionsCreated, PostMission } from "./app/page";
 import AboutPage from "./app/page/Aboutus";
 import HomePage from "./app/page/Home";
 import LoginPage from "./app/page/Login";
@@ -69,9 +69,11 @@ function App() {
               <PrivateRoute path="/missions/new">
                 <MissionCreate />
               </PrivateRoute>
-
+              <PrivateRoute path="/missions/completed">
+                <MissionsCompleted />
+              </PrivateRoute>
               <Route path="/missions/:id" component={MissionDetails} />
-              <Route path="/missions" component={Missions} />
+
               <PrivateRoute path="/user/profile">
                 <UserProfile />
               </PrivateRoute>

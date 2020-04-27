@@ -3,7 +3,7 @@ import Home from "./Home";
 import Login from "./Login";
 import MissionCreate from "./MissionCreate";
 import MissionDetails from "./MissionDetails";
-import Missions from "./Missions";
+import MissionsCompleted from "./Missions";
 import MissionsCreated from "./MissionsCreated";
 import PostMission from "./PostMission";
 import Signup from "./Signup";
@@ -13,7 +13,7 @@ export {
   Home,
   Login,
   Signup,
-  Missions,
+  MissionsCompleted,
   MissionsCreated,
   Dashboard,
   MissionDetails,
