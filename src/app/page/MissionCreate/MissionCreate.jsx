@@ -37,7 +37,11 @@ function MakeMission({ history }) {
       setLoading(true);
       //Lookup id of helper
       let volunteerId;
-      volunteerId = await User.getIdByDisplayName(payload.helper);
+      if (!payload.helper) {
+        volunteerId = null;
+      } else {
+        volunteerId = await User.getIdByDisplayName(payload.helper);
+      }
 
       //upload Image to Firebase Cloud Storage
       const imageUrl = await imageUpload();
@@ -127,7 +131,6 @@ function MakeMission({ history }) {
       input.title &&
       input.description &&
       input.recipient &&
-      input.helper &&
       input.pickUp.location &&
       input.dropOff.location
     ) {
