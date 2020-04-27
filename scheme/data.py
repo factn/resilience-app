@@ -23,25 +23,6 @@ VolunteerPendingStatus = [
 ]
 
 
-def volunteer(organizationId):
-    return dict(
-        id=genId(),
-        phoneNumber=f.phone_number(),
-        photoURL='https://via.placeholder.com/150.png?text=User%20Image',
-        displayName=f.name(),
-        location=location(),
-        organizationId=organizationId,
-        isVolunteer=True,
-        isOrganizer=f.boolean(chance_of_getting_true=25),
-        voluteerDetails=dict(
-            hasTransportation=f.boolean(chance_of_getting_true=75),
-            status=r.choice(VolunteerPendingStatus),
-            privateNotes=""),
-        organizerDetails={},
-
-    )
-
-
 MissionStatus = [
     "unassigned",
     "tentative",
@@ -87,6 +68,25 @@ def timeWindow():
         # eh, this is gonna be a problem, datetime my gosh
         startTime=f.future_datetime(
             end_date='+30d').strftime("%m/%d/%Y, %H:%M:%S"),
+
+    )
+
+
+def volunteer(organizationId):
+    return dict(
+        id=genId(),
+        phoneNumber=f.phone_number(),
+        photoURL='https://via.placeholder.com/150.png?text=User%20Image',
+        displayName=f.name(),
+        location=location(),
+        organizationId=organizationId,
+        isVolunteer=True,
+        isOrganizer=f.boolean(chance_of_getting_true=25),
+        voluteerDetails=dict(
+            hasTransportation=f.boolean(chance_of_getting_true=75),
+            status=r.choice(VolunteerPendingStatus),
+            privateNotes=""),
+        organizerDetails={},
 
     )
 
@@ -206,7 +206,7 @@ def add_volunteer(orgId, data):
 
 if __name__ == "__main__":
     org = organization()
-    orgId = 1
+    orgId = "1"
 
     foodboxName = "Fruits & Veggies Medley"
     org["resources"] = {
@@ -224,16 +224,17 @@ if __name__ == "__main__":
     data = {
         "organizations": {
             orgId: org
-        }
+        },
+        "users": {}
     }
 
-    for i in range(5):
+    for i in range(10):
         vol = volunteer(orgId)
-        data["organizations"][orgId]['users'][vol['id']] = vol
+        data["users"][vol["id"]] = vol
 
     for i in range(60):
         userId, user = r.choice(
-            list(data["organizations"][orgId]["users"].items()))
+            list(data["users"].items()))
         mis = mission(orgId, user, foodboxName)
         data["organizations"][orgId]['missions'][mis['id']] = mis
 

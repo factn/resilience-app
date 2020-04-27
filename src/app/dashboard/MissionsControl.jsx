@@ -8,7 +8,7 @@ import React from "react";
 import { useFirestoreConnect } from "react-redux-firebase";
 import { Route, Switch } from "react-router-dom";
 
-import { Mission } from "../model";
+import { Mission, User } from "../model";
 import Appbar from "./Appbar";
 import Drawer from "./Drawer";
 import Home from "./Home";
@@ -54,7 +54,7 @@ const MissionsPage = () => {
     Mission.fsInPlanning,
     Mission.fsInProgress,
     Mission.fsInDone,
-    { collection: "users" },
+    User.fsVolunteer,
     { collection: "organizations", doc: "1" },
   ]);
 

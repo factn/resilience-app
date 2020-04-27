@@ -37,8 +37,19 @@ const defaultUserData: UserInterface = {
   organizerDetails: {},
 };
 
+const fsVolunteer = {
+  collection: "users",
+  where: [
+    ["isVolunteer", "==", true],
+    ["organizationId", "==", "1"],
+  ],
+  storeAs: "volunteers",
+};
+
 class User extends BaseModel {
   VolunteerStatus = VolunteerStatus;
+
+  fsVolunteer = fsVolunteer;
 
   async saveNewUser(data: UserInterface) {
     const collection = this.getCollection("users");
@@ -55,6 +66,10 @@ class User extends BaseModel {
     } catch (error) {
       throw error;
     }
+  }
+
+  usersSearchByName(value: string, limit: number) {
+    return this.getCollection("users").where("displayName", ">=", value).limit(limit).get();
   }
 
   /**
