@@ -72,12 +72,10 @@ class User extends BaseModel {
       id: missionId,
       ...mission,
     });
-    mission.id = missionId;
 
     //save mission in firestore
     try {
-      await collection.doc(missionId).set(mission);
-      //await collection.doc(missionId).set(sanitizedMission);
+      await collection.doc(missionId).set(sanitizedMission);
     } catch (error) {
       //TODO show error message to user
       throw error;
@@ -105,7 +103,7 @@ class User extends BaseModel {
       throw Error(`This user: ${displayName} does not exist`);
     }
 
-    return doc.docs.length ? doc.docs[0].id : null;
+    return doc.docs[0];
   }
 
   /**
