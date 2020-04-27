@@ -24,3 +24,9 @@ export const missionStatusLabel = {
   done: "done",
   finished: "finished",
 };
+
+export const volunteerDashboardEmptyTabMessage = {
+  available: "Missions that are available for you to take on will appear here.",
+  accepted: "Once you have accepted missions, they will appear here for you to start deliveries.",
+  started: "Any missions you have started will appear here.",
+};

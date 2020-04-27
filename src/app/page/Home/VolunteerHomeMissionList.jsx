@@ -10,7 +10,7 @@ import { MissionList } from "../../component";
  *
  * @component
  */
-const VolunteerHomeMissionList = ({ action, actionText, missions }) => {
+const VolunteerHomeMissionList = ({ action, actionText, isEmptyText, missions }) => {
   const history = useHistory();
 
   return (
@@ -19,7 +19,7 @@ const VolunteerHomeMissionList = ({ action, actionText, missions }) => {
       history={history}
       isEmpty={isEmpty(missions)}
       isLoaded={isLoaded(missions)}
-      isEmptyText="No items to display"
+      isEmptyText={isEmptyText}
       callToAction={{
         text: actionText,
         onClick: (missionId) => action(missionId),

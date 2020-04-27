@@ -6,7 +6,7 @@ import React, { useEffect, useState } from "react";
 import User from "../../model/User";
 import { getAllAssignedMissions, getAllStartedMissions } from "./missionHelpers";
 import VolunteerHomeMissionList from "./VolunteerHomeMissionList";
-
+import { volunteerDashboardEmptyTabMessage } from "../../../constants";
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
@@ -91,6 +91,7 @@ export default function VolunteerHome({ currentUser }) {
           missions={availableMissions}
           currentUser={currentUser}
           actionText="Accept Mission"
+          isEmptyText={volunteerDashboardEmptyTabMessage.available}
           action={(missionId) => handleVolunteerMissionFromAvailable(missionId)}
         />
       </TabPanel>
@@ -99,6 +100,7 @@ export default function VolunteerHome({ currentUser }) {
           missions={acceptedMissions}
           currentUser={currentUser}
           actionText="Start Mission"
+          isEmptyText={volunteerDashboardEmptyTabMessage.accepted}
           action={(missionId) => handleStartMissionFromAssigned(missionId)}
         />
       </TabPanel>
@@ -107,6 +109,7 @@ export default function VolunteerHome({ currentUser }) {
           missions={startedMissions}
           currentUser={currentUser}
           actionText={"Mission Delivered"}
+          isEmptyText={volunteerDashboardEmptyTabMessage.started}
           action={(missionId) => handleDeliveringMissionsFromStarted(missionId)}
         />
       </TabPanel>
