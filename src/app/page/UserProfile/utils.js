@@ -10,8 +10,18 @@ async function errorHandler(error) {
     const prevUserData = prevUserDoc.data();
     // handle the merging data for missions
     var [previousCreateMissions, previousVolunteerMissions] = await Promise.all([
-      firestore.collection("missions").where("ownerId", "==", prevUser.uid).get(),
-      firestore.collection("missions").where("volunteerId", "==", prevUser.uid).get(),
+      firestore
+        .collection("organizations")
+        .doc("1")
+        .collection("missions")
+        .where("ownerId", "==", prevUser.uid)
+        .get(),
+      firestore
+        .collection("organizations")
+        .doc("1")
+        .collection("missions")
+        .where("volunteerId", "==", prevUser.uid)
+        .get(),
     ]);
 
     var currentUserData;
@@ -39,17 +49,37 @@ async function errorHandler(error) {
 
       // making sure missions data are consitency
       previousCreateMissions.forEach((doc) => {
-        firestore.collection("missions").doc(doc.id).update({ ownerId: currentUser.uid });
+        firestore
+          .collection("organizations")
+          .doc("1")
+          .collection("missions")
+          .doc(doc.id)
+          .update({ ownerId: currentUser.uid });
       });
       previousVolunteerMissions.forEach((doc) => {
-        firestore.collection("missions").doc(doc.id).update({ volunteerId: currentUser.uid });
+        firestore
+          .collection("organizations")
+          .doc("1")
+          .collection("missions")
+          .doc(doc.id)
+          .update({ volunteerId: currentUser.uid });
       });
     } catch (e) {
       previousCreateMissions.forEach((doc) => {
-        firestore.collection("missions").doc(doc.id).update({ ownerId: prevUser.uid });
+        firestore
+          .collection("organizations")
+          .doc("1")
+          .collection("missions")
+          .doc(doc.id)
+          .update({ ownerId: prevUser.uid });
       });
       previousVolunteerMissions.forEach((doc) => {
-        firestore.collection("missions").doc(doc.id).update({ volunteerId: prevUser.uid });
+        firestore
+          .collection("organizations")
+          .doc("1")
+          .collection("missions")
+          .doc(doc.id)
+          .update({ volunteerId: prevUser.uid });
       });
       firestore.collection("users").doc(prevUser.uid).set(prevUserData);
       firestore.collection("users").doc(currentUser.uid).set(currentUserData);

@@ -13,6 +13,7 @@ import Appbar from "./Appbar";
 import Drawer from "./Drawer";
 import Home from "./Home";
 import DashboardMissions from "./Missions";
+import Organization from "../model/Organization";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,7 +32,6 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     flexGrow: 1,
-    marginLeft: theme.spacing(2),
     marginTop: theme.spacing(6),
     transition: theme.transitions.create(["margin"], {
       easing: theme.transitions.easing.sharp,
@@ -50,13 +50,17 @@ const MissionsPage = () => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
-  useFirestoreConnect(() => [
-    Mission.fsInProposed,
-    Mission.fsInPlanning,
-    Mission.fsInProgress,
-    Mission.fsInDone,
-    { collection: "users" },
-  ]);
+  useFirestoreConnect(() => {
+    const id = Organization.id;
+    return [
+      Mission.fsInProposed(id),
+      Mission.fsInPlanning(id),
+      Mission.fsInProgress(id),
+      Mission.fsInDone(id),
+      { collection: "users" },
+      { collection: "organizations", doc: id },
+    ];
+  });
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -104,7 +108,6 @@ const MissionsPage = () => {
         role="navigation"
       />
       <main
-        container
         className={clsx(classes.content, {
           [classes.contentShift]: open,
         })}

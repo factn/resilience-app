@@ -16,13 +16,17 @@ import { store } from "./app/store";
 import { firebaseConfig } from "./config/firebase";
 import * as serviceWorker from "./serviceWorker";
 
+import Organization from "./app/model/Organization";
+
 const rrfConfig = {
   userProfile: "users",
   useFirestoreForProfile: true,
 };
 
 firebase.initializeApp(firebaseConfig);
-const firestore = firebase.firestore(); /* eslint-disable-line */
+// grab org id from domain or some server side variable
+const organizationId = "1";
+Organization.init(organizationId);
 
 const rrfProps = {
   firebase,
@@ -32,7 +36,6 @@ const rrfProps = {
 };
 
 if (process.env.NODE_ENV !== "production") {
-  var axe = require("react-axe");
   firebase
     .firestore()
     .enablePersistence({ synchronizeTabs: true })
@@ -49,7 +52,6 @@ if (process.env.NODE_ENV !== "production") {
         // ...
       }
     });
-  axe(React, ReactDOM, 5000);
 }
 
 ReactDOM.render(

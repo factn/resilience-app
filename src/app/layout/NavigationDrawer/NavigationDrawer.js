@@ -1,6 +1,6 @@
 import { ListItemIcon } from "@material-ui/core";
-import Button from "@material-ui/core/Button";
 import Drawer from "@material-ui/core/Drawer";
+import IconButton from "@material-ui/core/IconButton";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -84,12 +84,12 @@ export default function TemporaryDrawer() {
             <ListItemText primary="Home" />
           </ListItem>
         </Link>
-        <Link to="/missions" className={classes.link}>
+        <Link to="/missions/completed" className={classes.link}>
           <ListItem button>
             <ListItemIcon>
               <AssignmentIcon classes={{ root: classes.colorIcon }} fontSize="large" />
             </ListItemIcon>
-            <ListItemText primary="Volunteer needed" />
+            <ListItemText primary="Missions Completed" />
           </ListItem>
         </Link>
         <PrivateComponent>
@@ -150,13 +150,13 @@ export default function TemporaryDrawer() {
   const anchor = "right";
   return (
     <React.Fragment key={anchor}>
-      <Button
+      <IconButton
         aria-label="Menu"
         classes={{ root: classes.root, label: classes.label }}
         onClick={toggleDrawer(anchor, true)}
       >
         <MenuIcon fontSize="large" />
-      </Button>
+      </IconButton>
       <Drawer anchor={anchor} open={state[anchor]} onClose={toggleDrawer(anchor, false)}>
         {list(anchor)}
       </Drawer>

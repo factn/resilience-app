@@ -5,11 +5,12 @@ import AlgoliaPlaces from "algolia-places-react";
 import PropTypes from "prop-types";
 import React from "react";
 
-import { ANGOLIA_API_KEY } from "../../../constants";
 import Button from "../../component/Button";
 import { Page } from "../../layout";
 import KeyDatePickerContainer from "./KeyDatePickerContainer";
 import { Upload, useStyles } from "./Request.style";
+
+const { ALGOLIA_API_KEY, ALGOLIA_APP_ID } = process.env;
 
 const StyledHeader = withStyles({
   root: {
@@ -144,6 +145,7 @@ function MissionForm({ getFile, handleChange, onSubmit, values /*, assignHelper,
           onChange={handleChange}
           label="Assign a recipient"
           helperText="Name or Phone number"
+          required={true}
         />
         <StyledHeader align="left" variant="h2">
           Helper
@@ -170,11 +172,10 @@ function MissionForm({ getFile, handleChange, onSubmit, values /*, assignHelper,
             placeholder="Pickup location"
             name="pickUp"
             options={{
-              appId: "plZ318O8ODTC",
-              apiKey: ANGOLIA_API_KEY,
+              appId: ALGOLIA_APP_ID,
+              apiKey: ALGOLIA_API_KEY,
               language: "en",
               countries: ["us"],
-              type: "city",
               // Other options from https://community.algolia.com/places/documentation.html#options
             }}
             onChange={(query) => handleLocation(query, "pickUp")}
@@ -187,6 +188,7 @@ function MissionForm({ getFile, handleChange, onSubmit, values /*, assignHelper,
             label="Select Date"
             format="MM/dd/yyyy"
             value={pickUpDateLabel}
+            required={true}
             onChange={(date) => handleDate(date, "pickUp")}
             KeyboardButtonProps={{
               "aria-label": "change date",
@@ -197,6 +199,7 @@ function MissionForm({ getFile, handleChange, onSubmit, values /*, assignHelper,
             id="time-pickUp"
             label="Pickup time"
             value={pickUp.timeProtoType}
+            required={true}
             onChange={(time) =>
               time && setPickUp({ ...pickUp, time: time.toTimeString(), timeProtoType: time })
             }
@@ -211,12 +214,10 @@ function MissionForm({ getFile, handleChange, onSubmit, values /*, assignHelper,
             placeholder="Drop-off location"
             name="dropOff"
             options={{
-              appId: "plZ318O8ODTC",
-              apiKey: ANGOLIA_API_KEY,
+              appId: ALGOLIA_APP_ID,
+              apiKey: ALGOLIA_API_KEY,
               language: "en",
               countries: ["us"],
-              type: "city",
-              // Other options from https://community.algolia.com/places/documentation.html#options
             }}
             onChange={(query) => handleLocation(query, "dropOff")}
             onLimit={({ message }) =>
@@ -229,6 +230,7 @@ function MissionForm({ getFile, handleChange, onSubmit, values /*, assignHelper,
             label="Select Date"
             format="MM/dd/yyyy"
             value={dropOffDateLabel}
+            required={true}
             onChange={(date) => handleDate(date, "dropOff")}
           />
           <KeyboardTimePicker
@@ -236,6 +238,7 @@ function MissionForm({ getFile, handleChange, onSubmit, values /*, assignHelper,
             id="time-dropOff"
             label="Drop-off time"
             value={dropOff.timeProtoType}
+            required={true}
             onChange={(time) =>
               time && setDropOff({ ...dropOff, time: time.toTimeString(), timeProtoType: time })
             }

@@ -1,41 +1,38 @@
-import { AppBar, Box, Tab, Tabs, Typography } from "@material-ui/core";
+import { Box, Paper, Tab, Tabs, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 
 import User from "../../model/User";
-import {
-  getAllAssignedMissions,
-  getAllCompletedMissions,
-  getAllStartedMissions,
-  getAllSuggestedMissions,
-} from "./missionHelpers";
+import { getAllAssignedMissions, getAllStartedMissions } from "./missionHelpers";
 import VolunteerHomeMissionList from "./VolunteerHomeMissionList";
-
+import { volunteerDashboardEmptyTabMessage } from "../../../constants";
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
   },
+  tabMargin: {
+    margin: "1rem 0",
+  },
 }));
 
 export default function VolunteerHome({ currentUser }) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
-  const [assignedMissions, updateAssignedMissions] = useState([]);
-  const [startedMisssions, updateStartedMissions] = useState([]);
-  const [suggestedMissions, updateSuggestedMissions] = useState([]);
-  const [completedMisssions, updateCompletedMissions] = useState([]);
+  const [acceptedMissions, updateAssignedMissions] = useState([]);
+  const [startedMissions, updateStartedMissions] = useState([]);
+  const [availableMissions, updateAvailableMissions] = useState([]);
 
   useEffect(() => {
     const fetchAllAssociatedMissions = async () => {
       const missions = await User.getAllAssociatedMissions(currentUser.uid);
+      const availableMissions = await User.getAllAvailableMissions(currentUser.uid);
 
+      updateAvailableMissions(availableMissions);
       updateAssignedMissions(getAllAssignedMissions(missions, currentUser));
       updateStartedMissions(getAllStartedMissions(missions, currentUser));
-      updateSuggestedMissions(getAllSuggestedMissions(missions, currentUser));
-      updateCompletedMissions(getAllCompletedMissions(missions, currentUser));
     };
 
     if (!!currentUser && !!currentUser.uid) {
@@ -49,68 +46,74 @@ export default function VolunteerHome({ currentUser }) {
 
   const handleStartMissionFromAssigned = (missionId) => {
     User.startMission(currentUser.uid, missionId);
-    const mission = assignedMissions.filter((m) => m.id === missionId);
-    updateStartedMissions(startedMisssions.concat(mission));
-    updateAssignedMissions(assignedMissions.filter((m) => m.id !== missionId));
+
+    // Move from Assigned to Started
+    const mission = acceptedMissions.filter((m) => m.id === missionId);
+    updateAssignedMissions(acceptedMissions.filter((m) => m.id !== missionId));
+    updateStartedMissions(startedMissions.concat(mission));
   };
 
-  const handleStartMissionFromSuggested = (missionId) => {
-    User.startMission(currentUser.uid, missionId);
-    const mission = suggestedMissions.filter((m) => m.id === missionId);
-    updateStartedMissions(startedMisssions.concat(mission));
-    updateSuggestedMissions(suggestedMissions.filter((m) => m.id !== missionId));
+  const handleVolunteerMissionFromAvailable = (missionId) => {
+    User.volunteerMission(currentUser.uid, missionId);
+
+    // Move from Available to Accepted
+    const mission = availableMissions.filter((m) => m.id === missionId);
+    updateAssignedMissions(acceptedMissions.concat(mission));
+    updateAvailableMissions(availableMissions.filter((m) => m.id !== missionId));
   };
 
   const handleDeliveringMissionsFromStarted = (missionId) => {
     User.deliverMission(currentUser.uid, missionId);
-    const mission = startedMisssions.filter((m) => m.id === missionId);
-
-    updateCompletedMissions(completedMisssions.concat(mission));
-
-    updateStartedMissions(startedMisssions.filter((m) => m.id !== missionId));
+    updateStartedMissions(startedMissions.filter((m) => m.id !== missionId));
   };
+
+  const availableLabel = "Available (" + availableMissions.length + ")";
+  const acceptedLabel = "Accepted (" + acceptedMissions.length + ")";
+  const startedLabel = "Started (" + startedMissions.length + ")";
+
   return (
     <div className={classes.root}>
-      <AppBar position="static">
+      <Paper className={classes.tabMargin} elevation={3} square>
         <Tabs
           value={value}
           variant="fullWidth"
+          indicatorColor="primary"
+          textColor="primary"
           centered
           onChange={handleChange}
           aria-label="volunteer dashboard tabs"
         >
-          <Tab label="Started" {...a11yProps(0)} />
-          <Tab label="Assigned" {...a11yProps(1)} />
-          <Tab label="Suggested" {...a11yProps(2)} />
-          <Tab label="Completed" {...a11yProps(3)} />
+          <Tab label={availableLabel} {...a11yProps(2)} />
+          <Tab label={acceptedLabel} {...a11yProps(1)} />
+          <Tab label={startedLabel} {...a11yProps(0)} />
         </Tabs>
-      </AppBar>
+      </Paper>
       <TabPanel value={value} index={0}>
         <VolunteerHomeMissionList
-          missions={startedMisssions}
+          missions={availableMissions}
           currentUser={currentUser}
-          actionText={"Mission Delivered"}
-          action={(missionId) => handleDeliveringMissionsFromStarted(missionId)}
+          actionText="Accept Mission"
+          isEmptyText={volunteerDashboardEmptyTabMessage.available}
+          action={(missionId) => handleVolunteerMissionFromAvailable(missionId)}
         />
       </TabPanel>
       <TabPanel value={value} index={1}>
         <VolunteerHomeMissionList
-          missions={assignedMissions}
+          missions={acceptedMissions}
           currentUser={currentUser}
           actionText="Start Mission"
+          isEmptyText={volunteerDashboardEmptyTabMessage.accepted}
           action={(missionId) => handleStartMissionFromAssigned(missionId)}
         />
       </TabPanel>
       <TabPanel value={value} index={2}>
         <VolunteerHomeMissionList
-          missions={suggestedMissions}
+          missions={startedMissions}
           currentUser={currentUser}
-          actionText="Start Mission"
-          action={(missionId) => handleStartMissionFromSuggested(missionId)}
+          actionText={"Mission Delivered"}
+          isEmptyText={volunteerDashboardEmptyTabMessage.started}
+          action={(missionId) => handleDeliveringMissionsFromStarted(missionId)}
         />
-      </TabPanel>
-      <TabPanel value={value} index={3}>
-        <VolunteerHomeMissionList missions={completedMisssions} currentUser={currentUser} />
       </TabPanel>
     </div>
   );

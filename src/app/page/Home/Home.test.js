@@ -11,11 +11,8 @@ import Home from "./Home";
 
 describe("Home page", () => {
   beforeAll(() => {
-    // eslint-disable-next-line no-unused-vars
-    const collection = {
-      doc: jest.fn(),
-    };
     jest.spyOn(User, "getAllAssociatedMissions").mockImplementation(() => []);
+    jest.spyOn(User, "getAllAvailableMissions").mockImplementation(() => []);
   });
 
   function renderComponent({ state } = {}) {

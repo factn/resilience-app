@@ -2,7 +2,7 @@ import AlgoliaPlaces from "algolia-places-react";
 import PropTypes from "prop-types";
 import React from "react";
 
-import { ANGOLIA_API_KEY } from "../../../constants";
+const { ALGOLIA_API_KEY, ALGOLIA_APP_ID } = process.env;
 
 const AddressInput = (props) => {
   const { placeholder, setStage, stage } = props;
@@ -26,11 +26,10 @@ const AddressInput = (props) => {
       placeholder={placeholder || "Search address"}
       name={stage}
       options={{
-        appId: "plZ318O8ODTC",
-        apiKey: ANGOLIA_API_KEY, // only 1k per day
+        appId: ALGOLIA_APP_ID,
+        apiKey: ALGOLIA_API_KEY,
         language: "en",
         countries: ["us"], // we have to support more countries in the future
-        type: "city",
         // Other options from https://community.algolia.com/places/documentation.html#options
       }}
       onChange={(query) => handleLocation(query)}

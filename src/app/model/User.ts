@@ -18,7 +18,8 @@ const defaultLocation: Location = {
 };
 const defaultUserData: UserInterface = {
   id: "",
-  phone: "0",
+  cannotReceiveTexts: false,
+  phone: "",
   photoURL: "",
   description: "",
   displayName: "",
@@ -42,6 +43,11 @@ class User extends BaseModel {
   async saveNewUser(data: UserInterface) {
     const collection = this.getCollection("users");
 
+    // For users who don't have SMS capability
+    if (!data.id) {
+      data.id = uuidV4();
+    }
+
     try {
       await collection.doc(data.id).set({
         ...data,
@@ -59,7 +65,7 @@ class User extends BaseModel {
    */
   async createMission(mission: MissionInterface): Promise<string> {
     const missionId = uuidV4(); //generate mission id
-    const collection = this.getCollection("missions");
+    const collection = this.getCollection("organizations").doc("1").collection("missions");
 
     //Add mission id to mission object and sanitize is
     const sanitizedMission = this.load({
@@ -109,11 +115,11 @@ class User extends BaseModel {
     let data = await Mission.getById(missionId);
 
     if (data.volunteerId) {
-      throw Error(`User: ${userId} are not allowed to voluntter for this mission: ${missionId}`);
+      throw Error(`User: ${userId} are not allowed to volunteer for this mission: ${missionId}`);
     }
 
     try {
-      const collection = this.getCollection("missions");
+      const collection = this.getCollection("organizations").doc("1").collection("missions");
       collection.doc(missionId).update({
         volunteerId: userId,
         status: MissionStatus.assigned,
@@ -130,7 +136,7 @@ class User extends BaseModel {
    */
 
   async unvolunteerMission(missionId: string) {
-    let collection = this.getCollection("missions");
+    const collection = this.getCollection("organizations").doc("1").collection("missions");
 
     let data = await Mission.getById(missionId);
 
@@ -155,7 +161,7 @@ class User extends BaseModel {
    * @param {string} missionId - mission that user want to start
    */
   async startMission(userId: string, missionId: string) {
-    let collection = this.getCollection("missions");
+    const collection = this.getCollection("organizations").doc("1").collection("missions");
     let doc;
     try {
       doc = await collection.doc(missionId).get();
@@ -193,7 +199,7 @@ class User extends BaseModel {
    * @param {string} missionId  - mission id that user delivered
    */
   async deliverMission(userId: string, missionId: string) {
-    let collection = this.getCollection("missions");
+    const collection = this.getCollection("organizations").doc("1").collection("missions");
     let doc;
     try {
       doc = await collection.doc(missionId).get();
@@ -222,13 +228,31 @@ class User extends BaseModel {
       throw e;
     }
   }
+  /**
+   * Get all available missions: missions suggested to the volunteer + general available missions
+   * @param userId UserId of the volunteer
+   */
+  async getAllAvailableMissions(userId: string) {
+    const collection = this.getCollection("organizations").doc("1").collection("missions");
+
+    const missionsAvailableForEveryone = await Mission.getAllAvailable();
+    const suggestedMissions = await collection.where("tentativeVolunteerId", "==", userId).get();
+    const missions = missionsAvailableForEveryone.concat(
+      suggestedMissions.docs.map((doc) => doc.data())
+    );
+    if (missions.length < 0) {
+      return [];
+    }
+
+    return missions;
+  }
 
   /**
    * Returns all missions that a volunteer is associated with or has been suggested for.
    * @param userId UserId of the volunteer
    */
   async getAllAssociatedMissions(userId: string) {
-    const collection = this.getCollection("missions");
+    const collection = this.getCollection("organizations").doc("1").collection("missions");
 
     const volunteeredMissions = await collection.where("volunteerId", "==", userId).get();
     const suggestedMissions = await collection.where("tentativeVolunteerId", "==", userId).get();
@@ -236,6 +260,32 @@ class User extends BaseModel {
     const missionsDocumentSnapshot = volunteeredMissions.docs.concat(suggestedMissions.docs);
 
     if (missionsDocumentSnapshot.length < 1) {
+      return [];
+    }
+    const missions = missionsDocumentSnapshot.map((doc) => doc.data());
+
+    return missions;
+  }
+
+  /**
+   * Return all completed missions by the user
+   * @param userId UserId of the volunteer
+   */
+
+  async getAllCompletedMissions(userId: string) {
+    const collection = this.getCollection("organizations").doc("1").collection("missions");
+
+    const deliveredMissions = await collection
+      .where("volunteerId", "==", userId)
+      .where("status", "==", MissionStatus.delivered)
+      .get();
+    const succeededMissions = await collection
+      .where("volunteerId", "==", userId)
+      .where("status", "==", MissionStatus.succeeded)
+      .get();
+    const missionsDocumentSnapshot = deliveredMissions.docs.concat(succeededMissions.docs);
+
+    if (missionsDocumentSnapshot.length < 0) {
       return [];
     }
     const missions = missionsDocumentSnapshot.map((doc) => doc.data());

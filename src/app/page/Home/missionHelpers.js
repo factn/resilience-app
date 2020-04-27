@@ -20,13 +20,6 @@ export const getAllStartedMissions = (missions, currentUser) => {
   return volunteeredMissions;
 };
 
-export const getAllSuggestedMissions = (missions, currentUser) => {
-  const suggestedMissions =
-    missions.length > 0 ? missions.filter((m) => m.tentativeVolunteerId === currentUser.uid) : [];
-
-  return suggestedMissions;
-};
-
 export const getAllCompletedMissions = (missions, currentUser) => {
   const completedMissions =
     missions.length > 0
