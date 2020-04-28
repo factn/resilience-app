@@ -7,8 +7,8 @@ function mockBaseRepo({
   existsReturn,
   mockDataReturn,
   throwCollectionDocError,
-  throwWhereError,
   throwUpdateError,
+  throwWhereError,
 }) {
   const mockData = jest.fn().mockImplementation(() => mockDataReturn);
   const mockUpdate = throwUpdateError
@@ -56,9 +56,9 @@ function mockBaseRepo({
 
   return {
     mockDocFn,
-    mockWhereFn,
     mockData,
     mockUpdate,
+    mockWhereFn
   };
 }
 
@@ -72,7 +72,7 @@ describe("User", () => {
     };
 
     it("looks up user id by display name", async () => {
-      const { mockData, mockWhereFn, mockDocFn, mockUpdate } = mockBaseRepo({
+      const { mockData, mockDocFn, mockUpdate, mockWhereFn } = mockBaseRepo({
         existsReturn: true,
         mockDataReturn: [user],
         throwCollectionDocError: false,
@@ -87,7 +87,7 @@ describe("User", () => {
     });
 
     it("returns error if firebase where bombs", async () => {
-      const { mockData, mockWhereFn, mockDocFn, mockUpdate } = mockBaseRepo({
+      const { mockData, mockDocFn, mockUpdate, mockWhereFn } = mockBaseRepo({
         existsReturn: true,
         mockDataReturn: [user],
         throwCollectionDocError: false,
@@ -100,7 +100,7 @@ describe("User", () => {
     });
 
     it("no user found by display name", async () => {
-      const { mockData, mockWhereFn, mockDocFn, mockUpdate } = mockBaseRepo({
+      const { mockData, mockDocFn, mockUpdate, mockWhereFn } = mockBaseRepo({
         existsReturn: true,
         mockDataReturn: [],
         throwCollectionDocError: false,
