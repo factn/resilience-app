@@ -76,8 +76,7 @@ class User extends BaseModel {
 
     //save mission in firestore
     try {
-      await collection.doc(missionId).set(mission);
-      //await collection.doc(missionId).set(sanitizedMission);
+      await collection.doc(missionId).set(sanitizedMission);
     } catch (error) {
       //TODO show error message to user
       throw error;
