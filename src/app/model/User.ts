@@ -90,7 +90,7 @@ class User extends BaseModel {
    * @param {string} displayName : displayName of user
    * @return {object}
    */
-  async getIdByDisplayName(displayName: string): Promise<object> {
+  async getIdByDisplayName(displayName: string): Promise<string> {
     let collection = this.getCollection("users");
     let doc;
     try {
@@ -104,7 +104,7 @@ class User extends BaseModel {
       throw Error(`This user: ${displayName} does not exist`);
     }
 
-    return doc.docs.length ? doc.docs[0].id : null;
+    return doc.docs[0].id;
   }
 
   /**
