@@ -19,10 +19,10 @@ const defaultLocation: Location = {
 const defaultUserData: UserInterface = {
   id: "",
   cannotReceiveTexts: false,
-  phone: "",
   photoURL: "",
   description: "",
   displayName: "",
+  phoneNumber: "",
   email: "email",
   location: defaultLocation,
   organizationId: 0,
@@ -138,7 +138,7 @@ class User extends BaseModel {
       collection.doc(missionId).update({
         tentativeVolunteerId: user.id,
         tentativeVolunteerDisplayName: user.displayName,
-        tentativeVolunteerPhone: user.phone,
+        tentativeVolunteerPhoneNumber: user.phoneNumber,
         status: MissionStatus.assigned,
       });
     } catch (e) {

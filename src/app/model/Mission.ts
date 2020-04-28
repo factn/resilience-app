@@ -32,13 +32,13 @@ const defaultMissionData: MissionInterface = {
 
   tentativeVolunteerDisplayName: "",
   tentativeVolunteerId: "",
-  tentativeVolunteerPhone: "",
+  tentativeVolunteerPhoneNumber: "",
 
   volunteerId: "",
   volunteerDisplayName: "",
-  volunteerPhone: "",
+  volunteerPhoneNumber: "",
 
-  recipientName: "No Recipient Name",
+  recipientDisplayName: "No Recipient Name",
   recipientPhoneNumber: "",
   recipientId: "No Recipient Id", // reference?
 

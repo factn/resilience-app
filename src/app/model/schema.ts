@@ -58,7 +58,7 @@ export class UserInterface {
   FIXME: need to ensure this is synced from firebase.auth ph number
   FIXME: where do we assert phone number formatting?
   FIXME: currently, always null */
-  phone!: string;
+  phoneNumber!: string;
   email!: string;
   /* user's selected profile image url
   FIXME: need to sync this with state.firebase.profile.photoURL ?
@@ -168,16 +168,16 @@ export interface MissionInterface {
   organisationId: string;
 
   tentativeVolunteerId: string;
-  tentativeVolunteerPhone: string;
   tentativeVolunteerDisplayName: string;
+  tentativeVolunteerPhoneNumber: string;
 
   volunteerId: string;
-  volunteerPhone: string;
   volunteerDisplayName: string;
+  volunteerPhoneNumber: string;
 
-  recipientName: string;
-  recipientPhoneNumber: string;
   recipientId: string; // reference?
+  recipientDisplayName: string;
+  recipientPhoneNumber: string;
 
   pickUpWindow: TimeWindow | null; // nb this can be an exact time or can be null
   pickUpLocation: Location;
