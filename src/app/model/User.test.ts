@@ -3,7 +3,13 @@ import ReduxFirebase from "react-redux-firebase";
 import { MissionStatus } from "./schema";
 import users from "./User";
 
-function mockBaseRepo({ existsReturn, mockDataReturn, throwCollectionDocError, throwWhereError, throwUpdateError }) {
+function mockBaseRepo({
+  existsReturn,
+  mockDataReturn,
+  throwCollectionDocError,
+  throwWhereError,
+  throwUpdateError,
+}) {
   const mockData = jest.fn().mockImplementation(() => mockDataReturn);
   const mockUpdate = throwUpdateError
     ? jest.fn().mockImplementation(() => {
@@ -27,19 +33,20 @@ function mockBaseRepo({ existsReturn, mockDataReturn, throwCollectionDocError, t
       });
   const doc = {
     get: jest.fn().mockResolvedValue({
-       empty: !mockDataReturn.length,
-       docs: mockDataReturn 
-    })
-  }
-  const mockWhereFn = jest.fn().mockImplementation(() => throwWhereError
-    ? jest.fn().mockImplementation(() => {
-        throw Error("Error");
-      })
-    : doc 
+      empty: !mockDataReturn.length,
+      docs: mockDataReturn,
+    }),
+  };
+  const mockWhereFn = jest.fn().mockImplementation(() =>
+    throwWhereError
+      ? jest.fn().mockImplementation(() => {
+          throw Error("Error");
+        })
+      : doc
   );
   const collection = {
     doc: mockDocFn,
-    where: mockWhereFn
+    where: mockWhereFn,
   };
 
   jest.spyOn(ReduxFirebase, "getFirebase").mockReturnValue({
@@ -50,7 +57,7 @@ function mockBaseRepo({ existsReturn, mockDataReturn, throwCollectionDocError, t
   return {
     mockDocFn,
     mockWhereFn,
-    mockData, 
+    mockData,
     mockUpdate,
   };
 }
@@ -104,7 +111,6 @@ describe("User", () => {
       await expect(users.getIdByDisplayName(displayName)).rejects.toThrow(Error);
       expect(mockWhereFn).toBeCalledWith("displayName", "==", displayName);
     });
-
   });
 
   describe("#unvolunteerMission", () => {
@@ -120,7 +126,7 @@ describe("User", () => {
       mission.status = MissionStatus.assigned;
     });
 
-   /*  it("unassigns volunteer if missionId exists", async () => {
+    /*  it("unassigns volunteer if missionId exists", async () => {
       const { mockData, mockWhereFn,  mockDocFn, mockUpdate } = mockBaseRepo({
         existsReturn: true,
         mockDataReturn: mission,
@@ -196,6 +202,6 @@ describe("User", () => {
 
       expect(mockDocFn).toBeCalledWith(missionId);
       expect(mockData).toBeCalledTimes(1);
-    });*/ 
+    });*/
   });
 });
