@@ -72,6 +72,7 @@ class User extends BaseModel {
       id: missionId,
       ...mission,
     });
+    mission.id = missionId;
 
     //save mission in firestore
     try {
@@ -89,7 +90,7 @@ class User extends BaseModel {
    * @param {string} displayName : displayName of user
    * @return {object}
    */
-  async getIdByDisplayName(displayName: string): Promise<object> {
+  async getIdByDisplayName(displayName: string): Promise<string> {
     let collection = this.getCollection("users");
     let doc;
     try {
@@ -103,7 +104,7 @@ class User extends BaseModel {
       throw Error(`This user: ${displayName} does not exist`);
     }
 
-    return doc.docs[0];
+    return doc.docs[0].id;
   }
 
   /**
