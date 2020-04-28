@@ -23,6 +23,7 @@
     "mui-datatables": "^2.14.0",
     "path": "^0.12.7",
     "react": "^16.13.1",
+    "react-app-polyfill": "^1.0.6",
     "react-dom": "^16.13.1",
     "react-facebook-login": "^4.1.1",
     "react-firebaseui": "^4.1.0",

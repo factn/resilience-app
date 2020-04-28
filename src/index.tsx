@@ -1,4 +1,8 @@
 // If you enabled Analytics in your project, add the Firebase SDK for Analytics
+import 'react-app-polyfill/ie9';
+import 'react-app-polyfill/ie11';
+import 'react-app-polyfill/stable';
+
 import "firebase/analytics";
 import "firebase/auth";
 import "firebase/firestore";
