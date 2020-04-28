@@ -28,6 +28,7 @@ MissionStatus = [
     "tentative",
     "assigned",
     "started",
+    "accepted",
     "delivered",
     "succeeded",
     "failed"
@@ -134,7 +135,7 @@ def mission(orgId, volunteer, foodboxName):
             pickUpLocation = location()
             deliveryWindow = timeWindow()
             deliveryLocation = location()
-    elif status in ["assigned"]:
+    elif status in ["assigned", "accepted"]:
         readyStatus = r.choice([True, False]),
         volunteerId = volunteer["id"]
         volunteerName = volunteer["displayName"]
