@@ -1,8 +1,7 @@
 import { Avatar, Box, TextField } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Autocomplete from "@material-ui/lab/Autocomplete";
-import _ from "lodash";
-import React, { Fragment, useState } from "react";
+import React, { Fragment } from "react";
 
 const useStyles = makeStyles((theme) => ({
   root: {

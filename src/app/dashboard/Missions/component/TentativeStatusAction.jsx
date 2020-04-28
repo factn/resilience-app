@@ -6,7 +6,6 @@ import { Button, Body1 } from "../../../component";
 import UsersAutocomplete from "../../../component/UsersAutocomplete";
 import User from "../../../model/User";
 import { connect } from "react-redux";
-import _ from "../../../utils/lodash";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
@@ -24,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const TentativeStatusAction = ({ mission, boxRef, volunteers }) => {
+const TentativeStatusAction = ({ boxRef, mission, volunteers }) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState();

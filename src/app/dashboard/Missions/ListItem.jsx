@@ -26,7 +26,7 @@ const unassignedOptions = [
     text: "Funding Not Needed",
   },
 ];
-const NotFundedStatus = ({ missionId, classes }) => {
+const NotFundedStatus = ({ classes, missionId }) => {
   const handleChange = (event) => {
     event.preventDefault();
     Mission.update(missionId, {
@@ -59,7 +59,7 @@ const NotFundedStatus = ({ missionId, classes }) => {
   );
 };
 
-const Action = ({ mission, classes, boxRef }) => {
+const Action = ({ boxRef, classes, mission }) => {
   let { status } = mission;
 
   if (status === Mission.Status.unassigned) {
