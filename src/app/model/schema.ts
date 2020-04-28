@@ -98,7 +98,6 @@ export enum MissionStatus {
 
   tentative = "tentative",
   assigned = "assigned",
-  accepted = "accepted",
 
   started = "started",
   delivered = "delivered",
@@ -164,7 +163,7 @@ export interface MissionInterface {
 
   status: MissionStatus;
   fundedStatus: MissionFundedStatus;
-  readyStatus: boolean;
+  readyToStart: boolean;
   organisationId: string;
 
   tentativeVolunteerId: string;

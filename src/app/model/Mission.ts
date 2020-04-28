@@ -27,7 +27,7 @@ const defaultMissionData: MissionInterface = {
   status: MissionStatus.unassigned,
   missionDetails: {},
   fundedStatus: MissionFundedStatus.notfunded,
-  readyStatus: false,
+  readyToStart: false,
   organisationId: "",
 
   tentativeVolunteerDisplayName: "",
@@ -73,9 +73,7 @@ const fsInPlanning = (orgId: string) => ({
   subcollections: [
     {
       collection: "missions",
-      where: [
-        ["status", "in", [MissionStatus.tentative, MissionStatus.assigned, MissionStatus.accepted]],
-      ],
+      where: [["status", "in", [MissionStatus.tentative, MissionStatus.assigned]]],
     },
   ],
   storeAs: "missionsInPlanning",

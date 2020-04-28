@@ -28,7 +28,6 @@ MissionStatus = [
     "tentative",
     "assigned",
     "started",
-    "accepted",
     "delivered",
     "succeeded",
     "failed"
@@ -117,7 +116,7 @@ def mission(orgId, volunteer, foodboxName):
     pickUpWindow = ""
     pickUpLocation = ""
     deliveryWindow = ""
-    readyStatus = False
+    readyToStart = False
     fundedStatus = r.choice(AnyIsFundedStatus),
 
     volunteerId = ""
@@ -135,16 +134,21 @@ def mission(orgId, volunteer, foodboxName):
     if status == "unassigned":
         fundedStatus = "notfunded"
     elif status == "tentative":
-        readyStatus = r.choice([True, False]),
+        readyToStart = r.choice([True, False]),
+        if r.choice([True, False]):
+            tentativeVolunteerId = volunteer["id"]
+            tentativeVolunteerDisplayName = volunteer["displayName"]
+            tentativeVolunteerPhoneNumber = volunteer["phoneNumber"]
+
     elif status in ["assigned"]:
-        tentativeVolunteerId = volunteer["id"]
-        tentativeVolunteerDisplayName = volunteer["displayName"]
-        tentativeVolunteerPhoneNumber = volunteer["phoneNumber"]
-        readyStatus = r.choice([True, False]),
-    else:
-        readyStatus = True
         volunteerId = volunteer["id"]
-        volunteerName = volunteer["displayName"]
+        volunteerDisplayName = volunteer["displayName"]
+        volunteerPhoneNumber = volunteer["phoneNumber"]
+        readyToStart = r.choice([True, False]),
+    else:
+        readyToStart = True
+        volunteerId = volunteer["id"]
+        volunteerDisplayName = volunteer["displayName"]
         volunteerPhoneNumber = volunteer["phoneNumber"]
 
     mission_type = r.choice(MissionType)
@@ -168,7 +172,7 @@ def mission(orgId, volunteer, foodboxName):
 
         type=mission_type,
         fundedStatus=fundedStatus,
-        readyStatus=readyStatus,
+        readyToStart=readyToStart,
 
         missionDetails=mission_details,
         notes=f.text(),

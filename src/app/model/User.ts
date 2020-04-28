@@ -139,7 +139,7 @@ class User extends BaseModel {
         tentativeVolunteerId: user.id,
         tentativeVolunteerDisplayName: user.displayName,
         tentativeVolunteerPhoneNumber: user.phoneNumber,
-        status: MissionStatus.assigned,
+        status: MissionStatus.tentative,
       });
     } catch (e) {
       //TODO show error message to user
@@ -163,7 +163,7 @@ class User extends BaseModel {
       const collection = this.getCollection("organizations").doc("1").collection("missions");
       collection.doc(missionId).update({
         volunteerId: userId,
-        status: MissionStatus.accepted,
+        status: MissionStatus.assigned,
       });
     } catch (e) {
       //TODO show error message to user

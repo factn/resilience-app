@@ -3,9 +3,9 @@ const admin = require("firebase-admin");
 let serviceAccount = process.env.FIREBASE_SECRET;
 const data = require("./data.json");
 /** For local push
+ */
 const fs = require("fs");
 serviceAccount = fs.readFileSync("secret.json");
- */
 
 const credential = JSON.parse(serviceAccount);
 

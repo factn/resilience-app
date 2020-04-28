@@ -65,17 +65,18 @@ const Action = ({ boxRef, classes, mission }) => {
   if (status === Mission.Status.unassigned) {
     return <NotFundedStatus mission={mission} classes={classes} />;
   }
+  if (status === Mission.Status.tentative && mission.tentativeVolunteerId) {
+    return (
+      <RowBody Icon={PanToolIcon}>{mission.tentativeVolunteerDisplayName} - tentative</RowBody>
+    );
+  }
 
   if (status === Mission.Status.tentative) {
     return <TentativeStatusAction mission={mission} classes={classes} boxRef={boxRef} />;
   }
 
   if (status === Mission.Status.assigned) {
-    return <RowBody Icon={PanToolIcon}>{mission.tentativeVolunteerName} - assigned</RowBody>;
-  }
-
-  if (status === Mission.Status.accepted) {
-    return <RowBody Icon={PanToolIcon}>{mission.volunteerName} - accepted</RowBody>;
+    return <RowBody Icon={PanToolIcon}>{mission.volunteerDisplayName} - assigned</RowBody>;
   }
 
   return status;
