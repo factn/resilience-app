@@ -43,9 +43,9 @@ const defaultMissionData: MissionInterface = {
   recipientId: "No Recipient Id", // reference?
 };
 
-const fsInProposed = {
+const fsInProposed = (orgId: string) => ({
   collection: "organizations",
-  doc: "1",
+  doc: orgId,
   subcollections: [
     {
       collection: "missions",
@@ -56,10 +56,10 @@ const fsInProposed = {
     },
   ],
   storeAs: "missionsInProposed",
-};
-const fsInPlanning = {
+});
+const fsInPlanning = (orgId: string) => ({
   collection: "organizations",
-  doc: "1",
+  doc: orgId,
   subcollections: [
     {
       collection: "missions",
@@ -69,10 +69,10 @@ const fsInPlanning = {
     },
   ],
   storeAs: "missionsInPlanning",
-};
-const fsInProgress = {
+});
+const fsInProgress = (orgId: string) => ({
   collection: "organizations",
-  doc: "1",
+  doc: orgId,
   subcollections: [
     {
       collection: "missions",
@@ -80,10 +80,10 @@ const fsInProgress = {
     },
   ],
   storeAs: "missionsInProgress",
-};
-const fsInDone = {
+});
+const fsInDone = (orgId: string) => ({
   collection: "organizations",
-  doc: "1",
+  doc: orgId,
   subcollections: [
     {
       collection: "missions",
@@ -91,7 +91,7 @@ const fsInDone = {
     },
   ],
   storeAs: "missionsInDone",
-};
+});
 
 class Mission extends BaseModel {
   collectionName = "missions";
@@ -109,7 +109,7 @@ class Mission extends BaseModel {
   fsInDone = fsInDone;
 
   getById = async (missionId: string) => {
-    const collection = this.getCollection("missions");
+    const collection = this.getCollection("organizations").doc("1").collection("missions");
     let doc;
     try {
       doc = await collection.doc(missionId).get();
@@ -135,7 +135,7 @@ class Mission extends BaseModel {
    * Returns all available missions
    */
   getAllAvailable = async () => {
-    const collection = this.getCollection("missions");
+    const collection = this.getCollection("organizations").doc("1").collection("missions");
 
     const missionsAvailableForEveryone = await collection
       .where("status", "==", MissionStatus.unassigned)
@@ -155,7 +155,9 @@ class Mission extends BaseModel {
    */
   update(missionId: string, data: object) {
     let sanitized = this.sanitize(data);
-    return this.getCollection("missions")
+    return this.getCollection("organizations")
+      .doc("1")
+      .collection("missions")
       .doc(missionId)
       .update({
         ...sanitized,

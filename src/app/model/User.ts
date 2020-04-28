@@ -65,13 +65,14 @@ class User extends BaseModel {
    */
   async createMission(mission: MissionInterface): Promise<string> {
     const missionId = uuidV4(); //generate mission id
-    const collection = this.getCollection("missions");
+    const collection = this.getCollection("organizations").doc("1").collection("missions");
 
     //Add mission id to mission object and sanitize is
     const sanitizedMission = this.load({
       id: missionId,
       ...mission,
     });
+    mission.id = missionId;
 
     //save mission in firestore
     try {
@@ -89,7 +90,7 @@ class User extends BaseModel {
    * @param {string} displayName : displayName of user
    * @return {object}
    */
-  async getIdByDisplayName(displayName: string): Promise<object> {
+  async getIdByDisplayName(displayName: string): Promise<string> {
     let collection = this.getCollection("users");
     let doc;
     try {
@@ -103,7 +104,7 @@ class User extends BaseModel {
       throw Error(`This user: ${displayName} does not exist`);
     }
 
-    return doc.docs[0];
+    return doc.docs[0].id;
   }
 
   /**
@@ -115,11 +116,11 @@ class User extends BaseModel {
     let data = await Mission.getById(missionId);
 
     if (data.volunteerId) {
-      throw Error(`User: ${userId} are not allowed to voluntter for this mission: ${missionId}`);
+      throw Error(`User: ${userId} are not allowed to volunteer for this mission: ${missionId}`);
     }
 
     try {
-      const collection = this.getCollection("missions");
+      const collection = this.getCollection("organizations").doc("1").collection("missions");
       collection.doc(missionId).update({
         volunteerId: userId,
         status: MissionStatus.assigned,
@@ -136,7 +137,7 @@ class User extends BaseModel {
    */
 
   async unvolunteerMission(missionId: string) {
-    let collection = this.getCollection("missions");
+    const collection = this.getCollection("organizations").doc("1").collection("missions");
 
     let data = await Mission.getById(missionId);
 
@@ -161,7 +162,7 @@ class User extends BaseModel {
    * @param {string} missionId - mission that user want to start
    */
   async startMission(userId: string, missionId: string) {
-    let collection = this.getCollection("missions");
+    const collection = this.getCollection("organizations").doc("1").collection("missions");
     let doc;
     try {
       doc = await collection.doc(missionId).get();
@@ -199,7 +200,7 @@ class User extends BaseModel {
    * @param {string} missionId  - mission id that user delivered
    */
   async deliverMission(userId: string, missionId: string) {
-    let collection = this.getCollection("missions");
+    const collection = this.getCollection("organizations").doc("1").collection("missions");
     let doc;
     try {
       doc = await collection.doc(missionId).get();
@@ -233,7 +234,7 @@ class User extends BaseModel {
    * @param userId UserId of the volunteer
    */
   async getAllAvailableMissions(userId: string) {
-    const collection = this.getCollection("missions");
+    const collection = this.getCollection("organizations").doc("1").collection("missions");
 
     const missionsAvailableForEveryone = await Mission.getAllAvailable();
     const suggestedMissions = await collection.where("tentativeVolunteerId", "==", userId).get();
@@ -252,7 +253,7 @@ class User extends BaseModel {
    * @param userId UserId of the volunteer
    */
   async getAllAssociatedMissions(userId: string) {
-    const collection = this.getCollection("missions");
+    const collection = this.getCollection("organizations").doc("1").collection("missions");
 
     const volunteeredMissions = await collection.where("volunteerId", "==", userId).get();
     const suggestedMissions = await collection.where("tentativeVolunteerId", "==", userId).get();
@@ -273,7 +274,7 @@ class User extends BaseModel {
    */
 
   async getAllCompletedMissions(userId: string) {
-    const collection = this.getCollection("missions");
+    const collection = this.getCollection("organizations").doc("1").collection("missions");
 
     const deliveredMissions = await collection
       .where("volunteerId", "==", userId)

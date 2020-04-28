@@ -8,13 +8,13 @@ import clsx from "clsx";
 import React from "react";
 import { useFirestoreConnect } from "react-redux-firebase";
 import { Route, Switch } from "react-router-dom";
-
+import CreateMission from "./Missions/CreateMission.js";
 import { Mission } from "../model";
 import Appbar from "./Appbar";
 import Drawer from "./Drawer";
 import Home from "./Home";
 import DashboardMissions from "./Missions";
-import CreateMission from "./Missions/CreateMission";
+import Organization from "../model/Organization";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -51,14 +51,17 @@ const MissionsPage = () => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
-  useFirestoreConnect(() => [
-    Mission.fsInProposed,
-    Mission.fsInPlanning,
-    Mission.fsInProgress,
-    Mission.fsInDone,
-    { collection: "users" },
-    { collection: "organizations", doc: "1" },
-  ]);
+  useFirestoreConnect(() => {
+    const id = Organization.id;
+    return [
+      Mission.fsInProposed(id),
+      Mission.fsInPlanning(id),
+      Mission.fsInProgress(id),
+      Mission.fsInDone(id),
+      { collection: "users" },
+      { collection: "organizations", doc: id },
+    ];
+  });
 
   const handleDrawerOpen = () => {
     setOpen(true);
