@@ -166,8 +166,18 @@ export interface MissionInterface {
   fundedStatus: MissionFundedStatus;
   readyStatus: boolean;
   organisationId: string;
-  tentativeVolunterId: string; // this get removed if the volunteer accepts?
+
+  tentativeVolunteerId: string;
+  tentativeVolunteerPhone: string;
+  tentativeVolunteerDisplayName: string;
+
   volunteerId: string;
+  volunteerPhone: string;
+  volunteerDisplayName: string;
+
+  recipientName: string;
+  recipientPhoneNumber: string;
+  recipientId: string; // reference?
 
   pickUpWindow: TimeWindow | null; // nb this can be an exact time or can be null
   pickUpLocation: Location;
@@ -179,9 +189,6 @@ export interface MissionInterface {
 
   feedbackNotes: string;
 
-  recipientName: string;
-  recipientPhoneNumber: string;
-  recipientId: string; // reference?
   // all other event log type stuff, such as when assigned etc belongs in the eventlog
   // this should be a child collection
   //@SubCollection(MissionLogEvent)

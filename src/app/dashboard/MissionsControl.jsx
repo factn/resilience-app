@@ -57,7 +57,7 @@ const MissionsPage = () => {
       Mission.fsInPlanning(id),
       Mission.fsInProgress(id),
       Mission.fsInDone(id),
-      User.fsVolunteer,
+      User.fsVolunteer(id),
       { collection: "organizations", doc: id },
     ];
   });

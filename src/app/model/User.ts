@@ -37,14 +37,14 @@ const defaultUserData: UserInterface = {
   organizerDetails: {},
 };
 
-const fsVolunteer = {
+const fsVolunteer = (orgId: string) => ({
   collection: "users",
   where: [
     ["isVolunteer", "==", true],
-    ["organizationId", "==", "1"],
+    ["organizationId", "==", orgId],
   ],
   storeAs: "volunteers",
-};
+});
 
 class User extends BaseModel {
   VolunteerStatus = VolunteerStatus;
@@ -122,6 +122,32 @@ class User extends BaseModel {
   }
 
   /**
+   * User assigned as tentative for a mission
+   * @param {string} userId : user
+   * @param {string} missionId : mission that user want to volunteer for
+   */
+  async assignedMission(user: UserInterface, missionId: string) {
+    let data = await Mission.getById(missionId);
+
+    if (data.volunteerId) {
+      throw Error(`User: ${user.id} are not allowed to volunteer for this mission: ${missionId}`);
+    }
+
+    try {
+      const collection = this.getCollection("organizations").doc("1").collection("missions");
+      collection.doc(missionId).update({
+        tentativeVolunteerId: user.id,
+        tentativeVolunteerDisplayName: user.displayName,
+        tentativeVolunteerPhone: user.phone,
+        status: MissionStatus.assigned,
+      });
+    } catch (e) {
+      //TODO show error message to user
+      throw e;
+    }
+  }
+
+  /**
    * User volunteer for a mission
    * @param {string} userId : user
    * @param {string} missionId : mission that user want to volunteer for
@@ -137,7 +163,7 @@ class User extends BaseModel {
       const collection = this.getCollection("organizations").doc("1").collection("missions");
       collection.doc(missionId).update({
         volunteerId: userId,
-        status: MissionStatus.assigned,
+        status: MissionStatus.accepted,
       });
     } catch (e) {
       //TODO show error message to user

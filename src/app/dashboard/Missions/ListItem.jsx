@@ -1,19 +1,15 @@
 import { Box, Grid } from "@material-ui/core";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
-import Popover from "@material-ui/core/Popover";
 import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import PanToolIcon from "@material-ui/icons/PanTool";
-import Container from "@material-ui/core/Container";
 import clsx from "clsx";
-import React, { useState } from "react";
+import React from "react";
 
-import { Button, Body1 } from "../../component";
-import UsersAutocomplete from "../../component/UsersAutocomplete";
 import Mission from "../../model/Mission";
 import _ from "../../utils/lodash";
-import TentativeMissionItemAction from "./component/TentativeMissionItemAction";
+import TentativeStatusAction from "./component/TentativeStatusAction";
 
 /** BEGIN ACTION*/
 const unassignedOptions = [
@@ -30,7 +26,7 @@ const unassignedOptions = [
     text: "Funding Not Needed",
   },
 ];
-const UnasignedStatus = ({ missionId, classes }) => {
+const NotFundedStatus = ({ missionId, classes }) => {
   const handleChange = (event) => {
     event.preventDefault();
     Mission.update(missionId, {
@@ -63,36 +59,26 @@ const UnasignedStatus = ({ missionId, classes }) => {
   );
 };
 
-const AssignedStatus = ({ mission }) => {
-  const { volunteerName } = mission;
-  return <RowBody Icon={PanToolIcon}>{volunteerName} - tentative</RowBody>;
-};
-const AcceptedStatus = ({ mission }) => {
-  const { volunteerName } = mission;
-  return <RowBody Icon={PanToolIcon}>{volunteerName} - accepted</RowBody>;
-};
-const Action = ({ mission, classes, boxRef, users }) => {
-  let { id, status } = mission;
-  let StatusAction = null;
-  switch (status) {
-    case Mission.Status.unassigned:
-      return <UnasignedStatus mission={mission} classes={classes} />;
-    case Mission.Status.tentative:
-      return (
-        <TentativeMissionItemAction
-          TentativeStatus
-          mission={mission}
-          classes={classes}
-          boxRef={boxRef}
-        />
-      );
-    case Mission.Status.assigned:
-      return <AssignedStatus mission={mission} />;
-    case Mission.Status.accepted:
-    default:
-      return <AcceptedStatus mission={mission} />;
+const Action = ({ mission, classes, boxRef }) => {
+  let { status } = mission;
+
+  if (status === Mission.Status.unassigned) {
+    return <NotFundedStatus mission={mission} classes={classes} />;
   }
-  return StatusAction;
+
+  if (status === Mission.Status.tentative) {
+    return <TentativeStatusAction mission={mission} classes={classes} boxRef={boxRef} />;
+  }
+
+  if (status === Mission.Status.assigned) {
+    return <RowBody Icon={PanToolIcon}>{mission.tentativeVolunteerName} - assigned</RowBody>;
+  }
+
+  if (status === Mission.Status.accepted) {
+    return <RowBody Icon={PanToolIcon}>{mission.volunteerName} - accepted</RowBody>;
+  }
+
+  return status;
 };
 /** END ACTION*/
 

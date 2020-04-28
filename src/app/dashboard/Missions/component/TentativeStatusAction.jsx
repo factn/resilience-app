@@ -4,6 +4,7 @@ import React, { useState } from "react";
 
 import { Button, Body1 } from "../../../component";
 import UsersAutocomplete from "../../../component/UsersAutocomplete";
+import User from "../../../model/User";
 import { connect } from "react-redux";
 import _ from "../../../utils/lodash";
 import { makeStyles } from "@material-ui/core/styles";
@@ -23,12 +24,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const TentativeStatus = ({ mission, boxRef, volunteers }) => {
+const TentativeStatusAction = ({ mission, boxRef, volunteers }) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
+  const [selected, setSelected] = useState();
 
-  const handleClick = (event) => {
+  const handleClick = () => {
     setOpen(!open);
+  };
+  const handleConfirmVolunteer = () => {
+    if (!selected) setOpen(false);
+    User.assignedMission(selected.id, mission.id);
+    setOpen(false);
   };
 
   return (
@@ -72,15 +79,12 @@ const TentativeStatus = ({ mission, boxRef, volunteers }) => {
             </Body1>
           </Box>
           <Box className={classes.row}>
-            <UsersAutocomplete
-              handleChange={(value) => {
-                console.log(value);
-              }}
-              users={volunteers}
-            />
+            <UsersAutocomplete handleChange={setSelected} users={volunteers} />
           </Box>
           <Box className={classes.row}>
-            <Button fullWidth>Confirm</Button>
+            <Button fullWidth onClick={handleConfirmVolunteer}>
+              Confirm
+            </Button>
           </Box>
         </Box>
       </Popover>
@@ -90,4 +94,4 @@ const TentativeStatus = ({ mission, boxRef, volunteers }) => {
 
 export default connect((state) => ({
   volunteers: state.firestore.ordered.volunteers,
-}))(TentativeStatus);
+}))(TentativeStatusAction);

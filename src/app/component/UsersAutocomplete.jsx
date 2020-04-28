@@ -38,6 +38,7 @@ const SearchUsers = ({ handleChange, users }) => {
       options={options}
       classes={{ root: classes.root }}
       getOptionLabel={(user) => user.searchString}
+      onChange={(event, newValue) => handleChange(newValue)}
       renderInput={(params) => (
         <TextField
           {...params}

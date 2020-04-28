@@ -29,18 +29,28 @@ const defaultMissionData: MissionInterface = {
   fundedStatus: MissionFundedStatus.notfunded,
   readyStatus: false,
   organisationId: "",
-  tentativeVolunterId: "", // this get removed if the volunteer accepts?
+
+  tentativeVolunteerDisplayName: "",
+  tentativeVolunteerId: "",
+  tentativeVolunteerPhone: "",
+
   volunteerId: "",
-  pickUpWindow: defaultTimeWindow, // nb this can be an exact time or can be null
-  pickUpLocation: defaultLocation,
-  deliveryWindow: defaultTimeWindow,
-  deliveryLocation: defaultLocation, // default to recipient location
-  deliveryConfirmationImage: "",
-  deliveryNotes: "",
-  feedbackNotes: "",
+  volunteerDisplayName: "",
+  volunteerPhone: "",
+
   recipientName: "No Recipient Name",
   recipientPhoneNumber: "",
   recipientId: "No Recipient Id", // reference?
+
+  pickUpWindow: defaultTimeWindow, // nb this can be an exact time or can be null
+  pickUpLocation: defaultLocation,
+
+  deliveryWindow: defaultTimeWindow,
+  deliveryLocation: defaultLocation, // default to recipient location
+
+  deliveryConfirmationImage: "",
+  deliveryNotes: "",
+  feedbackNotes: "",
 };
 
 const fsInProposed = (orgId: string) => ({
