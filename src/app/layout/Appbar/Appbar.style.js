@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export const AppbarContainer = styled.div`
@@ -11,6 +12,7 @@ export const AppbarDefault = styled.div`
   height: inherit;
   box-sizing: border-box;
   display: flex;
+  align-items: center;
 `;
 export const LogoContainer = styled.div`
   height: inherit;
@@ -30,4 +32,13 @@ export const MenuContainer = styled.div`
     height: inherit;
     width: 2em;
   }
+`;
+
+export const AboutLink = styled(Link)`
+  text-decoration: none;
+  color: #3739b5;
+  cursor: pointer;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 22px;
 `;

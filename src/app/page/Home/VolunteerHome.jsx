@@ -37,7 +37,9 @@ export default function VolunteerHome({ currentUser }) {
       updateStartedMissions(getAllStartedMissions(missions, currentUser));
     };
 
-    fetchAllAssociatedMissions();
+    if (!!currentUser && !!currentUser.uid) {
+      fetchAllAssociatedMissions();
+    }
   }, [currentUser]);
 
   const handleChange = (event, newValue) => {

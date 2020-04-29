@@ -1,12 +1,44 @@
 import { render } from "@testing-library/react";
 import React from "react";
+import { Provider } from "react-redux";
 import { MemoryRouter } from "react-router-dom";
+import { createStore } from "redux";
 
+import theme from "../../../theme";
+import ThemeProvider from "../../component/ThemeProvider";
+import User from "../../model/User";
 import Appbar from "./Appbar";
 
 describe("Appbar Layout", () => {
+  beforeAll(() => {
+    // eslint-disable-next-line no-unused-vars
+    const collection = {
+      doc: jest.fn(),
+    };
+    jest.spyOn(User, "getAllAssociatedMissions").mockImplementation(() => []);
+  });
+
   function renderComponent(props) {
-    return render(<Appbar {...props} />, { wrapper: MemoryRouter });
+    const initialState = {
+      firebase: {
+        auth: {
+          isLoaded: true,
+          isEmpty: true,
+        },
+      },
+    };
+
+    const store = createStore(() => initialState);
+
+    return render(
+      <Provider store={store}>
+        <MemoryRouter>
+          <ThemeProvider theme={theme}>
+            <Appbar {...props} />
+          </ThemeProvider>
+        </MemoryRouter>
+      </Provider>
+    );
   }
 
   it("Render the default appbar ", () => {
