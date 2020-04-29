@@ -7,12 +7,13 @@ import { createStore } from "redux";
 import theme from "../../../theme";
 import ThemeProvider from "../../component/ThemeProvider";
 import User from "../../model/User";
+import Mission from "../../model/Mission";
 import Home from "./Home";
 
 describe("Home page", () => {
   beforeAll(() => {
     jest.spyOn(User, "getAllAssociatedMissions").mockImplementation(() => []);
-    jest.spyOn(User, "getAllAvailableMissions").mockImplementation(() => []);
+    jest.spyOn(Mission, "getAllAvailable").mockImplementation(() => []);
   });
 
   function renderComponent({ state } = {}) {
