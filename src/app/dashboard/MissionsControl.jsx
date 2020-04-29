@@ -1,6 +1,7 @@
 import { makeStyles } from "@material-ui/core/styles";
 import AnnouncementIcon from "@material-ui/icons/Announcement";
 import HomeIcon from "@material-ui/icons/Home";
+import AddCircleIcon from "@material-ui/icons/AddCircle";
 import PanToolIcon from "@material-ui/icons/PanTool";
 import PeopleIcon from "@material-ui/icons/People";
 import clsx from "clsx";
@@ -8,6 +9,7 @@ import React from "react";
 import { useFirestoreConnect } from "react-redux-firebase";
 import { Route, Switch } from "react-router-dom";
 
+import CreateMission from "./Missions/CreateMission";
 import { Mission, User } from "../model";
 import Appbar from "./Appbar";
 import Drawer from "./Drawer";
@@ -99,6 +101,12 @@ const MissionsPage = () => {
       route: "/dashboard/volunteers",
       icon: <PanToolIcon />,
     },
+    {
+      text: "New Mission",
+      id: "/dashboard/missions/create",
+      route: "/dashboard/missions/create",
+      icon: <AddCircleIcon />,
+    },
   ];
 
   return (
@@ -116,8 +124,9 @@ const MissionsPage = () => {
         })}
       >
         <Switch>
-          <Route path="/dashboard/missions" component={DashboardMissions} />
-          <Route path="/dashboard/" component={() => <Overview />} />
+          <Route exact path="/dashboard/missions" component={DashboardMissions} />
+          <Route exact path="/dashboard/missions/create" component={CreateMission} />
+          <Route exact path="/dashboard/" component={() => <Overview />} />
         </Switch>
       </main>
     </div>
