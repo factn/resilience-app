@@ -59,15 +59,11 @@ function mockBaseRepo({
     mockDocFn,
     mockData,
     mockUpdate,
-    mockWhereFn
+    mockWhereFn,
   };
 }
 
-function mockAcceptMissionRepo({
-  getByIdReturn,
-  throwCollectionDocError,
-  throwUpdateError,
-}) {
+function mockAcceptMissionRepo({ getByIdReturn, throwCollectionDocError, throwUpdateError }) {
   const mockData = jest.fn().mockImplementation(() => getByIdReturn);
   const mockUpdate = throwUpdateError
     ? jest.fn().mockImplementation(() => {
@@ -81,10 +77,10 @@ function mockAcceptMissionRepo({
     doc: jest.fn().mockReturnValue({
       collection: jest.fn().mockReturnValue({
         doc: jest.fn().mockReturnValue({
-          update: mockUpdate
-        })
-      })
-    })
+          update: mockUpdate,
+        }),
+      }),
+    }),
   };
 
   jest.spyOn(ReduxFirebase, "getFirebase").mockReturnValue({
@@ -102,7 +98,7 @@ describe("User", () => {
     jest.clearAllMocks();
   });
 
-/*  describe("#getIdByDisplayName", () => {
+  /*  describe("#getIdByDisplayName", () => {
     const displayName = "username";
     const volunteerId = "aabbbccc";
     let user = {
@@ -162,7 +158,7 @@ describe("User", () => {
 
     beforeEach(() => {
       mission.tentativeVolunteerId = volunteerId;
-      mission.volunteerId = '';
+      mission.volunteerId = "";
       mission.status = MissionStatus.assigned;
     });
 
@@ -177,7 +173,7 @@ describe("User", () => {
 
       expect(mockGetById).toHaveBeenCalled();
       const expected = {
-        tentativeVolunteerId: '',
+        tentativeVolunteerId: "",
         volunteerId: volunteerId,
         status: MissionStatus.assigned,
       };

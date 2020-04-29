@@ -164,7 +164,7 @@ class User extends BaseModel {
       console.log(this.getCollection("organizations").doc("1"));
       const collection = this.getCollection("organizations").doc("1").collection("missions");
       collection.doc(missionId).update({
-        tentativeVolunteerId: '',
+        tentativeVolunteerId: "",
         volunteerId: userId,
         status: MissionStatus.assigned,
       });
