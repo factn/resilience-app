@@ -270,24 +270,6 @@ class User extends BaseModel {
       throw e;
     }
   }
-  /**
-   * Get all available missions: missions suggested to the volunteer + general available missions
-   * @param userId UserId of the volunteer
-   */
-  async getAllAvailableMissions(userId: string) {
-    const collection = this.getCollection("organizations").doc("1").collection("missions");
-
-    const missionsAvailableForEveryone = await Mission.getAllAvailable();
-    const suggestedMissions = await collection.where("tentativeVolunteerId", "==", userId).get();
-    const missions = missionsAvailableForEveryone.concat(
-      suggestedMissions.docs.map((doc) => doc.data())
-    );
-    if (missions.length < 0) {
-      return [];
-    }
-
-    return missions;
-  }
 
   /**
    * Returns all missions that a volunteer is associated with or has been suggested for.

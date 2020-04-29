@@ -72,7 +72,7 @@ describe("User", () => {
     };
 
     it("looks up user id by display name", async () => {
-      const { mockData, mockDocFn, mockUpdate, mockWhereFn } = mockBaseRepo({
+      const { mockWhereFn } = mockBaseRepo({
         existsReturn: true,
         mockDataReturn: [user],
         throwCollectionDocError: false,
@@ -87,7 +87,7 @@ describe("User", () => {
     });
 
     it("returns error if firebase where bombs", async () => {
-      const { mockData, mockDocFn, mockUpdate, mockWhereFn } = mockBaseRepo({
+      const { mockWhereFn } = mockBaseRepo({
         existsReturn: true,
         mockDataReturn: [user],
         throwCollectionDocError: false,
@@ -100,7 +100,7 @@ describe("User", () => {
     });
 
     it("no user found by display name", async () => {
-      const { mockData, mockDocFn, mockUpdate, mockWhereFn } = mockBaseRepo({
+      const { mockWhereFn } = mockBaseRepo({
         existsReturn: true,
         mockDataReturn: [],
         throwCollectionDocError: false,
@@ -114,7 +114,6 @@ describe("User", () => {
   });
 
   describe("#unvolunteerMission", () => {
-    const missionId = "1234";
     const volunteerId = "aabbbccc";
     let mission = {
       volunteerId: "",
