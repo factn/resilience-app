@@ -132,13 +132,14 @@ class Mission extends BaseModel {
   };
 
   /**
-   * Returns all available missions
+   * Returns all available missions.
+   * Available missions have a status of "tentative"
    */
   getAllAvailable = async () => {
     const collection = this.getCollection("organizations").doc("1").collection("missions");
 
     const missionsAvailableForEveryone = await collection
-      .where("status", "==", MissionStatus.unassigned)
+      .where("status", "==", MissionStatus.tentative)
       .get();
 
     if (missionsAvailableForEveryone.docs.length < 1) {
