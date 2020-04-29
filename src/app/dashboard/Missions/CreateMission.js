@@ -25,6 +25,7 @@ import AddCircleIcon from "@material-ui/icons/AddCircle";
 //TODO
 // 100% FUNCTIONALITY
 // Validation
+// fix warnings
 
 const useStyles = makeStyles((theme) => ({
   addMissionContainer: {
@@ -137,12 +138,21 @@ const useStyles = makeStyles((theme) => ({
   inputLabel: {
     fontSize: "20px",
   },
+  menuItem: {
+    display: "flex",
+  },
 }));
 
 const CreateMission = () => {
   const classes = useStyles();
   const [missionType, setMissionType] = useState();
   const [associatedItems, setAssociatedItems] = useState([]);
+  const [missionFund, setMissionFund] = useState(1);
+  const [recipient, setRecipient] = useState({ name: "default", phoneNumber: "" });
+  const [volunteer, setVolunteer] = useState({ name: "default", phoneNumber: "" });
+  const [dropOff, setDropOff] = useState({ address: "", date: "" });
+  const [pickUp, setPickUp] = useState({ address: "", date: "" });
+  const [comment, setComment] = useState();
   // master mission object
   const [newMissionObject, setNewMissionObject] = useState({});
 
@@ -155,30 +165,42 @@ const CreateMission = () => {
       createdBy: "organizer", // make dynamic
       missionType: missionType,
       associatedItems: associatedItems,
-      fund: "",
-      recipient: {
-        name: "",
-        phoneNumber: "",
-      },
-      volunteer: {
-        name: "",
-        phoneNumber: "",
-      },
-      dropOff: {
-        address: "",
-        date: "",
-      },
-      pickUp: {
-        address: "",
-        date: "",
-      },
-      comment: "",
+      fund: missionFund,
+      recipient: recipient,
+      volunteer: volunteer,
+      dropOff: dropOff,
+      pickUp: pickUp,
+      comment: comment,
     });
     console.log(newMissionObject);
   }
-
+  // Functions for changing the states
   const handleChangeMissionType = (event) => {
     setMissionType(event.target.value);
+  };
+
+  const handleChangeFund = (event) => {
+    setMissionFund(event.target.value);
+  };
+
+  const handleRecipient = (event) => {
+    setRecipient({ ...recipient, [event.target.name]: event.target.value });
+  };
+
+  const handleVolunteer = (event) => {
+    setVolunteer({ ...volunteer, [event.target.name]: event.target.value });
+  };
+
+  const handleDrop = (event) => {
+    setDropOff({ ...dropOff, [event.target.name]: event.target.value });
+  };
+
+  const handlePickUp = (event) => {
+    setPickUp({ ...pickUp, [event.target.name]: event.target.value });
+  };
+
+  const handleComment = (event) => {
+    setComment(event.target.value);
   };
 
   // This handles all the food box inputs that are added to food box missions
@@ -212,7 +234,9 @@ const CreateMission = () => {
             value={missionType}
             onChange={handleChangeMissionType}
           >
-            <MenuItem value="food-box">Food Box</MenuItem>
+            <MenuItem className={classes.menuItem} value="food-box">
+              Food box
+            </MenuItem>
           </Select>
         </FormControl>
         {/* THIS PART SPAWNS BASED ON WHAT MISSION TYPE WAS SELECTED */}
@@ -220,8 +244,6 @@ const CreateMission = () => {
           <>
             <Typography className={classes.inputHeader}>Select Food Box Options</Typography>
             <FormControl className={classes.form}>
-              {/* DETERMINE FOOD BOX TYPES */}
-
               {foodBoxInputCount.map((index) => {
                 function confirmItems(event) {
                   event.preventDefault();
@@ -252,17 +274,21 @@ const CreateMission = () => {
           <Select
             variant="outlined"
             className={classes.select}
-            value="default"
+            value={missionFund}
+            onChange={handleChangeFund}
             startAdornment={
               <InputAdornment position="start">
                 <AttachMoneyIcon style={{ color: "#3739B5" }} />
               </InputAdornment>
             }
           >
-            {" "}
             {/* THIS WILL HAVE TO HAVE A DYNAMIC INITIAL VALUE */}
-            <MenuItem value="default">Not Funded Yet</MenuItem>
-            <MenuItem value={0}>Needs Funding</MenuItem>
+            <MenuItem className={classes.menuItem} value="Not yet funded">
+              Not yet funded
+            </MenuItem>
+            <MenuItem className={classes.menuItem} value="Funded">
+              Funded
+            </MenuItem>
           </Select>
         </FormControl>
         <Divider variant="middle" />
@@ -277,18 +303,26 @@ const CreateMission = () => {
               className={classes.dualSelect}
               labelId="name"
               placeholder="Name"
-              value="default"
+              value={recipient.name}
               variant="outlined"
+              name="name"
+              onChange={handleRecipient}
             >
-              <MenuItem value="default"> Select Name</MenuItem>{" "}
+              <MenuItem className={classes.menuItem} value="default">
+                Select Recipient
+              </MenuItem>
               {/* NEED TO DYNAMICALLY SET NAMES */}
             </Select>
             <br />
+
             <TextField
               variant="outlined"
+              name="phoneNumber"
+              onChange={handleRecipient}
               className={classes.dualText}
+              value={recipient.phoneNumber}
               labelId="phone"
-              placeholder="Enter Phone Number"
+              placeholder="(123) 456-7890"
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
@@ -298,6 +332,7 @@ const CreateMission = () => {
               }}
             />
           </FormControl>
+
           <FormControl className={classes.form2}>
             <div className={classes.optionalTagBox}>
               <Typography className={classes.inputHeader2}>Volunteer Details </Typography>
@@ -307,19 +342,26 @@ const CreateMission = () => {
             <Select
               className={classes.dualSelect}
               labelId="name0"
-              placeholder="Name"
+              name="name"
               value="default"
               variant="outlined"
+              onChange={handleVolunteer}
+              value={volunteer.name}
             >
-              <MenuItem value="default"> Select Name</MenuItem>{" "}
+              <MenuItem className={classes.menuItem} value="default">
+                Select Volunteer
+              </MenuItem>
               {/* NEED TO DYNAMICALLY SET NAMES */}
             </Select>
             <br />
             <TextField
               variant="outlined"
+              name="phoneNumber"
               className={classes.dualText}
               labelId="phone0"
-              placeholder="Enter Phone Number"
+              placeholder="(123) 456-7890"
+              onChange={handleVolunteer}
+              value={volunteer.phoneNumber}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
@@ -338,7 +380,10 @@ const CreateMission = () => {
             <TextField
               className={classes.dualText}
               variant="outlined"
+              onChange={handleDrop}
               labelId="location"
+              value={dropOff.address}
+              name="address"
               placeholder="Enter Address"
               InputProps={{
                 startAdornment: (
@@ -347,14 +392,16 @@ const CreateMission = () => {
                   </InputAdornment>
                 ),
               }}
-            />{" "}
-            {/** NEED TO RUN ADDRESS SEARCH ON THESE TO STORE THE LOCATION IN THE BACKEND */}
+            />
             <br />
             <TextField
               type="date"
               className={classes.dualText}
               variant="outlined"
               labelId="dod"
+              name="date"
+              value={dropOff.date}
+              onChange={handleDrop}
               placeholder="Enter Drop Off Date Date "
               InputProps={{
                 startAdornment: (
@@ -370,6 +417,9 @@ const CreateMission = () => {
             <TextField
               className={classes.dualText}
               variant="outlined"
+              name="address"
+              value={pickUp.address}
+              onChange={handlePickUp}
               labelId="address"
               placeholder="Enter Address"
               InputProps={{
@@ -379,12 +429,14 @@ const CreateMission = () => {
                   </InputAdornment>
                 ),
               }}
-            />{" "}
-            {/** NEED TO RUN ADDRESS SEARCH ON THESE TO STORE THE LOCATION IN THE BACKEND */}
+            />
             <br />
             <TextField
               type="date"
               className={classes.dualText}
+              value={pickUp.date}
+              onChange={handlePickUp}
+              name="date"
               variant="outlined"
               labelId="pud"
               placeholder="Enter Pick Up Date Date"
@@ -407,6 +459,9 @@ const CreateMission = () => {
         <TextField
           className={classes.bigTextField}
           variant="outlined"
+          value={comment}
+          onChange={handleComment}
+          name="comment"
           placeholder="Enter any notes or comments about this mission here."
           multiline
         ></TextField>
