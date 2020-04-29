@@ -53,7 +53,7 @@ const MissionDetailsPage = ({ history, match }) => {
     if (!currentUser.phoneNumber) {
       setUserUnverifiedPopupOpen(true);
     } else {
-      User.volunteerMission(currentUser.uid, missionId);
+      User.acceptMission(currentUser.uid, missionId);
     }
   }
 

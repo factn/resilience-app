@@ -108,11 +108,12 @@ class User extends BaseModel {
   }
 
   /**
-   * User volunteer for a mission
+   * User accepts for a mission.  This should clear the tenativeVolunteerId
+   * field, set the volunteer for the mission and the status properly. 
    * @param {string} userId : user
    * @param {string} missionId : mission that user want to volunteer for
    */
-  async volunteerMission(userId: string, missionId: string) {
+  async acceptMission(userId: string, missionId: string) {
     let data = await Mission.getById(missionId);
 
     if (data.volunteerId) {
@@ -120,8 +121,10 @@ class User extends BaseModel {
     }
 
     try {
+      console.log(this.getCollection("organizations").doc("1"));
       const collection = this.getCollection("organizations").doc("1").collection("missions");
       collection.doc(missionId).update({
+        tentativeVolunteerId: '',
         volunteerId: userId,
         status: MissionStatus.assigned,
       });
@@ -229,6 +232,28 @@ class User extends BaseModel {
       throw e;
     }
   }
+
+  /**
+   * User accepts one or more missions.
+   * 
+   * @param {string} userId - user
+   * @param {string} missionIds  - mission id that user accepts 
+   */
+  /* async acceptMissions(userId: string, missionId: string) {
+
+
+        collection.doc(doc.docs[0].missionId).update({
+          status: MissionStatus.assigned,
+          tentativeVolunteerId: null,
+          volunteerId: volunteerId
+        });
+      }); 
+    } catch (e) {
+      //TODO show error msg to user
+      throw e;
+    }
+  } */ 
+
   /**
    * Get all available missions: missions suggested to the volunteer + general available missions
    * @param userId UserId of the volunteer
