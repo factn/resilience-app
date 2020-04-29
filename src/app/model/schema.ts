@@ -58,7 +58,7 @@ export class UserInterface {
   FIXME: need to ensure this is synced from firebase.auth ph number
   FIXME: where do we assert phone number formatting?
   FIXME: currently, always null */
-  phone!: string;
+  phoneNumber!: string;
   email!: string;
   /* user's selected profile image url
   FIXME: need to sync this with state.firebase.profile.photoURL ?
@@ -98,7 +98,6 @@ export enum MissionStatus {
 
   tentative = "tentative",
   assigned = "assigned",
-  accepted = "accepted",
 
   started = "started",
   delivered = "delivered",
@@ -164,10 +163,20 @@ export interface MissionInterface {
 
   status: MissionStatus;
   fundedStatus: MissionFundedStatus;
-  readyStatus: boolean;
+  readyToStart: boolean;
   organisationId: string;
-  tentativeVolunterId: string; // this get removed if the volunteer accepts?
+
+  tentativeVolunteerId: string;
+  tentativeVolunteerDisplayName: string;
+  tentativeVolunteerPhoneNumber: string;
+
   volunteerId: string;
+  volunteerDisplayName: string;
+  volunteerPhoneNumber: string;
+
+  recipientId: string; // reference?
+  recipientDisplayName: string;
+  recipientPhoneNumber: string;
 
   pickUpWindow: TimeWindow | null; // nb this can be an exact time or can be null
   pickUpLocation: Location;
@@ -179,9 +188,6 @@ export interface MissionInterface {
 
   feedbackNotes: string;
 
-  recipientName: string;
-  recipientPhoneNumber: string;
-  recipientId: string; // reference?
   // all other event log type stuff, such as when assigned etc belongs in the eventlog
   // this should be a child collection
   //@SubCollection(MissionLogEvent)

@@ -23,30 +23,10 @@ VolunteerPendingStatus = [
 ]
 
 
-def volunteer(organizationId):
-    return dict(
-        id=genId(),
-        phoneNumber=f.phone_number(),
-        photoURL='https://via.placeholder.com/150.png?text=User%20Image',
-        displayName=f.name(),
-        location=location(),
-        organizationId=organizationId,
-        isVolunteer=True,
-        isOrganizer=f.boolean(chance_of_getting_true=25),
-        voluteerDetails=dict(
-            hasTransportation=f.boolean(chance_of_getting_true=75),
-            status=r.choice(VolunteerPendingStatus),
-            privateNotes=""),
-        organizerDetails={},
-
-    )
-
-
 MissionStatus = [
     "unassigned",
     "tentative",
     "assigned",
-    "accepted",
     "started",
     "delivered",
     "succeeded",
@@ -91,6 +71,25 @@ def timeWindow():
     )
 
 
+def volunteer(organizationId):
+    return dict(
+        id=genId(),
+        phoneNumber=f.phone_number(),
+        photoURL='https://via.placeholder.com/150.png?text=User%20Image',
+        displayName=f.name(),
+        location=location(),
+        organizationId=organizationId,
+        isVolunteer=True,
+        isOrganizer=f.boolean(chance_of_getting_true=25),
+        voluteerDetails=dict(
+            hasTransportation=f.boolean(chance_of_getting_true=75),
+            status=r.choice(VolunteerPendingStatus),
+            privateNotes=""),
+        organizerDetails={},
+
+    )
+
+
 def location():
     return dict(
         address=f.address(),
@@ -117,44 +116,40 @@ def mission(orgId, volunteer, foodboxName):
     pickUpWindow = ""
     pickUpLocation = ""
     deliveryWindow = ""
-    readyStatus = False
+    readyToStart = False
     fundedStatus = r.choice(AnyIsFundedStatus),
 
     volunteerId = ""
-    volunteerName = ""
+    volunteerDisplayName = ""
     volunteerPhoneNumber = ""
+
+    tentativeVolunteerId = ""
+    tentativeVolunteerDisplayName = ""
+    tentativeVolunteerPhoneNumber = ""
+
+    recipientId = ""
+    recipientDisplayName = f.name()
+    recipientPhoneNumber = f.phone_number()
 
     if status == "unassigned":
         fundedStatus = "notfunded"
     elif status == "tentative":
-        readyStatus = r.choice([True, False]),
-
-        # maybe we filled out info here
+        readyToStart = r.choice([True, False]),
         if r.choice([True, False]):
-            pickUpWindow = timeWindow()
-            pickUpLocation = location()
-            deliveryWindow = timeWindow()
-            deliveryLocation = location()
-    elif status in ["assigned", "accepted"]:
-        readyStatus = r.choice([True, False]),
+            tentativeVolunteerId = volunteer["id"]
+            tentativeVolunteerDisplayName = volunteer["displayName"]
+            tentativeVolunteerPhoneNumber = volunteer["phoneNumber"]
+
+    elif status in ["assigned"]:
         volunteerId = volunteer["id"]
-        volunteerName = volunteer["displayName"]
+        volunteerDisplayName = volunteer["displayName"]
         volunteerPhoneNumber = volunteer["phoneNumber"]
-
-        if r.choice([True, False]):
-            pickUpWindow = timeWindow()
-            pickUpLocation = location()
-            deliveryWindow = timeWindow()
-            deliveryLocation = location()
-
+        readyToStart = r.choice([True, False]),
     else:
-        readyStatus = True
+        readyToStart = True
         volunteerId = volunteer["id"]
-        volunteerName = volunteer["displayName"]
+        volunteerDisplayName = volunteer["displayName"]
         volunteerPhoneNumber = volunteer["phoneNumber"]
-        pickUpWindow = timeWindow()
-        pickUpLocation = location()
-        deliveryWindow = timeWindow()
 
     mission_type = r.choice(MissionType)
 
@@ -177,26 +172,31 @@ def mission(orgId, volunteer, foodboxName):
 
         type=mission_type,
         fundedStatus=fundedStatus,
-        pickUpLocation=pickUpLocation,
-        pickUpWindow=pickUpWindow,
-        deliveryWindow=deliveryWindow,
-        deliveryLocation=location(),
-        readyStatus=readyStatus,
+        readyToStart=readyToStart,
 
         missionDetails=mission_details,
         notes=f.text(),
 
         volunteerId=volunteerId,
-        volunteerName=volunteerName,
+        volunteerDisplayName=volunteerDisplayName,
         volunterPhoneNumber=volunteerPhoneNumber,
+
+        tentativeVolunteerId=tentativeVolunteerId,
+        tentativeVolunteerDisplayName=tentativeVolunteerDisplayName,
+        tentativeVolunterPhoneNumber=tentativeVolunteerPhoneNumber,
+
+        recipientDisplayName=recipientDisplayName,
+        recipientPhoneNumber=recipientPhoneNumber,
+        recipientId='',
+
+        pickUpWindow=timeWindow(),
+        pickUpLocation=location(),
+        deliveryWindow=timeWindow(),
+        deliveryLocation=location(),
 
         deliveryConfirmationImage='',
         deliveryNotes='',
         feedbackNotes='',
-
-        recipientName=f.name(),
-        recipientPhoneNumber=f.phone_number(),
-        recipientId='',
     )
 
 
@@ -206,7 +206,7 @@ def add_volunteer(orgId, data):
 
 if __name__ == "__main__":
     org = organization()
-    orgId = 1
+    orgId = "1"
 
     foodboxName = "Fruits & Veggies Medley"
     org["resources"] = {
@@ -224,16 +224,17 @@ if __name__ == "__main__":
     data = {
         "organizations": {
             orgId: org
-        }
+        },
+        "users": {}
     }
 
-    for i in range(5):
+    for i in range(10):
         vol = volunteer(orgId)
-        data["organizations"][orgId]['users'][vol['id']] = vol
+        data["users"][vol["id"]] = vol
 
     for i in range(60):
         userId, user = r.choice(
-            list(data["organizations"][orgId]["users"].items()))
+            list(data["users"].items()))
         mis = mission(orgId, user, foodboxName)
         data["organizations"][orgId]['missions'][mis['id']] = mis
 

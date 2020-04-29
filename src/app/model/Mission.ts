@@ -27,20 +27,30 @@ const defaultMissionData: MissionInterface = {
   status: MissionStatus.unassigned,
   missionDetails: {},
   fundedStatus: MissionFundedStatus.notfunded,
-  readyStatus: false,
+  readyToStart: false,
   organisationId: "",
-  tentativeVolunterId: "", // this get removed if the volunteer accepts?
+
+  tentativeVolunteerDisplayName: "",
+  tentativeVolunteerId: "",
+  tentativeVolunteerPhoneNumber: "",
+
   volunteerId: "",
+  volunteerDisplayName: "",
+  volunteerPhoneNumber: "",
+
+  recipientDisplayName: "No Recipient Name",
+  recipientPhoneNumber: "",
+  recipientId: "No Recipient Id", // reference?
+
   pickUpWindow: defaultTimeWindow, // nb this can be an exact time or can be null
   pickUpLocation: defaultLocation,
+
   deliveryWindow: defaultTimeWindow,
   deliveryLocation: defaultLocation, // default to recipient location
+
   deliveryConfirmationImage: "",
   deliveryNotes: "",
   feedbackNotes: "",
-  recipientName: "No Recipient Name",
-  recipientPhoneNumber: "",
-  recipientId: "No Recipient Id", // reference?
 };
 
 const fsInProposed = (orgId: string) => ({
@@ -63,9 +73,7 @@ const fsInPlanning = (orgId: string) => ({
   subcollections: [
     {
       collection: "missions",
-      where: [
-        ["status", "in", [MissionStatus.tentative, MissionStatus.assigned, MissionStatus.accepted]],
-      ],
+      where: [["status", "in", [MissionStatus.tentative, MissionStatus.assigned]]],
     },
   ],
   storeAs: "missionsInPlanning",
