@@ -154,8 +154,6 @@ class Mission extends BaseModel {
       return [];
     }
     const missions = missionsAvailableForEveryone.docs.map((doc) => doc.data());
-    console.log("all missions:");
-    console.log(missions);
 
     return missions;
   };
