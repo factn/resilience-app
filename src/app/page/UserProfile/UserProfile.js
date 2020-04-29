@@ -8,7 +8,7 @@ import { useFirebase, useFirestore } from "react-redux-firebase";
 import { withRouter } from "react-router-dom";
 
 import { Button } from "../../component";
-import ErrorSnackbar from "../../component/Snackbars/ErrorSnackbar";
+import { ErrorSnackbar, SuccessSnackbar } from "../../component/Snackbars";
 import { Card, Page } from "../../layout";
 import addressLookUp from "../../utils/addressLookUp";
 import LinkGoogleAccount from "./LinkGoogleAccount";
@@ -85,6 +85,7 @@ const UserProfile = ({ history }) => {
               addressMapPoint: { latitude: data.lat, longitude: data.long },
             })
           );
+      setSuccessSnackbarOpen(true);
     } catch (error) {
       console.log("ERROR WHEN GETTiNG LOCATION", error);
     }
@@ -131,6 +132,9 @@ const UserProfile = ({ history }) => {
     return data.providerId === "phone";
   });
 
+  /*=== Snack Bar - Success Message ===*/
+  const [successSnackbarOpen, setSuccessSnackbarOpen] = useState(false);
+
   // === Error Messages ==== //
   const [notSupportedError, setNotSupportedError] = useState(false);
 
@@ -160,6 +164,14 @@ const UserProfile = ({ history }) => {
           setNotSupportedError(false);
         }}
         autoHideDuration={8000}
+      />
+      <SuccessSnackbar
+        open={successSnackbarOpen}
+        handleClose={() => {
+          setSuccessSnackbarOpen(false);
+        }}
+        successMessage="Profile saved successfully."
+        autoHideDuration={4000}
       />
       <Card>
         <UserOverview profile={profile} view={view} setView={setView} setProfile={setProfile} />
