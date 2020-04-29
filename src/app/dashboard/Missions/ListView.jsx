@@ -13,6 +13,7 @@ const getMuiTheme = (theme) =>
   createMuiTheme({
     ...theme,
     overrides: {
+      ...theme.overrides,
       MUIDataTableBodyCell: {
         root: {
           verticalAlign: "baseline",
@@ -145,6 +146,7 @@ const MissionsListView = ({
   missionsView,
   selectedMission,
   setSelectedMission,
+  users,
 }) => {
   const theme = useTheme();
   const innerTheme = getMuiTheme(theme);
@@ -155,6 +157,7 @@ const MissionsListView = ({
   // need format [{mission: data}, {mission: data}]
   const data = missions.map((mission) => ({
     mission: {
+      users,
       mission,
       classes,
       selectedMission,

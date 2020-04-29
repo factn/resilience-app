@@ -27,20 +27,30 @@ const defaultMissionData: MissionInterface = {
   status: MissionStatus.unassigned,
   missionDetails: {},
   fundedStatus: MissionFundedStatus.notfunded,
-  readyStatus: false,
+  readyToStart: false,
   organisationId: "",
-  tentativeVolunterId: "", // this get removed if the volunteer accepts?
+
+  tentativeVolunteerDisplayName: "",
+  tentativeVolunteerId: "",
+  tentativeVolunteerPhoneNumber: "",
+
   volunteerId: "",
+  volunteerDisplayName: "",
+  volunteerPhoneNumber: "",
+
+  recipientDisplayName: "No Recipient Name",
+  recipientPhoneNumber: "",
+  recipientId: "No Recipient Id", // reference?
+
   pickUpWindow: defaultTimeWindow, // nb this can be an exact time or can be null
   pickUpLocation: defaultLocation,
+
   deliveryWindow: defaultTimeWindow,
   deliveryLocation: defaultLocation, // default to recipient location
+
   deliveryConfirmationImage: "",
   deliveryNotes: "",
   feedbackNotes: "",
-  recipientName: "No Recipient Name",
-  recipientPhoneNumber: "",
-  recipientId: "No Recipient Id", // reference?
 };
 
 const fsInProposed = (orgId: string) => ({
@@ -63,9 +73,7 @@ const fsInPlanning = (orgId: string) => ({
   subcollections: [
     {
       collection: "missions",
-      where: [
-        ["status", "in", [MissionStatus.tentative, MissionStatus.assigned, MissionStatus.accepted]],
-      ],
+      where: [["status", "in", [MissionStatus.tentative, MissionStatus.assigned]]],
     },
   ],
   storeAs: "missionsInPlanning",
@@ -132,13 +140,14 @@ class Mission extends BaseModel {
   };
 
   /**
-   * Returns all available missions
+   * Returns all available missions.
+   * A mission is available if it has a status of "tentative"
    */
   getAllAvailable = async () => {
     const collection = this.getCollection("organizations").doc("1").collection("missions");
 
     const missionsAvailableForEveryone = await collection
-      .where("status", "==", MissionStatus.unassigned)
+      .where("status", "==", MissionStatus.tentative)
       .get();
 
     if (missionsAvailableForEveryone.docs.length < 1) {

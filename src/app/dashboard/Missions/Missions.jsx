@@ -95,7 +95,7 @@ const ViewButtons = ({ classes, missionsView }) => {
   );
 };
 
-const DashboardMissions = ({ inDone, inPlanning, inProgress, inProposed }) => {
+const DashboardMissions = ({ inDone, inPlanning, inProgress, inProposed, users }) => {
   const classes = useStyles();
 
   const viewFromUrl = _.getQueryParam("view");
@@ -117,6 +117,7 @@ const DashboardMissions = ({ inDone, inPlanning, inProgress, inProposed }) => {
           <Box width="400px">
             <ListView
               missions={filtered}
+              users={users}
               currentMission={currentMission}
               setSelectedMission={setSelectedMission}
               selectedMission={selectedMission}

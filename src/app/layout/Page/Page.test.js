@@ -1,12 +1,35 @@
 import { render } from "@testing-library/react";
 import React from "react";
+import { Provider } from "react-redux";
 import { MemoryRouter } from "react-router-dom";
+import { createStore } from "redux";
 
+import theme from "../../../theme";
+import ThemeProvider from "../../component/ThemeProvider";
 import Page from "./Page";
 
 describe("Page Layout", () => {
   function renderComponent(props) {
-    return render(<Page {...props} />, { wrapper: MemoryRouter });
+    const initialState = {
+      firebase: {
+        auth: {
+          isLoaded: true,
+          isEmpty: true,
+        },
+      },
+    };
+
+    const store = createStore(() => initialState);
+
+    return render(
+      <Provider store={store}>
+        <MemoryRouter>
+          <ThemeProvider theme={theme}>
+            <Page {...props} />
+          </ThemeProvider>
+        </MemoryRouter>
+      </Provider>
+    );
   }
 
   it("Renders the page layout with a default appbar", () => {

@@ -4,7 +4,7 @@ import Mission from "./Mission";
 import { MissionStatus } from "./schema";
 import users from "./User";
 
-function mockGetIdByDisplaynameRepo({
+function mockBaseRepo({
   existsReturn,
   mockDataReturn,
   throwCollectionDocError,
@@ -83,8 +83,8 @@ function mockAcceptMissionRepo({
         doc: jest.fn().mockReturnValue({
           update: mockUpdate
         })
-      }) 
-    })  
+      })
+    })
   };
 
   jest.spyOn(ReduxFirebase, "getFirebase").mockReturnValue({
@@ -98,11 +98,11 @@ function mockAcceptMissionRepo({
 }
 
 describe("User", () => {
-  afterEach(() => {    
+  afterEach(() => {
     jest.clearAllMocks();
   });
-/*
-  describe("#getIdByDisplayName", () => {
+
+/*  describe("#getIdByDisplayName", () => {
     const displayName = "username";
     const volunteerId = "aabbbccc";
     let user = {
@@ -111,7 +111,7 @@ describe("User", () => {
     };
 
     it("looks up user id by display name", async () => {
-      const { mockData, mockDocFn, mockUpdate, mockWhereFn } = mockGetIdByDisplaynameRepo({
+      const { mockWhereFn } = mockBaseRepo({
         existsReturn: true,
         mockDataReturn: [user],
         throwCollectionDocError: false,
@@ -126,7 +126,7 @@ describe("User", () => {
     });
 
     it("returns error if firebase where bombs", async () => {
-      const { mockData, mockDocFn, mockUpdate, mockWhereFn } = mockGetIdByDisplaynameRepo({
+      const { mockWhereFn } = mockBaseRepo({
         existsReturn: true,
         mockDataReturn: [user],
         throwCollectionDocError: false,
@@ -139,7 +139,7 @@ describe("User", () => {
     });
 
     it("no user found by display name", async () => {
-      const { mockData, mockDocFn, mockUpdate, mockWhereFn } = mockGetIdByDisplaynameRepo({
+      const { mockWhereFn } = mockBaseRepo({
         existsReturn: true,
         mockDataReturn: [],
         throwCollectionDocError: false,
@@ -152,7 +152,6 @@ describe("User", () => {
     });
   });
 */
-
   describe("#acceptMission", () => {
     const missionId = "1234";
     const volunteerId = "aabbbccc";
@@ -186,10 +185,7 @@ describe("User", () => {
     });
   });
 
-
-/*
   describe("#unvolunteerMission", () => {
-    const missionId = "1234";
     const volunteerId = "aabbbccc";
     let mission = {
       volunteerId: "",
@@ -201,8 +197,8 @@ describe("User", () => {
       mission.status = MissionStatus.assigned;
     });
 
-    it("unassigns volunteer if missionId exists", async () => {
-      const { mockData, mockWhereFn,  mockDocFn, mockUpdate } = mockGetIdByDisplaynameRepo({
+    /*  it("unassigns volunteer if missionId exists", async () => {
+      const { mockData, mockWhereFn,  mockDocFn, mockUpdate } = mockBaseRepo({
         existsReturn: true,
         mockDataReturn: mission,
         throwCollectionDocError: false,
@@ -221,7 +217,7 @@ describe("User", () => {
     });
 
     it("throws an error if doc.exists is false", async () => {
-      const { mockData, mockWhereFn,  mockDocFn, mockUpdate } = mockGetIdByDisplaynameRepo({
+      const { mockData, mockWhereFn,  mockDocFn, mockUpdate } = mockBaseRepo({
         existsReturn: false,
         mockDataReturn: mission,
         throwCollectionDocError: false,
@@ -236,7 +232,7 @@ describe("User", () => {
     });
 
     it("throws an error if missionId doesn't exist", async () => {
-      const { mockData, mockWhereFn,  mockDocFn, mockUpdate } = mockGetIdByDisplaynameRepo({
+      const { mockData, mockWhereFn,  mockDocFn, mockUpdate } = mockBaseRepo({
         existsReturn: true,
         mockDataReturn: null,
         throwCollectionDocError: false,
@@ -251,7 +247,7 @@ describe("User", () => {
     }); 
 
     it("throws an error if collection.doc throws an error", async () => {
-      const { mockData, mockWhereFn,  mockDocFn, mockUpdate } = mockGetIdByDisplaynameRepo({
+      const { mockData, mockWhereFn,  mockDocFn, mockUpdate } = mockBaseRepo({
         existsReturn: true,
         mockDataReturn: mission,
         throwCollectionDocError: true,
@@ -266,7 +262,7 @@ describe("User", () => {
     });
 
     it("throws an error if doc.update throws an error", async () => {
-      const { mockData, mockWhereFn,  mockDocFn } = mockGetIdByDisplaynameRepo({
+      const { mockData, mockWhereFn,  mockDocFn } = mockBaseRepo({
         existsReturn: true,
         mockDataReturn: mission,
         throwCollectionDocError: false,
@@ -277,7 +273,6 @@ describe("User", () => {
 
       expect(mockDocFn).toBeCalledWith(missionId);
       expect(mockData).toBeCalledTimes(1);
-    });
+    });*/
   });
-*/
 });
