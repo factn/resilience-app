@@ -6,7 +6,8 @@ import React, { useEffect, useState } from "react";
 import User from "../../model/User";
 import { getAllAssignedMissions, getAllStartedMissions } from "./missionHelpers";
 import VolunteerHomeMissionList from "./VolunteerHomeMissionList";
-
+import { volunteerDashboardEmptyTabMessage } from "../../../constants";
+import { UserPhoneUnverifiedPopup } from "../../component";
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
@@ -20,7 +21,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function VolunteerHome({ currentUser }) {
   const classes = useStyles();
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState(0);
+  const [popUpOpen, setPopUpOpen] = useState(false);
   const [acceptedMissions, updateAssignedMissions] = useState([]);
   const [startedMissions, updateStartedMissions] = useState([]);
   const [availableMissions, updateAvailableMissions] = useState([]);
@@ -43,26 +45,38 @@ export default function VolunteerHome({ currentUser }) {
   };
 
   const handleStartMissionFromAssigned = (missionId) => {
-    User.startMission(currentUser.uid, missionId);
+    if (!currentUser.phoneNumber) {
+      setPopUpOpen(true);
+    } else {
+      User.startMission(currentUser.uid, missionId);
 
-    // Move from Assigned to Started
-    const mission = acceptedMissions.filter((m) => m.id === missionId);
-    updateAssignedMissions(acceptedMissions.filter((m) => m.id !== missionId));
-    updateStartedMissions(startedMissions.concat(mission));
+      // Move from Assigned to Started
+      const mission = acceptedMissions.filter((m) => m.id === missionId);
+      updateAssignedMissions(acceptedMissions.filter((m) => m.id !== missionId));
+      updateStartedMissions(startedMissions.concat(mission));
+    }
   };
 
   const handleVolunteerMissionFromAvailable = (missionId) => {
-    User.volunteerMission(currentUser.uid, missionId);
+    if (!currentUser.phoneNumber) {
+      setPopUpOpen(true);
+    } else {
+      User.volunteerMission(currentUser.uid, missionId);
 
-    // Move from Available to Accepted
-    const mission = availableMissions.filter((m) => m.id === missionId);
-    updateAssignedMissions(acceptedMissions.concat(mission));
-    updateAvailableMissions(availableMissions.filter((m) => m.id !== missionId));
+      // Move from Available to Accepted
+      const mission = availableMissions.filter((m) => m.id === missionId);
+      updateAssignedMissions(acceptedMissions.concat(mission));
+      updateAvailableMissions(availableMissions.filter((m) => m.id !== missionId));
+    }
   };
 
   const handleDeliveringMissionsFromStarted = (missionId) => {
-    User.deliverMission(currentUser.uid, missionId);
-    updateStartedMissions(startedMissions.filter((m) => m.id !== missionId));
+    if (!currentUser.phoneNumber) {
+      setPopUpOpen(true);
+    } else {
+      User.deliverMission(currentUser.uid, missionId);
+      updateStartedMissions(startedMissions.filter((m) => m.id !== missionId));
+    }
   };
 
   const availableLabel = "Available (" + availableMissions.length + ")";
@@ -91,6 +105,7 @@ export default function VolunteerHome({ currentUser }) {
           missions={availableMissions}
           currentUser={currentUser}
           actionText="Accept Mission"
+          isEmptyText={volunteerDashboardEmptyTabMessage.available}
           action={(missionId) => handleVolunteerMissionFromAvailable(missionId)}
         />
       </TabPanel>
@@ -99,6 +114,7 @@ export default function VolunteerHome({ currentUser }) {
           missions={acceptedMissions}
           currentUser={currentUser}
           actionText="Start Mission"
+          isEmptyText={volunteerDashboardEmptyTabMessage.accepted}
           action={(missionId) => handleStartMissionFromAssigned(missionId)}
         />
       </TabPanel>
@@ -107,9 +123,11 @@ export default function VolunteerHome({ currentUser }) {
           missions={startedMissions}
           currentUser={currentUser}
           actionText={"Mission Delivered"}
+          isEmptyText={volunteerDashboardEmptyTabMessage.started}
           action={(missionId) => handleDeliveringMissionsFromStarted(missionId)}
         />
       </TabPanel>
+      <UserPhoneUnverifiedPopup open={popUpOpen} handleClose={() => setPopUpOpen(false)} />
     </div>
   );
 }
