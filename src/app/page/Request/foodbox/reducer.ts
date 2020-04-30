@@ -115,37 +115,3 @@ export function reducer(state: State, { payload, type }: Actions) {
       return state;
   }
 }
-
-// We will most likely want to depricate this function in lou of an
-// `addToCart` action once users can select more than one foodbox
-function updateCart(payload: CartItem) {
-  const { quantity, resource } = payload;
-  console.log(payload);
-
-  const item: Item = {
-    sku: resource.id,
-    quantity: quantity.toString(),
-    name: resource.name,
-    unit_amount: {
-      value: resource.cost.toString(),
-    },
-    description: resource.description,
-  };
-
-  const total = (quantity * resource.cost).toString();
-
-  const amount: Amount = {
-    value: total,
-    breakdown: {
-      item_total: { value: total },
-      tax_total: { value: "0" },
-    },
-  };
-
-  const newCart: PurchaseUnit = {
-    amount,
-    items: [item],
-  };
-
-  return newCart;
-}
