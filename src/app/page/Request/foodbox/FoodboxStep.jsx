@@ -1,64 +1,94 @@
 import Select from "@material-ui/core/Select";
-import _ from "lodash";
-import PropTypes from "prop-types";
-import React from "react";
+import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
+import { Typography } from "@material-ui/core";
 
 import { ReactComponent as HappyFace } from "../../../../img/happy-face.svg";
 import { Body1 } from "../../../component";
-import { HappyBox, HR, StyledHeader, TotalsContainer, useStyles } from "./foodboxSteps.style";
+import { HappyBox, HR, TotalsContainer, useStyles } from "./foodboxSteps.style";
 import NavigationButtons from "./NavigationButtons";
+import Organization from "../../../model/Organization";
 
-function FoodboxStep({ handleChange, mockData, onNext, values }) {
+function FoodboxStep({ dispatch, state }) {
   const history = useHistory();
   const classes = useStyles();
+  const { cart } = state;
+
+  useEffect(() => {
+    // We only need to do this once to get the initial foodboxes
+    if (Object.keys(cart).length < 1) {
+      // only using first box for now
+      Organization.getFoodBoxes().then((boxes) =>
+        dispatch({ type: "UPDATE_CART", payload: { resource: boxes[0], quantity: 1 } })
+      );
+    }
+  }, [cart, dispatch]);
 
   const getTotalPrice = () => {
-    return (mockData.BASKET_PRICE * values.quantity).toFixed(2);
+    return Object.keys(cart).reduce(
+      (total, key) => cart[key].resource.cost * cart[key].quantity + total,
+      0
+    );
   };
 
   const getTotalBoxes = () => {
-    return `${values.quantity} box${values.quantity === 1 ? "" : "es"}`;
+    const total = Object.keys(cart).reduce((total, key) => cart[key].quantity + total, 0);
+    return `${total} box${total === 1 ? "" : "es"}`;
   };
 
   return (
-    <div className={classes.container}>
+    <>
       <Body1 className={classes.body1}>
         Help out local farms by ordering seasonal fresh food boxes from them so good food doesn’t go
         to waste.
       </Body1>
-      <StyledHeader main align="left" variant="h3">
-        {values.farm}
-      </StyledHeader>
-      <Select
-        native
-        variant="outlined"
-        value={values.basket}
-        onChange={handleChange}
-        inputProps={{
-          name: "basket",
-          id: "basket",
-        }}
-      >
-        <option key={mockData.BASKET_NAME} value={mockData.BASKET_NAME}>
-          {mockData.BASKET_NAME}
-        </option>
-      </Select>
-      <Select
-        style={{ width: "3rem", marginLeft: "1rem", textAlign: "center" }}
-        native
-        variant="outlined"
-        value={values.quantity}
-        onChange={handleChange}
-        inputProps={{
-          name: "quantity",
-          id: "quantity",
-        }}
-      >
-        {_.range(mockData.MAX_BASKETS).map((idx) => (
-          <option value={idx + 1}>{idx + 1}</option>
-        ))}
-      </Select>
+
+      {Object.keys(cart).map((key) => {
+        const { quantity, resource: foodbox } = cart[key];
+        return (
+          <div key={key}>
+            <Typography align="left" variant="h3" color="textPrimary" gutterBottom>
+              {foodbox.farm}
+            </Typography>
+            <Select
+              style={{ width: "75%", borderRadius: "4px 0 0 4px" }}
+              autoWidth
+              native
+              variant="outlined"
+              inputProps={{
+                name: "basket",
+                id: "basket",
+              }}
+            >
+              <option key={foodbox.id} value={foodbox.name}>
+                {foodbox.name}
+              </option>
+            </Select>
+            <Select
+              style={{ width: "25%", borderRadius: "0 4px 4px 0" }}
+              native
+              variant="outlined"
+              value={quantity}
+              onChange={(e) =>
+                dispatch({
+                  type: "UPDATE_CART",
+                  payload: { quantity: parseInt(e.currentTarget.value), resource: foodbox },
+                })
+              }
+              inputProps={{
+                name: "quantity",
+                id: "quantity",
+              }}
+            >
+              {[...Array(foodbox.maxNumberRequestable)].map((e, i) => (
+                <option value={i + 1} key={i}>
+                  {i + 1}
+                </option>
+              ))}
+            </Select>
+          </div>
+        );
+      })}
       <Body1 className={classes.bodyItalicsMuted}>
         The farm supplies seasonal food to us based on availability. Our volunteers are unable to
         customize food boxes.
@@ -81,17 +111,10 @@ function FoodboxStep({ handleChange, mockData, onNext, values }) {
       <NavigationButtons
         backText="Cancel"
         onBack={() => history.push("/request")}
-        onNext={onNext}
+        onNext={() => dispatch({ type: "NEXT" })}
       />
-    </div>
+    </>
   );
 }
-
-FoodboxStep.propTypes = {
-  mockData: PropTypes.object.isRequired,
-  handleChange: PropTypes.func.isRequired,
-  onNext: PropTypes.func.isRequired,
-  values: PropTypes.object.isRequired,
-};
 
 export default FoodboxStep;
