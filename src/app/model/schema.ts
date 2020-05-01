@@ -128,7 +128,7 @@ export enum TimeWindowType {
   whenever = "whenever possible",
 }
 
-// delivery windows for the organisation
+// delivery windows for the organization
 // for MVP.0 we have a fixed function ie hardcode a list of available delivery windows
 
 export interface TimeWindow {
@@ -164,7 +164,7 @@ export interface MissionInterface {
   status: MissionStatus;
   fundedStatus: MissionFundedStatus;
   readyToStart: boolean;
-  organisationId: string;
+  organizationId: string;
 
   tentativeVolunteerId: string;
   tentativeVolunteerDisplayName: string;
