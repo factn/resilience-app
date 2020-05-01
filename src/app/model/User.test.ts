@@ -58,7 +58,7 @@ function mockBaseRepo({
     mockDocFn,
     mockData,
     mockUpdate,
-    mockWhereFn
+    mockWhereFn,
   };
 }
 

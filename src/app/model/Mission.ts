@@ -114,7 +114,7 @@ const fsInDone = (orgId: string) => ({
 const getAllGroups = (missions: MissionInterface[]) => {
   let groups: Group[] = [];
   let singleMissions: MissionInterface[] = [];
-  missions.map((mission: MissionInterface) => {
+  missions.forEach((mission: MissionInterface) => {
     if (mission.groupId) {
       const index = _.findIndex(groups, ["groupId", mission.groupId]);
       if (index > -1) {
@@ -132,7 +132,7 @@ const getAllGroups = (missions: MissionInterface[]) => {
   });
   return {
     groups,
-    missions,
+    singleMissions,
   };
 };
 
