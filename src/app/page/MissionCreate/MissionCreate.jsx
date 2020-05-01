@@ -48,7 +48,7 @@ function MakeMission({ history }) {
 
       //create mission object
       const mission = {
-        organisationId: "1", // PLACEHOLDER -> user doesn'T have an organisation id yet
+        organizationId: "1", // PLACEHOLDER -> user doesn'T have an organization id yet
         volunteerId: volunteerId,
         title: payload.title,
         description: payload.description,

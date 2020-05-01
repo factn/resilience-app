@@ -28,7 +28,7 @@ const defaultMissionData: MissionInterface = {
   missionDetails: {},
   fundedStatus: MissionFundedStatus.notfunded,
   readyToStart: false,
-  organisationId: "",
+  organizationId: "",
 
   tentativeVolunteerDisplayName: "",
   tentativeVolunteerId: "",
