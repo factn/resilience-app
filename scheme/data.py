@@ -110,6 +110,15 @@ def organization():
     )
 
 
+def addGroup(shouldAdd):
+    groupId = ""
+    groupDisplayName = ""
+    if shouldAdd:
+        groupId = f.postcode()
+        groupDisplayName = r.choice(["group1", "group2", "group3", "group4"])
+    return groupId, groupDisplayName
+
+
 def mission(orgId, volunteer, foodboxName):
     status = r.choice(MissionStatus)
 
@@ -131,6 +140,9 @@ def mission(orgId, volunteer, foodboxName):
     recipientDisplayName = f.name()
     recipientPhoneNumber = f.phone_number()
 
+    groupId = ""
+    groupDisplayName = ""
+
     if status == "unassigned":
         fundedStatus = "notfunded"
     elif status == "tentative":
@@ -139,17 +151,21 @@ def mission(orgId, volunteer, foodboxName):
             tentativeVolunteerId = volunteer["id"]
             tentativeVolunteerDisplayName = volunteer["displayName"]
             tentativeVolunteerPhoneNumber = volunteer["phoneNumber"]
+        groupId, groupDisplayName = addGroup(r.choice([True, False]))
 
     elif status in ["assigned"]:
         volunteerId = volunteer["id"]
         volunteerDisplayName = volunteer["displayName"]
         volunteerPhoneNumber = volunteer["phoneNumber"]
         readyToStart = r.choice([True, False]),
+        groupId, groupDisplayName = addGroup(r.choice([True, False]))
+
     else:
         readyToStart = True
         volunteerId = volunteer["id"]
         volunteerDisplayName = volunteer["displayName"]
         volunteerPhoneNumber = volunteer["phoneNumber"]
+        groupId, groupDisplayName = addGroup(r.choice([True, False]))
 
     mission_type = r.choice(MissionType)
 
@@ -176,6 +192,9 @@ def mission(orgId, volunteer, foodboxName):
 
         missionDetails=mission_details,
         notes=f.text(),
+
+        groupId=groupId,
+        groupDisplayName=groupDisplayName,
 
         volunteerId=volunteerId,
         volunteerDisplayName=volunteerDisplayName,
@@ -243,5 +262,5 @@ if __name__ == "__main__":
     }
 
     json_data = json.dumps(data, indent=2)
-    with open("data.json", "w") as outfile:
+    with open("scheme/data.json", "w") as outfile:
         outfile.write(json_data)

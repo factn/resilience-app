@@ -166,6 +166,9 @@ export interface MissionInterface {
   readyToStart: boolean;
   organisationId: string;
 
+  groupId: string;
+  groupDisplayName: string;
+
   tentativeVolunteerId: string;
   tentativeVolunteerDisplayName: string;
   tentativeVolunteerPhoneNumber: string;
