@@ -149,11 +149,11 @@ class User extends BaseModel {
   }
 
   /**
-   * User volunteer for a mission
+   * User accepts a mission
    * @param {string} userId : user
    * @param {string} missionId : mission that user want to volunteer for
    */
-  async volunteerMission(userId: string, missionId: string) {
+  async acceptMission(userId: string, missionId: string) {
     let data = await Mission.getById(missionId);
 
     if (data.volunteerId) {
@@ -163,6 +163,7 @@ class User extends BaseModel {
     try {
       const collection = this.getCollection("organizations").doc("1").collection("missions");
       collection.doc(missionId).update({
+        tentativeVolunteerId: "",
         volunteerId: userId,
         status: MissionStatus.assigned,
       });
