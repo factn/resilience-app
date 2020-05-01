@@ -95,7 +95,6 @@ function DeliveryStep({ dispatch, state }) {
       type: "UPDATE_DETAILS",
       payload: { location: values.location, instructions: values.instructions },
     });
-    dispatch({ type: "NEXT" });
   }
 
   return (

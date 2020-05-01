@@ -94,7 +94,7 @@ export function reducer(state: State, { payload, type }: Actions) {
       return { ...state, cart: newCart };
     case "UPDATE_DETAILS":
       const { instructions, location } = payload as Details;
-      return { ...state, dropOffDetails: { instructions, location } };
+      return { ...state, dropOffDetails: { instructions, location }, step: 2, maxStep: 2 };
     case "UPDATE_STEP":
       // make sure we're only going to a step less than or equal to the max step
       return { ...state, step: payload && payload <= state.maxStep ? payload : state.step };

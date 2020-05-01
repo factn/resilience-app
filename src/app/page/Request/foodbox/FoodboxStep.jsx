@@ -42,13 +42,12 @@ function FoodboxStep({ dispatch, state }) {
         Help out local farms by ordering seasonal fresh food boxes from them so good food doesn’t go
         to waste.
       </Body1>
-
       {Object.keys(cart).map((key) => {
         const { quantity, resource: foodbox } = cart[key];
         return (
           <div key={key}>
             <Typography align="left" variant="h3" color="textPrimary" gutterBottom>
-              {foodbox.farm}
+              {foodbox.provider}
             </Typography>
             <Select
               style={{ width: "75%", borderRadius: "4px 0 0 4px" }}

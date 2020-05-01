@@ -108,8 +108,7 @@ function ConfirmStep({ dispatch, state }) {
               key={resource.id}
               quantity={quantity}
               subtotal={quantity * resource.cost}
-              // resource.farm?
-              secondary={resource.description}
+              secondary={resource.provider}
             >
               {resource.name}
             </CheckoutItem>
@@ -188,7 +187,7 @@ function CheckoutItem({ children, quantity, secondary, subtotal }) {
 }
 
 function transformForPaypal(cart) {
-  // only worry about box for now
+  // only worry about one box for now
   const key = Object.keys(cart)[0];
   const { quantity, resource } = cart[key];
 

@@ -1,5 +1,4 @@
 import { Paper, Tab, Tabs } from "@material-ui/core";
-import CircularProgress from "@material-ui/core/CircularProgress";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import React, { useReducer } from "react";
 
@@ -29,11 +28,8 @@ const tabNames = ["FOODBOX", "DELIVERY", "CONFIRM"];
 export default function FoodboxFlow() {
   const classes = useStyles();
   const [state, dispatch] = useReducer(reducer, initialState);
-  console.log(state);
 
   const ActiveComponent = stepComponents[state.step];
-
-  if (state.loading) return <CircularProgress />;
 
   return (
     <div className={classes.root}>
