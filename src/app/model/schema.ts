@@ -15,6 +15,7 @@ export class Resource {
   id!: string;
   name!: string;
   cost!: number;
+  provider: string = "";
   fundedByRecipient: number = 0;
   fundedByDonation: number = 0;
   notFunded: number = 3;
