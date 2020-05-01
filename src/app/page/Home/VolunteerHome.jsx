@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 
 import User from "../../model/User";
+import Mission from "../../model/Mission";
 import { getAllAssignedMissions, getAllStartedMissions } from "./missionHelpers";
 import VolunteerHomeMissionList from "./VolunteerHomeMissionList";
 import { volunteerDashboardEmptyTabMessage } from "../../../constants";
@@ -30,7 +31,7 @@ export default function VolunteerHome({ currentUser }) {
   useEffect(() => {
     const fetchAllAssociatedMissions = async () => {
       const missions = await User.getAllAssociatedMissions(currentUser.uid);
-      const availableMissions = await User.getAllAvailableMissions(currentUser.uid);
+      const availableMissions = await Mission.getAllAvailable();
 
       updateAvailableMissions(availableMissions);
       updateAssignedMissions(getAllAssignedMissions(missions, currentUser));
@@ -63,7 +64,7 @@ export default function VolunteerHome({ currentUser }) {
     if (!currentUser.phoneNumber) {
       setPopUpOpen(true);
     } else {
-      User.volunteerMission(currentUser.uid, missionId);
+      User.acceptMission(currentUser.uid, missionId);
 
       // Move from Available to Accepted
       const mission = availableMissions.filter((m) => m.id === missionId);

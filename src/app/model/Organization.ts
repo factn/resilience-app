@@ -1,5 +1,6 @@
 import BaseModel from "./BaseModel";
 import { OrganizationInterface } from "./schema";
+import { Resource } from "./schema";
 
 const defaultData: OrganizationInterface = {
   id: "",
@@ -40,6 +41,19 @@ class Organization extends BaseModel {
 
   get id() {
     return this.data.id;
+  }
+
+  async getFoodBoxes(): Promise<Resource[]> {
+    try {
+      const resourcesRef = this.getCollection("organizations").doc(this.id).collection("resources");
+      const docs = await resourcesRef.where("acceptOrder", "==", true).get();
+      const foodBoxes = docs.docs.map((d) => ({ ...d.data(), id: d.id }));
+
+      return foodBoxes as Resource[];
+    } catch (error) {
+      console.error("Error retrieving food boxes", error);
+      return [];
+    }
   }
 }
 
