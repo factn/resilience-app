@@ -132,6 +132,7 @@ const DashboardMissions = ({ inDone, inPlanning, inProgress, inProposed, volunte
         <Grid item xs className={classes.side}>
           <MapView
             missions={filtered}
+            volunteers={volunteers}
             currentMission={currentMission}
             setSelectedMission={setSelectedMission}
           />

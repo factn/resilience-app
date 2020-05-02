@@ -13,6 +13,7 @@ const setQueryParam = (name, value, search) => {
 };
 
 const randomColor = (str) => {
+  if (!str) return "lightgrey";
   return baseRandomColor({ seed: str });
 };
 

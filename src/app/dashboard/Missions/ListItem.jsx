@@ -198,7 +198,7 @@ const MissionListItem = ({
       {SpecificDetails}
       <LocationRow label="Pick Up" location={mission.pickUpLocation} />
       <LocationRow label="Drop Off" location={mission.deliveryLocation} />
-      <VolunteerRow mission={mission} classes={classes} boxRef={boxRef} />
+      <VolunteerRow mission={mission} />
       <Action mission={mission} classes={classes} boxRef={boxRef} />
       <Box
         onClick={toDetailsView}

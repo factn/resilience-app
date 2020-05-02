@@ -1,12 +1,15 @@
 import { Box } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import Button from "@material-ui/core/Button";
+import _ from "../../../utils/lodash";
 
 import React, { useReducer } from "react";
 import Popover from "@material-ui/core/Popover";
 import Grid from "@material-ui/core/Grid";
 import AddToGroupPopover from "./AddToGroupPopover";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
+import GroupWorkIcon from "@material-ui/icons/GroupWork";
+
 import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
 import { makeStyles } from "@material-ui/core/styles";
 import Mission from "../../../model/Mission";
@@ -134,6 +137,7 @@ const MissionItemMenu = ({ boxRef, className, groups, mission, volunteers }) => 
         role="button"
         onClick={() => dispatch({ type: actions.OPEN_MENU })}
       >
+        <GroupWorkIcon style={{ color: _.randomColor(mission.groupDisplayName) }} />
         <PanToolIcon
           className={clsx(
             classes.notActive,

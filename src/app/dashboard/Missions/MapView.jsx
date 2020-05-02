@@ -4,8 +4,10 @@ import GroupWorkIcon from "@material-ui/icons/GroupWork";
 import { DivIcon } from "leaflet";
 import React, { useEffect, useState } from "react";
 import { renderToString } from "react-dom/server";
-import { Map, Marker, TileLayer } from "react-leaflet";
+import { Map, Marker, TileLayer, Popup, Tooltip } from "react-leaflet";
 import _ from "../../utils/lodash";
+import { Mission } from "../../model";
+import MissionItemMenu from "./component/MissionItemMenu";
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -59,8 +61,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Overview = ({ currentMission, missions, setSelectedMission }) => {
+const Overview = ({ currentMission, missions, setSelectedMission, volunteers }) => {
   const classes = useStyles();
+  const [anchorEl, setAnchorEl] = React.useState(null);
 
   const position = { lat: 37.773972, lng: -122.431297 };
   const [viewport, setViewport] = useState({
@@ -71,6 +74,14 @@ const Overview = ({ currentMission, missions, setSelectedMission }) => {
   let filtered = missions?.filter((mission) => {
     return mission.deliveryLocation && mission.deliveryLocation.lat && mission.deliveryLocation.lng;
   });
+
+  const { groups, singleMissions } = Mission.getAllGroups(filtered);
+  const sortedMissions = {
+    groupId: "",
+    groupDisplayName: "Single Missions",
+    missions: singleMissions,
+  };
+  groups.push(sortedMissions);
   useEffect(() => {
     if (currentMission) {
       if (currentMission.deliveryLocation)
@@ -100,8 +111,25 @@ const Overview = ({ currentMission, missions, setSelectedMission }) => {
         icon={CustomIcon}
         key={mission.id}
         position={mission.deliveryLocation}
-        onClick={() => setSelectedMission(mission.id)}
-      />
+        onClick={(event) => {
+          setAnchorEl(event.target.getElement());
+          setSelectedMission(mission.id);
+        }}
+      >
+        <Popup>
+          <MissionItemMenu
+            groups={groups}
+            mission={mission}
+            volunteers={volunteers}
+            boxRef={{ current: anchorEl }}
+          />
+        </Popup>
+        <Tooltip>
+          <Box>
+            <Box>Group: {mission.groupDisplayName}</Box>
+          </Box>
+        </Tooltip>
+      </Marker>
     );
   };
 

@@ -136,6 +136,7 @@ const MissionsListView = ({
 
     let totUnassigned = group.missions?.length - totTentative - totAssigned;
     const isReady = totReady === group.missions?.length;
+    // depends on the design later
     return (
       <MuiExpansionPanel
         key={group.groupId}
