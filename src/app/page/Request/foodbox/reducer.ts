@@ -1,4 +1,4 @@
-import { PurchaseUnit, Item, Amount } from "../../../component/PaypalCheckout/PaypalTypes";
+import { PurchaseUnit } from "../../../component/PaypalCheckout/PaypalTypes";
 import { Location, Resource } from "../../../model/schema";
 
 export type CartItem = {
