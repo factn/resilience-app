@@ -89,7 +89,7 @@ const Overview = ({ incomplete, inDone, inPlanning, inProgress, inProposed }) =>
       </Grid>
       <Grid item container spacing={2}>
         <Card className={classes.download}>
-          <Grid xs={12} container spacing={2}>
+          <Grid item container spacing={2}>
             <Grid item xs={6}>
               <DownloadMissionsCsv
                 filename="incomplete_missions"
