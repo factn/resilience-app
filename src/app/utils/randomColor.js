@@ -124,7 +124,7 @@
       }
       return hue;
     } else {
-      var hueRange = getHueRange(options.hue);
+      hueRange = getHueRange(options.hue);
 
       hue = randomWithin(hueRange);
       // Instead of storing red as two seperate ranges,
@@ -155,12 +155,11 @@
       case "bright":
         sMin = 55;
         break;
-
       case "dark":
         sMin = sMax - 10;
         break;
-
       case "light":
+      default:
         sMax = 55;
         break;
     }
@@ -176,12 +175,11 @@
       case "dark":
         bMax = bMin + 20;
         break;
-
       case "light":
         bMin = (bMax + bMin) / 2;
         break;
-
       case "random":
+      default:
         bMin = 0;
         bMax = 100;
         break;
@@ -218,7 +216,7 @@
 
       case "rgba":
         var rgbColor = HSVtoRGB(hsv);
-        var alpha = options.alpha || Math.random();
+        alpha = options.alpha || Math.random();
         return "rgba(" + rgbColor.join(", ") + ", " + alpha + ")";
 
       default:
@@ -313,7 +311,7 @@
 
     function componentToHex(c) {
       var hex = c.toString(16);
-      return hex.length == 1 ? "0" + hex : hex;
+      return hex.length === 1 ? "0" + hex : hex;
     }
 
     var hex = "#" + componentToHex(rgb[0]) + componentToHex(rgb[1]) + componentToHex(rgb[2]);
@@ -500,6 +498,7 @@
         b = v;
         break;
       case 5:
+      default:
         r = v;
         g = p;
         b = q;
@@ -528,6 +527,7 @@
       case green:
         return [60 * ((blue - red) / delta + 2) || 0, saturation, cMax];
       case blue:
+      default:
         return [60 * ((red - green) / delta + 4) || 0, saturation, cMax];
     }
   }

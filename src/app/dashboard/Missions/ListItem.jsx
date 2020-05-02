@@ -120,10 +120,10 @@ const LocationRow = ({ label, location }) => {
   );
 };
 
-const VolunteerRow = ({ mission, volunteers, boxRef, classes }) => {
+const VolunteerRow = ({ boxRef, classes, mission, volunteers }) => {
   const [openAssignVolunteerPopover, setOpenAssignVolunteerPopover] = useState(false);
 
-  const { volunteerDisplayName, tentativeVolunteerDisplayName } = mission;
+  const { tentativeVolunteerDisplayName, volunteerDisplayName } = mission;
   let assigned = "";
   if (volunteerDisplayName) {
     assigned = volunteerDisplayName + " - accepted";
@@ -172,12 +172,12 @@ const FoodBoxDetails = ({ details, notes }) => {
 };
 
 const MissionListItem = ({
-  mission,
   groups,
-  volunteers,
+  mission,
   selectedMission,
   setSelectedMission,
   toDetailsView,
+  volunteers,
 }) => {
   const classes = useStyles();
   const { missionDetails, type } = mission;

@@ -84,7 +84,7 @@ const MissionsListView = ({
   const classes = useStyles();
   const [view, setView] = useState(Views.list);
 
-  const { singleMissions, groups } = Mission.getAllGroups(missions);
+  const { groups, singleMissions } = Mission.getAllGroups(missions);
   const sortedMissions = singleMissions.sort(sortAlgo);
 
   useEffect(() => {

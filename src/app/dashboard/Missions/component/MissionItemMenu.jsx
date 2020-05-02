@@ -9,6 +9,7 @@ import Grid from "@material-ui/core/Grid";
 import AddToGroupPopover from "./AddToGroupPopover";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
+import styled from "styled-components";
 
 const actions = {
   OPEN_MENU: "open the menu",
@@ -19,6 +20,11 @@ const initialMenuState = {
   openMenu: false,
   openAddToGroupPopover: false,
 };
+
+const StyledButton = styled(Button)`
+  justify-content: left;
+`;
+
 const menuReducer = (state, action) => {
   switch (action.type) {
     case actions.OPEN_MENU:
@@ -61,18 +67,20 @@ const MissionItemMenu = ({ boxRef, className, groups, mission }) => {
         }}
       >
         <Grid container direction="column">
-          <Button
+          <StyledButton
+            fullWidth
             startIcon={<AddCircleOutlineIcon />}
             onClick={() => dispatch({ type: actions.OPEN_GROUP })}
           >
             Add To Group
-          </Button>
-          <Button
+          </StyledButton>
+          <StyledButton
+            fullWidth
             startIcon={<CheckCircleOutlineIcon />}
             onClick={() => dispatch({ type: actions.OPEN_GROUP })}
           >
             Mark as ready
-          </Button>
+          </StyledButton>
         </Grid>
       </Popover>
       <AddToGroupPopover

@@ -1,8 +1,7 @@
 import Box from "@material-ui/core/Box";
 import { makeStyles } from "@material-ui/core/styles";
-import FastfoodIcon from "@material-ui/icons/Fastfood";
 import GroupWorkIcon from "@material-ui/icons/GroupWork";
-import { DivIcon, Icon } from "leaflet";
+import { DivIcon } from "leaflet";
 import React, { useEffect, useState } from "react";
 import { renderToString } from "react-dom/server";
 import { Map, Marker, TileLayer } from "react-leaflet";
