@@ -9,7 +9,9 @@ import MuiExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import MuiExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Paper from "@material-ui/core/Paper";
+import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
 
+import clsx from "clsx";
 import DetailsView from "./DetailsView";
 import ListItem from "./ListItem";
 import { Mission } from "../../model";
@@ -34,6 +36,12 @@ const useStyles = makeStyles((theme) => ({
     "& svg": {
       marginRight: theme.spacing(1),
     },
+  },
+  readyToStart: {
+    color: "lightgrey",
+  },
+  isReady: {
+    color: "green",
   },
 }));
 
@@ -85,7 +93,11 @@ const MissionsListView = ({
   const [view, setView] = useState(Views.list);
 
   const { groups, singleMissions } = Mission.getAllGroups(missions);
-  const sortedMissions = singleMissions.sort(sortAlgo);
+  const sortedMissions = {
+    groupid: "",
+    groupDisplayName: "Single Missions",
+    missions: singleMissions.sort(sortAlgo),
+  };
 
   useEffect(() => {
     if (view !== Views.list) {
@@ -98,22 +110,50 @@ const MissionsListView = ({
     setView(Views.details);
   }
 
-  function toList(missions) {
-    if (!missions) return null;
+  function toList(group) {
+    if (!group?.missions) return null;
+    const color = _.randomColor(group.groupDisplayName);
+    const totReady = group.missions?.reduce((acc, mission) => {
+      if (mission.readyToStart) acc += 1;
+      return acc;
+    }, 0);
+    const isReady = totReady === group.missions?.length;
     return (
-      <Grid direction="column">
-        {missions.map((mission) => (
-          <ListItem
-            key={mission.id}
-            mission={mission}
-            users={users}
-            selectedMission={selectedMission}
-            setSelectedMission={setSelectedMission}
-            toDetailsView={toDetailsView}
-            groups={groups}
-          />
-        ))}
-      </Grid>
+      <MuiExpansionPanel key={group.id}>
+        <MuiExpansionPanelSummary
+          expandIcon={<ExpandMoreIcon />}
+          id={`group-${group.id}-header`}
+          aria-controls={`group-${group.id}-content`}
+        >
+          <Grid container className={classes.group}>
+            <Grid container item>
+              {group.groupId && <GroupWorkIcon style={{ color: color }} />}
+              {group.groupDisplayName}
+            </Grid>
+            <Grid container item>
+              <CheckCircleOutlineIcon
+                className={clsx(classes.readyToStart, { [classes.isReady]: isReady })}
+              />
+              {totReady}/{group.missions.length} missions ready
+            </Grid>
+          </Grid>
+        </MuiExpansionPanelSummary>
+        <MuiExpansionPanelDetails>
+          <Grid direction="column">
+            {group.missions.map((mission) => (
+              <ListItem
+                key={mission.id}
+                mission={mission}
+                users={users}
+                selectedMission={selectedMission}
+                setSelectedMission={setSelectedMission}
+                toDetailsView={toDetailsView}
+                groups={groups}
+              />
+            ))}
+          </Grid>
+        </MuiExpansionPanelDetails>
+      </MuiExpansionPanel>
     );
   }
 
@@ -127,36 +167,8 @@ const MissionsListView = ({
         />
       </Box>
       <Grid hidden={view !== Views.list} direction="column">
-        {groups?.map((group) => {
-          const color = _.randomColor(group.groupDisplayName);
-          return (
-            <MuiExpansionPanel key={group.id}>
-              <MuiExpansionPanelSummary
-                expandIcon={<ExpandMoreIcon />}
-                id={`group-${group.id}-header`}
-                aria-controls={`group-${group.id}-content`}
-              >
-                <Grid container className={classes.group}>
-                  <GroupWorkIcon style={{ color: color }} />({group.missions.length}){" "}
-                  {group.groupDisplayName}
-                </Grid>
-              </MuiExpansionPanelSummary>
-              <MuiExpansionPanelDetails>{toList(group.missions)}</MuiExpansionPanelDetails>
-            </MuiExpansionPanel>
-          );
-        })}
-        <MuiExpansionPanel>
-          <MuiExpansionPanelSummary
-            expandIcon={<ExpandMoreIcon />}
-            id="group-single-header"
-            aria-controls="group-single-content"
-          >
-            <Grid container className={classes.group}>
-              ({sortedMissions.length}) Single Missions
-            </Grid>
-          </MuiExpansionPanelSummary>
-          <MuiExpansionPanelDetails>{toList(sortedMissions)}</MuiExpansionPanelDetails>
-        </MuiExpansionPanel>
+        {groups?.map(toList)}
+        {toList(sortedMissions)}
       </Grid>
     </Paper>
   );

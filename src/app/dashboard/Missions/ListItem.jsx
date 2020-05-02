@@ -5,15 +5,13 @@ import FormControl from "@material-ui/core/FormControl";
 import { connect } from "react-redux";
 
 import Select from "@material-ui/core/Select";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import PanToolIcon from "@material-ui/icons/PanTool";
 import clsx from "clsx";
-import React, { useState, useReducer } from "react";
+import React, { useState } from "react";
 
 import Mission from "../../model/Mission";
 import _ from "../../utils/lodash";
-import TentativeStatusAction from "./component/TentativeStatusAction";
 import AssignedVolunteerPopover from "./component/AssignedVolunteerPopover";
 import MissionItemMenu from "./component/MissionItemMenu";
 

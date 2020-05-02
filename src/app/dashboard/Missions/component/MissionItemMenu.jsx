@@ -9,7 +9,9 @@ import Grid from "@material-ui/core/Grid";
 import AddToGroupPopover from "./AddToGroupPopover";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
-import styled from "styled-components";
+import { makeStyles } from "@material-ui/core/styles";
+import Mission from "../../../model/Mission";
+import clsx from "clsx";
 
 const actions = {
   OPEN_MENU: "open the menu",
@@ -21,9 +23,15 @@ const initialMenuState = {
   openAddToGroupPopover: false,
 };
 
-const StyledButton = styled(Button)`
-  justify-content: left;
-`;
+const useStyles = makeStyles((theme) => ({
+  menuButton: {
+    justifyContent: "left",
+    width: "100%",
+  },
+  readyToStart: {
+    color: "green",
+  },
+}));
 
 const menuReducer = (state, action) => {
   switch (action.type) {
@@ -39,8 +47,16 @@ const menuReducer = (state, action) => {
 };
 
 const MissionItemMenu = ({ boxRef, className, groups, mission }) => {
+  const classes = useStyles();
   const [state, dispatch] = useReducer(menuReducer, initialMenuState);
   const handleClose = () => {
+    dispatch({ type: actions.CLOSE });
+  };
+
+  const handleReadyToStartButton = () => {
+    Mission.update(mission.id, {
+      readyToStart: !mission.readyToStart,
+    });
     dispatch({ type: actions.CLOSE });
   };
 
@@ -53,6 +69,7 @@ const MissionItemMenu = ({ boxRef, className, groups, mission }) => {
         role="button"
         onClick={() => dispatch({ type: actions.OPEN_MENU })}
       >
+        {mission.readyToStart && <CheckCircleOutlineIcon className={classes.readyToStart} />}
         <MoreVertIcon />
       </Box>
 
@@ -67,20 +84,20 @@ const MissionItemMenu = ({ boxRef, className, groups, mission }) => {
         }}
       >
         <Grid container direction="column">
-          <StyledButton
-            fullWidth
+          <Button
+            className={classes.menuButton}
             startIcon={<AddCircleOutlineIcon />}
             onClick={() => dispatch({ type: actions.OPEN_GROUP })}
           >
             Add To Group
-          </StyledButton>
-          <StyledButton
-            fullWidth
+          </Button>
+          <Button
+            className={classes.menuButton}
             startIcon={<CheckCircleOutlineIcon />}
-            onClick={() => dispatch({ type: actions.OPEN_GROUP })}
+            onClick={handleReadyToStartButton}
           >
-            Mark as ready
-          </StyledButton>
+            {mission.readyToStart ? "Mark as Not Ready" : "Mark as Ready"}
+          </Button>
         </Grid>
       </Popover>
       <AddToGroupPopover
