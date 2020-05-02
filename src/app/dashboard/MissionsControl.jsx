@@ -11,7 +11,7 @@ import { Route, Switch } from "react-router-dom";
 import { Mission, User } from "../model";
 import Appbar from "./Appbar";
 import Drawer from "./Drawer";
-import Home from "./Home";
+import Overview from "./Home";
 import DashboardMissions from "./Missions";
 import Organization from "../model/Organization";
 
@@ -59,6 +59,7 @@ const MissionsPage = () => {
       Mission.fsInPlanning(id),
       Mission.fsInProgress(id),
       Mission.fsInDone(id),
+      Mission.fsIncomplete(id),
       User.fsVolunteer(id),
       { collection: "organizations", doc: id },
     ];
@@ -116,7 +117,7 @@ const MissionsPage = () => {
       >
         <Switch>
           <Route path="/dashboard/missions" component={DashboardMissions} />
-          <Route path="/dashboard/" component={() => <Home />} />
+          <Route path="/dashboard/" component={() => <Overview />} />
         </Switch>
       </main>
     </div>

@@ -1,6 +1,7 @@
 import { Container } from "@material-ui/core";
 import { Button } from "@material-ui/core";
-import firebase from "firebase";
+import firebase from "firebase/app";
+import "firebase/auth";
 import PropTypes from "prop-types";
 import React from "react";
 
