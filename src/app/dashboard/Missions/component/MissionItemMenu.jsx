@@ -72,6 +72,7 @@ const MissionItemMenu = ({ boxRef, className, groups, mission, volunteers }) => 
   const handleReadyToStartButton = () => {
     Mission.update(mission.id, {
       readyToStart: !mission.readyToStart,
+      status: "tentative",
     });
     dispatch({ type: actions.CLOSE });
   };
@@ -111,6 +112,7 @@ const MissionItemMenu = ({ boxRef, className, groups, mission, volunteers }) => 
         tentativeVolunteerDisplayName: "",
         tentativeVolunteerId: "",
         tentativeVolunteerPhoneNumber: "",
+        status: "tentative",
       });
     } else {
       dispatch({ type: actions.OPEN_VOLUNTEER });
