@@ -114,8 +114,9 @@ def addGroup(shouldAdd):
     groupId = ""
     groupDisplayName = ""
     if shouldAdd:
-        groupId = f.postcode()
-        groupDisplayName = r.choice(["group1", "group2", "group3", "group4"])
+        groupDisplayName = r.choice(["Union Square 2020/03/04",
+                                     "Daly City 2020/03/05", "San Mateo 2020/04/29"])
+        groupId = groupDisplayName
     return groupId, groupDisplayName
 
 
@@ -216,6 +217,9 @@ def mission(orgId, volunteer, foodboxName):
         deliveryConfirmationImage='',
         deliveryNotes='',
         feedbackNotes='',
+
+        createdDate='2020/05/02',
+        fundedDate='2020/05/02'
     )
 
 
