@@ -9,10 +9,8 @@ export type CartItem = {
 export type State = {
   cart2: PurchaseUnit;
   cart: Record<string, CartItem>;
-  dropOffDetails: {
-    instructions: string;
-    location: Location | null;
-  };
+  instructions: string;
+  location: Location | null;
   step: 0 | 1 | 2;
   maxStep: 0 | 1 | 2;
   loading: boolean;
@@ -26,10 +24,8 @@ export const initialState: State = {
     },
   },
   cart: {},
-  dropOffDetails: {
-    instructions: "",
-    location: null,
-  },
+  instructions: "",
+  location: null,
   step: 0,
   maxStep: 0,
   loading: false,
@@ -94,7 +90,7 @@ export function reducer(state: State, { payload, type }: Actions) {
       return { ...state, cart: newCart };
     case "UPDATE_DETAILS":
       const { instructions, location } = payload as Details;
-      return { ...state, dropOffDetails: { instructions, location }, step: 2, maxStep: 2 };
+      return { ...state, instructions, location, step: 2, maxStep: 2 };
     case "UPDATE_STEP":
       // make sure we're only going to a step less than or equal to the max step
       return { ...state, step: payload && payload <= state.maxStep ? payload : state.step };

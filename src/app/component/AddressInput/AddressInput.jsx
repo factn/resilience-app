@@ -1,11 +1,16 @@
 import AlgoliaPlaces from "algolia-places-react";
 import PropTypes from "prop-types";
-import React from "react";
+import React, { useRef, useEffect } from "react";
 
 const { ALGOLIA_API_KEY, ALGOLIA_APP_ID } = process.env;
 
 const AddressInput = (props) => {
-  const { error, onClear, placeholder, setStage, stage } = props;
+  const { error, onClear, placeholder, setStage, stage, value } = props;
+  const placesRef = useRef();
+  const setRef = (ref) => {
+    placesRef.current = ref;
+  };
+
   const handleLocation = (query) => {
     if (query.suggestion) {
       const { countryCode, county, latlng, value } = query.suggestion;
@@ -21,6 +26,13 @@ const AddressInput = (props) => {
       });
     }
   };
+
+  useEffect(() => {
+    if (value && placesRef?.current) {
+      placesRef.current.setVal(value);
+    }
+  }, [placesRef, value]);
+
   return (
     <div style={error ? { border: "solid red" } : {}}>
       <AlgoliaPlaces
@@ -36,6 +48,7 @@ const AddressInput = (props) => {
         onChange={(query) => handleLocation(query)}
         onLimit={({ message }) => message && console.log(message)}
         onClear={onClear}
+        placesRef={setRef}
       />
     </div>
   );
