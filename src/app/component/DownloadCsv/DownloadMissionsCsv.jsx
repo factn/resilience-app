@@ -8,7 +8,6 @@ import Grid from "@material-ui/core/Grid";
 const DownloadMissionsCsv = ({ data, filename, label }) => {
   const flattened = _.flatten(
     _.map(data, (mission) => {
-      console.log(mission);
       return dot.dot(mission);
     })
   );
