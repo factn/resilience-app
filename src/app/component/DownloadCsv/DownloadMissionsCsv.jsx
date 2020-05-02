@@ -13,10 +13,28 @@ const DownloadMissionsCsv = ({ data, filename, label }) => {
     })
   );
 
+  const padLeft = (nr, n, str) => {
+    return Array(n - String(nr).length + 1).join(str || "0") + nr;
+  };
+
+  const now = new Date();
+  const fileNameWithTimestamp =
+    [
+      filename,
+      now.getFullYear(),
+      padLeft(now.getMonth() + 1, 2, "0"),
+      padLeft(now.getDate(), 2, "0"),
+    ].join("-") + ".csv";
+
   //const headers = {};
   return (
     <Grid item>
-      <CSVLink data={flattened} filename={filename} className="btn btn-primary" target="_blank">
+      <CSVLink
+        data={flattened}
+        filename={fileNameWithTimestamp}
+        className="btn btn-primary"
+        target="_blank"
+      >
         {label}
       </CSVLink>
     </Grid>
