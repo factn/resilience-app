@@ -1,144 +1,77 @@
 import Box from "@material-ui/core/Box";
-import Button from "@material-ui/core/Button";
-import { useTheme } from "@material-ui/core/styles";
-import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
+import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
-import MUIDataTable from "mui-datatables";
 import React, { useEffect, useState } from "react";
+import GroupWorkIcon from "@material-ui/icons/GroupWork";
+
+import MuiExpansionPanel from "@material-ui/core/ExpansionPanel";
+import MuiExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
+import MuiExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import Paper from "@material-ui/core/Paper";
 
 import DetailsView from "./DetailsView";
 import ListItem from "./ListItem";
-
-const getMuiTheme = (theme) =>
-  createMuiTheme({
-    ...theme,
-    overrides: {
-      ...theme.overrides,
-      MUIDataTableBodyCell: {
-        root: {
-          verticalAlign: "baseline",
-          padding: "0px",
-        },
-      },
-      MuiButton: {
-        root: {
-          textTransform: "capitalize",
-        },
-      },
-      MuiPaper: {
-        root: {
-          width: "100%",
-        },
-      },
-      MuiTableRow: {
-        root: {
-          backgroundColor: "white",
-        },
-      },
-      MUIDataTableToolbar: {
-        root: {
-          backgroundColor: "transparent",
-        },
-        // this contain the search field
-        left: {
-          //padding: `${theme.spacing(1)}px ${theme.spacing(2)}px`,
-          //margin: theme.spacing(2),
-          //border: "1px solid lightgrey",
-          //borderRadius: theme.spacing(0.5),
-        },
-        actions: {
-          // remove all the toolbar action
-          // we only display the search field now
-          display: "none",
-        },
-      },
-      MUIDataTableSearch: {
-        clearIcon: {
-          // remove the closed action for the search field
-          display: "none",
-        },
-        searchText: {
-          flex: 1,
-        },
-      },
-      MUIDataTable: {
-        paper: {
-          height: "100%",
-        },
-        responsiveScrollMaxHeight: {
-          maxHeight: "calc(100vh - 240px) !important",
-        },
-      },
-      // remove all the padding from the list
-      MuiToolbar: {
-        gutters: {
-          paddingLeft: "0 !important",
-          paddingRight: "0 !important",
-        },
-      },
-      MuiTablePagination: {
-        selectRoot: {
-          marginRight: theme.spacing(1),
-        },
-      },
-      MuiOutlinedInput: {
-        input: {
-          padding: `${theme.spacing(1)}px ${theme.spacing(2)}px`,
-        },
-      },
-    },
-  });
+import { Mission } from "../../model";
+import _ from "../../utils/lodash";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    position: "relative",
-    border: "1px solid transparent",
-    borderRadius: theme.spacing(0.5),
-    padding: theme.spacing(2),
+    height: "100%",
+    overflowY: "auto",
+    overflowX: "hidden",
+    width: "400px",
   },
-  isSelected: {
-    borderColor: theme.palette.primary.main,
-  },
-  arrowRightWrapper: {
-    top: theme.spacing(1),
-    right: theme.spacing(1),
-    cursor: "pointer",
-    position: "absolute",
+  group: {
+    maxWidth: "380px",
+    textOverflow: "ellipsis",
+    overflow: "hidden",
+    whiteSpace: "nowrap",
+    fontSize: "16px",
+    fontWeight: "bold",
+    color: "black",
+    alignItems: "center",
+    "& svg": {
+      marginRight: theme.spacing(1),
+    },
   },
 }));
 
-const columns = [
-  {
-    name: "mission",
-    label: "Mission",
-    options: {
-      customBodyRender: ListItem,
-      customHeadRender: () => null,
-    },
-  },
-];
-const tableOptions = {
-  filterType: "checkbox",
-  responsive: "scrollMaxHeight",
-  elevation: 0,
-  rowsPerPage: 100,
-  pagination: false,
-  selectableRows: "none",
-  customFooter: () => null,
-
-  print: false,
-  download: false,
-  filter: false,
-  search: false,
-  viewColumns: false,
-  searchOpen: true,
-  searchPlaceholder: "Search for missions",
-};
 const Views = {
   list: "missions-list-view",
   details: "single-details-view",
   group: "missions-group-view",
 };
+
+function score(mission) {
+  if (!mission?.status) return 0;
+
+  // yepp, 3 mission.
+  switch (mission.status) {
+    case Mission.Status.unassigned:
+      return 0;
+    case Mission.Status.tentative:
+      if (mission.tentativeVolunteerId) {
+        return 2;
+      }
+      return 1;
+    case Mission.Status.assigned:
+      return 3;
+    case Mission.Status.started:
+      return 4;
+    case Mission.Status.delivered:
+      return 5;
+    case Mission.Status.failed:
+      return 6;
+    case Mission.Status.succeeded:
+      return 7;
+    default:
+      return 0;
+  }
+}
+function sortAlgo(a, b) {
+  return score(a) - score(b);
+}
 
 const MissionsListView = ({
   currentMission,
@@ -148,23 +81,12 @@ const MissionsListView = ({
   setSelectedMission,
   users,
 }) => {
-  const theme = useTheme();
-  const innerTheme = getMuiTheme(theme);
-
-  const classes = useStyles(innerTheme);
+  const classes = useStyles();
   const [view, setView] = useState(Views.list);
 
-  // need format [{mission: data}, {mission: data}]
-  const data = missions.map((mission) => ({
-    mission: {
-      users,
-      mission,
-      classes,
-      selectedMission,
-      setSelectedMission,
-      toDetailsView: () => setView(Views.details),
-    },
-  }));
+  const { singleMissions, groups } = Mission.getAllGroups(missions);
+  const sortedMissions = singleMissions.sort(sortAlgo);
+
   useEffect(() => {
     if (view !== Views.list) {
       setView(Views.list);
@@ -172,15 +94,31 @@ const MissionsListView = ({
     // eslint-disable-next-line
   }, [missionsView]);
 
+  function toDetailsView() {
+    setView(Views.details);
+  }
+
+  function toList(missions) {
+    if (!missions) return null;
+    return (
+      <Grid direction="column">
+        {missions.map((mission) => (
+          <ListItem
+            key={mission.id}
+            mission={mission}
+            users={users}
+            selectedMission={selectedMission}
+            setSelectedMission={setSelectedMission}
+            toDetailsView={toDetailsView}
+            groups={groups}
+          />
+        ))}
+      </Grid>
+    );
+  }
+
   return (
-    <MuiThemeProvider theme={innerTheme}>
-      {missionsView === "inPlanning" && (
-        <Box>
-          <Button onClick={() => setView(Views.list)}>Missions</Button>
-          <Button onClick={() => setView(Views.group)}>Group</Button>
-        </Box>
-      )}
-      <Box hidden={view !== Views.group}>Group</Box>
+    <Paper className={classes.root}>
       <Box hidden={view !== Views.details}>
         <DetailsView
           mission={currentMission}
@@ -188,16 +126,39 @@ const MissionsListView = ({
           toListView={() => setView(Views.list)}
         />
       </Box>
-      <Box hidden={view !== Views.list}>
-        <MUIDataTable
-          serverSide={true}
-          data={data}
-          columns={columns}
-          options={tableOptions}
-          rowsPerPage={100}
-        />
-      </Box>
-    </MuiThemeProvider>
+      <Grid hidden={view !== Views.list} direction="column">
+        {groups?.map((group) => {
+          const color = _.randomColor(group.groupDisplayName);
+          return (
+            <MuiExpansionPanel key={group.id}>
+              <MuiExpansionPanelSummary
+                expandIcon={<ExpandMoreIcon />}
+                id={`group-${group.id}-header`}
+                aria-controls={`group-${group.id}-content`}
+              >
+                <Grid container className={classes.group}>
+                  <GroupWorkIcon style={{ color: color }} />({group.missions.length}){" "}
+                  {group.groupDisplayName}
+                </Grid>
+              </MuiExpansionPanelSummary>
+              <MuiExpansionPanelDetails>{toList(group.missions)}</MuiExpansionPanelDetails>
+            </MuiExpansionPanel>
+          );
+        })}
+        <MuiExpansionPanel>
+          <MuiExpansionPanelSummary
+            expandIcon={<ExpandMoreIcon />}
+            id="group-single-header"
+            aria-controls="group-single-content"
+          >
+            <Grid container className={classes.group}>
+              ({sortedMissions.length}) Single Missions
+            </Grid>
+          </MuiExpansionPanelSummary>
+          <MuiExpansionPanelDetails>{toList(sortedMissions)}</MuiExpansionPanelDetails>
+        </MuiExpansionPanel>
+      </Grid>
+    </Paper>
   );
 };
 

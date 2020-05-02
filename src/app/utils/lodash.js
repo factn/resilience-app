@@ -1,4 +1,5 @@
 import _ from "lodash";
+import * as baseRandomColor from "./randomColor";
 
 const getQueryParam = (key) => {
   const urlParams = new URLSearchParams(window.location.search);
@@ -11,9 +12,14 @@ const setQueryParam = (name, value, search) => {
   return urlParams.toString();
 };
 
+const randomColor = (str) => {
+  return baseRandomColor({ seed: str });
+};
+
 _.mixin({
   getQueryParam,
   setQueryParam,
+  randomColor,
 });
 
 export default _;

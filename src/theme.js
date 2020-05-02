@@ -62,7 +62,6 @@ export default {
       fontWeight: "semi-bold",
       fontSize: "20px",
       lineHeight: "30px",
-      color: color.blue,
     },
     h4: {
       fontFamily: "Open Sans, sans-serif",

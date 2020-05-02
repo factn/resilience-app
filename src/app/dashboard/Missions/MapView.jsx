@@ -1,10 +1,12 @@
 import Box from "@material-ui/core/Box";
 import { makeStyles } from "@material-ui/core/styles";
 import FastfoodIcon from "@material-ui/icons/Fastfood";
-import { DivIcon } from "leaflet";
+import GroupWorkIcon from "@material-ui/icons/GroupWork";
+import { DivIcon, Icon } from "leaflet";
 import React, { useEffect, useState } from "react";
 import { renderToString } from "react-dom/server";
 import { Map, Marker, TileLayer } from "react-leaflet";
+import _ from "../../utils/lodash";
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -21,16 +23,18 @@ const useStyles = makeStyles((theme) => ({
   foodIcon: {
     backgroundColor: "red",
   },
+  customGroupIcon: {
+    position: "absolute",
+    width: "22px",
+    fontSize: "22px",
+    top: "-18px",
+    right: "-18px",
+    margin: "10px auto",
+    textAlign: "center",
+  },
   customDivIcon: {
-    "& svg": {
-      position: "absolute",
-      width: "22px",
-      fontSize: "22px",
-      left: "0",
-      right: "0",
-      margin: "10px auto",
-      textAlign: "center",
-    },
+    backgroundColor: "transparent",
+    border: 0,
   },
   markerPin: {
     width: "30px",
@@ -76,34 +80,30 @@ const Overview = ({ currentMission, missions, setSelectedMission }) => {
     // eslint-disable-next-line
   }, [currentMission]);
 
-  const FastFoodIconHtml = renderToString(<FastfoodIcon />);
-  const FoodIcon = new DivIcon({
-    className: classes.customDivIcon,
-    html: `<div class='${classes.markerPin}'></div>${FastFoodIconHtml}`,
-    iconSize: [30, 42],
-    iconAnchor: [15, 42], // half of width + height
-  });
-
-  const HoverIcon = new DivIcon({
-    className: classes.customDivIcon,
-    html: `<div class='${classes.markerPin}'></div>`,
-    iconSize: [44, 64],
-    iconAnchor: [22, 64], // half of width + height
-  });
-
   const getMarker = (mission) => {
-    if (mission.id === currentMission?.id) {
-      return <Marker key={mission.id} position={mission.deliveryLocation} icon={HoverIcon} />;
-    } else {
-      return (
-        <Marker
-          key={mission.id}
-          position={mission.deliveryLocation}
-          icon={FoodIcon}
-          onClick={() => setSelectedMission(mission.id)}
-        />
+    let html = `<div class='${classes.markerPin}'></div>`;
+    if (mission.groupDisplayName) {
+      const color = _.randomColor(mission.groupDisplayName);
+      const GroupIconHtml = renderToString(
+        <GroupWorkIcon className={classes.customGroupIcon} style={{ color: color }} />
       );
+      html += GroupIconHtml;
     }
+    const CustomIcon = new DivIcon({
+      className: classes.customDivIcon,
+      html: html,
+      iconSize: [30, 42],
+      iconAnchor: [15, 42], // half of width + height
+    });
+
+    return (
+      <Marker
+        icon={CustomIcon}
+        key={mission.id}
+        position={mission.deliveryLocation}
+        onClick={() => setSelectedMission(mission.id)}
+      />
+    );
   };
 
   return (

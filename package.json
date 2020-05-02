@@ -20,7 +20,6 @@
     "leaflet": "^1.6.0",
     "leaflet-routing-machine": "^3.2.12",
     "lodash": "^4.17.15",
-    "mui-datatables": "^2.14.0",
     "path": "^0.12.7",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
@@ -54,7 +53,8 @@
     "server": "node server.js",
     "start": "react-scripts start",
     "storybook": "start-storybook -p 9009 -s public",
-    "test": "react-scripts test"
+    "test": "react-scripts test",
+    "upload": "python scheme/data.py && NODE_ENV=development node scheme/uploadMock.js"
   },
   "eslintConfig": {
     "extends": [

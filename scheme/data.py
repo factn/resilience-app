@@ -114,8 +114,9 @@ def addGroup(shouldAdd):
     groupId = ""
     groupDisplayName = ""
     if shouldAdd:
-        groupId = f.postcode()
-        groupDisplayName = r.choice(["group1", "group2", "group3", "group4"])
+        groupDisplayName = r.choice(["Union Square 2020/03/04",
+                                     "Daly City 2020/03/05", "San Mateo 2020/04/29"])
+        groupId = groupDisplayName
     return groupId, groupDisplayName
 
 
@@ -126,7 +127,7 @@ def mission(orgId, volunteer, foodboxName):
     pickUpLocation = ""
     deliveryWindow = ""
     readyToStart = False
-    fundedStatus = r.choice(AnyIsFundedStatus),
+    fundedStatus = r.choice(AnyIsFundedStatus)
 
     volunteerId = ""
     volunteerDisplayName = ""
@@ -146,7 +147,7 @@ def mission(orgId, volunteer, foodboxName):
     if status == "unassigned":
         fundedStatus = "notfunded"
     elif status == "tentative":
-        readyToStart = r.choice([True, False]),
+        readyToStart = r.choice([True, False])
         if r.choice([True, False]):
             tentativeVolunteerId = volunteer["id"]
             tentativeVolunteerDisplayName = volunteer["displayName"]
@@ -157,7 +158,7 @@ def mission(orgId, volunteer, foodboxName):
         volunteerId = volunteer["id"]
         volunteerDisplayName = volunteer["displayName"]
         volunteerPhoneNumber = volunteer["phoneNumber"]
-        readyToStart = r.choice([True, False]),
+        readyToStart = r.choice([True, False])
         groupId, groupDisplayName = addGroup(r.choice([True, False]))
 
     else:
@@ -216,6 +217,9 @@ def mission(orgId, volunteer, foodboxName):
         deliveryConfirmationImage='',
         deliveryNotes='',
         feedbackNotes='',
+
+        createdDate='2020/05/02',
+        fundedDate='2020/05/02'
     )
 
 
