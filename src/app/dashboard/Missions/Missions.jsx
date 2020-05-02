@@ -1,4 +1,3 @@
-import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 import React, { useState } from "react";
@@ -16,6 +15,14 @@ const useStyles = makeStyles((theme) => ({
     height: "100%",
     flexWrap: "nowrap",
   },
+  main: {
+    overflow: "hidden",
+  },
+  side: {
+    overflow: "hidden",
+    height: "100%",
+  },
+
   viewButtons: {
     marginTop: theme.spacing(2),
     marginBottom: theme.spacing(1),
@@ -95,7 +102,7 @@ const ViewButtons = ({ classes, missionsView }) => {
   );
 };
 
-const DashboardMissions = ({ inDone, inPlanning, inProgress, inProposed, users }) => {
+const DashboardMissions = ({ inDone, inPlanning, inProgress, inProposed, volunteers }) => {
   const classes = useStyles();
 
   const viewFromUrl = _.getQueryParam("view");
@@ -107,33 +114,31 @@ const DashboardMissions = ({ inDone, inPlanning, inProgress, inProposed, users }
 
   let currentMission = filtered.find((m) => m.id === selectedMission);
   return (
-    <Grid container className={classes.root}>
-      <Grid container item lg sm direction="column" className={classes.root}>
-        <Grid item container spacing={2} className={classes.viewButtons}>
-          <ViewButtons missionsView={viewFromUrl} classes={classes} />
+    <>
+      <Grid item container spacing={2} className={classes.viewButtons}>
+        <ViewButtons missionsView={viewFromUrl} classes={classes} />
+      </Grid>
+      <Grid item container className={classes.main} xs>
+        <Grid item className={classes.side}>
+          <ListView
+            missions={filtered}
+            volunteers={volunteers}
+            currentMission={currentMission}
+            setSelectedMission={setSelectedMission}
+            selectedMission={selectedMission}
+            missionsView={viewFromUrl}
+          />
         </Grid>
-        <Grid item container></Grid>
-        <Grid item container className={classes.main} xs>
-          <Box width="400px">
-            <ListView
-              missions={filtered}
-              users={users}
-              currentMission={currentMission}
-              setSelectedMission={setSelectedMission}
-              selectedMission={selectedMission}
-              missionsView={viewFromUrl}
-            />
-          </Box>
-          <Grid item xs>
-            <MapView
-              missions={filtered}
-              currentMission={currentMission}
-              setSelectedMission={setSelectedMission}
-            />
-          </Grid>
+        <Grid item xs className={classes.side}>
+          <MapView
+            missions={filtered}
+            volunteers={volunteers}
+            currentMission={currentMission}
+            setSelectedMission={setSelectedMission}
+          />
         </Grid>
       </Grid>
-    </Grid>
+    </>
   );
 };
 
@@ -142,9 +147,11 @@ const mapStateToProps = (state, ownProps) => {
   let inPlanning = Mission.selectInPlanning(state);
   let inProgress = Mission.selectInProgress(state);
   let inDone = Mission.selectInDone(state);
+  let volunteers = state.firestore.ordered.volunteers;
 
   return {
     user: state.firebase.auth,
+    volunteers,
     inProposed,
     inPlanning,
     inProgress,
