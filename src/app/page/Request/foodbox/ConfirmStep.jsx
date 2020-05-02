@@ -9,6 +9,7 @@ import {
   makeStyles,
   Paper,
   Typography,
+  Button,
 } from "@material-ui/core";
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
@@ -161,6 +162,14 @@ function ConfirmStep({ dispatch, state }) {
           Find me a donation
         </Typography>
       </Paper>
+      <Button
+        fullWidth
+        variant="contained"
+        color="primary"
+        onClick={() => dispatch({ type: "BACK" })}
+      >
+        Back
+      </Button>
     </>
   );
 }

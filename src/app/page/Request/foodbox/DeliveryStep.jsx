@@ -1,4 +1,10 @@
-import { Checkbox, FormControlLabel, TextField } from "@material-ui/core";
+import {
+  Checkbox,
+  FormControlLabel,
+  TextField,
+  FormControl,
+  FormHelperText,
+} from "@material-ui/core";
 import React from "react";
 import { Typography } from "@material-ui/core";
 import { useSelector } from "react-redux";
@@ -20,6 +26,7 @@ function DeliveryStep({ dispatch, state }) {
 
   function changeFormValue(name, value) {
     handleChange({ target: { name, value } });
+    return value;
   }
 
   function handleCheckBoxChange(event, value) {
@@ -80,6 +87,23 @@ function DeliveryStep({ dispatch, state }) {
     }
   }
 
+  function validate() {
+    let hasError = false;
+    hasError = changeFormValue("locationError", !values.location);
+    hasError = changeFormValue("firstNameError", !values.firstName) || hasError;
+    hasError = changeFormValue("lastNameError", !values.lastName) || hasError;
+    hasError = changeFormValue("phoneError", !values.phone) || hasError;
+    hasError = changeFormValue("tcError", !values.termsAndConditions) || hasError;
+    return hasError;
+  }
+
+  function submit() {
+    if (validate()) {
+      dispatch({ type: "ERROR", payload: "Please fill out the required fields" });
+      return;
+    }
+  }
+
   function handleSubmitUser() {
     // TODO validate input before actually running this
     if (auth.isEmpty) {
@@ -111,6 +135,8 @@ function DeliveryStep({ dispatch, state }) {
         placeholder="Location"
         stage={values.location}
         setStage={handleChangeLocation}
+        error={values.locationError}
+        onClear={() => changeFormValue("location", undefined)}
       />
       <TextField
         className={classes.textArea}
@@ -129,65 +155,75 @@ function DeliveryStep({ dispatch, state }) {
         To help our volunteers fulfill your request, please provide your name and contact mobile
         number.
       </Body1>
-      {auth.isEmpty && (
-        <>
-          <Typography align="left" variant="h2" color="textPrimary" gutterBottom>
-            Your Account
-          </Typography>
-          <TextField
-            fullWidth
-            label="First Name"
-            name="firstName"
-            onChange={handleChange}
-            value={values.firstName || ""}
-            variant="outlined"
-          />
-          <TextField
-            className={classes.textField}
-            fullWidth
-            label="Last Name"
-            name="lastName"
-            onChange={handleChange}
-            value={values.lastName || ""}
-            variant="outlined"
-          />
-          <TextField
-            className={classes.textField}
-            fullWidth
-            helperText="Used for receiving updates (SMS/texts)"
-            label="Mobile Number"
-            name="phone"
-            id="phone"
-            onChange={handleChange}
-            value={values.phone || ""}
-            variant="outlined"
-          />
-          <FormControlLabel
-            className={classes.checkBox}
-            control={
-              <Checkbox
-                checked={!!values.cannotReceiveTexts}
-                onChange={handleCheckBoxChange}
-                name="cannotReceiveTexts"
+      {auth.isEmpty ||
+        (true && (
+          <>
+            <Typography align="left" variant="h2" color="textPrimary" gutterBottom>
+              Your Account
+            </Typography>
+            <TextField
+              fullWidth
+              label="First Name"
+              name="firstName"
+              onChange={handleChange}
+              value={values.firstName || ""}
+              variant="outlined"
+              required
+              error={values.firstNameError}
+            />
+            <TextField
+              className={classes.textField}
+              fullWidth
+              label="Last Name"
+              name="lastName"
+              onChange={handleChange}
+              value={values.lastName || ""}
+              variant="outlined"
+              required
+              error={values.lastNameError}
+            />
+            <TextField
+              className={classes.textField}
+              fullWidth
+              helperText="Used for receiving updates (SMS/texts)"
+              label="Mobile Number"
+              name="phone"
+              id="phone"
+              onChange={handleChange}
+              value={values.phone || ""}
+              variant="outlined"
+              required
+              error={values.phoneError}
+            />
+            <FormControlLabel
+              className={classes.checkBox}
+              control={
+                <Checkbox
+                  checked={!!values.cannotReceiveTexts}
+                  onChange={handleCheckBoxChange}
+                  name="cannotReceiveTexts"
+                />
+              }
+              label="I cannot receive SMS/texts"
+            />
+            <FormControl required error={values.tcError}>
+              {values.tcError && <FormHelperText>Below checkbox is required</FormHelperText>}
+              <FormControlLabel
+                className={classes.checkBox}
+                control={
+                  <Checkbox
+                    checked={!!values.termsAndConditions}
+                    onChange={handleCheckBoxChange}
+                    name="termsAndConditions"
+                  />
+                }
+                label="By signing up, I agree to some terms and conditions, waiver link here,"
               />
-            }
-            label="I cannot receive SMS/texts"
-          />
-          <FormControlLabel
-            className={classes.checkBox}
-            control={
-              <Checkbox
-                checked={!!values.termsAndConditions}
-                onChange={handleCheckBoxChange}
-                name="termsAndConditions"
-              />
-            }
-            label="By signing up, I agree to some terms and conditions, waiver link here,"
-          />
-        </>
-      )}
+            </FormControl>
+          </>
+        ))}
 
-      <NavigationButtons onBack={() => dispatch({ type: "BACK" })} onNext={handleSubmitUser} />
+      <NavigationButtons onBack={() => dispatch({ type: "BACK" })} onNext={submit} />
     </div>
   );
 }
