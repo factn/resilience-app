@@ -110,6 +110,28 @@ const fsInDone = (orgId: string) => ({
   ],
   storeAs: "missionsInDone",
 });
+const fsIncomplete = (orgId: string) => ({
+  collection: "organizations",
+  doc: orgId,
+  subcollections: [
+    {
+      collection: "missions",
+      where: [
+        [
+          "status",
+          "in",
+          [
+            MissionStatus.tentative,
+            MissionStatus.assigned,
+            MissionStatus.started,
+            MissionStatus.delivered,
+          ],
+        ],
+      ],
+    },
+  ],
+  storeAs: "incompleteMissions",
+});
 
 const getAllGroups = (missions: MissionInterface[]) => {
   let groups: Group[] = [];
@@ -150,6 +172,8 @@ class Mission extends BaseModel {
   fsInProgress = fsInProgress;
   selectInDone = (state: any) => state.firestore.ordered.missionsInDone || [];
   fsInDone = fsInDone;
+  selectIncomplete = (state: any) => state.firestore.ordered.incompleteMissions || [];
+  fsIncomplete = fsIncomplete;
 
   getAllGroups = getAllGroups;
 
