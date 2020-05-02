@@ -72,7 +72,7 @@ const MissionItemMenu = ({ boxRef, className, groups, mission }) => {
       });
     }
   };
-  const handleAddToGroupConfirm = ({ groupId, groupDisplayName }) => {
+  const handleAddToGroupConfirm = ({ groupDisplayName, groupId }) => {
     if (groupId) {
       Mission.update(mission.id, {
         groupDisplayName,

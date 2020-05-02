@@ -195,7 +195,7 @@ const MissionListItem = ({
     if (isSelected && boxRef?.current) {
       boxRef.current.scrollIntoView({
         behavior: "smooth",
-        block: "start",
+        block: "end",
       });
     }
   }, [isSelected]);

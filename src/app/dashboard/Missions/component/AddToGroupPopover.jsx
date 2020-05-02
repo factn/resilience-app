@@ -2,9 +2,11 @@ import { Box, TextField } from "@material-ui/core";
 import Autocomplete, { createFilterOptions } from "@material-ui/lab/Autocomplete";
 import Popover from "@material-ui/core/Popover";
 import React, { useState } from "react";
+import GroupWorkIcon from "@material-ui/icons/GroupWork";
 
 import { Button, Body1 } from "../../../component";
 import { makeStyles } from "@material-ui/core/styles";
+import _ from "../../../utils/lodash";
 
 const useStyles = makeStyles((theme) => ({
   popRoot: {
@@ -24,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AddToGroupPopover = ({ boxRef, groups, mission, onClose, open, handleConfirmButton }) => {
+const AddToGroupPopover = ({ boxRef, groups, handleConfirmButton, mission, onClose, open }) => {
   const [selected, setSelected] = useState();
   const classes = useStyles();
   const filter = createFilterOptions({
@@ -58,7 +60,6 @@ const AddToGroupPopover = ({ boxRef, groups, mission, onClose, open, handleConfi
             <Autocomplete
               id="group-search"
               options={groups}
-              getOptionLabel={(group) => group.name}
               onChange={(event, newValue) => setSelected(newValue)}
               renderInput={(params) => (
                 <TextField
@@ -78,6 +79,12 @@ const AddToGroupPopover = ({ boxRef, groups, mission, onClose, open, handleConfi
                 />
               )}
               getOptionLabel={(group) => group.groupDisplayName}
+              renderOption={(group) => (
+                <>
+                  <GroupWorkIcon style={{ color: _.randomColor(group.groupDisplayName) }} />{" "}
+                  {group.groupDisplayName}
+                </>
+              )}
               filterOptions={(groups, params) => {
                 const filtered = filter(groups, params);
 

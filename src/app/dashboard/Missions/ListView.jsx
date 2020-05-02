@@ -40,6 +40,9 @@ const useStyles = makeStyles((theme) => ({
   readyToStart: {
     color: "lightgrey",
   },
+  containSelected: {
+    border: "2px solid green",
+  },
   isReady: {
     color: "green",
   },
@@ -93,10 +96,11 @@ const MissionsListView = ({
 
   const { groups, singleMissions } = Mission.getAllGroups(missions);
   const sortedMissions = {
-    groupid: "",
+    groupId: "",
     groupDisplayName: "Single Missions",
     missions: singleMissions.sort(sortAlgo),
   };
+  groups.push(sortedMissions);
 
   useEffect(() => {
     if (view !== Views.list) {
@@ -112,13 +116,19 @@ const MissionsListView = ({
   function toList(group) {
     if (!group?.missions) return null;
     const color = _.randomColor(group.groupDisplayName);
-    const totReady = group.missions?.reduce((acc, mission) => {
-      if (mission.readyToStart) acc += 1;
-      return acc;
-    }, 0);
+    let totReady = 0;
+    let containSelected = false;
+
+    group.missions.forEach((mission) => {
+      if (mission.readyToStart) totReady += 1;
+      if (mission.id === selectedMission) containSelected = true;
+    });
     const isReady = totReady === group.missions?.length;
     return (
-      <MuiExpansionPanel key={group.id}>
+      <MuiExpansionPanel
+        key={group.id}
+        className={clsx({ [classes.containSelected]: containSelected })}
+      >
         <MuiExpansionPanelSummary
           expandIcon={<ExpandMoreIcon />}
           id={`group-${group.id}-header`}
@@ -167,7 +177,6 @@ const MissionsListView = ({
       </Box>
       <Grid hidden={view !== Views.list} direction="column">
         {groups?.map(toList)}
-        {toList(sortedMissions)}
       </Grid>
     </Paper>
   );
