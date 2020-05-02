@@ -102,7 +102,7 @@ const ViewButtons = ({ classes, missionsView }) => {
   );
 };
 
-const DashboardMissions = ({ inDone, inPlanning, inProgress, inProposed, users }) => {
+const DashboardMissions = ({ inDone, inPlanning, inProgress, inProposed, volunteers }) => {
   const classes = useStyles();
 
   const viewFromUrl = _.getQueryParam("view");
@@ -119,10 +119,10 @@ const DashboardMissions = ({ inDone, inPlanning, inProgress, inProposed, users }
         <ViewButtons missionsView={viewFromUrl} classes={classes} />
       </Grid>
       <Grid item container className={classes.main} xs>
-        <Grid item column className={classes.side}>
+        <Grid item className={classes.side}>
           <ListView
             missions={filtered}
-            users={users}
+            volunteers={volunteers}
             currentMission={currentMission}
             setSelectedMission={setSelectedMission}
             selectedMission={selectedMission}
@@ -146,9 +146,11 @@ const mapStateToProps = (state, ownProps) => {
   let inPlanning = Mission.selectInPlanning(state);
   let inProgress = Mission.selectInProgress(state);
   let inDone = Mission.selectInDone(state);
+  let volunteers = state.firestore.ordered.volunteers;
 
   return {
     user: state.firebase.auth,
+    volunteers,
     inProposed,
     inPlanning,
     inProgress,

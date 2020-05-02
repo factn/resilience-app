@@ -40,8 +40,12 @@ const useStyles = makeStyles((theme) => ({
   readyToStart: {
     color: "lightgrey",
   },
+
   containSelected: {
-    border: "2px solid green",
+    border: "2px solid green !important",
+  },
+  expansion: {
+    border: "2px solid transparent",
   },
   isReady: {
     color: "green",
@@ -89,7 +93,7 @@ const MissionsListView = ({
   missionsView,
   selectedMission,
   setSelectedMission,
-  users,
+  volunteers,
 }) => {
   const classes = useStyles();
   const [view, setView] = useState(Views.list);
@@ -126,8 +130,8 @@ const MissionsListView = ({
     const isReady = totReady === group.missions?.length;
     return (
       <MuiExpansionPanel
-        key={group.id}
-        className={clsx({ [classes.containSelected]: containSelected })}
+        key={group.groupId}
+        className={clsx({ [classes.containSelected]: containSelected }, classes.expansion)}
       >
         <MuiExpansionPanelSummary
           expandIcon={<ExpandMoreIcon />}
@@ -148,12 +152,12 @@ const MissionsListView = ({
           </Grid>
         </MuiExpansionPanelSummary>
         <MuiExpansionPanelDetails>
-          <Grid direction="column">
+          <Grid container direction="column">
             {group.missions.map((mission) => (
               <ListItem
                 key={mission.id}
                 mission={mission}
-                users={users}
+                volunteers={volunteers}
                 selectedMission={selectedMission}
                 setSelectedMission={setSelectedMission}
                 toDetailsView={toDetailsView}
@@ -175,9 +179,11 @@ const MissionsListView = ({
           toListView={() => setView(Views.list)}
         />
       </Box>
-      <Grid hidden={view !== Views.list} direction="column">
-        {groups?.map(toList)}
-      </Grid>
+      <Box hidden={view !== Views.list}>
+        <Grid container direction="column">
+          {groups?.map(toList)}
+        </Grid>
+      </Box>
     </Paper>
   );
 };

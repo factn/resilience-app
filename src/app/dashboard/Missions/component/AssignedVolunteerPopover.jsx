@@ -5,7 +5,6 @@ import React, { useState } from "react";
 import { Button, Body1 } from "../../../component";
 import UsersAutocomplete from "../../../component/UsersAutocomplete";
 import { makeStyles } from "@material-ui/core/styles";
-import User from "../../../model/User";
 
 const useStyles = makeStyles((theme) => ({
   popRoot: {
@@ -22,14 +21,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AssignedVolunteerPopover = ({ boxRef, mission, onClose, open, volunteers }) => {
+const AssignedVolunteerPopover = ({ boxRef, handleConfirmButton, onClose, open, volunteers }) => {
   const classes = useStyles();
   const [selectedVolunteer, setSelectedVolunteer] = useState();
-  const handleConfirmVolunteer = () => {
-    if (!selectedVolunteer) onClose();
-    User.assignedMission(selectedVolunteer, mission.id);
-    onClose();
-  };
 
   return (
     <Popover
@@ -60,7 +54,12 @@ const AssignedVolunteerPopover = ({ boxRef, mission, onClose, open, volunteers }
           <UsersAutocomplete handleChange={setSelectedVolunteer} users={volunteers} />
         </Box>
         <Box className={classes.row}>
-          <Button fullWidth onClick={handleConfirmVolunteer}>
+          <Button
+            fullWidth
+            onClick={() => {
+              handleConfirmButton(selectedVolunteer);
+            }}
+          >
             Confirm
           </Button>
         </Box>

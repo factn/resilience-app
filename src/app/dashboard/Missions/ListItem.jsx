@@ -2,17 +2,15 @@ import { Box, Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 import FormControl from "@material-ui/core/FormControl";
-import { connect } from "react-redux";
 
 import Select from "@material-ui/core/Select";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import PanToolIcon from "@material-ui/icons/PanTool";
 import clsx from "clsx";
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 
 import Mission from "../../model/Mission";
 import _ from "../../utils/lodash";
-import AssignedVolunteerPopover from "./component/AssignedVolunteerPopover";
 import MissionItemMenu from "./component/MissionItemMenu";
 
 const useStyles = makeStyles((theme) => ({
@@ -118,9 +116,7 @@ const LocationRow = ({ label, location }) => {
   );
 };
 
-const VolunteerRow = ({ boxRef, classes, mission, volunteers }) => {
-  const [openAssignVolunteerPopover, setOpenAssignVolunteerPopover] = useState(false);
-
+const VolunteerRow = ({ mission }) => {
   const { tentativeVolunteerDisplayName, volunteerDisplayName } = mission;
   let assigned = "";
   if (volunteerDisplayName) {
@@ -128,33 +124,17 @@ const VolunteerRow = ({ boxRef, classes, mission, volunteers }) => {
   } else if (tentativeVolunteerDisplayName) {
     assigned = tentativeVolunteerDisplayName + " - tentative";
   } else {
-    assigned = (
-      <Box
-        className={classes.link}
-        onClick={() => {
-          setOpenAssignVolunteerPopover(true);
-        }}
-      >
-        Assign Volunteer
-      </Box>
-    );
+    return null;
   }
-
   return (
     <>
       <b>Volunteer</b>
       <Row Icon={PanToolIcon}>{assigned}</Row>
-      <AssignedVolunteerPopover
-        open={openAssignVolunteerPopover}
-        onClose={() => setOpenAssignVolunteerPopover(false)}
-        boxRef={boxRef}
-        volunteers={volunteers}
-      />
     </>
   );
 };
 
-const FoodBoxDetails = ({ details, notes }) => {
+const FoodBoxDetails = ({ details }) => {
   return (
     <>
       <b>Food Box</b>
@@ -213,6 +193,7 @@ const MissionListItem = ({
         boxRef={boxRef}
         groups={groups}
         mission={mission}
+        volunteers={volunteers}
       />
       {SpecificDetails}
       <LocationRow label="Pick Up" location={mission.pickUpLocation} />
@@ -230,6 +211,4 @@ const MissionListItem = ({
     </Box>
   );
 };
-export default connect((state) => ({
-  volunteers: state.firestore.ordered.volunteers,
-}))(MissionListItem);
+export default MissionListItem;

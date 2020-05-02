@@ -3,7 +3,6 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 import Button from "@material-ui/core/Button";
 
 import React, { useReducer } from "react";
-import _ from "../../../utils/lodash";
 import Popover from "@material-ui/core/Popover";
 import Grid from "@material-ui/core/Grid";
 import AddToGroupPopover from "./AddToGroupPopover";
@@ -11,13 +10,17 @@ import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
 import { makeStyles } from "@material-ui/core/styles";
 import Mission from "../../../model/Mission";
-import clsx from "clsx";
+import PanToolIcon from "@material-ui/icons/PanTool";
 import { v4 as uuidV4 } from "uuid";
+import AssignedVolunteerPopover from "./AssignedVolunteerPopover";
+import User from "../../../model/User";
+import clsx from "clsx";
 
 const actions = {
-  OPEN_MENU: "open the menu",
   CLOSE: "close all popover",
+  OPEN_MENU: "open the menu",
   OPEN_GROUP: "open the add to group popover",
+  OPEN_VOLUNTEER: "open the assigne volunteer popover",
 };
 const initialMenuState = {
   openMenu: false,
@@ -29,31 +32,43 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "left",
     width: "100%",
   },
+  notActive: {
+    color: "lightgrey",
+  },
   readyToStart: {
     color: "green",
+  },
+
+  tentativeVolunteer: {
+    color: " #fbb03b",
+  },
+  assignedVolunteer: {
+    color: theme.color.blue,
   },
 }));
 
 const menuReducer = (state, action) => {
   switch (action.type) {
-    case actions.OPEN_MENU:
-      return { openMenu: true, openAddToGroupPopover: false };
     case actions.CLOSE:
-      return { openMenu: false, openAddToGroupPopover: false };
+      return { openMenu: false, openAddToGroupPopover: false, openVolunteerPopover: false };
+    case actions.OPEN_MENU:
+      return { openMenu: true, openAddToGroupPopover: false, openVolunteerPopover: false };
     case actions.OPEN_GROUP:
-      return { openMenu: false, openAddToGroupPopover: true };
+      return { openMenu: false, openAddToGroupPopover: true, openVolunteerPopover: false };
+    case actions.OPEN_VOLUNTEER:
+      return { openMenu: false, openAddToGroupPopover: false, openVolunteerPopover: true };
     default:
       throw new Error();
   }
 };
 
-const MissionItemMenu = ({ boxRef, className, groups, mission }) => {
+const MissionItemMenu = ({ boxRef, className, groups, mission, volunteers }) => {
   const classes = useStyles();
   const [state, dispatch] = useReducer(menuReducer, initialMenuState);
+
   const handleClose = () => {
     dispatch({ type: actions.CLOSE });
   };
-
   const handleReadyToStartButton = () => {
     Mission.update(mission.id, {
       readyToStart: !mission.readyToStart,
@@ -87,6 +102,27 @@ const MissionItemMenu = ({ boxRef, className, groups, mission }) => {
     dispatch({ type: actions.CLOSE });
   };
 
+  const handleVolunteerButton = () => {
+    if (mission.volunteerDisplayName || mission.tentativeVolunteerDisplayName) {
+      Mission.update(mission.id, {
+        volunteerDisplayName: "",
+        volunteerId: "",
+        volunteerPhoneNumber: "",
+        tentativeVolunteerDisplayName: "",
+        tentativeVolunteerId: "",
+        tentativeVolunteerPhoneNumber: "",
+      });
+    } else {
+      dispatch({ type: actions.OPEN_VOLUNTEER });
+    }
+  };
+  const handleConfirmVolunteer = (selected) => {
+    if (selected) {
+      User.assignedMission(selected, mission.id);
+    }
+    dispatch({ type: actions.CLOSE });
+  };
+
   return (
     <>
       <Box
@@ -96,7 +132,16 @@ const MissionItemMenu = ({ boxRef, className, groups, mission }) => {
         role="button"
         onClick={() => dispatch({ type: actions.OPEN_MENU })}
       >
-        {mission.readyToStart && <CheckCircleOutlineIcon className={classes.readyToStart} />}
+        <PanToolIcon
+          className={clsx(
+            classes.notActive,
+            mission.tentativeVolunteerDisplayName && classes.tentativeVolunteer,
+            mission.volunteerDisplayName && classes.assignedVolunteer
+          )}
+        />
+        <CheckCircleOutlineIcon
+          className={clsx(classes.notActive, mission.readyToStart && classes.readyToStart)}
+        />
         <MoreVertIcon />
       </Box>
 
@@ -125,6 +170,17 @@ const MissionItemMenu = ({ boxRef, className, groups, mission }) => {
           >
             {mission.readyToStart ? "Mark as Not Ready" : "Mark as Ready"}
           </Button>
+          <Button
+            className={classes.menuButton}
+            startIcon={<PanToolIcon />}
+            onClick={handleVolunteerButton}
+          >
+            {mission.volunteerDisplayName
+              ? "Remove Volunteer"
+              : mission.tentativeVolunteerDisplayName
+              ? "Unsuggest Volunteer"
+              : "Suggest Volunteer"}
+          </Button>
         </Grid>
       </Popover>
       <AddToGroupPopover
@@ -134,6 +190,14 @@ const MissionItemMenu = ({ boxRef, className, groups, mission }) => {
         groups={groups}
         mission={mission}
         handleConfirmButton={handleAddToGroupConfirm}
+      />
+      <AssignedVolunteerPopover
+        boxRef={boxRef}
+        mission={mission}
+        onClose={handleClose}
+        open={state.openVolunteerPopover}
+        volunteers={volunteers}
+        handleConfirmButton={handleConfirmVolunteer}
       />
     </>
   );
