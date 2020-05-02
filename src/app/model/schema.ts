@@ -165,6 +165,7 @@ export interface MissionInterface {
   status: MissionStatus;
   fundedStatus: MissionFundedStatus;
   fundedDate: string | null; // TODO should be a date?
+  // TODO make sure this gets set when things get funded
   readyToStart: boolean;
   organizationId: string;
 
