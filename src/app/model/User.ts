@@ -149,11 +149,11 @@ class User extends BaseModel {
   }
 
   /**
-   * User volunteer for a mission
+   * User accepts a mission
    * @param {string} userId : user
    * @param {string} missionId : mission that user want to volunteer for
    */
-  async volunteerMission(userId: string, missionId: string) {
+  async acceptMission(userId: string, missionId: string) {
     let data = await Mission.getById(missionId);
 
     if (data.volunteerId) {
@@ -163,6 +163,7 @@ class User extends BaseModel {
     try {
       const collection = this.getCollection("organizations").doc("1").collection("missions");
       collection.doc(missionId).update({
+        tentativeVolunteerId: "",
         volunteerId: userId,
         status: MissionStatus.assigned,
       });
@@ -269,24 +270,6 @@ class User extends BaseModel {
       //TODO show error msg to user
       throw e;
     }
-  }
-  /**
-   * Get all available missions: missions suggested to the volunteer + general available missions
-   * @param userId UserId of the volunteer
-   */
-  async getAllAvailableMissions(userId: string) {
-    const collection = this.getCollection("organizations").doc("1").collection("missions");
-
-    const missionsAvailableForEveryone = await Mission.getAllAvailable();
-    const suggestedMissions = await collection.where("tentativeVolunteerId", "==", userId).get();
-    const missions = missionsAvailableForEveryone.concat(
-      suggestedMissions.docs.map((doc) => doc.data())
-    );
-    if (missions.length < 0) {
-      return [];
-    }
-
-    return missions;
   }
 
   /**

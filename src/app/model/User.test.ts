@@ -1,9 +1,45 @@
 import ReduxFirebase from "react-redux-firebase";
 
+import Mission from "./Mission";
 import { MissionStatus } from "./schema";
 import users from "./User";
 
-function mockBaseRepo({
+function mockAcceptMissionRepo({ getByIdReturn, throwCollectionDocError, throwUpdateError }) {
+  const mockUpdate = throwUpdateError
+    ? jest.fn().mockImplementation(() => {
+        throw Error("Error");
+      })
+    : jest.fn();
+
+  const mockGetById = jest.spyOn(Mission, "getById").mockResolvedValue(getByIdReturn);
+
+  const collection = {
+    doc: jest.fn().mockReturnValue({
+      collection: jest.fn().mockReturnValue({
+        doc: jest.fn().mockReturnValue({
+          update: mockUpdate,
+        }),
+      }),
+    }),
+  };
+
+  jest.spyOn(ReduxFirebase, "getFirebase").mockReturnValue({
+    firestore: jest.fn(() => ({ collection: jest.fn(() => collection) })),
+  });
+
+  return {
+    mockGetById,
+    mockUpdate,
+  };
+}
+
+describe("User", () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  /*  
+  function mockBaseRepo({
   existsReturn,
   mockDataReturn,
   throwCollectionDocError,
@@ -61,8 +97,7 @@ function mockBaseRepo({
     mockWhereFn,
   };
 }
-
-describe("User", () => {
+  
   describe("#getIdByDisplayName", () => {
     const displayName = "username";
     const volunteerId = "aabbbccc";
@@ -72,7 +107,7 @@ describe("User", () => {
     };
 
     it("looks up user id by display name", async () => {
-      const { mockData, mockDocFn, mockUpdate, mockWhereFn } = mockBaseRepo({
+      const { mockWhereFn } = mockBaseRepo({
         existsReturn: true,
         mockDataReturn: [user],
         throwCollectionDocError: false,
@@ -87,7 +122,7 @@ describe("User", () => {
     });
 
     it("returns error if firebase where bombs", async () => {
-      const { mockData, mockDocFn, mockUpdate, mockWhereFn } = mockBaseRepo({
+      const { mockWhereFn } = mockBaseRepo({
         existsReturn: true,
         mockDataReturn: [user],
         throwCollectionDocError: false,
@@ -100,7 +135,7 @@ describe("User", () => {
     });
 
     it("no user found by display name", async () => {
-      const { mockData, mockDocFn, mockUpdate, mockWhereFn } = mockBaseRepo({
+      const { mockWhereFn } = mockBaseRepo({
         existsReturn: true,
         mockDataReturn: [],
         throwCollectionDocError: false,
@@ -112,9 +147,41 @@ describe("User", () => {
       expect(mockWhereFn).toBeCalledWith("displayName", "==", displayName);
     });
   });
+*/
+  describe("#acceptMission", () => {
+    const missionId = "1234";
+    const volunteerId = "aabbbccc";
+    let mission = {
+      volunteerId: "",
+      status: "",
+    };
+
+    beforeEach(() => {
+      mission.tentativeVolunteerId = volunteerId;
+      mission.volunteerId = "";
+      mission.status = MissionStatus.assigned;
+    });
+
+    it("sets proper fields if missionId exists", async () => {
+      const { mockGetById, mockUpdate } = mockAcceptMissionRepo({
+        getByIdReturn: mission,
+        throwCollectionDocError: false,
+        throwUpdateError: false,
+      });
+
+      await users.acceptMission(volunteerId, missionId);
+
+      expect(mockGetById).toHaveBeenCalled();
+      const expected = {
+        tentativeVolunteerId: "",
+        volunteerId: volunteerId,
+        status: MissionStatus.assigned,
+      };
+      expect(mockUpdate).toBeCalledWith(expected);
+    });
+  });
 
   describe("#unvolunteerMission", () => {
-    const missionId = "1234";
     const volunteerId = "aabbbccc";
     let mission = {
       volunteerId: "",
