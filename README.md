@@ -168,7 +168,6 @@ git push heroku master
 
 | File                                                                                   |                                                                Description                                                                 | Edit? |
 | -------------------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------: | ----: |
-
 | [config/](../../tree/master/src/master/config/)                                           |    This is used to build out the webpack. In most cases, this won't need to be edited unless we decide to change our build in some way.    |     N |
 | [node_modules/](../../tree/master/src/master/node_modules/)                               |               The folder for all of the modules pulled in by Node. Good folder to see what FontAwesome icons are available.                |     N |
 | [public/](../../tree/master/src/master/public/)                                           | Don't edit this. Anything you put in here will get replaced as this folder is the output of the build and what is viewed by the front end. |     N |
