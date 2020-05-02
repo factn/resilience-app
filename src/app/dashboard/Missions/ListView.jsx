@@ -54,7 +54,6 @@ const Views = {
 function score(mission) {
   if (!mission?.status) return 0;
 
-  // yepp, 3 mission.
   switch (mission.status) {
     case Mission.Status.unassigned:
       return 0;

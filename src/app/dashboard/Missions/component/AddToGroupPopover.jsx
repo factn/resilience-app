@@ -6,9 +6,6 @@ import React, { useState } from "react";
 import { Button, Body1 } from "../../../component";
 import { makeStyles } from "@material-ui/core/styles";
 
-import Mission from "../../../model/Mission";
-import { v4 as uuidV4 } from "uuid";
-
 const useStyles = makeStyles((theme) => ({
   popRoot: {
     padding: theme.spacing(2),
@@ -27,26 +24,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AddToGroupPopover = ({ boxRef, groups, mission, onClose, open }) => {
+const AddToGroupPopover = ({ boxRef, groups, mission, onClose, open, handleConfirmButton }) => {
   const [selected, setSelected] = useState();
   const classes = useStyles();
   const filter = createFilterOptions({
-    stringify: (group) => group.displayName,
+    stringify: (group) => group.groupDisplayName,
   });
-  const handleConfirmGroup = () => {
-    if (!selected) onClose();
-    if (selected.id) {
-      Mission.update(mission.id, {
-        groupDisplayName: selected.displayName,
-        groupId: selected.id,
-      });
-    } else {
-      Mission.update(mission.id, {
-        groupDisplayName: selected.displayName,
-        groupId: uuidV4(),
-      });
-    }
-  };
 
   return (
     <Popover
@@ -94,7 +77,7 @@ const AddToGroupPopover = ({ boxRef, groups, mission, onClose, open }) => {
                   variant="outlined"
                 />
               )}
-              getOptionLabel={(group) => group.displayName}
+              getOptionLabel={(group) => group.groupDisplayName}
               filterOptions={(groups, params) => {
                 const filtered = filter(groups, params);
 
@@ -102,7 +85,7 @@ const AddToGroupPopover = ({ boxRef, groups, mission, onClose, open }) => {
                 if (params.inputValue !== "") {
                   filtered.push({
                     inputValue: params.inputValue,
-                    displayName: `Create and add to "${params.inputValue}"`,
+                    groupDisplayName: `Create and add to "${params.inputValue}"`,
                   });
                 }
 
@@ -112,7 +95,7 @@ const AddToGroupPopover = ({ boxRef, groups, mission, onClose, open }) => {
           </Box>
 
           <Box className={classes.row}>
-            <Button fullWidth onClick={handleConfirmGroup}>
+            <Button fullWidth onClick={() => handleConfirmButton(selected)}>
               Confirm
             </Button>
           </Box>

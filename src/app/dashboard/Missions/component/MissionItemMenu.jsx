@@ -12,6 +12,7 @@ import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
 import { makeStyles } from "@material-ui/core/styles";
 import Mission from "../../../model/Mission";
 import clsx from "clsx";
+import { v4 as uuidV4 } from "uuid";
 
 const actions = {
   OPEN_MENU: "open the menu",
@@ -60,6 +61,32 @@ const MissionItemMenu = ({ boxRef, className, groups, mission }) => {
     dispatch({ type: actions.CLOSE });
   };
 
+  const handleAddOrRemoveGroup = () => {
+    // add here
+    if (!mission.groupId) {
+      dispatch({ type: actions.OPEN_GROUP });
+    } else {
+      Mission.update(mission.id, {
+        groupDisplayName: "",
+        groupId: "",
+      });
+    }
+  };
+  const handleAddToGroupConfirm = ({ groupId, groupDisplayName }) => {
+    if (groupId) {
+      Mission.update(mission.id, {
+        groupDisplayName,
+        groupId,
+      });
+    } else {
+      Mission.update(mission.id, {
+        groupId: uuidV4(),
+        groupDisplayName,
+      });
+    }
+    dispatch({ type: actions.CLOSE });
+  };
+
   return (
     <>
       <Box
@@ -87,9 +114,9 @@ const MissionItemMenu = ({ boxRef, className, groups, mission }) => {
           <Button
             className={classes.menuButton}
             startIcon={<AddCircleOutlineIcon />}
-            onClick={() => dispatch({ type: actions.OPEN_GROUP })}
+            onClick={handleAddOrRemoveGroup}
           >
-            Add To Group
+            {mission.groupId ? "Remove from Group" : "Add To Group"}
           </Button>
           <Button
             className={classes.menuButton}
@@ -106,6 +133,7 @@ const MissionItemMenu = ({ boxRef, className, groups, mission }) => {
         boxRef={boxRef}
         groups={groups}
         mission={mission}
+        handleConfirmButton={handleAddToGroupConfirm}
       />
     </>
   );

@@ -8,7 +8,7 @@ import Select from "@material-ui/core/Select";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import PanToolIcon from "@material-ui/icons/PanTool";
 import clsx from "clsx";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import Mission from "../../model/Mission";
 import _ from "../../utils/lodash";
@@ -19,8 +19,8 @@ const useStyles = makeStyles((theme) => ({
   root: {
     textAlign: "left",
     backgroundColor: "white",
-    borderBottom: "1px solid lightgrey",
     padding: theme.spacing(1),
+    border: "2px solid transparent",
   },
   isSelected: {
     borderColor: theme.palette.primary.main,
@@ -191,6 +191,14 @@ const MissionListItem = ({
   }
 
   const isSelected = selectedMission === mission.id;
+  useEffect(() => {
+    if (isSelected && boxRef?.current) {
+      boxRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  }, [isSelected]);
 
   return (
     <Box
