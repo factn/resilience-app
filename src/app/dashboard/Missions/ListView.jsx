@@ -3,6 +3,7 @@ import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 import React, { useEffect, useState } from "react";
 import GroupWorkIcon from "@material-ui/icons/GroupWork";
+import PanToolIcon from "@material-ui/icons/PanTool";
 
 import MuiExpansionPanel from "@material-ui/core/ExpansionPanel";
 import MuiExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
@@ -120,13 +121,20 @@ const MissionsListView = ({
   function toList(group) {
     if (!group?.missions) return null;
     const color = _.randomColor(group.groupDisplayName);
+
     let totReady = 0;
     let containSelected = false;
+    let totTentative = 0;
+    let totAssigned = 0;
 
     group.missions.forEach((mission) => {
       if (mission.readyToStart) totReady += 1;
       if (mission.id === selectedMission) containSelected = true;
+      if (mission.tentativeVolunteerId) totTentative += 1;
+      if (mission.volunteerId) totAssigned += 1;
     });
+
+    let totUnassigned = group.missions?.length - totTentative - totAssigned;
     const isReady = totReady === group.missions?.length;
     return (
       <MuiExpansionPanel
@@ -148,6 +156,15 @@ const MissionsListView = ({
                 className={clsx(classes.readyToStart, { [classes.isReady]: isReady })}
               />
               {totReady}/{group.missions.length} missions ready
+            </Grid>
+            <Grid container item>
+              <PanToolIcon style={{ color: "lightgrey" }} />
+              {totUnassigned}
+
+              <PanToolIcon style={{ color: "#fbb03b" }} />
+              {totTentative}
+              <PanToolIcon color="primary" />
+              {totAssigned}
             </Grid>
           </Grid>
         </MuiExpansionPanelSummary>
