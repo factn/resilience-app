@@ -6,6 +6,7 @@ import PersonIcon from "@material-ui/icons/Person";
 import ScheduleIcon from "@material-ui/icons/Schedule";
 import PropTypes from "prop-types";
 import React from "react";
+import appleIcon from '../../img/apple.svg';
 
 import { Body1 } from "./Typography";
 
@@ -86,7 +87,7 @@ const MissionCard = withStyles(styles)(({ children, classes, mission, ...rest })
       <CardContent className={classes.cardContent}>
         <Grid container spacing="1" alignItems="flex-start" justify="flex-end" direction="row">
           <Grid item>
-            <img height="20" src={require("../../img/apple.svg")} alt="" />
+            <img height="20" src={appleIcon} alt="" />
           </Grid>
           <Grid item style={{ flex: 1 }}>
             {title}
