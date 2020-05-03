@@ -24,6 +24,11 @@ export class Resource {
   description: string = "";
 }
 
+export interface PaymentSettings {
+  clientId: string;
+  email: string;
+}
+
 // ===== Organization ====
 export class OrganizationInterface {
   /* Firebase Id, created automatically*/
@@ -37,6 +42,7 @@ export class OrganizationInterface {
   resources?: Map<string, Resource>;
   missions: Map<string, MissionInterface> = new Map();
   users: Map<string, UserInterface> = new Map();
+  paymentSettings
   */
 }
 
@@ -144,7 +150,7 @@ export interface MissionLogEvent {
 
 export interface Box {
   name: string;
-  details: string;
+  quantity: number;
 }
 
 export interface FoodBoxDetails {

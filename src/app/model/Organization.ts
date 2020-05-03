@@ -1,5 +1,5 @@
 import BaseModel from "./BaseModel";
-import { OrganizationInterface } from "./schema";
+import { OrganizationInterface, PaymentSettings } from "./schema";
 import { Resource } from "./schema";
 
 const defaultData: OrganizationInterface = {
@@ -53,6 +53,21 @@ class Organization extends BaseModel {
     } catch (error) {
       console.error("Error retrieving food boxes", error);
       return [];
+    }
+  }
+
+  async getPaymentSettings(): Promise<PaymentSettings> {
+    try {
+      const settings = await this.getCollection("organizations")
+        .doc(this.id)
+        .collection("paymentSettings")
+        .doc("paypal")
+        .get();
+
+      return settings.exists ? (settings.data() as PaymentSettings) : { clientId: "sb", email: "" };
+    } catch (error) {
+      console.error("Error retrieving paymentSettings", error);
+      return { clientId: "sb", email: "" };
     }
   }
 }

@@ -236,11 +236,19 @@ if __name__ == "__main__":
         genId(): {
             "name": "Fruits & Veggies Medley",
             "cost": 30,
+            "provider": 'Happy Farms',
             "fundedByRecipient": 8,
             "fundedByDonation": 2,
             "notFunded": 3,
             "maxNumberRequestable": 50,
             "acceptOrder": True
+        }
+    }
+
+    org['paymentSettings'] = {
+        'paypal': {
+            'clientId': 'sb',
+            'email': 'testpaypalemail@testpaypalemail.com'
         }
     }
 

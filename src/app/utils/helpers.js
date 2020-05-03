@@ -28,6 +28,6 @@ export const convertFullName = (fullName) => {
  */
 export const normalizeLocation = (location) => {
   if (!location) return location;
-  const { address, countryCode, county, lat, lng } = location;
-  return { address, lat, lng, label: `${countryCode.toUpperCase()} - ${county}` };
+  const { address, countryCode, county, lat, long } = location;
+  return { address, lat, lng: long, label: `${countryCode.toUpperCase()} - ${county}` };
 };

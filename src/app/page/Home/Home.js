@@ -393,7 +393,7 @@ const HomePage = ({ auth, history }) => {
             title="Need help?"
             message="Sign up to request a food box, small errand, or a pharmacy pickup. You'll be matched with a volunteer who will take care of you ASAP."
             actionLabel="I Need Help"
-            actionPress={() => null}
+            actionPress={() => history.push("/request")}
             backgroundImage={`url(${HeaderImage1})`}
             backgroundPosition={`10% 55%`}
           />

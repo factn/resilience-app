@@ -1,5 +1,5 @@
+import { v4 as uuidV4 } from "uuid";
 import BaseModel from "./BaseModel";
-import Organization from "./Organization";
 import {
   Location,
   MissionFundedStatus,
@@ -11,6 +11,7 @@ import {
   TimeWindowType,
 } from "./schema";
 import _ from "lodash";
+import Organization from "./Organization";
 
 const defaultLocation: Location = {
   address: "",
@@ -34,7 +35,7 @@ const defaultMissionData: MissionInterface = {
   id: "",
   type: MissionType.errand,
   status: MissionStatus.unassigned,
-  createdDate: new Date().toUTCString(),
+  createdDate: "",
   missionDetails: {},
   fundedStatus: MissionFundedStatus.notfunded,
   fundedDate: null,
@@ -226,6 +227,7 @@ class Mission extends BaseModel {
 
     return missions;
   };
+
   /**
    * Update a mision
    * @param {string} missionId - mission
@@ -248,24 +250,11 @@ class Mission extends BaseModel {
    * @param {object} mission
    * @return {string}
    */
-  async create(mission: MissionInterface): Promise<string> {
-    const collection = this.getCollection("organizations")
+  create(mission: MissionInterface) {
+    return this.getCollection("organizations")
       .doc(Organization.id)
-      .collection("missions");
-
-    //Add mission id to mission object and sanitize is
-    const sanitizedMission = this.load({
-      ...mission,
-    });
-
-    //save mission in firestore
-    try {
-      let ref = await collection.add(sanitizedMission);
-      return ref.id;
-    } catch (error) {
-      //TODO show error message to user
-      throw error;
-    }
+      .collection("missions")
+      .add(this.load({ ...mission, createdDate: Date.now().toString() }));
   }
 
   /**

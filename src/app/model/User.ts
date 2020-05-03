@@ -1,6 +1,7 @@
 import BaseModel from "./BaseModel";
 import { Location, MissionStatus, UserInterface, VolunteerStatus } from "./schema";
 import Organization from "./Organization";
+import Mission from "./Mission";
 
 const defaultLocation: Location = {
   address: "",
@@ -58,6 +59,7 @@ class User extends BaseModel {
   }
 
   /**
+
    * Given a displayName returns the first user object
    * @param {string} displayName : displayName of user
    * @return {object}
