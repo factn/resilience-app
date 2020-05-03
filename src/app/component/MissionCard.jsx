@@ -1,4 +1,4 @@
-import { Card, CardActions, CardContent, CardHeader, Grid } from "@material-ui/core";
+import { Card, CardActions, CardContent, Grid } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import InfoIcon from "@material-ui/icons/Info";
