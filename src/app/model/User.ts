@@ -29,11 +29,11 @@ const defaultUserData: UserInterface = {
   organizerDetails: {},
 };
 
-const fsVolunteer = (orgId: string) => ({
+const fsVolunteer = (orgUid: string) => ({
   collection: "users",
   where: [
     ["isVolunteer", "==", true],
-    ["organizationUid", "==", orgId],
+    ["organizationUid", "==", orgUid],
   ],
   storeAs: "volunteers",
 });
