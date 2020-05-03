@@ -1,6 +1,7 @@
 import CircularProgress from "@material-ui/core/CircularProgress";
 import React, { useState } from "react";
 import { getFirebase, withFirestore } from "react-redux-firebase";
+import "firebase/storage";
 import { withRouter } from "react-router-dom";
 
 import { ErrorSnackbar, SuccessSnackbar } from "../../component/Snackbars";
