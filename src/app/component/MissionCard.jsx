@@ -6,7 +6,7 @@ import PersonIcon from "@material-ui/icons/Person";
 import ScheduleIcon from "@material-ui/icons/Schedule";
 import PropTypes from "prop-types";
 import React from "react";
-import appleIcon from '../../img/apple.svg';
+import appleIcon from "../../img/apple.svg";
 
 import { Body1 } from "./Typography";
 
@@ -110,9 +110,9 @@ MissionCard.defaultProps = {
     title: "No title supplied",
     status: "",
     pickUpLocation: {
-      address: "No Data"
-    }
-  }
+      address: "No Data",
+    },
+  },
 };
 
 MissionCard.propTyes = {
