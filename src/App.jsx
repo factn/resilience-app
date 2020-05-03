@@ -5,6 +5,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { isEmpty, isLoaded } from "react-redux-firebase";
 import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-dom";
+import "firebase/storage";
 
 import ThemeProvider from "./app/component/ThemeProvider";
 import { Dashboard } from "./app/page";
