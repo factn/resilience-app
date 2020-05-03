@@ -2,6 +2,7 @@ import AddressInput from "./AddressInput";
 import Button from "./Button";
 import Chip from "./Chip";
 import MissionCard from "./MissionCard";
+import MissionGroup from "./MissionGroup";
 import MissionList from "./MissionList";
 import DownloadMissionsCsv from "./DownloadCsv";
 import Popup from "./Popup";
@@ -15,6 +16,7 @@ export {
   Button,
   Chip,
   MissionCard,
+  MissionGroup,
   MissionList,
   DownloadMissionsCsv,
   PrivateComponent,
