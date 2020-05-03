@@ -8,6 +8,7 @@ import {
   TimeWindow,
   TimeWindowType,
 } from "./schema";
+import _ from "lodash";
 
 const defaultLocation: Location = {
   address: "",
@@ -21,14 +22,25 @@ const defaultTimeWindow: TimeWindow = {
   timeWindowType: TimeWindowType.whenever,
 };
 
+type Group = {
+  groupId: string;
+  groupDisplayName: string;
+  missions: MissionInterface[];
+};
+
 const defaultMissionData: MissionInterface = {
   id: "",
   type: MissionType.errand,
   status: MissionStatus.unassigned,
+  createdDate: new Date().toUTCString(),
   missionDetails: {},
   fundedStatus: MissionFundedStatus.notfunded,
+  fundedDate: null,
   readyToStart: false,
-  organisationId: "",
+  organizationId: "",
+
+  groupId: "",
+  groupDisplayName: "",
 
   tentativeVolunteerDisplayName: "",
   tentativeVolunteerId: "",
@@ -100,6 +112,53 @@ const fsInDone = (orgId: string) => ({
   ],
   storeAs: "missionsInDone",
 });
+const fsIncomplete = (orgId: string) => ({
+  collection: "organizations",
+  doc: orgId,
+  subcollections: [
+    {
+      collection: "missions",
+      where: [
+        [
+          "status",
+          "in",
+          [
+            MissionStatus.tentative,
+            MissionStatus.assigned,
+            MissionStatus.started,
+            MissionStatus.delivered,
+          ],
+        ],
+      ],
+    },
+  ],
+  storeAs: "incompleteMissions",
+});
+
+const getAllGroups = (missions: MissionInterface[]) => {
+  let groups: Group[] = [];
+  let singleMissions: MissionInterface[] = [];
+  missions.forEach((mission: MissionInterface) => {
+    if (mission.groupId) {
+      const index = _.findIndex(groups, ["groupId", mission.groupId]);
+      if (index > -1) {
+        groups[index].missions.push(mission);
+      } else {
+        groups.push({
+          groupId: mission.groupId,
+          groupDisplayName: mission.groupDisplayName,
+          missions: [mission],
+        });
+      }
+    } else {
+      singleMissions.push(mission);
+    }
+  });
+  return {
+    groups,
+    singleMissions,
+  };
+};
 
 class Mission extends BaseModel {
   collectionName = "missions";
@@ -115,6 +174,10 @@ class Mission extends BaseModel {
   fsInProgress = fsInProgress;
   selectInDone = (state: any) => state.firestore.ordered.missionsInDone || [];
   fsInDone = fsInDone;
+  selectIncomplete = (state: any) => state.firestore.ordered.incompleteMissions || [];
+  fsIncomplete = fsIncomplete;
+
+  getAllGroups = getAllGroups;
 
   getById = async (missionId: string) => {
     const collection = this.getCollection("organizations").doc("1").collection("missions");

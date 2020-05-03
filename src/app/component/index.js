@@ -3,6 +3,7 @@ import Button from "./Button";
 import Chip from "./Chip";
 import MissionCard from "./MissionCard";
 import MissionList from "./MissionList";
+import DownloadMissionsCsv from "./DownloadCsv";
 import Popup from "./Popup";
 import PrivateComponent from "./PrivateComponent";
 import ProtectedRoute from "./PrivateComponent";
@@ -15,6 +16,7 @@ export {
   Chip,
   MissionCard,
   MissionList,
+  DownloadMissionsCsv,
   PrivateComponent,
   ProtectedRoute,
   Popup,
