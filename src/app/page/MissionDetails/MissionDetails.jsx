@@ -53,7 +53,7 @@ const MissionDetailsPage = ({ history, match }) => {
     if (!currentUser.phoneNumber) {
       setUserUnverifiedPopupOpen(true);
     } else {
-      User.acceptMission(currentUser.uid, missionId);
+      Mission.accept(currentUser, missionId);
     }
   }
 
@@ -61,7 +61,7 @@ const MissionDetailsPage = ({ history, match }) => {
     if (!currentUser.phoneNumber) {
       setUserUnverifiedPopupOpen(true);
     } else {
-      User.startMission(currentUser.ui, missionId);
+      User.startMission(currentUser.uid, missionId);
     }
   }
 

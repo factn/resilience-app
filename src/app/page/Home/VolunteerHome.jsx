@@ -64,7 +64,7 @@ export default function VolunteerHome({ currentUser }) {
     if (!currentUser.phoneNumber) {
       setPopUpOpen(true);
     } else {
-      User.acceptMission(currentUser.uid, missionId);
+      Mission.accept(currentUser, missionId);
 
       // Move from Available to Accepted
       const mission = availableMissions.filter((m) => m.id === missionId);

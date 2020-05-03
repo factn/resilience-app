@@ -34,7 +34,7 @@ function SignupScene(props) {
       isVolunteer: true,
       location: values.location && normalizeLocation(values.location),
       organizerDetails: {},
-      phone: values.phone || "",
+      phoneNumber: values.phoneNumber || "",
       photoUrl: "",
       volunteerDetails: {
         availability: values.availability || "",

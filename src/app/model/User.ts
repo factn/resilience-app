@@ -73,34 +73,6 @@ class User extends BaseModel {
   }
 
   /**
-   * Given a mission object creates a new mission in firestore
-   * returns the new mission id
-   * @param {object} mission
-   * @return {string}
-   */
-  async createMission(mission: MissionInterface): Promise<string> {
-    const missionId = uuidV4(); //generate mission id
-    const collection = this.getCollection("organizations").doc("1").collection("missions");
-
-    //Add mission id to mission object and sanitize is
-    const sanitizedMission = this.load({
-      id: missionId,
-      ...mission,
-    });
-    mission.id = missionId;
-
-    //save mission in firestore
-    try {
-      await collection.doc(missionId).set(sanitizedMission);
-    } catch (error) {
-      //TODO show error message to user
-      throw error;
-    }
-
-    return missionId;
-  }
-
-  /**
    * Given a displayName returns the first user object
    * @param {string} displayName : displayName of user
    * @return {object}
@@ -121,7 +93,6 @@ class User extends BaseModel {
 
     return doc.docs[0].id;
   }
-
   /**
    * User assigned as tentative for a mission
    * @param {string} userId : user
@@ -149,31 +120,6 @@ class User extends BaseModel {
   }
 
   /**
-   * User accepts a mission
-   * @param {string} userId : user
-   * @param {string} missionId : mission that user want to volunteer for
-   */
-  async acceptMission(userId: string, missionId: string) {
-    let data = await Mission.getById(missionId);
-
-    if (data.volunteerId) {
-      throw Error(`User: ${userId} are not allowed to volunteer for this mission: ${missionId}`);
-    }
-
-    try {
-      const collection = this.getCollection("organizations").doc("1").collection("missions");
-      collection.doc(missionId).update({
-        tentativeVolunteerId: "",
-        volunteerId: userId,
-        status: MissionStatus.assigned,
-      });
-    } catch (e) {
-      //TODO show error message to user
-      throw e;
-    }
-  }
-
-  /**
    * Volunteer is removed from a mission
    * @param {string} missionId : mission that user want to volunteer for
    */
@@ -190,7 +136,9 @@ class User extends BaseModel {
     try {
       collection.doc(missionId).update({
         volunteerId: "",
-        status: MissionStatus.unassigned,
+        volunteerDisplayName: "",
+        volunteerPhoneNumber: "",
+        status: MissionStatus.tentative,
       });
     } catch (e) {
       //TODO show error message to user

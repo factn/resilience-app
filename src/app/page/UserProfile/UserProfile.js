@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { useFirebase, useFirestore } from "react-redux-firebase";
 import { withRouter } from "react-router-dom";
 
+import User from "../../model/User";
 import { Button } from "../../component";
 import { ErrorSnackbar, SuccessSnackbar } from "../../component/Snackbars";
 import { Card, Page } from "../../layout";
@@ -98,10 +99,11 @@ const UserProfile = ({ history }) => {
   useEffect(() => {
     if (firebaseAuth.isLoaded && firebaseProfile.isLoaded && firebaseProfile.isEmpty) {
       const newProfile = {
-        displayName: _.get(firebaseAuth, "displayName", ""),
-        photoURL: _.get(firebaseAuth, "photoURL", ""),
+        displayName: firebaseAuth?.displayName,
+        photoURL: firebaseAuth?.photoURL,
+        phoneNumber: firebaseAuth?.phoneNumber,
       };
-      firebase.updateProfile(newProfile);
+      firebase.updateProfile(User.load(newProfile));
     }
     // eslint-disable-next-line
   }, [firebaseAuth, firebaseProfile]);

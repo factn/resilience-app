@@ -1,8 +1,10 @@
 import BaseModel from "./BaseModel";
+import Organization from "./Organization";
 import {
   Location,
   MissionFundedStatus,
   MissionInterface,
+  UserInterface,
   MissionStatus,
   MissionType,
   TimeWindow,
@@ -180,7 +182,9 @@ class Mission extends BaseModel {
   getAllGroups = getAllGroups;
 
   getById = async (missionId: string) => {
-    const collection = this.getCollection("organizations").doc("1").collection("missions");
+    const collection = this.getCollection("organizations")
+      .doc(Organization.id)
+      .collection("missions");
     let doc;
     try {
       doc = await collection.doc(missionId).get();
@@ -207,7 +211,9 @@ class Mission extends BaseModel {
    * A mission is available if it has a status of "tentative"
    */
   getAllAvailable = async () => {
-    const collection = this.getCollection("organizations").doc("1").collection("missions");
+    const collection = this.getCollection("organizations")
+      .doc(Organization.id)
+      .collection("missions");
 
     const missionsAvailableForEveryone = await collection
       .where("status", "==", MissionStatus.tentative)
@@ -228,12 +234,65 @@ class Mission extends BaseModel {
   update(missionId: string, data: object) {
     let sanitized = this.sanitize(data);
     return this.getCollection("organizations")
-      .doc("1")
+      .doc(Organization.id)
       .collection("missions")
       .doc(missionId)
       .update({
         ...sanitized,
       });
+  }
+
+  /**
+   * create a new mission
+   * returns the new mission id
+   * @param {object} mission
+   * @return {string}
+   */
+  async create(mission: MissionInterface): Promise<string> {
+    const collection = this.getCollection("organizations")
+      .doc(Organization.id)
+      .collection("missions");
+
+    //Add mission id to mission object and sanitize is
+    const sanitizedMission = this.load({
+      ...mission,
+    });
+
+    //save mission in firestore
+    try {
+      let ref = await collection.add(sanitizedMission);
+      return ref.id;
+    } catch (error) {
+      //TODO show error message to user
+      throw error;
+    }
+  }
+
+  /**
+   * accepts a mission
+   * @param {string} userId : user
+   * @param {string} missionId : mission that user want to volunteer for
+   */
+  async accept(user: UserInterface, missionId: string) {
+    //TODO: rules for missions not accepting new volunteer if it already have one
+    try {
+      this.getCollection("organizations")
+        .doc(Organization.id)
+        .collection("missions")
+        .doc(missionId)
+        .update({
+          tentativeVolunteerId: "",
+          tentativeVolunteerDisplayName: "",
+          tentativeVolunteerPhoneNumber: "",
+          volunteerId: user.id,
+          volunteerDisplayName: user.displayName,
+          volunteerPhoneNumber: user.phoneNumber,
+          status: MissionStatus.assigned,
+        });
+    } catch (e) {
+      //TODO show error message to user
+      throw e;
+    }
   }
 
   filterByStatus = (missions: MissionInterface[], status: MissionStatus) =>
