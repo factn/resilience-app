@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
+import { Organization } from "../model";
 
-// We will eventually want to grab this from the organizer profile
-const CLIENT_ID = "sb";
-const PAYPAL_SCRIPT = `https://www.paypal.com/sdk/js?client-id=${CLIENT_ID}&components=buttons,funding-eligibility`;
+const getScript = (clientId) =>
+  `https://www.paypal.com/sdk/js?client-id=${clientId}&components=buttons,funding-eligibility`;
 
 /**
  * usePaypal
@@ -19,11 +19,19 @@ export default function usePaypal() {
       return;
     }
 
-    const scriptElement = document.createElement("script");
-    scriptElement.src = PAYPAL_SCRIPT;
-    document.body.appendChild(scriptElement);
+    async function load() {
+      const { clientId } = await Organization.getPaymentSettings();
 
-    scriptElement.onload = () => setLoaded(true);
+      const paypalScript = getScript(clientId);
+      const scriptElement = document.createElement("script");
+
+      scriptElement.src = paypalScript;
+      document.body.appendChild(scriptElement);
+
+      scriptElement.onload = () => setLoaded(true);
+    }
+
+    load();
   }, []);
 
   return loaded ? window.paypal : false;
