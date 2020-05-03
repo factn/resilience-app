@@ -1,6 +1,7 @@
 import { Card, CardActions, CardContent, CardHeader, Grid } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
+import InfoIcon from "@material-ui/icons/Info";
 import PersonIcon from "@material-ui/icons/Person";
 import ScheduleIcon from "@material-ui/icons/Schedule";
 import PropTypes from "prop-types";
@@ -20,6 +21,12 @@ const styles = (theme) => ({
   },
   cardContent: {
     paddingBottom: theme.spacing(1),
+  },
+  rowBody: {
+    width: "100%",
+    flexWrap: "nowrap",
+    alignItems: "center",
+    display: "flex",
   },
 });
 
@@ -53,7 +60,7 @@ const MissionCardContent = ({ classes, contentItems }) => (
  * @component
  */
 const MissionCard = withStyles(styles)(({ children, classes, mission, ...rest }) => {
-  const title = mission.title;
+  const title = mission.title ? mission.title : "No title supplied.";
   const status = mission.status;
   const location = mission.pickUpLocation?.address || "no data";
   const timeWindowType = mission.pickUpWindow?.timeWindowType || "no data";
@@ -76,11 +83,19 @@ const MissionCard = withStyles(styles)(({ children, classes, mission, ...rest })
 
   return (
     <Card className={classes.root} {...rest}>
-      <CardHeader
-        title={title}
-        titleTypographyProps={{ variant: "h2", component: "span" }}
-        className={classes.cardHeader}
-      />
+      <CardContent className={classes.cardContent}>
+        <Grid container spacing="1" alignItems="flex-start" justify="flex-end" direction="row">
+          <Grid item>
+            <img height="20" src={require('../../img/apple.svg')} alt="" />
+          </Grid>
+          <Grid item style={{flex: 1,}}>
+             {title}
+          </Grid>
+          <Grid item>
+            <InfoIcon />
+          </Grid>
+        </Grid>
+      </CardContent>
       <CardContent className={classes.cardContent}>
         <MissionCardContent contentItems={contentItems} classes={classes} />
       </CardContent>
