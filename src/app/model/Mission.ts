@@ -274,7 +274,7 @@ class Mission extends BaseModel {
    * @param {string} missionId : mission that user want to volunteer for
    */
   async accept(user: UserInterface, missionId: string) {
-    //TODO: rules for missions not accepting new volunteer if it already have one
+    //TODO: rules in db for missions not accepting new volunteer if it already have one
     try {
       this.getCollection("organizations")
         .doc(Organization.id)
@@ -291,6 +291,46 @@ class Mission extends BaseModel {
         });
     } catch (e) {
       //TODO show error message to user
+      throw e;
+    }
+  }
+  /**
+   * User start a mission
+   * @param {string} userId - user
+   * @param {string} missionId - mission that user want to start
+   */
+  async start(userId: string, missionId: string) {
+    const collection = this.getCollection("organizations")
+      .doc(Organization.id)
+      .collection("missions");
+    let doc;
+    try {
+      doc = await collection.doc(missionId).get();
+    } catch (e) {
+      //TODO show error message to user
+      console.log(e);
+      throw e;
+    }
+
+    if (!doc.exists) {
+      throw Error(`This mission:  ${missionId} does not exist`);
+    }
+
+    //TODO: this need to be a rule in the database
+    let data = doc.data();
+    if (data === undefined) {
+      throw Error(`no data for this mission: ${missionId}`);
+    }
+    if (data.volunteerId !== userId) {
+      throw Error(`User: ${userId} are not allowed to start this mission: ${missionId}`);
+    }
+    try {
+      collection.doc(missionId).update({
+        status: MissionStatus.started,
+      });
+    } catch (e) {
+      //TODO show error message to user
+      console.log(e);
       throw e;
     }
   }

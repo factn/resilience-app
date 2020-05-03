@@ -55,10 +55,9 @@ const ProfileControlButtons = ({ cancelAction, editAction, isEdit, saveAction })
  *
  * @component
  */
-const UserProfile = ({ history }) => {
+const UserProfile = () => {
   const classes = useStyles();
   const firebase = useFirebase();
-  const firestore = useFirestore(); /* eslint-disable-line */
 
   /*===SETUP Profile Control===*/
   const firebaseAuth = useSelector((state) => state.firebase.auth);
@@ -75,21 +74,22 @@ const UserProfile = ({ history }) => {
     setProfile(_.cloneDeep(firebaseProfile));
     setView("view");
   }
-  function saveProfileAction(e) {
+  async function saveProfileAction(e) {
     e.preventDefault();
+
+    let location = profile?.location;
     try {
-      !profile.address
-        ? firebase.updateProfile(profile)
-        : addressLookUp(profile.address).then((data) =>
-            firebase.updateProfile({
-              ...profile,
-              addressMapPoint: { latitude: data.lat, longitude: data.long },
-            })
-          );
-      setSuccessSnackbarOpen(true);
+      if (location.address) {
+        const data = await addressLookUp(location.address);
+        location = { ...location, lat: data.lat, lng: data.long };
+      }
     } catch (error) {
       console.log("ERROR WHEN GETTiNG LOCATION", error);
+      console.log("address: ", location.address);
     }
+    setSuccessSnackbarOpen(true);
+    User.update(firebaseAuth.uid, { ...profile, location });
+
     setView("view");
   }
   /*
@@ -98,12 +98,7 @@ const UserProfile = ({ history }) => {
   */
   useEffect(() => {
     if (firebaseAuth.isLoaded && firebaseProfile.isLoaded && firebaseProfile.isEmpty) {
-      const newProfile = {
-        displayName: firebaseAuth?.displayName,
-        photoURL: firebaseAuth?.photoURL,
-        phoneNumber: firebaseAuth?.phoneNumber,
-      };
-      firebase.updateProfile(User.load(newProfile));
+      User.update(firebaseAuth.uid, firebaseAuth);
     }
     // eslint-disable-next-line
   }, [firebaseAuth, firebaseProfile]);

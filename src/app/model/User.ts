@@ -2,13 +2,8 @@ import { v4 as uuidV4 } from "uuid";
 
 import BaseModel from "./BaseModel";
 import Mission from "./Mission";
-import {
-  Location,
-  MissionInterface,
-  MissionStatus,
-  UserInterface,
-  VolunteerStatus,
-} from "./schema";
+import { Location, MissionStatus, UserInterface, VolunteerStatus } from "./schema";
+import Organization from "./Organization";
 
 const defaultLocation: Location = {
   address: "",
@@ -23,7 +18,7 @@ const defaultUserData: UserInterface = {
   description: "",
   displayName: "",
   phoneNumber: "",
-  email: "email",
+  email: "",
   location: defaultLocation,
   organizationId: 0,
   isVolunteer: false,
@@ -68,8 +63,18 @@ class User extends BaseModel {
     }
   }
 
-  usersSearchByName(value: string, limit: number) {
-    return this.getCollection("users").where("displayName", ">=", value).limit(limit).get();
+  /**
+   * Update an user
+   * @param {string} userId - user
+   * @param {object} data- updated data
+   */
+  update(userId: string, data: object) {
+    let sanitized = this.sanitize(data);
+    return this.getCollection("users")
+      .doc(userId)
+      .update({
+        ...sanitized,
+      });
   }
 
   /**
@@ -106,7 +111,9 @@ class User extends BaseModel {
     }
 
     try {
-      const collection = this.getCollection("organizations").doc("1").collection("missions");
+      const collection = this.getCollection("organizations")
+        .doc(Organization.id)
+        .collection("missions");
       collection.doc(missionId).update({
         tentativeVolunteerId: user.id,
         tentativeVolunteerDisplayName: user.displayName,
@@ -125,7 +132,9 @@ class User extends BaseModel {
    */
 
   async unvolunteerMission(missionId: string) {
-    const collection = this.getCollection("organizations").doc("1").collection("missions");
+    const collection = this.getCollection("organizations")
+      .doc(Organization.id)
+      .collection("missions");
 
     let data = await Mission.getById(missionId);
 
@@ -147,50 +156,15 @@ class User extends BaseModel {
   }
 
   /**
-   * User start a mission
-   * @param {string} userId - user
-   * @param {string} missionId - mission that user want to start
-   */
-  async startMission(userId: string, missionId: string) {
-    const collection = this.getCollection("organizations").doc("1").collection("missions");
-    let doc;
-    try {
-      doc = await collection.doc(missionId).get();
-    } catch (e) {
-      //TODO show error message to user
-      throw e;
-    }
-
-    if (!doc.exists) {
-      throw Error(`This mission:  ${missionId} does not exist`);
-    }
-
-    //TODO: this need to be a rule in the database
-    let data = doc.data();
-    if (data === undefined) {
-      throw Error(`no data for this mission: ${missionId}`);
-    }
-    if (data.volunteerId !== userId) {
-      throw Error(`User: ${userId} are not allowed to start this mission: ${missionId}`);
-    }
-    try {
-      collection.doc(missionId).update({
-        status: MissionStatus.started,
-      });
-    } catch (e) {
-      //TODO show error message to user
-      throw e;
-    }
-  }
-
-  /**
    * User deliver a mission
    * //TOD add image
    * @param {string} userId - user
    * @param {string} missionId  - mission id that user delivered
    */
   async deliverMission(userId: string, missionId: string) {
-    const collection = this.getCollection("organizations").doc("1").collection("missions");
+    const collection = this.getCollection("organizations")
+      .doc(Organization.id)
+      .collection("missions");
     let doc;
     try {
       doc = await collection.doc(missionId).get();
@@ -225,7 +199,9 @@ class User extends BaseModel {
    * @param userId UserId of the volunteer
    */
   async getAllAssociatedMissions(userId: string) {
-    const collection = this.getCollection("organizations").doc("1").collection("missions");
+    const collection = this.getCollection("organizations")
+      .doc(Organization.id)
+      .collection("missions");
 
     const volunteeredMissions = await collection.where("volunteerId", "==", userId).get();
     const suggestedMissions = await collection.where("tentativeVolunteerId", "==", userId).get();
@@ -246,7 +222,9 @@ class User extends BaseModel {
    */
 
   async getAllCompletedMissions(userId: string) {
-    const collection = this.getCollection("organizations").doc("1").collection("missions");
+    const collection = this.getCollection("organizations")
+      .doc(Organization.id)
+      .collection("missions");
 
     const deliveredMissions = await collection
       .where("volunteerId", "==", userId)

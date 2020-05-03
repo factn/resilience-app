@@ -28,6 +28,8 @@ export default function VolunteerHome({ currentUser }) {
   const [startedMissions, updateStartedMissions] = useState([]);
   const [availableMissions, updateAvailableMissions] = useState([]);
 
+  console.log(currentUser);
+
   useEffect(() => {
     const fetchAllAssociatedMissions = async () => {
       const missions = await User.getAllAssociatedMissions(currentUser.uid);
@@ -47,30 +49,26 @@ export default function VolunteerHome({ currentUser }) {
     setValue(newValue);
   };
 
-  const handleStartMissionFromAssigned = (missionId) => {
-    if (!currentUser.phoneNumber) {
-      setPopUpOpen(true);
-    } else {
-      User.startMission(currentUser.uid, missionId);
+  const handleStartMission = (missionId) => {
+    if (!currentUser.phoneNumber) setPopUpOpen(true);
 
-      // Move from Assigned to Started
-      const mission = acceptedMissions.filter((m) => m.id === missionId);
-      updateAssignedMissions(acceptedMissions.filter((m) => m.id !== missionId));
-      updateStartedMissions(startedMissions.concat(mission));
-    }
+    Mission.start(currentUser, missionId);
+
+    // Move from Assigned to Started
+    const mission = acceptedMissions.filter((m) => m.id === missionId);
+    updateAssignedMissions(acceptedMissions.filter((m) => m.id !== missionId));
+    updateStartedMissions(startedMissions.concat(mission));
   };
 
-  const handleVolunteerMissionFromAvailable = (missionId) => {
-    if (!currentUser.phoneNumber) {
-      setPopUpOpen(true);
-    } else {
-      Mission.accept(currentUser, missionId);
+  const handleAcceptMission = (missionId) => {
+    if (!currentUser.phoneNumber) setPopUpOpen(true);
 
-      // Move from Available to Accepted
-      const mission = availableMissions.filter((m) => m.id === missionId);
-      updateAssignedMissions(acceptedMissions.concat(mission));
-      updateAvailableMissions(availableMissions.filter((m) => m.id !== missionId));
-    }
+    Mission.accept(currentUser, missionId);
+
+    // Move from Available to Accepted
+    const mission = availableMissions.filter((m) => m.id === missionId);
+    updateAssignedMissions(acceptedMissions.concat(mission));
+    updateAvailableMissions(availableMissions.filter((m) => m.id !== missionId));
   };
 
   const handleDeliveringMissionsFromStarted = (missionId) => {
@@ -109,7 +107,7 @@ export default function VolunteerHome({ currentUser }) {
           currentUser={currentUser}
           actionText="Accept Mission"
           isEmptyText={volunteerDashboardEmptyTabMessage.available}
-          action={(missionId) => handleVolunteerMissionFromAvailable(missionId)}
+          action={(missionId) => handleAcceptMission(missionId)}
         />
       </TabPanel>
       <TabPanel value={value} index={1}>
@@ -118,7 +116,7 @@ export default function VolunteerHome({ currentUser }) {
           currentUser={currentUser}
           actionText="Start Mission"
           isEmptyText={volunteerDashboardEmptyTabMessage.accepted}
-          action={(missionId) => handleStartMissionFromAssigned(missionId)}
+          action={(missionId) => handleStartMission(missionId)}
         />
       </TabPanel>
       <TabPanel value={value} index={2}>

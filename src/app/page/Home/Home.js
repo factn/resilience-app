@@ -425,6 +425,8 @@ HomePage.propTypes = {
 };
 
 const mapStateToProps = (state) => {
+  const auth = state.firebase.auth;
+  const profile = state.firebase.profile;
   return {
     auth: state.firebase.auth,
   };

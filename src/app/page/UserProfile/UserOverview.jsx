@@ -20,12 +20,17 @@ const useStyles = makeStyles((theme) => ({
 const UserStatus = ({ profile, setProfile, view }) => {
   const classes = useStyles();
 
-  const displayName = _.get(profile, "displayName", "");
-  const address = _.get(profile, "address", "");
+  const displayName = profile.displayName;
+  const address = profile?.location?.address;
 
   function updateProfile(e) {
     e.preventDefault();
-    profile[e.target.id] = e.target.value;
+    // this is inside profile.location.address
+    if (e.target.id === "address") {
+      profile.location.address = e.target.value;
+    } else {
+      profile[e.target.id] = e.target.value;
+    }
     setProfile(_.cloneDeep(profile));
   }
 
