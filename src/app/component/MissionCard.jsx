@@ -61,7 +61,7 @@ const MissionCardContent = ({ classes, contentItems }) => (
  * @component
  */
 const MissionCard = withStyles(styles)(({ children, classes, mission, ...rest }) => {
-  const title = mission.title ? mission.title : "No title supplied.";
+  const title = mission?.title || "No title supplied.";
   const status = mission.status;
   const location = mission.pickUpLocation?.address || "no data";
   const timeWindowType = mission.pickUpWindow?.timeWindowType || "no data";
@@ -104,6 +104,16 @@ const MissionCard = withStyles(styles)(({ children, classes, mission, ...rest })
     </Card>
   );
 });
+
+MissionCard.defaultProps = {
+  mission: {
+    title: "No title supplied",
+    status: "",
+    pickUpLocation: {
+      address: "No Data"
+    }
+  }
+};
 
 MissionCard.propTyes = {
   /**
