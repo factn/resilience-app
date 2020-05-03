@@ -5,7 +5,7 @@ import { withRouter } from "react-router-dom";
 
 import { ErrorSnackbar, SuccessSnackbar } from "../../component/Snackbars";
 import useForm from "../../hooks/useForm";
-import { User } from "../../model";
+import { Mission, User } from "../../model";
 import MissionForm from "./MissionForm";
 
 /**
@@ -73,7 +73,7 @@ function MakeMission({ history }) {
       };
 
       //save mission in firestore
-      User.createMission(mission)
+      Mission.create(mission)
         .then(() => {
           setLoading(false);
           setSuccessSnackbarOpen(true);

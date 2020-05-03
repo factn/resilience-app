@@ -1,4 +1,3 @@
-import { PurchaseUnit } from "../../../component/PaypalCheckout/PaypalTypes";
 import { Location, Resource } from "../../../model/schema";
 
 export type CartItem = {
@@ -7,7 +6,6 @@ export type CartItem = {
 };
 
 export type State = {
-  cart2: PurchaseUnit;
   cart: Record<string, CartItem>;
   instructions: string;
   location: Location | null;
@@ -18,11 +16,6 @@ export type State = {
 };
 
 export const initialState: State = {
-  cart2: {
-    amount: {
-      value: "0",
-    },
-  },
   cart: {},
   instructions: "",
   location: null,

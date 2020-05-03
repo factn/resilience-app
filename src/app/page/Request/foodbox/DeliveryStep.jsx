@@ -22,6 +22,7 @@ const RECAPTCHA_ID = "recaptcha_id";
 function DeliveryStep({ dispatch, state }) {
   const classes = useStyles();
   const auth = useSelector((state) => state.firebase.auth);
+  console.log("auth", auth);
   const firebase = useFirebase();
   const { handleChange, values } = useForm();
 
@@ -52,7 +53,7 @@ function DeliveryStep({ dispatch, state }) {
       if (!!values.cannotReceiveTexts) {
         await User.saveNewUser({
           displayName: `${values.firstName} ${values.lastName}`,
-          phone: values.phone,
+          phoneNumber: values.phone,
           cannotReceiveTexts: !!values.cannotReceiveTexts,
         });
       } else {
@@ -71,7 +72,7 @@ function DeliveryStep({ dispatch, state }) {
         await User.saveNewUser({
           id: response.user.uid,
           displayName: `${values.firstName} ${values.lastName}`,
-          phone: values.phone,
+          phoneNumber: values.phone,
           cannotReceiveTexts: !!values.cannotReceiveTexts,
         });
       }

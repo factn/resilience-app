@@ -244,6 +244,13 @@ if __name__ == "__main__":
         }
     }
 
+    org['paymentSettings'] = {
+        'paypal': {
+            'clientId': 'sb',
+            'email': 'testpaypalemail@testpaypalemail.com'
+        }
+    }
+
     data = {
         "organizations": {
             orgId: org
