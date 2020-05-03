@@ -27,7 +27,7 @@ const Tabs = {
  *
  */
 function SignupScene(props) {
-  const { handleChange, values, setValues } = useForm(User.defaultData);
+  const { handleChange, setValues, values } = useForm(User.defaultData);
   const [activeTab, setActiveTab] = useState(Tabs.GET_STARTED);
   const [errorSnackbarMessage, setErrorSnackbarMessage] = useState(false);
   const [loading, setLoading] = useState(false);

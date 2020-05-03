@@ -5,7 +5,7 @@ import React, { useRef, useEffect } from "react";
 const { ALGOLIA_API_KEY, ALGOLIA_APP_ID } = process.env;
 
 const AddressInput = (props) => {
-  const { error, onClear, placeholder, setLocation, location, disabled, value } = props;
+  const { disabled, error, location, onClear, placeholder, setLocation, value } = props;
   const placesRef = useRef();
   const setRef = (ref) => {
     placesRef.current = ref;

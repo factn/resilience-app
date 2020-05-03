@@ -14,7 +14,7 @@ import { StyledHeader, useStyles } from "./ConnectSocialMedia.style";
  * Connect Social Media page for use with Signup
  *
  */
-const ConnectSocialMedia = ({ onSkip, onConnectSuccess }) => {
+const ConnectSocialMedia = ({ onConnectSuccess, onSkip }) => {
   const classes = useStyles();
 
   const firebaseUiConfig = {
