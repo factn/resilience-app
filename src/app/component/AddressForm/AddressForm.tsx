@@ -183,8 +183,8 @@ class AddressForm extends PureComponent<AddressFormProps, AddressFormState> {
 
     protected async handleBadRequestResponse(serverResponse: Response) {
         const {
-            message,
-            erroredAddressIndices
+            erroredAddressIndices,
+            message
         } = await serverResponse.json() as ShortestRouteErrorResponse;
 
         const addressesUnresolvedError = new AddressesUnresolvedError(message, erroredAddressIndices);
@@ -237,8 +237,8 @@ class AddressForm extends PureComponent<AddressFormProps, AddressFormState> {
     protected createAddressField(addressFormConfig: AddressFieldConfig) {
         const {
             id,
-            label,
             address,
+            label,
             index,
             error,
             deleteable
