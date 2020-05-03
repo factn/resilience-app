@@ -159,13 +159,12 @@ export interface FoodBoxDetails {
 export interface MissionInterface {
   id: string;
   type: MissionType;
-  createdDate: string; // TODO should be a date?
+  createdDate: string;
   missionDetails: FoodBoxDetails | {};
 
   status: MissionStatus;
   fundedStatus: MissionFundedStatus;
-  fundedDate: string | null; // TODO should be a date?
-  // TODO make sure this gets set when things get funded
+  fundedDate: string | null;
   readyToStart: boolean;
   organizationId: string;
 
