@@ -15,6 +15,7 @@ export class Resource {
   id!: string;
   name!: string;
   cost!: number;
+  provider: string = "";
   fundedByRecipient: number = 0;
   fundedByDonation: number = 0;
   notFunded: number = 3;
@@ -128,7 +129,7 @@ export enum TimeWindowType {
   whenever = "whenever possible",
 }
 
-// delivery windows for the organisation
+// delivery windows for the organization
 // for MVP.0 we have a fixed function ie hardcode a list of available delivery windows
 
 export interface TimeWindow {
@@ -158,13 +159,18 @@ export interface FoodBoxDetails {
 export interface MissionInterface {
   id: string;
   type: MissionType;
-
+  createdDate: string; // TODO should be a date?
   missionDetails: FoodBoxDetails | {};
 
   status: MissionStatus;
   fundedStatus: MissionFundedStatus;
+  fundedDate: string | null; // TODO should be a date?
+  // TODO make sure this gets set when things get funded
   readyToStart: boolean;
-  organisationId: string;
+  organizationId: string;
+
+  groupId: string;
+  groupDisplayName: string;
 
   tentativeVolunteerId: string;
   tentativeVolunteerDisplayName: string;

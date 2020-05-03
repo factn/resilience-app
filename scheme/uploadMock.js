@@ -1,11 +1,9 @@
+if (process.env.NODE_ENV === "development") {
+  require("dotenv").config();
+}
 const admin = require("firebase-admin");
-//node_modules/firebase-admin");
-let serviceAccount = process.env.FIREBASE_SECRET;
 const data = require("./data.json");
-/** For local push
- */
-const fs = require("fs");
-serviceAccount = fs.readFileSync("secret.json");
+let serviceAccount = process.env.FIREBASE_SECRET;
 
 const credential = JSON.parse(serviceAccount);
 
@@ -87,4 +85,48 @@ async function resolve(data, path = []) {
   }
 }
 
+function deleteQueryBatch(db, query, resolve, reject) {
+  query
+    .get()
+    .then((snapshot) => {
+      // When there are no documents left, we are done
+      if (snapshot.size === 0) {
+        return 0;
+      }
+
+      // Delete documents in a batch
+      let batch = db.batch();
+      snapshot.docs.forEach((doc) => {
+        batch.delete(doc.ref);
+      });
+
+      return batch.commit().then(() => {
+        return snapshot.size;
+      });
+    })
+    .then((numDeleted) => {
+      if (numDeleted === 0) {
+        resolve();
+        return;
+      }
+
+      // Recurse on the next process tick, to avoid
+      // exploding the stack.
+      process.nextTick(() => {
+        deleteQueryBatch(db, query, resolve, reject);
+      });
+    })
+    .catch(reject);
+}
+function deleteCollection(collectionPath) {
+  let collectionRef = admin.firestore().collection(collectionPath);
+  let query = collectionRef.orderBy("__name__").limit(200);
+
+  return new Promise((resolve, reject) => {
+    deleteQueryBatch(admin.firestore(), query, resolve, reject);
+  });
+}
+
+deleteCollection("users");
+deleteCollection("organizations");
 resolve(data);

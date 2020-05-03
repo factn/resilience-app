@@ -10,6 +10,7 @@ export const color = {
   pink: "#ffefef",
   blue: "#3739B5",
   red: "#DA0B46",
+  green: "#024b30",
   darkOrange: "#EC7016",
   darkBlue: "#110079",
 };
@@ -62,7 +63,6 @@ export default {
       fontWeight: "semi-bold",
       fontSize: "20px",
       lineHeight: "30px",
-      color: color.blue,
     },
     h4: {
       fontFamily: "Open Sans, sans-serif",

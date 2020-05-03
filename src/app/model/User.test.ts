@@ -4,7 +4,42 @@ import Mission from "./Mission";
 import { MissionStatus } from "./schema";
 import users from "./User";
 
-function mockBaseRepo({
+function mockAcceptMissionRepo({ getByIdReturn, throwCollectionDocError, throwUpdateError }) {
+  const mockUpdate = throwUpdateError
+    ? jest.fn().mockImplementation(() => {
+        throw Error("Error");
+      })
+    : jest.fn();
+
+  const mockGetById = jest.spyOn(Mission, "getById").mockResolvedValue(getByIdReturn);
+
+  const collection = {
+    doc: jest.fn().mockReturnValue({
+      collection: jest.fn().mockReturnValue({
+        doc: jest.fn().mockReturnValue({
+          update: mockUpdate,
+        }),
+      }),
+    }),
+  };
+
+  jest.spyOn(ReduxFirebase, "getFirebase").mockReturnValue({
+    firestore: jest.fn(() => ({ collection: jest.fn(() => collection) })),
+  });
+
+  return {
+    mockGetById,
+    mockUpdate,
+  };
+}
+
+describe("User", () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  /*  
+  function mockBaseRepo({
   existsReturn,
   mockDataReturn,
   throwCollectionDocError,
@@ -62,43 +97,8 @@ function mockBaseRepo({
     mockWhereFn,
   };
 }
-
-function mockAcceptMissionRepo({ getByIdReturn, throwCollectionDocError, throwUpdateError }) {
-  const mockData = jest.fn().mockImplementation(() => getByIdReturn);
-  const mockUpdate = throwUpdateError
-    ? jest.fn().mockImplementation(() => {
-        throw Error("Error");
-      })
-    : jest.fn();
-
-  const mockGetById = jest.spyOn(Mission, "getById").mockResolvedValue(getByIdReturn);
-
-  const collection = {
-    doc: jest.fn().mockReturnValue({
-      collection: jest.fn().mockReturnValue({
-        doc: jest.fn().mockReturnValue({
-          update: mockUpdate,
-        }),
-      }),
-    }),
-  };
-
-  jest.spyOn(ReduxFirebase, "getFirebase").mockReturnValue({
-    firestore: jest.fn(() => ({ collection: jest.fn(() => collection) })),
-  });
-
-  return {
-    mockGetById,
-    mockUpdate,
-  };
-}
-
-describe("User", () => {
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
-
-  /*  describe("#getIdByDisplayName", () => {
+  
+  describe("#getIdByDisplayName", () => {
     const displayName = "username";
     const volunteerId = "aabbbccc";
     let user = {
