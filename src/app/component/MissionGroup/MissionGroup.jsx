@@ -20,7 +20,9 @@ const MissionGroup = ({ action, actionText, group, isEmptyText }) => {
   const missions = group.missions;
   const numberOfMissions = missions.length;
   const onClickAcceptMissionGroup = (groupUid) => {
-    console.log("Accepted group", groupUid);
+    missions.forEach((mission) => {
+      action(mission.uid);
+    });
   };
 
   return (
