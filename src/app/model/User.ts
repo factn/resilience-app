@@ -1,7 +1,4 @@
-import { v4 as uuidV4 } from "uuid";
-
 import BaseModel from "./BaseModel";
-import Mission from "./Mission";
 import { Location, MissionStatus, UserInterface, VolunteerStatus } from "./schema";
 import Organization from "./Organization";
 
@@ -46,23 +43,6 @@ class User extends BaseModel {
 
   fsVolunteer = fsVolunteer;
 
-  async saveNewUser(data: UserInterface) {
-    const collection = this.getCollection("users");
-
-    // For users who don't have SMS capability
-    if (!data.id) {
-      data.id = uuidV4();
-    }
-
-    try {
-      await collection.doc(data.id).set({
-        ...data,
-      });
-    } catch (error) {
-      throw error;
-    }
-  }
-
   /**
    * Update an user
    * @param {string} userId - user
@@ -97,101 +77,6 @@ class User extends BaseModel {
     }
 
     return doc.docs[0].id;
-  }
-  /**
-   * User assigned as tentative for a mission
-   * @param {string} userId : user
-   * @param {string} missionId : mission that user want to volunteer for
-   */
-  async assignedMission(user: UserInterface, missionId: string) {
-    let data = await Mission.getById(missionId);
-
-    if (data.volunteerId) {
-      throw Error(`User: ${user.id} are not allowed to volunteer for this mission: ${missionId}`);
-    }
-
-    try {
-      const collection = this.getCollection("organizations")
-        .doc(Organization.id)
-        .collection("missions");
-      collection.doc(missionId).update({
-        tentativeVolunteerId: user.id,
-        tentativeVolunteerDisplayName: user.displayName,
-        tentativeVolunteerPhoneNumber: user.phoneNumber,
-        status: MissionStatus.tentative,
-      });
-    } catch (e) {
-      //TODO show error message to user
-      throw e;
-    }
-  }
-
-  /**
-   * Volunteer is removed from a mission
-   * @param {string} missionId : mission that user want to volunteer for
-   */
-
-  async unvolunteerMission(missionId: string) {
-    const collection = this.getCollection("organizations")
-      .doc(Organization.id)
-      .collection("missions");
-
-    let data = await Mission.getById(missionId);
-
-    if (!data.volunteerId) {
-      throw Error(`There is currently no volunteer this mission: ${missionId}`);
-    }
-
-    try {
-      collection.doc(missionId).update({
-        volunteerId: "",
-        volunteerDisplayName: "",
-        volunteerPhoneNumber: "",
-        status: MissionStatus.tentative,
-      });
-    } catch (e) {
-      //TODO show error message to user
-      throw e;
-    }
-  }
-
-  /**
-   * User deliver a mission
-   * //TOD add image
-   * @param {string} userId - user
-   * @param {string} missionId  - mission id that user delivered
-   */
-  async deliverMission(userId: string, missionId: string) {
-    const collection = this.getCollection("organizations")
-      .doc(Organization.id)
-      .collection("missions");
-    let doc;
-    try {
-      doc = await collection.doc(missionId).get();
-    } catch (e) {
-      //TODO show error message to user
-      throw e;
-    }
-
-    if (!doc.exists) {
-      throw Error(`This mission:  ${missionId} does not exist`);
-    }
-    //TODO: this need to be a rule in the database
-    let data = doc.data();
-    if (data === undefined) {
-      throw Error(`no data for this mission: ${missionId}`);
-    }
-    if (data.volunteerId !== userId) {
-      throw Error(`User: ${userId} are not allowed to deliver this mission: ${missionId}`);
-    }
-    try {
-      collection.doc(missionId).update({
-        status: MissionStatus.delivered,
-      });
-    } catch (e) {
-      //TODO show error msg to user
-      throw e;
-    }
   }
 
   /**

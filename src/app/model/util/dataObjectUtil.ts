@@ -23,15 +23,15 @@ function rMerge(data: any, defaultData: any) {
 }
 
 export function sanitize<T>(data: unknown, defaultScheme: T): T {
-  return rSanitize(data, defaultScheme) as T;
+  return rSanitize(data, defaultScheme, "interface") as T;
 }
 
-function rSanitize(data: any, defaultData: any) {
+function rSanitize(data: any, defaultData: any, key: any) {
   if (data === undefined || data === null) return data;
 
   if (typeof data !== typeof defaultData) {
     throw new Error(
-      `Type ${typeof data} does not match expected type of ${typeof defaultData} for value ${data}`
+      `Type ${typeof data} does not match expected type of ${typeof defaultData} for value ${data} for key ${key}`
     );
   }
 
@@ -40,7 +40,7 @@ function rSanitize(data: any, defaultData: any) {
   const sanitizedObject: any = {};
 
   Object.keys(defaultData).forEach((key) => {
-    const val = rSanitize(data[key], defaultData[key]);
+    const val = rSanitize(data[key], defaultData[key], key);
 
     if (val !== undefined) sanitizedObject[key] = val;
   });

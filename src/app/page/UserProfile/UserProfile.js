@@ -4,7 +4,7 @@ import _ from "lodash";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useFirebase, useFirestore } from "react-redux-firebase";
+import { useFirebase } from "react-redux-firebase";
 import { withRouter } from "react-router-dom";
 
 import User from "../../model/User";
@@ -77,18 +77,8 @@ const UserProfile = () => {
   async function saveProfileAction(e) {
     e.preventDefault();
 
-    let location = profile?.location;
-    try {
-      if (location.address) {
-        const data = await addressLookUp(location.address);
-        location = { ...location, lat: data.lat, lng: data.long };
-      }
-    } catch (error) {
-      console.log("ERROR WHEN GETTiNG LOCATION", error);
-      console.log("address: ", location.address);
-    }
     setSuccessSnackbarOpen(true);
-    User.update(firebaseAuth.uid, { ...profile, location });
+    User.update(firebaseAuth.uid, profile);
 
     setView("view");
   }

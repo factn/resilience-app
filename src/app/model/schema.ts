@@ -55,15 +55,10 @@ export enum VolunteerStatus {
 
 export class UserInterface {
   id!: string;
-  /* phone number, our primary means of communication
-  FIXME: need to ensure this is synced from firebase.auth ph number
-  FIXME: where do we assert phone number formatting?
-  FIXME: currently, always null */
-  phoneNumber!: string;
-  email!: string;
+  phoneNumber?: string;
+  email?: string;
   /* user's selected profile image url
-  FIXME: need to sync this with state.firebase.profile.photoURL ?
-  */
+   */
   photoURL?: ImageUrl;
   /* user profile name, this populate from either user, or his provider*/
   displayName?: string;
