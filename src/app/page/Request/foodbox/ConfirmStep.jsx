@@ -19,7 +19,7 @@ import { normalizeLocation } from "../../../utils/helpers";
 import PaypalCheckout from "../../../component/PaypalCheckout/PaypalCheckout";
 import NavigationButtons from "./NavigationButtons";
 import Mission from "../../../model/Mission";
-import { MissionFundedStatus, MissionType } from "../../../model/schema";
+import { MissionFundedStatus, MissionType, MissionStatus } from "../../../model/schema";
 
 const useStyles = makeStyles((theme) => ({
   yMargin: {
@@ -65,9 +65,8 @@ function ConfirmStep({ dispatch, state }) {
     const { cart } = state;
     let mission = {
       type: MissionType.foodbox,
-      // what does this need to be??
-      // status: ???
-      recipientId: user.id,
+      status: MissionStatus.unassigned,
+      recipientId: user.uid || user.id,
       recipientDisplayName: user.displayName,
       recipientPhoneNumber: user.phoneNumber || user.phone,
       deliveryLocation: normalizeLocation(state.location),
@@ -86,6 +85,7 @@ function ConfirmStep({ dispatch, state }) {
     } else {
       mission = {
         ...mission,
+        status: MissionStatus.tentative,
         fundedStatus: MissionFundedStatus.fundedbyrecipient,
         // TODO change when dates are figured out
         fundedDate: Date.now().toString(),
@@ -95,7 +95,8 @@ function ConfirmStep({ dispatch, state }) {
     try {
       const createdMission = await Mission.create(mission);
       console.log(createdMission);
-      history.push("/request/foodbox/success/" + isDonationRequest ? "donation" : "payment");
+      const redirect = isDonationRequest ? "donation" : "payment";
+      history.push(`/request/foodbox/success/${redirect}`);
     } catch (error) {
       console.log(error);
       dispatch({
@@ -138,7 +139,6 @@ function ConfirmStep({ dispatch, state }) {
           SUBTOTAL
         </Typography>
       </Grid>
-      <button onClick={confirmRequest}>press meq</button>
       <List dense={true}>
         {Object.keys(cart).map((key) => {
           const { quantity, resource } = cart[key];

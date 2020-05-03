@@ -236,6 +236,7 @@ if __name__ == "__main__":
         genId(): {
             "name": "Fruits & Veggies Medley",
             "cost": 30,
+            "provider": 'Happy Farms',
             "fundedByRecipient": 8,
             "fundedByDonation": 2,
             "notFunded": 3,

@@ -233,9 +233,7 @@ const MissionDetailsCard = ({ mission, toListView }) => {
             </Card>
 
             <Label classes={classes}>Notes</Label>
-            <Row classes={classes}>
-              {mission?.notes ? mission.notes : "No additional informations"}
-            </Row>
+            <Row classes={classes}>{mission?.deliveryNotes || "No additional informations"}</Row>
           </Box>
         )}
       </Paper>

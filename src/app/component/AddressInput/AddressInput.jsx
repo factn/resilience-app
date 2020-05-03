@@ -61,6 +61,7 @@ AddressInput.propTypes = {
   setStage: PropTypes.func,
   error: PropTypes.bool,
   onClear: PropTypes.func,
+  value: PropTypes.string,
 };
 
 export default AddressInput;

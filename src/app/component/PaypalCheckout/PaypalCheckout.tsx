@@ -8,12 +8,13 @@ type Props = {
   cart: PurchaseUnit | PurchaseUnit[];
   onApprove: (details: OrderDetails) => void;
   onError: (error: any) => void;
+  onClick: (data: any, actions: any) => any;
 };
 
 /**
  * See https://developer.paypal.com/docs/checkout/integration-features/# for implementation details
  */
-export default function PaypalCheckout({ cart, onApprove, onError }: Props) {
+export default function PaypalCheckout({ cart, onApprove, onClick, onError }: Props) {
   const paypal: any = usePaypal();
 
   function createOrder(data: any, actions: any) {
@@ -39,7 +40,7 @@ export default function PaypalCheckout({ cart, onApprove, onError }: Props) {
     PaypalButtons && (
       <PaypalButtons
         onApprove={handleOnApprove(onApprove)}
-        onClick={verify}
+        onClick={onClick}
         createOrder={createOrder}
         onError={onError}
         style={{
@@ -50,11 +51,6 @@ export default function PaypalCheckout({ cart, onApprove, onError }: Props) {
       />
     )
   );
-}
-
-async function verify(data: any, actions: any) {
-  // TODO: verify order with backend call
-  return actions.resolve();
 }
 
 function handleOnApprove(callback: (details: OrderDetails) => void) {
