@@ -2,13 +2,7 @@ import { v4 as uuidV4 } from "uuid";
 
 import BaseModel from "./BaseModel";
 import Mission from "./Mission";
-import {
-  Location,
-  MissionInterface,
-  MissionStatus,
-  UserInterface,
-  VolunteerStatus,
-} from "./schema";
+import { Location, MissionStatus, UserInterface, VolunteerStatus } from "./schema";
 
 const defaultLocation: Location = {
   address: "",
@@ -60,9 +54,12 @@ class User extends BaseModel {
     }
 
     try {
-      await collection.doc(data.id).set({
-        ...data,
-      });
+      await collection.doc(data.id).set(
+        {
+          ...data,
+        },
+        { merge: true }
+      );
     } catch (error) {
       throw error;
     }
@@ -70,34 +67,6 @@ class User extends BaseModel {
 
   usersSearchByName(value: string, limit: number) {
     return this.getCollection("users").where("displayName", ">=", value).limit(limit).get();
-  }
-
-  /**
-   * Given a mission object creates a new mission in firestore
-   * returns the new mission id
-   * @param {object} mission
-   * @return {string}
-   */
-  async createMission(mission: MissionInterface): Promise<string> {
-    const missionId = uuidV4(); //generate mission id
-    const collection = this.getCollection("organizations").doc("1").collection("missions");
-
-    //Add mission id to mission object and sanitize is
-    const sanitizedMission = this.load({
-      id: missionId,
-      ...mission,
-    });
-    mission.id = missionId;
-
-    //save mission in firestore
-    try {
-      await collection.doc(missionId).set(sanitizedMission);
-    } catch (error) {
-      //TODO show error message to user
-      throw error;
-    }
-
-    return missionId;
   }
 
   /**

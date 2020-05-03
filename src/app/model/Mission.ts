@@ -1,3 +1,4 @@
+import { v4 as uuidV4 } from "uuid";
 import BaseModel from "./BaseModel";
 import {
   Location,
@@ -9,6 +10,7 @@ import {
   TimeWindowType,
 } from "./schema";
 import _ from "lodash";
+import Organization from "./Organization";
 
 const defaultLocation: Location = {
   address: "",
@@ -32,7 +34,7 @@ const defaultMissionData: MissionInterface = {
   id: "",
   type: MissionType.errand,
   status: MissionStatus.unassigned,
-  createdDate: new Date().toUTCString(),
+  createdDate: "",
   missionDetails: {},
   fundedStatus: MissionFundedStatus.notfunded,
   fundedDate: null,
@@ -220,6 +222,33 @@ class Mission extends BaseModel {
 
     return missions;
   };
+
+  async create(mission: MissionInterface) {
+    const id = uuidV4();
+
+    console.log(mission);
+    const newMission: MissionInterface = {
+      ...defaultMissionData,
+      ...mission,
+      // TODO change when we figure out dates
+      createdDate: Date.now().toString(),
+      organizationId: Organization.id,
+      id: id,
+    };
+
+    console.log("new", newMission);
+
+    await this.getCollection("organizations")
+      .doc(Organization.id)
+      .collection("missions")
+      .doc(id)
+      .set({
+        ...newMission,
+      });
+
+    return newMission;
+  }
+
   /**
    * Update a mision
    * @param {string} missionId - mission
