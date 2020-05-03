@@ -100,9 +100,9 @@ describe("User", () => {
   
   describe("#getIdByDisplayName", () => {
     const displayName = "username";
-    const volunteerId = "aabbbccc";
+    const volunteerUid = "aabbbccc";
     let user = {
-      id: volunteerId,
+      id: volunteerUid,
       displayName: displayName,
     };
 
@@ -117,7 +117,7 @@ describe("User", () => {
 
       let result = await users.getIdByDisplayName(displayName);
 
-      expect(result).toBe(volunteerId);
+      expect(result).toBe(volunteerUid);
       expect(mockWhereFn).toBeCalledWith("displayName", "==", displayName);
     });
 
@@ -149,32 +149,32 @@ describe("User", () => {
   });
 */
   describe("#acceptMission", () => {
-    const missionId = "1234";
-    const volunteerId = "aabbbccc";
+    const missionUid = "1234";
+    const volunteerUid = "aabbbccc";
     let mission = {
-      volunteerId: "",
+      volunteerUid: "",
       status: "",
     };
 
     beforeEach(() => {
-      mission.tentativeVolunteerId = volunteerId;
-      mission.volunteerId = "";
+      mission.tentativeVolunteerUid = volunteerUid;
+      mission.volunteerUid = "";
       mission.status = MissionStatus.assigned;
     });
 
-    it("sets proper fields if missionId exists", async () => {
+    it("sets proper fields if missionUid exists", async () => {
       const { mockGetById, mockUpdate } = mockAcceptMissionRepo({
         getByIdReturn: mission,
         throwCollectionDocError: false,
         throwUpdateError: false,
       });
 
-      await users.acceptMission(volunteerId, missionId);
+      await users.acceptMission(volunteerUid, missionUid);
 
       expect(mockGetById).toHaveBeenCalled();
       const expected = {
-        tentativeVolunteerId: "",
-        volunteerId: volunteerId,
+        tentativeVolunteerUid: "",
+        volunteerUid: volunteerUid,
         status: MissionStatus.assigned,
       };
       expect(mockUpdate).toBeCalledWith(expected);
@@ -182,18 +182,18 @@ describe("User", () => {
   });
 
   describe("#unvolunteerMission", () => {
-    const volunteerId = "aabbbccc";
+    const volunteerUid = "aabbbccc";
     let mission = {
-      volunteerId: "",
+      volunteerUid: "",
       status: "",
     };
 
     beforeEach(() => {
-      mission.volunteerId = volunteerId;
+      mission.volunteerUid = volunteerUid;
       mission.status = MissionStatus.assigned;
     });
 
-    /*  it("unassigns volunteer if missionId exists", async () => {
+    /*  it("unassigns volunteer if missionUid exists", async () => {
       const { mockData, mockWhereFn,  mockDocFn, mockUpdate } = mockBaseRepo({
         existsReturn: true,
         mockDataReturn: mission,
@@ -201,12 +201,12 @@ describe("User", () => {
         throwUpdateError: false,
       });
 
-      await users.unvolunteerMission(missionId);
+      await users.unvolunteerMission(missionUid);
 
-      expect(mockDocFn).toBeCalledWith(missionId);
+      expect(mockDocFn).toBeCalledWith(missionUid);
       expect(mockData).toBeCalledTimes(1);
       const expected = {
-        volunteerId: "",
+        volunteerUid: "",
         status: MissionStatus.unassigned,
       };
       expect(mockUpdate).toBeCalledWith(expected);
@@ -220,14 +220,14 @@ describe("User", () => {
         throwUpdateError: false,
       });
 
-      await expect(users.unvolunteerMission(missionId)).rejects.toThrow(Error);
+      await expect(users.unvolunteerMission(missionUid)).rejects.toThrow(Error);
 
-      expect(mockDocFn).toBeCalledWith(missionId);
+      expect(mockDocFn).toBeCalledWith(missionUid);
       expect(mockData).not.toBeCalled();
       expect(mockUpdate).not.toBeCalled();
     });
 
-    it("throws an error if missionId doesn't exist", async () => {
+    it("throws an error if missionUid doesn't exist", async () => {
       const { mockData, mockWhereFn,  mockDocFn, mockUpdate } = mockBaseRepo({
         existsReturn: true,
         mockDataReturn: null,
@@ -235,9 +235,9 @@ describe("User", () => {
         throwUpdateError: false,
       });
 
-      await expect(users.unvolunteerMission(missionId)).rejects.toThrow(Error);
+      await expect(users.unvolunteerMission(missionUid)).rejects.toThrow(Error);
 
-      expect(mockDocFn).toBeCalledWith(missionId);
+      expect(mockDocFn).toBeCalledWith(missionUid);
       expect(mockData).toBeCalledTimes(1);
       expect(mockUpdate).not.toBeCalled();
     }); 
@@ -250,9 +250,9 @@ describe("User", () => {
         throwUpdateError: false,
       });
 
-      await expect(users.unvolunteerMission(missionId)).rejects.toThrow(Error);
+      await expect(users.unvolunteerMission(missionUid)).rejects.toThrow(Error);
 
-      expect(mockDocFn).toBeCalledWith(missionId);
+      expect(mockDocFn).toBeCalledWith(missionUid);
       expect(mockData).not.toBeCalled();
       expect(mockUpdate).not.toBeCalled();
     });
@@ -265,9 +265,9 @@ describe("User", () => {
         throwUpdateError: true,
       });
 
-      await expect(users.unvolunteerMission(missionId)).rejects.toThrow(Error);
+      await expect(users.unvolunteerMission(missionUid)).rejects.toThrow(Error);
 
-      expect(mockDocFn).toBeCalledWith(missionId);
+      expect(mockDocFn).toBeCalledWith(missionUid);
       expect(mockData).toBeCalledTimes(1);
     });*/
   });

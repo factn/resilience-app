@@ -4,7 +4,7 @@ import InsertEmoticonIcon from "@material-ui/icons/InsertEmoticon";
 import PhoneIcon from "@material-ui/icons/Phone";
 import PropTypes from "prop-types";
 import React from "react";
-import { connect, useSelector } from "react-redux";
+import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { compose } from "redux";
 
@@ -16,6 +16,8 @@ import SplashImage1 from "../../../img/SplashImage1.png";
 import { Body1, Button, H1, H2, H3, H4 } from "../../component";
 import { Page } from "../../layout";
 import VolunteerHome from "./VolunteerHome";
+import { isEmpty, isLoaded } from "react-redux-firebase";
+import User from "../../model/User";
 
 const useStyles = makeStyles((theme) => ({
   HomeImage: {
@@ -372,14 +374,15 @@ const SignInHeaderComponent = ({ history }) => {
  *
  * @component
  */
-const HomePage = ({ auth, history }) => {
+const HomePage = ({ auth, history, profile }) => {
   const classes = useStyles();
-  const isEmpty = useSelector((state) => state.firebase.auth.isEmpty);
-  const isLoaded = useSelector((state) => state.firebase.auth.isLoaded);
+  if (isLoaded(auth) && isEmpty(profile) && isLoaded(profile)) {
+    User.createProfile(auth.uid, auth);
+  }
 
   return (
-    <Page isLoaded={isLoaded} LoadingComponent={LoadingComponent}>
-      {isEmpty ? (
+    <Page isLoaded={isLoaded(auth)} LoadingComponent={LoadingComponent}>
+      {isEmpty(auth) ? (
         <Grid container>
           <SignInHeaderComponent history={history} />
           <PoweredByComponent />
@@ -425,10 +428,9 @@ HomePage.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-  const auth = state.firebase.auth;
-  const profile = state.firebase.profile;
   return {
     auth: state.firebase.auth,
+    profile: state.firebase.profile,
   };
 };
 export default compose(connect(mapStateToProps))(withRouter(HomePage));

@@ -66,7 +66,7 @@ function score(mission) {
     case Mission.Status.unassigned:
       return 0;
     case Mission.Status.tentative:
-      if (mission.tentativeVolunteerId) {
+      if (mission.tentativeVolunteerUid) {
         return 2;
       }
       return 1;
@@ -101,7 +101,7 @@ const MissionsListView = ({
 
   const { groups, singleMissions } = Mission.getAllGroups(missions);
   const sortedMissions = {
-    groupId: "",
+    groupUid: "",
     groupDisplayName: "Single Missions",
     missions: singleMissions.sort(sortAlgo),
   };
@@ -129,9 +129,9 @@ const MissionsListView = ({
 
     group.missions.forEach((mission) => {
       if (mission.readyToStart) totReady += 1;
-      if (mission.id === selectedMission) containSelected = true;
-      if (mission.tentativeVolunteerId) totTentative += 1;
-      if (mission.volunteerId) totAssigned += 1;
+      if (mission.uid === selectedMission) containSelected = true;
+      if (mission.tentativeVolunteerUid) totTentative += 1;
+      if (mission.volunteerUid) totAssigned += 1;
     });
 
     let totUnassigned = group.missions?.length - totTentative - totAssigned;
@@ -139,7 +139,7 @@ const MissionsListView = ({
     // depends on the design later
     return (
       <MuiExpansionPanel
-        key={group.groupId}
+        key={group.groupUid}
         className={clsx({ [classes.containSelected]: containSelected }, classes.expansion)}
       >
         <MuiExpansionPanelSummary
@@ -149,7 +149,7 @@ const MissionsListView = ({
         >
           <Grid container className={classes.group}>
             <Grid container item>
-              {group.groupId && <GroupWorkIcon style={{ color: color }} />}
+              {group.groupUid && <GroupWorkIcon style={{ color: color }} />}
               {group.groupDisplayName}
             </Grid>
             <Grid container item>
@@ -173,7 +173,7 @@ const MissionsListView = ({
           <Grid container direction="column">
             {group.missions.map((mission) => (
               <ListItem
-                key={mission.id}
+                key={mission.uid}
                 mission={mission}
                 volunteers={volunteers}
                 selectedMission={selectedMission}

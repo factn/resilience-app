@@ -73,7 +73,7 @@ const MissionItemMenu = ({ boxRef, className, groups, mission, volunteers }) => 
     dispatch({ type: actions.CLOSE });
   };
   const handleReadyToStartButton = () => {
-    Mission.update(mission.id, {
+    Mission.update(mission.uid, {
       readyToStart: !mission.readyToStart,
       status: "tentative",
     });
@@ -82,24 +82,24 @@ const MissionItemMenu = ({ boxRef, className, groups, mission, volunteers }) => 
 
   const handleAddOrRemoveGroup = () => {
     // add here
-    if (!mission.groupId) {
+    if (!mission.groupUid) {
       dispatch({ type: actions.OPEN_GROUP });
     } else {
-      Mission.update(mission.id, {
+      Mission.update(mission.uid, {
         groupDisplayName: "",
-        groupId: "",
+        groupUid: "",
       });
     }
   };
-  const handleAddToGroupConfirm = ({ groupDisplayName, groupId }) => {
-    if (groupId) {
-      Mission.update(mission.id, {
+  const handleAddToGroupConfirm = ({ groupDisplayName, groupUid }) => {
+    if (groupUid) {
+      Mission.update(mission.uid, {
         groupDisplayName,
-        groupId,
+        groupUid,
       });
     } else {
-      Mission.update(mission.id, {
-        groupId: uuidV4(),
+      Mission.update(mission.uid, {
+        groupUid: uuidV4(),
         groupDisplayName,
       });
     }
@@ -108,12 +108,12 @@ const MissionItemMenu = ({ boxRef, className, groups, mission, volunteers }) => 
 
   const handleVolunteerButton = () => {
     if (mission.volunteerDisplayName || mission.tentativeVolunteerDisplayName) {
-      Mission.update(mission.id, {
+      Mission.update(mission.uid, {
         volunteerDisplayName: "",
-        volunteerId: "",
+        volunteerUid: "",
         volunteerPhoneNumber: "",
         tentativeVolunteerDisplayName: "",
-        tentativeVolunteerId: "",
+        tentativeVolunteerUid: "",
         tentativeVolunteerPhoneNumber: "",
         status: "tentative",
       });
@@ -123,7 +123,7 @@ const MissionItemMenu = ({ boxRef, className, groups, mission, volunteers }) => 
   };
   const handleConfirmVolunteer = (selected) => {
     if (selected) {
-      User.assignedMission(selected, mission.id);
+      User.assignedMission(selected, mission.uid);
     }
     dispatch({ type: actions.CLOSE });
   };
@@ -167,7 +167,7 @@ const MissionItemMenu = ({ boxRef, className, groups, mission, volunteers }) => 
             startIcon={<AddCircleOutlineIcon />}
             onClick={handleAddOrRemoveGroup}
           >
-            {mission.groupId ? "Remove from Group" : "Add To Group"}
+            {mission.groupUid ? "Remove from Group" : "Add To Group"}
           </Button>
           <Button
             className={classes.menuButton}

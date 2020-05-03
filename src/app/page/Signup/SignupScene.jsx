@@ -6,7 +6,6 @@ import Snackbar from "../../component/Snackbars/Snackbar";
 import useForm from "../../hooks/useForm";
 import { User, Organization } from "../../model";
 import { VolunteerStatus } from "../../model/schema";
-import { convertFullName, normalizeLocation } from "../../utils/helpers";
 import addressLookup from "../../utils/addressLookUp";
 import CallToActionPage from "./CallToAction";
 import ConnectSocialMediaPage from "./ConnectSocialMedia";
@@ -35,7 +34,7 @@ function SignupScene(props) {
   function getPayload() {
     return {
       ...values,
-      organizationId: Organization.id,
+      organizationUid: Organization.uid,
       isVolunteer: true,
       volunteerDetails: {
         availability: values.availability || "",
@@ -54,6 +53,7 @@ function SignupScene(props) {
       email: user.email,
       photoURL: user.photoURL,
     });
+    updateUser();
     setActiveTab(Tabs.CONNECT);
     return false;
   }
@@ -64,6 +64,7 @@ function SignupScene(props) {
       email: user.email,
       photoURL: user.photoURL,
     });
+    updateUser();
     setActiveTab(Tabs.PROFILE);
     return false;
   }
@@ -80,7 +81,6 @@ function SignupScene(props) {
       console.log("ERROR WHEN GETTiNG LOCATION", error);
       console.log("address: ", location.address);
     }
-    console.log(location);
 
     /*
     try {

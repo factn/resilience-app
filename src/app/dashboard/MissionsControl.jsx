@@ -53,7 +53,7 @@ const MissionsPage = () => {
   const [open, setOpen] = React.useState(false);
 
   useFirestoreConnect(() => {
-    const id = Organization.id;
+    const id = Organization.uid;
     return [
       Mission.fsInProposed(id),
       Mission.fsInPlanning(id),

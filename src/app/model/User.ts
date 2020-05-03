@@ -1,7 +1,6 @@
 import BaseModel from "./BaseModel";
-import { Location, MissionStatus, UserInterface, VolunteerStatus } from "./schema";
 import Organization from "./Organization";
-import Mission from "./Mission";
+import { Location, MissionStatus, UserInterface, VolunteerStatus } from "./schema";
 
 const defaultLocation: Location = {
   address: "",
@@ -10,7 +9,7 @@ const defaultLocation: Location = {
   label: "",
 };
 const defaultUserData: UserInterface = {
-  id: "",
+  uid: "",
   cannotReceiveTexts: false,
   photoURL: "",
   description: "",
@@ -18,7 +17,7 @@ const defaultUserData: UserInterface = {
   phoneNumber: "",
   email: "",
   location: defaultLocation,
-  organizationId: 0,
+  organizationUid: 0,
   isVolunteer: false,
   isOrganizer: false,
   volunteerDetails: {
@@ -34,7 +33,7 @@ const fsVolunteer = (orgId: string) => ({
   collection: "users",
   where: [
     ["isVolunteer", "==", true],
-    ["organizationId", "==", orgId],
+    ["organizationUid", "==", orgId],
   ],
   storeAs: "volunteers",
 });
@@ -46,89 +45,70 @@ class User extends BaseModel {
 
   /**
    * Update an user
-   * @param {string} userId - user
+   * @param {string} userUid - user
    * @param {object} data- updated data
    */
-  update(userId: string, data: object) {
+  update(userUid: string, data: object) {
     let sanitized = this.sanitize(data);
     return this.getCollection("users")
-      .doc(userId)
+      .doc(userUid)
       .update({
         ...sanitized,
       });
   }
-
   /**
-
-   * Given a displayName returns the first user object
-   * @param {string} displayName : displayName of user
-   * @return {object}
+   * create a user
+   * @param {string} userUid - user
+   * @param {object} data- updated data
    */
-  async getIdByDisplayName(displayName: string): Promise<string> {
-    let collection = this.getCollection("users");
-    let doc;
-    try {
-      doc = await collection.where("displayName", "==", displayName).get();
-    } catch (error) {
-      //TODO show error message to user
-      throw error;
-    }
-
-    if (doc.empty) {
-      throw Error(`This user: ${displayName} does not exist`);
-    }
-
-    return doc.docs[0].id;
+  createProfile(userUid: string, data: object) {
+    return this.getCollection("users")
+      .doc(userUid)
+      .set(this.load({ data, uid: userUid }));
   }
 
   /**
    * Returns all missions that a volunteer is associated with or has been suggested for.
-   * @param userId UserId of the volunteer
+   * @param userUid UserId of the volunteer
    */
-  async getAllAssociatedMissions(userId: string) {
+  getAllAssociatedMissions(userUid: string) {
     const collection = this.getCollection("organizations")
-      .doc(Organization.id)
+      .doc(Organization.uid)
       .collection("missions");
 
-    const volunteeredMissions = await collection.where("volunteerId", "==", userId).get();
-    const suggestedMissions = await collection.where("tentativeVolunteerId", "==", userId).get();
-
-    const missionsDocumentSnapshot = volunteeredMissions.docs.concat(suggestedMissions.docs);
-
-    if (missionsDocumentSnapshot.length < 1) {
-      return [];
-    }
-    const missions = missionsDocumentSnapshot.map((doc) => doc.data());
-
-    return missions;
+    return Promise.all([
+      collection
+        .where("volunteerUid", "==", userUid)
+        .where("status", "in", [MissionStatus.assigned, MissionStatus.started])
+        .get(),
+      collection
+        .where("tentativeVolunteerUid", "==", userUid)
+        .where("status", "in", [MissionStatus.tentative])
+        .get(),
+    ]).then(([volunteer, tentative]) => {
+      const docs = volunteer.docs.concat(tentative.docs);
+      return docs.map((doc) => doc.data());
+    });
   }
 
   /**
    * Return all completed missions by the user
-   * @param userId UserId of the volunteer
+   * @param userUid UserId of the volunteer
    */
 
-  async getAllCompletedMissions(userId: string) {
-    const collection = this.getCollection("organizations")
-      .doc(Organization.id)
-      .collection("missions");
-
-    const deliveredMissions = await collection
-      .where("volunteerId", "==", userId)
-      .where("status", "==", MissionStatus.delivered)
-      .get();
-    const succeededMissions = await collection
-      .where("volunteerId", "==", userId)
-      .where("status", "==", MissionStatus.succeeded)
-      .get();
-    const missionsDocumentSnapshot = deliveredMissions.docs.concat(succeededMissions.docs);
-
-    if (missionsDocumentSnapshot.length < 0) {
-      return [];
-    }
-    const missions = missionsDocumentSnapshot.map((doc) => doc.data());
-
-    return missions;
+  getAllCompletedMissions(userUid: string) {
+    return this.getCollection("organizations")
+      .doc(Organization.uid)
+      .collection("missions")
+      .where("volunteerUid", "==", userUid)
+      .where("status", "in", [MissionStatus.succeeded, MissionStatus.failed])
+      .get()
+      .then((querySnapshot) => {
+        return querySnapshot.docs.map((doc) => doc.data());
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 }
 

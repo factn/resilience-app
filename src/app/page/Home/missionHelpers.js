@@ -3,7 +3,7 @@ export const getAllAssignedMissions = (missions, currentUser) => {
   const volunteeredMissions =
     missions.length > 0
       ? missions.filter(
-          (m) => m.volunteerId === currentUser.uid && m.status === MissionStatus.assigned
+          (m) => m.volunteerUid === currentUser.uid && m.status === MissionStatus.assigned
         )
       : [];
 
@@ -13,7 +13,7 @@ export const getAllStartedMissions = (missions, currentUser) => {
   const volunteeredMissions =
     missions.length > 0
       ? missions.filter(
-          (m) => m.volunteerId === currentUser.uid && m.status === MissionStatus.started
+          (m) => m.volunteerUid === currentUser.uid && m.status === MissionStatus.started
         )
       : [];
 
@@ -25,7 +25,7 @@ export const getAllCompletedMissions = (missions, currentUser) => {
     missions.length > 0
       ? missions.filter(
           (m) =>
-            m.volunteerId === currentUser.uid &&
+            m.volunteerUid === currentUser.uid &&
             (m.status === MissionStatus.succeeded || m.status === MissionStatus.delivered)
         )
       : [];

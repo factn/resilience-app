@@ -49,7 +49,6 @@ function ConfirmStep({ dispatch, state }) {
   const history = useHistory();
   const classes = useStyles();
   const user = useSelector((state) => state.firebase.auth);
-  console.log(user);
 
   const { cart } = state;
 
@@ -66,9 +65,9 @@ function ConfirmStep({ dispatch, state }) {
     let mission = {
       type: MissionType.foodbox,
       status: MissionStatus.unassigned,
-      recipientId: user.uid || user.id,
+      recipientUid: user.uid,
       recipientDisplayName: user.displayName,
-      recipientPhoneNumber: user.phoneNumber || user.phone,
+      recipientPhoneNumber: user.phoneNumber,
       deliveryLocation: normalizeLocation(state.location),
       deliveryNotes: state.instructions,
       missionDetails: {
@@ -93,8 +92,7 @@ function ConfirmStep({ dispatch, state }) {
     }
 
     try {
-      const createdMission = await Mission.create(mission);
-      console.log(createdMission);
+      await Mission.create(user.uid, mission);
       const redirect = isDonationRequest ? "donation" : "payment";
       history.push(`/request/foodbox/success/${redirect}`);
     } catch (error) {

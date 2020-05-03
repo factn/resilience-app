@@ -12,7 +12,7 @@ export interface Location {
 }
 
 export class Resource {
-  id!: string;
+  uid!: string;
   name!: string;
   cost!: number;
   provider: string = "";
@@ -25,14 +25,14 @@ export class Resource {
 }
 
 export interface PaymentSettings {
-  clientId: string;
+  clientUid: string;
   email: string;
 }
 
 // ===== Organization ====
 export class OrganizationInterface {
   /* Firebase Id, created automatically*/
-  id!: string;
+  uid!: string;
   /*Name of the organization */
   name!: string;
   /*The Location of the Organization*/
@@ -60,7 +60,7 @@ export enum VolunteerStatus {
 }
 
 export class UserInterface {
-  id!: string;
+  uid!: string;
   phoneNumber?: string;
   email?: string;
   /* user's selected profile image url
@@ -73,7 +73,7 @@ export class UserInterface {
   /* user location, we use this to show user on a map */
   location?: Location;
   /* the organization that user belong to*/
-  organizationId!: number;
+  organizationUid!: number;
   /* if user is a volunteer */
   isVolunteer!: boolean;
   /* if user is an organizer */
@@ -139,8 +139,8 @@ export interface TimeWindow {
 }
 
 export interface MissionLogEvent {
-  id: string;
-  actorId: string;
+  uid: string;
+  actorUid: string;
   action: string;
   actionDetail?: string;
   fieldName?: string;
@@ -158,7 +158,7 @@ export interface FoodBoxDetails {
 }
 
 export interface MissionInterface {
-  id: string;
+  uid: string;
   type: MissionType;
   createdDate: string; // TODO should be a date?
   missionDetails: FoodBoxDetails | {};
@@ -168,20 +168,20 @@ export interface MissionInterface {
   fundedDate: string | null; // TODO should be a date?
   // TODO make sure this gets set when things get funded
   readyToStart: boolean;
-  organizationId: string;
+  organizationUid: string;
 
-  groupId: string;
+  groupUid: string;
   groupDisplayName: string;
 
-  tentativeVolunteerId: string;
+  tentativeVolunteerUid: string;
   tentativeVolunteerDisplayName: string;
   tentativeVolunteerPhoneNumber: string;
 
-  volunteerId: string;
+  volunteerUid: string;
   volunteerDisplayName: string;
   volunteerPhoneNumber: string;
 
-  recipientId: string; // reference?
+  recipientUid: string; // reference?
   recipientDisplayName: string;
   recipientPhoneNumber: string;
 
