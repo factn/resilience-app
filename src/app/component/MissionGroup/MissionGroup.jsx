@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import React from "react";
+import clsx from "clsx";
 import { isEmpty, isLoaded } from "react-redux-firebase";
 import { useHistory } from "react-router-dom";
 import MuiExpansionPanel from "@material-ui/core/ExpansionPanel";
@@ -53,19 +54,21 @@ const MissionGroup = ({ action, actionText, group, isEmptyText }) => {
   return (
     <MuiExpansionPanel className="mission-group" defaultExpanded={true}>
       <MuiExpansionPanelSummary
-        expandIcon={<MuiExpandMoreIcon className={classes.expandMoreIcon} />}
-        className={`mission-group-heading ${classes.expansionPanelSummary}`}
+        expandIcon={
+          <MuiExpandMoreIcon className={clsx("mission-group-expand", classes.expandMoreIcon)} />
+        }
+        className={clsx("mission-group-heading", classes.expansionPanelSummary)}
       >
         <MuiGrid container alignContent="flex-start" justify="space-between">
-          <MuiGrid item xs className={`mission-group-name ${classes.groupName}`}>
+          <MuiGrid item xs className={clsx("mission-group-name", classes.groupName)}>
             {group.groupDisplayName}
           </MuiGrid>
-          <MuiGrid item xs={1} className={`mission-group-count ${classes.missionCount}`}>
+          <MuiGrid item xs={1} className={clsx("mission-group-count", classes.missionCount)}>
             ({numberOfMissions})
           </MuiGrid>
         </MuiGrid>
       </MuiExpansionPanelSummary>
-      <MuiExpansionPanelDetails className={`mission-group-details ${classes.details}`}>
+      <MuiExpansionPanelDetails className={clsx("mission-group-details", classes.details)}>
         <MissionList
           missions={missions}
           history={history}
