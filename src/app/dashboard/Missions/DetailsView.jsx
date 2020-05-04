@@ -6,6 +6,8 @@ import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import PanToolIcon from "@material-ui/icons/PanTool";
 import PersonIcon from "@material-ui/icons/Person";
+import CancelIcon from "@material-ui/icons/Cancel";
+import EditIcon from "@material-ui/icons/Edit";
 import React from "react";
 import { isEmpty, isLoaded } from "react-redux-firebase";
 
@@ -19,6 +21,19 @@ const useStyles = makeStyles((theme) => ({
     height: "100%",
     overflow: "auto",
     padding: `0px ${theme.spacing(1)}px`,
+  },
+  buttonGroupBox: {
+    marginTop: "3rem",
+    marginLeft: "1rem",
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
+  buttonBox: {
+    cursor: 'pointer',  // TODO: We shouldn't have to do this, figure out why
+  },
+  icon: {
+    height: theme.spacing(2),
+    verticalAlign: 'sub',
   },
   image: {
     height: 0,
@@ -75,7 +90,7 @@ const Row = ({ children, classes, Icon }) => {
   if (!children) return null;
   return (
     <Grid container className={classes.rowBody}>
-      <Box marginRight="5px" width="20px">
+      <Box marginRight="20px" width="20px">
         {Icon && <Icon color="primary" />}
       </Box>
       {children}
@@ -186,7 +201,7 @@ const MissionDetailsRow = ({ classes, mission }) => {
  * Component for displaying mission details as a card
  * @component
  */
-const MissionDetailsCard = ({ mission, toListView }) => {
+const MissionDetailsCard = ({ mission, toEditView, toListView  }) => {
   const classes = useStyles();
   const recipientPhoneNumber = _.get(mission, "recipientPhoneNumber");
 
@@ -236,6 +251,15 @@ const MissionDetailsCard = ({ mission, toListView }) => {
             <Row classes={classes}>
               {mission?.notes ? mission.notes : "No additional informations"}
             </Row>
+            <Box className={classes.buttonGroupBox}>
+              <Box  className={classes.buttonBox} onClick={toEditView} >
+                <EditIcon className={classes.icon}/> Edit
+              </Box>
+              <Box  className={classes.buttonBox} onClick={()=>console.log('cancel')} >
+                <CancelIcon  className={classes.icon}/>
+                Cancel Mission
+              </Box>
+            </Box>
           </Box>
         )}
       </Paper>

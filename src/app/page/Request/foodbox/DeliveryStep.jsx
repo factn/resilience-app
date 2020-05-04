@@ -86,7 +86,6 @@ function DeliveryStep({ dispatch, state }) {
       if (values.cannotReceiveTexts) {
         updateUserProfile();
       } else {
-        console.log("hello");
         verifyPhone();
       }
       return;

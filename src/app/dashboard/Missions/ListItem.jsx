@@ -59,7 +59,7 @@ const NotFundedStatus = ({ classes, missionId }) => {
   );
 };
 
-const Action = ({ boxRef, classes, mission }) => {
+export const Action = ({ boxRef, classes, mission }) => {
   let { status } = mission;
 
   if (status === Mission.Status.unassigned) {

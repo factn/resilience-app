@@ -7,6 +7,7 @@ import MUIDataTable from "mui-datatables";
 import React, { useEffect, useState } from "react";
 
 import DetailsView from "./DetailsView";
+import EditView from "./MissionEditView";
 import ListItem from "./ListItem";
 
 const getMuiTheme = (theme) =>
@@ -137,6 +138,7 @@ const tableOptions = {
 const Views = {
   list: "missions-list-view",
   details: "single-details-view",
+  edit: "single-edit-view",
   group: "missions-group-view",
 };
 
@@ -153,6 +155,7 @@ const MissionsListView = ({
 
   const classes = useStyles(innerTheme);
   const [view, setView] = useState(Views.list);
+
 
   // need format [{mission: data}, {mission: data}]
   const data = missions.map((mission) => ({
@@ -183,6 +186,14 @@ const MissionsListView = ({
       <Box hidden={view !== Views.group}>Group</Box>
       <Box hidden={view !== Views.details}>
         <DetailsView
+          mission={currentMission}
+          setSelectedMission={setSelectedMission}
+          toEditView={()=>setView(Views.edit)}
+          toListView={() => setView(Views.list)}
+        />
+      </Box>
+      <Box hidden={view !== Views.edit}>
+        <EditView
           mission={currentMission}
           setSelectedMission={setSelectedMission}
           toListView={() => setView(Views.list)}
