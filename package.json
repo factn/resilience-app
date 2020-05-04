@@ -57,8 +57,9 @@
     "start": "react-scripts start",
     "storybook": "start-storybook -p 9009 -s public",
     "test": "react-scripts test",
-    "upload": "python scheme/data.py && NODE_ENV=development node scheme/uploadMock.js",
-    "dev": "npm-run-all --parallel dev:firebase dev:react dev:upload",
+    "upload": "NODE_ENV=development node scheme/uploadMock.js",
+    "dev": "npm-run-all --sequential dev:functions_build  --parallel dev:firebase dev:react dev:upload",
+    "dev:functions_build": "cd functions && npm run build && cd ..",
     "dev:firebase": "firebase emulators:start",
     "dev:react": "react-scripts start",
     "dev:upload": "wait-on http-get://localhost:8080/ && npm run upload"
