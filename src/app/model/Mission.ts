@@ -1,4 +1,3 @@
-import { v4 as uuidV4 } from "uuid";
 import BaseModel from "./BaseModel";
 import {
   Location,
@@ -36,7 +35,7 @@ const defaultMissionData: MissionInterface = {
   type: MissionType.errand,
   status: MissionStatus.unassigned,
   createdDate: "",
-  missionDetails: {},
+  missionDetails: null,
   fundedStatus: MissionFundedStatus.notfunded,
   fundedDate: null,
   readyToStart: false,
@@ -244,17 +243,20 @@ class Mission extends BaseModel {
    * @param {object} mission
    * @return {string}
    */
-  create(userUid: string, mission: MissionInterface) {
-    return this.getCollection("organizations")
+  create(mission: MissionInterface) {
+    // Grab a newly generated doc
+    const newRef = this.getCollection("organizations")
       .doc(Organization.uid)
       .collection("missions")
-      .add(
-        this.load({
-          ...mission,
-          createdDate: Date.now().toString(),
-          recipientUid: userUid,
-        })
-      );
+      .doc();
+
+    const newMission = this.load({
+      ...mission,
+      uid: newRef.id,
+      createdDate: Date.now().toString(),
+    });
+
+    return newRef.set(newMission).then(() => newMission);
   }
 
   /**

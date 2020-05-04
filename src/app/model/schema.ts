@@ -161,7 +161,7 @@ export interface MissionInterface {
   uid: string;
   type: MissionType;
   createdDate: string; // TODO should be a date?
-  missionDetails: FoodBoxDetails | {};
+  missionDetails: FoodBoxDetails | null;
 
   status: MissionStatus;
   fundedStatus: MissionFundedStatus;

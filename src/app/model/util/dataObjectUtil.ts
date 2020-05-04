@@ -7,7 +7,7 @@ function rMerge(data: any, defaultData: any) {
   if (
     Array.isArray(data) ||
     data instanceof Date ||
-    (typeof defaultData !== "object" && data !== undefined)
+    ((typeof defaultData !== "object" || defaultData === null) && data !== undefined)
   )
     return data;
 

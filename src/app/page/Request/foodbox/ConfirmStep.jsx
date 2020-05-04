@@ -14,7 +14,6 @@ import {
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { normalizeLocation } from "../../../utils/helpers";
 
 import PaypalCheckout from "../../../component/PaypalCheckout/PaypalCheckout";
 import NavigationButtons from "./NavigationButtons";
@@ -68,7 +67,7 @@ function ConfirmStep({ dispatch, state }) {
       recipientUid: user.uid,
       recipientDisplayName: user.displayName,
       recipientPhoneNumber: user.phoneNumber,
-      deliveryLocation: normalizeLocation(state.location),
+      deliveryLocation: state.location,
       deliveryNotes: state.instructions,
       missionDetails: {
         // TODO we should make use of the whole resource here instead of just the name
@@ -78,6 +77,7 @@ function ConfirmStep({ dispatch, state }) {
         })),
       },
     };
+    console.log(mission);
 
     if (isDonationRequest) {
       mission = { ...mission, fundedStatus: MissionFundedStatus.notfunded };
@@ -92,7 +92,8 @@ function ConfirmStep({ dispatch, state }) {
     }
 
     try {
-      await Mission.create(user.uid, mission);
+      const createdMission = await Mission.create(mission);
+      console.log(createdMission);
       const redirect = isDonationRequest ? "donation" : "payment";
       history.push(`/request/foodbox/success/${redirect}`);
     } catch (error) {
@@ -168,7 +169,9 @@ function ConfirmStep({ dispatch, state }) {
       <PaypalCheckout
         cart={transformForPaypal(cart)}
         onApprove={() => confirmRequest()}
-        onError={() => history.push("/request/foodbox/error")}
+        onError={() =>
+          dispatch({ type: "ERROR", payload: "There was an error processing your payment" })
+        }
       />
 
       <Typography variant="subtitle2">
