@@ -1,13 +1,15 @@
 import { Card, CardActions, CardContent, Grid } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
+import GetAppIcon from "@material-ui/icons/GetApp";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import InfoIcon from "@material-ui/icons/Info";
 import PersonIcon from "@material-ui/icons/Person";
+import PublishIcon from "@material-ui/icons/Publish";
 import ScheduleIcon from "@material-ui/icons/Schedule";
 import PropTypes from "prop-types";
 import React from "react";
 import appleIcon from "../../img/apple.svg";
-
+import Typography from "@material-ui/core/Typography";
 import { Body1 } from "./Typography";
 
 const styles = (theme) => ({
@@ -28,6 +30,9 @@ const styles = (theme) => ({
     flexWrap: "nowrap",
     alignItems: "center",
     display: "flex",
+  },
+  halfRow: {
+    width: "50%",
   },
 });
 
@@ -64,6 +69,7 @@ const MissionCard = withStyles(styles)(({ children, classes, mission, ...rest })
   const title = mission?.title || "No title supplied.";
   const status = mission.status;
   const location = mission.pickUpLocation?.address || "no data";
+  const dropOffLocation = mission.deliveryLocation?.address || "no data";
   const timeWindowType = mission.pickUpWindow?.timeWindowType || "no data";
   const startTime = mission.pickUpWindow?.startTime;
 
@@ -98,22 +104,63 @@ const MissionCard = withStyles(styles)(({ children, classes, mission, ...rest })
         </Grid>
       </CardContent>
       <CardContent className={classes.cardContent}>
-        <MissionCardContent contentItems={contentItems} classes={classes} />
+        <Grid container direction="row">
+          <Grid item className={classes.halfRow}>
+            <Grid container direction="column">
+              <Grid item>
+                <Grid container direction="row">
+                  <Grid item>
+                    <PublishIcon />
+                  </Grid>
+                  <Grid item>
+                    <Typography variant="h5" noWrap>
+                      PICK UP
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </Grid>
+              <Grid item>{mission.pickUpLocation.label}</Grid>
+              <Grid item>
+                <a href={`https://www.google.com/maps/dir/"${location}"`}>{location}</a>
+              </Grid>
+              <Grid item>
+                <Grid container direction="row" spacing={1}>
+                  <Grid item>
+                    <ScheduleIcon />
+                  </Grid>
+                  <Grid item>{startTime}</Grid>
+                </Grid>
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item className={classes.halfRow}>
+            <Grid container direction="column">
+              <Grid item>
+                <Grid container direction="row">
+                  <Grid item>
+                    <GetAppIcon />
+                  </Grid>
+                  <Grid item>
+                    <Typography variant="h5" noWrap>
+                      DROP OFF
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </Grid>
+              <Grid item>{mission.recipientDisplayName}</Grid>
+              <Grid item>
+                <a href={`https://www.google.com/maps/dir/"${dropOffLocation}"`}>
+                  {dropOffLocation}
+                </a>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
       </CardContent>
       <CardActions>{children}</CardActions>
     </Card>
   );
 });
-
-MissionCard.defaultProps = {
-  mission: {
-    title: "No title supplied",
-    status: "",
-    pickUpLocation: {
-      address: "No Data",
-    },
-  },
-};
 
 MissionCard.propTyes = {
   /**
