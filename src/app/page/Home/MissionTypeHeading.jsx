@@ -6,6 +6,8 @@ import { makeStyles } from "@material-ui/core/styles";
 const missionTypeStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.color.lightgrey,
+    display: "flex",
+    alignItems: "center",
     marginBottom: "1rem",
     padding: "0.5rem 1rem",
     textAlign: "left",
