@@ -8,7 +8,30 @@ import MuiExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import MuiExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import MuiExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import MuiGrid from "@material-ui/core/Grid";
+import { makeStyles } from "@material-ui/core/styles";
+
 import { Button, MissionList } from "../index";
+
+const missionGroupStyles = makeStyles((theme) => ({
+  expansionPanelSummary: {
+    background: theme.color.black,
+    color: theme.color.white,
+    paddingLeft: "0.75rem",
+    paddingRight: "0.75rem",
+  },
+  expandMoreIcon: {
+    color: theme.color.white,
+  },
+  groupName: {
+    textAlign: "left",
+  },
+  missionCount: {
+    textAlign: "right",
+  },
+  details: {
+    padding: 0,
+  },
+}));
 
 /**
  * Component for a Mission group. Mission group has an ID and a Name. Mission groups displays a list of missions for a given group.
@@ -16,6 +39,7 @@ import { Button, MissionList } from "../index";
  * @component
  */
 const MissionGroup = ({ action, actionText, group, isEmptyText }) => {
+  const classes = missionGroupStyles();
   const history = useHistory();
   const missions = group.missions;
   const numberOfMissions = missions.length;
@@ -27,17 +51,20 @@ const MissionGroup = ({ action, actionText, group, isEmptyText }) => {
 
   return (
     <MuiExpansionPanel className="mission-group" defaultExpanded={true}>
-      <MuiExpansionPanelSummary expandIcon={<MuiExpandMoreIcon />}>
+      <MuiExpansionPanelSummary
+        expandIcon={<MuiExpandMoreIcon className={classes.expandMoreIcon} />}
+        className={`mission-group-heading ${classes.expansionPanelSummary}`}
+      >
         <MuiGrid container alignContent="flex-start" justify="space-between">
-          <MuiGrid item xs style={{ textAlign: "left" }} className="mission-group-name">
+          <MuiGrid item xs className={`mission-group-name ${classes.groupName}`}>
             {group.groupDisplayName}
           </MuiGrid>
-          <MuiGrid item xs={1} style={{ textAlign: "right" }} className="mission-group-count">
+          <MuiGrid item xs={1} className={`mission-group-count ${classes.missionCount}`}>
             ({numberOfMissions})
           </MuiGrid>
         </MuiGrid>
       </MuiExpansionPanelSummary>
-      <MuiExpansionPanelDetails>
+      <MuiExpansionPanelDetails className={`mission-group-details ${classes.details}`}>
         <MissionList
           missions={missions}
           history={history}
