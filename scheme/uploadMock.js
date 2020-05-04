@@ -1,17 +1,20 @@
-if (process.env.NODE_ENV === "development") {
-  require("dotenv").config();
-}
 const admin = require("firebase-admin");
+
 const data = require("./data.json");
 let serviceAccount = process.env.FIREBASE_SECRET;
 
-const credential = JSON.parse(serviceAccount);
-
-admin.initializeApp({
-  credential: admin.credential.cert(credential),
-  databaseURL: "https://mutualaid-757f6.firebaseio.com",
-});
-
+if (process.env.NODE_ENV === "development") {
+  require("dotenv").config();
+  admin.initializeApp();
+  db = admin.firestore();
+} else {
+  const credential = JSON.parse(serviceAccount);
+  admin.initializeApp({
+    credential: admin.credential.cert(credential),
+    databaseURL: "https://mutualaid-757f6.firebaseio.com",
+  });
+  db = admin.firestore();
+}
 /**
  * Data is a collection if
  *  - it has a odd depth
@@ -43,12 +46,14 @@ function isEmpty(obj) {
 }
 
 async function upload(data, path) {
-  return await admin
-    .firestore()
+  return await db
     .doc(path.join("/"))
     .set(data)
     .then(() => console.log(`Document ${path.join("/")} uploaded.`))
-    .catch(() => console.error(`Could not write document ${path.join("/")}.`));
+    .catch((e) => {
+      console.error(`Could not write document ${path.join("/")}.`);
+      console.log(e);
+    });
 }
 
 /**
@@ -67,7 +72,7 @@ async function resolve(data, path = []) {
         // Remove a collection from the document data.
         delete documentData[key];
         // Resolve a colleciton.
-        resolve(data[key], [...path, key]);
+        await resolve(data[key], [...path, key]);
       }
     }
 
@@ -85,48 +90,4 @@ async function resolve(data, path = []) {
   }
 }
 
-function deleteQueryBatch(db, query, resolve, reject) {
-  query
-    .get()
-    .then((snapshot) => {
-      // When there are no documents left, we are done
-      if (snapshot.size === 0) {
-        return 0;
-      }
-
-      // Delete documents in a batch
-      let batch = db.batch();
-      snapshot.docs.forEach((doc) => {
-        batch.delete(doc.ref);
-      });
-
-      return batch.commit().then(() => {
-        return snapshot.size;
-      });
-    })
-    .then((numDeleted) => {
-      if (numDeleted === 0) {
-        resolve();
-        return;
-      }
-
-      // Recurse on the next process tick, to avoid
-      // exploding the stack.
-      process.nextTick(() => {
-        deleteQueryBatch(db, query, resolve, reject);
-      });
-    })
-    .catch(reject);
-}
-function deleteCollection(collectionPath) {
-  let collectionRef = admin.firestore().collection(collectionPath);
-  let query = collectionRef.orderBy("__name__").limit(200);
-
-  return new Promise((resolve, reject) => {
-    deleteQueryBatch(admin.firestore(), query, resolve, reject);
-  });
-}
-
-deleteCollection("users");
-deleteCollection("organizations");
 resolve(data);
