@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     height: "100%",
     overflowY: "auto",
     overflowX: "hidden",
-    width: "400px",
+    width: "450px",
   },
   group: {
     maxWidth: "380px",
