@@ -2,7 +2,7 @@ import ReduxFirebase from "react-redux-firebase";
 
 import Mission from "./Mission";
 import { MissionStatus } from "./schema";
-import users from "./User";
+import Users from "./User";
 
 function mockAcceptMissionRepo({ getByIdReturn, throwCollectionDocError, throwUpdateError }) {
   const mockUpdate = throwUpdateError
@@ -11,7 +11,7 @@ function mockAcceptMissionRepo({ getByIdReturn, throwCollectionDocError, throwUp
       })
     : jest.fn();
 
-  const mockGetById = jest.spyOn(Mission, "getById").mockResolvedValue(getByIdReturn);
+  const mockGetById = jest.spyOn(Mission, "getByUid").mockResolvedValue(getByIdReturn);
 
   const collection = {
     doc: jest.fn().mockReturnValue({
@@ -148,38 +148,6 @@ describe("User", () => {
     });
   });
 */
-  describe("#acceptMission", () => {
-    const missionUid = "1234";
-    const volunteerUid = "aabbbccc";
-    let mission = {
-      volunteerUid: "",
-      status: "",
-    };
-
-    beforeEach(() => {
-      mission.tentativeVolunteerUid = volunteerUid;
-      mission.volunteerUid = "";
-      mission.status = MissionStatus.assigned;
-    });
-
-    it("sets proper fields if missionUid exists", async () => {
-      const { mockGetById, mockUpdate } = mockAcceptMissionRepo({
-        getByIdReturn: mission,
-        throwCollectionDocError: false,
-        throwUpdateError: false,
-      });
-
-      await users.acceptMission(volunteerUid, missionUid);
-
-      expect(mockGetById).toHaveBeenCalled();
-      const expected = {
-        tentativeVolunteerUid: "",
-        volunteerUid: volunteerUid,
-        status: MissionStatus.assigned,
-      };
-      expect(mockUpdate).toBeCalledWith(expected);
-    });
-  });
 
   describe("#unvolunteerMission", () => {
     const volunteerUid = "aabbbccc";

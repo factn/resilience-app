@@ -376,7 +376,6 @@ const SignInHeaderComponent = ({ history }) => {
  */
 const HomePage = ({ auth, history, profile }) => {
   const classes = useStyles();
-  console.log(auth, auth.currentUser, profile, auth().currentUser);
   if (isLoaded(auth) && !isEmpty(auth) && isLoaded(profile)) {
     // User.createProfile(auth.uid, auth);
   }
