@@ -45,6 +45,9 @@ When running the app locally, you can test the phone verification sign-up flow b
 | 7777777777   | 123456            |
 | 2223334444   | 123456            |
 
+
+Regarding the data schema and how to generate test data, go to [scheme/README.md](./scheme/README.md)
+
 ## Available Scripts
 
 In the project directory, you can run:
