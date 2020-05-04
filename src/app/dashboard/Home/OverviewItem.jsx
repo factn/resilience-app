@@ -4,7 +4,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 import { Body1, H3 } from "../../component";
-
 const useStyles = makeStyles(() => ({
   cardItemsContainer: {
     margin: "3vh",
@@ -12,7 +11,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const HomeItem = ({ icon, link, linkLabel, nbr, textColor, title }) => {
+const HomeItem = ({ data, icon, link, linkLabel, textColor, title }) => {
   const classes = useStyles();
 
   return (
@@ -26,7 +25,7 @@ const HomeItem = ({ icon, link, linkLabel, nbr, textColor, title }) => {
             <H3 style={{ color: textColor }}>{title}</H3>
           </Grid>
           <Grid item>
-            <H3 style={{ color: textColor }}>{nbr}</H3>
+            <H3 style={{ color: textColor }}>{data.length}</H3>
           </Grid>
           <Grid item>
             <Body1>

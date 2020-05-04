@@ -9,12 +9,16 @@ import {
   makeStyles,
   Paper,
   Typography,
+  Button,
 } from "@material-ui/core";
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import PaypalCheckout from "../../../component/PaypalCheckout/PaypalCheckout";
 import NavigationButtons from "./NavigationButtons";
+import Mission from "../../../model/Mission";
+import { MissionFundedStatus, MissionType, MissionStatus } from "../../../model/schema";
 
 const useStyles = makeStyles((theme) => ({
   yMargin: {
@@ -43,6 +47,7 @@ const useStyles = makeStyles((theme) => ({
 function ConfirmStep({ dispatch, state }) {
   const history = useHistory();
   const classes = useStyles();
+  const user = useSelector((state) => state.firebase.auth);
 
   const { cart } = state;
 
@@ -53,16 +58,50 @@ function ConfirmStep({ dispatch, state }) {
     0
   );
 
-  function confirmRequest() {
-    //TODO create a new mission here based on customer details
-    if (isDonationRequest) {
-      //TODO set the funding status to not funded
-      //Send mission to firestore
+  // TODO we should try to create this mission before paying and if payment fails we delete it or something
+  async function confirmRequest() {
+    const { cart } = state;
+    let mission = {
+      type: MissionType.foodbox,
+      status: MissionStatus.unassigned,
+      recipientUid: user.uid,
+      recipientDisplayName: user.displayName,
+      recipientPhoneNumber: user.phoneNumber,
+      deliveryLocation: state.location,
+      deliveryNotes: state.instructions,
+      missionDetails: {
+        // TODO we should make use of the whole resource here instead of just the name
+        needs: Object.keys(cart).map((key) => ({
+          quantity: cart[key].quantity,
+          name: cart[key].resource.name,
+        })),
+      },
+    };
+    console.log(mission);
 
-      history.push("/request/foodbox/success/donation");
+    if (isDonationRequest) {
+      mission = { ...mission, fundedStatus: MissionFundedStatus.notfunded };
     } else {
-      // Set funding status to funded
-      history.push("/request/foodbox/success/payment");
+      mission = {
+        ...mission,
+        status: MissionStatus.tentative,
+        fundedStatus: MissionFundedStatus.fundedbyrecipient,
+        // TODO change when dates are figured out
+        fundedDate: Date.now().toString(),
+      };
+    }
+
+    try {
+      const createdMission = await Mission.create(mission);
+      console.log(createdMission);
+      const redirect = isDonationRequest ? "donation" : "payment";
+      history.push(`/request/foodbox/success/${redirect}`);
+    } catch (error) {
+      console.log(error);
+      dispatch({
+        type: "ERROR",
+        payload: "There was an error creating your mission. Please contact the organization.",
+      });
     }
   }
 
@@ -99,7 +138,6 @@ function ConfirmStep({ dispatch, state }) {
           SUBTOTAL
         </Typography>
       </Grid>
-
       <List dense={true}>
         {Object.keys(cart).map((key) => {
           const { quantity, resource } = cart[key];
@@ -128,11 +166,12 @@ function ConfirmStep({ dispatch, state }) {
           </ListItemSecondaryAction>
         </ListItem>
       </List>
-
       <PaypalCheckout
         cart={transformForPaypal(cart)}
         onApprove={() => confirmRequest()}
-        onError={() => history.push("/request/foodbox/error")}
+        onError={() =>
+          dispatch({ type: "ERROR", payload: "There was an error processing your payment" })
+        }
       />
 
       <Typography variant="subtitle2">
@@ -161,6 +200,15 @@ function ConfirmStep({ dispatch, state }) {
           Find me a donation
         </Typography>
       </Paper>
+      <Button
+        fullWidth
+        variant="contained"
+        color="primary"
+        onClick={() => dispatch({ type: "BACK" })}
+        gutterBottom
+      >
+        Back
+      </Button>
     </>
   );
 }
@@ -190,12 +238,14 @@ function transformForPaypal(cart) {
   // only worry about one box for now
   const key = Object.keys(cart)[0];
   const { quantity, resource } = cart[key];
+  const currency_code = "USD";
 
   const item = {
     sku: resource.id,
     quantity: quantity.toString(),
     name: resource.name,
     unit_amount: {
+      currency_code,
       value: resource.cost.toString(),
     },
     description: resource.description,
@@ -205,9 +255,10 @@ function transformForPaypal(cart) {
 
   const amount = {
     value: total,
+    currency_code,
     breakdown: {
-      item_total: { value: total },
-      tax_total: { value: "0" },
+      item_total: { value: total, currency_code },
+      tax_total: { value: "0", currency_code },
     },
   };
 

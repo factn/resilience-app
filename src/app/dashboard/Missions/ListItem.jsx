@@ -1,15 +1,39 @@
 import { Box, Grid } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+
 import FormControl from "@material-ui/core/FormControl";
+
 import Select from "@material-ui/core/Select";
-import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import PanToolIcon from "@material-ui/icons/PanTool";
 import clsx from "clsx";
-import React from "react";
+import React, { useEffect } from "react";
 
 import Mission from "../../model/Mission";
 import _ from "../../utils/lodash";
-import TentativeStatusAction from "./component/TentativeStatusAction";
+import MissionItemMenu from "./component/MissionItemMenu";
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    textAlign: "left",
+    backgroundColor: "white",
+    padding: theme.spacing(1),
+    border: "2px solid transparent",
+  },
+  isSelected: {
+    borderColor: theme.palette.primary.main,
+  },
+  MenuRightWrapper: {
+    top: theme.spacing(1),
+    right: theme.spacing(1),
+    cursor: "pointer",
+    position: "absolute",
+  },
+  link: {
+    textDecoration: "underline",
+    color: theme.color.black,
+  },
+}));
 
 /** BEGIN ACTION*/
 const unassignedOptions = [
@@ -26,11 +50,14 @@ const unassignedOptions = [
     text: "Funding Not Needed",
   },
 ];
-const NotFundedStatus = ({ classes, missionId }) => {
+const NotFundedStatus = ({ classes, mission }) => {
   const handleChange = (event) => {
     event.preventDefault();
-    Mission.update(missionId, {
+    //TODO move this to mission model as
+    // Mission.setFunded()
+    Mission.update(mission.uid, {
       fundedStatus: event.target.value,
+      fundedDate: Date.now().toString(),
       status: Mission.Status.tentative,
     });
   };
@@ -65,25 +92,12 @@ export const Action = ({ boxRef, classes, mission }) => {
   if (status === Mission.Status.unassigned) {
     return <NotFundedStatus mission={mission} classes={classes} />;
   }
-  if (status === Mission.Status.tentative && mission.tentativeVolunteerId) {
-    return (
-      <RowBody Icon={PanToolIcon}>{mission.tentativeVolunteerDisplayName} - tentative</RowBody>
-    );
-  }
 
-  if (status === Mission.Status.tentative) {
-    return <TentativeStatusAction mission={mission} classes={classes} boxRef={boxRef} />;
-  }
-
-  if (status === Mission.Status.assigned) {
-    return <RowBody Icon={PanToolIcon}>{mission.volunteerDisplayName} - assigned</RowBody>;
-  }
-
-  return status;
+  return null;
 };
 /** END ACTION*/
 
-const RowBody = ({ children, Icon }) => {
+const Row = ({ children, Icon }) => {
   return (
     <Grid item container spacing={1}>
       <Grid item>{Icon && <Icon color="primary" />}</Grid>
@@ -100,12 +114,30 @@ const LocationRow = ({ label, location }) => {
       <Box width="100%">
         <b>{label}</b>
       </Box>
-      <RowBody Icon={LocationOnIcon}>{_.get(location, "address")}</RowBody>
+      <Row Icon={LocationOnIcon}>{_.get(location, "address")}</Row>
     </>
   );
 };
 
-const FoodBoxDetails = ({ details, notes }) => {
+const VolunteerRow = ({ mission }) => {
+  const { tentativeVolunteerDisplayName, volunteerDisplayName } = mission;
+  let assigned = "";
+  if (volunteerDisplayName) {
+    assigned = volunteerDisplayName + " - accepted";
+  } else if (tentativeVolunteerDisplayName) {
+    assigned = tentativeVolunteerDisplayName + " - tentative";
+  } else {
+    return null;
+  }
+  return (
+    <>
+      <b>Volunteer</b>
+      <Row Icon={PanToolIcon}>{assigned}</Row>
+    </>
+  );
+};
+
+const FoodBoxDetails = ({ details }) => {
   return (
     <>
       <b>Food Box</b>
@@ -120,34 +152,36 @@ const FoodBoxDetails = ({ details, notes }) => {
   );
 };
 
-const Details = ({ mission }) => {
-  let { missionDetails, type } = mission;
+const MissionListItem = ({
+  groups,
+  mission,
+  selectedMission,
+  setSelectedMission,
+  toDetailsView,
+  volunteers,
+}) => {
+  const classes = useStyles();
+  const { missionDetails, type } = mission;
+
+  const boxRef = React.useRef(null);
+
+  function onClick() {
+    setSelectedMission(mission.uid);
+  }
   let SpecificDetails = null;
   if (type === "foodbox") {
     SpecificDetails = <FoodBoxDetails type={type} details={missionDetails} />;
   }
 
-  return (
-    <>
-      {SpecificDetails}
-      <Box>
-        <LocationRow label="Pick Up" location={mission.pickUpLocation} />
-        <LocationRow label="Drop Off" location={mission.deliveryLocation} />
-      </Box>
-    </>
-  );
-};
-
-const MissionDetailsCol = ({ classes, mission, users, ...props }) => {
-  const { selectedMission, setSelectedMission } = props;
-  const { toDetailsView } = props;
-  const boxRef = React.useRef(null);
-
-  function onClick() {
-    setSelectedMission(mission.id);
-  }
-
-  const isSelected = selectedMission === mission.id;
+  const isSelected = selectedMission === mission.uid;
+  useEffect(() => {
+    if (isSelected && boxRef?.current) {
+      boxRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "end",
+      });
+    }
+  }, [isSelected]);
 
   return (
     <Box
@@ -155,21 +189,29 @@ const MissionDetailsCol = ({ classes, mission, users, ...props }) => {
       onClick={onClick}
       className={clsx(classes.root, { [classes.isSelected]: isSelected })}
       ref={boxRef}
+      color="primary"
     >
+      <MissionItemMenu
+        className={classes.MenuRightWrapper}
+        boxRef={boxRef}
+        groups={groups}
+        mission={mission}
+        volunteers={volunteers}
+      />
+      {SpecificDetails}
+      <LocationRow label="Pick Up" location={mission.pickUpLocation} />
+      <LocationRow label="Drop Off" location={mission.deliveryLocation} />
+      <VolunteerRow mission={mission} />
+      <Action mission={mission} classes={classes} boxRef={boxRef} />
       <Box
         onClick={toDetailsView}
         role="button"
         aria-label="To Mission Details View"
-        className={classes.arrowRightWrapper}
+        className={classes.link}
       >
-        <ArrowForwardIcon />
+        View Mission Details
       </Box>
-      <Details mission={mission} classes={classes} />
-      <Action mission={mission} classes={classes} boxRef={boxRef} users={users} />
     </Box>
   );
 };
-// HACK because we cannot use hooks inside this function due
-// to mui-datatables
-const MissionDetailsColWrapper = ({ ...props }) => <MissionDetailsCol {...props} />;
-export default MissionDetailsColWrapper;
+export default MissionListItem;

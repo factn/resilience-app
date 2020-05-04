@@ -5,7 +5,7 @@ import { withRouter } from "react-router-dom";
 
 import { ErrorSnackbar, SuccessSnackbar } from "../../component/Snackbars";
 import useForm from "../../hooks/useForm";
-import { User } from "../../model";
+import { Mission, User } from "../../model";
 import MissionForm from "./MissionForm";
 
 /**
@@ -36,11 +36,11 @@ function MakeMission({ history }) {
     try {
       setLoading(true);
       //Lookup id of helper
-      let volunteerId;
+      let volunteerUid;
       if (!payload.helper) {
-        volunteerId = null;
+        volunteerUid = null;
       } else {
-        volunteerId = await User.getIdByDisplayName(payload.helper);
+        volunteerUid = await User.getIdByDisplayName(payload.helper);
       }
 
       //upload Image to Firebase Cloud Storage
@@ -48,8 +48,8 @@ function MakeMission({ history }) {
 
       //create mission object
       const mission = {
-        organizationId: "1", // PLACEHOLDER -> user doesn'T have an organization id yet
-        volunteerId: volunteerId,
+        organizationUid: "1", // PLACEHOLDER -> user doesn'T have an organization id yet
+        volunteerUid: volunteerUid,
         title: payload.title,
         description: payload.description,
         image: imageUrl,
@@ -73,7 +73,7 @@ function MakeMission({ history }) {
       };
 
       //save mission in firestore
-      User.createMission(mission)
+      Mission.create(mission)
         .then(() => {
           setLoading(false);
           setSuccessSnackbarOpen(true);

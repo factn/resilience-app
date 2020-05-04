@@ -10,15 +10,14 @@ import CancelIcon from "@material-ui/icons/Cancel";
 import EditIcon from "@material-ui/icons/Edit";
 import React, { useState } from "react";
 import { isEmpty, isLoaded } from "react-redux-firebase";
-import { Action } from './ListItem' // TODO: MOVE TO HELPERS
+import { Action } from "./ListItem"; // TODO: MOVE TO HELPERS
 import { Body2, H3 } from "../../component";
 import { Mission } from "../../model";
 import _ from "../../utils/lodash";
 import AddressInput from "../../component/AddressInput";
 import { useForm } from "../../hooks";
-import { KeyboardTimePicker} from "@material-ui/pickers";
-import KeyDatePickerContainer from "../../page/MissionCreate/KeyDatePickerContainer"
-
+import { KeyboardTimePicker } from "@material-ui/pickers";
+import KeyDatePickerContainer from "../../page/MissionCreate/KeyDatePickerContainer";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -66,7 +65,6 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(1),
   },
 }));
-
 
 /**=====BASE COMPONENTs======**/
 
@@ -190,14 +188,12 @@ const MissionDetailsRow = ({ classes, mission }) => {
   return null;
 };
 
-
 /**
  * Component for editing mission details
  * @component
  */
 const MissionEditView = ({ mission, toListView }) => {
   const classes = useStyles();
-
 
   const { handleChange, values } = useForm(mission);
   const recipientPhoneNumber = _.get(mission, "recipientPhoneNumber");
@@ -207,7 +203,6 @@ const MissionEditView = ({ mission, toListView }) => {
   function changeFormValue(name, value) {
     handleChange({ target: { name, value } });
   }
-
 
   function handleChangeLocation(data) {
     const { location } = data;
@@ -224,7 +219,7 @@ const MissionEditView = ({ mission, toListView }) => {
           <Box>
             <MissionImage {...props} />
             <MissionTypeRow {...props} />
-            <Action {...props}/>
+            <Action {...props} />
             <MissionDetailsRow {...props} />
 
             <Card label="Pick Up Details" classes={classes}>
@@ -232,9 +227,9 @@ const MissionEditView = ({ mission, toListView }) => {
                 className={classes.textField}
                 placeholder={values.pickUpLocation?.address}
                 stage={values.pickUpLocation}
-                setStage={handleChangeLocation.bind(null, 'pickUpLocation')}
+                setStage={handleChangeLocation.bind(null, "pickUpLocation")}
               />
-          {/* <KeyDatePickerContainer
+              {/* <KeyDatePickerContainer
             margin="normal"
             id="date-pickUp"
             label="Select Date"
@@ -261,15 +256,14 @@ const MissionEditView = ({ mission, toListView }) => {
               "aria-label": "change time",
             }}
           /> */}
-              </Card>
-
+            </Card>
 
             <Card label="Delivery Details" classes={classes}>
-            <AddressInput
+              <AddressInput
                 className={classes.textField}
                 placeholder={values.deliveryLocation?.address}
                 stage={values.deliveryLocation}
-                setStage={handleChangeLocation.bind(null, 'deliveryLocation')}
+                setStage={handleChangeLocation.bind(null, "deliveryLocation")}
               />
               <Row Icon={AccessTimeIcon} classes={classes}>
                 {mission?.deliveryWindow?.startTime}
@@ -288,8 +282,15 @@ const MissionEditView = ({ mission, toListView }) => {
             <Row classes={classes}>
               {mission?.notes ? mission.notes : "No additional informations"}
             </Row>
-            <Box style={{ marginTop: "3rem", marginLeft: "1rem", display: 'flex', justifyContent: 'space-between'}}>
-                  <button>Save</button>
+            <Box
+              style={{
+                marginTop: "3rem",
+                marginLeft: "1rem",
+                display: "flex",
+                justifyContent: "space-between",
+              }}
+            >
+              <button>Save</button>
             </Box>
           </Box>
         )}

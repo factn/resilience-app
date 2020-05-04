@@ -25,15 +25,15 @@ const useStyles = makeStyles((theme) => ({
   buttonGroupBox: {
     marginTop: "3rem",
     marginLeft: "1rem",
-    display: 'flex',
-    justifyContent: 'space-between',
+    display: "flex",
+    justifyContent: "space-between",
   },
   buttonBox: {
-    cursor: 'pointer',  // TODO: We shouldn't have to do this, figure out why
+    cursor: "pointer", // TODO: We shouldn't have to do this, figure out why
   },
   icon: {
     height: theme.spacing(2),
-    verticalAlign: 'sub',
+    verticalAlign: "sub",
   },
   image: {
     height: 0,
@@ -201,7 +201,7 @@ const MissionDetailsRow = ({ classes, mission }) => {
  * Component for displaying mission details as a card
  * @component
  */
-const MissionDetailsCard = ({ mission, toEditView, toListView  }) => {
+const MissionDetailsCard = ({ mission, toEditView, toListView }) => {
   const classes = useStyles();
   const recipientPhoneNumber = _.get(mission, "recipientPhoneNumber");
 
@@ -248,15 +248,13 @@ const MissionDetailsCard = ({ mission, toEditView, toListView  }) => {
             </Card>
 
             <Label classes={classes}>Notes</Label>
-            <Row classes={classes}>
-              {mission?.notes ? mission.notes : "No additional informations"}
-            </Row>
+            <Row classes={classes}>{mission?.deliveryNotes || "No additional informations"}</Row>
             <Box className={classes.buttonGroupBox}>
-              <Box  className={classes.buttonBox} onClick={toEditView} >
-                <EditIcon className={classes.icon}/> Edit
+              <Box className={classes.buttonBox} onClick={toEditView}>
+                <EditIcon className={classes.icon} /> Edit
               </Box>
-              <Box  className={classes.buttonBox} onClick={()=>console.log('cancel')} >
-                <CancelIcon  className={classes.icon}/>
+              <Box className={classes.buttonBox} onClick={() => console.log("cancel")}>
+                <CancelIcon className={classes.icon} />
                 Cancel Mission
               </Box>
             </Box>

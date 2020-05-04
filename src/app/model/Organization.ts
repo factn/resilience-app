@@ -1,9 +1,9 @@
 import BaseModel from "./BaseModel";
-import { OrganizationInterface } from "./schema";
+import { OrganizationInterface, PaymentSettings } from "./schema";
 import { Resource } from "./schema";
 
 const defaultData: OrganizationInterface = {
-  id: "",
+  uid: "",
   name: "",
   location: undefined,
 };
@@ -20,17 +20,17 @@ class Organization extends BaseModel {
     this.data = defaultData;
   }
 
-  init(id: string) {
-    this.data.id = id;
+  init(uid: string) {
+    this.data.uid = uid;
   }
 
   // if we wanted to fetch the entire org object on init we could do this
   // not sure if good practice given we're already using redux?
 
-  // async init(organizationId: string) {
+  // async init(organizationUid: string) {
   //   try {
   //     const ref = this.getCollection("organizations");
-  //     const doc = await ref.doc(organizationId).get();
+  //     const doc = await ref.doc(organizationUid).get();
   //     console.log("done calling org");
   //     this.data = { ...this.defaultData, ...doc.data(), id: doc.id } as OrganizationInterface;
   //   } catch (error) {
@@ -39,20 +39,39 @@ class Organization extends BaseModel {
   //   }
   // }
 
-  get id() {
-    return this.data.id;
+  get uid() {
+    return this.data.uid;
   }
 
   async getFoodBoxes(): Promise<Resource[]> {
     try {
-      const resourcesRef = this.getCollection("organizations").doc(this.id).collection("resources");
+      const resourcesRef = this.getCollection("organizations")
+        .doc(this.uid)
+        .collection("resources");
       const docs = await resourcesRef.where("acceptOrder", "==", true).get();
-      const foodBoxes = docs.docs.map((d) => ({ ...d.data(), id: d.id }));
+      const foodBoxes = docs.docs.map((d) => ({ ...d.data(), uid: d.id }));
 
       return foodBoxes as Resource[];
     } catch (error) {
       console.error("Error retrieving food boxes", error);
       return [];
+    }
+  }
+
+  async getPaymentSettings(): Promise<PaymentSettings> {
+    try {
+      const settings = await this.getCollection("organizations")
+        .doc(this.uid)
+        .collection("paymentSettings")
+        .doc("paypal")
+        .get();
+
+      return settings.exists
+        ? (settings.data() as PaymentSettings)
+        : { clientUid: "sb", email: "" };
+    } catch (error) {
+      console.error("Error retrieving paymentSettings", error);
+      return { clientUid: "sb", email: "" };
     }
   }
 }

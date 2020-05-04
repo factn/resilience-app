@@ -1,8 +1,11 @@
 import AddressInput from "./AddressInput";
 import Button from "./Button";
 import Chip from "./Chip";
+import { FoodBoxIcon } from "./icons";
 import MissionCard from "./MissionCard";
+import MissionGroup from "./MissionGroup";
 import MissionList from "./MissionList";
+import DownloadMissionsCsv from "./DownloadCsv";
 import Popup from "./Popup";
 import PrivateComponent from "./PrivateComponent";
 import ProtectedRoute from "./PrivateComponent";
@@ -13,8 +16,11 @@ export {
   AddressInput,
   Button,
   Chip,
+  FoodBoxIcon,
   MissionCard,
+  MissionGroup,
   MissionList,
+  DownloadMissionsCsv,
   PrivateComponent,
   ProtectedRoute,
   Popup,

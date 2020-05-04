@@ -37,14 +37,7 @@ export default function FoodboxFlow() {
       <Paper className={classes.tabMargin} elevation={3} square>
         <Tabs value={state.step} indicatorColor="primary" textColor="primary" centered>
           {tabNames.map((tab, idx) => (
-            <CustomTab
-              icon={<H4>{idx + 1}</H4>}
-              key={tab}
-              label={tab}
-              // disabling ability to click to exact step for now. User must use next and back buttons
-              // onClick={() => dispatch({ type: "UPDATE_STEP", payload: idx + 1 })}
-              disableRipple
-            />
+            <CustomTab icon={<H4>{idx + 1}</H4>} key={tab} label={tab} disableRipple />
           ))}
         </Tabs>
       </Paper>
@@ -54,8 +47,8 @@ export default function FoodboxFlow() {
       <ErrorSnackbar
         open={state.error !== null}
         handleClose={() => dispatch({ type: "ERROR", payload: null })}
-        errorMessage={`Error while submitting request. Please try again. ${state.error}`}
-        autoHideDuration={4000}
+        errorMessage={state.error}
+        autoHideDuration={null}
       />
     </div>
   );

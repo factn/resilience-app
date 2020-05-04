@@ -1,16 +1,23 @@
-import { Checkbox, FormControlLabel, TextField } from "@material-ui/core";
-import React from "react";
+import {
+  Checkbox,
+  FormControlLabel,
+  TextField,
+  FormControl,
+  FormHelperText,
+} from "@material-ui/core";
+import React, { useEffect } from "react";
 import { Typography } from "@material-ui/core";
 import { useSelector } from "react-redux";
 
 import { Body1 } from "../../../component";
 import AddressInput from "../../../component/AddressInput";
 import { useFirebase } from "react-redux-firebase";
-import { normalizeLocation } from "../../../utils/helpers";
 import { useStyles } from "./foodboxSteps.style";
 import NavigationButtons from "./NavigationButtons";
 import { User } from "../../../model";
 import { useForm } from "../../../hooks";
+
+const RECAPTCHA_ID = "recaptcha_id";
 
 function DeliveryStep({ dispatch, state }) {
   const classes = useStyles();
@@ -18,8 +25,22 @@ function DeliveryStep({ dispatch, state }) {
   const firebase = useFirebase();
   const { handleChange, values } = useForm();
 
+  useEffect(() => {
+    if (!window.recaptchaVerifier && auth.isEmpty) {
+      window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(RECAPTCHA_ID);
+    }
+  }, [auth.isEmpty, firebase.auth.RecaptchaVerifier]);
+
+  useEffect(() => {
+    // set initial state of form values
+    changeFormValue("location", state.location);
+    changeFormValue("instructions", state.instructions);
+    // eslint-disable-next-line
+  }, []);
+
   function changeFormValue(name, value) {
     handleChange({ target: { name, value } });
+    return value;
   }
 
   function handleCheckBoxChange(event, value) {
@@ -27,69 +48,69 @@ function DeliveryStep({ dispatch, state }) {
   }
 
   function handleChangeLocation(data) {
-    const { location } = data;
-    changeFormValue("location", location);
+    changeFormValue("location", data);
   }
 
   async function verifyPhone() {
-    if (!window.recaptchaVerifier) {
-      window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier("phone", {
-        size: "invisible",
-      });
-    }
-    const verificationPrompt =
-      "Please enter the verification code that was sent to your mobile device.";
-
-    firebase
-      .auth()
-      .signInWithPhoneNumber(values.phone, window.recaptchaVerifier)
-      .then(async function (confirmationResult) {
-        // SMS sent. Prompt user to type the code from the message, then sign the
-        // user in with confirmationResult.confirm(code).
-        const verificationCode = window.prompt(verificationPrompt);
-        confirmationResult.confirm(verificationCode).then((response) => {
-          updateUserProfile({
-            ...getPayload(),
-            id: response.user.id,
-          });
-        });
-      })
-      .catch(function (error) {
-        dispatch({ type: "ERROR", payload: error });
-      });
-  }
-
-  function getPayload() {
-    const payload = {
-      displayName: `${values.firstName} ${values.lastName}`,
-      phone: values.phone || "",
-      cannotReceiveTexts: !!values.cannotReceiveTexts,
-    };
-    if (values.location) payload.location = normalizeLocation(values.location);
-    return payload;
-  }
-
-  function updateUserProfile(data = getPayload()) {
+    dispatch({ type: "LOADING", payload: true });
     try {
-      dispatch({ type: "LOADING", payload: true });
-      User.saveNewUser(data).then(() => {
-        dispatch({ type: "NEXT" });
+      // no way to verify and login this user???
+      if (!!values.cannotReceiveTexts) {
+        await User.saveNewUser({
+          displayName: `${values.firstName} ${values.lastName}`,
+          phoneNumber: values.phone,
+          cannotReceiveTexts: !!values.cannotReceiveTexts,
+        });
+      } else {
+        const verificationPrompt =
+          "Please enter the verification code that was sent to your mobile device.";
+
+        const confirmationResult = await firebase
+          .auth()
+          .signInWithPhoneNumber(values.phone, window.recaptchaVerifier);
+
+        const verificationCode = window.prompt(verificationPrompt);
+        const response = await confirmationResult.confirm(verificationCode);
+
+        await User.saveNewUser({
+          id: response.user.uid,
+          displayName: `${values.firstName} ${values.lastName}`,
+          phoneNumber: values.phone,
+          cannotReceiveTexts: !!values.cannotReceiveTexts,
+        });
+      }
+
+      dispatch({
+        type: "UPDATE_DETAILS",
+        payload: { location: values.location, instructions: values.instructions },
       });
     } catch (error) {
-      dispatch({ type: "ERROR", payload: error });
+      dispatch({ type: "ERROR", payload: JSON.stringify(error) });
     }
   }
 
-  function handleSubmitUser() {
-    // TODO validate input before actually running this
+  function validate() {
+    let hasError = false;
+    hasError = changeFormValue("locationError", !values.location);
     if (auth.isEmpty) {
-      if (values.cannotReceiveTexts) {
-        updateUserProfile();
-      } else {
-        verifyPhone();
-      }
+      hasError = changeFormValue("firstNameError", !values.firstName) || hasError;
+      hasError = changeFormValue("lastNameError", !values.lastName) || hasError;
+      hasError = changeFormValue("phoneError", !values.phone) || hasError;
+      hasError = changeFormValue("tcError", !values.termsAndConditions) || hasError;
+    }
+    return hasError;
+  }
+
+  async function submit() {
+    if (validate()) {
+      dispatch({ type: "ERROR", payload: "Please fill out the required fields" });
       return;
     }
+
+    if (auth.isEmpty) {
+      return verifyPhone();
+    }
+
     dispatch({
       type: "UPDATE_DETAILS",
       payload: { location: values.location, instructions: values.instructions },
@@ -108,8 +129,11 @@ function DeliveryStep({ dispatch, state }) {
       <AddressInput
         className={classes.textField}
         placeholder="Location"
-        stage={values.location}
-        setStage={handleChangeLocation}
+        location={values.location}
+        setLocation={handleChangeLocation}
+        error={values.locationError}
+        onClear={() => changeFormValue("location", undefined)}
+        value={state.location?.address}
       />
       <TextField
         className={classes.textArea}
@@ -121,7 +145,7 @@ function DeliveryStep({ dispatch, state }) {
         onChange={handleChange}
         placeholder="Knock loudly, leave in front, etc."
         rows={5}
-        value={values.instructions || ""}
+        value={values.instructions || state.instructions || ""}
         variant="outlined"
       />
       <Body1 className={classes.body1}>
@@ -140,6 +164,8 @@ function DeliveryStep({ dispatch, state }) {
             onChange={handleChange}
             value={values.firstName || ""}
             variant="outlined"
+            required
+            error={values.firstNameError}
           />
           <TextField
             className={classes.textField}
@@ -149,9 +175,12 @@ function DeliveryStep({ dispatch, state }) {
             onChange={handleChange}
             value={values.lastName || ""}
             variant="outlined"
+            required
+            error={values.lastNameError}
           />
           <TextField
             className={classes.textField}
+            placeholder="+15555555555"
             fullWidth
             helperText="Used for receiving updates (SMS/texts)"
             label="Mobile Number"
@@ -160,6 +189,8 @@ function DeliveryStep({ dispatch, state }) {
             onChange={handleChange}
             value={values.phone || ""}
             variant="outlined"
+            required
+            error={values.phoneError}
           />
           <FormControlLabel
             className={classes.checkBox}
@@ -172,21 +203,25 @@ function DeliveryStep({ dispatch, state }) {
             }
             label="I cannot receive SMS/texts"
           />
-          <FormControlLabel
-            className={classes.checkBox}
-            control={
-              <Checkbox
-                checked={!!values.termsAndConditions}
-                onChange={handleCheckBoxChange}
-                name="termsAndConditions"
-              />
-            }
-            label="By signing up, I agree to some terms and conditions, waiver link here,"
-          />
+          <FormControl required error={values.tcError}>
+            {values.tcError && <FormHelperText>Below checkbox is required</FormHelperText>}
+            <FormControlLabel
+              className={classes.checkBox}
+              control={
+                <Checkbox
+                  checked={!!values.termsAndConditions}
+                  onChange={handleCheckBoxChange}
+                  name="termsAndConditions"
+                />
+              }
+              label="By signing up, I agree to some terms and conditions, waiver link here,"
+            />
+          </FormControl>
+          <div id={RECAPTCHA_ID}></div>
         </>
       )}
 
-      <NavigationButtons onBack={() => dispatch({ type: "BACK" })} onNext={handleSubmitUser} />
+      <NavigationButtons onBack={() => dispatch({ type: "BACK" })} onNext={submit} />
     </div>
   );
 }
