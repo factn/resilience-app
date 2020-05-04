@@ -16,6 +16,8 @@ import { Mission } from "../../model";
 import _ from "../../utils/lodash";
 import AddressInput from "../../component/AddressInput";
 import { useForm } from "../../hooks";
+import { KeyboardTimePicker} from "@material-ui/pickers";
+import KeyDatePickerContainer from "../../page/MissionCreate/KeyDatePickerContainer"
 
 
 const useStyles = makeStyles((theme) => ({
@@ -188,13 +190,16 @@ const MissionDetailsRow = ({ classes, mission }) => {
   return null;
 };
 
+
 /**
  * Component for editing mission details
  * @component
  */
 const MissionEditView = ({ mission, toListView }) => {
   const classes = useStyles();
-  const { handleChange, values } = useForm();
+
+
+  const { handleChange, values } = useForm(mission);
   const recipientPhoneNumber = _.get(mission, "recipientPhoneNumber");
 
   const props = { classes, mission };
@@ -208,7 +213,6 @@ const MissionEditView = ({ mission, toListView }) => {
     const { location } = data;
     changeFormValue("location", location);
   }
-
 
   return (
     <Box height="100%" width="100%">
@@ -226,23 +230,47 @@ const MissionEditView = ({ mission, toListView }) => {
             <Card label="Pick Up Details" classes={classes}>
               <AddressInput
                 className={classes.textField}
-                placeholder="Location"
-                stage={values.location}
-                setStage={handleChangeLocation}
+                placeholder={values.pickUpLocation?.address}
+                stage={values.pickUpLocation}
+                setStage={handleChangeLocation.bind(null, 'pickUpLocation')}
               />
+          {/* <KeyDatePickerContainer
+            margin="normal"
+            id="date-pickUp"
+            label="Select Date"
+            format="MM/dd/yyyy"
+            value={'richie'}
+            // value={pickUpDateLabel}
+            required={true}
+            // onChange={(date) => handleDate(date, "pickUp")}
+            onChange={()=>null}
+            KeyboardButtonProps={{
+              "aria-label": "change date",
+            }}
+          />
+          <KeyboardTimePicker
+            margin="normal"
+            id="time-pickUp"
+            label="Pickup time"
+            // value={pickUp.timeProtoType}
+            required={true}
+            // onChange={(time) =>
+            //   time && setPickUp({ ...pickUp, time: time.toTimeString(), timeProtoType: time })
+            // }
+            KeyboardButtonProps={{
+              "aria-label": "change time",
+            }}
+          /> */}
+              </Card>
 
-              <Row Icon={LocationOnIcon} classes={classes}>
-                {mission?.pickUpLocation?.address}
-              </Row>
-              <Row Icon={AccessTimeIcon} classes={classes}>
-                {mission?.pickUpWindow?.startTime}
-              </Row>
-            </Card>
 
             <Card label="Delivery Details" classes={classes}>
-              <Row Icon={LocationOnIcon} classes={classes}>
-                {mission?.deliveryLocation?.address}
-              </Row>
+            <AddressInput
+                className={classes.textField}
+                placeholder={values.deliveryLocation?.address}
+                stage={values.deliveryLocation}
+                setStage={handleChangeLocation.bind(null, 'deliveryLocation')}
+              />
               <Row Icon={AccessTimeIcon} classes={classes}>
                 {mission?.deliveryWindow?.startTime}
               </Row>

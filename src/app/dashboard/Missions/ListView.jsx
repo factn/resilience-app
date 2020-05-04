@@ -193,11 +193,12 @@ const MissionsListView = ({
         />
       </Box>
       <Box hidden={view !== Views.edit}>
-        <EditView
-          mission={currentMission}
-          setSelectedMission={setSelectedMission}
-          toListView={() => setView(Views.list)}
-        />
+        {currentMission && (
+          <EditView
+            mission={currentMission}
+            setSelectedMission={setSelectedMission}
+            toListView={() => setView(Views.list)}
+          />)}
       </Box>
       <Box hidden={view !== Views.list}>
         <MUIDataTable
