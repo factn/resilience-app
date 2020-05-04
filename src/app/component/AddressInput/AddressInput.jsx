@@ -5,7 +5,7 @@ import React, { useRef, useEffect } from "react";
 const { ALGOLIA_API_KEY, ALGOLIA_APP_ID } = process.env;
 
 const AddressInput = (props) => {
-  const { error, location, onClear, placeholder, setLocation, value } = props;
+  const { disabled, error, location, onClear, placeholder, setLocation, value } = props;
   const placesRef = useRef();
   const setRef = (ref) => {
     placesRef.current = ref;
@@ -26,22 +26,26 @@ const AddressInput = (props) => {
     if (value && placesRef?.current) {
       placesRef.current.setVal(value);
     }
-  }, [placesRef, value]);
+  }, [placesRef, value, disabled]);
 
   return (
     <div style={error ? { border: "solid red" } : {}}>
-      <AlgoliaPlaces
-        placeholder={placeholder || "Search address"}
-        name={location}
-        options={{
-          appId: ALGOLIA_APP_ID,
-          apiKey: ALGOLIA_API_KEY,
-        }}
-        onChange={(query) => handleLocation(query)}
-        onLimit={({ message }) => message && console.log(message)}
-        onClear={onClear}
-        placesRef={setRef}
-      />
+      {disabled ? (
+        <input className="ap-input" disabled="true" value={value} />
+      ) : (
+        <AlgoliaPlaces
+          placeholder={placeholder || "Search address"}
+          name={location}
+          options={{
+            appId: ALGOLIA_APP_ID,
+            apiKey: ALGOLIA_API_KEY,
+          }}
+          onChange={(query) => handleLocation(query)}
+          onLimit={({ message }) => message && console.log(message)}
+          onClear={onClear}
+          placesRef={setRef}
+        />
+      )}
     </div>
   );
 };

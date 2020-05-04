@@ -4,7 +4,7 @@ import Mission from "./Mission";
 import { MissionStatus } from "./schema";
 import Users from "./User";
 
-function mockAcceptMissionRepo({ getByIdReturn, throwCollectionDocError, throwUpdateError }) {
+function mockAcceptMissionRepo({ getByIdReturn, throwCollectionDocError, throwUpdateError }: any) {
   const mockUpdate = throwUpdateError
     ? jest.fn().mockImplementation(() => {
         throw Error("Error");
@@ -25,7 +25,7 @@ function mockAcceptMissionRepo({ getByIdReturn, throwCollectionDocError, throwUp
 
   jest.spyOn(ReduxFirebase, "getFirebase").mockReturnValue({
     firestore: jest.fn(() => ({ collection: jest.fn(() => collection) })),
-  });
+  } as any);
 
   return {
     mockGetById,

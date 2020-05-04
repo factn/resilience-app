@@ -160,9 +160,7 @@ const UserProfile = () => {
         successMessage="Profile saved successfully."
         autoHideDuration={4000}
       />
-      <Card>
-        <UserOverview profile={profile} view={view} setView={setView} setProfile={setProfile} />
-      </Card>
+      <UserOverview profile={profile} view={view} setView={setView} setProfile={setProfile} />
       <Grid item className={classes.fullWidth}>
         <ProfileControlButtons
           isEdit={isEdit}

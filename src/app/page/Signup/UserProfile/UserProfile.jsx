@@ -19,9 +19,8 @@ const UserProfile = ({ handleChange, onSubmit, values }) => {
     handleChange({ target: { name, value } });
   }
 
-  function handleChangeLocation(address) {
-    const { location } = values;
-    changeFormValue("location", { ...location, address });
+  function handleChangeLocation(location) {
+    changeFormValue("location", location);
   }
 
   function handleCheckBoxChange(event, value) {
@@ -53,8 +52,8 @@ const UserProfile = ({ handleChange, onSubmit, values }) => {
           <AddressInput
             className={classes.textField}
             placeholder="Location"
-            stage={values.location}
-            setStage={handleChangeLocation}
+            value={values.location?.address}
+            setLocation={handleChangeLocation}
           />
         </div>
         <TextField

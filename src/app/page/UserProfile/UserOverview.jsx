@@ -1,4 +1,4 @@
-import { Grid, TextField } from "@material-ui/core";
+import { Grid, TextField, Box } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import _ from "lodash";
 import React from "react";
@@ -33,40 +33,42 @@ const UserStatus = ({ profile, setProfile, view }) => {
   }
 
   return (
-    <Grid container direction="column" justify="center" className={classes.root} spacing={2}>
-      <ProfileImage classes={classes} profile={profile} setProfile={setProfile} />
-      <Grid item container spacing={1} direction="column">
-        <Grid item container>
-          <H5>Address</H5>
-        </Grid>
-        <AddressInput
-          disabled={view === "view"}
-          key={view}
-          id="address"
-          placeholder="Location"
-          location={profile.location}
-          setLocation={handleChangeLocation}
-        />
-      </Grid>
-
-      <Grid item container spacing={1} direction="column">
-        <Grid item container>
-          <H5>Displayname</H5>
-        </Grid>
-        <Grid item>
-          <TextField
-            className={`${classes.rootInput} ${classes.input}`}
-            id="displayName"
-            value={displayName}
-            placeholder="your name..."
-            variant="outlined"
+    <Box margin="0 2rem">
+      <Grid container direction="column" justify="center" className={classes.root} spacing={2}>
+        <ProfileImage classes={classes} profile={profile} setProfile={setProfile} />
+        <Grid item container spacing={1} direction="column">
+          <Grid item container>
+            <H5>Address</H5>
+          </Grid>
+          <AddressInput
             disabled={view === "view"}
-            onChange={updateProfile}
-            fullWidth
+            key={view}
+            id="address"
+            placeholder="Location"
+            value={profile.location?.address}
+            setLocation={handleChangeLocation}
           />
         </Grid>
+
+        <Grid item container spacing={1} direction="column">
+          <Grid item container>
+            <H5>Displayname</H5>
+          </Grid>
+          <Grid item>
+            <TextField
+              className={`${classes.rootInput} ${classes.input}`}
+              id="displayName"
+              value={displayName}
+              placeholder="your name..."
+              variant="outlined"
+              disabled={view === "view"}
+              onChange={updateProfile}
+              fullWidth
+            />
+          </Grid>
+        </Grid>
       </Grid>
-    </Grid>
+    </Box>
   );
 };
 export default UserStatus;
