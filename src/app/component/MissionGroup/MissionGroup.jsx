@@ -8,6 +8,7 @@ import MuiExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import MuiExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import MuiExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import MuiGrid from "@material-ui/core/Grid";
+import MuiDoneAllIcon from "@material-ui/icons/DoneAll";
 import { makeStyles } from "@material-ui/core/styles";
 
 import { Button, MissionList } from "../index";
@@ -78,7 +79,11 @@ const MissionGroup = ({ action, actionText, group, isEmptyText }) => {
         />
       </MuiExpansionPanelDetails>
       <MuiExpansionPanelActions>
-        <Button fullWidth={true} onClick={() => onClickAcceptMissionGroup(group.groupUid)}>
+        <Button
+          fullWidth={true}
+          startIcon={<MuiDoneAllIcon />}
+          onClick={() => onClickAcceptMissionGroup(group.groupUid)}
+        >
           Accept Missions ({numberOfMissions})
         </Button>
       </MuiExpansionPanelActions>
