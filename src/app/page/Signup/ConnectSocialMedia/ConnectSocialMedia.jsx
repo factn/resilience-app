@@ -14,7 +14,7 @@ import { StyledHeader, useStyles } from "./ConnectSocialMedia.style";
  * Connect Social Media page for use with Signup
  *
  */
-const ConnectSocialMedia = ({ handleButtonClick, signInSuccess }) => {
+const ConnectSocialMedia = ({ onConnectSuccess, onSkip }) => {
   const classes = useStyles();
 
   const firebaseUiConfig = {
@@ -24,7 +24,17 @@ const ConnectSocialMedia = ({ handleButtonClick, signInSuccess }) => {
       firebase.auth.FacebookAuthProvider.PROVIDER_ID,
     ],
     callBacks: {
-      signInSuccess,
+      signInSuccessWithAuthResult: function (authResult) {
+        var user = authResult.user;
+        /** 
+         * TODO we are suppose to do with new user, do not rember what it was
+        var credential = authResult.credential;
+        var isNewUser = authResult.additionalUserInfo.isNewUser;
+        var providerId = authResult.additionalUserInfo.providerId;
+        var operationType = authResult.operationType;
+        */
+        return onConnectSuccess(user);
+      },
     },
   };
 
@@ -38,7 +48,7 @@ const ConnectSocialMedia = ({ handleButtonClick, signInSuccess }) => {
           Sign in more quickly next time by connecting your social media account!
         </Body1>
         <FirebaseAuthUi firebaseUiConfig={firebaseUiConfig} />
-        <Button variant="link" className={classes.skipButton} onClick={handleButtonClick}>
+        <Button variant="link" className={classes.skipButton} onClick={onSkip}>
           Skip
         </Button>
       </Container>

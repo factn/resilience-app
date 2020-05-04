@@ -1,7 +1,9 @@
 import AddressInput from "./AddressInput";
 import Button from "./Button";
 import Chip from "./Chip";
+import { FoodBoxIcon } from "./icons";
 import MissionCard from "./MissionCard";
+import MissionGroup from "./MissionGroup";
 import MissionList from "./MissionList";
 import DownloadMissionsCsv from "./DownloadCsv";
 import Popup from "./Popup";
@@ -14,7 +16,9 @@ export {
   AddressInput,
   Button,
   Chip,
+  FoodBoxIcon,
   MissionCard,
+  MissionGroup,
   MissionList,
   DownloadMissionsCsv,
   PrivateComponent,

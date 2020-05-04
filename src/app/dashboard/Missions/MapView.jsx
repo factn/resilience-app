@@ -77,7 +77,7 @@ const Overview = ({ currentMission, missions, setSelectedMission, volunteers }) 
 
   const { groups, singleMissions } = Mission.getAllGroups(filtered);
   const sortedMissions = {
-    groupId: "",
+    groupUid: "",
     groupDisplayName: "Single Missions",
     missions: singleMissions,
   };
@@ -109,11 +109,11 @@ const Overview = ({ currentMission, missions, setSelectedMission, volunteers }) 
     return (
       <Marker
         icon={CustomIcon}
-        key={mission.id}
+        key={mission.uid}
         position={mission.deliveryLocation}
         onClick={(event) => {
           setAnchorEl(event.target.getElement());
-          setSelectedMission(mission.id);
+          setSelectedMission(mission.uid);
         }}
       >
         <Popup>

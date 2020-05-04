@@ -1,9 +1,9 @@
-import { v4 as uuidV4 } from "uuid";
 import BaseModel from "./BaseModel";
 import {
   Location,
   MissionFundedStatus,
   MissionInterface,
+  UserInterface,
   MissionStatus,
   MissionType,
   TimeWindow,
@@ -25,36 +25,36 @@ const defaultTimeWindow: TimeWindow = {
 };
 
 type Group = {
-  groupId: string;
+  groupUid: string;
   groupDisplayName: string;
   missions: MissionInterface[];
 };
 
 const defaultMissionData: MissionInterface = {
-  id: "",
+  uid: "",
   type: MissionType.errand,
   status: MissionStatus.unassigned,
   createdDate: "",
-  missionDetails: {},
+  missionDetails: null,
   fundedStatus: MissionFundedStatus.notfunded,
   fundedDate: null,
   readyToStart: false,
-  organizationId: "",
+  organizationUid: "",
 
-  groupId: "",
+  groupUid: "",
   groupDisplayName: "",
 
   tentativeVolunteerDisplayName: "",
-  tentativeVolunteerId: "",
+  tentativeVolunteerUid: "",
   tentativeVolunteerPhoneNumber: "",
 
-  volunteerId: "",
+  volunteerUid: "",
   volunteerDisplayName: "",
   volunteerPhoneNumber: "",
 
   recipientDisplayName: "No Recipient Name",
   recipientPhoneNumber: "",
-  recipientId: "No Recipient Id", // reference?
+  recipientUid: "No Recipient Id", // reference?
 
   pickUpWindow: defaultTimeWindow, // nb this can be an exact time or can be null
   pickUpLocation: defaultLocation,
@@ -141,13 +141,13 @@ const getAllGroups = (missions: MissionInterface[]) => {
   let groups: Group[] = [];
   let singleMissions: MissionInterface[] = [];
   missions.forEach((mission: MissionInterface) => {
-    if (mission.groupId) {
-      const index = _.findIndex(groups, ["groupId", mission.groupId]);
+    if (mission.groupUid) {
+      const index = _.findIndex(groups, ["groupUid", mission.groupUid]);
       if (index > -1) {
         groups[index].missions.push(mission);
       } else {
         groups.push({
-          groupId: mission.groupId,
+          groupUid: mission.groupUid,
           groupDisplayName: mission.groupDisplayName,
           missions: [mission],
         });
@@ -181,24 +181,26 @@ class Mission extends BaseModel {
 
   getAllGroups = getAllGroups;
 
-  getById = async (missionId: string) => {
-    const collection = this.getCollection("organizations").doc("1").collection("missions");
+  getByUid = async (missionUid: string) => {
+    const collection = this.getCollection("organizations")
+      .doc(Organization.uid)
+      .collection("missions");
     let doc;
     try {
-      doc = await collection.doc(missionId).get();
+      doc = await collection.doc(missionUid).get();
     } catch (error) {
       //TODO show error message to user
       throw error;
     }
 
     if (!doc.exists) {
-      throw Error(`This mission:  ${missionId} does not exist`);
+      throw Error(`This mission:  ${missionUid} does not exist`);
     }
 
     let data = doc.data();
 
     if (!data) {
-      throw Error(`no data for this mission: ${missionId}`);
+      throw Error(`no data for this mission: ${missionUid}`);
     }
 
     return data;
@@ -208,63 +210,148 @@ class Mission extends BaseModel {
    * Returns all available missions.
    * A mission is available if it has a status of "tentative"
    */
-  getAllAvailable = async () => {
-    const collection = this.getCollection("organizations").doc("1").collection("missions");
-
-    const missionsAvailableForEveryone = await collection
-      .where("status", "==", MissionStatus.tentative)
-      .get();
-
-    if (missionsAvailableForEveryone.docs.length < 1) {
-      return [];
-    }
-    const missions = missionsAvailableForEveryone.docs.map((doc) => doc.data());
-
-    return missions;
-  };
-
-  async create(mission: MissionInterface) {
-    const id = uuidV4();
-
-    console.log(mission);
-    const newMission: MissionInterface = {
-      ...defaultMissionData,
-      ...mission,
-      // TODO change when we figure out dates
-      createdDate: Date.now().toString(),
-      organizationId: Organization.id,
-      id: id,
-    };
-
-    console.log("new", newMission);
-
-    await this.getCollection("organizations")
-      .doc(Organization.id)
+  getAllAvailable = () => {
+    return this.getCollection("organizations")
+      .doc(Organization.uid)
       .collection("missions")
-      .doc(id)
-      .set({
-        ...newMission,
+      .where("status", "==", MissionStatus.tentative)
+      .get()
+      .then((querySnapshot) => {
+        return querySnapshot.docs.map((doc) => doc.data());
       });
-
-    return newMission;
-  }
+  };
 
   /**
    * Update a mision
-   * @param {string} missionId - mission
+   * @param {string} missionUid - mission
    * @param {object} data- updated data
    */
-  update(missionId: string, data: object) {
+  update(missionUid: string, data: object) {
     let sanitized = this.sanitize(data);
     return this.getCollection("organizations")
-      .doc("1")
+      .doc(Organization.uid)
       .collection("missions")
-      .doc(missionId)
+      .doc(missionUid)
       .update({
         ...sanitized,
       });
   }
 
+  /**
+   * create a new mission
+   * returns the new mission id
+   * @param {object} mission
+   * @return {string}
+   */
+  create(mission: MissionInterface) {
+    // Grab a newly generated doc
+    const newRef = this.getCollection("organizations")
+      .doc(Organization.uid)
+      .collection("missions")
+      .doc();
+
+    const newMission = this.load({
+      ...mission,
+      uid: newRef.id,
+      createdDate: Date.now().toString(),
+    });
+
+    return newRef.set(newMission).then(() => newMission);
+  }
+
+  /**
+   * User assigned as tentative for a mission
+   * @param {string} userUid : user
+   * @param {string} missionUid : mission that user want to volunteer for
+   */
+  assign(userUid: string, user: UserInterface, missionUid: string) {
+    return this.update(missionUid, {
+      uid: missionUid,
+      tentativeVolunteerUid: userUid,
+      tentativeVolunteerDisplayName: user.displayName,
+      tentativeVolunteerPhoneNumber: user.phoneNumber,
+      volunteerUid: "",
+      volunteerDisplayName: "",
+      volunteerPhoneNumber: "",
+      status: MissionStatus.tentative,
+    });
+  }
+  /**
+   * accepts a mission
+   * @param {string} userUid : user
+   * @param {string} missionUid : mission that user want to volunteer for
+   */
+  accept(userUid: string, user: UserInterface, missionUid: string) {
+    console.log(userUid);
+    console.log(missionUid);
+
+    //TODO: rules in db for missions not accepting new volunteer if it already have one
+    return this.update(missionUid, {
+      uid: missionUid,
+      tentativeVolunteerUid: "",
+      tentativeVolunteerDisplayName: "",
+      tentativeVolunteerPhoneNumber: "",
+      volunteerUid: userUid,
+      volunteerDisplayName: user.displayName,
+      volunteerPhoneNumber: user.phoneNumber,
+      status: MissionStatus.assigned,
+    });
+  }
+  /**
+   * User start a mission
+   * @param {string} userUid - user
+   * @param {string} missionUid - mission that user want to start
+   */
+  start(userUid: string, user: UserInterface, missionUid: string) {
+    //TODO: rules in db, only user that are correct assigned can start
+    return this.update(missionUid, {
+      uid: missionUid,
+      tentativeVolunteerUid: "",
+      tentativeVolunteerDisplayName: "",
+      tentativeVolunteerPhoneNumber: "",
+      volunteerUid: userUid,
+      volunteerDisplayName: user.displayName,
+      volunteerPhoneNumber: user.phoneNumber,
+      status: MissionStatus.started,
+    });
+  }
+  /**
+   * User deliver a mission
+   * @param {string} userUid - user
+   * @param {string} missionUid - mission that user deliver
+   */
+  deliver(userUid: string, user: UserInterface, missionUid: string) {
+    //TODO: rules in db, only user that are correct assigned can start
+    return this.update(missionUid, {
+      uid: missionUid,
+      tentativeVolunteerUid: "",
+      tentativeVolunteerDisplayName: "",
+      tentativeVolunteerPhoneNumber: "",
+      volunteerUid: userUid,
+      volunteerDisplayName: user.displayName,
+      volunteerPhoneNumber: user.phoneNumber,
+      status: MissionStatus.delivered,
+    });
+  }
+
+  /**
+   * Volunteer is removed from a mission
+   * @param {string} missionUid : mission that user want to volunteer for
+   */
+
+  unassigned(missionUid: string) {
+    //TODO: rules in db, only user that are in correct organization + is organizer
+    return this.update(missionUid, {
+      uid: missionUid,
+      tentativeVolunteerUid: "",
+      tentativeVolunteerDisplayName: "",
+      tentativeVolunteerPhoneNumber: "",
+      volunteerUid: "",
+      volunteerDisplayName: "",
+      volunteerPhoneNumber: "",
+      status: MissionStatus.tentative,
+    });
+  }
   filterByStatus = (missions: MissionInterface[], status: MissionStatus) =>
     missions.filter((mission) => mission.status === status);
 }

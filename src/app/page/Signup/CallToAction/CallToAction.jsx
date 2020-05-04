@@ -11,7 +11,7 @@ import { StyledHeader, useStyles } from "./CallToAction.style";
  * Volunteer Call to Action page for use with Signup
  *
  */
-function CallToAction({ handleButtonClick }) {
+function CallToAction({ onClick }) {
   const classes = useStyles();
 
   return (
@@ -30,7 +30,7 @@ function CallToAction({ handleButtonClick }) {
         <Button
           className={classes.button}
           id="sms-sign-in"
-          onClick={handleButtonClick}
+          onClick={onClick}
           color="secondary"
           variant="contained"
         >

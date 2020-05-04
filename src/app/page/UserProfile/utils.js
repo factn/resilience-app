@@ -1,3 +1,9 @@
+import Organization from "../../model/Organization";
+
+/*TODO We need to check the merge data, especially these fields
+ *  volunteerUid, volunteerProfileName, volunteerPhoneNumber
+ *  tentativeVolunteerUid, tentativeVolunteerProfileName, tentativeVoluteerPhoneNumber
+ */
 /* eslint-disable */
 // If we decided to get merge to work once again
 async function errorHandler(error) {
@@ -12,15 +18,15 @@ async function errorHandler(error) {
     var [previousCreateMissions, previousVolunteerMissions] = await Promise.all([
       firestore
         .collection("organizations")
-        .doc("1")
+        .doc(Organization.uid)
         .collection("missions")
         .where("ownerId", "==", prevUser.uid)
         .get(),
       firestore
         .collection("organizations")
-        .doc("1")
+        .doc(Organization.uid)
         .collection("missions")
-        .where("volunteerId", "==", prevUser.uid)
+        .where("volunteerUid", "==", prevUser.uid)
         .get(),
     ]);
 
@@ -51,7 +57,7 @@ async function errorHandler(error) {
       previousCreateMissions.forEach((doc) => {
         firestore
           .collection("organizations")
-          .doc("1")
+          .doc(Organization.uid)
           .collection("missions")
           .doc(doc.id)
           .update({ ownerId: currentUser.uid });
@@ -59,16 +65,16 @@ async function errorHandler(error) {
       previousVolunteerMissions.forEach((doc) => {
         firestore
           .collection("organizations")
-          .doc("1")
+          .doc(Organization.uid)
           .collection("missions")
           .doc(doc.id)
-          .update({ volunteerId: currentUser.uid });
+          .update({ volunteerUid: currentUser.uid });
       });
     } catch (e) {
       previousCreateMissions.forEach((doc) => {
         firestore
           .collection("organizations")
-          .doc("1")
+          .doc(Organization.uid)
           .collection("missions")
           .doc(doc.id)
           .update({ ownerId: prevUser.uid });
@@ -76,10 +82,10 @@ async function errorHandler(error) {
       previousVolunteerMissions.forEach((doc) => {
         firestore
           .collection("organizations")
-          .doc("1")
+          .doc(Organization.uid)
           .collection("missions")
           .doc(doc.id)
-          .update({ volunteerId: prevUser.uid });
+          .update({ volunteerUid: prevUser.uid });
       });
       firestore.collection("users").doc(prevUser.uid).set(prevUserData);
       firestore.collection("users").doc(currentUser.uid).set(currentUserData);
