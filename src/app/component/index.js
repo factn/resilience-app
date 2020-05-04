@@ -1,6 +1,7 @@
 import AddressInput from "./AddressInput";
 import Button from "./Button";
 import Chip from "./Chip";
+import { FoodBoxIcon } from "./icons";
 import MissionCard from "./MissionCard";
 import MissionGroup from "./MissionGroup";
 import MissionList from "./MissionList";
@@ -15,6 +16,7 @@ export {
   AddressInput,
   Button,
   Chip,
+  FoodBoxIcon,
   MissionCard,
   MissionGroup,
   MissionList,
