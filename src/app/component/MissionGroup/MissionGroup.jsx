@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import React from "react";
 import clsx from "clsx";
-import { isEmpty, isLoaded } from "react-redux-firebase";
+import { isLoaded } from "react-redux-firebase";
 import { useHistory } from "react-router-dom";
 import MuiExpansionPanel from "@material-ui/core/ExpansionPanel";
 import MuiExpansionPanelActions from "@material-ui/core/ExpansionPanelActions";
@@ -9,7 +9,6 @@ import MuiExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import MuiExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import MuiExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import MuiGrid from "@material-ui/core/Grid";
-import MuiDoneAllIcon from "@material-ui/icons/DoneAll";
 import { makeStyles } from "@material-ui/core/styles";
 
 import { Button, MissionList } from "../index";
@@ -40,7 +39,8 @@ const missionGroupStyles = makeStyles((theme) => ({
  *
  * @component
  */
-const MissionGroup = ({ action, actionText, group, isEmptyText }) => {
+const MissionGroup = ({ callToAction, group }) => {
+  let { action, actionIcon, actionText, groupActionIcon } = callToAction || {};
   const classes = missionGroupStyles();
   const history = useHistory();
   const missions = group.missions;
@@ -72,11 +72,10 @@ const MissionGroup = ({ action, actionText, group, isEmptyText }) => {
         <MissionList
           missions={missions}
           history={history}
-          isEmpty={isEmpty(missions)}
           isLoaded={isLoaded(missions)}
-          isEmptyText={isEmptyText}
           callToAction={{
             text: actionText,
+            icon: actionIcon,
             onClick: (missionUid) => action(missionUid),
           }}
         />
@@ -84,7 +83,7 @@ const MissionGroup = ({ action, actionText, group, isEmptyText }) => {
       <MuiExpansionPanelActions>
         <Button
           fullWidth={true}
-          startIcon={<MuiDoneAllIcon />}
+          startIcon={groupActionIcon}
           onClick={() => onClickAcceptMissionGroup(group.groupUid)}
         >
           {actionText} ({numberOfMissions})
@@ -96,8 +95,7 @@ const MissionGroup = ({ action, actionText, group, isEmptyText }) => {
 
 MissionGroup.propTypes = {
   group: PropTypes.object,
-  actionText: PropTypes.string,
-  action: PropTypes.func,
+  callToAction: PropTypes.object,
 };
 
 export default MissionGroup;

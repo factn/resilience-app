@@ -10,7 +10,14 @@ import { MissionList, MissionGroup } from "../../component";
  *
  * @component
  */
-const VolunteerHomeMissionList = ({ action, actionText, isEmptyText, missions }) => {
+const VolunteerHomeMissionList = ({
+  action,
+  actionIcon,
+  actionText,
+  groupActionIcon,
+  isEmptyText,
+  missions,
+}) => {
   const history = useHistory();
 
   const { groups, singleMissions } = Mission.getAllGroups(missions);
@@ -18,12 +25,14 @@ const VolunteerHomeMissionList = ({ action, actionText, isEmptyText, missions })
     <MissionGroup
       key={group.groupUid}
       group={group}
-      action={action}
-      actionText={actionText}
+      callToAction={{
+        groupActionIcon,
+        actionText,
+        actionIcon,
+        action,
+      }}
       history={history}
-      isEmpty={isEmpty(group.missions)}
       isLoaded={isLoaded(group.missions)}
-      isEmptyText={isEmptyText}
     />
   ));
 
@@ -56,6 +65,9 @@ VolunteerHomeMissionList.propTypes = {
   missions: PropTypes.array,
   actionText: PropTypes.string,
   action: PropTypes.func,
+  actionIcon: PropTypes.element,
+  groupActionIcon: PropTypes.element,
+  isEmptyText: PropTypes.string,
 };
 
 export default VolunteerHomeMissionList;

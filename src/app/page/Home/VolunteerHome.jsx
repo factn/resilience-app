@@ -2,6 +2,9 @@ import { Box, Paper, Tab, Tabs, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
+import MuiCheckIcon from "@material-ui/icons/Check";
+import MuiDoneAllIcon from "@material-ui/icons/DoneAll";
+import MuiPlayCircleFilledIcon from "@material-ui/icons/PlayCircleFilled";
 
 import User from "../../model/User";
 import Mission from "../../model/Mission";
@@ -104,6 +107,8 @@ export default function VolunteerHome({ currentUser }) {
           missions={availableMissions}
           currentUser={currentUser}
           actionText="Accept Mission"
+          actionIcon={<MuiCheckIcon />}
+          groupActionIcon={<MuiDoneAllIcon />}
           isEmptyText={volunteerDashboardEmptyTabMessage.available}
           action={(missionUid) => handleAcceptMission(missionUid)}
         />
@@ -113,6 +118,8 @@ export default function VolunteerHome({ currentUser }) {
           missions={acceptedMissions}
           currentUser={currentUser}
           actionText="Start Mission"
+          actionIcon={<MuiPlayCircleFilledIcon />}
+          groupActionIcon={<MuiPlayCircleFilledIcon />}
           isEmptyText={volunteerDashboardEmptyTabMessage.accepted}
           action={(missionUid) => handleStartMission(missionUid)}
         />
