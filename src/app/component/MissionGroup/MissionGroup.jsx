@@ -55,6 +55,14 @@ const MissionGroup = ({ callToAction, group, groupCallToAction, showViewRoute })
   };
   const onClickViewRouteButton = () => {
     console.log("View Routes");
+    missions.forEach((mission) => {
+      console.log(mission);
+      let pickUpLocation = mission.pickUpLocation.address;
+      let deliveryLocation = mission.deliveryLocation.address;
+      window.open(
+        `https://www.google.com/maps/dir/?api=1&origin=${pickUpLocation}&destination=${deliveryLocation}&travelmode=driving`
+      );
+    });
   };
 
   const viewRoute = showViewRoute && (
