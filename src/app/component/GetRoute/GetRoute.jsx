@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Button from "@material-ui/core/Button";
 import PropTypes from "prop-types";
 
@@ -23,7 +23,6 @@ const GetRoute = ({ mission }) => {
       },
       body: rawRoutePathData,
     })
-      .then(json)
       .then(function (data) {
         console.log("Request succeeded with JSON response", data);
         displayMapData(data);
