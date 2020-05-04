@@ -53,8 +53,11 @@ const unassignedOptions = [
 const NotFundedStatus = ({ classes, missionId }) => {
   const handleChange = (event) => {
     event.preventDefault();
+    //TODO move this to mission model as
+    // Mission.setFunded()
     Mission.update(missionId, {
       fundedStatus: event.target.value,
+      fundedDate: Date.now().toString(),
       status: Mission.Status.tentative,
     });
   };
