@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 // components
-import MissionTypeFormFB from "../../component/MissionTypeForm";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
@@ -22,10 +21,14 @@ import PhoneIcon from "@material-ui/icons/Phone";
 import AddLocationIcon from "@material-ui/icons/AddLocation";
 import QueryBuilderIcon from "@material-ui/icons/QueryBuilder";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
+
 //TODO
-// 100% FUNCTIONALITY
+// fix mission type options & make functional
+// send data to firebase
 // Validation
 // fix warnings
+// tests
+// erase to do
 
 const useStyles = makeStyles((theme) => ({
   addMissionContainer: {
@@ -61,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "left",
   },
   select: {
-    maxWidth: "50%",
+    width: "50%",
   },
   form: {
     padding: "10px",
@@ -146,13 +149,13 @@ const useStyles = makeStyles((theme) => ({
 const CreateMission = () => {
   const classes = useStyles();
   const [missionType, setMissionType] = useState();
-  const [associatedItems, setAssociatedItems] = useState([]);
+  const [items, setItems] = useState();
   const [missionFund, setMissionFund] = useState(1);
   const [recipient, setRecipient] = useState({ name: "default", phoneNumber: "" });
   const [volunteer, setVolunteer] = useState({ name: "default", phoneNumber: "" });
   const [dropOff, setDropOff] = useState({ address: "", date: "" });
   const [pickUp, setPickUp] = useState({ address: "", date: "" });
-  const [comment, setComment] = useState();
+  const [comment, setComment] = useState("");
   // master mission object
   const [newMissionObject, setNewMissionObject] = useState({});
 
@@ -164,7 +167,7 @@ const CreateMission = () => {
       createdAt: new Date(),
       createdBy: "organizer", // make dynamic
       missionType: missionType,
-      associatedItems: associatedItems,
+      associatedItems: items,
       fund: missionFund,
       recipient: recipient,
       volunteer: volunteer,
@@ -203,10 +206,15 @@ const CreateMission = () => {
     setComment(event.target.value);
   };
 
+  const handleItems = (event) => {
+    setItems({ ...items, [event.target.name]: event.target.value });
+    console.log(items);
+  };
+
   // This handles all the food box inputs that are added to food box missions
-  const [foodBoxInputCount, setFoodBoxInputCount] = useState([]);
+  const [foodBoxArray, setFoodBoxArray] = useState([]);
   function addToFBCount() {
-    setFoodBoxInputCount([...foodBoxInputCount, foodBoxInputCount.length + 1]);
+    setFoodBoxArray([...foodBoxArray, foodBoxArray.length]);
   }
 
   return (
@@ -222,13 +230,13 @@ const CreateMission = () => {
           <InputLabel
             variant="outlined"
             id="missionType"
-            shrink="true"
+            shrink={true}
             className={classes.inputLabel}
           >
             Select Mission Type
           </InputLabel>
           <Select
-            labelId="missionType"
+            labelid="missionType"
             variant="outlined"
             className={classes.select}
             value={missionType}
@@ -244,20 +252,33 @@ const CreateMission = () => {
           <>
             <Typography className={classes.inputHeader}>Select Food Box Options</Typography>
             <FormControl className={classes.form}>
-              {foodBoxInputCount.map((index) => {
-                function confirmItems(event) {
-                  event.preventDefault();
-                  const check = document.getElementById("check" + index);
-                  check.style.display = "flex";
-                  const text = document.getElementById("ci" + index);
-                  text.style.color = "#3739B5";
-                  const btn = document.getElementById("btn" + index);
-                  btn.style.disabled = true;
-                  console.log(associatedItems);
-                }
-                return <MissionTypeFormFB key={index} indexOf={index} />;
+              {Object.keys(foodBoxArray).map((index) => {
+                const { name, amount } = foodBoxArray[index];
+                return (
+                  <div className={classes.sideBySideSelect} key={index}>
+                    <Select
+                      onChange={handleItems}
+                      name={"item" + index}
+                      variant="outlined"
+                      className={classes.select}
+                      value={name}
+                    >
+                      <MenuItem value="Fruits and Veggies">Fruits & Veggies</MenuItem>
+                      <MenuItem value="Non-Perishables">Non-Perishables</MenuItem>
+                      <MenuItem value="Meat">Meat</MenuItem>
+                    </Select>
+                    <TextField
+                      onChange={handleItems}
+                      name={"amount" + index}
+                      type="number"
+                      variant="outlined"
+                      className={classes.numSelector}
+                      value={amount}
+                    />
+                  </div>
+                );
               })}
-
+              ;
               <Button className={classes.selectCreateButton} onClick={(e) => addToFBCount(e)}>
                 <AddCircleIcon style={{ marginRight: "5px", color: "#3739B5" }} />
                 Add Food Box
@@ -292,7 +313,6 @@ const CreateMission = () => {
           </Select>
         </FormControl>
         <Divider variant="middle" />
-
         <div className={classes.dualForm}>
           <FormControl className={classes.form2}>
             <div className={classes.optionalTagBox}>
@@ -301,7 +321,7 @@ const CreateMission = () => {
             </div>
             <Select
               className={classes.dualSelect}
-              labelId="name"
+              labelid="name"
               placeholder="Name"
               value={recipient.name}
               variant="outlined"
@@ -314,14 +334,13 @@ const CreateMission = () => {
               {/* NEED TO DYNAMICALLY SET NAMES */}
             </Select>
             <br />
-
             <TextField
               variant="outlined"
               name="phoneNumber"
               onChange={handleRecipient}
               className={classes.dualText}
               value={recipient.phoneNumber}
-              labelId="phone"
+              labelid="phone"
               placeholder="(123) 456-7890"
               InputProps={{
                 startAdornment: (
@@ -332,7 +351,6 @@ const CreateMission = () => {
               }}
             />
           </FormControl>
-
           <FormControl className={classes.form2}>
             <div className={classes.optionalTagBox}>
               <Typography className={classes.inputHeader2}>Volunteer Details </Typography>
@@ -341,9 +359,8 @@ const CreateMission = () => {
             </div>
             <Select
               className={classes.dualSelect}
-              labelId="name0"
+              labelid="name0"
               name="name"
-              value="default"
               variant="outlined"
               onChange={handleVolunteer}
               value={volunteer.name}
@@ -358,7 +375,7 @@ const CreateMission = () => {
               variant="outlined"
               name="phoneNumber"
               className={classes.dualText}
-              labelId="phone0"
+              labelid="phone0"
               placeholder="(123) 456-7890"
               onChange={handleVolunteer}
               value={volunteer.phoneNumber}
@@ -372,7 +389,6 @@ const CreateMission = () => {
             />
           </FormControl>
         </div>
-
         <Divider variant="middle" />
         <div className={classes.dualForm}>
           <FormControl className={classes.form2}>
@@ -381,7 +397,7 @@ const CreateMission = () => {
               className={classes.dualText}
               variant="outlined"
               onChange={handleDrop}
-              labelId="location"
+              labelid="location"
               value={dropOff.address}
               name="address"
               placeholder="Enter Address"
@@ -398,7 +414,7 @@ const CreateMission = () => {
               type="date"
               className={classes.dualText}
               variant="outlined"
-              labelId="dod"
+              labelid="dod"
               name="date"
               value={dropOff.date}
               onChange={handleDrop}
@@ -420,7 +436,7 @@ const CreateMission = () => {
               name="address"
               value={pickUp.address}
               onChange={handlePickUp}
-              labelId="address"
+              labelid="address"
               placeholder="Enter Address"
               InputProps={{
                 startAdornment: (
@@ -438,7 +454,7 @@ const CreateMission = () => {
               onChange={handlePickUp}
               name="date"
               variant="outlined"
-              labelId="pud"
+              labelid="pud"
               placeholder="Enter Pick Up Date Date"
               InputProps={{
                 startAdornment: (
@@ -451,7 +467,6 @@ const CreateMission = () => {
           </FormControl>
         </div>
         <Divider variant="middle" />
-
         <div className={classes.optionalTagBox}>
           <Typography className={classes.inputHeader2}>Drop Off Instructions / Comments</Typography>
           <Typography className={classes.optionalTag2}> - optional</Typography>

@@ -22,9 +22,10 @@ npm ci
 # as opposed to npm install, which modifies package-lock.json
 ```
 
-- Set up your local .env folder
+- Create your local `.env` folder at the root of your resilience-app folder
 
-Copy the file pinned to the side of #resilience-app channel to `.env.development`in the git root of this repo.
+Create the `.env.development` file at the root of the resilience-app folder as well and copy the content under `below go into env.development` into this file. The content is pinned to the side of #resilience-app slack channel.
+
 
 - Start the local server
 

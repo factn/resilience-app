@@ -19,10 +19,10 @@ const defaultLocation: Location = {
 const defaultUserData: UserInterface = {
   id: "",
   cannotReceiveTexts: false,
-  phone: "",
   photoURL: "",
   description: "",
   displayName: "",
+  phoneNumber: "",
   email: "email",
   location: defaultLocation,
   organizationId: 0,
@@ -37,8 +37,19 @@ const defaultUserData: UserInterface = {
   organizerDetails: {},
 };
 
+const fsVolunteer = (orgId: string) => ({
+  collection: "users",
+  where: [
+    ["isVolunteer", "==", true],
+    ["organizationId", "==", orgId],
+  ],
+  storeAs: "volunteers",
+});
+
 class User extends BaseModel {
   VolunteerStatus = VolunteerStatus;
+
+  fsVolunteer = fsVolunteer;
 
   async saveNewUser(data: UserInterface) {
     const collection = this.getCollection("users");
@@ -55,6 +66,10 @@ class User extends BaseModel {
     } catch (error) {
       throw error;
     }
+  }
+
+  usersSearchByName(value: string, limit: number) {
+    return this.getCollection("users").where("displayName", ">=", value).limit(limit).get();
   }
 
   /**
@@ -105,6 +120,32 @@ class User extends BaseModel {
     }
 
     return doc.docs[0].id;
+  }
+
+  /**
+   * User assigned as tentative for a mission
+   * @param {string} userId : user
+   * @param {string} missionId : mission that user want to volunteer for
+   */
+  async assignedMission(user: UserInterface, missionId: string) {
+    let data = await Mission.getById(missionId);
+
+    if (data.volunteerId) {
+      throw Error(`User: ${user.id} are not allowed to volunteer for this mission: ${missionId}`);
+    }
+
+    try {
+      const collection = this.getCollection("organizations").doc("1").collection("missions");
+      collection.doc(missionId).update({
+        tentativeVolunteerId: user.id,
+        tentativeVolunteerDisplayName: user.displayName,
+        tentativeVolunteerPhoneNumber: user.phoneNumber,
+        status: MissionStatus.tentative,
+      });
+    } catch (e) {
+      //TODO show error message to user
+      throw e;
+    }
   }
 
   /**
@@ -228,24 +269,6 @@ class User extends BaseModel {
       //TODO show error msg to user
       throw e;
     }
-  }
-  /**
-   * Get all available missions: missions suggested to the volunteer + general available missions
-   * @param userId UserId of the volunteer
-   */
-  async getAllAvailableMissions(userId: string) {
-    const collection = this.getCollection("organizations").doc("1").collection("missions");
-
-    const missionsAvailableForEveryone = await Mission.getAllAvailable();
-    const suggestedMissions = await collection.where("tentativeVolunteerId", "==", userId).get();
-    const missions = missionsAvailableForEveryone.concat(
-      suggestedMissions.docs.map((doc) => doc.data())
-    );
-    if (missions.length < 0) {
-      return [];
-    }
-
-    return missions;
   }
 
   /**

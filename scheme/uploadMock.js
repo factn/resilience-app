@@ -1,10 +1,16 @@
 const admin = require("firebase-admin");
 //node_modules/firebase-admin");
-const serviceAccount = process.env.FIREBASE_SECRET;
+let serviceAccount = process.env.FIREBASE_SECRET;
 const data = require("./data.json");
+/** For local push
+ */
+const fs = require("fs");
+serviceAccount = fs.readFileSync("secret.json");
+
+const credential = JSON.parse(serviceAccount);
 
 admin.initializeApp({
-  credential: admin.credential.cert(JSON.parse(serviceAccount)),
+  credential: admin.credential.cert(credential),
   databaseURL: "https://mutualaid-757f6.firebaseio.com",
 });
 

@@ -4,7 +4,13 @@ import { Link } from "react-router-dom";
 
 import { ReactComponent as Logo } from "../../../img/logo.svg";
 import NavigationDrawer from "../NavigationDrawer/index";
-import { AppbarContainer, AppbarDefault, LogoContainer, MenuContainer } from "./Appbar.style";
+import {
+  AboutLink,
+  AppbarContainer,
+  AppbarDefault,
+  LogoContainer,
+  MenuContainer,
+} from "./Appbar.style";
 
 const Appbar = ({ children }) => {
   return (
@@ -18,6 +24,9 @@ const Appbar = ({ children }) => {
               <Logo title="MutualAidLogo" role="img" />
             </Link>
           </LogoContainer>
+          <AboutLink to="/about" aria-label="About Resilience App">
+            About Resilience App
+          </AboutLink>
           <MenuContainer data-testid="MutualAidMenu">
             <NavigationDrawer />
           </MenuContainer>
