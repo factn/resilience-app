@@ -131,6 +131,7 @@ export default function VolunteerHome({ currentUser }) {
             currentUser={currentUser}
             actionText="Accept Mission"
             actionIcon={<MuiCheckIcon />}
+            showGroupAction={true}
             groupActionIcon={<MuiDoneAllIcon />}
             isEmptyText={volunteerDashboardEmptyTabMessage.available}
             action={(missionUid) => handleAcceptMission(missionUid)}
@@ -153,6 +154,7 @@ export default function VolunteerHome({ currentUser }) {
             currentUser={currentUser}
             actionText="Start Mission"
             actionIcon={<MuiPlayCircleFilledIcon />}
+            showGroupAction={true}
             groupActionIcon={<MuiPlayCircleFilledIcon />}
             isEmptyText={volunteerDashboardEmptyTabMessage.accepted}
             action={(missionUid) => handleStartMission(missionUid)}
@@ -174,6 +176,7 @@ export default function VolunteerHome({ currentUser }) {
             missions={inProgressMissions}
             currentUser={currentUser}
             actionText={"Mission Delivered"}
+            showViewRoute={true}
             isEmptyText={volunteerDashboardEmptyTabMessage.started}
             action={(missionUid) => handleDeliveringMissionsFromStarted(missionUid)}
           />

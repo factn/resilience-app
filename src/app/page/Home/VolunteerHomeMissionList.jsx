@@ -17,6 +17,8 @@ const VolunteerHomeMissionList = ({
   groupActionIcon,
   isEmptyText,
   missions,
+  showGroupAction,
+  showViewRoute,
 }) => {
   const history = useHistory();
 
@@ -25,14 +27,18 @@ const VolunteerHomeMissionList = ({
     <MissionGroup
       key={group.groupUid}
       group={group}
-      callToAction={{
+      groupCallToAction={{
+        showGroupAction,
         groupActionIcon,
-        actionText,
-        actionIcon,
-        action,
+      }}
+      callToAction={{
+        text: actionText,
+        icon: actionIcon,
+        onClick: (missionUid) => action(missionUid),
       }}
       history={history}
       isLoaded={isLoaded(group.missions)}
+      showViewRoute={showViewRoute}
     />
   ));
 
@@ -66,7 +72,9 @@ VolunteerHomeMissionList.propTypes = {
   actionText: PropTypes.string,
   action: PropTypes.func,
   actionIcon: PropTypes.element,
+  showGroupAction: PropTypes.bool,
   groupActionIcon: PropTypes.element,
+  showViewRoute: PropTypes.bool,
   isEmptyText: PropTypes.string,
 };
 

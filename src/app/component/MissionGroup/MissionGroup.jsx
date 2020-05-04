@@ -9,6 +9,7 @@ import MuiExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import MuiExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import MuiExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import MuiGrid from "@material-ui/core/Grid";
+import MuiMapIcon from "@material-ui/icons/Map";
 import { makeStyles } from "@material-ui/core/styles";
 
 import { Button, MissionList } from "../index";
@@ -39,17 +40,42 @@ const missionGroupStyles = makeStyles((theme) => ({
  *
  * @component
  */
-const MissionGroup = ({ callToAction, group }) => {
-  let { action, actionIcon, actionText, groupActionIcon } = callToAction || {};
+const MissionGroup = ({ callToAction, group, groupCallToAction, showViewRoute }) => {
+  const { icon, onClick, text } = callToAction || {};
+  const { actionIcon, actionText } = { actionText: text, actionIcon: icon };
+  const { groupActionIcon, showGroupAction } = groupCallToAction || {};
   const classes = missionGroupStyles();
   const history = useHistory();
   const missions = group.missions;
   const numberOfMissions = missions.length;
-  const onClickAcceptMissionGroup = (groupUid) => {
+  const onClickMissionGroupButton = (groupUid) => {
     missions.forEach((mission) => {
-      action(mission.uid);
+      onClick(mission.uid);
     });
   };
+  const onClickViewRouteButton = () => {
+    console.log("View Routes");
+  };
+
+  const viewRoute = showViewRoute && (
+    <Button
+      fullWidth={true}
+      variant="text"
+      startIcon={<MuiMapIcon />}
+      onClick={() => onClickViewRouteButton()}
+    >
+      View Route
+    </Button>
+  );
+  const groupAction = showGroupAction && (
+    <Button
+      fullWidth={true}
+      startIcon={groupActionIcon}
+      onClick={() => onClickMissionGroupButton(group.groupUid)}
+    >
+      {actionText} ({numberOfMissions})
+    </Button>
+  );
 
   return (
     <MuiExpansionPanel className="mission-group" defaultExpanded={true}>
@@ -76,18 +102,13 @@ const MissionGroup = ({ callToAction, group }) => {
           callToAction={{
             text: actionText,
             icon: actionIcon,
-            onClick: (missionUid) => action(missionUid),
+            onClick: (missionUid) => onClick(missionUid),
           }}
         />
       </MuiExpansionPanelDetails>
       <MuiExpansionPanelActions>
-        <Button
-          fullWidth={true}
-          startIcon={groupActionIcon}
-          onClick={() => onClickAcceptMissionGroup(group.groupUid)}
-        >
-          {actionText} ({numberOfMissions})
-        </Button>
+        {viewRoute}
+        {groupAction}
       </MuiExpansionPanelActions>
     </MuiExpansionPanel>
   );
@@ -95,7 +116,9 @@ const MissionGroup = ({ callToAction, group }) => {
 
 MissionGroup.propTypes = {
   group: PropTypes.object,
+  groupCallToAction: PropTypes.object,
   callToAction: PropTypes.object,
+  showViewRoute: PropTypes.bool,
 };
 
 export default MissionGroup;
