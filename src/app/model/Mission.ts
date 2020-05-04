@@ -282,6 +282,9 @@ class Mission extends BaseModel {
    * @param {string} missionUid : mission that user want to volunteer for
    */
   accept(userUid: string, user: UserInterface, missionUid: string) {
+    console.log(userUid);
+    console.log(missionUid);
+
     //TODO: rules in db for missions not accepting new volunteer if it already have one
     return this.update(missionUid, {
       uid: missionUid,

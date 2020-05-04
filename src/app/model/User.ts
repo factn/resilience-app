@@ -79,7 +79,11 @@ class User extends BaseModel {
     return Promise.all([
       collection
         .where("volunteerUid", "==", userUid)
-        .where("status", "in", [MissionStatus.assigned, MissionStatus.started])
+        .where("status", "in", [
+          MissionStatus.assigned,
+          MissionStatus.started,
+          MissionStatus.delivered,
+        ])
         .get(),
       collection
         .where("tentativeVolunteerUid", "==", userUid)

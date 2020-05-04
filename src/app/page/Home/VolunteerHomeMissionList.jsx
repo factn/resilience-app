@@ -22,7 +22,7 @@ const VolunteerHomeMissionList = ({ action, actionText, isEmptyText, missions })
       isEmptyText={isEmptyText}
       callToAction={{
         text: actionText,
-        onClick: (missionUid) => action(missionUid),
+        onClick: action,
       }}
     />
   );

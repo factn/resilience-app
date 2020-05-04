@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 
 import User from "../../model/User";
 import Mission from "../../model/Mission";
-import { getAllAssignedMissions, getAllStartedMissions } from "./missionHelpers";
+import { getAllAssignedMissions, getAllInProgressMissions } from "./missionHelpers";
 import VolunteerHomeMissionList from "./VolunteerHomeMissionList";
 import { volunteerDashboardEmptyTabMessage } from "../../../constants";
 import { UserPhoneUnverifiedPopup } from "../../component";
@@ -25,7 +25,7 @@ export default function VolunteerHome({ currentUser }) {
   const [value, setValue] = useState(0);
   const [popUpOpen, setPopUpOpen] = useState(false);
   const [acceptedMissions, updateAssignedMissions] = useState([]);
-  const [startedMissions, updateStartedMissions] = useState([]);
+  const [inProgressMissions, updateInProgressMissions] = useState([]);
   const [availableMissions, updateAvailableMissions] = useState([]);
 
   useEffect(() => {
@@ -35,7 +35,7 @@ export default function VolunteerHome({ currentUser }) {
 
       updateAvailableMissions(availableMissions);
       updateAssignedMissions(getAllAssignedMissions(missions, currentUser));
-      updateStartedMissions(getAllStartedMissions(missions, currentUser));
+      updateInProgressMissions(getAllInProgressMissions(missions, currentUser));
     };
 
     if (!!currentUser && !!currentUser.uid) {
@@ -55,7 +55,7 @@ export default function VolunteerHome({ currentUser }) {
     // Move from Assigned to Started
     const mission = acceptedMissions.filter((m) => m.uid === missionUid);
     updateAssignedMissions(acceptedMissions.filter((m) => m.uid !== missionUid));
-    updateStartedMissions(startedMissions.concat(mission));
+    updateInProgressMissions(inProgressMissions.concat(mission));
   };
 
   const handleAcceptMission = (missionUid) => {
@@ -74,13 +74,13 @@ export default function VolunteerHome({ currentUser }) {
       setPopUpOpen(true);
     } else {
       Mission.deliver(currentUser.uid, currentUser, missionUid);
-      updateStartedMissions(startedMissions.filter((m) => m.uid !== missionUid));
+      updateInProgressMissions(inProgressMissions.filter((m) => m.uid !== missionUid));
     }
   };
 
   const availableLabel = "Available (" + availableMissions.length + ")";
   const acceptedLabel = "Accepted (" + acceptedMissions.length + ")";
-  const startedLabel = "Started (" + startedMissions.length + ")";
+  const startedLabel = "In Progress (" + inProgressMissions.length + ")";
 
   return (
     <div className={classes.root}>
@@ -119,7 +119,7 @@ export default function VolunteerHome({ currentUser }) {
       </TabPanel>
       <TabPanel value={value} index={2}>
         <VolunteerHomeMissionList
-          missions={startedMissions}
+          missions={inProgressMissions}
           currentUser={currentUser}
           actionText={"Mission Delivered"}
           isEmptyText={volunteerDashboardEmptyTabMessage.started}

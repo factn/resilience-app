@@ -43,7 +43,7 @@ const MissionDetailsPage = ({ history, match }) => {
   useEffect(() => {
     const missionUid = match.params.id;
     const fetchMissionById = async () => {
-      const mission = await Mission.getById(missionUid);
+      const mission = await Mission.getByUid(missionUid);
       setMission(mission);
     };
     fetchMissionById();
