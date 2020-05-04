@@ -10,8 +10,10 @@ import User from "../../model/User";
 import Mission from "../../model/Mission";
 import { getAllAssignedMissions, getAllInProgressMissions } from "./missionHelpers";
 import VolunteerHomeMissionList from "./VolunteerHomeMissionList";
+import MissionTypeHeading from "./MissionTypeHeading";
 import { volunteerDashboardEmptyTabMessage } from "../../../constants";
-import { UserPhoneUnverifiedPopup } from "../../component";
+import { FoodBoxIcon, UserPhoneUnverifiedPopup } from "../../component";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
@@ -19,10 +21,14 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.paper,
   },
   tabMargin: {
-    margin: "1rem 0",
+    marginTop: "1rem",
   },
   sectionHeadingStyles: {
     textAlign: "left",
+  },
+  tabSectionContainer: {
+    paddingLeft: "1rem",
+    paddingRight: "1rem",
   },
 }));
 
@@ -87,6 +93,10 @@ export default function VolunteerHome({ currentUser }) {
   const availableLabel = "Available (" + availableMissions.length + ")";
   const acceptedLabel = "Accepted (" + acceptedMissions.length + ")";
   const startedLabel = "In Progress (" + inProgressMissions.length + ")";
+  const missionType = {
+    label: "Food Box Missions",
+    icon: <FoodBoxIcon />,
+  };
 
   return (
     <div className={classes.root}>
@@ -106,59 +116,68 @@ export default function VolunteerHome({ currentUser }) {
         </Tabs>
       </Paper>
       <TabPanel value={value} index={0}>
-        <Typography
-          component="h1"
-          variant="h1"
-          gutterBottom
-          className={classes.sectionHeadingStyles}
-        >
-          Available
-        </Typography>
-        <VolunteerHomeMissionList
-          missions={availableMissions}
-          currentUser={currentUser}
-          actionText="Accept Mission"
-          actionIcon={<MuiCheckIcon />}
-          groupActionIcon={<MuiDoneAllIcon />}
-          isEmptyText={volunteerDashboardEmptyTabMessage.available}
-          action={(missionUid) => handleAcceptMission(missionUid)}
-        />
+        <MissionTypeHeading label={missionType.label} icon={missionType.icon}></MissionTypeHeading>
+        <Box className={classes.tabSectionContainer}>
+          <Typography
+            component="h1"
+            variant="h1"
+            gutterBottom
+            className={classes.sectionHeadingStyles}
+          >
+            Available
+          </Typography>
+          <VolunteerHomeMissionList
+            missions={availableMissions}
+            currentUser={currentUser}
+            actionText="Accept Mission"
+            actionIcon={<MuiCheckIcon />}
+            groupActionIcon={<MuiDoneAllIcon />}
+            isEmptyText={volunteerDashboardEmptyTabMessage.available}
+            action={(missionUid) => handleAcceptMission(missionUid)}
+          />
+        </Box>
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <Typography
-          component="h1"
-          variant="h1"
-          gutterBottom
-          className={classes.sectionHeadingStyles}
-        >
-          Scheduled
-        </Typography>
-        <VolunteerHomeMissionList
-          missions={acceptedMissions}
-          currentUser={currentUser}
-          actionText="Start Mission"
-          actionIcon={<MuiPlayCircleFilledIcon />}
-          groupActionIcon={<MuiPlayCircleFilledIcon />}
-          isEmptyText={volunteerDashboardEmptyTabMessage.accepted}
-          action={(missionUid) => handleStartMission(missionUid)}
-        />
+        <MissionTypeHeading label={missionType.label} icon={missionType.icon}></MissionTypeHeading>
+        <Box className={classes.tabSectionContainer}>
+          <Typography
+            component="h1"
+            variant="h1"
+            gutterBottom
+            className={classes.sectionHeadingStyles}
+          >
+            Scheduled
+          </Typography>
+          <VolunteerHomeMissionList
+            missions={acceptedMissions}
+            currentUser={currentUser}
+            actionText="Start Mission"
+            actionIcon={<MuiPlayCircleFilledIcon />}
+            groupActionIcon={<MuiPlayCircleFilledIcon />}
+            isEmptyText={volunteerDashboardEmptyTabMessage.accepted}
+            action={(missionUid) => handleStartMission(missionUid)}
+          />
+        </Box>
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <Typography
-          component="h1"
-          variant="h1"
-          gutterBottom
-          className={classes.sectionHeadingStyles}
-        >
-          In Progress
-        </Typography>
-        <VolunteerHomeMissionList
-          missions={inProgressMissions}
-          currentUser={currentUser}
-          actionText={"Mission Delivered"}
-          isEmptyText={volunteerDashboardEmptyTabMessage.started}
-          action={(missionUid) => handleDeliveringMissionsFromStarted(missionUid)}
-        />
+        <MissionTypeHeading label={missionType.label} icon={missionType.icon}></MissionTypeHeading>
+        <Box className={classes.tabSectionContainer}>
+          <Typography
+            component="h1"
+            variant="h1"
+            gutterBottom
+            className={classes.sectionHeadingStyles}
+          >
+            In Progress
+          </Typography>
+          <VolunteerHomeMissionList
+            missions={inProgressMissions}
+            currentUser={currentUser}
+            actionText={"Mission Delivered"}
+            isEmptyText={volunteerDashboardEmptyTabMessage.started}
+            action={(missionUid) => handleDeliveringMissionsFromStarted(missionUid)}
+          />
+        </Box>
       </TabPanel>
       <UserPhoneUnverifiedPopup open={popUpOpen} handleClose={() => setPopUpOpen(false)} />
     </div>
@@ -177,7 +196,7 @@ function TabPanel(props) {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && <Box p={3}>{children}</Box>}
+      {value === index && children}
     </Typography>
   );
 }
