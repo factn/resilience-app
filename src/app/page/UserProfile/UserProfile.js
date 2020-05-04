@@ -4,9 +4,10 @@ import _ from "lodash";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useFirebase, useFirestore } from "react-redux-firebase";
+import { useFirebase } from "react-redux-firebase";
 import { withRouter } from "react-router-dom";
 
+import User from "../../model/User";
 import { Button } from "../../component";
 import { ErrorSnackbar, SuccessSnackbar } from "../../component/Snackbars";
 import { Card, Page } from "../../layout";
@@ -54,10 +55,9 @@ const ProfileControlButtons = ({ cancelAction, editAction, isEdit, saveAction })
  *
  * @component
  */
-const UserProfile = ({ history }) => {
+const UserProfile = () => {
   const classes = useStyles();
   const firebase = useFirebase();
-  const firestore = useFirestore(); /* eslint-disable-line */
 
   /*===SETUP Profile Control===*/
   const firebaseAuth = useSelector((state) => state.firebase.auth);
@@ -74,21 +74,12 @@ const UserProfile = ({ history }) => {
     setProfile(_.cloneDeep(firebaseProfile));
     setView("view");
   }
-  function saveProfileAction(e) {
+  async function saveProfileAction(e) {
     e.preventDefault();
-    try {
-      !profile.address
-        ? firebase.updateProfile(profile)
-        : addressLookUp(profile.address).then((data) =>
-            firebase.updateProfile({
-              ...profile,
-              addressMapPoint: { latitude: data.lat, longitude: data.long },
-            })
-          );
-      setSuccessSnackbarOpen(true);
-    } catch (error) {
-      console.log("ERROR WHEN GETTiNG LOCATION", error);
-    }
+
+    setSuccessSnackbarOpen(true);
+    User.update(firebaseAuth.uid, profile);
+
     setView("view");
   }
   /*
@@ -97,11 +88,7 @@ const UserProfile = ({ history }) => {
   */
   useEffect(() => {
     if (firebaseAuth.isLoaded && firebaseProfile.isLoaded && firebaseProfile.isEmpty) {
-      const newProfile = {
-        displayName: _.get(firebaseAuth, "displayName", ""),
-        photoURL: _.get(firebaseAuth, "photoURL", ""),
-      };
-      firebase.updateProfile(newProfile);
+      User.update(firebaseAuth.uid, firebaseAuth);
     }
     // eslint-disable-next-line
   }, [firebaseAuth, firebaseProfile]);
@@ -173,9 +160,7 @@ const UserProfile = ({ history }) => {
         successMessage="Profile saved successfully."
         autoHideDuration={4000}
       />
-      <Card>
-        <UserOverview profile={profile} view={view} setView={setView} setProfile={setProfile} />
-      </Card>
+      <UserOverview profile={profile} view={view} setView={setView} setProfile={setProfile} />
       <Grid item className={classes.fullWidth}>
         <ProfileControlButtons
           isEdit={isEdit}

@@ -19,8 +19,7 @@ const UserProfile = ({ handleChange, onSubmit, values }) => {
     handleChange({ target: { name, value } });
   }
 
-  function handleChangeLocation(data) {
-    const { location } = data;
+  function handleChangeLocation(location) {
     changeFormValue("location", location);
   }
 
@@ -43,45 +42,37 @@ const UserProfile = ({ handleChange, onSubmit, values }) => {
         <TextField
           className={classes.textField}
           fullWidth={true}
-          label="First Name"
-          name="firstName"
+          label="Display Name"
+          name="displayName"
           onChange={handleChange}
-          value={values.firstName}
-          variant="outlined"
-        />
-        <TextField
-          className={classes.textField}
-          fullWidth={true}
-          label="Last Name"
-          name="lastName"
-          onChange={handleChange}
-          value={values.lastName}
+          value={values.displayName || ""}
           variant="outlined"
         />
         <div className={classes.textField}>
           <AddressInput
             className={classes.textField}
             placeholder="Location"
-            stage={values.location}
-            setStage={handleChangeLocation}
+            value={values.location?.address}
+            setLocation={handleChangeLocation}
           />
         </div>
         <TextField
           className={classes.textField}
           fullWidth={true}
           variant="outlined"
-          value={values.phone || ""}
+          value={values.phoneNumber}
           name="phone"
           onChange={handleChange}
           label="Mobile Number"
           helperText="Used for receiving mission updates (SMS/texts)"
+          disabled
         />
 
         <TextField
           className={classes.textField}
           fullWidth={true}
           variant="outlined"
-          value={values.availability}
+          value={values.availability || ""}
           name="availability"
           onChange={handleChange}
           label="Est. Hours available per week"
@@ -104,7 +95,7 @@ const UserProfile = ({ handleChange, onSubmit, values }) => {
           className={classes.checkBox}
           control={
             <Checkbox
-              checked={values.hasTransportation}
+              checked={values.hasTransportation || false}
               onChange={handleCheckBoxChange}
               name="hasTransportation"
             />
@@ -120,7 +111,7 @@ const UserProfile = ({ handleChange, onSubmit, values }) => {
           className={classes.checkBox}
           control={
             <Checkbox
-              checked={values.termsAndConditions}
+              checked={values.termsAndConditions || false}
               onChange={handleCheckBoxChange}
               name="termsAndConditions"
             />

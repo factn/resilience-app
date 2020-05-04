@@ -170,9 +170,9 @@ const MissionDetailsCard = ({
         <CardActions className={classes.cardAction}>
           <MissionDetailsButton
             status={mission.status}
-            volunteerForMission={() => volunteerForMission(mission.id)}
-            startMission={() => startMission(mission.id)}
-            openMissionDeliveredCard={() => openMissionDeliveredCard(mission.id)}
+            volunteerForMission={() => volunteerForMission(mission.uid)}
+            startMission={() => startMission(mission.uid)}
+            openMissionDeliveredCard={() => openMissionDeliveredCard(mission.uid)}
           />
         </CardActions>
         <CardActions className={classes.cardAction}>

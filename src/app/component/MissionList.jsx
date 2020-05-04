@@ -50,13 +50,13 @@ const MissionList = ({ callToAction, history, missions, ...rest }) => {
   let { onClick, text } = callToAction || {};
 
   const missionListItems = missions.map((mission) => (
-    <MissionCard mission={mission} key={`mission-card-${mission.id}`} role="listitem">
+    <MissionCard mission={mission} key={`mission-card-${mission.uid}`} role="listitem">
       {text && (
         <StyledButton
           color="primary"
           variant="contained"
           disableElevation
-          onClick={() => onClick(mission.id)}
+          onClick={() => onClick(mission.uid)}
         >
           {text}
         </StyledButton>
@@ -64,7 +64,7 @@ const MissionList = ({ callToAction, history, missions, ...rest }) => {
       <StyledButtonWithLargeBorder
         variant="outlined"
         color="primary"
-        onClick={() => history.push(`/missions/${mission.id}`)}
+        onClick={() => history.push(`/missions/${mission.uid}`)}
       >
         View Details
       </StyledButtonWithLargeBorder>

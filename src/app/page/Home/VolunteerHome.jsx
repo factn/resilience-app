@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 
 import User from "../../model/User";
 import Mission from "../../model/Mission";
-import { getAllAssignedMissions, getAllStartedMissions } from "./missionHelpers";
+import { getAllAssignedMissions, getAllInProgressMissions } from "./missionHelpers";
 import VolunteerHomeMissionList from "./VolunteerHomeMissionList";
 import { volunteerDashboardEmptyTabMessage } from "../../../constants";
 import { UserPhoneUnverifiedPopup } from "../../component";
@@ -25,7 +25,7 @@ export default function VolunteerHome({ currentUser }) {
   const [value, setValue] = useState(0);
   const [popUpOpen, setPopUpOpen] = useState(false);
   const [acceptedMissions, updateAssignedMissions] = useState([]);
-  const [startedMissions, updateStartedMissions] = useState([]);
+  const [inProgressMissions, updateInProgressMissions] = useState([]);
   const [availableMissions, updateAvailableMissions] = useState([]);
 
   useEffect(() => {
@@ -35,7 +35,7 @@ export default function VolunteerHome({ currentUser }) {
 
       updateAvailableMissions(availableMissions);
       updateAssignedMissions(getAllAssignedMissions(missions, currentUser));
-      updateStartedMissions(getAllStartedMissions(missions, currentUser));
+      updateInProgressMissions(getAllInProgressMissions(missions, currentUser));
     };
 
     if (!!currentUser && !!currentUser.uid) {
@@ -47,44 +47,40 @@ export default function VolunteerHome({ currentUser }) {
     setValue(newValue);
   };
 
-  const handleStartMissionFromAssigned = (missionId) => {
-    if (!currentUser.phoneNumber) {
-      setPopUpOpen(true);
-    } else {
-      User.startMission(currentUser.uid, missionId);
+  const handleStartMission = (missionUid) => {
+    if (!currentUser.phoneNumber) setPopUpOpen(true);
 
-      // Move from Assigned to Started
-      const mission = acceptedMissions.filter((m) => m.id === missionId);
-      updateAssignedMissions(acceptedMissions.filter((m) => m.id !== missionId));
-      updateStartedMissions(startedMissions.concat(mission));
-    }
+    Mission.start(currentUser.uid, currentUser, missionUid);
+
+    // Move from Assigned to Started
+    const mission = acceptedMissions.filter((m) => m.uid === missionUid);
+    updateAssignedMissions(acceptedMissions.filter((m) => m.uid !== missionUid));
+    updateInProgressMissions(inProgressMissions.concat(mission));
   };
 
-  const handleVolunteerMissionFromAvailable = (missionId) => {
-    if (!currentUser.phoneNumber) {
-      setPopUpOpen(true);
-    } else {
-      User.acceptMission(currentUser.uid, missionId);
+  const handleAcceptMission = (missionUid) => {
+    if (!currentUser.phoneNumber) setPopUpOpen(true);
 
-      // Move from Available to Accepted
-      const mission = availableMissions.filter((m) => m.id === missionId);
-      updateAssignedMissions(acceptedMissions.concat(mission));
-      updateAvailableMissions(availableMissions.filter((m) => m.id !== missionId));
-    }
+    Mission.accept(currentUser.uid, currentUser, missionUid);
+
+    // Move from Available to Accepted
+    const mission = availableMissions.filter((m) => m.uid === missionUid);
+    updateAssignedMissions(acceptedMissions.concat(mission));
+    updateAvailableMissions(availableMissions.filter((m) => m.uid !== missionUid));
   };
 
-  const handleDeliveringMissionsFromStarted = (missionId) => {
+  const handleDeliveringMissionsFromStarted = (missionUid) => {
     if (!currentUser.phoneNumber) {
       setPopUpOpen(true);
     } else {
-      User.deliverMission(currentUser.uid, missionId);
-      updateStartedMissions(startedMissions.filter((m) => m.id !== missionId));
+      Mission.deliver(currentUser.uid, currentUser, missionUid);
+      updateInProgressMissions(inProgressMissions.filter((m) => m.uid !== missionUid));
     }
   };
 
   const availableLabel = "Available (" + availableMissions.length + ")";
   const acceptedLabel = "Accepted (" + acceptedMissions.length + ")";
-  const startedLabel = "Started (" + startedMissions.length + ")";
+  const startedLabel = "In Progress (" + inProgressMissions.length + ")";
 
   return (
     <div className={classes.root}>
@@ -109,7 +105,7 @@ export default function VolunteerHome({ currentUser }) {
           currentUser={currentUser}
           actionText="Accept Mission"
           isEmptyText={volunteerDashboardEmptyTabMessage.available}
-          action={(missionId) => handleVolunteerMissionFromAvailable(missionId)}
+          action={(missionUid) => handleAcceptMission(missionUid)}
         />
       </TabPanel>
       <TabPanel value={value} index={1}>
@@ -118,16 +114,16 @@ export default function VolunteerHome({ currentUser }) {
           currentUser={currentUser}
           actionText="Start Mission"
           isEmptyText={volunteerDashboardEmptyTabMessage.accepted}
-          action={(missionId) => handleStartMissionFromAssigned(missionId)}
+          action={(missionUid) => handleStartMission(missionUid)}
         />
       </TabPanel>
       <TabPanel value={value} index={2}>
         <VolunteerHomeMissionList
-          missions={startedMissions}
+          missions={inProgressMissions}
           currentUser={currentUser}
           actionText={"Mission Delivered"}
           isEmptyText={volunteerDashboardEmptyTabMessage.started}
-          action={(missionId) => handleDeliveringMissionsFromStarted(missionId)}
+          action={(missionUid) => handleDeliveringMissionsFromStarted(missionUid)}
         />
       </TabPanel>
       <UserPhoneUnverifiedPopup open={popUpOpen} handleClose={() => setPopUpOpen(false)} />

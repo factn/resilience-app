@@ -22,7 +22,6 @@ const RECAPTCHA_ID = "recaptcha_id";
 function DeliveryStep({ dispatch, state }) {
   const classes = useStyles();
   const auth = useSelector((state) => state.firebase.auth);
-  console.log("auth", auth);
   const firebase = useFirebase();
   const { handleChange, values } = useForm();
 
@@ -31,6 +30,13 @@ function DeliveryStep({ dispatch, state }) {
       window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(RECAPTCHA_ID);
     }
   }, [auth.isEmpty, firebase.auth.RecaptchaVerifier]);
+
+  useEffect(() => {
+    // set initial state of form values
+    changeFormValue("location", state.location);
+    changeFormValue("instructions", state.instructions);
+    // eslint-disable-next-line
+  }, []);
 
   function changeFormValue(name, value) {
     handleChange({ target: { name, value } });
@@ -42,8 +48,7 @@ function DeliveryStep({ dispatch, state }) {
   }
 
   function handleChangeLocation(data) {
-    const { location } = data;
-    changeFormValue("location", location);
+    changeFormValue("location", data);
   }
 
   async function verifyPhone() {
@@ -66,8 +71,6 @@ function DeliveryStep({ dispatch, state }) {
 
         const verificationCode = window.prompt(verificationPrompt);
         const response = await confirmationResult.confirm(verificationCode);
-
-        console.log(response);
 
         await User.saveNewUser({
           id: response.user.uid,
@@ -126,8 +129,8 @@ function DeliveryStep({ dispatch, state }) {
       <AddressInput
         className={classes.textField}
         placeholder="Location"
-        stage={values.location}
-        setStage={handleChangeLocation}
+        location={values.location}
+        setLocation={handleChangeLocation}
         error={values.locationError}
         onClear={() => changeFormValue("location", undefined)}
         value={state.location?.address}

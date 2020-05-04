@@ -79,7 +79,7 @@ export function reducer(state: State, { payload, type }: Actions) {
     case "UPDATE_CART":
       const { quantity, resource } = payload as CartItem;
       const newCart = state.cart;
-      newCart[resource.id] = { resource, quantity };
+      newCart[resource.uid] = { resource, quantity };
       return { ...state, cart: newCart };
     case "UPDATE_DETAILS":
       const { instructions, location } = payload as Details;

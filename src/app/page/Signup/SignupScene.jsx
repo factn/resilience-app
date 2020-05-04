@@ -1,41 +1,41 @@
 import CircularProgress from "@material-ui/core/CircularProgress";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
-import { withRouter } from "react-router-dom";
 
-import { ErrorSnackbar, SuccessSnackbar } from "../../component/Snackbars";
+import Snackbar from "../../component/Snackbars/Snackbar";
 import useForm from "../../hooks/useForm";
-import { User } from "../../model";
+import { User, Organization } from "../../model";
 import { VolunteerStatus } from "../../model/schema";
-import { convertFullName, normalizeLocation } from "../../utils/helpers";
+import addressLookup from "../../utils/addressLookUp";
 import CallToActionPage from "./CallToAction";
 import ConnectSocialMediaPage from "./ConnectSocialMedia";
 import PhoneAuthPage from "./PhoneAuth";
 import SignupSuccessPage from "./SignupSuccess";
 import UserProfilePage from "./UserProfile";
+import { withRouter } from "react-router-dom";
 
+const Tabs = {
+  GET_STARTED: "volunteer call to action to sign up",
+  SIGNUP: "sign up with phone",
+  CONNECT: "connect to social media",
+  PROFILE: "update user profile",
+  SUCCESS: "user are now a tentative volunteer",
+};
 /**
  * Top level component for Signup
  *
  */
 function SignupScene(props) {
-  const { handleChange, values } = useForm();
-  const [activeTab, setActiveTab] = useState(0);
+  const { handleChange, setValues, values } = useForm(User.defaultData);
+  const [activeTab, setActiveTab] = useState(Tabs.GET_STARTED);
   const [errorSnackbarMessage, setErrorSnackbarMessage] = useState(false);
   const [loading, setLoading] = useState(false);
 
   function getPayload() {
     return {
-      id: values.id,
-      description: values.description || "",
-      displayName: `${values.firstName} ${values.lastName}`,
-      email: values.email || "",
-      isOrganizer: false,
+      ...values,
+      organizationUid: Organization.uid,
       isVolunteer: true,
-      location: values.location && normalizeLocation(values.location),
-      organizerDetails: {},
-      phone: values.phone || "",
-      photoUrl: "",
       volunteerDetails: {
         availability: values.availability || "",
         hasTransportation: !!values.hasTransportation,
@@ -45,89 +45,111 @@ function SignupScene(props) {
     };
   }
 
-  function saveUserProfile() {
+  function handleSignupSuccess(user) {
+    setValues({
+      ...values,
+      phoneNumber: user.phoneNumber,
+      displayName: user.displayName,
+      email: user.email,
+      photoURL: user.photoURL,
+    });
+    updateUser();
+    setActiveTab(Tabs.CONNECT);
+    return false;
+  }
+  function handleConnectSuccess(user) {
+    setValues({
+      ...values,
+      displayName: user.displayName,
+      email: user.email,
+      photoURL: user.photoURL,
+    });
+    updateUser();
+    setActiveTab(Tabs.PROFILE);
+    return false;
+  }
+  async function updateUser() {
     const payload = getPayload();
+
+    let location = payload?.location;
+    try {
+      if (location.address) {
+        const data = await addressLookup(location.address);
+        location = { ...location, lat: data.lat, lng: data.long };
+      }
+    } catch (error) {
+      console.log("ERROR WHEN GETTiNG LOCATION", error);
+      console.log("address: ", location.address);
+    }
+
+    /*
     try {
       setLoading(true);
-      User.saveNewUser(payload).then(() => {
+      User.update(payload.id, payload).then(() => {
         setLoading(false);
+        setActiveTab(Tabs.SUCCESS);
       });
     } catch (error) {
       setLoading(false);
       setErrorSnackbarMessage(error);
+      setActiveTab(Tabs.SUCCESS);
     }
+    */
   }
 
-  function changeFormValues(changes) {
-    for (const change of changes) {
-      const [name, value] = change;
-      handleChange({ target: { name, value } });
-    }
-  }
+  let Active = null;
+  switch (activeTab) {
+    case Tabs.GET_STARTED:
+      Active = (
+        <CallToActionPage
+          onClick={() => {
+            setActiveTab(Tabs.SIGNUP);
+          }}
+        />
+      );
 
-  function updateFormValues(data) {
-    // Retain phone number from phone auth response
-    if (activeTab === 1) {
-      changeFormValues([
-        ["phone", data.phoneNumber || ""],
-        ["id", data.uid || ""],
-      ]);
-    }
-    // Retain full name and email from social media auth response
-    if (activeTab === 2) {
-      const [firstName, lastName] = convertFullName(data.displayName);
-      changeFormValues([
-        ["firstName", firstName],
-        ["lastName", lastName],
-        ["email", data.email || ""],
-      ]);
-    }
+      break;
+    case Tabs.SIGNUP:
+      Active = <PhoneAuthPage onSignupSuccess={handleSignupSuccess} />;
+      break;
+    case Tabs.CONNECT:
+      Active = (
+        <ConnectSocialMediaPage
+          onConnectSuccess={handleConnectSuccess}
+          onSkip={() => {
+            setActiveTab(Tabs.PROFILE);
+          }}
+        />
+      );
+      break;
+    case Tabs.PROFILE:
+      Active = (
+        <UserProfilePage handleChange={handleChange} onSubmit={updateUser} values={values} />
+      );
+      break;
+    case Tabs.SUCCESS:
+    default:
+      Active = <SignupSuccessPage onClick={() => props.history.push("/missions")} />;
+      break;
   }
-
-  /**
-   * This is a catchall function that is passed down to
-   * sub components for use as:
-   * 1) primary button click handler
-   * 2) submit handler
-   * 3) success callback for firebaseAuth
-   */
-  function processPage(data) {
-    if (data) updateFormValues(data);
-    if (activeTab === 3) saveUserProfile();
-    if (activeTab === 4) props.history.push("/missions");
-    if ([0, 1, 2, 3].includes(activeTab)) setActiveTab(activeTab + 1);
-  }
-
-  const ActivePage = {
-    0: CallToActionPage,
-    1: PhoneAuthPage,
-    2: ConnectSocialMediaPage,
-    3: UserProfilePage,
-    4: SignupSuccessPage,
-  }[activeTab];
 
   if (loading) return <CircularProgress />;
 
   const showSuccessSnackbar = !errorSnackbarMessage && activeTab === 4;
-
+  const snackbarOpen = errorSnackbarMessage || showSuccessSnackbar;
+  const snackbarType = showSuccessSnackbar ? "success" : "error";
+  const snackbarMessage = showSuccessSnackbar
+    ? "Your account request has been successfully submitted and is pending approval"
+    : `Error while submitting request. Please try again. ${errorSnackbarMessage}`;
   return (
     <>
-      <ActivePage
-        onSubmit={processPage}
-        signInSuccess={processPage}
-        handleButtonClick={processPage}
-        handleChange={handleChange}
-        values={values}
-      />
-      <ErrorSnackbar
-        open={errorSnackbarMessage}
+      {Active}
+      <Snackbar
+        open={snackbarOpen}
         handleClose={() => setErrorSnackbarMessage(false)}
-        errorMessage={`Error while submitting request. Please try again. ${errorSnackbarMessage}`}
+        type={snackbarType}
+        message={snackbarMessage}
         autoHideDuration={4000}
-      />
-      <SuccessSnackbar
-        open={showSuccessSnackbar}
-        successMessage="Your account request has been successfully submitted and is pending approval"
       />
     </>
   );
