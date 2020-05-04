@@ -12,9 +12,10 @@ export interface Location {
 }
 
 export class Resource {
-  id!: string;
+  uid!: string;
   name!: string;
   cost!: number;
+  provider: string = "";
   fundedByRecipient: number = 0;
   fundedByDonation: number = 0;
   notFunded: number = 3;
@@ -23,10 +24,15 @@ export class Resource {
   description: string = "";
 }
 
+export interface PaymentSettings {
+  clientUid: string;
+  email: string;
+}
+
 // ===== Organization ====
 export class OrganizationInterface {
   /* Firebase Id, created automatically*/
-  id!: string;
+  uid!: string;
   /*Name of the organization */
   name!: string;
   /*The Location of the Organization*/
@@ -36,6 +42,7 @@ export class OrganizationInterface {
   resources?: Map<string, Resource>;
   missions: Map<string, MissionInterface> = new Map();
   users: Map<string, UserInterface> = new Map();
+  paymentSettings
   */
 }
 
@@ -53,16 +60,11 @@ export enum VolunteerStatus {
 }
 
 export class UserInterface {
-  id!: string;
-  /* phone number, our primary means of communication
-  FIXME: need to ensure this is synced from firebase.auth ph number
-  FIXME: where do we assert phone number formatting?
-  FIXME: currently, always null */
-  phoneNumber!: string;
-  email!: string;
+  uid!: string;
+  phoneNumber?: string;
+  email?: string;
   /* user's selected profile image url
-  FIXME: need to sync this with state.firebase.profile.photoURL ?
-  */
+   */
   photoURL?: ImageUrl;
   /* user profile name, this populate from either user, or his provider*/
   displayName?: string;
@@ -71,7 +73,7 @@ export class UserInterface {
   /* user location, we use this to show user on a map */
   location?: Location;
   /* the organization that user belong to*/
-  organizationId!: number;
+  organizationUid!: number;
   /* if user is a volunteer */
   isVolunteer!: boolean;
   /* if user is an organizer */
@@ -128,7 +130,7 @@ export enum TimeWindowType {
   whenever = "whenever possible",
 }
 
-// delivery windows for the organisation
+// delivery windows for the organization
 // for MVP.0 we have a fixed function ie hardcode a list of available delivery windows
 
 export interface TimeWindow {
@@ -137,8 +139,8 @@ export interface TimeWindow {
 }
 
 export interface MissionLogEvent {
-  id: string;
-  actorId: string;
+  uid: string;
+  actorUid: string;
   action: string;
   actionDetail?: string;
   fieldName?: string;
@@ -148,7 +150,7 @@ export interface MissionLogEvent {
 
 export interface Box {
   name: string;
-  details: string;
+  quantity: number;
 }
 
 export interface FoodBoxDetails {
@@ -156,25 +158,30 @@ export interface FoodBoxDetails {
 }
 
 export interface MissionInterface {
-  id: string;
+  uid: string;
   type: MissionType;
 
-  missionDetails: FoodBoxDetails | {};
+  createdDate: string; // TODO should be a date?
+  missionDetails: FoodBoxDetails | null;
 
   status: MissionStatus;
   fundedStatus: MissionFundedStatus;
+  fundedDate: string | null;
   readyToStart: boolean;
-  organisationId: string;
+  organizationUid: string;
 
-  tentativeVolunteerId: string;
+  groupUid: string;
+  groupDisplayName: string;
+
+  tentativeVolunteerUid: string;
   tentativeVolunteerDisplayName: string;
   tentativeVolunteerPhoneNumber: string;
 
-  volunteerId: string;
+  volunteerUid: string;
   volunteerDisplayName: string;
   volunteerPhoneNumber: string;
 
-  recipientId: string; // reference?
+  recipientUid: string; // reference?
   recipientDisplayName: string;
   recipientPhoneNumber: string;
 

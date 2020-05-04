@@ -1,4 +1,3 @@
-import { Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import styled from "styled-components";
 
@@ -39,24 +38,21 @@ export const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const StyledHeader = styled(Typography)`
-  margin-bottom: 1rem;
-`;
 export const HR = styled.hr`
   margin-top: 1rem;
+  border-bottom: none;
 `;
 export const TotalsContainer = styled.div`
-  padding-top: 10%;
+  margin: 1rem 0;
   display: flex;
   justify-content: space-around;
 `;
 
 export const HappyBox = styled.div`
   border: 1px solid black;
-  height: 6rem;
+  height: auto;
   width: 100%;
   padding: 0.7rem;
-  margin-top: 1rem;
   border-radius: 5px;
   box-sizing: border-box;
   text-align: center;

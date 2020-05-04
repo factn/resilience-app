@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+import { connect } from "react-redux";
 // components
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -23,12 +24,8 @@ import QueryBuilderIcon from "@material-ui/icons/QueryBuilder";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 
 //TODO
-// fix mission type options & make functional
-// send data to firebase
-// Validation
-// fix warnings
 // tests
-// erase to do
+// erase to do & console logs
 
 const useStyles = makeStyles((theme) => ({
   addMissionContainer: {
@@ -175,7 +172,6 @@ const CreateMission = () => {
       pickUp: pickUp,
       comment: comment,
     });
-    console.log(newMissionObject);
   }
   // Functions for changing the states
   const handleChangeMissionType = (event) => {
@@ -258,7 +254,7 @@ const CreateMission = () => {
                   <div className={classes.sideBySideSelect} key={index}>
                     <Select
                       onChange={handleItems}
-                      name={"item" + index}
+                      name={"item for box " + index}
                       variant="outlined"
                       className={classes.select}
                       value={name}
@@ -269,7 +265,7 @@ const CreateMission = () => {
                     </Select>
                     <TextField
                       onChange={handleItems}
-                      name={"amount" + index}
+                      name={"amount for box " + index}
                       type="number"
                       variant="outlined"
                       className={classes.numSelector}

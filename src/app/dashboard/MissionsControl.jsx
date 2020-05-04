@@ -12,9 +12,10 @@ import CreateMission from "./Missions/CreateMission.js";
 import { Mission, User } from "../model";
 import Appbar from "./Appbar";
 import Drawer from "./Drawer";
-import Home from "./Home";
+import Overview from "./Home";
 import DashboardMissions from "./Missions";
 import Organization from "../model/Organization";
+import Home from "./Home";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,6 +34,8 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     flexGrow: 1,
+    display: "flex",
+    flexDirection: "column",
     marginTop: theme.spacing(6),
     transition: theme.transitions.create(["margin"], {
       easing: theme.transitions.easing.sharp,
@@ -52,12 +55,13 @@ const MissionsPage = () => {
   const [open, setOpen] = React.useState(false);
 
   useFirestoreConnect(() => {
-    const id = Organization.id;
+    const id = Organization.uid;
     return [
       Mission.fsInProposed(id),
       Mission.fsInPlanning(id),
       Mission.fsInProgress(id),
       Mission.fsInDone(id),
+      Mission.fsIncomplete(id),
       User.fsVolunteer(id),
       { collection: "organizations", doc: id },
     ];

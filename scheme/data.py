@@ -71,14 +71,14 @@ def timeWindow():
     )
 
 
-def volunteer(organizationId):
+def volunteer(organizationUid):
     return dict(
-        id=genId(),
+        uid=genId(),
         phoneNumber=f.phone_number(),
         photoURL='https://via.placeholder.com/150.png?text=User%20Image',
         displayName=f.name(),
         location=location(),
-        organizationId=organizationId,
+        organizationUid=organizationUid,
         isVolunteer=True,
         isOrganizer=f.boolean(chance_of_getting_true=25),
         voluteerDetails=dict(
@@ -101,13 +101,23 @@ def location():
 
 def organization():
     return dict(
-        id=genId(),
+        uid=genId(),
         name=f.name(),
         location=location(),
         localTimeZone='',
         missions={},
         users={}
     )
+
+
+def addGroup(shouldAdd):
+    groupUid = ""
+    groupDisplayName = ""
+    if shouldAdd:
+        groupDisplayName = r.choice(["Union Square 2020/03/04",
+                                     "Daly City 2020/03/05", "San Mateo 2020/04/29"])
+        groupUid = groupDisplayName
+    return groupUid, groupDisplayName
 
 
 def mission(orgId, volunteer, foodboxName):
@@ -117,39 +127,46 @@ def mission(orgId, volunteer, foodboxName):
     pickUpLocation = ""
     deliveryWindow = ""
     readyToStart = False
-    fundedStatus = r.choice(AnyIsFundedStatus),
+    fundedStatus = r.choice(AnyIsFundedStatus)
 
-    volunteerId = ""
+    volunteerUid = ""
     volunteerDisplayName = ""
     volunteerPhoneNumber = ""
 
-    tentativeVolunteerId = ""
+    tentativeVolunteerUid = ""
     tentativeVolunteerDisplayName = ""
     tentativeVolunteerPhoneNumber = ""
 
-    recipientId = ""
+    recipientUid = ""
     recipientDisplayName = f.name()
     recipientPhoneNumber = f.phone_number()
+
+    groupUid = ""
+    groupDisplayName = ""
 
     if status == "unassigned":
         fundedStatus = "notfunded"
     elif status == "tentative":
-        readyToStart = r.choice([True, False]),
+        readyToStart = r.choice([True, False])
         if r.choice([True, False]):
-            tentativeVolunteerId = volunteer["id"]
+            tentativeVolunteerUid = volunteer["uid"]
             tentativeVolunteerDisplayName = volunteer["displayName"]
             tentativeVolunteerPhoneNumber = volunteer["phoneNumber"]
+        groupUid, groupDisplayName = addGroup(r.choice([True, False]))
 
     elif status in ["assigned"]:
-        volunteerId = volunteer["id"]
+        volunteerUid = volunteer["uid"]
         volunteerDisplayName = volunteer["displayName"]
         volunteerPhoneNumber = volunteer["phoneNumber"]
-        readyToStart = r.choice([True, False]),
+        readyToStart = r.choice([True, False])
+        groupUid, groupDisplayName = addGroup(r.choice([True, False]))
+
     else:
         readyToStart = True
-        volunteerId = volunteer["id"]
+        volunteerUid = volunteer["uid"]
         volunteerDisplayName = volunteer["displayName"]
         volunteerPhoneNumber = volunteer["phoneNumber"]
+        groupUid, groupDisplayName = addGroup(r.choice([True, False]))
 
     mission_type = r.choice(MissionType)
 
@@ -166,8 +183,8 @@ def mission(orgId, volunteer, foodboxName):
     else:
         mission_details = ""
     return dict(
-        id=genId(),
-        organizationId=orgId,
+        uid=genId(),
+        organizationUid=orgId,
         status=status,
 
         type=mission_type,
@@ -177,17 +194,20 @@ def mission(orgId, volunteer, foodboxName):
         missionDetails=mission_details,
         notes=f.text(),
 
-        volunteerId=volunteerId,
+        groupUid=groupUid,
+        groupDisplayName=groupDisplayName,
+
+        volunteerUid=volunteerUid,
         volunteerDisplayName=volunteerDisplayName,
         volunterPhoneNumber=volunteerPhoneNumber,
 
-        tentativeVolunteerId=tentativeVolunteerId,
+        tentativeVolunteerUid=tentativeVolunteerUid,
         tentativeVolunteerDisplayName=tentativeVolunteerDisplayName,
         tentativeVolunterPhoneNumber=tentativeVolunteerPhoneNumber,
 
         recipientDisplayName=recipientDisplayName,
         recipientPhoneNumber=recipientPhoneNumber,
-        recipientId='',
+        recipientUid='',
 
         pickUpWindow=timeWindow(),
         pickUpLocation=location(),
@@ -197,6 +217,9 @@ def mission(orgId, volunteer, foodboxName):
         deliveryConfirmationImage='',
         deliveryNotes='',
         feedbackNotes='',
+
+        createdDate='2020/05/02',
+        fundedDate='2020/05/02'
     )
 
 
@@ -213,11 +236,19 @@ if __name__ == "__main__":
         genId(): {
             "name": "Fruits & Veggies Medley",
             "cost": 30,
+            "provider": 'Happy Farms',
             "fundedByRecipient": 8,
             "fundedByDonation": 2,
             "notFunded": 3,
             "maxNumberRequestable": 50,
             "acceptOrder": True
+        }
+    }
+
+    org['paymentSettings'] = {
+        'paypal': {
+            'clientId': 'sb',
+            'email': 'testpaypalemail@testpaypalemail.com'
         }
     }
 
@@ -230,18 +261,18 @@ if __name__ == "__main__":
 
     for i in range(10):
         vol = volunteer(orgId)
-        data["users"][vol["id"]] = vol
+        data["users"][vol["uid"]] = vol
 
     for i in range(60):
-        userId, user = r.choice(
+        userUid, user = r.choice(
             list(data["users"].items()))
         mis = mission(orgId, user, foodboxName)
-        data["organizations"][orgId]['missions'][mis['id']] = mis
+        data["organizations"][orgId]['missions'][mis['uid']] = mis
 
     data['organizations'] = {
         orgId: org
     }
 
     json_data = json.dumps(data, indent=2)
-    with open("data.json", "w") as outfile:
+    with open("scheme/data.json", "w") as outfile:
         outfile.write(json_data)

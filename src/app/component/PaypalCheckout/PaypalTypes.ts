@@ -36,8 +36,10 @@ export interface Amount extends Money {
 export interface Item {
   name: string;
   unit_amount: Money;
-  description: string;
+  description?: string;
   quantity: string;
+  sku?: string;
+  tax?: Money;
 }
 
 /**

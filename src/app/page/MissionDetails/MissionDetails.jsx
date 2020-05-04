@@ -41,27 +41,27 @@ const MissionDetailsPage = ({ history, match }) => {
   const [mission, setMission] = useState({});
 
   useEffect(() => {
-    const missionId = match.params.id;
+    const missionUid = match.params.id;
     const fetchMissionById = async () => {
-      const mission = await Mission.getById(missionId);
+      const mission = await Mission.getByUid(missionUid);
       setMission(mission);
     };
     fetchMissionById();
   }, [match.params.id]);
 
-  function volunteerForMission(missionId) {
+  function volunteerForMission(missionUid) {
     if (!currentUser.phoneNumber) {
       setUserUnverifiedPopupOpen(true);
     } else {
-      User.volunteerMission(currentUser.uid, missionId);
+      Mission.accept(currentUser.uid, currentUser, missionUid);
     }
   }
 
-  function startMission(missionId) {
+  function startMission(missionUid) {
     if (!currentUser.phoneNumber) {
       setUserUnverifiedPopupOpen(true);
     } else {
-      User.startMission(currentUser.ui, missionId);
+      User.startMission(currentUser.uid, missionUid);
     }
   }
 
@@ -74,9 +74,9 @@ const MissionDetailsPage = ({ history, match }) => {
     }
   }
 
-  async function markMissionAsDelivered(missionId) {
+  async function markMissionAsDelivered(missionUid) {
     try {
-      await User.deliverMission(currentUser.uid, missionId);
+      await User.deliverMission(currentUser.uid, missionUid);
       setCompleteDeliveryDialogOpen(false);
       setSuccessSnackbarOpen(true);
     } catch (e) {
@@ -120,7 +120,7 @@ const MissionDetailsPage = ({ history, match }) => {
         scroll="body"
       >
         <MissionDeliveredCard
-          missionId={mission.id}
+          missionUid={mission.uid}
           completeMission={markMissionAsDelivered}
           onClose={() => setCompleteDeliveryDialogOpen(false)}
         />

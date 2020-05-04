@@ -5,10 +5,11 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { isEmpty, isLoaded } from "react-redux-firebase";
 import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-dom";
+import "firebase/storage";
 
 import ThemeProvider from "./app/component/ThemeProvider";
 import { Dashboard } from "./app/page";
-import { MissionCreate, MissionsCompleted, MissionsCreated, PostMission } from "./app/page";
+import { MissionCreate, MissionsCompleted, MissionsCreated } from "./app/page";
 import AboutPage from "./app/page/Aboutus";
 import HomePage from "./app/page/Home";
 import LoginPage from "./app/page/Login";
@@ -54,12 +55,8 @@ function App() {
               <Route path="/login" component={LoginPage} />
               <Route path="/organizer/signup" component={OrganizerSignupPage} />
               <Route path="/status" component={Status} />
-              <Route path="/temp/story123" component={PostMission} />
-
               <Route path="/signup" component={SignupScene} />
-
               <Route path="/request" component={RequestPage} />
-
               <Route path="/dashboard">
                 <Dashboard />
               </Route>

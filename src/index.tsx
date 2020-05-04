@@ -25,8 +25,8 @@ const rrfConfig = {
 
 firebase.initializeApp(firebaseConfig);
 // grab org id from domain or some server side variable
-const organizationId = "1";
-Organization.init(organizationId);
+const organizationUid = "1";
+Organization.init(organizationUid);
 
 const rrfProps = {
   firebase,
