@@ -21,6 +21,9 @@ const useStyles = makeStyles((theme) => ({
   tabMargin: {
     margin: "1rem 0",
   },
+  sectionHeadingStyles: {
+    textAlign: "left",
+  },
 }));
 
 export default function VolunteerHome({ currentUser }) {
@@ -103,6 +106,14 @@ export default function VolunteerHome({ currentUser }) {
         </Tabs>
       </Paper>
       <TabPanel value={value} index={0}>
+        <Typography
+          component="h1"
+          variant="h1"
+          gutterBottom
+          className={classes.sectionHeadingStyles}
+        >
+          Available
+        </Typography>
         <VolunteerHomeMissionList
           missions={availableMissions}
           currentUser={currentUser}
@@ -114,6 +125,14 @@ export default function VolunteerHome({ currentUser }) {
         />
       </TabPanel>
       <TabPanel value={value} index={1}>
+        <Typography
+          component="h1"
+          variant="h1"
+          gutterBottom
+          className={classes.sectionHeadingStyles}
+        >
+          Scheduled
+        </Typography>
         <VolunteerHomeMissionList
           missions={acceptedMissions}
           currentUser={currentUser}
@@ -125,6 +144,14 @@ export default function VolunteerHome({ currentUser }) {
         />
       </TabPanel>
       <TabPanel value={value} index={2}>
+        <Typography
+          component="h1"
+          variant="h1"
+          gutterBottom
+          className={classes.sectionHeadingStyles}
+        >
+          In Progress
+        </Typography>
         <VolunteerHomeMissionList
           missions={inProgressMissions}
           currentUser={currentUser}
