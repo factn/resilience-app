@@ -43,3 +43,11 @@
     transform: translateY(0px);
   }
 }
+
+/* Overriding Material UI styles */
+.mission-group .mission-group-heading.MuiExpansionPanelSummary-root {
+  min-height: auto;
+}
+.mission-group .mission-group-heading .MuiExpansionPanelSummary-content {
+  margin: 0;
+}
