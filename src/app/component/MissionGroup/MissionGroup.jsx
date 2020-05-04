@@ -87,7 +87,7 @@ const MissionGroup = ({ action, actionText, group, isEmptyText }) => {
           startIcon={<MuiDoneAllIcon />}
           onClick={() => onClickAcceptMissionGroup(group.groupUid)}
         >
-          Accept Missions ({numberOfMissions})
+          {actionText} ({numberOfMissions})
         </Button>
       </MuiExpansionPanelActions>
     </MuiExpansionPanel>
