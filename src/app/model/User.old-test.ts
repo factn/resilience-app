@@ -1,4 +1,4 @@
-// import ReduxFirebase from "react-redux-firebase";
+import ReduxFirebase from "react-redux-firebase";
 
 // import Mission from "./Mission";
 // import { MissionStatus } from "./schema";

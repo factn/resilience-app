@@ -376,8 +376,14 @@ const SignInHeaderComponent = ({ history }) => {
  */
 const HomePage = ({ auth, history, profile }) => {
   const classes = useStyles();
-  if (isLoaded(auth) && !isEmpty(auth) && isLoaded(profile)) {
-    // User.createProfile(auth.uid, auth);
+  /**
+   * In case an user have logged in but his user profile is empty
+   * This can only happens if user decided to login without
+   * going the proper signup channel as firebase allow singup
+   * by login as a default
+   */
+  if (isLoaded(auth) && !isEmpty(auth) && !isEmpty(auth) && isLoaded(profile)) {
+    User.createProfile(auth.uid, auth);
   }
 
   return (
