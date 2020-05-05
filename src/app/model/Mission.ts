@@ -37,7 +37,7 @@ const defaultMissionData: MissionInterface = {
   createdDate: "",
   missionDetails: null,
   fundedStatus: MissionFundedStatus.notfunded,
-  fundedDate: null,
+  fundedDate: "",
   readyToStart: false,
   organizationUid: "",
 
