@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import InsertEmoticonIcon from "@material-ui/icons/InsertEmoticon";
 import PhoneIcon from "@material-ui/icons/Phone";
 import PropTypes from "prop-types";
-import React from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { compose } from "redux";
@@ -376,15 +376,9 @@ const SignInHeaderComponent = ({ history }) => {
  */
 const HomePage = ({ auth, history, profile }) => {
   const classes = useStyles();
-  /**
-   * In case an user have logged in but his user profile is empty
-   * This can only happens if user decided to login without
-   * going the proper signup channel as firebase allow singup
-   * by login as a default
-   */
-  if (isLoaded(auth) && !isEmpty(auth) && !isEmpty(auth) && isLoaded(profile)) {
-    User.createProfile(auth.uid, auth);
-  }
+  useEffect(() => {
+    User.createProfileIfNotExist(auth, profile);
+  }, [auth, profile]);
 
   return (
     <Page isLoaded={isLoaded(auth)} LoadingComponent={LoadingComponent}>

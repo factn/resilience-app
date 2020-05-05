@@ -57,14 +57,20 @@ class User extends BaseModel {
       });
   }
   /**
+   * In case an user have logged in but his user profile is empty
+   * This can only happens if user decided to login without
+   * going the proper signup channel as firebase allow singup
+   * by login as a default
+   *
    * create a user
    * @param {string} userUid - user
    * @param {object} data- updated data
    */
-  createProfile(userUid: string, data: object) {
-    return this.getCollection("users")
-      .doc(userUid)
-      .set(this.load({ data, uid: userUid }));
+  createProfileIfNotExist(auth: any, profile: any) {
+    if (!auth || !profile) return;
+    if (auth.isLoaded && !auth.isEmpty && profile.isEmpty && profile.isLoaded) {
+      return this.getCollection("users").doc(auth.uid).set(this.load(auth));
+    }
   }
 
   /**
