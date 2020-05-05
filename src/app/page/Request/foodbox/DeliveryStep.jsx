@@ -17,19 +17,12 @@ import NavigationButtons from "./NavigationButtons";
 import { User } from "../../../model";
 import { useForm } from "../../../hooks";
 
-const RECAPTCHA_ID = "recaptcha_id";
-
 function DeliveryStep({ dispatch, state }) {
   const classes = useStyles();
-  const auth = useSelector((state) => state.firebase.auth);
+  const profile = useSelector((state) => state.firebase.profile);
+  const hasPhoneNumber = !profile.isEmpty && profile.phoneNumber?.length > 0;
   const firebase = useFirebase();
   const { handleChange, values } = useForm();
-
-  useEffect(() => {
-    if (!window.recaptchaVerifier && auth.isEmpty) {
-      window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(RECAPTCHA_ID);
-    }
-  }, [auth.isEmpty, firebase.auth.RecaptchaVerifier]);
 
   useEffect(() => {
     // set initial state of form values
@@ -53,46 +46,71 @@ function DeliveryStep({ dispatch, state }) {
 
   async function verifyPhone() {
     dispatch({ type: "LOADING", payload: true });
+    let userUid;
+    const displayName = `${values.firstName} ${values.lastName}`;
+    const phoneNumber = values.phone;
+
     try {
-      // no way to verify and login this user???
       if (!!values.cannotReceiveTexts) {
-        await User.saveNewUser({
-          displayName: `${values.firstName} ${values.lastName}`,
-          phoneNumber: values.phone,
-          cannotReceiveTexts: !!values.cannotReceiveTexts,
+        // This user is created but not connected to any login.
+        userUid = await User.createProfile(null, {
+          displayName,
+          phoneNumber,
+          cannotReceiveTexts: true,
         });
       } else {
+        if (!window.recaptchaVerifier) {
+          window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier("phone-number", {
+            size: "invisible",
+          });
+        }
+
         const verificationPrompt =
           "Please enter the verification code that was sent to your mobile device.";
 
-        const confirmationResult = await firebase
-          .auth()
-          .signInWithPhoneNumber(values.phone, window.recaptchaVerifier);
+        let confirmationResult;
+        if (profile.isEmpty) {
+          confirmationResult = await firebase
+            .auth()
+            .signInWithPhoneNumber(values.phone, window.recaptchaVerifier);
+        } else {
+          confirmationResult = await firebase
+            .auth()
+            .currentUser.linkWithPhoneNumber(values.phone, window.recaptchaVerifier);
+        }
 
         const verificationCode = window.prompt(verificationPrompt);
         const response = await confirmationResult.confirm(verificationCode);
 
-        await User.saveNewUser({
-          id: response.user.uid,
-          displayName: `${values.firstName} ${values.lastName}`,
-          phoneNumber: values.phone,
+        if (window.recaptchaVerifier) {
+          window.recaptchaVerifier.clear();
+        }
+
+        userUid = response.user.uid;
+        await User.createProfile(userUid, {
+          displayName,
+          phoneNumber,
           cannotReceiveTexts: !!values.cannotReceiveTexts,
         });
       }
 
       dispatch({
         type: "UPDATE_DETAILS",
-        payload: { location: values.location, instructions: values.instructions },
+        payload: {
+          location: values.location,
+          instructions: values.instructions,
+          recipient: { uid: userUid, phoneNumber: values.phone, displayName },
+        },
       });
     } catch (error) {
-      dispatch({ type: "ERROR", payload: JSON.stringify(error) });
+      dispatch({ type: "ERROR", payload: error.message });
     }
   }
 
-  function validate() {
+  function validateForm() {
     let hasError = false;
     hasError = changeFormValue("locationError", !values.location);
-    if (auth.isEmpty) {
+    if (!hasPhoneNumber) {
       hasError = changeFormValue("firstNameError", !values.firstName) || hasError;
       hasError = changeFormValue("lastNameError", !values.lastName) || hasError;
       hasError = changeFormValue("phoneError", !values.phone) || hasError;
@@ -102,18 +120,32 @@ function DeliveryStep({ dispatch, state }) {
   }
 
   async function submit() {
-    if (validate()) {
+    if (validateForm()) {
       dispatch({ type: "ERROR", payload: "Please fill out the required fields" });
       return;
     }
 
-    if (auth.isEmpty) {
+    if (!hasPhoneNumber) {
       return verifyPhone();
+    }
+
+    const { displayName, phoneNumber, uid } = profile;
+
+    if (!displayName) {
+      dispatch({
+        type: "ERROR",
+        payload: "No name specified on your account. Please update your user profile.",
+      });
+      return;
     }
 
     dispatch({
       type: "UPDATE_DETAILS",
-      payload: { location: values.location, instructions: values.instructions },
+      payload: {
+        location: values.location,
+        instructions: values.instructions,
+        recipient: { uid, phoneNumber, displayName },
+      },
     });
   }
 
@@ -152,7 +184,7 @@ function DeliveryStep({ dispatch, state }) {
         To help our volunteers fulfill your request, please provide your name and contact mobile
         number.
       </Body1>
-      {auth.isEmpty && (
+      {!hasPhoneNumber && (
         <>
           <Typography align="left" variant="h2" color="textPrimary" gutterBottom>
             Your Account
@@ -185,7 +217,7 @@ function DeliveryStep({ dispatch, state }) {
             helperText="Used for receiving updates (SMS/texts)"
             label="Mobile Number"
             name="phone"
-            id="phone"
+            id="phone-number"
             onChange={handleChange}
             value={values.phone || ""}
             variant="outlined"
@@ -217,7 +249,6 @@ function DeliveryStep({ dispatch, state }) {
               label="By signing up, I agree to some terms and conditions, waiver link here,"
             />
           </FormControl>
-          <div id={RECAPTCHA_ID}></div>
         </>
       )}
 
