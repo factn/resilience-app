@@ -54,7 +54,7 @@
     "prettier:check": "prettier --check ./src",
     "prettier:fix": "prettier --write ./src",
     "server": "node server.js",
-    "start": "react-scripts start",
+    "start": "REACT_APP_USE_DB_EMULATORS=false react-scripts start",
     "storybook": "start-storybook -p 9009 -s public",
     "test": "react-scripts test",
     "upload": "NODE_ENV=development node scheme/uploadMock.js",
