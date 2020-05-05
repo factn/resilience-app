@@ -9,7 +9,7 @@ import "firebase/storage";
 
 import ThemeProvider from "./app/component/ThemeProvider";
 import { Dashboard } from "./app/page";
-import { MissionCreate, MissionsCompleted, MissionsCreated } from "./app/page";
+import { MissionCreate, MissionsCompleted, MissionsCreated, MissionFeedback } from "./app/page";
 import AboutPage from "./app/page/Aboutus";
 import HomePage from "./app/page/Home";
 import LoginPage from "./app/page/Login";
@@ -69,8 +69,10 @@ function App() {
               <PrivateRoute path="/missions/completed">
                 <MissionsCompleted />
               </PrivateRoute>
+              <PrivateRoute path="/missions/feedback/:id">
+                <MissionFeedback />
+              </PrivateRoute>
               <Route path="/missions/:id" component={MissionDetails} />
-
               <PrivateRoute path="/user/profile">
                 <UserProfile />
               </PrivateRoute>

@@ -4,6 +4,7 @@ import { connect, useSelector } from "react-redux";
 import { firestoreConnect, isEmpty, isLoaded } from "react-redux-firebase";
 import { withRouter } from "react-router-dom";
 import { compose } from "redux";
+import { Link } from "react-router-dom";
 
 import { MissionList } from "../../component";
 import { Page } from "../../layout";
@@ -25,6 +26,9 @@ const MissionsPage = ({ auth, history }) => {
         isLoaded={isLoaded(missions)}
         isEmptyText="You have not created any missions"
       />
+      <Link to="/missions/feedback/123" aria-label="Submit feedback">
+        Submit feedback
+      </Link>
     </Page>
   );
 };
