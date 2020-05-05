@@ -54,14 +54,43 @@ const MissionGroup = ({ callToAction, group, groupCallToAction, showViewRoute })
     });
   };
   const onClickViewRouteButton = () => {
-    console.log("View Routes");
+    let pickUpLocation = null;
+    let deliveryLocation = null;
+
+    const url = "https://mutualaid-tsp.herokuapp.com/shortest-route";
+
     missions.forEach((mission) => {
-      console.log(mission);
-      let pickUpLocation = mission.pickUpLocation.address;
-      let deliveryLocation = mission.deliveryLocation.address;
-      window.open(
-        `https://www.google.com/maps/dir/?api=1&origin=${pickUpLocation}&destination=${deliveryLocation}&travelmode=driving`
-      );
+      pickUpLocation = mission.pickUpLocation.address;
+      deliveryLocation = mission.deliveryLocation.address;
+
+      const data = `{
+        addresses: {
+          "0": ${pickUpLocation},
+          "1": ${deliveryLocation},
+        },
+        pickups: ["0"],
+        pickup_dropoff_constraints: {
+          "0": ["1"],
+        },
+        
+      }`;
+
+      fetch(url, { method: "POST", mode: "no-cors", body: data, "Content-Type": "text/xml" })
+        .then((routeInfo) => {
+          return routeInfo;
+        })
+        .then((jsonData) => {
+          console.log(jsonData);
+          let pickUpGeolocation = jsonData.geolocation["0"];
+          let deliveryGeolocation = jsonData.geolocation["1"];
+
+          window.open(
+            `https://www.google.com/maps/dir/?api=1&origin=${pickUpGeolocation}&destination=${deliveryGeolocation}&travelmode=driving`
+          );
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
     });
   };
 
