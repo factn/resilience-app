@@ -18,9 +18,16 @@ function FoodboxStep({ dispatch, state }) {
     // We only need to do this once to get the initial foodboxes
     if (Object.keys(cart).length < 1) {
       // only using first box for now
-      Organization.getFoodBoxes().then((boxes) =>
-        dispatch({ type: "UPDATE_CART", payload: { resource: boxes[0], quantity: 1 } })
-      );
+      Organization.getFoodBoxes().then((boxes) => {
+        if (boxes.length > 0) {
+          dispatch({ type: "UPDATE_CART", payload: { resource: boxes[0], quantity: 1 } });
+        } else {
+          dispatch({
+            type: "ERROR",
+            payload: "We're sorry, there are no foodboxes available at this time.",
+          });
+        }
+      });
     }
   }, [cart, dispatch]);
 
