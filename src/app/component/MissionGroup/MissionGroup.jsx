@@ -57,25 +57,26 @@ const MissionGroup = ({ callToAction, group, groupCallToAction, showViewRoute })
     let pickUpLocation = null;
     let deliveryLocation = null;
 
-    const url = "https://mutualaid-tsp.herokuapp.com/shortest-route";
-
     missions.forEach((mission) => {
       pickUpLocation = mission.pickUpLocation.address;
       deliveryLocation = mission.deliveryLocation.address;
 
-      const data = `{
+      const data = {
         addresses: {
-          "0": ${pickUpLocation},
-          "1": ${deliveryLocation},
+          "0": pickUpLocation,
+          "1": deliveryLocation,
         },
         pickups: ["0"],
         pickup_dropoff_constraints: {
           "0": ["1"],
         },
-        
-      }`;
+      };
 
-      fetch(url, { method: "POST", mode: "no-cors", body: data, "Content-Type": "text/xml" })
+      const url = `https://mutualaid-tsp.herokuapp.com/shortest-route?addresses=${data.addresses["0"]}&addresses=${data.addresses["1"]}
+      &pickups=${data.pickups["0"]}
+      &pickup_dropoff_constraints=${data.pickup_dropoff_constraints["0"]}`;
+
+      fetch(url, { method: "GET", mode: "no-cors" })
         .then((routeInfo) => {
           return routeInfo;
         })
