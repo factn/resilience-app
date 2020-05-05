@@ -60,6 +60,7 @@ export default function VolunteerHome({ currentUser }) {
   };
 
   const handleStartMission = (missionUid) => {
+    //TODO this check should be make in Mission, or in backend
     if (!currentUser.phoneNumber) {
       setUserPhoneUnverifiedPopupOpen(true);
       return;
@@ -74,6 +75,7 @@ export default function VolunteerHome({ currentUser }) {
   };
 
   const handleAcceptMission = (missionUid) => {
+    //TODO this check should be make in Mission, or in backend
     if (!currentUser.phoneNumber) {
       setUserPhoneUnverifiedPopupOpen(true);
       return;
@@ -88,6 +90,7 @@ export default function VolunteerHome({ currentUser }) {
   };
 
   const handleDeliveringMissionsFromStarted = (missionUid) => {
+    //TODO this check should be make in Mission, or in backend
     if (!currentUser.phoneNumber) {
       setUserPhoneUnverifiedPopupOpen(true);
       return;
