@@ -57,6 +57,8 @@ const MissionGroup = ({ callToAction, group, groupCallToAction, showViewRoute })
     let pickUpLocation = null;
     let deliveryLocation = null;
 
+    //TODO merge this code into ShowDeliveryRoute.jsx and
+    // switch this to a component call instead..
     missions.forEach((mission) => {
       pickUpLocation = mission.pickUpLocation.address;
       deliveryLocation = mission.deliveryLocation.address;

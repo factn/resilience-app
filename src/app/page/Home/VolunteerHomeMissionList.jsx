@@ -3,7 +3,7 @@ import React from "react";
 import { isEmpty, isLoaded } from "react-redux-firebase";
 import { useHistory } from "react-router-dom";
 import { Mission } from "../../model";
-import { MissionList, MissionGroup } from "../../component";
+import { MissionList, MissionGroup, ShowDeliveryRoute } from "../../component";
 
 /**
  * Component for listing volunteered missions
@@ -56,10 +56,19 @@ const VolunteerHomeMissionList = ({
     />
   );
 
+  const viewRouteAllMissions = (
+    <ShowDeliveryRoute
+      missions={missions}
+      isEmpty={isEmpty(missions)}
+      isLoaded={isLoaded(missions)}
+    />
+  );
+
   return (
     <div className="volunteer-mission-list">
       {missionGroups}
       {singleMissionList}
+      {showViewRoute && viewRouteAllMissions}
     </div>
   );
 };
