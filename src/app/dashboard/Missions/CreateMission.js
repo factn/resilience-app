@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { connect } from "react-redux";
+import { Mission } from "../../model";
 // components
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -22,10 +22,6 @@ import PhoneIcon from "@material-ui/icons/Phone";
 import AddLocationIcon from "@material-ui/icons/AddLocation";
 import QueryBuilderIcon from "@material-ui/icons/QueryBuilder";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
-
-//TODO
-// tests
-// erase to do & console logs
 
 const useStyles = makeStyles((theme) => ({
   addMissionContainer: {
@@ -157,7 +153,7 @@ const CreateMission = () => {
   const [newMissionObject, setNewMissionObject] = useState({});
 
   // master submit
-  function submitMission(e) {
+  async function submitMission(e) {
     e.preventDefault();
     setNewMissionObject({
       missionId: uuidv4(),
@@ -172,6 +168,16 @@ const CreateMission = () => {
       pickUp: pickUp,
       comment: comment,
     });
+    try {
+      const createdMission = await Mission.create(newMissionObject);
+      console.log(createdMission);
+    } catch (error) {
+      console.log(error);
+      dispatch({
+        type: "ERROR",
+        payload: "There was an error creating your mission. Please contact the organization.",
+      });
+    }
   }
   // Functions for changing the states
   const handleChangeMissionType = (event) => {
