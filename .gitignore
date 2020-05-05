@@ -8,6 +8,11 @@
 # testing
 /coverage
 
+#development
+
+# firebase create debug.log
+*debug.log
+
 # production
 /build
 
@@ -29,3 +34,4 @@ yarn-error.log*
 
 .env
 .vscode
+

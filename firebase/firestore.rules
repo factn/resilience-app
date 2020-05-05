@@ -1,0 +1,46 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+  
+  	// Org settings
+  	match /organizations/{organizationId} {
+      allow read;
+      allow write: if isOrganizerOf(organizationId);
+      
+    	match /missions/{missionId} {
+      	allow read;
+        allow write;
+      }
+      match /resources/{resourceId} {
+      	allow read;
+      	allow write: if isOrganizerOf(organizationId);
+      }
+      match /paymentSettings/{paymentType} {
+      	allow read;
+      	allow write: if isOrganizerOf(organizationId);
+      }
+    }
+  
+  	// User Settings
+  	match /users/{userId}/{document=**} {
+    	allow read;
+      allow write;
+    }
+    
+    // Missions *depricated* use organizations -> missions
+    match /missions/{missionId} {
+    	allow read;
+      allow write;
+    }
+    
+    // functions
+    
+    function isOrganizerOf(orgId) {   	
+ 			return getUser().data.isOrganizer && string(getUser().data.organizationId) == orgId;
+		}
+
+    function getUser(){
+    	return get(/databases/$(database)/documents/users/$(request.auth.uid));
+    }
+  }
+}
