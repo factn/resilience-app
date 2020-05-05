@@ -38,11 +38,6 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "row",
   },
-  icon: {
-    color: "#3739B5",
-    fontSize: "50px",
-    paddingTop: "10px",
-  },
   titleHeader: {
     color: "#3739B5",
     fontSize: "42px",
@@ -126,8 +121,6 @@ const useStyles = makeStyles((theme) => ({
     width: "100px",
   },
   selectCreateButton: {
-    textAlign: "left",
-    padding: "10px",
     color: "#3739B5",
     maxWidth: "50%",
   },
@@ -137,11 +130,16 @@ const useStyles = makeStyles((theme) => ({
   menuItem: {
     display: "flex",
   },
+  icon: {
+    color: "#3739B5",
+    fontSize: "50px",
+    paddingTop: "10px",
+  },
 }));
 
 const CreateMission = () => {
   const classes = useStyles();
-  const [missionType, setMissionType] = useState();
+  const [missionType, setMissionType] = useState(null);
   const [items, setItems] = useState();
   const [missionFund, setMissionFund] = useState(1);
   const [recipient, setRecipient] = useState({ name: "default", phoneNumber: "" });
@@ -149,6 +147,7 @@ const CreateMission = () => {
   const [dropOff, setDropOff] = useState({ address: "", date: "" });
   const [pickUp, setPickUp] = useState({ address: "", date: "" });
   const [comment, setComment] = useState("");
+  const [foodBoxArray, setFoodBoxArray] = useState([]);
   // master mission object
   const [newMissionObject, setNewMissionObject] = useState({});
 
@@ -209,8 +208,6 @@ const CreateMission = () => {
     console.log(items);
   };
 
-  // This handles all the food box inputs that are added to food box missions
-  const [foodBoxArray, setFoodBoxArray] = useState([]);
   function addToFBCount() {
     setFoodBoxArray([...foodBoxArray, foodBoxArray.length]);
   }
@@ -245,18 +242,17 @@ const CreateMission = () => {
             </MenuItem>
           </Select>
         </FormControl>
-        {/* THIS PART SPAWNS BASED ON WHAT MISSION TYPE WAS SELECTED */}
-        {missionType === "food-box" ? (
+        {missionType !== null ? (
           <>
             <Typography className={classes.inputHeader}>Select Food Box Options</Typography>
             <FormControl className={classes.form}>
-              {Object.keys(foodBoxArray).map((index) => {
-                const { amount, name } = foodBoxArray[index];
+              {Object.keys(foodBoxArray).map((boxNumber) => {
+                const { amount, name } = foodBoxArray[boxNumber];
                 return (
-                  <div className={classes.sideBySideSelect} key={index}>
+                  <div className={classes.sideBySideSelect} key={boxNumber}>
                     <Select
                       onChange={handleItems}
-                      name={"item for box " + index}
+                      name={"item for box " + boxNumber}
                       variant="outlined"
                       className={classes.select}
                       value={name}
@@ -267,16 +263,16 @@ const CreateMission = () => {
                     </Select>
                     <TextField
                       onChange={handleItems}
-                      name={"amount for box " + index}
+                      name={"amount for box " + boxNumber}
                       type="number"
                       variant="outlined"
+                      InputProps={{ inputProps: { min: 0 } }}
                       className={classes.numSelector}
                       value={amount}
                     />
                   </div>
                 );
               })}
-              ;
               <Button className={classes.selectCreateButton} onClick={(e) => addToFBCount(e)}>
                 <AddCircleIcon style={{ marginRight: "5px", color: "#3739B5" }} />
                 Add Food Box
@@ -329,7 +325,6 @@ const CreateMission = () => {
               <MenuItem className={classes.menuItem} value="default">
                 Select Recipient
               </MenuItem>
-              {/* NEED TO DYNAMICALLY SET NAMES */}
             </Select>
             <br />
             <TextField
@@ -366,7 +361,6 @@ const CreateMission = () => {
               <MenuItem className={classes.menuItem} value="default">
                 Select Volunteer
               </MenuItem>
-              {/* NEED TO DYNAMICALLY SET NAMES */}
             </Select>
             <br />
             <TextField
