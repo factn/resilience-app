@@ -173,10 +173,6 @@ const CreateMission = () => {
       console.log(createdMission);
     } catch (error) {
       console.log(error);
-      dispatch({
-        type: "ERROR",
-        payload: "There was an error creating your mission. Please contact the organization.",
-      });
     }
   }
   // Functions for changing the states
