@@ -1,8 +1,11 @@
 import PropTypes from "prop-types";
 import React, { useState, useEffect } from "react";
 import MuiMapIcon from "@material-ui/icons/Map";
-import { Button, CircularProgress } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import axios from "axios";
+import _ from "lodash";
+import querystring from "querystring";
+
 //import styled from "styled-components";
 //import { withLoading } from "../HOC";
 
@@ -15,28 +18,49 @@ const ShowDeliveryRoute = ({ missions, isLoaded, isEmpty }) => {
 
   useEffect(() => {
     async function calcRoute() {
-      const addresses = missions.map((mission) => {
-        return {
-          pickup: mission.pickUpLocation.address,
-          dropoff: mission.deliveryLocation.address,
-        };
+      var addresses = [];
+      missions.map((mission) => {
+        addresses.push(mission.pickUpLocation);
+        addresses.push(mission.deliveryLocation);
       });
 
-      //TODO: complex formatting to actually reformat pickups/addresses into the right JSON format
-      //TODO: add 'Access-Control-Allow-Origin' .. to server side?
-      //      if so worth noting that https://github.com/factn/mutual_aid_tsp is autodeployed to
-      //      below herokuapp when new code hits master branch
+      //TODO: actually ensure that pickup/dropoff constraints are supplied (doesnt work now anyway though)
+
+      // It's worth noting that https://github.com/factn/mutual_aid_tsp is deployed to the below herokuapp
+      const api_url = "https://resilience-tsp.herokuapp.com/shortest-route-given-geocodes";
 
       if (addresses.length > 0) {
-        const result = await axios.post("https://resilience-tsp.herokuapp.com/shortest-route", {
-          data: addresses,
+        console.log(addresses);
+
+        var idx = 0;
+        var stupid_format = {};
+        _.map(addresses, (address) => (stupid_format[idx++] = address));
+
+        var req_data = {
+          addresses: stupid_format,
+          pickups: [],
+          pickup_dropoff_constraints: {},
+        };
+
+        const response = await axios({
+          method: "POST",
+          url: api_url,
+          data: req_data,
         });
 
-        //TODO: take the result from the query figure out which addreses
-        //      and format the result in a way similar to the below..
-        var url =
-          "https://www.google.com/maps/dir/1012+W+Ventura+Blvd,+Camarillo,+CA+93010/2012+W+Ventura+Blvd,+Camarillo,+CA+93010/10+W+Ventura+Blvd,+Camarillo,+CA+93010";
-        setGoogleMapsUrl(url);
+        console.log("--------response----------");
+        console.log(response.data);
+
+        var addresses_for_google = _.map(response.data.optimal_addresses, (entry) => {
+          console.log(entry.address);
+          return querystring.stringify(entry.address);
+        });
+
+        var gmaps_url = "https://www.google.com/maps/dir/" + addresses_for_google.join(",");
+        // https://www.google.com/maps/dir/1012+W+Ventura+Blvd,+Camarillo,+CA+93010/2012+W+Ventura+Blvd,+Camarillo,+CA+93010/10+W+Ventura+Blvd,+Camarillo,+CA+93010"
+
+        console.log(gmaps_url);
+        setGoogleMapsUrl(gmaps_url);
       }
     }
     calcRoute();
