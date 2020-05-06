@@ -20,6 +20,7 @@ import SignupScene from "./app/page/Signup";
 import Status from "./app/page/Status";
 import Snackbar from "./app/component/Snackbars";
 import UserProfile from "./app/page/UserProfile";
+import DonationPage from "./app/page/Donate";
 import theme from "./theme";
 
 function PrivateRoute({ children, ...rest }) {
@@ -59,6 +60,7 @@ function App() {
                 <Route path="/status" component={Status} />
                 <Route path="/signup" component={SignupScene} />
                 <Route path="/request" component={RequestPage} />
+                <Route path="/donate" component={DonationPage} />
                 <Route path="/dashboard">
                   <Dashboard />
                 </Route>
