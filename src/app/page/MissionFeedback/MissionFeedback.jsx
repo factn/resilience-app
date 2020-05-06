@@ -2,138 +2,181 @@ import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
-import CloseIcon from "@material-ui/icons/Close";
 import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import EyeBlue from "../../../img/eye-blue.svg";
 import TickGreen from "../../../img/tick-green.svg";
-import { H1, H3 } from "../../component/Typography";
+import { H1, Body1 } from "../../component/Typography";
 import { Button } from "../../component";
 import Page from "../../layout/Page";
 import { isEmpty, isLoaded } from "react-redux-firebase";
 import useForm from "../../hooks/useForm";
+import PropTypes from "prop-types";
 
 //Remove this placeholder after connecting to firestore
 import cameraImage from "../../../img/placeholderBackground.svg";
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    padding: theme.spacing(2, 0),
+  },
   DeliveryImage: {
     width: "100%",
+    marginBottom: theme.spacing(2),
   },
-  closeIcon: {
-    paddingTop: theme.spacing(1),
-    paddingRight: theme.spacing(1),
-    fontSize: 48,
-    fill: theme.color.deepPurple,
-    "&:hover": {
-      cursor: "pointer",
-    },
+  Heading: {
+    margin: theme.spacing(0, 2, 2, 2),
+    color: theme.color.deepPurple,
+  },
+  Description: {
+    margin: theme.spacing(0, 2, 2, 2),
+    textAlign: "left",
+  },
+  Button: {
+    margin: theme.spacing(0, 1),
+  },
+  FeedbackInputFeild: {
+    width: `calc(100% - ${theme.spacing(4)}px)`,
+    marginBottom: theme.spacing(2),
   },
 }));
 
 const DeliveryConfirmation = ({ deliveryImage, handleChange, setStep }) => {
   const classes = useStyles();
   const onClickSuccess = () => {
-    handleChange({ target: { name: "status", value: "" } });
     setStep(Step.SUCCESS_FEEDBACK);
   };
   const onClickFailure = () => {
-    handleChange({ target: { name: "status", value: "" } });
     setStep(Step.FAILURE_FEEDBACK);
   };
   return (
-    <Grid container direction="column" alignItems="center" justify="center" py={2}>
+    <Grid
+      container
+      direction="column"
+      alignItems="center"
+      justify="center"
+      className={classes.root}
+    >
       <img src={EyeBlue} alt="Eye" />
-      <H1 mb={2}>Look it's here!</H1>
+      <H1 className={classes.Heading}>Look it's here!</H1>
       <img src={deliveryImage} alt="Delivery confirmation" className={classes.DeliveryImage} />
-      <Box p={2}>
-        <H3 mb={2}>Did you get everything you needed?</H3>
-        <Box px={2}>
-          <Button mx={2} onClick={onClickSuccess}>
-            Yes
-          </Button>
-          <Button color="secondary" mx={2} onClick={onClickFailure}>
-            No
-          </Button>
-        </Box>
-      </Box>
-    </Grid>
-  );
-};
-
-const SuccessFeedback = ({ deliveryImage, goBack, handleChange, handleSubmit, values }) => {
-  const classes = useStyles();
-  const onClickSubmit = () => {
-    handleSubmit().then(goBack);
-  };
-  const feedbackPlaceholder = "Leave some feedback if desired!";
-  return (
-    <Grid container direction="column" alignItems="center" justify="center" py={2}>
-      <img src={TickGreen} alt="Green tick" />
-      <H1 mb={2}>Mission success!</H1>
-      <img src={deliveryImage} alt="Delivery confirmation" className={classes.DeliveryImage} />
-      <Box p={2}>
-        <H3 mb={2}>We're glad to hear that. Let us know if we can help you again!</H3>
-        <TextField
-          mb={2}
-          fullWidth={true}
-          variant="outlined"
-          value={values.feedbackNotes || ""}
-          name="feedbackNotes"
-          onChange={handleChange}
-          required={true}
-          placeholder={feedbackPlaceholder}
-          multiline
-        />
-        <Button mx={2} onClick={onClickSubmit}>
-          {"Submit & Close Mission"}
+      <Body1 className={classes.Description}>Did you get everything you needed?</Body1>
+      <Box>
+        <Button className={classes.Button} onClick={onClickSuccess}>
+          Yes
+        </Button>
+        <Button color="secondary" onClick={onClickFailure} className={classes.Button}>
+          No
         </Button>
       </Box>
     </Grid>
   );
 };
 
-const FailureFeedback = ({ deliveryImage, handleChange, handleSubmit, setStep, values }) => {
+const FeedbackForm = ({ handleChange, handleSubmit, placeholder, submitBtnText, value }) => {
   const classes = useStyles();
-  const onClickSubmit = () => {
-    handleSubmit().then(() => setStep(Step.FAILURE_ACK));
+  return (
+    <>
+      <TextField
+        variant="outlined"
+        value={value || ""}
+        name="feedback"
+        onChange={handleChange}
+        required={true}
+        placeholder={placeholder}
+        multiline
+        className={classes.FeedbackInputFeild}
+        rows={8}
+      />
+      <Button className={classes.Button} onClick={handleSubmit}>
+        {submitBtnText}
+      </Button>
+    </>
+  );
+};
+
+const SuccessFeedback = ({ deliveryImage, goBack, handleChange, onSubmit, values }) => {
+  const classes = useStyles();
+  const handleSubmit = () => {
+    onSubmit().then(goBack);
+  };
+  const feedbackPlaceholder = "Leave some feedback if desired!";
+  return (
+    <Grid
+      container
+      direction="column"
+      alignItems="center"
+      justify="center"
+      className={classes.root}
+    >
+      <img src={TickGreen} alt="Green tick" />
+      <H1 className={classes.Heading}>Mission success!</H1>
+      <img src={deliveryImage} alt="Delivery confirmation" className={classes.DeliveryImage} />
+      <Body1 className={classes.Description}>
+        We're glad to hear that. Let us know if we can help you again!
+      </Body1>
+      <FeedbackForm
+        handleChange={handleChange}
+        handleSubmit={handleSubmit}
+        placeholder={feedbackPlaceholder}
+        submitBtnText={"Submit & Close Mission"}
+        value={values.feedback}
+      />
+    </Grid>
+  );
+};
+
+const FailureFeedback = ({ deliveryImage, handleChange, onSubmit, setStep, values }) => {
+  const classes = useStyles();
+  const handleSubmit = () => {
+    onSubmit().then(() => setStep(Step.FAILURE_ACK));
   };
   const feedbackPlaceholder =
     "Provide some details on what was wrong with the dropoff (i.e. 'I didn't receive the dropoff', 'They got the wrong items ..)";
   return (
-    <Grid container direction="column" alignItems="center" justify="center" py={2}>
-      <H1 mb={2}>What went wrong?</H1>
+    <Grid
+      container
+      direction="column"
+      alignItems="center"
+      justify="center"
+      className={classes.root}
+    >
+      <H1 className={classes.Heading}>What went wrong?</H1>
       <img src={deliveryImage} alt="Delivery confirmation" className={classes.DeliveryImage} />
-      <Box p={2}>
-        <H3 mb={2}>
-          We aplogize for not meeting your needs. Could you let us know what went wrong?
-        </H3>
-        <TextField
-          mb={2}
-          fullWidth={true}
-          variant="outlined"
-          value={values.feedbackNotes || ""}
-          name="feedbackNotes"
-          onChange={handleChange}
-          required={true}
-          placeholder={feedbackPlaceholder}
-          multiline
-        />
-        <Button mx={2} onClick={onClickSubmit}>
-          {"Submit & Close Mission"}
-        </Button>
-      </Box>
+      <Body1 className={classes.Description}>
+        We aplogize for not meeting your needs. Could you let us know what went wrong?
+      </Body1>
+      <FeedbackForm
+        handleChange={handleChange}
+        handleSubmit={handleSubmit}
+        placeholder={feedbackPlaceholder}
+        submitBtnText={"Submit & Close Mission"}
+        value={values.feedback}
+      />
     </Grid>
   );
 };
 
 const FailureAck = ({ goBack }) => {
+  const classes = useStyles();
   return (
-    <Grid container direction="column" alignItems="center" justify="center" py={2}>
-      <H1 mb={2}>Thanks for the feedback</H1>
-      <H3 mb={2}>We've received your message and will work to fix this as soon as we can.</H3>
-      <H3 mb={2}>We're sorry for the inconvenience and thank you for your patience!</H3>
-      <Button onClick={goBack}>Okay</Button>
+    <Grid
+      container
+      direction="column"
+      alignItems="center"
+      justify="center"
+      className={classes.root}
+    >
+      <H1 className={classes.Heading}>Thanks for the feedback</H1>
+      <Body1 className={classes.Description}>
+        We've received your message and will work to fix this as soon as we can.
+      </Body1>
+      <Body1 className={classes.Description}>
+        We're sorry for the inconvenience and thank you for your patience!
+      </Body1>
+      <Button onClick={goBack} className={classes.Button}>
+        Okay
+      </Button>
     </Grid>
   );
 };
@@ -147,14 +190,20 @@ const Step = {
 
 const MissionFeedback = ({ history, match }) => {
   const [step, setStep] = useState(Step.CONFIRM_DELIVERY);
-  const { handleChange, values } = useForm({ status: "", feedbackNotes: "" });
+  const { handleChange, values } = useForm({ feedback: "" });
   const [mission, setMission] = useState({});
   useEffect(() => {
-    //Dummy mission for now. Populate from firestore in next PR.
+    //Dummy mission for now. Populate this from firestore in next PR.
     setMission({ deliveryConfirmationImage: cameraImage });
   }, [match.params.id]);
 
-  const handleSubmit = () => {
+  const submitMissionFailure = () => {
+    //Implement this in next PR
+    console.log(values);
+    return Promise.resolve();
+  };
+
+  const submitMissionSuccess = () => {
     //Implement this in next PR
     console.log(values);
     return Promise.resolve();
@@ -176,10 +225,12 @@ const MissionFeedback = ({ history, match }) => {
       Content = <DeliveryConfirmation {...contentProps} />;
       break;
     case Step.FAILURE_FEEDBACK:
-      Content = <FailureFeedback {...contentProps} handleSubmit={handleSubmit} />;
+      Content = <FailureFeedback {...contentProps} onSubmit={submitMissionFailure} />;
       break;
     case Step.SUCCESS_FEEDBACK:
-      Content = <SuccessFeedback {...contentProps} goBack={goBack} handleSubmit={handleSubmit} />;
+      Content = (
+        <SuccessFeedback {...contentProps} goBack={goBack} onSubmit={submitMissionSuccess} />
+      );
       break;
     case Step.FAILURE_ACK:
       Content = <FailureAck goBack={goBack} />;
@@ -187,15 +238,20 @@ const MissionFeedback = ({ history, match }) => {
     default:
       Content = <DeliveryConfirmation {...contentProps} />;
   }
-  const classes = useStyles();
   return (
     <Page isLoaded={isLoaded(mission)} isEmpty={isEmpty(mission)}>
-      <Grid align="right" item>
-        <CloseIcon align="right" className={classes.closeIcon} onClick={goBack} />
-      </Grid>
       {Content}
     </Page>
   );
 };
 
 export default withRouter(MissionFeedback);
+
+MissionFeedback.propTypes = {
+  /**
+   * Navigation history provided by React Router
+   */
+  history: PropTypes.object,
+
+  match: PropTypes.object,
+};

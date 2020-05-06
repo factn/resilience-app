@@ -26,6 +26,7 @@ const MissionsPage = ({ auth, history }) => {
         isLoaded={isLoaded(missions)}
         isEmptyText="You have not created any missions"
       />
+      {/* dummy link to feedback page, add this link to dashboard when it is ready} */}
       <Link to="/missions/feedback/123" aria-label="Submit feedback">
         Submit feedback
       </Link>
