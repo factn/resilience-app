@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ShowDeliveryRoute = ({ missions, isLoaded, isEmpty }) => {
+const ShowDeliveryRoute = ({ isEmpty, isLoaded, missions }) => {
   const classes = useStyles();
   const [googleMapsUrl, setGoogleMapsUrl] = useState("");
 
