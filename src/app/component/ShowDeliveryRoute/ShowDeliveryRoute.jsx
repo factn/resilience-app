@@ -1,19 +1,23 @@
 import PropTypes from "prop-types";
 import React, { useState, useEffect } from "react";
+import { makeStyles } from "@material-ui/core/styles";
 import MuiMapIcon from "@material-ui/icons/Map";
-import { Button } from "@material-ui/core";
+import { Button, Link } from "@material-ui/core";
 import axios from "axios";
 import _ from "lodash";
-import querystring from "querystring";
+import { tspSolverConfig } from "../../../config/tspApi";
 
-//import styled from "styled-components";
-//import { withLoading } from "../HOC";
-
-//import AlgoliaPlaces from "algolia-places-react";
-//const { ALGOLIA_API_KEY, ALGOLIA_APP_ID } = process.env;
+const useStyles = makeStyles((theme) => ({
+  italicsMuted: {
+    textAlign: "center",
+    fontStyle: "italic",
+    marginTop: theme.spacing(1.5),
+    opacity: "50%",
+  },
+}));
 
 const ShowDeliveryRoute = ({ missions, isLoaded, isEmpty }) => {
-  console.log(missions);
+  const classes = useStyles();
   const [googleMapsUrl, setGoogleMapsUrl] = useState("");
 
   useEffect(() => {
@@ -22,16 +26,21 @@ const ShowDeliveryRoute = ({ missions, isLoaded, isEmpty }) => {
       missions.map((mission) => {
         addresses.push(mission.pickUpLocation);
         addresses.push(mission.deliveryLocation);
+        return [];
       });
 
-      //TODO: actually ensure that pickup/dropoff constraints are supplied (doesnt work now anyway though)
+      // constraints assume that every second address is a pickup/delivery address
+      var constraints = {};
+      for (var i = 0; i < addresses.length; i = i + 2) {
+        constraints[i] = ["" + (i + 1)];
+      }
 
-      // It's worth noting that https://github.com/factn/mutual_aid_tsp is deployed to the below herokuapp
-      const api_url = "https://resilience-tsp.herokuapp.com/shortest-route-given-geocodes";
+      // It's worth noting that https://github.com/factn/mutual_aid_tsp is code for this back end
+      const api_url = tspSolverConfig.apiEndPoint;
+      const popup_base_url = tspSolverConfig.googlePopupBase;
 
       if (addresses.length > 0) {
-        console.log(addresses);
-
+        // get the data into the stupid format the api wants
         var idx = 0;
         var stupid_format = {};
         _.map(addresses, (address) => (stupid_format[idx++] = address));
@@ -39,7 +48,7 @@ const ShowDeliveryRoute = ({ missions, isLoaded, isEmpty }) => {
         var req_data = {
           addresses: stupid_format,
           pickups: [],
-          pickup_dropoff_constraints: {},
+          pickup_dropoff_constraints: constraints,
         };
 
         const response = await axios({
@@ -48,18 +57,12 @@ const ShowDeliveryRoute = ({ missions, isLoaded, isEmpty }) => {
           data: req_data,
         });
 
-        console.log("--------response----------");
-        console.log(response.data);
-
         var addresses_for_google = _.map(response.data.optimal_addresses, (entry) => {
-          console.log(entry.address);
-          return querystring.stringify(entry.address);
+          return encodeURIComponent(entry.address);
         });
 
-        var gmaps_url = "https://www.google.com/maps/dir/" + addresses_for_google.join(",");
-        // https://www.google.com/maps/dir/1012+W+Ventura+Blvd,+Camarillo,+CA+93010/2012+W+Ventura+Blvd,+Camarillo,+CA+93010/10+W+Ventura+Blvd,+Camarillo,+CA+93010"
+        var gmaps_url = popup_base_url + addresses_for_google.join("/");
 
-        console.log(gmaps_url);
         setGoogleMapsUrl(gmaps_url);
       }
     }
@@ -77,13 +80,15 @@ const ShowDeliveryRoute = ({ missions, isLoaded, isEmpty }) => {
   }
 
   if (!googleMapsUrl) {
-    return <span>calculating route</span>;
+    return <span className={classes.italicsMuted}>... calculating route ... </span>;
   }
 
   return (
-    <Button fullWidth={true} variant="text" startIcon={<MuiMapIcon />}>
-      View Route
-    </Button>
+    <Link href={googleMapsUrl} target="_blank">
+      <Button fullWidth={true} variant="text" startIcon={<MuiMapIcon />}>
+        View Route
+      </Button>
+    </Link>
   );
 };
 

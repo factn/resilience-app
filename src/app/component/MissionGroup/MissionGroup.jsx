@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import React from "react";
 import clsx from "clsx";
-import { isLoaded } from "react-redux-firebase";
+import { isEmpty, isLoaded } from "react-redux-firebase";
 import { useHistory } from "react-router-dom";
 import MuiExpansionPanel from "@material-ui/core/ExpansionPanel";
 import MuiExpansionPanelActions from "@material-ui/core/ExpansionPanelActions";
@@ -11,6 +11,7 @@ import MuiExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import MuiGrid from "@material-ui/core/Grid";
 import MuiMapIcon from "@material-ui/icons/Map";
 import { makeStyles } from "@material-ui/core/styles";
+import { ShowDeliveryRoute } from "../../component/";
 
 import { Button, MissionList } from "../index";
 
@@ -53,60 +54,15 @@ const MissionGroup = ({ callToAction, group, groupCallToAction, showViewRoute })
       onClick(mission.uid);
     });
   };
-  const onClickViewRouteButton = () => {
-    let pickUpLocation = null;
-    let deliveryLocation = null;
-
-    //TODO merge this code into ShowDeliveryRoute.jsx and
-    // switch this to a component call instead..
-    missions.forEach((mission) => {
-      pickUpLocation = mission.pickUpLocation.address;
-      deliveryLocation = mission.deliveryLocation.address;
-
-      const data = {
-        addresses: {
-          "0": pickUpLocation,
-          "1": deliveryLocation,
-        },
-        pickups: ["0"],
-        pickup_dropoff_constraints: {
-          "0": ["1"],
-        },
-      };
-
-      const url = `https://mutualaid-tsp.herokuapp.com/shortest-route?addresses=${data.addresses["0"]}&addresses=${data.addresses["1"]}
-      &pickups=${data.pickups["0"]}
-      &pickup_dropoff_constraints=${data.pickup_dropoff_constraints["0"]}`;
-
-      fetch(url, { method: "GET", mode: "no-cors" })
-        .then((routeInfo) => {
-          return routeInfo;
-        })
-        .then((jsonData) => {
-          console.log(jsonData);
-          let pickUpGeolocation = jsonData.geolocation["0"];
-          let deliveryGeolocation = jsonData.geolocation["1"];
-
-          window.open(
-            `https://www.google.com/maps/dir/?api=1&origin=${pickUpGeolocation}&destination=${deliveryGeolocation}&travelmode=driving`
-          );
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-        });
-    });
-  };
 
   const viewRoute = showViewRoute && (
-    <Button
-      fullWidth={true}
-      variant="text"
-      startIcon={<MuiMapIcon />}
-      onClick={() => onClickViewRouteButton()}
-    >
-      View Route
-    </Button>
+    <ShowDeliveryRoute
+      missions={missions}
+      isEmpty={isEmpty(missions)}
+      isLoaded={isLoaded(missions)}
+    />
   );
+
   const groupAction = showGroupAction && (
     <Button
       fullWidth={true}

@@ -9,11 +9,7 @@ module.exports = {
 
     resolve: {
         // Add '.ts' and '.tsx' as resolvable extensions.
-        extensions: ["", ".webpack.js", ".web.js", ".ts", ".tsx", ".js"],
-        alias: {
-            // replace querystring with more modern version 
-            querystring: 'querystring-browser'
-        }
+        extensions: ["", ".webpack.js", ".web.js", ".ts", ".tsx", ".js"]
     },
 
     module: {
