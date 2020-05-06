@@ -63,14 +63,27 @@ class User extends BaseModel {
    * by login as a default
    *
    * create a user
-   * @param {string} userUid - user
+   * @param {string | null} userUid - user
    * @param {object} data- updated data
+   * @returns {string} userUid - return back given uid or the generated new one
    */
   createProfileIfNotExist(auth: any, profile: any) {
     if (!auth || !profile) return;
     if (auth.isLoaded && !auth.isEmpty && profile.isEmpty && profile.isLoaded) {
       return this.getCollection("users").doc(auth.uid).set(this.load(auth));
     }
+  }
+
+  createProfile(userUid: string | null, data: object) {
+    if (userUid) {
+      return this.getCollection("users")
+        .doc(userUid)
+        .set(this.load({ ...data, uid: userUid }))
+        .then(() => userUid);
+    }
+
+    const ref = this.getCollection("users").doc();
+    return ref.set(this.load({ ...data, uid: ref.id })).then(() => ref.id);
   }
 
   /**

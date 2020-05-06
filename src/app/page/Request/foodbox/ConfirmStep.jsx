@@ -47,7 +47,6 @@ const useStyles = makeStyles((theme) => ({
 function ConfirmStep({ dispatch, state }) {
   const history = useHistory();
   const classes = useStyles();
-  const user = useSelector((state) => state.firebase.auth);
 
   const { cart } = state;
 
@@ -60,15 +59,15 @@ function ConfirmStep({ dispatch, state }) {
 
   // TODO we should try to create this mission before paying and if payment fails we delete it or something
   async function confirmRequest() {
-    const { cart } = state;
+    const { cart, instructions, location, recipient } = state;
     let mission = {
       type: MissionType.foodbox,
       status: MissionStatus.unassigned,
-      recipientUid: user.uid,
-      recipientDisplayName: user.displayName,
-      recipientPhoneNumber: user.phoneNumber,
-      deliveryLocation: state.location,
-      deliveryNotes: state.instructions,
+      recipientUid: recipient.uid,
+      recipientDisplayName: recipient.displayName,
+      recipientPhoneNumber: recipient.phoneNumber,
+      deliveryLocation: location,
+      deliveryNotes: instructions,
       missionDetails: {
         // TODO we should make use of the whole resource here instead of just the name
         needs: Object.keys(cart).map((key) => ({
@@ -77,7 +76,6 @@ function ConfirmStep({ dispatch, state }) {
         })),
       },
     };
-    console.log(mission);
 
     if (isDonationRequest) {
       mission = { ...mission, fundedStatus: MissionFundedStatus.notfunded };
@@ -97,7 +95,6 @@ function ConfirmStep({ dispatch, state }) {
       const redirect = isDonationRequest ? "donation" : "payment";
       history.push(`/request/foodbox/success/${redirect}`);
     } catch (error) {
-      console.log(error);
       dispatch({
         type: "ERROR",
         payload: "There was an error creating your mission. Please contact the organization.",
