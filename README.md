@@ -1,10 +1,30 @@
-# MutualAid.World App
+<style>
+.logo {
+width: 100%;
+margin: auto;
+text-align: center
+}
 
-See demo [here](https://resilience-app.herokuapp.com)!
+.logo img {width: 200px;
+margin: auto}
+</style>
 
-Please also check out [CONTRIBUTING.md](/CONTRIBUTING.md)
+<div class="logo">
+    <img src="https://github.com/factn/resilience-app/blob/master/src/img/logo.png?raw=true" />
+    <h1>MutualAid.World App<h1>
+</div>
 
----
+<div class="badges">
+    <a href="https://github.com/factn/resilience-app/actions?query=workflow%3A%22resilience-app+CI%22">
+        <img alt="Github CI Status" src="https://github.com/factn/resilience-app/workflows/resilience-app%20CI/badge.svg" />
+    </a>
+    <a href="resilience-app.herokuapp.com">
+        <img alt="Heroku deploy status" src="https://heroku-badge.herokuapp.com/?app=resilience-app&style=" />
+    </a>
+    <a href="https://lgtm.com/projects/g/factn/resilience-app/alerts/"><img alt="Total alerts" src="https://img.shields.io/lgtm/alerts/g/factn/resilience-app.svg?logo=lgtm&logoWidth=18"/></a>
+</div>
+
+## <hr />
 
 ## Repo setup
 
