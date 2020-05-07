@@ -1,20 +1,9 @@
-<style>
-.logo {
-width: 100%;
-margin: auto;
-text-align: center
-}
-
-.logo img {width: 200px;
-margin: auto}
-</style>
-
-<div class="logo">
+<p align="center">
     <img src="https://github.com/factn/resilience-app/blob/master/src/img/logo.png?raw=true" />
-    <h1>MutualAid.World App<h1>
-</div>
+    <h1 align="center">MutualAid.World App<h1>
+</p>
 
-<div class="badges">
+<p align="center">
     <a href="https://github.com/factn/resilience-app/actions?query=workflow%3A%22resilience-app+CI%22">
         <img alt="Github CI Status" src="https://github.com/factn/resilience-app/workflows/resilience-app%20CI/badge.svg" />
     </a>
@@ -22,9 +11,11 @@ margin: auto}
         <img alt="Heroku deploy status" src="https://heroku-badge.herokuapp.com/?app=resilience-app&style=" />
     </a>
     <a href="https://lgtm.com/projects/g/factn/resilience-app/alerts/"><img alt="Total alerts" src="https://img.shields.io/lgtm/alerts/g/factn/resilience-app.svg?logo=lgtm&logoWidth=18"/></a>
-</div>
+</p>
 
-## <hr />
+<hr />
+
+Learn more about us at [MutualAid.world](https://mutualaid.world)
 
 ## Repo setup
 
