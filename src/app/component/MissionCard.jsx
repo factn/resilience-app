@@ -10,7 +10,11 @@ import PropTypes from "prop-types";
 import React from "react";
 import appleIcon from "../../img/apple.svg";
 import Typography from "@material-ui/core/Typography";
+import { Button } from "./";
 import { Body1 } from "./Typography";
+import User from "../model/User";
+import Mission from "../model/Mission";
+import { useSelector } from "react-redux";
 
 const styles = (theme) => ({
   root: {
@@ -31,8 +35,25 @@ const styles = (theme) => ({
     alignItems: "center",
     display: "flex",
   },
+  center: {
+    alignItems: "center",
+  },
   halfRow: {
     width: "50%",
+  },
+  title: {
+    width: "90%",
+    textOverflow: "ellipsis",
+    overflow: "hidden",
+    whiteSpace: "nowrap",
+  },
+  address: {
+    "& .MuiTypography-h5": {
+      width: "50%",
+      textOverflow: "ellipsis",
+      overflow: "hidden",
+      whiteSpace: "nowrap",
+    },
   },
 });
 
@@ -66,12 +87,13 @@ const MissionCardContent = ({ classes, contentItems }) => (
  * @component
  */
 const MissionCard = withStyles(styles)(({ children, classes, mission, ...rest }) => {
-  const title = mission?.title || "No title supplied.";
+  const title = mission?.notes || "No title supplied.";
   const status = mission.status;
   const location = mission.pickUpLocation?.address || "no data";
   const dropOffLocation = mission.deliveryLocation?.address || "no data";
   const timeWindowType = mission.pickUpWindow?.timeWindowType || "no data";
   const startTime = mission.pickUpWindow?.startTime;
+  const firebaseProfile = useSelector((state) => state.firebase.profile);
 
   const contentItems = [
     {
@@ -88,6 +110,12 @@ const MissionCard = withStyles(styles)(({ children, classes, mission, ...rest })
     },
   ];
 
+  function acceptMission(e) {
+    e.preventDefault();
+    const user = firebaseProfile;
+    Mission.accept(user.uid, user, mission.uid);
+  }
+
   return (
     <Card className={classes.root} {...rest}>
       <CardContent className={classes.cardContent}>
@@ -95,15 +123,14 @@ const MissionCard = withStyles(styles)(({ children, classes, mission, ...rest })
           <Grid item>
             <img height="20" src={appleIcon} alt="" />
           </Grid>
-          <Grid item style={{ flex: 1 }}>
+          <Grid item style={{ flex: 1 }} className={classes.title}>
             {title}
           </Grid>
           <Grid item>
             <InfoIcon />
           </Grid>
         </Grid>
-      </CardContent>
-      <CardContent className={classes.cardContent}>
+
         <Grid container direction="row">
           <Grid item className={classes.halfRow}>
             <Grid container direction="column">
@@ -120,8 +147,12 @@ const MissionCard = withStyles(styles)(({ children, classes, mission, ...rest })
                 </Grid>
               </Grid>
               <Grid item>{mission.pickUpLocation.label}</Grid>
-              <Grid item>
-                <a href={`https://www.google.com/maps/dir/"${location}"`}>{location}</a>
+              <Grid item className={classes.address}>
+                <Typography variant="h5">
+                  <a title={location} href={`https://www.google.com/maps/dir/"${location}"`}>
+                    {location}
+                  </a>
+                </Typography>
               </Grid>
               <Grid item>
                 <Grid container direction="row" spacing={1}>
@@ -148,16 +179,25 @@ const MissionCard = withStyles(styles)(({ children, classes, mission, ...rest })
                 </Grid>
               </Grid>
               <Grid item>{mission.recipientDisplayName}</Grid>
-              <Grid item>
-                <a href={`https://www.google.com/maps/dir/"${dropOffLocation}"`}>
-                  {dropOffLocation}
-                </a>
+              <Grid item className={classes.address}>
+                <Typography variant="h5">
+                  <a
+                    title={dropOffLocation}
+                    href={`https://www.google.com/maps/dir/"${dropOffLocation}"`}
+                  >
+                    {dropOffLocation}
+                  </a>
+                </Typography>
+              </Grid>
+              <Grid item className={classes.center}>
+                <Button size="medium" onClick={acceptMission} className={classes.center}>
+                  Accept
+                </Button>
               </Grid>
             </Grid>
           </Grid>
         </Grid>
       </CardContent>
-      <CardActions>{children}</CardActions>
     </Card>
   );
 });
