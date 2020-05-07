@@ -11,6 +11,7 @@ import MuiExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import MuiGrid from "@material-ui/core/Grid";
 import MuiMapIcon from "@material-ui/icons/Map";
 import { makeStyles } from "@material-ui/core/styles";
+import { ShowDeliveryRoute } from "../../component/";
 
 import { Button, MissionList } from "../index";
 
@@ -53,20 +54,9 @@ const MissionGroup = ({ callToAction, group, groupCallToAction, showViewRoute })
       onClick(mission.uid);
     });
   };
-  const onClickViewRouteButton = () => {
-    console.log("View Routes");
-  };
 
-  const viewRoute = showViewRoute && (
-    <Button
-      fullWidth={true}
-      variant="text"
-      startIcon={<MuiMapIcon />}
-      onClick={() => onClickViewRouteButton()}
-    >
-      View Route
-    </Button>
-  );
+  const viewRoute = showViewRoute && <ShowDeliveryRoute missions={missions} />;
+
   const groupAction = showGroupAction && (
     <Button
       fullWidth={true}

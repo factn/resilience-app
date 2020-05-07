@@ -15,7 +15,7 @@ export default function initFirebase(initialState, history) {
   if (!firebaseInstance) {
     const shouldUseEmulator = process.env.REACT_APP_USE_DB_EMULATORS;
 
-    if (shouldUseEmulator) {
+    if (shouldUseEmulator === "true") {
       // or window.location.hostname === 'localhost' if you want
       console.log("Using RTDB emulator");
       firebaseConfig.databaseURL = `http://localhost:9000?ns=${firebaseConfig.projectId}`;
@@ -24,7 +24,7 @@ export default function initFirebase(initialState, history) {
     // Initialize Firebase instance
     firebase.initializeApp(firebaseConfig);
 
-    if (shouldUseEmulator) {
+    if (shouldUseEmulator === "true") {
       // or window.location.hostname === 'localhost' if you want
       console.log("Using Firestore emulator");
       firebase.firestore().settings({

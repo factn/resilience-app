@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
 export default function VolunteerHome({ currentUser }) {
   const classes = useStyles();
   const [value, setValue] = useState(0);
-  const [popUpOpen, setPopUpOpen] = useState(false);
+  const [userPhoneUnverifiedPopupOpen, setUserPhoneUnverifiedPopupOpen] = useState(false);
   const [acceptedMissions, updateAssignedMissions] = useState([]);
   const [inProgressMissions, updateInProgressMissions] = useState([]);
   const [availableMissions, updateAvailableMissions] = useState([]);
@@ -60,7 +60,11 @@ export default function VolunteerHome({ currentUser }) {
   };
 
   const handleStartMission = (missionUid) => {
-    if (!currentUser.phoneNumber) setPopUpOpen(true);
+    //TODO this check should be make in Mission, or in backend
+    if (!currentUser.phoneNumber) {
+      setUserPhoneUnverifiedPopupOpen(true);
+      return;
+    }
 
     Mission.start(currentUser.uid, currentUser, missionUid);
 
@@ -71,7 +75,11 @@ export default function VolunteerHome({ currentUser }) {
   };
 
   const handleAcceptMission = (missionUid) => {
-    if (!currentUser.phoneNumber) setPopUpOpen(true);
+    //TODO this check should be make in Mission, or in backend
+    if (!currentUser.phoneNumber) {
+      setUserPhoneUnverifiedPopupOpen(true);
+      return;
+    }
 
     Mission.accept(currentUser.uid, currentUser, missionUid);
 
@@ -82,12 +90,13 @@ export default function VolunteerHome({ currentUser }) {
   };
 
   const handleDeliveringMissionsFromStarted = (missionUid) => {
+    //TODO this check should be make in Mission, or in backend
     if (!currentUser.phoneNumber) {
-      setPopUpOpen(true);
-    } else {
-      Mission.deliver(currentUser.uid, currentUser, missionUid);
-      updateInProgressMissions(inProgressMissions.filter((m) => m.uid !== missionUid));
+      setUserPhoneUnverifiedPopupOpen(true);
+      return;
     }
+    Mission.deliver(currentUser.uid, currentUser, missionUid);
+    updateInProgressMissions(inProgressMissions.filter((m) => m.uid !== missionUid));
   };
 
   const availableLabel = "Available (" + availableMissions.length + ")";
@@ -182,7 +191,10 @@ export default function VolunteerHome({ currentUser }) {
           />
         </Box>
       </TabPanel>
-      <UserPhoneUnverifiedPopup open={popUpOpen} handleClose={() => setPopUpOpen(false)} />
+      <UserPhoneUnverifiedPopup
+        open={userPhoneUnverifiedPopupOpen}
+        handleClose={() => setUserPhoneUnverifiedPopupOpen(false)}
+      />
     </div>
   );
 }

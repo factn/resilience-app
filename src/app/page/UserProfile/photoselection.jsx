@@ -7,7 +7,7 @@ class PhotoSelection extends React.Component {
   static defaultProps = {
     backgroundColor: "grey",
     mimeTypes: "image/jpeg,image/png",
-    onCrop: () => {},
+    onCropComplete: () => {},
     getCroppedImage: () => {},
     onFileLoad: () => {},
     onImageLoad: () => {},
@@ -32,16 +32,17 @@ class PhotoSelection extends React.Component {
   constructor(props) {
     super(props);
     const loaderId = this.generateHash("avatar_loader");
-    this.getCroppedImg = this.getCroppedImg.bind(this);
-    this.onFileLoad = this.onFileLoad.bind(this);
-    this.onCrop = this.onCrop.bind(this);
     this.state = {
       imgWidth: 0,
       imgHeight: 0,
       scale: 1,
       loaderId,
       lastMouseY: 0,
-      crop: { aspect: 1, width: 100 },
+      crop: {
+        unit: "%",
+        width: 30,
+        aspect: 1 / 1,
+      },
       showLoader: !(this.props.src || this.props.img),
     };
   }
@@ -95,16 +96,25 @@ class PhotoSelection extends React.Component {
     reader.readAsDataURL(file);
   }
 
-  onCrop(crop) {
-    this.setState({ crop: crop });
-    const croppedImg = this.getCroppedImg(this.state.image, crop);
-    this.props.selectAction(croppedImg);
-  }
+  onImageLoaded = (image) => {
+    this.imageRef = image;
+  };
+
+  onCropChange = (crop, percentCrop) => {
+    this.setState({ crop: percentCrop });
+  };
+
+  onCropComplete = (crop) => {
+    if (this.imageRef && crop.width && crop.height) {
+      const croppedImg = this.getCroppedImg(this.imageRef, crop);
+      this.props.selectAction(croppedImg);
+    }
+  };
 
   getCroppedImg(image, crop) {
     const canvas = document.createElement("canvas");
-    const scaleX = image.naturalWidth / this.props.width;
-    const scaleY = image.naturalHeight / this.props.height;
+    const scaleX = image.naturalWidth / image.width;
+    const scaleY = image.naturalHeight / image.height;
     canvas.width = crop.width;
     canvas.height = crop.height;
     const ctx = canvas.getContext("2d");
@@ -179,7 +189,9 @@ class PhotoSelection extends React.Component {
             style={style}
             src={this.state.image.src}
             crop={this.state.crop}
-            onChange={(newCrop) => this.onCrop(newCrop)}
+            onChange={this.onCropChange}
+            onImageLoaded={this.onImageLoaded}
+            onComplete={this.onCropComplete}
             circularCrop="true"
           />
         )}
