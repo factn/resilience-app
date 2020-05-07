@@ -178,6 +178,7 @@ class Mission extends BaseModel {
   fsInDone = fsInDone;
   selectIncomplete = (state: any) => state.firestore?.ordered?.incompleteMissions || [];
   fsIncomplete = fsIncomplete;
+  selectVolunteers = (state: any) => state.firestore?.ordered?.volunteers || [];
 
   getAllGroups = getAllGroups;
 
