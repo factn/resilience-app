@@ -3,6 +3,7 @@ import AnnouncementIcon from "@material-ui/icons/Announcement";
 import HomeIcon from "@material-ui/icons/Home";
 import PanToolIcon from "@material-ui/icons/PanTool";
 import PeopleIcon from "@material-ui/icons/People";
+import AssignmentIcon from "@material-ui/icons/Assignment";
 import clsx from "clsx";
 import React from "react";
 import { useFirestoreConnect } from "react-redux-firebase";
@@ -98,6 +99,12 @@ const MissionsPage = () => {
       id: "/dashboard/volunteers",
       route: "/dashboard/volunteers",
       icon: <PanToolIcon />,
+    },
+    {
+      text: "Resilience App",
+      id: "/",
+      route: "/",
+      icon: <AssignmentIcon />,
     },
   ];
 

@@ -11,14 +11,16 @@ import { Link, useLocation } from "react-router-dom";
 
 import { Button } from "../../component";
 
+const drawerWidth = 216;
+
 const useStyles = makeStyles((theme) => ({
   drawer: {
-    width: theme.spacing(18),
+    width: drawerWidth,
     flexShrink: 0,
     whiteSpace: "nowrap",
   },
   drawerOpen: {
-    width: theme.spacing(18),
+    width: drawerWidth,
     transition: theme.transitions.create("width", {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
@@ -45,11 +47,13 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "left",
     height: theme.spacing(5),
     paddingLeft: theme.spacing(2),
+    width: drawerWidth,
   },
   startIcon: {
     paddingRight: theme.spacing(2),
   },
   link: {
+    textDecoration: "none",
     width: 0,
   },
 }));
@@ -57,8 +61,8 @@ const useStyles = makeStyles((theme) => ({
 const DashboardDrawer = ({ drawerItems, handleDrawerClose, open }) => {
   const { pathname } = useLocation();
   const isActive = (url) => url === pathname;
-
   const classes = useStyles();
+
   return (
     <Drawer
       variant="permanent"
