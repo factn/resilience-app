@@ -11,52 +11,54 @@ import { Link, useLocation } from "react-router-dom";
 
 import { Button } from "../../component";
 
-const drawerWidth = 216;
+const useStyles = makeStyles((theme) => {
+  const drawerWidth = theme.spacing(18);
 
-const useStyles = makeStyles((theme) => ({
-  drawer: {
-    width: drawerWidth,
-    flexShrink: 0,
-    whiteSpace: "nowrap",
-  },
-  drawerOpen: {
-    width: drawerWidth,
-    transition: theme.transitions.create("width", {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  drawerClose: {
-    transition: theme.transitions.create("width", {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    overflowX: "hidden",
-    width: theme.spacing(5),
-  },
-  toolbar: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "flex-end",
-    padding: 0,
-    // necessary for content to be below app bar
-    ...theme.mixins.toolbar,
-  },
-  item: {
-    borderRadius: 0,
-    justifyContent: "left",
-    height: theme.spacing(5),
-    paddingLeft: theme.spacing(2),
-    width: drawerWidth,
-  },
-  startIcon: {
-    paddingRight: theme.spacing(2),
-  },
-  link: {
-    textDecoration: "none",
-    width: 0,
-  },
-}));
+  return {
+    drawer: {
+      width: drawerWidth,
+      flexShrink: 0,
+      whiteSpace: "nowrap",
+    },
+    drawerOpen: {
+      width: drawerWidth,
+      transition: theme.transitions.create("width", {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.enteringScreen,
+      }),
+    },
+    drawerClose: {
+      transition: theme.transitions.create("width", {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen,
+      }),
+      overflowX: "hidden",
+      width: theme.spacing(5),
+    },
+    toolbar: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "flex-end",
+      padding: 0,
+      // necessary for content to be below app bar
+      ...theme.mixins.toolbar,
+    },
+    item: {
+      borderRadius: 0,
+      justifyContent: "left",
+      height: theme.spacing(5),
+      paddingLeft: theme.spacing(2),
+      width: drawerWidth,
+    },
+    startIcon: {
+      paddingRight: theme.spacing(2),
+    },
+    link: {
+      textDecoration: "none",
+      width: 0,
+    },
+  };
+});
 
 const DashboardDrawer = ({ drawerItems, handleDrawerClose, open }) => {
   const { pathname } = useLocation();
