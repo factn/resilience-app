@@ -78,7 +78,7 @@ const DashboardDrawer = ({ drawerItems, handleDrawerClose, open }) => {
       }}
     >
       <div className={classes.toolbar}>
-        <IconButton onClick={handleDrawerClose}>
+        <IconButton aria-label="close drawer" onClick={handleDrawerClose}>
           <ChevronLeftIcon />
         </IconButton>
       </div>

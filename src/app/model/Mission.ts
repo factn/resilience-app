@@ -168,15 +168,15 @@ class Mission extends BaseModel {
   FundedStatus = MissionFundedStatus;
   TimeWindowType = TimeWindowType;
 
-  selectInProposed = (state: any) => state.firestore.ordered.missionsInProposed || [];
+  selectInProposed = (state: any) => state.firestore?.ordered?.missionsInProposed || [];
   fsInProposed = fsInProposed;
-  selectInPlanning = (state: any) => state.firestore.ordered.missionsInPlanning || [];
+  selectInPlanning = (state: any) => state.firestore?.ordered?.missionsInPlanning || [];
   fsInPlanning = fsInPlanning;
-  selectInProgress = (state: any) => state.firestore.ordered.missionsInProgress || [];
+  selectInProgress = (state: any) => state.firestore?.ordered?.missionsInProgress || [];
   fsInProgress = fsInProgress;
-  selectInDone = (state: any) => state.firestore.ordered.missionsInDone || [];
+  selectInDone = (state: any) => state.firestore?.ordered?.missionsInDone || [];
   fsInDone = fsInDone;
-  selectIncomplete = (state: any) => state.firestore.ordered.incompleteMissions || [];
+  selectIncomplete = (state: any) => state.firestore?.ordered?.incompleteMissions || [];
   fsIncomplete = fsIncomplete;
 
   getAllGroups = getAllGroups;

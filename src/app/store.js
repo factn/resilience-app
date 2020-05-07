@@ -3,13 +3,13 @@ import { combineReducers, createStore } from "redux";
 import { firestoreReducer } from "redux-firestore";
 
 // Add firebase to reducers
-const rootReducer = combineReducers({
+export const rootReducer = combineReducers({
   firebase: firebaseReducer,
   firestore: firestoreReducer,
 });
 
 // Create store with reducers and initial state
-const initialState = {};
+export const initialState = {};
 export const store = createStore(
   rootReducer,
   initialState,
