@@ -25,15 +25,14 @@ const StyledButtonWithLargeBorder = styled(StyledButton)`
 
 const MissionListContainer = styled.div`
   margin-top: 15px;
+  width: 100%;
 `;
 
 /**
  * Create a missionList wrapper that will display a loading indicator
  */
 const MissionListWithLoading = withLoading(({ children }) => (
-  <MissionListContainer className="mission-list" role="list">
-    {children}
-  </MissionListContainer>
+  <MissionListContainer role="list">{children}</MissionListContainer>
 ));
 
 /**
