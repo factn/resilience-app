@@ -2,13 +2,18 @@ import { Box, Paper, Tab, Tabs, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
+import MuiCheckIcon from "@material-ui/icons/Check";
+import MuiDoneAllIcon from "@material-ui/icons/DoneAll";
+import MuiPlayCircleFilledIcon from "@material-ui/icons/PlayCircleFilled";
 
 import User from "../../model/User";
 import Mission from "../../model/Mission";
-import { getAllAssignedMissions, getAllStartedMissions } from "./missionHelpers";
+import { getAllAssignedMissions, getAllInProgressMissions } from "./missionHelpers";
 import VolunteerHomeMissionList from "./VolunteerHomeMissionList";
+import MissionTypeHeading from "./MissionTypeHeading";
 import { volunteerDashboardEmptyTabMessage } from "../../../constants";
-import { UserPhoneUnverifiedPopup } from "../../component";
+import { FoodBoxIcon, UserPhoneUnverifiedPopup } from "../../component";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
@@ -16,16 +21,23 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.paper,
   },
   tabMargin: {
-    margin: "1rem 0",
+    marginTop: "1rem",
+  },
+  sectionHeadingStyles: {
+    textAlign: "left",
+  },
+  tabSectionContainer: {
+    paddingLeft: "1rem",
+    paddingRight: "1rem",
   },
 }));
 
 export default function VolunteerHome({ currentUser }) {
   const classes = useStyles();
   const [value, setValue] = useState(0);
-  const [popUpOpen, setPopUpOpen] = useState(false);
+  const [userPhoneUnverifiedPopupOpen, setUserPhoneUnverifiedPopupOpen] = useState(false);
   const [acceptedMissions, updateAssignedMissions] = useState([]);
-  const [startedMissions, updateStartedMissions] = useState([]);
+  const [inProgressMissions, updateInProgressMissions] = useState([]);
   const [availableMissions, updateAvailableMissions] = useState([]);
 
   useEffect(() => {
@@ -35,7 +47,7 @@ export default function VolunteerHome({ currentUser }) {
 
       updateAvailableMissions(availableMissions);
       updateAssignedMissions(getAllAssignedMissions(missions, currentUser));
-      updateStartedMissions(getAllStartedMissions(missions, currentUser));
+      updateInProgressMissions(getAllInProgressMissions(missions, currentUser));
     };
 
     if (!!currentUser && !!currentUser.uid) {
@@ -47,44 +59,53 @@ export default function VolunteerHome({ currentUser }) {
     setValue(newValue);
   };
 
-  const handleStartMissionFromAssigned = (missionId) => {
+  const handleStartMission = (missionUid) => {
+    //TODO this check should be make in Mission, or in backend
     if (!currentUser.phoneNumber) {
-      setPopUpOpen(true);
-    } else {
-      User.startMission(currentUser.uid, missionId);
-
-      // Move from Assigned to Started
-      const mission = acceptedMissions.filter((m) => m.id === missionId);
-      updateAssignedMissions(acceptedMissions.filter((m) => m.id !== missionId));
-      updateStartedMissions(startedMissions.concat(mission));
+      setUserPhoneUnverifiedPopupOpen(true);
+      return;
     }
+
+    Mission.start(currentUser.uid, currentUser, missionUid);
+
+    // Move from Assigned to Started
+    const mission = acceptedMissions.filter((m) => m.uid === missionUid);
+    updateAssignedMissions(acceptedMissions.filter((m) => m.uid !== missionUid));
+    updateInProgressMissions(inProgressMissions.concat(mission));
   };
 
-  const handleVolunteerMissionFromAvailable = (missionId) => {
+  const handleAcceptMission = (missionUid) => {
+    //TODO this check should be make in Mission, or in backend
     if (!currentUser.phoneNumber) {
-      setPopUpOpen(true);
-    } else {
-      User.acceptMission(currentUser.uid, missionId);
-
-      // Move from Available to Accepted
-      const mission = availableMissions.filter((m) => m.id === missionId);
-      updateAssignedMissions(acceptedMissions.concat(mission));
-      updateAvailableMissions(availableMissions.filter((m) => m.id !== missionId));
+      setUserPhoneUnverifiedPopupOpen(true);
+      return;
     }
+
+    Mission.accept(currentUser.uid, currentUser, missionUid);
+
+    // Move from Available to Accepted
+    const mission = availableMissions.filter((m) => m.uid === missionUid);
+    updateAssignedMissions(acceptedMissions.concat(mission));
+    updateAvailableMissions(availableMissions.filter((m) => m.uid !== missionUid));
   };
 
-  const handleDeliveringMissionsFromStarted = (missionId) => {
+  const handleDeliveringMissionsFromStarted = (missionUid) => {
+    //TODO this check should be make in Mission, or in backend
     if (!currentUser.phoneNumber) {
-      setPopUpOpen(true);
-    } else {
-      User.deliverMission(currentUser.uid, missionId);
-      updateStartedMissions(startedMissions.filter((m) => m.id !== missionId));
+      setUserPhoneUnverifiedPopupOpen(true);
+      return;
     }
+    Mission.deliver(currentUser.uid, currentUser, missionUid);
+    updateInProgressMissions(inProgressMissions.filter((m) => m.uid !== missionUid));
   };
 
   const availableLabel = "Available (" + availableMissions.length + ")";
   const acceptedLabel = "Accepted (" + acceptedMissions.length + ")";
-  const startedLabel = "Started (" + startedMissions.length + ")";
+  const startedLabel = "In Progress (" + inProgressMissions.length + ")";
+  const missionType = {
+    label: "Food Box Missions",
+    icon: <FoodBoxIcon />,
+  };
 
   return (
     <div className={classes.root}>
@@ -104,33 +125,76 @@ export default function VolunteerHome({ currentUser }) {
         </Tabs>
       </Paper>
       <TabPanel value={value} index={0}>
-        <VolunteerHomeMissionList
-          missions={availableMissions}
-          currentUser={currentUser}
-          actionText="Accept Mission"
-          isEmptyText={volunteerDashboardEmptyTabMessage.available}
-          action={(missionId) => handleVolunteerMissionFromAvailable(missionId)}
-        />
+        <MissionTypeHeading label={missionType.label} icon={missionType.icon}></MissionTypeHeading>
+        <Box className={classes.tabSectionContainer}>
+          <Typography
+            component="h1"
+            variant="h1"
+            gutterBottom
+            className={classes.sectionHeadingStyles}
+          >
+            Available
+          </Typography>
+          <VolunteerHomeMissionList
+            missions={availableMissions}
+            currentUser={currentUser}
+            actionText="Accept Mission"
+            actionIcon={<MuiCheckIcon />}
+            showGroupAction={true}
+            groupActionIcon={<MuiDoneAllIcon />}
+            isEmptyText={volunteerDashboardEmptyTabMessage.available}
+            action={(missionUid) => handleAcceptMission(missionUid)}
+          />
+        </Box>
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <VolunteerHomeMissionList
-          missions={acceptedMissions}
-          currentUser={currentUser}
-          actionText="Start Mission"
-          isEmptyText={volunteerDashboardEmptyTabMessage.accepted}
-          action={(missionId) => handleStartMissionFromAssigned(missionId)}
-        />
+        <MissionTypeHeading label={missionType.label} icon={missionType.icon}></MissionTypeHeading>
+        <Box className={classes.tabSectionContainer}>
+          <Typography
+            component="h1"
+            variant="h1"
+            gutterBottom
+            className={classes.sectionHeadingStyles}
+          >
+            Scheduled
+          </Typography>
+          <VolunteerHomeMissionList
+            missions={acceptedMissions}
+            currentUser={currentUser}
+            actionText="Start Mission"
+            actionIcon={<MuiPlayCircleFilledIcon />}
+            showGroupAction={true}
+            groupActionIcon={<MuiPlayCircleFilledIcon />}
+            isEmptyText={volunteerDashboardEmptyTabMessage.accepted}
+            action={(missionUid) => handleStartMission(missionUid)}
+          />
+        </Box>
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <VolunteerHomeMissionList
-          missions={startedMissions}
-          currentUser={currentUser}
-          actionText={"Mission Delivered"}
-          isEmptyText={volunteerDashboardEmptyTabMessage.started}
-          action={(missionId) => handleDeliveringMissionsFromStarted(missionId)}
-        />
+        <MissionTypeHeading label={missionType.label} icon={missionType.icon}></MissionTypeHeading>
+        <Box className={classes.tabSectionContainer}>
+          <Typography
+            component="h1"
+            variant="h1"
+            gutterBottom
+            className={classes.sectionHeadingStyles}
+          >
+            In Progress
+          </Typography>
+          <VolunteerHomeMissionList
+            missions={inProgressMissions}
+            currentUser={currentUser}
+            actionText={"Mission Delivered"}
+            showViewRoute={true}
+            isEmptyText={volunteerDashboardEmptyTabMessage.started}
+            action={(missionUid) => handleDeliveringMissionsFromStarted(missionUid)}
+          />
+        </Box>
       </TabPanel>
-      <UserPhoneUnverifiedPopup open={popUpOpen} handleClose={() => setPopUpOpen(false)} />
+      <UserPhoneUnverifiedPopup
+        open={userPhoneUnverifiedPopupOpen}
+        handleClose={() => setUserPhoneUnverifiedPopupOpen(false)}
+      />
     </div>
   );
 }
@@ -147,7 +211,7 @@ function TabPanel(props) {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && <Box p={3}>{children}</Box>}
+      {value === index && children}
     </Typography>
   );
 }

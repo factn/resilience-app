@@ -50,11 +50,14 @@ const unassignedOptions = [
     text: "Funding Not Needed",
   },
 ];
-const NotFundedStatus = ({ classes, missionId }) => {
+const NotFundedStatus = ({ classes, mission }) => {
   const handleChange = (event) => {
     event.preventDefault();
-    Mission.update(missionId, {
+    //TODO move this to mission model as
+    // Mission.setFunded()
+    Mission.update(mission.uid, {
       fundedStatus: event.target.value,
+      fundedDate: Date.now().toString(),
       status: Mission.Status.tentative,
     });
   };
@@ -163,14 +166,14 @@ const MissionListItem = ({
   const boxRef = React.useRef(null);
 
   function onClick() {
-    setSelectedMission(mission.id);
+    setSelectedMission(mission.uid);
   }
   let SpecificDetails = null;
   if (type === "foodbox") {
     SpecificDetails = <FoodBoxDetails type={type} details={missionDetails} />;
   }
 
-  const isSelected = selectedMission === mission.id;
+  const isSelected = selectedMission === mission.uid;
   useEffect(() => {
     if (isSelected && boxRef?.current) {
       boxRef.current.scrollIntoView({

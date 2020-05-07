@@ -24,8 +24,7 @@ npm ci
 
 - Create your local `.env` folder at the root of your resilience-app folder
 
-Create the `.env.development` file at the root of the resilience-app folder as well and copy the content under `below go into env.development` into this file. The content is pinned to the side of #resilience-app slack channel.
-
+Create the `.env` file at the root of the resilience-app folder as well and copy the content under `below go into .env` into this file. The content is pinned to the side of #resilience-app slack channel.
 
 - Start the local server
 
@@ -36,6 +35,15 @@ npm start
 - As you work in the repository, your changes will publish and refresh your local server on the fly.
 - To stop the server, use the terminal command `Ctrl. + C`
 
+```
+npm run dev
+```
+
+- This will use a emulator of database instead, we recommend doing this because using `npm start` will connect you to stage database
+
+Download and install Java
+https://www.oracle.com/java/technologies/javase-jdk8-downloads.html
+
 ## Test Data
 
 When running the app locally, you can test the phone verification sign-up flow by entering any of the phone number / verification code combinations listed below (the leading "1" should be filled in for you):
@@ -44,6 +52,8 @@ When running the app locally, you can test the phone verification sign-up flow b
 | ------------ | ----------------- |
 | 7777777777   | 123456            |
 | 2223334444   | 123456            |
+
+Regarding the data schema and how to generate test data, go to [scheme/README.md](./scheme/README.md)
 
 ## Available Scripts
 

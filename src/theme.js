@@ -13,6 +13,7 @@ export const color = {
   green: "#024b30",
   darkOrange: "#EC7016",
   darkBlue: "#110079",
+  lightgrey: "#F2F2F2",
 };
 
 // utils to extract style

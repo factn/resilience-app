@@ -4,7 +4,7 @@ import InsertEmoticonIcon from "@material-ui/icons/InsertEmoticon";
 import PhoneIcon from "@material-ui/icons/Phone";
 import PropTypes from "prop-types";
 import React from "react";
-import { connect, useSelector } from "react-redux";
+import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { compose } from "redux";
 
@@ -16,6 +16,8 @@ import SplashImage1 from "../../../img/SplashImage1.png";
 import { Body1, Button, H1, H2, H3, H4 } from "../../component";
 import { Page } from "../../layout";
 import VolunteerHome from "./VolunteerHome";
+import { isEmpty, isLoaded } from "react-redux-firebase";
+import User from "../../model/User";
 
 const useStyles = makeStyles((theme) => ({
   HomeImage: {
@@ -372,14 +374,21 @@ const SignInHeaderComponent = ({ history }) => {
  *
  * @component
  */
-const HomePage = ({ auth, history }) => {
+const HomePage = ({ auth, history, profile }) => {
   const classes = useStyles();
-  const isEmpty = useSelector((state) => state.firebase.auth.isEmpty);
-  const isLoaded = useSelector((state) => state.firebase.auth.isLoaded);
+  /**
+   * In case an user have logged in but his user profile is empty
+   * This can only happens if user decided to login without
+   * going the proper signup channel as firebase allow singup
+   * by login as a default
+   */
+  if (isLoaded(auth) && !isEmpty(auth) && !isEmpty(auth) && isLoaded(profile)) {
+    User.createProfile(auth.uid, auth);
+  }
 
   return (
-    <Page isLoaded={isLoaded} LoadingComponent={LoadingComponent}>
-      {isEmpty ? (
+    <Page isLoaded={isLoaded(auth)} LoadingComponent={LoadingComponent}>
+      {isEmpty(auth) ? (
         <Grid container>
           <SignInHeaderComponent history={history} />
           <PoweredByComponent />
@@ -427,6 +436,7 @@ HomePage.propTypes = {
 const mapStateToProps = (state) => {
   return {
     auth: state.firebase.auth,
+    profile: state.firebase.profile,
   };
 };
 export default compose(connect(mapStateToProps))(withRouter(HomePage));

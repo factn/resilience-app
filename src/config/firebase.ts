@@ -8,3 +8,8 @@ export const firebaseConfig = {
   appId: "1:57281805127:web:7c025105ef5fb5e5232a62",
   measurementId: "G-7L9JFWQHS2",
 };
+
+export const rfConfig = {
+  userProfile: "users",
+  useFirestoreForProfile: true,
+};

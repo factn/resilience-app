@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
  *
  * @component
  */
-const MissionDeliveredCard = ({ completeMission, missionId, onClose }) => {
+const MissionDeliveredCard = ({ completeMission, missionUid, onClose }) => {
   const classes = useStyles();
   const [deliveryConfirmationImage, setDeliveryConfirmationImage] = useState(selectImage);
   const [deliveryConfirmationImageWasSelected, setDeliveryConfirmationImageWasSelected] = useState(
@@ -87,7 +87,7 @@ const MissionDeliveredCard = ({ completeMission, missionId, onClose }) => {
               variant="contained"
               disableElevation
               disabled={!deliveryConfirmationImageWasSelected}
-              onClick={() => completeMission(missionId, deliveryConfirmationImage)}
+              onClick={() => completeMission(missionUid, deliveryConfirmationImage)}
             >
               Submit & Complete Mission
             </StyledButton>
@@ -99,14 +99,14 @@ const MissionDeliveredCard = ({ completeMission, missionId, onClose }) => {
 };
 
 MissionDeliveredCard.defaultProps = {
-  missionId: "",
+  missionUid: "",
 };
 
 MissionDeliveredCard.propTypes = {
   /**
    * Mission details
    */
-  missionId: PropTypes.string.isRequired,
+  missionUid: PropTypes.string.isRequired,
   /**
    * Handler function for submit
    */

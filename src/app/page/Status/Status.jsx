@@ -43,9 +43,9 @@ const Status = ({ firestore }) => {
 
   //function to handel the volunteers status
   function setStatus(status) {
-    const userId = user.uid;
+    const userUid = user.uid;
 
-    firestore.collection("users").doc(userId).set({ status: status });
+    firestore.collection("users").doc(userUid).set({ status: status });
 
     setThank(`Thank you for your service.\nYour status has been set to ${status}`);
   }

@@ -78,11 +78,13 @@ const AddToGroupPopover = ({ boxRef, groups, handleConfirmButton, mission, onClo
                   variant="outlined"
                 />
               )}
-              getOptionLabel={(group) => group.groupDisplayName}
+              getOptionLabel={(group) =>
+                group.tmpDisplayName ? group.tmpDisplayName : group.groupDisplayName
+              }
               renderOption={(group) => (
                 <>
                   <GroupWorkIcon style={{ color: _.randomColor(group.groupDisplayName) }} />{" "}
-                  {group.groupDisplayName}
+                  {group.tmpDisplayName ? group.tmpDisplayName : group.groupDisplayName}
                 </>
               )}
               filterOptions={(groups, params) => {
@@ -92,7 +94,8 @@ const AddToGroupPopover = ({ boxRef, groups, handleConfirmButton, mission, onClo
                 if (params.inputValue !== "") {
                   filtered.push({
                     inputValue: params.inputValue,
-                    groupDisplayName: `Create and add to "${params.inputValue}"`,
+                    groupDisplayName: params.inputValue,
+                    tmpDisplayName: `Create and add to "${params.inputValue}"`,
                   });
                 }
 

@@ -47,16 +47,17 @@ const MissionList = ({ callToAction, history, missions, ...rest }) => {
   /**
    * This should probably be turned into a Mission component
    */
-  let { onClick, text } = callToAction || {};
+  let { icon, onClick, text } = callToAction || {};
 
   const missionListItems = missions.map((mission) => (
-    <MissionCard mission={mission} key={`mission-card-${mission.id}`} role="listitem">
+    <MissionCard mission={mission} key={`mission-card-${mission.uid}`} role="listitem">
       {text && (
         <StyledButton
           color="primary"
           variant="contained"
+          startIcon={icon}
           disableElevation
-          onClick={() => onClick(mission.id)}
+          onClick={() => onClick(mission.uid)}
         >
           {text}
         </StyledButton>
@@ -64,7 +65,7 @@ const MissionList = ({ callToAction, history, missions, ...rest }) => {
       <StyledButtonWithLargeBorder
         variant="outlined"
         color="primary"
-        onClick={() => history.push(`/missions/${mission.id}`)}
+        onClick={() => history.push(`/missions/${mission.uid}`)}
       >
         View Details
       </StyledButtonWithLargeBorder>

@@ -9,6 +9,11 @@ export type State = {
   cart: Record<string, CartItem>;
   instructions: string;
   location: Location | null;
+  recipient: {
+    displayName: string;
+    phoneNumber: string;
+    uid: string;
+  };
   step: 0 | 1 | 2;
   maxStep: 0 | 1 | 2;
   loading: boolean;
@@ -19,6 +24,11 @@ export const initialState: State = {
   cart: {},
   instructions: "",
   location: null,
+  recipient: {
+    displayName: "",
+    phoneNumber: "",
+    uid: "",
+  },
   step: 0,
   maxStep: 0,
   loading: false,
@@ -33,6 +43,11 @@ type ActionUpdateCart = {
 type Details = {
   location: Location;
   instructions: string;
+  recipient: {
+    displayName: string;
+    phoneNumber: string;
+    uid: string;
+  };
 };
 
 type ActionUpdateDetails = {
@@ -79,11 +94,11 @@ export function reducer(state: State, { payload, type }: Actions) {
     case "UPDATE_CART":
       const { quantity, resource } = payload as CartItem;
       const newCart = state.cart;
-      newCart[resource.id] = { resource, quantity };
+      newCart[resource.uid] = { resource, quantity };
       return { ...state, cart: newCart };
     case "UPDATE_DETAILS":
-      const { instructions, location } = payload as Details;
-      return { ...state, instructions, location, step: 2, maxStep: 2 };
+      const { instructions, location, recipient } = payload as Details;
+      return { ...state, instructions, location, recipient, step: 2, maxStep: 2 };
     case "UPDATE_STEP":
       // make sure we're only going to a step less than or equal to the max step
       return { ...state, step: payload && payload <= state.maxStep ? payload : state.step };
