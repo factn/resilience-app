@@ -3,16 +3,14 @@ import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 import React, { useEffect, useState } from "react";
 import GroupWorkIcon from "@material-ui/icons/GroupWork";
-import PanToolIcon from "@material-ui/icons/PanTool";
+import Divider from "@material-ui/core/Divider";
 
 import MuiExpansionPanel from "@material-ui/core/ExpansionPanel";
 import MuiExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import MuiExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import Card from "@material-ui/core/Card";
 import Paper from "@material-ui/core/Paper";
-import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
 
-import clsx from "clsx";
 import DetailsView from "./DetailsView";
 import ListItem from "./ListItem";
 import { Mission } from "../../model";
@@ -21,35 +19,45 @@ import _ from "../../utils/lodash";
 const useStyles = makeStyles((theme) => ({
   root: {
     height: "100%",
-    overflowY: "auto",
+    width: "100%",
+    overflowY: "scroll",
     overflowX: "hidden",
-    width: "450px",
   },
-  group: {
-    maxWidth: "380px",
+  expansionSummary: {
+    backgroundColor: theme.color.black,
+    color: theme.color.white,
+    textAlign: "left",
+    padding: `0 ${theme.spacing(2)}px`,
+    width: "100%",
+    "& svg": {
+      margin: `0 ${theme.spacing(1)}px`,
+    },
+    "& > div": {
+      width: "100%",
+    },
+  },
+  expansionHeader: {
+    ...theme.typography.h4,
+    color: theme.color.white,
     textOverflow: "ellipsis",
     overflow: "hidden",
     whiteSpace: "nowrap",
-    fontSize: "16px",
+    textTransform: "uppercase",
     fontWeight: "bold",
-    color: "black",
-    alignItems: "center",
-    "& svg": {
-      marginRight: theme.spacing(1),
-    },
   },
   readyToStart: {
     color: "lightgrey",
   },
 
-  containSelected: {
-    border: "2px solid green !important",
-  },
-  expansion: {
-    border: "2px solid transparent",
-  },
   isReady: {
     color: "green",
+  },
+  expansion: {
+    width: "100%",
+  },
+  expansionPanelDetails: {
+    padding: theme.spacing(1),
+    background: "whitesmoke",
   },
 }));
 
@@ -122,82 +130,56 @@ const MissionsListView = ({
     if (!group?.missions) return null;
     const color = _.randomColor(group.groupDisplayName);
 
-    let totReady = 0;
-    let containSelected = false;
-    let totTentative = 0;
-    let totAssigned = 0;
-
-    group.missions.forEach((mission) => {
-      if (mission.readyToStart) totReady += 1;
-      if (mission.uid === selectedMission) containSelected = true;
-      if (mission.tentativeVolunteerUid) totTentative += 1;
-      if (mission.volunteerUid) totAssigned += 1;
-    });
-
-    let totUnassigned = group.missions?.length - totTentative - totAssigned;
-    const isReady = totReady === group.missions?.length;
-    // depends on the design later
+    /**
+     * Will be add another icon later, remove this for now
+     */
     return (
-      <MuiExpansionPanel
-        key={group.groupUid}
-        className={clsx({ [classes.containSelected]: containSelected }, classes.expansion)}
-      >
-        <MuiExpansionPanelSummary
-          expandIcon={<ExpandMoreIcon />}
-          id={`group-${group.id}-header`}
-          aria-controls={`group-${group.id}-content`}
-        >
-          <Grid container className={classes.group}>
-            <Grid container item>
-              {group.groupUid && <GroupWorkIcon style={{ color: color }} />}
-              {group.groupDisplayName}
+      <Card key={group.groupUid} className={classes.expansion} elevation={0}>
+        <MuiExpansionPanel defaultExpanded={true}>
+          <MuiExpansionPanelSummary
+            id={`group-${group.groupUid}-header`}
+            aria-controls={`group-${group.groupUid}-content`}
+            className={classes.expansionSummary}
+          >
+            <Grid container wrap="nowrap">
+              <Grid item alignItem="center" className={classes.expansionHeader} xs>
+                {group.groupDisplayName}
+              </Grid>
+              <Grid item>{group.groupUid && <GroupWorkIcon style={{ color: color }} />}</Grid>
             </Grid>
-            <Grid container item>
-              <CheckCircleOutlineIcon
-                className={clsx(classes.readyToStart, { [classes.isReady]: isReady })}
-              />
-              {totReady}/{group.missions.length} missions ready
+          </MuiExpansionPanelSummary>
+          <MuiExpansionPanelDetails className={classes.expansionPanelDetails}>
+            <Grid container direction="column">
+              {group.missions.map((mission) => (
+                <ListItem
+                  key={mission.uid}
+                  mission={mission}
+                  volunteers={volunteers}
+                  selectedMission={selectedMission}
+                  setSelectedMission={setSelectedMission}
+                  missionsView={missionsView}
+                  toDetailsView={toDetailsView}
+                  groups={groups}
+                />
+              ))}
             </Grid>
-            <Grid container item>
-              <PanToolIcon style={{ color: "lightgrey" }} />
-              {totUnassigned}
-
-              <PanToolIcon style={{ color: "#fbb03b" }} />
-              {totTentative}
-              <PanToolIcon color="primary" />
-              {totAssigned}
-            </Grid>
-          </Grid>
-        </MuiExpansionPanelSummary>
-        <MuiExpansionPanelDetails>
-          <Grid container direction="column">
-            {group.missions.map((mission) => (
-              <ListItem
-                key={mission.uid}
-                mission={mission}
-                volunteers={volunteers}
-                selectedMission={selectedMission}
-                setSelectedMission={setSelectedMission}
-                toDetailsView={toDetailsView}
-                groups={groups}
-              />
-            ))}
-          </Grid>
-        </MuiExpansionPanelDetails>
-      </MuiExpansionPanel>
+          </MuiExpansionPanelDetails>
+        </MuiExpansionPanel>
+        <Divider />
+      </Card>
     );
   }
 
   return (
     <Paper className={classes.root}>
-      <Box hidden={view !== Views.details}>
+      <Box hidden={view !== Views.details} width="100%">
         <DetailsView
           mission={currentMission}
           setSelectedMission={setSelectedMission}
           toListView={() => setView(Views.list)}
         />
       </Box>
-      <Box hidden={view !== Views.list}>
+      <Box hidden={view !== Views.list} width="100%">
         <Grid container direction="column">
           {groups?.map(toList)}
         </Grid>
