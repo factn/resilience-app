@@ -1,4 +1,4 @@
-import { Box, Grid } from "@material-ui/core";
+import { Box, Grid, Card } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 import FormControl from "@material-ui/core/FormControl";
@@ -15,10 +15,14 @@ import MissionItemMenu from "./component/MissionItemMenu";
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    position: "relative",
     textAlign: "left",
     backgroundColor: "white",
     padding: theme.spacing(1),
-    border: "2px solid transparent",
+    marginBottom: theme.spacing(1),
+  },
+  item: {
+    flexBasis: "100%",
   },
   isSelected: {
     borderColor: theme.palette.primary.main,
@@ -32,6 +36,7 @@ const useStyles = makeStyles((theme) => ({
   link: {
     textDecoration: "underline",
     color: theme.color.black,
+    cursor: "pointer",
   },
 }));
 
@@ -86,7 +91,7 @@ const NotFundedStatus = ({ classes, mission }) => {
   );
 };
 
-const Action = ({ boxRef, classes, mission }) => {
+const Action = ({ classes, mission }) => {
   let { status } = mission;
 
   if (status === Mission.Status.unassigned) {
@@ -155,6 +160,7 @@ const FoodBoxDetails = ({ details }) => {
 const MissionListItem = ({
   groups,
   mission,
+  missionsView,
   selectedMission,
   setSelectedMission,
   toDetailsView,
@@ -176,42 +182,58 @@ const MissionListItem = ({
   const isSelected = selectedMission === mission.uid;
   useEffect(() => {
     if (isSelected && boxRef?.current) {
-      boxRef.current.scrollIntoView({
-        behavior: "smooth",
-        block: "end",
-      });
+      if (_.isOutOfViewport(boxRef.current)) {
+        boxRef.current.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }
     }
   }, [isSelected]);
 
+  const itemClass = clsx(["inProposed", "inPlanning"].includes(missionsView) && classes.item);
+
   return (
-    <Box
-      position="relative"
+    <Card
       onClick={onClick}
-      className={clsx(classes.root, { [classes.isSelected]: isSelected })}
+      className={classes.root}
       ref={boxRef}
       color="primary"
+      elevation={isSelected ? 24 : 1}
     >
-      <MissionItemMenu
-        className={classes.MenuRightWrapper}
-        boxRef={boxRef}
-        groups={groups}
-        mission={mission}
-        volunteers={volunteers}
-      />
-      {SpecificDetails}
-      <LocationRow label="Pick Up" location={mission.pickUpLocation} />
-      <LocationRow label="Drop Off" location={mission.deliveryLocation} />
-      <VolunteerRow mission={mission} />
-      <Action mission={mission} classes={classes} boxRef={boxRef} />
-      <Box
-        onClick={toDetailsView}
-        role="button"
-        aria-label="To Mission Details View"
-        className={classes.link}
-      >
-        View Mission Details
-      </Box>
-    </Box>
+      <Grid container>
+        <MissionItemMenu
+          className={classes.MenuRightWrapper}
+          boxRef={boxRef}
+          groups={groups}
+          mission={mission}
+          volunteers={volunteers}
+        />
+        <Grid item xs className={itemClass}>
+          {SpecificDetails}
+        </Grid>
+        <Grid item xs className={itemClass}>
+          <LocationRow label="Pick Up" location={mission.pickUpLocation} />
+        </Grid>
+        <Grid item xs className={itemClass}>
+          <LocationRow label="Drop Off" location={mission.deliveryLocation} />
+        </Grid>
+        <Grid item xs className={itemClass}>
+          <VolunteerRow mission={mission} />
+        </Grid>
+        <Grid item xs direction="column" container justify="flex-end" className={itemClass}>
+          <Action mission={mission} classes={classes} boxRef={boxRef} />
+          <Box
+            onClick={toDetailsView}
+            role="button"
+            aria-label="To Mission Details View"
+            className={classes.link}
+          >
+            View Mission Details
+          </Box>
+        </Grid>
+      </Grid>
+    </Card>
   );
 };
 export default MissionListItem;

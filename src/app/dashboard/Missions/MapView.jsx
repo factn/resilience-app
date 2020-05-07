@@ -1,10 +1,13 @@
+import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
+import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import GroupWorkIcon from "@material-ui/icons/GroupWork";
+import FoodBoxIcon from "../../component/icons/FoodBoxIcon";
 import { DivIcon } from "leaflet";
 import React, { useEffect, useState } from "react";
 import { renderToString } from "react-dom/server";
-import { Map, Marker, TileLayer, Popup, Tooltip } from "react-leaflet";
+import { Map, Marker, TileLayer, Popup } from "react-leaflet";
 import _ from "../../utils/lodash";
 import { Mission } from "../../model";
 import MissionItemMenu from "./component/MissionItemMenu";
@@ -21,9 +24,6 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     height: "100%",
   },
-  foodIcon: {
-    backgroundColor: "red",
-  },
   customGroupIcon: {
     position: "absolute",
     width: "22px",
@@ -37,11 +37,18 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "transparent",
     border: 0,
   },
+
+  innerFoodBoxMarker: {
+    width: "15px !important",
+    height: "15px !important",
+    top: "14px",
+    position: "relative",
+  },
   markerPin: {
     width: "30px",
     height: "30px",
     borderRadius: "50% 50% 50% 0",
-    background: "#c30b82",
+    backgroundColor: theme.color.blue,
     position: "absolute",
     left: "50%",
     top: "50%",
@@ -58,6 +65,12 @@ const useStyles = makeStyles((theme) => ({
       position: "absolute",
       borderRadius: "50%",
     },
+  },
+  currentMarker: {
+    background: theme.color.red,
+  },
+  popup: {
+    width: "200px",
   },
 }));
 
@@ -83,24 +96,48 @@ const Overview = ({ currentMission, missions, setSelectedMission, volunteers }) 
   };
   groups.push(sortedMissions);
   useEffect(() => {
-    if (currentMission) {
-      if (currentMission.deliveryLocation)
-        setViewport({ ...viewport, center: currentMission.deliveryLocation });
+    if (currentMission && currentMission.deliveryLocation) {
+      setViewport({ ...viewport, center: currentMission.deliveryLocation });
     }
     // eslint-disable-next-line
   }, [currentMission]);
 
   const getMarker = (mission) => {
-    let html = `<div class='${classes.markerPin}'></div>`;
+    let html = `<div class='${clsx(
+      classes.markerPin,
+      currentMission && currentMission.uid === mission.uid && classes.currentMarker
+    )}'></div>`;
+    let color = "black";
     if (mission.groupDisplayName) {
-      const color = _.randomColor(mission.groupDisplayName);
+      color = _.randomColor(mission.groupDisplayName);
       const GroupIconHtml = renderToString(
         <GroupWorkIcon className={classes.customGroupIcon} style={{ color: color }} />
       );
       html += GroupIconHtml;
     }
+    let SpecificDetails = null;
+    if (mission.type === "foodbox") {
+      SpecificDetails = (
+        <>
+          <b>Food Box</b>
+          {_.get(mission.missionDetails, "needs")?.map((box, index) => {
+            return (
+              <div key={index}>
+                {_.get(box, "quantity")} x {_.get(box, "name")}
+              </div>
+            );
+          })}
+        </>
+      );
+
+      const FoodboxIconHtml = renderToString(
+        <FoodBoxIcon className={classes.innerFoodBoxMarker} />
+      );
+      html += FoodboxIconHtml;
+    }
+
     const CustomIcon = new DivIcon({
-      className: classes.customDivIcon,
+      className: clsx(classes.customDivIcon),
       html: html,
       iconSize: [30, 42],
       iconAnchor: [15, 42], // half of width + height
@@ -116,19 +153,22 @@ const Overview = ({ currentMission, missions, setSelectedMission, volunteers }) 
           setSelectedMission(mission.uid);
         }}
       >
-        <Popup>
-          <MissionItemMenu
-            groups={groups}
-            mission={mission}
-            volunteers={volunteers}
-            boxRef={{ current: anchorEl }}
-          />
+        <Popup className={classes.popup} autoClose={true}>
+          <Grid container>
+            <Grid container item xs>
+              {mission.groupDisplayName && mission.groupDisplayName}
+              {SpecificDetails}
+            </Grid>
+            <Grid item>
+              <MissionItemMenu
+                groups={groups}
+                mission={mission}
+                volunteers={volunteers}
+                boxRef={{ current: anchorEl }}
+              />
+            </Grid>
+          </Grid>
         </Popup>
-        <Tooltip>
-          <Box>
-            <Box>Group: {mission.groupDisplayName}</Box>
-          </Box>
-        </Tooltip>
       </Marker>
     );
   };
