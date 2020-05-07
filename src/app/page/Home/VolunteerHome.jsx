@@ -1,4 +1,4 @@
-import { Box, Paper, Tab, Tabs, Typography } from "@material-ui/core";
+import { Box, Paper, Tab, Tabs } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
@@ -13,6 +13,7 @@ import VolunteerHomeMissionList from "./VolunteerHomeMissionList";
 import MissionTypeHeading from "./MissionTypeHeading";
 import { volunteerDashboardEmptyTabMessage } from "../../../constants";
 import { FoodBoxIcon, UserPhoneUnverifiedPopup } from "../../component";
+import { H1, Div } from "../../component";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -127,14 +128,9 @@ export default function VolunteerHome({ currentUser }) {
       <TabPanel value={value} index={0}>
         <MissionTypeHeading label={missionType.label} icon={missionType.icon}></MissionTypeHeading>
         <Box className={classes.tabSectionContainer}>
-          <Typography
-            component="h1"
-            variant="h1"
-            gutterBottom
-            className={classes.sectionHeadingStyles}
-          >
+          <H1 component="h1" gutterBottom className={classes.sectionHeadingStyles}>
             Available
-          </Typography>
+          </H1>
           <VolunteerHomeMissionList
             missions={availableMissions}
             currentUser={currentUser}
@@ -150,14 +146,9 @@ export default function VolunteerHome({ currentUser }) {
       <TabPanel value={value} index={1}>
         <MissionTypeHeading label={missionType.label} icon={missionType.icon}></MissionTypeHeading>
         <Box className={classes.tabSectionContainer}>
-          <Typography
-            component="h1"
-            variant="h1"
-            gutterBottom
-            className={classes.sectionHeadingStyles}
-          >
+          <H1 component="h1" gutterBottom className={classes.sectionHeadingStyles}>
             Scheduled
-          </Typography>
+          </H1>
           <VolunteerHomeMissionList
             missions={acceptedMissions}
             currentUser={currentUser}
@@ -173,14 +164,9 @@ export default function VolunteerHome({ currentUser }) {
       <TabPanel value={value} index={2}>
         <MissionTypeHeading label={missionType.label} icon={missionType.icon}></MissionTypeHeading>
         <Box className={classes.tabSectionContainer}>
-          <Typography
-            component="h1"
-            variant="h1"
-            gutterBottom
-            className={classes.sectionHeadingStyles}
-          >
+          <H1 component="h1" gutterBottom className={classes.sectionHeadingStyles}>
             In Progress
-          </Typography>
+          </H1>
           <VolunteerHomeMissionList
             missions={inProgressMissions}
             currentUser={currentUser}
@@ -203,8 +189,7 @@ function TabPanel(props) {
   const { children, index, value, ...other } = props;
 
   return (
-    <Typography
-      component="div"
+    <Div
       role="tabpanel"
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
@@ -212,7 +197,7 @@ function TabPanel(props) {
       {...other}
     >
       {value === index && children}
-    </Typography>
+    </Div>
   );
 }
 

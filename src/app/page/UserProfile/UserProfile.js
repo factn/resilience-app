@@ -11,7 +11,6 @@ import User from "../../model/User";
 import { Button } from "../../component";
 import { ErrorSnackbar, SuccessSnackbar } from "../../component/Snackbars";
 import { Card, Page } from "../../layout";
-import addressLookUp from "../../utils/addressLookUp";
 import LinkGoogleAccount from "./LinkGoogleAccount";
 import LinkPhoneAccount from "./LinkPhoneAccount";
 import UserOverview from "./UserOverview";

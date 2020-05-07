@@ -6,7 +6,7 @@ import ScheduleIcon from "@material-ui/icons/Schedule";
 import PropTypes from "prop-types";
 import React from "react";
 
-import { Body1 } from "./Typography";
+import { Body1 } from "./";
 
 const styles = (theme) => ({
   root: {
