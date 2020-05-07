@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import React from "react";
 import clsx from "clsx";
-import { isEmpty, isLoaded } from "react-redux-firebase";
+import { isLoaded } from "react-redux-firebase";
 import { useHistory } from "react-router-dom";
 import MuiExpansionPanel from "@material-ui/core/ExpansionPanel";
 import MuiExpansionPanelActions from "@material-ui/core/ExpansionPanelActions";
@@ -55,13 +55,7 @@ const MissionGroup = ({ callToAction, group, groupCallToAction, showViewRoute })
     });
   };
 
-  const viewRoute = showViewRoute && (
-    <ShowDeliveryRoute
-      missions={missions}
-      isEmpty={isEmpty(missions)}
-      isLoaded={isLoaded(missions)}
-    />
-  );
+  const viewRoute = showViewRoute && <ShowDeliveryRoute missions={missions} />;
 
   const groupAction = showGroupAction && (
     <Button

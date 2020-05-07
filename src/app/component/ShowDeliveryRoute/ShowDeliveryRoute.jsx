@@ -1,5 +1,7 @@
 import PropTypes from "prop-types";
 import React, { useState, useEffect } from "react";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import { isEmpty, isLoaded } from "react-redux-firebase";
 import { makeStyles } from "@material-ui/core/styles";
 import MuiMapIcon from "@material-ui/icons/Map";
 import { Button, Link } from "@material-ui/core";
@@ -16,13 +18,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ShowDeliveryRoute = ({ isEmpty, isLoaded, missions }) => {
+const ShowDeliveryRoute = ({ missions }) => {
   const classes = useStyles();
   const [googleMapsUrl, setGoogleMapsUrl] = useState("");
 
   useEffect(() => {
     async function calcRoute() {
-      var addresses = [];
+      const addresses = [];
       missions.map((mission) => {
         addresses.push(mission.pickUpLocation);
         addresses.push(mission.deliveryLocation);
@@ -30,7 +32,7 @@ const ShowDeliveryRoute = ({ isEmpty, isLoaded, missions }) => {
       });
 
       // constraints assume that every second address is a pickup/delivery address
-      var constraints = {};
+      const constraints = {};
       for (var i = 0; i < addresses.length; i = i + 2) {
         constraints[i] = ["" + (i + 1)];
       }
@@ -42,10 +44,10 @@ const ShowDeliveryRoute = ({ isEmpty, isLoaded, missions }) => {
       if (addresses.length > 0) {
         // get the data into the stupid format the api wants
         var idx = 0;
-        var stupid_format = {};
+        const stupid_format = {};
         _.map(addresses, (address) => (stupid_format[idx++] = address));
 
-        var req_data = {
+        const req_data = {
           addresses: stupid_format,
           pickups: [],
           pickup_dropoff_constraints: constraints,
@@ -57,30 +59,33 @@ const ShowDeliveryRoute = ({ isEmpty, isLoaded, missions }) => {
           data: req_data,
         });
 
-        var addresses_for_google = _.map(response.data.optimal_addresses, (entry) => {
+        const addresses_for_google = _.map(response.data.optimal_addresses, (entry) => {
           return encodeURIComponent(entry.address);
         });
 
-        var gmaps_url = popup_base_url + addresses_for_google.join("/");
-
-        setGoogleMapsUrl(gmaps_url);
+        setGoogleMapsUrl(popup_base_url + addresses_for_google.join("/"));
       }
     }
     calcRoute();
   }, [missions]);
 
-  // issions loading
-  if (!isLoaded) {
+  // missions loading
+  if (!isLoaded(missions)) {
     return <span>...</span>;
   }
 
   // missions empty
-  if (isEmpty) {
+  if (isEmpty(missions)) {
     return <span></span>;
   }
 
   if (!googleMapsUrl) {
-    return <span className={classes.italicsMuted}>... calculating route ... </span>;
+    return (
+      <span className={classes.italicsMuted}>
+        {" "}
+        Calculating route - <CircularProgress size="1rem" />
+      </span>
+    );
   }
 
   return (
@@ -94,8 +99,6 @@ const ShowDeliveryRoute = ({ isEmpty, isLoaded, missions }) => {
 
 ShowDeliveryRoute.propTypes = {
   missions: PropTypes.array,
-  isLoaded: PropTypes.bool,
-  isEmpty: PropTypes.bool,
 };
 
 export default ShowDeliveryRoute;

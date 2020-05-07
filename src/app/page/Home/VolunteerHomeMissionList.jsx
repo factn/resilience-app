@@ -56,13 +56,7 @@ const VolunteerHomeMissionList = ({
     />
   );
 
-  const viewRouteAllMissions = (
-    <ShowDeliveryRoute
-      missions={missions}
-      isEmpty={isEmpty(missions)}
-      isLoaded={isLoaded(missions)}
-    />
-  );
+  const viewRouteAllMissions = <ShowDeliveryRoute missions={missions} />;
 
   return (
     <div className="volunteer-mission-list">
