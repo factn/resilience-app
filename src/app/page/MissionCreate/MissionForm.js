@@ -5,6 +5,7 @@ import AlgoliaPlaces from "algolia-places-react";
 import PropTypes from "prop-types";
 import React from "react";
 
+import DateTimeInput from "../../component/DateTimeInput";
 import { Button, TypographyWrapper } from "../../component";
 import { Page } from "../../layout";
 import KeyDatePickerContainer from "./KeyDatePickerContainer";
@@ -40,12 +41,6 @@ function MissionForm({ getFile, handleChange, onSubmit, values /*, assignHelper,
     date: new Date(),
     location: "",
   });
-  const [pickUpDateLabel, setPickUpDateLabel] = React.useState(
-    pickUp.date.toString().substr(0, 15)
-  );
-  const [dropOffDateLabel, setDropOffDateLabel] = React.useState(
-    dropOff.date.toString().substr(0, 15)
-  );
 
   const handleSubmit = () => {
     const valuesWithDates = {
@@ -83,8 +78,8 @@ function MissionForm({ getFile, handleChange, onSubmit, values /*, assignHelper,
     if (!date) {
       return;
     }
+    console.log(date);
     if (stage === "pickUp") {
-      setPickUpDateLabel(date ? date.toString().substr(0, 15) : "Select a date");
       if (typeof date !== "string") {
         setPickUp({ ...pickUp, date: date.toString().substr(0, 15) });
       } else {
@@ -92,7 +87,6 @@ function MissionForm({ getFile, handleChange, onSubmit, values /*, assignHelper,
       }
     }
     if (stage === "dropOff") {
-      setDropOffDateLabel(date ? date.toString().substr(0, 15) : "Select a date");
       if (typeof date !== "string") {
         setDropOff({ ...dropOff, date: date.toString().substr(0, 15) });
       } else {
@@ -181,31 +175,18 @@ function MissionForm({ getFile, handleChange, onSubmit, values /*, assignHelper,
             onChange={(query) => handleLocation(query, "pickUp")}
             onLimit={({ message }) => message && console.log(message)}
           />
-
-          <KeyDatePickerContainer
-            margin="normal"
-            id="date-pickUp"
-            label="Select Date"
-            format="MM/dd/yyyy"
-            value={pickUpDateLabel}
-            required={true}
-            onChange={(date) => handleDate(date, "pickUp")}
-            KeyboardButtonProps={{
-              "aria-label": "change date",
+          <DateTimeInput
+            dateInputProps={{
+              id: "date-pickup",
+              label: "Pickup Date",
             }}
-          />
-          <KeyboardTimePicker
-            margin="normal"
-            id="time-pickUp"
-            label="Pickup time"
-            value={pickUp.timeProtoType}
-            required={true}
-            onChange={(time) =>
-              time && setPickUp({ ...pickUp, time: time.toTimeString(), timeProtoType: time })
-            }
-            KeyboardButtonProps={{
-              "aria-label": "change time",
+            onChange={setPickUp}
+            required
+            timeInputProps={{
+              id: "time-pickup",
+              label: "Pickup Time",
             }}
+            value={pickUp}
           />
           <StyledHeader align="left" variant="h2">
             Drop-off
@@ -224,27 +205,18 @@ function MissionForm({ getFile, handleChange, onSubmit, values /*, assignHelper,
               console.log("Fired when you reached your current rate limit.")
             }
           />
-          <KeyDatePickerContainer
-            margin="normal"
-            id="date-dropOff"
-            label="Select Date"
-            format="MM/dd/yyyy"
-            value={dropOffDateLabel}
-            required={true}
-            onChange={(date) => handleDate(date, "dropOff")}
-          />
-          <KeyboardTimePicker
-            margin="normal"
-            id="time-dropOff"
-            label="Drop-off time"
-            value={dropOff.timeProtoType}
-            required={true}
-            onChange={(time) =>
-              time && setDropOff({ ...dropOff, time: time.toTimeString(), timeProtoType: time })
-            }
-            KeyboardButtonProps={{
-              "aria-label": "change time",
+          <DateTimeInput
+            dateInputProps={{
+              id: "date-dropoff",
+              label: "Drop off Date",
             }}
+            onChange={setDropOff}
+            required
+            timeInputProps={{
+              id: "time-dropoff",
+              label: "Drop off Time",
+            }}
+            value={dropOff}
           />
         </MuiPickersUtilsProvider>
         <Button
