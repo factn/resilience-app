@@ -40,10 +40,12 @@ describe("MissionCard", () => {
           startTime: "06-06-2020",
         },
         missionDetails: {
-          needs: [{
-            name: "Apple",
-            quantity: 2
-          }] 
+          needs: [
+            {
+              name: "Apple",
+              quantity: 2,
+            },
+          ],
         },
       },
     };
