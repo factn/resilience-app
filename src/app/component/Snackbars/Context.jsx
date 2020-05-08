@@ -34,7 +34,7 @@ class SnackbarProvider extends React.Component {
    * @memberof SnackbarProvider
    */
   handleUpdateSnackbar(snackbarProps) {
-    return this.setState({ ...snackbarProps });
+    return this.setState({ open: true, ...snackbarProps });
   }
 
   render() {

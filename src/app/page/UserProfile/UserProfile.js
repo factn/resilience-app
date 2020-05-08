@@ -79,11 +79,10 @@ const UserProfile = () => {
     try {
       await User.update(firebaseAuth.uid, profile);
 
-      snackbarContext.updateSnackbar({ open: true, message: "Profile saved successfully" });
+      snackbarContext.updateSnackbar({ message: "Profile saved successfully" });
     } catch (error) {
       snackbarContext.updateSnackbar({
         message: `Unable to save profile: ${error.message}`,
-        open: true,
         type: "error",
       });
     } finally {
@@ -135,7 +134,6 @@ const UserProfile = () => {
       // check for './utils.js' if you want to work on the merge problem
 
       snackbarContext.updateSnackbar({
-        open: true,
         message:
           "We do not support linking with an already existing account. You can sign in to the other account if needed.",
         type: "error",
