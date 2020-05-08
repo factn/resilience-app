@@ -12,7 +12,9 @@ import appleIcon from "../../img/apple.svg";
 import { Button, H5, Body1 } from "./";
 import User from "../model/User";
 import Mission from "../model/Mission";
+import DetailsText from "../dashboard/Missions/DetailsText";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const styles = (theme) => ({
   root: {
@@ -87,6 +89,7 @@ const MissionCardContent = ({ classes, contentItems }) => (
 const MissionCard = withStyles(styles)(({ children, classes, mission, ...rest }) => {
   const title = mission?.notes || "No title supplied.";
   const status = mission.status;
+  const detailsLink = "/missions/" + mission.uid;
   const location = mission.pickUpLocation?.address || "no data";
   const dropOffLocation = mission.deliveryLocation?.address || "no data";
   const timeWindowType = mission.pickUpWindow?.timeWindowType || "no data";
@@ -117,18 +120,19 @@ const MissionCard = withStyles(styles)(({ children, classes, mission, ...rest })
   return (
     <Card className={classes.root} {...rest}>
       <CardContent className={classes.cardContent}>
-        <Grid container spacing={1} alignItems="flex-start" justify="flex-end" direction="row">
-          <Grid item>
-            <img height="20" src={appleIcon} alt="" />
+        <Link to={detailsLink} aria-label="Mission Details">
+          <Grid container spacing={1} alignItems="flex-start" justify="flex-end" direction="row">
+            <Grid item>
+              <img height="20" src={appleIcon} alt="" />
+            </Grid>
+            <Grid item style={{ flex: 1 }} className={classes.title}>
+              <DetailsText showType={false} mission={mission} />
+            </Grid>
+            <Grid item>
+              <InfoIcon />
+            </Grid>
           </Grid>
-          <Grid item style={{ flex: 1 }} className={classes.title}>
-            {title}
-          </Grid>
-          <Grid item>
-            <InfoIcon />
-          </Grid>
-        </Grid>
-
+        </Link>
         <Grid container direction="row">
           <Grid item className={classes.halfRow}>
             <Grid container direction="column">
