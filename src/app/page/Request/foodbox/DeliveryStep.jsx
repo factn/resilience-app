@@ -166,6 +166,7 @@ function DeliveryStep({ dispatch, state }) {
         error={values.locationError}
         onClear={() => changeFormValue("location", undefined)}
         value={state.location?.address}
+        showMap
       />
       <TextField
         className={classes.textArea}
