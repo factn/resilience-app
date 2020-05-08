@@ -1,7 +1,7 @@
 import { makeStyles } from "@material-ui/core/styles";
 import React, { useEffect, useState } from "react";
 
-const FoodBoxDetails = ({ showType, details }) => {
+const FoodBoxDetails = ({ details, showType }) => {
   return (
     <>
       {showType ? <b>Food Box</b> : null}
@@ -16,7 +16,7 @@ const FoodBoxDetails = ({ showType, details }) => {
   );
 };
 
-const DetailsText = ({ showType, mission }) => {
+const DetailsText = ({ mission, showType }) => {
   const { missionDetails, type } = mission;
 
   let SpecificDetails = null;
