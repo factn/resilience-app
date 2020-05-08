@@ -75,14 +75,14 @@ function MakeMission({ history }) {
         .then(() => {
           setLoading(false);
 
-          snackbarContext.updateSnackbar({
+          snackbarContext.show({
             message: "Successfully created mission",
           });
         })
         .catch((error) => {
           setLoading(false);
 
-          snackbarContext.updateSnackbar({
+          snackbarContext.show({
             message: `Unable to create mission: ${error.message}`,
             type: "error",
           });
@@ -90,7 +90,7 @@ function MakeMission({ history }) {
     } catch (error) {
       setLoading(false);
 
-      snackbarContext.updateSnackbar({
+      snackbarContext.show({
         message: `Unable to save mission: ${error.message}`,
         type: "error",
       });
@@ -106,7 +106,7 @@ function MakeMission({ history }) {
           return data.ref.getDownloadURL();
         })
         .catch((error) => {
-          snackbarContext.updateSnackbar({
+          snackbarContext.show({
             message: `Unable to upload image: ${error.message}`,
             type: "error",
           });
@@ -126,14 +126,14 @@ function MakeMission({ history }) {
        */
       if (!checkForEmptyInput(input)) {
         saveMission(input);
-        snackbarContext.updateSnackbar({
+        snackbarContext.show({
           message: "Mission saved!",
         });
       } else {
         throw Error("Wrong input");
       }
     } catch (error) {
-      snackbarContext.updateSnackbar({
+      snackbarContext.show({
         message: `Unable to save mission: ${error.message}`,
         type: "error",
       });

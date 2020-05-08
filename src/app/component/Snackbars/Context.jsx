@@ -18,7 +18,7 @@ class SnackbarProvider extends React.Component {
     };
 
     this.handleCloseSnackbar = this.handleCloseSnackbar.bind(this);
-    this.handleUpdateSnackbar = this.handleUpdateSnackbar.bind(this);
+    this.handleShowSnackbar = this.handleShowSnackbar.bind(this);
   }
 
   handleCloseSnackbar() {
@@ -33,7 +33,7 @@ class SnackbarProvider extends React.Component {
    * @returns void
    * @memberof SnackbarProvider
    */
-  handleUpdateSnackbar(snackbarProps) {
+  handleShowSnackbar(snackbarProps) {
     return this.setState({ open: true, ...snackbarProps });
   }
 
@@ -41,9 +41,9 @@ class SnackbarProvider extends React.Component {
     return (
       <SnackbarContext.Provider
         value={{
-          snackbar: this.state,
           closeSnackbar: this.handleCloseSnackbar,
-          updateSnackbar: this.handleUpdateSnackbar,
+          show: this.handleShowSnackbar,
+          snackbar: this.state,
         }}
       >
         {this.props.children}

@@ -79,9 +79,9 @@ const UserProfile = () => {
     try {
       await User.update(firebaseAuth.uid, profile);
 
-      snackbarContext.updateSnackbar({ message: "Profile saved successfully" });
+      snackbarContext.show({ message: "Profile saved successfully" });
     } catch (error) {
-      snackbarContext.updateSnackbar({
+      snackbarContext.show({
         message: `Unable to save profile: ${error.message}`,
         type: "error",
       });
@@ -133,7 +133,7 @@ const UserProfile = () => {
     if (["auth/credential-already-in-use", "auth/email-already-in-use"].indexOf(error.code) > -1) {
       // check for './utils.js' if you want to work on the merge problem
 
-      snackbarContext.updateSnackbar({
+      snackbarContext.show({
         message:
           "We do not support linking with an already existing account. You can sign in to the other account if needed.",
         type: "error",
