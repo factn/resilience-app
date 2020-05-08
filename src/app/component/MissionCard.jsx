@@ -120,7 +120,7 @@ const MissionCard = withStyles(styles)(({ children, classes, mission, ...rest })
   return (
     <Card className={classes.root} {...rest}>
       <CardContent className={classes.cardContent}>
-        <Link to={detailsLink} aria-label="Mission Details">
+        <a href={detailsLink} aria-label="Mission Details">
           <Grid container spacing={1} alignItems="flex-start" justify="flex-end" direction="row">
             <Grid item>
               <img height="20" src={appleIcon} alt="" />
@@ -132,7 +132,7 @@ const MissionCard = withStyles(styles)(({ children, classes, mission, ...rest })
               <InfoIcon />
             </Grid>
           </Grid>
-        </Link>
+        </a>
         <Grid container direction="row">
           <Grid item className={classes.halfRow}>
             <Grid container direction="column">
