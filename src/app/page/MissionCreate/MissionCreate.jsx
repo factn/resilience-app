@@ -1,10 +1,10 @@
 import CircularProgress from "@material-ui/core/CircularProgress";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { getFirebase, withFirestore } from "react-redux-firebase";
 import { withRouter } from "react-router-dom";
 
-import { ErrorSnackbar, SuccessSnackbar } from "../../component/Snackbars";
 import useForm from "../../hooks/useForm";
+import Snackbar from "../../component/Snackbars";
 import { Mission, User } from "../../model";
 import MissionForm from "./MissionForm";
 
@@ -21,9 +21,7 @@ function MakeMission({ history }) {
   const storage = firebase.storage();
   const { handleChange, values } = useForm();
 
-  //Snackbar state
-  const [successSnackbarOpen, setSuccessSnackbarOpen] = useState(false);
-  const [errorSnackbarOpen, setErrorSnackbarOpen] = useState(false);
+  const snackbarContext = useContext(Snackbar.Context.SnackbarContext);
 
   function getFile(file) {
     setFile(file);
@@ -76,17 +74,26 @@ function MakeMission({ history }) {
       Mission.create(mission)
         .then(() => {
           setLoading(false);
-          setSuccessSnackbarOpen(true);
+
+          snackbarContext.updateSnackbar({
+            message: "Successfully created mission",
+          });
         })
         .catch((error) => {
           setLoading(false);
-          setErrorSnackbarOpen(true);
-          console.error(error);
+
+          snackbarContext.updateSnackbar({
+            message: `Unable to create mission: ${error.message}`,
+            type: "error",
+          });
         });
     } catch (error) {
       setLoading(false);
-      setErrorSnackbarOpen(true);
-      console.error(error);
+
+      snackbarContext.updateSnackbar({
+        message: `Unable to save mission: ${error.message}`,
+        type: "error",
+      });
     }
   }
 
@@ -99,7 +106,10 @@ function MakeMission({ history }) {
           return data.ref.getDownloadURL();
         })
         .catch((error) => {
-          throw Error("image upload error");
+          snackbarContext.updateSnackbar({
+            message: `Unable to upload image: ${error.message}`,
+            type: "error",
+          });
         });
       return await uploadTask;
     } else {
@@ -116,12 +126,17 @@ function MakeMission({ history }) {
        */
       if (!checkForEmptyInput(input)) {
         saveMission(input);
+        snackbarContext.updateSnackbar({
+          message: "Mission saved!",
+        });
       } else {
-        throw Error("wrong input");
+        throw Error("Wrong input");
       }
     } catch (error) {
-      setErrorSnackbarOpen(true);
-      console.error(error);
+      snackbarContext.updateSnackbar({
+        message: `Unable to save mission: ${error.message}`,
+        type: "error",
+      });
     }
   }
 
@@ -150,21 +165,6 @@ function MakeMission({ history }) {
         handleChange={handleChange}
         /*autoAssign={() => setAutoAssignHelper(!autoAssignHelper)}
         autoAssigned={autoAssignHelper}*/
-      />
-      <ErrorSnackbar
-        open={errorSnackbarOpen}
-        handleClose={() => setErrorSnackbarOpen(false)}
-        errorMessage="Error while creating mission. Please try again."
-        autoHideDuration={4000}
-      />
-      <SuccessSnackbar
-        open={successSnackbarOpen}
-        handleClose={() => {
-          setSuccessSnackbarOpen(false);
-          history.push("/missions");
-        }}
-        successMessage="Mission has been created."
-        autoHideDuration={4000}
       />
     </>
   );
