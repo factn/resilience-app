@@ -29,6 +29,13 @@ const DateTimeInput = ({ dateInputProps, onChange, required, timeInputProps, val
     ...dateInputProps,
   };
 
+  const timePickerProps = {
+    id: "datetime-input-time",
+    label: "Time",
+    margin: "normal",
+    ...timeInputProps,
+  };
+
   return (
     <MuiPickersUtilsProvider utils={MomentUtils}>
       <KeyDatePickerContainer
@@ -47,7 +54,7 @@ const DateTimeInput = ({ dateInputProps, onChange, required, timeInputProps, val
         required={required}
         onChange={(val) => handleChange("time", val)}
         KeyboardButtonProps={{ "aria-label": "change time" }}
-        {...timeInputProps}
+        {...timePickerProps}
       />
     </MuiPickersUtilsProvider>
   );
