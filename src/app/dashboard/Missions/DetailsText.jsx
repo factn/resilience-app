@@ -1,15 +1,14 @@
 import { makeStyles } from "@material-ui/core/styles";
 import React, { useEffect, useState } from "react";
-import _ from "../../utils/lodash";
 
 const FoodBoxDetails = ({ showType, details }) => {
   return (
     <>
       {showType ? <b>Food Box</b> : null}
-      {_.get(details, "needs")?.map((box, index) => {
+      {details?.needs?.map((box, index) => {
         return (
           <div key={index}>
-            {_.get(box, "quantity")} x {_.get(box, "name")}
+            {box?.quantity} x {box?.name}
           </div>
         );
       })}
