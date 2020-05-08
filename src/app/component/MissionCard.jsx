@@ -9,9 +9,7 @@ import ScheduleIcon from "@material-ui/icons/Schedule";
 import PropTypes from "prop-types";
 import React from "react";
 import appleIcon from "../../img/apple.svg";
-import Typography from "@material-ui/core/Typography";
-import { Button } from "./";
-import { Body1 } from "./Typography";
+import { Button, H5, Body1 } from "./";
 import User from "../model/User";
 import Mission from "../model/Mission";
 import { useSelector } from "react-redux";
@@ -119,7 +117,7 @@ const MissionCard = withStyles(styles)(({ children, classes, mission, ...rest })
   return (
     <Card className={classes.root} {...rest}>
       <CardContent className={classes.cardContent}>
-        <Grid container spacing="1" alignItems="flex-start" justify="flex-end" direction="row">
+        <Grid container spacing={1} alignItems="flex-start" justify="flex-end" direction="row">
           <Grid item>
             <img height="20" src={appleIcon} alt="" />
           </Grid>
@@ -140,19 +138,17 @@ const MissionCard = withStyles(styles)(({ children, classes, mission, ...rest })
                     <PublishIcon />
                   </Grid>
                   <Grid item>
-                    <Typography variant="h5" noWrap>
-                      PICK UP
-                    </Typography>
+                    <H5 noWrap>PICK UP</H5>
                   </Grid>
                 </Grid>
               </Grid>
               <Grid item>{mission.pickUpLocation.label}</Grid>
               <Grid item className={classes.address}>
-                <Typography variant="h5">
+                <H5>
                   <a title={location} href={`https://www.google.com/maps/dir/"${location}"`}>
                     {location}
                   </a>
-                </Typography>
+                </H5>
               </Grid>
               <Grid item>
                 <Grid container direction="row" spacing={1}>
@@ -172,22 +168,20 @@ const MissionCard = withStyles(styles)(({ children, classes, mission, ...rest })
                     <GetAppIcon />
                   </Grid>
                   <Grid item>
-                    <Typography variant="h5" noWrap>
-                      DROP OFF
-                    </Typography>
+                    <H5 noWrap>DROP OFF</H5>
                   </Grid>
                 </Grid>
               </Grid>
               <Grid item>{mission.recipientDisplayName}</Grid>
               <Grid item className={classes.address}>
-                <Typography variant="h5">
+                <H5>
                   <a
                     title={dropOffLocation}
                     href={`https://www.google.com/maps/dir/"${dropOffLocation}"`}
                   >
                     {dropOffLocation}
                   </a>
-                </Typography>
+                </H5>
               </Grid>
               <Grid item className={classes.center}>
                 <Button size="medium" onClick={acceptMission} className={classes.center}>

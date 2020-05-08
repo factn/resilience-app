@@ -1,11 +1,11 @@
 import MomentUtils from "@date-io/date-fns";
-import { Container, TextField, Typography, withStyles } from "@material-ui/core";
+import { Container, TextField, withStyles } from "@material-ui/core";
 import { KeyboardTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import AlgoliaPlaces from "algolia-places-react";
 import PropTypes from "prop-types";
 import React from "react";
 
-import Button from "../../component/Button";
+import { Button, TypographyWrapper } from "../../component";
 import { Page } from "../../layout";
 import KeyDatePickerContainer from "./KeyDatePickerContainer";
 import { Upload, useStyles } from "./Request.style";
@@ -22,9 +22,9 @@ const StyledHeader = withStyles({
 })(({ children, classes, ...rest }) => {
   const { main, ...allowedMuiProps } = rest; // filter `main` from other props. This prevents Typography to throw an error
   return (
-    <Typography className={classes.root} {...allowedMuiProps}>
+    <TypographyWrapper className={classes.root} {...allowedMuiProps}>
       {children}
-    </Typography>
+    </TypographyWrapper>
   );
 });
 

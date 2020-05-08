@@ -8,14 +8,13 @@ import {
   ListItemText,
   makeStyles,
   Paper,
-  Typography,
   Button,
 } from "@material-ui/core";
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { useSelector } from "react-redux";
 
 import PaypalCheckout from "../../../component/PaypalCheckout/PaypalCheckout";
+import { TypographyWrapper, H3, H4, H5, Body1 } from "../../../component";
 import NavigationButtons from "./NavigationButtons";
 import Mission from "../../../model/Mission";
 import { MissionFundedStatus, MissionType, MissionStatus } from "../../../model/schema";
@@ -105,13 +104,13 @@ function ConfirmStep({ dispatch, state }) {
   if (isDonationRequest) {
     return (
       <>
-        <Typography className={classes.yMargin} variant="h3" align="left" color="textPrimary">
+        <H3 className={classes.yMargin} align="left" color="textPrimary">
           Find Me a Donation
-        </Typography>
-        <Typography align="left">
+        </H3>
+        <TypographyWrapper align="left">
           As an organization of volunteers, we will try our best to fulfill your request but please
           understand that wait times for this option may be uncertain.
-        </Typography>
+        </TypographyWrapper>
         <NavigationButtons
           nextText="Confirm"
           onBack={() => setIsDonationRequest(false)}
@@ -123,17 +122,13 @@ function ConfirmStep({ dispatch, state }) {
 
   return (
     <>
-      <Typography className={classes.yMargin} variant="h3" align="left" color="textPrimary">
+      <H3 className={classes.yMargin} align="left" color="textPrimary">
         Request Summary
-      </Typography>
+      </H3>
 
       <Grid container direction="row" justify="space-between" alignItems="center">
-        <Typography variant="body1" color="textSecondary">
-          QTY
-        </Typography>
-        <Typography variant="body1" color="textSecondary">
-          SUBTOTAL
-        </Typography>
+        <Body1 color="textSecondary">QTY</Body1>
+        <Body1 color="textSecondary">SUBTOTAL</Body1>
       </Grid>
       <List dense={true}>
         {Object.keys(cart).map((key) => {
@@ -152,14 +147,10 @@ function ConfirmStep({ dispatch, state }) {
         <Divider />
         <ListItem>
           <ListItemText>
-            <Typography variant="h5" color="textSecondary">
-              TOTAL (BEFORE TAX)
-            </Typography>
+            <H5 color="textSecondary">TOTAL (BEFORE TAX)</H5>
           </ListItemText>
           <ListItemSecondaryAction>
-            <Typography variant="h5" color="textPrimary">
-              ${parseFloat(total).toFixed(2)}
-            </Typography>
+            <H5 color="textPrimary">${parseFloat(total).toFixed(2)}</H5>
           </ListItemSecondaryAction>
         </ListItem>
       </List>
@@ -171,31 +162,30 @@ function ConfirmStep({ dispatch, state }) {
         }
       />
 
-      <Typography variant="subtitle2">
+      <TypographyWrapper elementType="subtitle2">
         <i>Pay securly online with your credit card</i>
-      </Typography>
+      </TypographyWrapper>
 
-      <Typography className={classes.yMargin} variant="body1" color="textSecondary">
+      <Body1 className={classes.yMargin} color="textSecondary">
         At the moment, we are not accepting cash due to potential health risks.
-      </Typography>
+      </Body1>
 
       <Paper className={classes.paper} variant="outlined">
         <span role="img" aria-label="heart" className={classes.heart}>
           ❤️
         </span>
-        <Typography variant="body1" align="left" gutterBottom={true}>
+        <Body1 align="left" gutterBottom={true}>
           We want to make sure everyone has access to food. If you're unable to pay, we'll try to
           find a donation for your request.
-        </Typography>
-        <Typography
-          variant="h5"
+        </Body1>
+        <H5
           color="primary"
           align="left"
           className={classes.donation}
           onClick={() => setIsDonationRequest(true)}
         >
           Find me a donation
-        </Typography>
+        </H5>
       </Paper>
       <Button
         fullWidth
@@ -216,14 +206,10 @@ function CheckoutItem({ children, quantity, secondary, subtotal }) {
       <Divider />
       <ListItem>
         <ListItemIcon>
-          <Typography variant="h4" color="textPrimary">
-            {quantity}
-          </Typography>
+          <H4 color="textPrimary">{quantity}</H4>
         </ListItemIcon>
         <ListItemText secondary={secondary}>
-          <Typography variant="h4" color="textPrimary">
-            {children}
-          </Typography>
+          <H4 color="textPrimary">{children}</H4>
         </ListItemText>
         <ListItemSecondaryAction>${parseFloat(subtotal).toFixed(2)}</ListItemSecondaryAction>
       </ListItem>
