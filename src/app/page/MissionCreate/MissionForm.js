@@ -1,6 +1,6 @@
 import MomentUtils from "@date-io/date-fns";
 import { Container, TextField, withStyles } from "@material-ui/core";
-import { KeyboardTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import AlgoliaPlaces from "algolia-places-react";
 import PropTypes from "prop-types";
 import React from "react";
@@ -8,7 +8,6 @@ import React from "react";
 import DateTimeInput from "../../component/DateTimeInput";
 import { Button, TypographyWrapper } from "../../component";
 import { Page } from "../../layout";
-import KeyDatePickerContainer from "./KeyDatePickerContainer";
 import { Upload, useStyles } from "./Request.style";
 
 const { ALGOLIA_API_KEY, ALGOLIA_APP_ID } = process.env;
@@ -71,27 +70,6 @@ function MissionForm({ getFile, handleChange, onSubmit, values /*, assignHelper,
           countryCode,
         },
       });
-    }
-  };
-
-  const handleDate = (date, stage) => {
-    if (!date) {
-      return;
-    }
-    console.log(date);
-    if (stage === "pickUp") {
-      if (typeof date !== "string") {
-        setPickUp({ ...pickUp, date: date.toString().substr(0, 15) });
-      } else {
-        setPickUp({ ...dropOff, date: date || null });
-      }
-    }
-    if (stage === "dropOff") {
-      if (typeof date !== "string") {
-        setDropOff({ ...dropOff, date: date.toString().substr(0, 15) });
-      } else {
-        setDropOff({ ...dropOff, date: date || null });
-      }
     }
   };
 
