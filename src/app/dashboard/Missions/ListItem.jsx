@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import FormControl from "@material-ui/core/FormControl";
 
+import DetailsText from "./DetailsText";
 import Select from "@material-ui/core/Select";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import PanToolIcon from "@material-ui/icons/PanTool";
@@ -142,21 +143,6 @@ const VolunteerRow = ({ mission }) => {
   );
 };
 
-const FoodBoxDetails = ({ details }) => {
-  return (
-    <>
-      <b>Food Box</b>
-      {_.get(details, "needs")?.map((box, index) => {
-        return (
-          <div key={index}>
-            {_.get(box, "quantity")} x {_.get(box, "name")}
-          </div>
-        );
-      })}
-    </>
-  );
-};
-
 const MissionListItem = ({
   groups,
   mission,
@@ -173,10 +159,6 @@ const MissionListItem = ({
 
   function onClick() {
     setSelectedMission(mission.uid);
-  }
-  let SpecificDetails = null;
-  if (type === "foodbox") {
-    SpecificDetails = <FoodBoxDetails type={type} details={missionDetails} />;
   }
 
   const isSelected = selectedMission === mission.uid;
@@ -210,7 +192,7 @@ const MissionListItem = ({
           volunteers={volunteers}
         />
         <Grid item xs className={itemClass}>
-          {SpecificDetails}
+          <DetailsText showType={true} mission={mission} />
         </Grid>
         <Grid item xs className={itemClass}>
           <LocationRow label="Pick Up" location={mission.pickUpLocation} />
