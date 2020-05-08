@@ -117,7 +117,7 @@ const MissionCard = withStyles(styles)(({ children, classes, mission, ...rest })
   return (
     <Card className={classes.root} {...rest}>
       <CardContent className={classes.cardContent}>
-        <Grid container spacing="1" alignItems="flex-start" justify="flex-end" direction="row">
+        <Grid container spacing={1} alignItems="flex-start" justify="flex-end" direction="row">
           <Grid item>
             <img height="20" src={appleIcon} alt="" />
           </Grid>
