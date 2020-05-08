@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
 
 const AddressInput = (props) => {
   const classes = useStyles();
-  const { disabled, error, location, onClear, placeholder, setLocation, value, showMap } = props;
+  const { disabled, error, location, onClear, placeholder, setLocation, showMap, value } = props;
 
   const [zoom, setZoom] = useState(0);
   const [position, setPosition] = useState([0, 0]);
@@ -51,7 +51,7 @@ const AddressInput = (props) => {
         setZoom(16);
       }
     }
-  }, [placesRef, value, disabled]);
+  }, [placesRef, value, disabled, zoom]);
 
   useEffect(() => {
     if (location) {
