@@ -1,5 +1,4 @@
-import { makeStyles } from "@material-ui/core/styles";
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 const FoodBoxDetails = ({ details, showType }) => {
   return (
