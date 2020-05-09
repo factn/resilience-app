@@ -1,4 +1,4 @@
-import { Card, CardActions, CardContent, Grid } from "@material-ui/core";
+import { Card, CardContent, Grid } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import GetAppIcon from "@material-ui/icons/GetApp";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
@@ -10,11 +10,9 @@ import PropTypes from "prop-types";
 import React from "react";
 import appleIcon from "../../img/apple.svg";
 import { Button, H5, Body1 } from "./";
-import User from "../model/User";
 import Mission from "../model/Mission";
 import DetailsText from "../dashboard/Missions/DetailsText";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 
 const styles = (theme) => ({
   root: {
@@ -57,11 +55,6 @@ const styles = (theme) => ({
   },
 });
 
-// Can migrate this to util file later
-/* eslint-disable */
-const titleCase = (str) => ("" + str).charAt(0).toUpperCase() + ("" + str).substr(1);
-/* eslint-enable*/
-
 const MissionCardContent = ({ classes, contentItems }) => (
   <Grid container spacing={1} alignItems="center">
     {contentItems.map((contentItem, index) => {
@@ -87,7 +80,6 @@ const MissionCardContent = ({ classes, contentItems }) => (
  * @component
  */
 const MissionCard = withStyles(styles)(({ children, classes, mission, ...rest }) => {
-  const title = mission?.notes || "No title supplied.";
   const status = mission.status;
   const detailsLink = "/missions/" + mission.uid;
   const location = mission.pickUpLocation?.address || "no data";
