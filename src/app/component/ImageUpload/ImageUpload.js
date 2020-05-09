@@ -11,7 +11,7 @@ import { Actions, Container, StyledIcon } from "./ImageUpload.style";
  *
  * @component
  */
-export function ImageUpload({ getFile, styles, ...props }) {
+export function ImageUpload({ styles, getFile = () => null, ...props }) {
   const fileUpload = useRef();
   const [file, setFile] = useState("");
   const [preview, setPreview] = useState(null);
