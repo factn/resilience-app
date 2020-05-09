@@ -1,6 +1,6 @@
 <p align="center">
     <img src="https://github.com/factn/resilience-app/blob/master/src/img/logo.png?raw=true" />
-    <h1 align="center">MutualAid.World App<h1>
+    <h1 align="center">MutualAid.World App</h1>
 </p>
 
 <p align="center">
