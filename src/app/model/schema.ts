@@ -11,6 +11,15 @@ export interface Location {
   label: string;
 }
 
+export interface DonationLog {
+  amount: string;
+  createdDate: string;
+  method: string;
+  recieptId: string;
+  donorName: string;
+  donorEmail: string;
+}
+
 export class Resource {
   uid!: string;
   name!: string;

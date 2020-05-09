@@ -64,6 +64,12 @@ When running the app locally, you can test the phone verification sign-up flow b
 | 7777777777   | 123456            |
 | 2223334444   | 123456            |
 
+For testing payments like donations or buying a foodbox you can use the following paypal credentials
+(alternativly if you need to see the invoices sent and recieved you can create your own sandbox account [here](https://developer.paypal.com/))
+| Email | Password |
+| ------------ | ----------------- |
+| sb-lo7o91424981@personal.example.com| 5XqcCb)u |
+
 Regarding the data schema and how to generate test data, go to [scheme/README.md](./scheme/README.md)
 
 ## Available Scripts

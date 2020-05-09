@@ -1,5 +1,5 @@
 import BaseModel from "./BaseModel";
-import { OrganizationInterface, PaymentSettings } from "./schema";
+import { OrganizationInterface, PaymentSettings, DonationLog } from "./schema";
 import { Resource } from "./schema";
 
 const defaultData: OrganizationInterface = {
@@ -72,6 +72,16 @@ class Organization extends BaseModel {
     } catch (error) {
       console.error("Error retrieving paymentSettings", error);
       return { clientUid: "sb", email: "" };
+    }
+  }
+
+  logDonation(donation: DonationLog) {
+    if (donation.recieptId) {
+      return this.getCollection("organizations")
+        .doc(this.uid)
+        .collection("donations")
+        .doc(donation.recieptId)
+        .set(donation);
     }
   }
 }

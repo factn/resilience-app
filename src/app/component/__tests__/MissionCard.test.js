@@ -39,12 +39,21 @@ describe("MissionCard", () => {
         pickUpWindow: {
           startTime: "06-06-2020",
         },
+        type: "foodbox",
+        missionDetails: {
+          needs: [
+            {
+              name: "Apple",
+              quantity: 2,
+            },
+          ],
+        },
       },
     };
 
     renderMissionCard(props);
 
-    expect(screen.getByText("Test title")).toBeInTheDocument();
+    expect(screen.getByText("2 x Apple")).toBeInTheDocument();
     expect(screen.getByText("23 New Avenue, NY")).toBeInTheDocument();
     expect(screen.getByText("06-06-2020")).toBeInTheDocument();
   });
