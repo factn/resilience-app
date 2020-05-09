@@ -10,7 +10,7 @@ export default function useGoogleMapApi() {
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    // Check if paypal has already been loaded
+    // Check if google has already been loaded
     if (document.querySelector("#google-maps")) {
       setLoaded(true);
       return;
