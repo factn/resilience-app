@@ -1,10 +1,9 @@
 import Select from "@material-ui/core/Select";
 import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { Typography } from "@material-ui/core";
 
 import { ReactComponent as HappyFace } from "../../../../img/happy-face.svg";
-import { Body1 } from "../../../component";
+import { H3, Body1 } from "../../../component";
 import { HappyBox, HR, TotalsContainer, useStyles } from "./foodboxSteps.style";
 import NavigationButtons from "./NavigationButtons";
 import Organization from "../../../model/Organization";
@@ -53,9 +52,9 @@ function FoodboxStep({ dispatch, state }) {
         const { quantity, resource: foodbox } = cart[key];
         return (
           <div key={key}>
-            <Typography align="left" variant="h3" color="textPrimary" gutterBottom>
+            <H3 align="left" color="textPrimary" gutterBottom>
               {foodbox.provider}
-            </Typography>
+            </H3>
             <Select
               style={{ width: "75%", borderRadius: "4px 0 0 4px" }}
               autoWidth

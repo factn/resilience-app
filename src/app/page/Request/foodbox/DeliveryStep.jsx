@@ -6,10 +6,9 @@ import {
   FormHelperText,
 } from "@material-ui/core";
 import React, { useEffect } from "react";
-import { Typography } from "@material-ui/core";
 import { useSelector } from "react-redux";
 
-import { Body1 } from "../../../component";
+import { H2, Body1 } from "../../../component";
 import AddressInput from "../../../component/AddressInput";
 import { useFirebase } from "react-redux-firebase";
 import { useStyles } from "./foodboxSteps.style";
@@ -155,9 +154,9 @@ function DeliveryStep({ dispatch, state }) {
         Our volunteers will carry out deliveries once a week on weekends. The organizer will contact
         you to confirm date of delivery.
       </Body1>
-      <Typography align="left" variant="h2" color="textPrimary" gutterBottom>
+      <H2 align="left" color="textPrimary" gutterBottom>
         Delivery Drop Off Details
-      </Typography>
+      </H2>
       <AddressInput
         className={classes.textField}
         placeholder="Location"
@@ -187,9 +186,9 @@ function DeliveryStep({ dispatch, state }) {
       </Body1>
       {!hasPhoneNumber && (
         <>
-          <Typography align="left" variant="h2" color="textPrimary" gutterBottom>
+          <H2 align="left" color="textPrimary" gutterBottom>
             Your Account
-          </Typography>
+          </H2>
           <TextField
             fullWidth
             label="First Name"

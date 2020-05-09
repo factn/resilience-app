@@ -2,10 +2,11 @@ import AppBar from "@material-ui/core/AppBar";
 import IconButton from "@material-ui/core/IconButton";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
 import MenuIcon from "@material-ui/icons/Menu";
 import clsx from "clsx";
 import React from "react";
+
+import { H1 } from "../component";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -59,9 +60,9 @@ export default function Appbar({ handleDrawerOpen, open }) {
         >
           <MenuIcon />
         </IconButton>
-        <Typography variant="h1" noWrap className={classes.toolBarTitle}>
+        <H1 noWrap className={classes.toolBarTitle}>
           Missions Control
-        </Typography>
+        </H1>
       </Toolbar>
     </AppBar>
   );

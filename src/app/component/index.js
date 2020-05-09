@@ -11,7 +11,7 @@ import PrivateComponent from "./PrivateComponent";
 import ProtectedRoute from "./PrivateComponent";
 import ShowDeliveryRoute from "./ShowDeliveryRoute";
 import UserPhoneUnverifiedPopup from "./UserPhoneUnverifiedPopup";
-import { Body1, Body2, H1, H2, H3, H4, H5 } from "./Typography";
+import { Body1, Body2, H1, H2, H3, H4, H5, H6, Div, TypographyWrapper } from "./Typography";
 
 export {
   AddressInput,
@@ -32,6 +32,9 @@ export {
   H3,
   H4,
   H5,
+  H6,
   Body1,
   Body2,
+  Div,
+  TypographyWrapper,
 };

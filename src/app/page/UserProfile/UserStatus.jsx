@@ -1,7 +1,8 @@
-import { Grid, Typography } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import React from "react";
 
 import { Button } from "../../component";
+import { H5 } from "../component";
 
 const UserStatus = ({ setStatus, status }) => {
   const isAvailable = status === "Available";
@@ -17,7 +18,7 @@ const UserStatus = ({ setStatus, status }) => {
   return (
     <>
       <Grid item>
-        <Typography variant="h5">Status</Typography>
+        <H5>Status</H5>
       </Grid>
 
       <Grid item>

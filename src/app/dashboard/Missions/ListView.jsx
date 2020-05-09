@@ -142,7 +142,7 @@ const MissionsListView = ({
             className={classes.expansionSummary}
           >
             <Grid container wrap="nowrap">
-              <Grid item alignItem="center" className={classes.expansionHeader} xs>
+              <Grid item className={classes.expansionHeader} xs>
                 {group.groupDisplayName}
               </Grid>
               <Grid item>{group.groupUid && <GroupWorkIcon style={{ color: color }} />}</Grid>

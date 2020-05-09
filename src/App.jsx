@@ -18,6 +18,7 @@ import OrganizerSignupPage from "./app/page/OrganizerSignup";
 import RequestPage from "./app/page/Request";
 import SignupScene from "./app/page/Signup";
 import Status from "./app/page/Status";
+import Snackbar from "./app/component/Snackbars";
 import UserProfile from "./app/page/UserProfile";
 import theme from "./theme";
 
@@ -49,34 +50,41 @@ function App() {
       <ThemeProvider theme={theme}>
         <Router>
           <div className="App">
-            <Switch>
-              <Route exact path="/" component={HomePage} />
-              <Route path="/about" component={AboutPage} />
-              <Route path="/login" component={LoginPage} />
-              <Route path="/organizer/signup" component={OrganizerSignupPage} />
-              <Route path="/status" component={Status} />
-              <Route path="/signup" component={SignupScene} />
-              <Route path="/request" component={RequestPage} />
-              <Route path="/dashboard">
-                <Dashboard />
-              </Route>
-              <PrivateRoute path="/missions/created">
-                <MissionsCreated />
-              </PrivateRoute>
-              <PrivateRoute path="/missions/new">
-                <MissionCreate />
-              </PrivateRoute>
-              <PrivateRoute path="/missions/completed">
-                <MissionsCompleted />
-              </PrivateRoute>
-              <PrivateRoute path="/missions/feedback/:id">
-                <MissionFeedback />
-              </PrivateRoute>
-              <Route path="/missions/:id" component={MissionDetails} />
-              <PrivateRoute path="/user/profile">
-                <UserProfile />
-              </PrivateRoute>
-            </Switch>
+            <Snackbar.Context.SnackbarProvider>
+              <Switch>
+                <Route exact path="/" component={HomePage} />
+                <Route path="/about" component={AboutPage} />
+                <Route path="/login" component={LoginPage} />
+                <Route path="/organizer/signup" component={OrganizerSignupPage} />
+                <Route path="/status" component={Status} />
+                <Route path="/signup" component={SignupScene} />
+                <Route path="/request" component={RequestPage} />
+                <Route path="/dashboard">
+                  <Dashboard />
+                </Route>
+                <PrivateRoute path="/missions/created">
+                  <MissionsCreated />
+                </PrivateRoute>
+                <PrivateRoute path="/missions/new">
+                  <MissionCreate />
+                </PrivateRoute>
+                <PrivateRoute path="/missions/completed">
+                  <MissionsCompleted />
+                </PrivateRoute>
+                <PrivateRoute path="/missions/feedback/:id">
+                  <MissionFeedback />
+                </PrivateRoute>
+                <Route path="/missions/:id" component={MissionDetails} />
+                <PrivateRoute path="/user/profile">
+                  <UserProfile />
+                </PrivateRoute>
+              </Switch>
+              <Snackbar.Context.SnackbarConsumer>
+                {(value) => {
+                  return <Snackbar handleClose={value.closeSnackbar} {...value.snackbar} />;
+                }}
+              </Snackbar.Context.SnackbarConsumer>
+            </Snackbar.Context.SnackbarProvider>
           </div>
         </Router>
       </ThemeProvider>

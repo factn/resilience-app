@@ -46,27 +46,23 @@ export default {
   },
   typography: {
     h1: {
-      fontFamily: "Open Sans, sans-serif",
       fontWeight: "bold",
       fontSize: "32px",
       lineHeight: "48px",
       color: color.blue,
     },
     h2: {
-      fontFamily: "Open Sans, sans-serif",
       fontWeight: "semi-bold",
       fontSize: "24px",
       lineHeight: "36px",
       color: color.blue,
     },
     h3: {
-      fontFamily: "Open Sans, sans-serif",
       fontWeight: "semi-bold",
       fontSize: "20px",
       lineHeight: "30px",
     },
     h4: {
-      fontFamily: "Open Sans, sans-serif",
       fontWeight: "semi-bold",
       fontSize: "16px",
       lineHeight: "24px",
@@ -74,14 +70,12 @@ export default {
     },
     h5: {
       // still available as some components/pages depend on this
-      fontFamily: "Open Sans, sans-serif",
       fontWeight: "semi-bold",
       fontSize: "16px",
       lineHeight: "24px",
       color: color.blue,
     },
     body1: {
-      fontFamily: "Open Sans, sans-serif",
       fontWeight: "regular",
       fontSize: "16px",
       lineHeight: "24px",
@@ -89,14 +83,12 @@ export default {
     },
     body2: {
       // same as for h5
-      fontFamily: "Open Sans, sans-serif",
       fontWeight: "regular",
       fontSize: "16px",
       lineHeight: "24px",
       color: color.black,
     },
     button: {
-      fontFamily: "Open Sans, sans-serif",
       fontWeight: "bold",
       fontSize: "16px",
       lineHeight: "24px",
@@ -104,14 +96,12 @@ export default {
       color: color.black,
     },
     caption: {
-      fontFamily: "Open Sans, sans-serif",
       fontWeight: "regular",
       fontSize: "12px",
       lineHeight: "18px",
       color: color.black,
     },
     overline: {
-      fontFamily: "Open Sans, sans-serif",
       fontWeight: "regular",
       fontSize: "12px",
       lineHeight: "18px",
