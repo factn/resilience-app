@@ -5,7 +5,7 @@ import PhoneIcon from "@material-ui/icons/Phone";
 import PropTypes from "prop-types";
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 import { compose } from "redux";
 
 import HeaderImage1 from "../../../img/HeaderImage1.webp";
@@ -251,7 +251,8 @@ const DonateCardComponent = () => {
       <Button
         data-testid="btn-donate-action"
         className={classes.DonateCardAction}
-        onClick={() => null}
+        component={Link}
+        to="/donate"
       >
         Donate Funds
       </Button>
