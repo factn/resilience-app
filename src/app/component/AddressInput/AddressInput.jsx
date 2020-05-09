@@ -69,7 +69,7 @@ const AddressInput = (props) => {
       position={location}
       draggable={true}
       riseOnHover={true}
-      onMoveend={(e) => {
+      onMoveEnd={(e) => {
         setLocation({
           address: location.address,
           lat: e.target._latlng.lat,

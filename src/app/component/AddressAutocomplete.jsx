@@ -9,7 +9,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import throttle from "lodash/throttle";
 import parse from "autosuggest-highlight/parse";
 import { Map, Marker, TileLayer } from "react-leaflet";
-import { loadGoogleMapScript } from "../utils/loadScipts";
+import useGoogleMapAPI from "../hooks/useGoogleMapAPI";
 
 const useStyles = makeStyles((theme) => ({
   disabledMap: {
@@ -116,8 +116,7 @@ export default function AddressAutocomplete({
     initLocationState(defaultLocation)
   );
 
-  const loaded = React.useRef(false);
-  loadGoogleMapScript(loaded);
+  useGoogleMapAPI();
 
   const handleInputChange = (_, value, reason) => {
     if (reason === "input") {
@@ -170,7 +169,7 @@ export default function AddressAutocomplete({
       }, 200),
     []
   );
-  const fetch = useMemo(
+  const fetchPlacePredictions = useMemo(
     () =>
       throttle((request, callback) => {
         autocompleteService.current.getPlacePredictions(request, callback);
@@ -194,7 +193,7 @@ export default function AddressAutocomplete({
       return undefined;
     }
 
-    fetch({ input: location.input }, (results) => {
+    fetchPlacePredictions({ input: location.input }, (results) => {
       if (active) {
         dispatchLocation({
           type: "setOptions",
@@ -206,7 +205,7 @@ export default function AddressAutocomplete({
     return () => {
       active = false;
     };
-  }, [location.input, fetch]);
+  }, [location.input, fetchPlacePredictions]);
 
   return (
     <>

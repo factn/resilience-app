@@ -153,7 +153,6 @@ const MissionListItem = ({
   volunteers,
 }) => {
   const classes = useStyles();
-  const { missionDetails, type } = mission;
 
   const boxRef = React.useRef(null);
 
