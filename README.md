@@ -15,45 +15,101 @@
 
 <hr />
 
-Learn more about us at [MutualAid.world](https://mutualaid.world)
+<p align="center">
+    MutualAid.world is a grassroots crisis response project. We’re a global community of developers, designers, project managers, lawyers, data scientists, strategists, writers, and translators creating apps to help people help each other.
+    <br />
+    <br />
+    Learn more about us at <a href="https://mutualaid.world">MutualAid.world</a>
+    <br />
+    <a href="https://app.gitbook.com/@mutualaidworld/s/docs/"><strong>Explore the docs »</strong></a>
+    <br />
+    <br />
+    <a href="https://github.com/factn/resilience-app">View Demo</a>
+    ·
+    <a href="https://github.com/factn/resilience-app/issues">Report Bug</a>
+    ·
+    <a href="https://github.com/factn/resilience-app/issues">Request Feature</a>
+
+  </p>
+
+## Table of Contents
+
+- [Table of Contents](#table-of-contents)
+- [About the Project](#about-the-project)
+  - [Built With](#built-with)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+- [Repo setup](#repo-setup)
+- [Formatting your code](#formatting-your-code)
+- [Test Data](#test-data)
+- [Accessibility](#accessibility)
+- [Deployment](#deployment)
+
+## About the Project
+
+We're making it safe and easy for communities to provide mutual aid.
+
+MutualAid.world is a global community of contributors making small acts of kindness seamless. We build software to meet the direct needs of local organizers, making it safe and easy for people to help each other during times of crisis.
+
+### Built With
+
+- [React.js](https://reactjs.org)
+- [Material UI](https://material-ui.com/)
+- [Typescript](https://www.typescriptlang.org/)
+- [Firebase](https://firebase.google.com/)
+
+## Getting Started
+
+Here are a few steps to help get set up for local development.
+
+### Prerequisites
+
+- [Node.js](https://nodejs.org/en/download/)
+- [Npm](https://www.npmjs.com/get-npm) (Comes with Node.js)
+- [Java](https://www.oracle.com/java/technologies/javase-jdk8-downloads.html) (optional)
 
 ## Repo setup
 
-- Clone the repository on your machine
+1. Fork this repo
+2. Clone the repo
 
+   ```sh
+   git clone https://github.com/your_username_/Project-Name.git
+   ```
+
+3. Install NPM packages
+
+   ```sh
+   npm install
+   ```
+
+4. Create a local environment file from the sample `.env.sample` in the project root. From your project root run:
+
+   ```sh
+   cp .env.sample .env.development
+   ```
+
+5. Find the appropriate keys in in the `#resilience-app` channel under `Pinned Items` and fill in your `.env.development`
+
+6. Start your local development server with
+
+   ```sh
+   npm run dev
+   ```
+
+## Formatting your code
+
+This project uses [ESLint](https://eslint.org/) and [Prettier](https://prettier.io/) to handle all opinionated formatting. Install your favorite editor ESLint and Prettier plugin to set up any auto formatting in your own editor.
+
+To format this project, simply run
+
+```sh
+npm run format
 ```
-git clone <GIT REPOS HERE> [folder name]
-cd [folder name]
-```
 
-- Inside the repository, install the necessary packages
+Our CI checks will not pass if any of our ESLint rules; formatting checks can be easily passed with a commit containing the changes made by `npm run format`
 
-```
-npm ci
-# as opposed to npm install, which modifies package-lock.json
-```
-
-- Create your local `.env` folder at the root of your resilience-app folder
-
-Create the `.env` file at the root of the resilience-app folder as well and copy the content under `below go into .env` into this file. The content is pinned to the side of #resilience-app slack channel.
-
-- Start the local server
-
-```
-npm start
-```
-
-- As you work in the repository, your changes will publish and refresh your local server on the fly.
-- To stop the server, use the terminal command `Ctrl. + C`
-
-```
-npm run dev
-```
-
-- This will use a emulator of database instead, we recommend doing this because using `npm start` will connect you to stage database
-
-Download and install Java
-https://www.oracle.com/java/technologies/javase-jdk8-downloads.html
+<hr />
 
 ## Test Data
 
@@ -72,99 +128,7 @@ For testing payments like donations or buying a foodbox you can use the followin
 
 Regarding the data schema and how to generate test data, go to [scheme/README.md](./scheme/README.md)
 
-## Available Scripts
-
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run storybook`
-
-{DONT THINK WE ARE MAINTAINING THIS CURRENTLY}
-
-Run the storybook where we can showcase the components in the system
-[write a story](https://storybook.js.org/docs/basics/writing-stories/)
-
-### `npm run docs`
-
-Run this to generate docs in `docs/` folder (made with JSDocs).
-[For more info](https://jsdoc.app/)
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-## Code change process
-
-- See [Contributing.MD](/CONTRIBUTING.md) but... Checkout a new branch by choosing a simple name that expresses the individual issue you're addressing
-
-```
-git checkout -b my-feature-28
-```
-
-- Do your work in the branch
-- Check that your changes are present by checking the status
-
-```
-git status
-```
-
-- Add your changes to the branch
-
-```
-git add .
-```
-
-- Add a commit message that explains the work that's complete, the way you did it, and any other notes you might want to leave for code reviewers
-
-```
-git commit -m "My feature is now working on the front page. I noticed that there might be a typo in a public function. You'll see the code comment."
-```
-
-- Push your work into the branch origin
-
-```
-git push -u origin my-feature-28
-```
-
-- Create a pull request and assign <reviewer goes here> as reviewer
-- Once all issues are addressed and you have at least two approvals, merge your changes to master and deploy.
-
-**All commands in one clipboard:**
-
-```
-git checkout -b [branch name]
-git status
-git add .
-git commit -m "[commit message]"
-git push -u origin [branch name]
-```
-
-### Accessibility
+## Accessibility
 
 Using react-axe as a library to find accessibilty warnings and errors. Please check the console for warnings or errors from react-axe before committing.
 
