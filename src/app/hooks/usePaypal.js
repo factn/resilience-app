@@ -20,7 +20,9 @@ export default function usePaypal() {
     }
 
     async function load() {
-      const { clientId } = await Organization.getPaymentSettings();
+      // const { clientId } = await Organization.getPaymentSettings();
+      const clientId =
+        "Ad1Pa9GwWvgzjeuVDMuRUm76rmIi2_5uXvEb4VJbAgkk0UFW8fUB-oFOpiTGphXaPOtRrwHvm-YrGGSN";
 
       const paypalScript = getScript(clientId);
       const scriptElement = document.createElement("script");

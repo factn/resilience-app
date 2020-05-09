@@ -1,20 +1,30 @@
 import React, { useMemo } from "react";
 import ReactDOM from "react-dom";
+import { CircularProgress } from "@material-ui/core";
 
 import { usePaypal } from "../../hooks";
 import { Order, OrderDetails, PurchaseUnit } from "./PaypalTypes";
+import { Organization } from "../../model";
 
 type Props = {
   cart: PurchaseUnit | PurchaseUnit[];
   onApprove: (details: OrderDetails) => void;
   onError: (error: any) => void;
   onClick: (data: any, actions: any) => any;
+  color: "gold" | "blue" | "silver" | "white" | "black";
 };
 
 /**
  * See https://developer.paypal.com/docs/checkout/integration-features/# for implementation details
  */
-export default function PaypalCheckout({ cart, onApprove, onClick, onError }: Props) {
+export default function PaypalCheckout({
+  cart,
+  color = "gold",
+  onApprove,
+  onClick,
+  onError,
+  ...rest
+}: Props) {
   const paypal: any = usePaypal();
 
   function createOrder(data: any, actions: any) {
@@ -22,6 +32,7 @@ export default function PaypalCheckout({ cart, onApprove, onClick, onError }: Pr
       purchase_units: Array.isArray(cart) ? cart : [cart],
       application_context: {
         shipping_preference: "NO_SHIPPING",
+        brand_name: Organization.data.name,
       },
     } as Order);
   }
@@ -37,19 +48,23 @@ export default function PaypalCheckout({ cart, onApprove, onClick, onError }: Pr
   );
 
   return (
-    PaypalButtons && (
-      <PaypalButtons
-        onApprove={handleOnApprove(onApprove)}
-        onClick={onClick}
-        createOrder={createOrder}
-        onError={onError}
-        style={{
-          tagline: false,
-          color: "gold",
-        }}
-        fundingSource={paypal.FUNDING.PAYPAL}
-      />
-    )
+    <div {...rest}>
+      {paypal && PaypalButtons ? (
+        <PaypalButtons
+          onApprove={handleOnApprove(onApprove)}
+          onClick={onClick}
+          createOrder={createOrder}
+          onError={onError}
+          style={{
+            tagline: false,
+            color: color,
+          }}
+          fundingSource={paypal.FUNDING.PAYPAL}
+        />
+      ) : (
+        <CircularProgress />
+      )}
+    </div>
   );
 }
 
