@@ -99,18 +99,16 @@ const MissionDetailsPage = ({ history, match }) => {
             onClick={() => history.goBack()}
           />
         </Grid>
-        <Grid align="left" item>
-          <MissionDetailsCard
-            mission={mission}
-            volunteer={volunteer}
-            volunteerForMission={volunteerForMission}
-            startMission={startMission}
-            openMissionDeliveredCard={openMissionDeliveredCard}
-            userUnverifiedPopupOpen={userUnverifiedPopupOpen}
-            setUserUnverifiedPopupOpen={setUserUnverifiedPopupOpen}
-            history={history}
-          />
-        </Grid>
+        <MissionDetailsCard
+          mission={mission}
+          volunteer={volunteer}
+          volunteerForMission={volunteerForMission}
+          startMission={startMission}
+          openMissionDeliveredCard={openMissionDeliveredCard}
+          userUnverifiedPopupOpen={userUnverifiedPopupOpen}
+          setUserUnverifiedPopupOpen={setUserUnverifiedPopupOpen}
+          history={history}
+        />
       </Grid>
       <Dialog
         open={completeDeliveryDialogOpen}

@@ -38,6 +38,7 @@ export default {
       main: "#DFE3E8",
     },
     primary: {
+      light: color.secondaryBlue,
       main: color.vibrantPurple,
     },
     secondary: {
@@ -49,31 +50,32 @@ export default {
       fontWeight: "bold",
       fontSize: "32px",
       lineHeight: "48px",
-      color: color.blue,
+      color: color.black,
     },
     h2: {
       fontWeight: "semi-bold",
       fontSize: "24px",
       lineHeight: "36px",
-      color: color.blue,
+      color: color.black,
     },
     h3: {
       fontWeight: "semi-bold",
       fontSize: "20px",
       lineHeight: "30px",
+      color: color.black,
     },
     h4: {
       fontWeight: "semi-bold",
       fontSize: "16px",
       lineHeight: "24px",
-      color: color.blue,
+      color: color.black,
     },
     h5: {
       // still available as some components/pages depend on this
       fontWeight: "semi-bold",
       fontSize: "16px",
       lineHeight: "24px",
-      color: color.blue,
+      color: color.black,
     },
     body1: {
       fontWeight: "regular",

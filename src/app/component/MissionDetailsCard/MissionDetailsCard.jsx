@@ -1,245 +1,162 @@
-import {
-  Box,
-  Card,
-  CardActions,
-  CardContent,
-  CardHeader,
-  CardMedia,
-  Divider,
-} from "@material-ui/core";
+import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
-import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
-import PersonIcon from "@material-ui/icons/Person";
 import ScheduleIcon from "@material-ui/icons/Schedule";
 import PropTypes from "prop-types";
-import React from "react";
+import React, { useState } from "react";
 
-import { Body2, H5 } from "../";
-import cameraImage from "../../../img/placeholderBackground.svg";
-import { Mission } from "../../model";
-import UserPhoneUnverifiedPopup from "../UserPhoneUnverifiedPopup";
-import { MissionDetailsButton, MissionDetailsUnassignMeButton } from "./MissionDetailsButton";
-import MissionDetailsIconList from "./MissionDetailsIconList";
-import MissionDetailsStatus from "./MissionDetailsStatus";
+import ExpansionPanel from "@material-ui/core/ExpansionPanel";
+import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
+import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import ClearIcon from "@material-ui/icons/Clear";
+import ErrorOutlineIcon from "@material-ui/icons/ErrorOutline";
+import ImageUpload from "../../component/ImageUpload";
+import FoodBoxIcon from "../../component/icons/FoodBoxIcon";
+import { H2 } from "../../component";
+import styled from "styled-components";
 
 const useStyles = makeStyles((theme) => ({
+  card: {
+    margin: "0px !important",
+    ...theme.typography.body1,
+  },
   cardHeader: {
-    paddingBottom: theme.spacing(1),
+    fontWeight: "bold",
+    letterSpacing: "0.5px",
+    minHeight: "0px !important",
+    "& :first-child": {
+      margin: `${theme.spacing(1)} !important`,
+    },
   },
-  cardAction: {
-    padding: theme.spacing(2, 2, 0, 2),
-  },
-  subheader: {
-    marginTop: theme.spacing(0.3),
-  },
-  image: {
-    height: 0,
-    paddingTop: "56.25%", // 16:9
-  },
-  missionTypeText: {
-    paddingTop: theme.spacing(0.5),
-  },
-  deliveryDetailsHeader: {
-    paddingTop: theme.spacing(1),
+  interaction: {
+    margin: `${theme.spacing(2)}px 0px`,
+    padding: theme.spacing(1),
+    backgroundColor: "#e1e2f9",
+    color: theme.palette.primary.main,
+    fontSize: "14px",
+    lineHeight: "20px",
+    letterSpacing: "0.2px",
     fontWeight: 600,
   },
-  deliveryDetails: {
-    marginTop: theme.spacing(0.5),
+  warningIcon: {
+    color: theme.color.red,
+    marginLeft: theme.spacing(3),
   },
 }));
 
-const MissionDetailsType = ({ classes, description }) => (
-  <Box>
-    <H5 align="left" color="textSecondary">
-      Mission Type
-    </H5>
-    <Body2 align="left" className={classes.missionTypeText} color="textPrimary">
-      {description}
-    </Body2>
-  </Box>
-);
-
-const MissionDetailsPickUpDeliveryHeader = ({ classes, header }) => (
-  <Body2 align="left" className={classes.deliveryDetailsHeader} color="textPrimary">
-    {header}
-  </Body2>
-);
-
+const RowIcon = styled(Grid)`
+  padding: 2px 4px 0px 0px;
+`;
+const Row = ({ Icon, children, label }) => {
+  return (
+    <>
+      <Grid container alignItems="center" className="body-small-bold">
+        {label}
+      </Grid>
+      <Grid container>
+        <RowIcon item>{Icon && <Icon color="primary" />}</RowIcon>
+        <Grid item xs container alignItems="center">
+          {children}
+        </Grid>
+      </Grid>
+    </>
+  );
+};
 /**
  * Component for displaying mission details as a card
  *
  * @component
  */
-const MissionDetailsCard = ({
-  mission,
-  openMissionDeliveredCard,
-  setUserUnverifiedPopupOpen,
-  startMission,
-  unassignFromMission,
-  userUnverifiedPopupOpen,
-  volunteer,
-  volunteerForMission,
-}) => {
+const MissionDetailsCard = ({ mission, photoDisabled }) => {
+  photoDisabled = true;
   const classes = useStyles();
+  const [file, setFile] = useState(null);
 
-  const subheaderItems = [
-    {
-      icon: mission.status === Mission.Status.unassigned ? PersonIcon : undefined,
-      avatar:
-        mission.status !== Mission.Status.unassigned
-          ? {
-              image: volunteer.avatar,
-            }
-          : undefined,
-      content: [
-        {
-          text: (
-            <MissionDetailsStatus status={mission.status} volunteerName={volunteer.profileName} />
-          ),
-        },
-      ],
-    },
-    {
-      icon: AttachMoneyIcon,
-      content: [{ text: Mission.FundedStatus[mission.fundedStatus] }],
-    },
-  ];
-
-  const pickUpDetails = [
-    {
-      icon: LocationOnIcon,
-      content: [{ text: mission.pickUpLocation.address }],
-    },
-    {
-      icon: ScheduleIcon,
-      content: [{ text: mission.pickUpWindow.timeWindowType }],
-    },
-  ];
-
-  const deliveryDetails = [
-    {
-      icon: LocationOnIcon,
-      content: [{ text: mission.deliveryLocation.address }],
-    },
-    {
-      icon: ScheduleIcon,
-      content: [{ text: mission.deliveryWindow.timeWindowType }],
-    },
-    {
-      icon: PersonIcon,
-      content: [
-        { text: mission.recipientName },
-        {
-          text: mission.recipientPhoneNumber,
-          style: {
-            fontWeight: 600,
-            textDecoration: "underline",
-          },
-        },
-      ],
-    },
-  ];
+  function handleImageChosen(file) {
+    setFile(file);
+  }
 
   return (
     <>
-      <Card align="left">
-        <CardHeader
-          title={mission.title}
-          titleTypographyProps={{ variant: "h3", component: "span", color: "textPrimary" }}
-          subheader={
-            <MissionDetailsIconList outerClass={classes.subheader} contentItems={subheaderItems} />
-          }
-          className={classes.cardHeader}
-        />
-        <CardMedia image={cameraImage} title="Mission image" className={classes.image} />
-        <CardContent className={classes.cardContent}>
-          <MissionDetailsType description={mission.description} classes={classes} />
-          <MissionDetailsPickUpDeliveryHeader header="Pick Up Details" classes={classes} />
-          <MissionDetailsIconList
-            outerClass={classes.deliveryDetails}
-            contentItems={pickUpDetails}
-          />
-          <MissionDetailsPickUpDeliveryHeader header="Delivery Details" classes={classes} />
-          <MissionDetailsIconList
-            outerClass={classes.deliveryDetails}
-            contentItems={deliveryDetails}
-          />
-        </CardContent>
-        <Divider />
-        <CardActions className={classes.cardAction}>
-          <MissionDetailsButton
-            status={mission.status}
-            volunteerForMission={() => volunteerForMission(mission.uid)}
-            startMission={() => startMission(mission.uid)}
-            openMissionDeliveredCard={() => openMissionDeliveredCard(mission.uid)}
-          />
-        </CardActions>
-        <CardActions className={classes.cardAction}>
-          <MissionDetailsUnassignMeButton
-            status={mission.status}
-            unassignFromMission={unassignFromMission}
-          />
-        </CardActions>
-      </Card>
-      <UserPhoneUnverifiedPopup
-        open={userUnverifiedPopupOpen}
-        handleClose={() => setUserUnverifiedPopupOpen(false)}
-      />
+      <Grid>
+        <H2 color="black">Food Box Delivery</H2>
+        {mission.missionDetails.needs.map((need) => {
+          return (
+            <Row key={need.name} Icon={FoodBoxIcon}>
+              {need.quantity} X {need.name}
+            </Row>
+          );
+        })}
+      </Grid>
+
+      <Grid className={classes.interaction}>
+        <Grid container item alignItems="center">
+          <ErrorOutlineIcon />
+          Interaction Guidelines
+        </Grid>
+        <Grid container item alignItems="center">
+          <ClearIcon className={classes.warningIcon} /> Do not exchange cash.
+        </Grid>
+        <Grid container item alignItems="center">
+          <ClearIcon className={classes.warningIcon} /> No physical contact.
+        </Grid>
+      </Grid>
+      <ExpansionPanel defaultExpanded={true} className={classes.card} variant="outlined">
+        <ExpansionPanelSummary className={classes.cardHeader} expandIcon={<ExpandMoreIcon />}>
+          1. Pick Up Details
+        </ExpansionPanelSummary>
+        <ExpansionPanelDetails>
+          <Grid container spacing={1}>
+            <Row Icon={ScheduleIcon}>{mission.pickUpWindow.timeWindowType}</Row>
+            <Row Icon={LocationOnIcon}>{mission.pickUpLocation.address}</Row>
+            <Row label="Pick Up Instructions">{mission.pickUpNotes}</Row>
+          </Grid>
+        </ExpansionPanelDetails>
+      </ExpansionPanel>
+
+      <ExpansionPanel defaultExpanded={true} className={classes.card} variant="outlined">
+        <ExpansionPanelSummary className={classes.cardHeader} expandIcon={<ExpandMoreIcon />}>
+          2. Delivery Details
+        </ExpansionPanelSummary>
+
+        <ExpansionPanelDetails className={classes.card} variant="outlined">
+          <Grid container spacing={1}>
+            <Row Icon={ScheduleIcon}>{mission.deliveryWindow.timeWindowType}</Row>
+            <Row Icon={LocationOnIcon}>{mission.deliveryLocation.address}</Row>
+            <Row label="Delivery Instructions">{mission.deliveryNotes}</Row>
+          </Grid>
+        </ExpansionPanelDetails>
+      </ExpansionPanel>
+
+      <ExpansionPanel
+        disabled={photoDisabled}
+        defaultExpanded={photoDisabled ? false : true}
+        className={classes.card}
+        variant="outlined"
+      >
+        <ExpansionPanelSummary className={classes.cardHeader} expandIcon={<ExpandMoreIcon />}>
+          3. Add Photo of Delivery
+        </ExpansionPanelSummary>
+
+        <ExpansionPanelDetails>
+          <Grid container spacing={1}>
+            <Row>
+              Help {mission.recipientDisplayName} find the box by taking a photo of where you left
+              it.
+            </Row>
+            <Grid item container justify="center">
+              <ImageUpload withoutTwoBtns getFile={handleImageChosen} />
+            </Grid>
+          </Grid>
+        </ExpansionPanelDetails>
+      </ExpansionPanel>
     </>
   );
 };
 
-MissionDetailsCard.defaultProps = {
-  /**
-   * default props for mission object
-   */
-  mission: {
-    title: "",
-    status: "",
-    fundedStatus: "",
-    description: "",
-    pickUplocation: "",
-    pickUpWindow: "",
-    deliverylocation: "",
-    deliveryWindow: "",
-    recipientName: "",
-    recipientPhoneNumber: "",
-  },
-  /**
-   * default props for volunteer object
-   */
-  volunteer: {
-    profileName: "",
-    avatar: "",
-  },
-};
-
 MissionDetailsCard.propTypes = {
-  /**
-   * Mission details
-   */
   mission: PropTypes.object.isRequired,
-  /**
-   * Volunteer details
-   */
-  volunteer: PropTypes.object.isRequired,
-  /**
-   * Handler functions for button
-   */
-  volunteerForMission: PropTypes.func,
-  startMission: PropTypes.func,
-  markMissionAsDelivered: PropTypes.func,
-  unassignVolunteerFromMission: PropTypes.func,
-  /**
-   * Popup for unverified user
-   */
-  userUnverifiedPopupOpen: PropTypes.bool,
-  setUserUnverifiedPopupOpen: PropTypes.func,
-  /**
-   * Navigation history provided by React Router
-   */
-  history: PropTypes.object.isRequired,
 };
 
 export default MissionDetailsCard;

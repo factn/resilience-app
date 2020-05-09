@@ -58,6 +58,7 @@ const defaultMissionData: MissionInterface = {
 
   pickUpWindow: defaultTimeWindow, // nb this can be an exact time or can be null
   pickUpLocation: defaultLocation,
+  pickUpNotes: "",
 
   deliveryWindow: defaultTimeWindow,
   deliveryLocation: defaultLocation, // default to recipient location
