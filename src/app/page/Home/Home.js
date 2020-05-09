@@ -19,8 +19,6 @@ import VolunteerHome from "./VolunteerHome";
 import { isEmpty, isLoaded } from "react-redux-firebase";
 import User from "../../model/User";
 
-import AddressAutocomplete from "../../component/AddressAutocomplete";
-
 const useStyles = makeStyles((theme) => ({
   HomeImage: {
     width: "100%",
@@ -387,7 +385,6 @@ const HomePage = ({ auth, history, profile }) => {
       {isEmpty(auth) ? (
         <Grid container>
           <SignInHeaderComponent history={history} />
-          <AddressAutocomplete />
           <PoweredByComponent />
           <Grid container>
             <H4 className={classes.QuickInfoLabel}>
