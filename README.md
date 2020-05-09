@@ -24,11 +24,9 @@
     <a href="https://app.gitbook.com/@mutualaidworld/s/docs/"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/factn/resilience-app">View Demo</a>
-    ·
     <a href="https://github.com/factn/resilience-app/issues">Report Bug</a>
     ·
-    <a href="https://github.com/factn/resilience-app/issues">Request Feature</a>
+    <a href="https://forms.gle/sDiRLpbEh1GHTqAc7">Request Feature</a>
 
   </p>
 
