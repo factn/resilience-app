@@ -9,7 +9,7 @@ import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 
 import { H2, Body1 } from "../../../component";
-import AddressInput from "../../../component/AddressInput";
+import AddressAutocomplete from "../../../component/AddressAutocomplete";
 import { useFirebase } from "react-redux-firebase";
 import { useStyles } from "./foodboxSteps.style";
 import NavigationButtons from "./NavigationButtons";
@@ -157,15 +157,13 @@ function DeliveryStep({ dispatch, state }) {
       <H2 align="left" color="textPrimary" gutterBottom>
         Delivery Drop Off Details
       </H2>
-      <AddressInput
-        className={classes.textField}
-        placeholder="Location"
-        location={values.location}
-        setLocation={handleChangeLocation}
+      <AddressAutocomplete
+        label="Location"
+        defaultLocation={values.location}
+        onChangeLocation={handleChangeLocation}
+        showMap={true}
         error={values.locationError}
-        onClear={() => changeFormValue("location", undefined)}
-        value={state.location?.address}
-        showMap
+        required
       />
       <TextField
         className={classes.textArea}
