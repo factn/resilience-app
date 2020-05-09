@@ -8,18 +8,22 @@ const statuses = [
   {
     value: Mission.Status.started,
     text: "Started",
+    disabled: false,
   },
   {
     value: Mission.Status.delivered,
     text: "Delivered",
+    disabled: true,
   },
   {
     value: Mission.Status.succeeded,
-    text: "Succeded",
+    text: "Succeeded",
+    disabled: false,
   },
   {
     value: Mission.Status.failed,
     text: "Failed",
+    disabled: false,
   },
 ];
 
@@ -49,7 +53,7 @@ const DeliveredAction = ({ mission }) => {
         }}
       >
         {statuses.map((option) => (
-          <option key={option.value} value={option.value}>
+          <option key={option.value} value={option.value} disabled={option.disabled}>
             {option.text}
           </option>
         ))}

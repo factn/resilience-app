@@ -43,13 +43,13 @@ const useStyles = makeStyles((theme) => ({
 
 /** BEGIN ACTION*/
 
-const Action = ({ classes, mission }) => {
+const Action = ({ mission }) => {
   let { status } = mission;
 
   if (status === Mission.Status.unassigned) {
     return <NotFundedStatusAction mission={mission} />;
   }
-  if (status === Mission.Status.delivered || status === Mission.Status.started) {
+  if ([Mission.Status.delivered, Mission.Status.started].includes(mission.status)) {
     return <DeliveredAction mission={mission} />;
   }
 
