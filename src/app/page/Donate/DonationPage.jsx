@@ -4,7 +4,7 @@ import { Typography, Box, makeStyles, Divider, Button } from "@material-ui/core"
 
 import { Page } from "../../layout";
 import PaypalCheckout from "../../component/PaypalCheckout/PaypalCheckout";
-import { Organization } from "../../model";
+import { Organization, useOrganization } from "../../model";
 import DonateIllustration from "./DonateIllustration";
 
 const useStyles = makeStyles((theme) => ({
@@ -36,10 +36,6 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "start",
   },
 }));
-
-const orgPhoneNumber = "555-555-5555";
-const organizationEIN = "XX-XXXXXXX";
-const organizationName = "Org_name_replace_me";
 
 const states = { Donate: DonateState, Error: ErrorState, "Thank you!": SuccessState };
 
@@ -77,6 +73,7 @@ function formatPaypalDetails(details) {
 
 function DonateState({ classes, setState }) {
   const [amount, setAmount] = useState();
+  const org = useOrganization();
 
   return (
     <>
@@ -112,7 +109,7 @@ function DonateState({ classes, setState }) {
       />
       <Typography align="left" variant="body1" gutterBottom>
         If you would like to donate using check or a different method, please reach out to our
-        volunteers at <a href={`tel:${orgPhoneNumber}`}>{orgPhoneNumber}</a> for further help.
+        volunteers at <a href={`tel:${org.phoneNumber}`}>{org.phoneNumber}</a> for further help.
       </Typography>
     </>
   );
@@ -120,6 +117,7 @@ function DonateState({ classes, setState }) {
 
 function SuccessState({ classes, state }) {
   const { details } = state;
+  const org = useOrganization();
   useEffect(() => {
     if (details.recieptId) {
       Organization.logDonation(details);
@@ -137,21 +135,21 @@ function SuccessState({ classes, state }) {
         Donation Summary
       </Typography>
       <Box className={classes.successDetails}>
-        <span>Organization: {organizationName} </span>
+        <span>Organization: {org.name} </span>
         <span> Donor Name: {details.donorName} </span>
         <span>Amount: ${details.amount} </span>
         <span>Reciept #: {details.recieptId} </span>
         <span>Donated At: {date} </span>
         <span>Payment Method: {details.method}</span>
       </Box>
-      {organizationEIN && (
+      {org.EINNumber && (
         <>
           <Divider className={classes.marginVertical} />
           <Typography align="left" variant="subtitle2" gutterBottom>
             <em>
-              {organizationName} is a registered 501(c)3 non-profit organization #{organizationEIN}.
-              Your donation is tax deductible to the extent allowable by law. No goods or services
-              were provided by {organizationName} in return for this contribution.
+              {org.name} is a registered 501(c)3 non-profit organization #{org.EINNumber}. Your
+              donation is tax deductible to the extent allowable by law. No goods or services were
+              provided by {org.name} in return for this contribution.
             </em>
           </Typography>
         </>
@@ -161,6 +159,7 @@ function SuccessState({ classes, state }) {
 }
 
 function ErrorState({ setState }) {
+  const org = useOrganization();
   return (
     <>
       <Typography align="left" variant="body1" gutterBottom>
@@ -171,7 +170,7 @@ function ErrorState({ setState }) {
       </Typography>
       <Typography align="left" variant="body1" gutterBottom>
         Otherwise, our volunteers can help you donate through a different method, such as by check.
-        For more information please call: <a href={`tel:${orgPhoneNumber}`}>{orgPhoneNumber}</a>
+        For more information please call: <a href={`tel:${org.phoneNumber}`}>{org.phoneNumber}</a>
       </Typography>
       <Box display="flex" alignItems="start">
         <Button

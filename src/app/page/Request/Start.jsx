@@ -8,6 +8,7 @@ import { ReactComponent as ClipboardIcon } from "../../../img/clipboard.svg";
 import { ReactComponent as PharmacyIcon } from "../../../img/pharmacy.svg";
 import { ReactComponent as PhoneIcon } from "../../../img/phone.svg";
 import { H1 } from "./styles";
+import { useOrganization } from "../../model";
 
 const iconStyle = { marginRight: "1rem", width: "1.5rem", height: "1.5rem" };
 
@@ -68,6 +69,7 @@ const phoneIconStyle = {
 };
 
 function StartPage() {
+  const org = useOrganization();
   return (
     <>
       <H1>What do you need help with?</H1>
@@ -86,7 +88,8 @@ function StartPage() {
         <PhoneIcon style={phoneIconStyle} />
         <CallBoxText>
           To serve those without technology, call the number below to contact our volunteers to help
-          you make a request by phone. Call: <a href="tel:+15555555555">555-555-5555</a>.
+          you make a request by phone. Call:{" "}
+          <a href={`tel:${org.phoneNumber}`}>{org.phoneNumber}</a>.
         </CallBoxText>
       </div>
     </>

@@ -16,13 +16,7 @@ import App from "./App";
 import { store } from "./app/store";
 import * as serviceWorker from "./serviceWorker";
 
-import Organization from "./app/model/Organization";
-
 import initFirebase from "./initFirebase";
-
-// grab org id from domain or some server side variable
-const organizationUid = "1";
-Organization.init(organizationUid);
 
 initFirebase();
 
