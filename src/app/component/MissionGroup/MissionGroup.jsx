@@ -9,7 +9,6 @@ import MuiExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import MuiExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import MuiExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import MuiGrid from "@material-ui/core/Grid";
-import MuiMapIcon from "@material-ui/icons/Map";
 import { makeStyles } from "@material-ui/core/styles";
 import { ShowDeliveryRoute } from "../../component/";
 

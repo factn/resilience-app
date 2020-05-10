@@ -18,6 +18,7 @@ import { Page } from "../../layout";
 import VolunteerHome from "./VolunteerHome";
 import { isEmpty, isLoaded } from "react-redux-firebase";
 import { User, useOrganization } from "../../model";
+import { routes } from "../../routing";
 
 const useStyles = makeStyles((theme) => ({
   HomeImage: {
@@ -252,7 +253,7 @@ const DonateCardComponent = () => {
         data-testid="btn-donate-action"
         className={classes.DonateCardAction}
         component={Link}
-        to="/donate"
+        to={routes.donate}
       >
         Donate Funds
       </Button>
@@ -278,7 +279,7 @@ const ContactAdBanner = () => {
         </H3>
         <H3 data-testid="label-contact-mssg-2" className={classes.ContactAdLabel}>
           call {/* TODO: Turn it back to Link when correct phone number is populated */}
-          <a href={`tel:${org.phoneNumber}`}>{org.phoneNumber}</a>
+          <a href={`tel:${org?.phoneNumber}`}>{org?.phoneNumber}</a>
         </H3>
       </Grid>
     </Grid>
@@ -355,14 +356,14 @@ const SignInHeaderComponent = ({ history }) => {
         alt="Faction Logo"
       />
       <H1 data-testid="label-org-name" className={classes.OrgNameLabel}>
-        {org.name}
+        {org?.name}
       </H1>
       <H3 data-testid="label-org-tagline" className={classes.TaglineLabel}>
         Neighbors helping neighbors (optional org tagline)
       </H3>
       <Button
         className={classes.SigninButton}
-        onClick={() => history.push("/login")}
+        onClick={() => history.push(routes.login)}
         data-testid="btn-login"
       >
         Sign In
@@ -399,7 +400,7 @@ const HomePage = ({ auth, history, profile }) => {
             title="Need help?"
             message="Sign up to request a food box, small errand, or a pharmacy pickup. You'll be matched with a volunteer who will take care of you ASAP."
             actionLabel="I Need Help"
-            actionPress={() => history.push("/request")}
+            actionPress={() => history.push(routes.request.start)}
             backgroundImage={`url(${HeaderImage1})`}
             backgroundPosition={`10% 55%`}
           />
@@ -407,7 +408,7 @@ const HomePage = ({ auth, history, profile }) => {
             title="Want to help?"
             message="Sign up to join your local network helping neighbors through this crisis. Deliver food, medicine, and supplies to the most vulnerable."
             actionLabel="Volunteer"
-            actionPress={() => history.push("/signup")}
+            actionPress={() => history.push(routes.user.signup)}
             backgroundImage={`url(${HeaderImage2})`}
             backgroundPosition={`50% 10%`}
           />

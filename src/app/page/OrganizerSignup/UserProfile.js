@@ -5,6 +5,7 @@ import Button from "../../component/Button";
 import Input from "../../component/Input";
 import { Page } from "../../layout";
 import { DescriptionText, FormWrapper, HeaderText, PaddedDiv } from "./UserProfile.style";
+import { routes } from "../../routing";
 
 /**
  * Component for signing up organizers
@@ -15,11 +16,13 @@ const SignupPage = () => {
   const handleLoginCTAClick = (e) => {
     e.preventDefault();
 
-    window.location = "/login";
+    window.location = routes.login;
   };
 
   const handleFormSubmit = () => {
     console.log("Submit form and redirect user");
+    // TODO submit form
+    // TODO redirect user using "routes"
   };
 
   return (

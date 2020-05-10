@@ -8,9 +8,16 @@ import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-d
 import "firebase/storage";
 
 import { OrganizationContext, Organization } from "./app/model";
+import { routes } from "./app/routing";
 import ThemeProvider from "./app/component/ThemeProvider";
 import { Dashboard } from "./app/page";
-import { MissionCreate, MissionsCompleted, MissionsCreated, MissionFeedback } from "./app/page";
+import {
+  ErrorLanding,
+  MissionCreate,
+  MissionsCompleted,
+  MissionsCreated,
+  MissionFeedback,
+} from "./app/page";
 import AboutPage from "./app/page/Aboutus";
 import HomePage from "./app/page/Home";
 import LoginPage from "./app/page/Login";
@@ -36,7 +43,7 @@ function PrivateRoute({ children, ...rest }) {
         ) : (
           <Redirect
             to={{
-              pathname: "/login",
+              pathname: routes.login,
               state: { referrer: location, warning: true },
             }}
           />
@@ -72,36 +79,38 @@ function App() {
           <div className="App">
             <OrganizationContext.Provider value={org}>
               <Snackbar.Context.SnackbarProvider>
-                {org === null && <Redirect to="/404" />}
+                {org === null && <Redirect to={routes.organizer.signup} />}
                 <Switch>
-                  <Route exact path="/" component={HomePage} />
-                  <Route path="/about" component={AboutPage} />
-                  <Route path="/login" component={LoginPage} />
-                  <Route path="/organizer/signup" component={OrganizerSignupPage} />
-                  <Route path="/status" component={Status} />
-                  <Route path="/signup" component={SignupScene} />
-                  <Route path="/request" component={RequestPage} />
-                  <Route path="/donate" component={DonationPage} />
-                  <Route path="/dashboard">
+                  <Route exact path={routes.home} component={HomePage} />
+                  <Route path={routes.about} component={AboutPage} />
+                  <Route path={routes.login} component={LoginPage} />
+                  <Route path={routes.organizer.signup} component={OrganizerSignupPage} />
+                  <Route path={routes.volunteer.status} component={Status} />
+                  <Route path={routes.user.signup} component={SignupScene} />
+                  <Route path={routes.request.start} component={RequestPage} />
+                  <Route path={routes.donate} component={DonationPage} />
+                  <Route path={routes.organizer.dashboard.home}>
                     <Dashboard />
                   </Route>
-                  <PrivateRoute path="/missions/created">
+                  <PrivateRoute path={routes.missions.createdByUser}>
                     <MissionsCreated />
                   </PrivateRoute>
-                  <PrivateRoute path="/missions/new">
+                  <PrivateRoute path={routes.missions.createNew}>
                     <MissionCreate />
                   </PrivateRoute>
-                  <PrivateRoute path="/missions/completed">
+                  <PrivateRoute path={routes.missions.completed}>
                     <MissionsCompleted />
                   </PrivateRoute>
-                  <PrivateRoute path="/missions/feedback/:id">
+                  <PrivateRoute path={routes.missions.feedback}>
                     <MissionFeedback />
                   </PrivateRoute>
-                  <Route path="/missions/:id" component={MissionDetails} />
-                  <PrivateRoute path="/user/profile">
+                  <Route path={routes.missions.details} component={MissionDetails} />
+                  <PrivateRoute path={routes.user.profile}>
                     <UserProfile />
                   </PrivateRoute>
-                  <Route path="/404">404 page</Route>
+                  <Route path="*">
+                    <ErrorLanding errorCode={404} />
+                  </Route>
                 </Switch>
                 <Snackbar.Context.SnackbarConsumer>
                   {(value) => {
