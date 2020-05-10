@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader, Grid } from "@material-ui/core";
+import { Card, CardContent, CardHeader, Grid, Typography, Box } from "@material-ui/core";
 import { withStyles, createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import GetAppIcon from "@material-ui/icons/GetApp";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
@@ -9,7 +9,7 @@ import ScheduleIcon from "@material-ui/icons/Schedule";
 import PropTypes from "prop-types";
 import React from "react";
 import appleIcon from "../../../img/apple.svg";
-import { H5, Body1 } from "../Typography";
+import clsx from "clsx";
 import DetailsText from "../../dashboard/Missions/DetailsText";
 
 import AcceptMissionButton from "./AcceptMissionButton";
@@ -19,6 +19,8 @@ import StartMissionButton from "./StartMissionButton";
 import DeliverMissionButton from "./DeliverMissionButton";
 import { useSelector } from "react-redux";
 import { MissionStatus } from "../../model/schema";
+import ReportProblemOutlinedIcon from "@material-ui/icons/ReportProblemOutlined";
+import { Mission } from "../../model";
 
 const createCustomTheme = (theme) =>
   createMuiTheme({
@@ -30,76 +32,78 @@ const createCustomTheme = (theme) =>
           backgroundColor: "whitesmoke",
           height: theme.spacing(3),
         },
+        action: {
+          marginTop: "-11px",
+          color: "rgba(0, 0, 0, 0.54)",
+        },
+        content: {
+          textAlign: "left",
+        },
+        avatar: {
+          marginRight: "8px",
+          marginTop: "3px",
+        },
+      },
+      MuiCardContent: {
+        root: {
+          padding: theme.spacing(1),
+        },
       },
     },
   });
 const styles = (theme) => ({
-  cardHeader: {
-    paddingBottom: theme.spacing(0),
+  column: {
+    paddingRight: theme.spacing(2),
   },
-  cardContent: {
-    padding: theme.spacing(1),
-    paddingTop: theme.spacing(0),
+  pickup: {
+    color: theme.palette.success.main,
+    fontWeight: 600,
+    letterSpacing: "1px",
+    fontSize: "12px",
   },
-  missionSummary: {
-    backgroundColor: "#eeeeee",
-  },
-  rowBody: {
-    width: "100%",
-    flexWrap: "nowrap",
-    alignItems: "center",
-    display: "flex",
-  },
-  center: {
-    alignItems: "center",
-    width: "100%",
-  },
-  halfRow: {
-    width: "50%",
-  },
-  title: {
-    width: "90%",
-    textOverflow: "ellipsis",
-    overflow: "hidden",
-    whiteSpace: "nowrap",
+  dropoff: {
+    color: theme.color.red,
+    fontWeight: 600,
+    letterSpacing: "1px",
+    fontSize: "12px",
   },
   address: {
-    "& .MuiTypography-h5": {
-      width: "50%",
-      textOverflow: "ellipsis",
-      overflow: "hidden",
-      whiteSpace: "nowrap",
-    },
+    width: "100%",
+  },
+  addressLabel: {
+    ...theme.typography.body2,
+    minHeight: theme.typography.body1.lineHeight,
+    fontWeight: "bold",
+    textAlign: "left",
+  },
+  time: {
+    fontSize: "12px",
+    fontWeight: "bold",
+  },
+  root: {
+    position: "relative",
+  },
+  notReadyToStart: {
+    background: "rgba(245, 245, 245, 0.9)",
+    height: "100%",
+    width: "100%",
+    zIndex: 1,
+    position: "absolute",
+  },
+  notReadyToStartLabel: {
+    backgroundColor: "#ECB22E",
+    borderRadius: "4px",
+    color: theme.color.white,
+    width: "80%",
   },
 });
 
-const MissionCardContent = ({ classes, contentItems }) => (
-  <Grid container spacing={1} alignItems="center">
-    {contentItems.map((contentItem, index) => {
-      const Icon = contentItem.icon;
-      const content = contentItem.content;
-
-      return (
-        <React.Fragment key={`content-item-${index + 1}`}>
-          <Grid item xs={1}>
-            <Icon color="primary" />
-          </Grid>
-          <Grid item xs={11}>
-            <Body1>{content}</Body1>
-          </Grid>
-        </React.Fragment>
-      );
-    })}
-  </Grid>
-);
 /**
  * Component for displaying mission information on a card
  *
  * @component
  */
-const MissionCard = withStyles(styles)(({ children, classes, mission }) => {
-  const status = mission.status;
-  const detailsLink = "/missions/" + mission.uid;
+const MissionCard = withStyles(styles)(({ classes, mission }) => {
   const location = mission.pickUpLocation?.address || "no data";
   const dropOffLocation = mission.deliveryLocation?.address || "no data";
   const timeWindowType = mission.pickUpWindow?.timeWindowType || "no data";
@@ -107,24 +111,25 @@ const MissionCard = withStyles(styles)(({ children, classes, mission }) => {
   const firebaseProfile = useSelector((state) => state.firebase.profile);
   const user = firebaseProfile;
 
-  const contentItems = [
-    {
-      icon: PersonIcon,
-      content: status,
-    },
-    {
-      icon: LocationOnIcon,
-      content: location,
-    },
-    {
-      icon: ScheduleIcon,
-      content: typeof startTime === "string" ? startTime : timeWindowType,
-    },
-  ];
-
   return (
     <ThemeProvider theme={(theme) => createCustomTheme(theme)}>
-      <Card variant="outlined">
+      <Card variant="outlined" className={classes.root}>
+        {!mission.readyToStart && mission.status === Mission.Status.assigned && (
+          <Grid container className={classes.notReadyToStart} alignItems="center" justify="center">
+            <Grid
+              className={classes.notReadyToStartLabel}
+              container
+              justify="center"
+              alignItems="center"
+              spacing={1}
+            >
+              <Grid item>
+                <ReportProblemOutlinedIcon />
+              </Grid>
+              Mission not yet ready to start
+            </Grid>
+          </Grid>
+        )}
         <CardHeader
           action={<InfoOutlinedIcon />}
           title={<DetailsText showType={false} mission={mission} />}
@@ -132,91 +137,80 @@ const MissionCard = withStyles(styles)(({ children, classes, mission }) => {
         />
         <CardContent className={classes.cardContent}>
           <Grid container direction="row">
-            <Grid item className={classes.halfRow}>
-              <Grid container direction="column">
+            <Grid item xs={6} container direction="column" className={classes.column}>
+              <Grid item xs container alignItems="center" className={classes.pickup}>
                 <Grid item>
-                  <Grid container direction="row">
-                    <Grid item>
-                      <PublishIcon />
-                    </Grid>
-                    <Grid item>
-                      <H5 noWrap>PICK UP</H5>
-                    </Grid>
-                  </Grid>
+                  <PublishIcon />
                 </Grid>
-                <Grid item>{mission.pickUpLocation.label}</Grid>
-                <Grid item className={classes.address}>
-                  <H5>
-                    <a title={location} href={`https://www.google.com/maps/dir/"${location}"`}>
-                      {location}
-                    </a>
-                  </H5>
-                </Grid>
-                <Grid item>
-                  <Grid container direction="row" spacing={1}>
-                    <Grid item>
-                      <ScheduleIcon />
-                    </Grid>
-                    <Grid item>{startTime}</Grid>
-                  </Grid>
-                </Grid>
+                <Grid item>PICK UP</Grid>
+              </Grid>
+              <Grid item xs className={classes.addressLabel}>
+                {mission.pickUpLocation.label}
+              </Grid>
+              <Grid item xs zeroMinWidth>
+                <Typography noWrap>
+                  <a title={location} href={`https://www.google.com/maps/dir/"${location}"`}>
+                    {location}
+                  </a>
+                </Typography>
+              </Grid>
+              <Grid
+                item
+                xs
+                zeroMinWidth
+                container
+                alignItems="center"
+                wrap="nowrap"
+                className={classes.time}
+              >
+                <ScheduleIcon />
+                {startTime}
               </Grid>
             </Grid>
-            <Grid item className={classes.halfRow}>
-              <Grid container direction="column">
+            <Grid item xs={6} container direction="column" className={classes.column}>
+              <Grid item container className={classes.dropoff} alignItems="center">
                 <Grid item>
-                  <Grid container direction="row">
-                    <Grid item>
-                      <GetAppIcon />
-                    </Grid>
-                    <Grid item>
-                      <H5 noWrap>DROP OFF</H5>
-                    </Grid>
-                  </Grid>
+                  <GetAppIcon />
                 </Grid>
-                <Grid item>{mission.recipientDisplayName}</Grid>
-                <Grid item className={classes.address}>
-                  <H5>
-                    <a
-                      title={dropOffLocation}
-                      href={`https://www.google.com/maps/dir/"${dropOffLocation}"`}
-                    >
-                      {dropOffLocation}
-                    </a>
-                  </H5>
-                </Grid>
-                {mission.status === MissionStatus.tentative && (
-                  <AcceptMissionButton mission={mission} user={user} />
-                )}
+                <Grid item>DROP OFF</Grid>
+              </Grid>
+              <Grid item className={classes.addressLabel}>
+                {mission.recipientDisplayName}
+              </Grid>
+              <Grid item className={classes.address} zeroMinWidth>
+                <Typography noWrap>
+                  <a
+                    title={dropOffLocation}
+                    href={`https://www.google.com/maps/dir/"${dropOffLocation}"`}
+                  >
+                    {dropOffLocation}
+                  </a>
+                </Typography>
               </Grid>
             </Grid>
           </Grid>
-          {(mission.status === MissionStatus.assigned ||
-            mission.status === MissionStatus.started) && (
-            <Grid container direction="row">
-              <Grid
-                item
-                className={classes.halfRow}
-                alignItems={"center"}
-                justify={"center"}
-                style={{ width: "50%" }}
-              >
-                {mission.status === MissionStatus.assigned && (
-                  <UnassignMeButton mission={mission} user={user} />
-                )}
+          <Grid container direction="row-reverse">
+            {mission.status === MissionStatus.tentative && (
+              <Grid item xs={6}>
+                <AcceptMissionButton mission={mission} user={user} />
               </Grid>
-              <Grid item className={classes.halfRow}>
-                <div>
-                  {mission.status === MissionStatus.assigned && (
-                    <StartMissionButton mission={mission} user={user} />
-                  )}
-                  {mission.status === MissionStatus.started && (
-                    <DeliverMissionButton mission={mission} user={user} />
-                  )}
-                </div>
+            )}
+            {mission.status === MissionStatus.assigned && (
+              <Grid item xs={6}>
+                <StartMissionButton mission={mission} user={user} />
               </Grid>
-            </Grid>
-          )}
+            )}
+            {mission.status === MissionStatus.assigned && (
+              <Grid item xs={6}>
+                <UnassignMeButton mission={mission} user={user} />
+              </Grid>
+            )}
+            {mission.status === MissionStatus.started && (
+              <Grid item xs={6}>
+                <DeliverMissionButton mission={mission} user={user} />
+              </Grid>
+            )}
+          </Grid>
         </CardContent>
       </Card>
     </ThemeProvider>

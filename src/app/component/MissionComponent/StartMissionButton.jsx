@@ -8,7 +8,7 @@ import Mission from "../../model/Mission";
  *
  * @component
  */
-const StartMissionButton = ({ user, mission }) => {
+const StartMissionButton = ({ mission, user }) => {
   function handleOnClick(e) {
     e.preventDefault();
     Mission.start(user.uid, user, mission.uid);
