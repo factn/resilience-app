@@ -7,6 +7,7 @@ import { H3, Body1 } from "../../../component";
 import { HappyBox, HR, TotalsContainer, useStyles } from "./foodboxSteps.style";
 import NavigationButtons from "./NavigationButtons";
 import Organization from "../../../model/Organization";
+import { routes } from "../../../routing";
 
 function FoodboxStep({ dispatch, state }) {
   const history = useHistory();
@@ -115,7 +116,7 @@ function FoodboxStep({ dispatch, state }) {
 
       <NavigationButtons
         backText="Cancel"
-        onBack={() => history.push("/request")}
+        onBack={() => history.push(routes.request.start)}
         onNext={() => dispatch({ type: "NEXT" })}
       />
     </>

@@ -14,7 +14,7 @@ const DeliverMissionButton = ({ mission, user }) => {
   }
 
   return (
-    <Button onClick={handleOnClick} fullWidth>
+    <Button onClick={handleOnClick} fullWidth variant="contained" color="primary">
       CONFIRM DELIVERY
     </Button>
   );

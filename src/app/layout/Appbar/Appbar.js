@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 
 import { ReactComponent as Logo } from "../../../img/logo.svg";
 import NavigationDrawer from "../NavigationDrawer/index";
+import { routes } from "../../routing";
 import {
   AboutLink,
   AppbarContainer,
@@ -20,11 +21,11 @@ const Appbar = ({ children }) => {
       ) : (
         <AppbarDefault>
           <LogoContainer>
-            <Link to="/" aria-label="Go to home">
+            <Link to={routes.home} aria-label="Go to home">
               <Logo title="MutualAidLogo" role="img" />
             </Link>
           </LogoContainer>
-          <AboutLink to="/about" aria-label="About Resilience App">
+          <AboutLink to={routes.about} aria-label="About Resilience App">
             About Resilience App
           </AboutLink>
           <MenuContainer data-testid="MutualAidMenu">

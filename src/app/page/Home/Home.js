@@ -5,7 +5,7 @@ import PhoneIcon from "@material-ui/icons/Phone";
 import PropTypes from "prop-types";
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 import { compose } from "redux";
 
 import HeaderImage1 from "../../../img/HeaderImage1.webp";
@@ -18,6 +18,7 @@ import { Page } from "../../layout";
 import VolunteerHome from "./VolunteerHome";
 import { isEmpty, isLoaded } from "react-redux-firebase";
 import User from "../../model/User";
+import { routes } from "../../routing";
 
 const useStyles = makeStyles((theme) => ({
   HomeImage: {
@@ -251,7 +252,8 @@ const DonateCardComponent = () => {
       <Button
         data-testid="btn-donate-action"
         className={classes.DonateCardAction}
-        onClick={() => null}
+        component={Link}
+        to={routes.donate}
       >
         Donate Funds
       </Button>
@@ -359,7 +361,7 @@ const SignInHeaderComponent = ({ history }) => {
       </H3>
       <Button
         className={classes.SigninButton}
-        onClick={() => history.push("/login")}
+        onClick={() => history.push(routes.login)}
         data-testid="btn-login"
       >
         Sign In
@@ -396,7 +398,7 @@ const HomePage = ({ auth, history, profile }) => {
             title="Need help?"
             message="Sign up to request a food box, small errand, or a pharmacy pickup. You'll be matched with a volunteer who will take care of you ASAP."
             actionLabel="I Need Help"
-            actionPress={() => history.push("/request")}
+            actionPress={() => history.push(routes.request.start)}
             backgroundImage={`url(${HeaderImage1})`}
             backgroundPosition={`10% 55%`}
           />
@@ -404,7 +406,7 @@ const HomePage = ({ auth, history, profile }) => {
             title="Want to help?"
             message="Sign up to join your local network helping neighbors through this crisis. Deliver food, medicine, and supplies to the most vulnerable."
             actionLabel="Volunteer"
-            actionPress={() => history.push("/signup")}
+            actionPress={() => history.push(routes.user.signup)}
             backgroundImage={`url(${HeaderImage2})`}
             backgroundPosition={`50% 10%`}
           />

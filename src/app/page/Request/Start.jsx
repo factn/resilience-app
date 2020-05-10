@@ -8,6 +8,7 @@ import { ReactComponent as ClipboardIcon } from "../../../img/clipboard.svg";
 import { ReactComponent as PharmacyIcon } from "../../../img/pharmacy.svg";
 import { ReactComponent as PhoneIcon } from "../../../img/phone.svg";
 import { H1 } from "./styles";
+import { routes } from "../../routing";
 
 const iconStyle = { marginRight: "1rem", width: "1.5rem", height: "1.5rem" };
 
@@ -72,7 +73,7 @@ function StartPage() {
     <>
       <H1>What do you need help with?</H1>
       <ButtonContainer>
-        <ButtonWithIcon to="/request/foodbox" icon={<AppleIcon style={iconStyle} />}>
+        <ButtonWithIcon to={routes.request.foodbox} icon={<AppleIcon style={iconStyle} />}>
           Food Box Delivery
         </ButtonWithIcon>
         <ButtonWithIcon disabled icon={<ClipboardIcon style={iconStyle} />}>

@@ -7,6 +7,7 @@ import AboutImage1 from "../../../img/AboutImage1.webp";
 import { ReactComponent as Logo } from "../../../img/logo.svg";
 import { Body1, H1, H4 } from "../../component";
 import { Page } from "../../layout";
+import { routes } from "../../routing";
 
 const useStyles = makeStyles((theme) => ({
   AboutUsContainer: {
@@ -68,7 +69,7 @@ const AboutPage = () => {
           <H1 className={classes.MutualAidLogoLabel}>MutualAid.World</H1>
         </Grid>
         <Grid>
-          <Link to="/">
+          <Link to={routes.home}>
             <H4 className={classes.LearnMoreLinkLabel}>Learn more</H4>
           </Link>
         </Grid>

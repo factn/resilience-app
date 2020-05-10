@@ -110,6 +110,14 @@ const MissionCard = withStyles(styles)(({ classes, mission }) => {
   const startTime = mission.pickUpWindow?.startTime;
   const firebaseProfile = useSelector((state) => state.firebase.profile);
   const user = firebaseProfile;
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   return (
     <ThemeProvider theme={(theme) => createCustomTheme(theme)}>
