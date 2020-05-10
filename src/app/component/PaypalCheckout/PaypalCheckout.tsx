@@ -4,7 +4,7 @@ import { CircularProgress } from "@material-ui/core";
 
 import { usePaypal } from "../../hooks";
 import { Order, OrderDetails, PurchaseUnit } from "./PaypalTypes";
-import { Organization } from "../../model";
+import { useOrganization } from "../../model";
 
 type Props = {
   cart: PurchaseUnit | PurchaseUnit[];
@@ -26,13 +26,14 @@ export default function PaypalCheckout({
   ...rest
 }: Props) {
   const paypal: any = usePaypal();
+  const org = useOrganization();
 
   function createOrder(data: any, actions: any) {
     return actions.order.create({
       purchase_units: Array.isArray(cart) ? cart : [cart],
       application_context: {
         shipping_preference: "NO_SHIPPING",
-        brand_name: Organization.data.name,
+        brand_name: org?.name,
       },
     } as Order);
   }

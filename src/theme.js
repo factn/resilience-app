@@ -50,8 +50,16 @@ export default {
     },
   },
   typography: {
+    fontFamily: [
+      "-apple-system",
+      '"Open Sans"',
+      "sans-serif",
+      '"Segoe UI"',
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join(","),
     h1: {
-      fontFamily: '"Open Sans", sans-serif',
       fontWeight: "bold",
       fontSize: "32px",
       lineHeight: "48px",

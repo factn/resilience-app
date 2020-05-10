@@ -13,7 +13,7 @@ import Appbar from "./Appbar";
 import Drawer from "./Drawer";
 import Overview from "./Home";
 import DashboardMissions from "./Missions";
-import Organization from "../model/Organization";
+import { useOrganization } from "../model/Organization";
 import { routes } from "../routing";
 
 const useStyles = makeStyles((theme) => ({
@@ -52,9 +52,10 @@ const useStyles = makeStyles((theme) => ({
 const MissionsPage = () => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const org = useOrganization();
 
   useFirestoreConnect(() => {
-    const id = Organization.uid;
+    const id = org.uid;
     return [
       Mission.fsInProposed(id),
       Mission.fsInPlanning(id),

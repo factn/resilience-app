@@ -3244,6 +3244,8 @@
         }
       }, 
       "name": "Jennifer Green", 
+      "phoneNumber": "555-555-5555",
+      "EINNumber": "12-3456789",
       "localTimeZone": "", 
       "users": {}, 
       "paymentSettings": {
