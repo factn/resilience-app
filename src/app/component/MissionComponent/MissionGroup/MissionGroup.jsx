@@ -8,12 +8,13 @@ import MuiExpansionPanelActions from "@material-ui/core/ExpansionPanelActions";
 import MuiExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import MuiExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import MuiExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import MuiButton from "@material-ui/core/Button";
 import MuiGrid from "@material-ui/core/Grid";
 import MuiMapIcon from "@material-ui/icons/Map";
 import { makeStyles } from "@material-ui/core/styles";
-import { ShowDeliveryRoute } from "../../component/";
+import ShowDeliveryRoute from "../../ShowDeliveryRoute";
 
-import { Button, MissionList } from "../index";
+import MissionList from "../MissionList";
 
 const missionGroupStyles = makeStyles((theme) => ({
   expansionPanelSummary: {
@@ -58,13 +59,13 @@ const MissionGroup = ({ callToAction, group, groupCallToAction, showViewRoute })
   const viewRoute = showViewRoute && <ShowDeliveryRoute missions={missions} />;
 
   const groupAction = showGroupAction && (
-    <Button
+    <MuiButton
       fullWidth={true}
       startIcon={groupActionIcon}
       onClick={() => onClickMissionGroupButton(group.groupUid)}
     >
       {actionText} ({numberOfMissions})
-    </Button>
+    </MuiButton>
   );
 
   return (

@@ -11,9 +11,9 @@ import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ClearIcon from "@material-ui/icons/Clear";
 import ErrorOutlineIcon from "@material-ui/icons/ErrorOutline";
-import ImageUpload from "../../component/ImageUpload";
-import FoodBoxIcon from "../../component/icons/FoodBoxIcon";
-import { H2 } from "../../component";
+import ImageUpload from "../../ImageUpload";
+import FoodBoxIcon from "../../icons/FoodBoxIcon";
+import { H2 } from "../../Typography";
 import styled from "styled-components";
 
 const useStyles = makeStyles((theme) => ({

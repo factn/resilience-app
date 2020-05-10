@@ -5,9 +5,8 @@ import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 import { isEmpty, isLoaded, useFirebase } from "react-redux-firebase";
 
-import { color } from "../../../theme";
-import MissionDeliveredCard from "../../component/MissionDeliveredCard";
-import MissionDetailsCard from "../../component/MissionDetailsCard";
+import MissionDeliveredCard from "../../component/MissionComponent/MissionDeliveredCard";
+import MissionDetailsCard from "../../component/MissionComponent/MissionDetailsCard";
 import { ErrorSnackbar, SuccessSnackbar } from "../../component/Snackbars";
 import Page from "../../layout/Page";
 import { Mission, User } from "../../model";
@@ -18,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
   },
   goBackIcon: {
     fontSize: 32,
-    fill: color.deepPurple,
+    fill: theme.color.deepPurple,
     "&:hover": {
       cursor: "pointer",
     },
