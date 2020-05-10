@@ -133,7 +133,7 @@ const MissionCard = withStyles(styles)(({ children, classes, mission, ...rest })
     Mission.unassigned(mission.uid);
   }
 
-  console.log( mission );
+  console.log(mission);
   return (
     <Card className={classes.root} {...rest}>
       <CardContent className={classes.cardContent}>
@@ -204,26 +204,43 @@ const MissionCard = withStyles(styles)(({ children, classes, mission, ...rest })
                   </a>
                 </H5>
               </Grid>
-              { mission.status === MissionStatus.tentative && 
-              <Grid item className={classes.center}>
-                <AcceptMissionButton buttonClass={classes.center} acceptMission={acceptMission} />
-              </Grid> }
+              {mission.status === MissionStatus.tentative && (
+                <Grid item className={classes.center}>
+                  <AcceptMissionButton buttonClass={classes.center} acceptMission={acceptMission} />
+                </Grid>
+              )}
             </Grid>
           </Grid>
         </Grid>
-        { (mission.status === MissionStatus.assigned ||
-          mission.status === MissionStatus.started) && 
-        <Grid container direction="row">
-          <Grid item className={classes.halfRow} alignItems={'center'} justify={'center'} style={{ width: "50%" }}>
-            { mission.status === MissionStatus.assigned && <UnassignMeButton buttonClass={classes.center} unassignMission={unassignMission} /> }
+        {(mission.status === MissionStatus.assigned ||
+          mission.status === MissionStatus.started) && (
+          <Grid container direction="row">
+            <Grid
+              item
+              className={classes.halfRow}
+              alignItems={"center"}
+              justify={"center"}
+              style={{ width: "50%" }}
+            >
+              {mission.status === MissionStatus.assigned && (
+                <UnassignMeButton buttonClass={classes.center} unassignMission={unassignMission} />
+              )}
+            </Grid>
+            <Grid item className={classes.halfRow}>
+              <div>
+                {mission.status === MissionStatus.assigned && (
+                  <StartMissionButton buttonClass={classes.center} startMission={startMission} />
+                )}
+                {mission.status === MissionStatus.started && (
+                  <DeliverMissionButton
+                    buttonClass={classes.center}
+                    deliverMission={deliverMission}
+                  />
+                )}
+              </div>
+            </Grid>
           </Grid>
-          <Grid item className={classes.halfRow}>
-            <div>
-              { mission.status === MissionStatus.assigned && <StartMissionButton buttonClass={classes.center} startMission={startMission} /> }
-              { mission.status === MissionStatus.started && <DeliverMissionButton buttonClass={classes.center} deliverMission={deliverMission} /> }
-            </div>
-          </Grid>
-        </Grid> } 
+        )}
       </CardContent>
     </Card>
   );

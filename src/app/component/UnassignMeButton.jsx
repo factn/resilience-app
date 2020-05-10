@@ -1,7 +1,7 @@
 import { Grid } from "@material-ui/core";
 import { Button } from "./";
 import React from "react";
-import CheckIcon from "@material-ui/icons/Check"
+import CheckIcon from "@material-ui/icons/Check";
 import styled from "styled-components";
 import { color } from "../../theme";
 
@@ -10,20 +10,20 @@ const StyledButton = styled(Button)`
 `;
 
 /**
- * Button that facliitates unassigning a volunteer. 
+ * Button that facliitates unassigning a volunteer.
  *
  * @component
  */
 const UnassignMeButton = ({ buttonClass, unassignMission }) => {
-  return ( 
+  return (
     <StyledButton
       style={{ backgroundColor: color.white, color: color.red, textDecoration: "underline" }}
       disableElevation
       onClick={unassignMission}
     >
-      UNASSIGN ME 
+      UNASSIGN ME
     </StyledButton>
-  ); 
+  );
 };
 
-export default UnassignMeButton; 
+export default UnassignMeButton;
