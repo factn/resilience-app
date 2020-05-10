@@ -73,8 +73,8 @@ function App() {
 
   return (
     <>
-      <CssBaseline />
       <ThemeProvider theme={theme}>
+        <CssBaseline />
         <Router>
           <div className="App">
             <OrganizationContext.Provider value={org}>
