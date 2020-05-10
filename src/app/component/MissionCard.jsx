@@ -3,6 +3,7 @@ import { withStyles } from "@material-ui/core/styles";
 import GetAppIcon from "@material-ui/icons/GetApp";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import InfoIcon from "@material-ui/icons/Info";
+import CheckIcon from "@material-ui/icons/Check";
 import PersonIcon from "@material-ui/icons/Person";
 import PublishIcon from "@material-ui/icons/Publish";
 import ScheduleIcon from "@material-ui/icons/Schedule";
@@ -12,7 +13,12 @@ import appleIcon from "../../img/apple.svg";
 import { Button, H5, Body1 } from "./";
 import Mission from "../model/Mission";
 import DetailsText from "../dashboard/Missions/DetailsText";
+import AcceptMissionButton from "./AcceptMissionButton";
+import StartMissionButton from "./StartMissionButton";
+import DeliverMissionButton from "./DeliverMissionButton";
+import UnassignMeButton from "./UnassignMeButton";
 import { useSelector } from "react-redux";
+import { MissionStatus } from "../model/schema";
 
 const styles = (theme) => ({
   root: {
@@ -35,6 +41,7 @@ const styles = (theme) => ({
   },
   center: {
     alignItems: "center",
+    width: "100%",
   },
   halfRow: {
     width: "50%",
@@ -109,6 +116,24 @@ const MissionCard = withStyles(styles)(({ children, classes, mission, ...rest })
     Mission.accept(user.uid, user, mission.uid);
   }
 
+  function startMission(e) {
+    e.preventDefault();
+    const user = firebaseProfile;
+    Mission.start(user.uid, user, mission.uid);
+  }
+
+  function deliverMission(e) {
+    e.preventDefault();
+    const user = firebaseProfile;
+    Mission.deliver(user.uid, user, mission.uid);
+  }
+
+  function unassignMission(e) {
+    e.preventDefault();
+    Mission.unassigned(mission.uid);
+  }
+
+  console.log(mission);
   return (
     <Card className={classes.root} {...rest}>
       <CardContent className={classes.cardContent}>
@@ -179,14 +204,43 @@ const MissionCard = withStyles(styles)(({ children, classes, mission, ...rest })
                   </a>
                 </H5>
               </Grid>
-              <Grid item className={classes.center}>
-                <Button size="medium" onClick={acceptMission} className={classes.center}>
-                  Accept
-                </Button>
-              </Grid>
+              {mission.status === MissionStatus.tentative && (
+                <Grid item className={classes.center}>
+                  <AcceptMissionButton buttonClass={classes.center} acceptMission={acceptMission} />
+                </Grid>
+              )}
             </Grid>
           </Grid>
         </Grid>
+        {(mission.status === MissionStatus.assigned ||
+          mission.status === MissionStatus.started) && (
+          <Grid container direction="row">
+            <Grid
+              item
+              className={classes.halfRow}
+              alignItems={"center"}
+              justify={"center"}
+              style={{ width: "50%" }}
+            >
+              {mission.status === MissionStatus.assigned && (
+                <UnassignMeButton buttonClass={classes.center} unassignMission={unassignMission} />
+              )}
+            </Grid>
+            <Grid item className={classes.halfRow}>
+              <div>
+                {mission.status === MissionStatus.assigned && (
+                  <StartMissionButton buttonClass={classes.center} startMission={startMission} />
+                )}
+                {mission.status === MissionStatus.started && (
+                  <DeliverMissionButton
+                    buttonClass={classes.center}
+                    deliverMission={deliverMission}
+                  />
+                )}
+              </div>
+            </Grid>
+          </Grid>
+        )}
       </CardContent>
     </Card>
   );
