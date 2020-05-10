@@ -22,7 +22,7 @@ const UnassignMeButton = ({ mission, user }) => {
   }
 
   return (
-    <Button text disableElevation onClick={handleOnClick} className={classes.root}>
+    <Button disableElevation onClick={handleOnClick} className={classes.root}>
       UNASSIGN ME
     </Button>
   );

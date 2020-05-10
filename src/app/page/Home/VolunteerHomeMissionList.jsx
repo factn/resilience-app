@@ -16,6 +16,7 @@ const VolunteerHomeMissionList = ({
   action,
   actionIcon,
   actionText,
+  checkGroupActionDisabled,
   groupActionIcon,
   isEmptyText,
   missions,
@@ -33,6 +34,7 @@ const VolunteerHomeMissionList = ({
       groupCallToAction={{
         showGroupAction,
         groupActionIcon,
+        checkGroupActionDisabled,
       }}
       callToAction={{
         text: actionText,

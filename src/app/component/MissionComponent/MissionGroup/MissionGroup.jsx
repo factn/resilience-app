@@ -37,6 +37,16 @@ const missionGroupStyles = makeStyles((theme) => ({
   details: {
     padding: 0,
   },
+  action: {
+    position: "relative",
+  },
+  actionDisabledOver: {
+    background: "rgba(245, 245, 245, 0.9)",
+    height: "100%",
+    width: "100%",
+    zIndex: 1,
+    position: "absolute",
+  },
 }));
 
 /**
@@ -47,7 +57,9 @@ const missionGroupStyles = makeStyles((theme) => ({
 const MissionGroup = ({ callToAction, group, groupCallToAction, showViewRoute }) => {
   const { icon, onClick, text } = callToAction || {};
   const { actionIcon, actionText } = { actionText: text, actionIcon: icon };
-  const { groupActionIcon, showGroupAction } = groupCallToAction || {};
+
+  // default to false if not set
+  const { checkGroupActionDisabled, groupActionIcon, showGroupAction } = groupCallToAction || {};
   const classes = missionGroupStyles();
   const history = useHistory();
   const missions = group.missions;
@@ -100,8 +112,13 @@ const MissionGroup = ({ callToAction, group, groupCallToAction, showViewRoute })
         />
       </MuiExpansionPanelDetails>
       <MuiExpansionPanelActions>
-        {viewRoute}
-        {groupAction}
+        <MuiGrid className={classes.action}>
+          {checkGroupActionDisabled && checkGroupActionDisabled(missions) && (
+            <MuiGrid className={classes.actionDisabledOver} />
+          )}
+          {viewRoute}
+          {groupAction}
+        </MuiGrid>
       </MuiExpansionPanelActions>
     </MuiExpansionPanel>
   );

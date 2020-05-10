@@ -1,15 +1,12 @@
-import { Card, CardContent, CardHeader, Grid, Typography, Box } from "@material-ui/core";
+import { Card, CardContent, CardHeader, Grid, Typography } from "@material-ui/core";
 import { withStyles, createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import GetAppIcon from "@material-ui/icons/GetApp";
-import LocationOnIcon from "@material-ui/icons/LocationOn";
 import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
-import PersonIcon from "@material-ui/icons/Person";
 import PublishIcon from "@material-ui/icons/Publish";
 import ScheduleIcon from "@material-ui/icons/Schedule";
 import PropTypes from "prop-types";
 import React from "react";
 import appleIcon from "../../../img/apple.svg";
-import clsx from "clsx";
 import DetailsText from "../../dashboard/Missions/DetailsText";
 
 import AcceptMissionButton from "./AcceptMissionButton";
@@ -110,7 +107,6 @@ const styles = (theme) => ({
 const MissionCard = withStyles(styles)(({ classes, mission }) => {
   const location = mission.pickUpLocation?.address || "no data";
   const dropOffLocation = mission.deliveryLocation?.address || "no data";
-  const timeWindowType = mission.pickUpWindow?.timeWindowType || "no data";
   const startTime = mission.pickUpWindow?.startTime;
   const firebaseProfile = useSelector((state) => state.firebase.profile);
   const user = firebaseProfile;
