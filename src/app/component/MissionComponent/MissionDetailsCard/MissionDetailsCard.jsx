@@ -20,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
   card: {
     margin: "0px !important",
     ...theme.typography.body1,
+    width: "100%",
   },
   cardHeader: {
     fontWeight: "bold",
@@ -79,8 +80,8 @@ const MissionDetailsCard = ({ mission, photoDisabled }) => {
 
   return (
     <>
-      <Grid>
-        <H2 color="black">Food Box Delivery</H2>
+      <Grid item>
+        <H2>Food Box Delivery</H2>
         {mission.missionDetails.needs.map((need) => {
           return (
             <Row key={need.name} Icon={FoodBoxIcon}>
@@ -90,7 +91,7 @@ const MissionDetailsCard = ({ mission, photoDisabled }) => {
         })}
       </Grid>
 
-      <Grid className={classes.interaction}>
+      <Grid container item className={classes.interaction}>
         <Grid container item alignItems="center">
           <ErrorOutlineIcon />
           Interaction Guidelines

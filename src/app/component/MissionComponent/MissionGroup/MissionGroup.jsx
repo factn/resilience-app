@@ -24,6 +24,8 @@ const missionGroupStyles = makeStyles((theme) => ({
     paddingLeft: "0.75rem",
     paddingRight: "0.75rem",
     textTransform: "uppercase",
+    border: "1px solid",
+    borderColor: theme.color.blue,
   },
   expandMoreIcon: {
     color: theme.color.white,
@@ -63,6 +65,9 @@ const MissionGroup = ({ callToAction, group, groupCallToAction, showViewRoute })
   const classes = missionGroupStyles();
   const history = useHistory();
   const missions = group.missions;
+  missions.sort((m1, m2) => {
+    return Number(m2.readyToStart) - Number(m1.readyToStart);
+  });
   const numberOfMissions = missions.length;
   const onClickMissionGroupButton = (groupUid) => {
     missions.forEach((mission) => {

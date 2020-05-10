@@ -1,11 +1,11 @@
-import { Card, CardContent, CardHeader, Grid, Typography } from "@material-ui/core";
+import { Card, CardContent, CardHeader, Grid, Typography, Button } from "@material-ui/core";
 import { withStyles, createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import GetAppIcon from "@material-ui/icons/GetApp";
 import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
 import PublishIcon from "@material-ui/icons/Publish";
 import ScheduleIcon from "@material-ui/icons/Schedule";
 import PropTypes from "prop-types";
-import React from "react";
+import React, { useState } from "react";
 import appleIcon from "../../../img/apple.svg";
 import DetailsText from "../../dashboard/Missions/DetailsText";
 
@@ -18,6 +18,14 @@ import { useSelector } from "react-redux";
 import { MissionStatus } from "../../model/schema";
 import ReportProblemOutlinedIcon from "@material-ui/icons/ReportProblemOutlined";
 import { Mission } from "../../model";
+import Dialog from "@material-ui/core/Dialog";
+import MissionDetailsCard from "./MissionDetailsCard";
+import MuiDialogTitle from "@material-ui/core/DialogTitle";
+import MuiDialogContent from "@material-ui/core/DialogContent";
+import MuiDialogActions from "@material-ui/core/DialogActions";
+import CloseIcon from "@material-ui/icons/Close";
+import IconButton from "@material-ui/core/IconButton";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 const createCustomTheme = (theme) =>
   createMuiTheme({
@@ -44,6 +52,7 @@ const createCustomTheme = (theme) =>
       MuiCardContent: {
         root: {
           padding: theme.spacing(1),
+          paddingBottom: 0,
         },
       },
     },
@@ -97,6 +106,22 @@ const styles = (theme) => ({
     color: theme.color.white,
     width: "80%",
   },
+
+  missionDetailsWrapper: {
+    padding: theme.spacing(2),
+    height: "80vh",
+    maxWidth: "450px",
+    boxSizing: "border-box",
+    margin: 0,
+  },
+  closeButton: {
+    position: "absolute",
+    right: theme.spacing(1),
+    top: theme.spacing(1),
+    color: theme.color.blue,
+    zIndex: 1,
+  },
+  actionButtons: {},
 });
 
 /**
@@ -104,23 +129,63 @@ const styles = (theme) => ({
  *
  * @component
  */
-const MissionCard = withStyles(styles)(({ classes, mission }) => {
+const MissionCard = withStyles(styles)(({ anchorEl, classes, mission }) => {
   const location = mission.pickUpLocation?.address || "no data";
   const dropOffLocation = mission.deliveryLocation?.address || "no data";
   const startTime = mission.pickUpWindow?.startTime;
   const firebaseProfile = useSelector((state) => state.firebase.profile);
   const user = firebaseProfile;
-  const [open, setOpen] = React.useState(false);
+  const fullScreen = useMediaQuery("(max-width:481px)");
+  const [modalOpen, setModalOpen] = useState(false);
+  const handleOpenModal = () => setModalOpen(true);
+  const onCloseModal = () => setModalOpen(false);
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
+  const ActionButtons = () => (
+    <Grid container direction="row-reverse" className={classes.actionButtons}>
+      {mission.status === MissionStatus.tentative && (
+        <Grid item xs={6}>
+          <AcceptMissionButton mission={mission} user={user} />
+        </Grid>
+      )}
+      {mission.status === MissionStatus.assigned && (
+        <Grid item xs={6}>
+          <StartMissionButton mission={mission} user={user} disabled={!mission.readyToStart} />
+        </Grid>
+      )}
+      {mission.status === MissionStatus.assigned && (
+        <Grid item xs={6} className={classes.onTopOfNotReady}>
+          <UnassignMeButton mission={mission} user={user} />
+        </Grid>
+      )}
+      {mission.status === MissionStatus.started && (
+        <Grid item xs={6}>
+          {modalOpen ? (
+            <DeliverMissionButton mission={mission} user={user} />
+          ) : (
+            <Button onClick={handleOpenModal} variant="contained" color="primary">
+              Confirm Delivery
+            </Button>
+          )}
+        </Grid>
+      )}
+    </Grid>
+  );
 
   return (
     <ThemeProvider theme={(theme) => createCustomTheme(theme)}>
+      <Dialog open={modalOpen} onClose={onCloseModal} fullScreen={fullScreen}>
+        <MuiDialogTitle>
+          <IconButton aria-label="close" className={classes.closeButton} onClick={onCloseModal}>
+            <CloseIcon />
+          </IconButton>
+        </MuiDialogTitle>
+        <MuiDialogContent>
+          <MissionDetailsCard mission={mission} />
+        </MuiDialogContent>
+        <MuiDialogActions>
+          <ActionButtons />
+        </MuiDialogActions>
+      </Dialog>
       <Card variant="outlined" className={classes.root}>
         {!mission.readyToStart && mission.status === Mission.Status.assigned && (
           <Grid container className={classes.notReadyToStart} alignItems="center" justify="center">
@@ -140,7 +205,7 @@ const MissionCard = withStyles(styles)(({ classes, mission }) => {
         )}
         <CardHeader
           className={classes.onTopOfNotReady}
-          action={<InfoOutlinedIcon />}
+          action={<InfoOutlinedIcon onClick={handleOpenModal} />}
           title={<DetailsText showType={false} mission={mission} />}
           avatar={<img height="20" src={appleIcon} alt="" />}
         />
@@ -198,28 +263,7 @@ const MissionCard = withStyles(styles)(({ classes, mission }) => {
               </Grid>
             </Grid>
           </Grid>
-          <Grid container direction="row-reverse">
-            {mission.status === MissionStatus.tentative && (
-              <Grid item xs={6}>
-                <AcceptMissionButton mission={mission} user={user} />
-              </Grid>
-            )}
-            {mission.status === MissionStatus.assigned && (
-              <Grid item xs={6}>
-                <StartMissionButton mission={mission} user={user} />
-              </Grid>
-            )}
-            {mission.status === MissionStatus.assigned && (
-              <Grid item xs={6} className={classes.onTopOfNotReady}>
-                <UnassignMeButton mission={mission} user={user} />
-              </Grid>
-            )}
-            {mission.status === MissionStatus.started && (
-              <Grid item xs={6}>
-                <DeliverMissionButton mission={mission} user={user} />
-              </Grid>
-            )}
-          </Grid>
+          <ActionButtons />
         </CardContent>
       </Card>
     </ThemeProvider>

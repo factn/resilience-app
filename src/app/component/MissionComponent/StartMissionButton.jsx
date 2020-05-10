@@ -8,7 +8,7 @@ import Mission from "../../model/Mission";
  *
  * @component
  */
-const StartMissionButton = ({ mission, user }) => {
+const StartMissionButton = ({ mission, user, ...rest }) => {
   function handleOnClick(e) {
     e.preventDefault();
     Mission.start(user.uid, user, mission.uid);
@@ -21,6 +21,7 @@ const StartMissionButton = ({ mission, user }) => {
       variant="contained"
       color="primary"
       fullWidth
+      {...rest}
     >
       START
     </Button>

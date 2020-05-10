@@ -1,8 +1,7 @@
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
-import React, { useEffect } from "react";
+import React from "react";
 import Mission from "../../../model/Mission";
-import { makeStyles } from "@material-ui/core/styles";
 
 const fundedOptions = [
   {
