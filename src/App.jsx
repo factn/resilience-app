@@ -15,8 +15,8 @@ import {
   ErrorLanding,
   MissionCreate,
   MissionsCompleted,
-  MissionsCreated,
   MissionFeedback,
+  RecipientDashboard,
 } from "./app/page";
 import AboutPage from "./app/page/Aboutus";
 import HomePage from "./app/page/Home";
@@ -92,8 +92,8 @@ function App() {
                   <Route path={routes.organizer.dashboard.home}>
                     <Dashboard />
                   </Route>
-                  <PrivateRoute path={routes.missions.createdByUser}>
-                    <MissionsCreated />
+                  <PrivateRoute path={routes.recipient.dashboard}>
+                    <RecipientDashboard />
                   </PrivateRoute>
                   <PrivateRoute path={routes.missions.createNew}>
                     <MissionCreate />

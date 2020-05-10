@@ -13,6 +13,10 @@ const routes = {
   },
   donate: "/donate",
 
+  recipient: {
+    dashboard: "/recipient",
+  },
+
   missions: {
     main: "/missions",
     details: "/missions/:id",
