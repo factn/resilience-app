@@ -3,9 +3,9 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { isEmpty, isLoaded } from "react-redux-firebase";
 import { Redirect, Route } from "react-router-dom";
-import { routes } from "../routing";
+import routes from "./routes";
 
-function ProtectedRoute({ children, ...rest }) {
+function AppRoute({ children, ...rest }) {
   const auth = useSelector((state) => state.firebase.auth);
   return (
     <Route
@@ -17,7 +17,11 @@ function ProtectedRoute({ children, ...rest }) {
           <Redirect
             to={{
               pathname: routes.login,
-              state: { from: location },
+              state: {
+                from: location,
+                referrer: location,
+                warning: true,
+              },
             }}
           />
         )
@@ -26,8 +30,8 @@ function ProtectedRoute({ children, ...rest }) {
   );
 }
 
-ProtectedRoute.propTypes = {
+AppRoute.propTypes = {
   children: PropTypes.element,
 };
 
-export default ProtectedRoute;
+export default AppRoute;

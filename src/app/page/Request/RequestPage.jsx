@@ -1,21 +1,21 @@
 import React from "react";
-import { Route, Switch } from "react-router-dom";
+import { Switch } from "react-router-dom";
 
 import { Page } from "../../layout";
 import ErrorPage from "./foodbox/ErrorPage";
 import FoodboxFlow from "./foodbox/FoodboxFlow";
 import SuccessPage from "./foodbox/SuccessPage";
 import Start from "./Start";
-import { routes } from "../../routing";
+import { routes, AppRoute } from "../../routing";
 
 function RequestPage() {
   return (
     <Page>
       <Switch>
-        <Route exact path={routes.request.start} component={Start} />
-        <Route exact path={routes.request.foodbox} component={FoodboxFlow} />
-        <Route path={routes.request.success} component={SuccessPage} />
-        <Route path={routes.request.error} component={ErrorPage} />
+        <AppRoute exact path={routes.request.start} component={Start} />
+        <AppRoute exact path={routes.request.foodbox} component={FoodboxFlow} />
+        <AppRoute path={routes.request.success} component={SuccessPage} />
+        <AppRoute path={routes.request.error} component={ErrorPage} />
       </Switch>
     </Page>
   );
