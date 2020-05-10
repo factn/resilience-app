@@ -103,6 +103,8 @@ def organization():
     return dict(
         uid=genId(),
         name=f.name(),
+        phoneNumber=f.phone_number(),
+        EINNumber='12-3456789',
         location=location(),
         localTimeZone='',
         missions={},

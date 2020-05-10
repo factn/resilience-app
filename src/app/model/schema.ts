@@ -46,6 +46,8 @@ export class OrganizationInterface {
   name!: string;
   /*The Location of the Organization*/
   location?: Location;
+  phoneNumber!: string;
+  EINNumber?: string;
   /**
    * There are subcollection, they are here for references
   resources?: Map<string, Resource>;

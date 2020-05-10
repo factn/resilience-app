@@ -13,7 +13,8 @@ import Appbar from "./Appbar";
 import Drawer from "./Drawer";
 import Overview from "./Home";
 import DashboardMissions from "./Missions";
-import Organization from "../model/Organization";
+import { useOrganization } from "../model/Organization";
+import { routes } from "../routing";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -51,9 +52,10 @@ const useStyles = makeStyles((theme) => ({
 const MissionsPage = () => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const org = useOrganization();
 
   useFirestoreConnect(() => {
-    const id = Organization.uid;
+    const id = org.uid;
     return [
       Mission.fsInProposed(id),
       Mission.fsInPlanning(id),
@@ -77,26 +79,26 @@ const MissionsPage = () => {
   const drawerItems = [
     {
       text: "Home",
-      id: "/dashboard",
-      route: "/dashboard",
+      id: routes.organizer.dashboard.home,
+      route: routes.organizer.dashboard.home,
       icon: <HomeIcon />,
     },
     {
       text: "Missions",
-      id: "/dashboard/missions",
-      route: "/dashboard/missions?view=inProposed",
+      id: routes.organizer.dashboard.missions,
+      route: `${routes.organizer.dashboard.missions}?view=inProposed`,
       icon: <AnnouncementIcon />,
     },
     {
       text: "Recipients",
-      id: "/dashboard/recipients",
-      route: "/dashboard/recipients",
+      id: routes.organizer.dashboard.recipients,
+      route: routes.organizer.dashboard.recipients,
       icon: <PeopleIcon />,
     },
     {
       text: "Volunteers",
-      id: "/dashboard/volunteers",
-      route: "/dashboard/volunteers",
+      id: routes.organizer.dashboard.volunteers,
+      route: routes.organizer.dashboard.volunteers,
       icon: <PanToolIcon />,
     },
   ];
@@ -116,8 +118,8 @@ const MissionsPage = () => {
         })}
       >
         <Switch>
-          <Route path="/dashboard/missions" component={DashboardMissions} />
-          <Route path="/dashboard/" component={() => <Overview />} />
+          <Route path={routes.organizer.dashboard.missions} component={DashboardMissions} />
+          <Route path={routes.organizer.dashboard.home} component={() => <Overview />} />
         </Switch>
       </main>
     </div>

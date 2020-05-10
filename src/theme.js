@@ -46,6 +46,7 @@ export default {
   },
   typography: {
     h1: {
+      fontFamily: '"Open Sans", sans-serif',
       fontWeight: "bold",
       fontSize: "32px",
       lineHeight: "48px",
