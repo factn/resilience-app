@@ -10,7 +10,6 @@ import CancelIcon from "@material-ui/icons/Cancel";
 import EditIcon from "@material-ui/icons/Edit";
 import React, { useState } from "react";
 import { isEmpty, isLoaded } from "react-redux-firebase";
-import { Action } from "./ListItem"; // TODO: MOVE TO HELPERS
 import { Body2, H3 } from "../../component";
 import { Mission } from "../../model";
 import _ from "../../utils/lodash";
@@ -219,7 +218,6 @@ const MissionEditView = ({ mission, toListView }) => {
           <Box>
             <MissionImage {...props} />
             <MissionTypeRow {...props} />
-            <Action {...props} />
             <MissionDetailsRow {...props} />
 
             <Card label="Pick Up Details" classes={classes}>
@@ -229,55 +227,7 @@ const MissionEditView = ({ mission, toListView }) => {
                 stage={values.pickUpLocation}
                 setStage={handleChangeLocation.bind(null, "pickUpLocation")}
               />
-              {/* <KeyDatePickerContainer
-            margin="normal"
-            id="date-pickUp"
-            label="Select Date"
-            format="MM/dd/yyyy"
-            value={'richie'}
-            // value={pickUpDateLabel}
-            required={true}
-            // onChange={(date) => handleDate(date, "pickUp")}
-            onChange={()=>null}
-            KeyboardButtonProps={{
-              "aria-label": "change date",
-            }}
-          />
-          <KeyboardTimePicker
-            margin="normal"
-            id="time-pickUp"
-            label="Pickup time"
-            // value={pickUp.timeProtoType}
-            required={true}
-            // onChange={(time) =>
-            //   time && setPickUp({ ...pickUp, time: time.toTimeString(), timeProtoType: time })
-            // }
-            KeyboardButtonProps={{
-              "aria-label": "change time",
-            }}
-          /> */}
             </Card>
-
-            <Card label="Delivery Details" classes={classes}>
-              <AddressInput
-                className={classes.textField}
-                placeholder={values.deliveryLocation?.address}
-                stage={values.deliveryLocation}
-                setStage={handleChangeLocation.bind(null, "deliveryLocation")}
-              />
-              <Row Icon={AccessTimeIcon} classes={classes}>
-                {mission?.deliveryWindow?.startTime}
-              </Row>
-              <Row Icon={PersonIcon} classes={classes}>
-                {mission?.recipientName}
-              </Row>
-              <Row classes={classes}>
-                {recipientPhoneNumber && (
-                  <a href={`tel:"${recipientPhoneNumber}"`}>{recipientPhoneNumber}</a>
-                )}
-              </Row>
-            </Card>
-
             <Label classes={classes}>Notes</Label>
             <Row classes={classes}>
               {mission?.notes ? mission.notes : "No additional informations"}
