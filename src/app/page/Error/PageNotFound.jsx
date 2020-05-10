@@ -13,10 +13,7 @@ const pageNotFoundStyles = makeStyles((theme) => ({
     height: "100%",
     width: "100%",
   },
-  heading: Object.assign(theme.typography.h1, {
-    textAlign: "center",
-    marginBottom: "1rem",
-  }),
+  heading: { ...theme.typography.h1, textAlign: "center", marginBottom: "1rem" },
   body: {
     marginBottom: "1.5rem",
   },
