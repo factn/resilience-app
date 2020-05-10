@@ -55,6 +55,10 @@ const styles = (theme) => ({
   column: {
     paddingRight: theme.spacing(2),
   },
+  onTopOfNotReady: {
+    zIndex: 2,
+    position: "relative",
+  },
   pickup: {
     color: theme.palette.success.main,
     fontWeight: 600,
@@ -131,6 +135,7 @@ const MissionCard = withStyles(styles)(({ classes, mission }) => {
           </Grid>
         )}
         <CardHeader
+          className={classes.onTopOfNotReady}
           action={<InfoOutlinedIcon />}
           title={<DetailsText showType={false} mission={mission} />}
           avatar={<img height="20" src={appleIcon} alt="" />}
@@ -201,7 +206,7 @@ const MissionCard = withStyles(styles)(({ classes, mission }) => {
               </Grid>
             )}
             {mission.status === MissionStatus.assigned && (
-              <Grid item xs={6}>
+              <Grid item xs={6} className={classes.onTopOfNotReady}>
                 <UnassignMeButton mission={mission} user={user} />
               </Grid>
             )}
