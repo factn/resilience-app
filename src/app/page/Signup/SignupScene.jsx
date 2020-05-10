@@ -13,6 +13,7 @@ import PhoneAuthPage from "./PhoneAuth";
 import SignupSuccessPage from "./SignupSuccess";
 import UserProfilePage from "./UserProfile";
 import { withRouter } from "react-router-dom";
+import { routes } from "../../routing";
 
 const Tabs = {
   GET_STARTED: "volunteer call to action to sign up",
@@ -129,7 +130,7 @@ function SignupScene(props) {
       break;
     case Tabs.SUCCESS:
     default:
-      Active = <SignupSuccessPage onClick={() => props.history.push("/missions")} />;
+      Active = <SignupSuccessPage onClick={() => props.history.push(routes.missions.main)} />;
       break;
   }
 

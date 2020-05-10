@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 
 import { MissionList } from "../../component";
 import { Page } from "../../layout";
+import { routes, getLinkWithQuery } from "../../routing";
 
 /**
  * Component for listing created missions
@@ -27,7 +28,10 @@ const MissionsPage = ({ auth, history }) => {
         isEmptyText="You have not created any missions"
       />
       {/* dummy link to feedback page, add this link to dashboard when it is ready} */}
-      <Link to="/missions/feedback/123" aria-label="Submit feedback">
+      <Link
+        to={getLinkWithQuery(routes.missions.feedback, { id: "123" })}
+        aria-label="Submit feedback"
+      >
         Submit feedback
       </Link>
     </Page>

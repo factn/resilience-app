@@ -19,6 +19,7 @@ import DeliverMissionButton from "./DeliverMissionButton";
 import UnassignMeButton from "./UnassignMeButton";
 import { useSelector } from "react-redux";
 import { MissionStatus } from "../model/schema";
+import { routes, getLinkWithQuery } from "../routing";
 
 const styles = (theme) => ({
   root: {
@@ -88,7 +89,7 @@ const MissionCardContent = ({ classes, contentItems }) => (
  */
 const MissionCard = withStyles(styles)(({ children, classes, mission, ...rest }) => {
   const status = mission.status;
-  const detailsLink = "/missions/" + mission.uid;
+  const detailsLink = getLinkWithQuery(routes.missions.details, { id: mission.uid });
   const location = mission.pickUpLocation?.address || "no data";
   const dropOffLocation = mission.deliveryLocation?.address || "no data";
   const timeWindowType = mission.pickUpWindow?.timeWindowType || "no data";

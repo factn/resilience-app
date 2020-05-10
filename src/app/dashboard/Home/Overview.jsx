@@ -8,6 +8,7 @@ import { color } from "../../../theme";
 import { Mission } from "../../model";
 import OverviewItem from "./OverviewItem";
 import { DownloadMissionsCsv } from "../../component";
+import { routes } from "../../routing";
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -41,7 +42,7 @@ const Overview = ({ incomplete, inDone, inPlanning, inProgress, inProposed }) =>
               title="Proposed Missions"
               data={inProposed}
               linkLabel="View Proposed Missions"
-              link="/dashboard/missions?view=inProposed"
+              link={`${routes.organizer.dashboard.missions}?view=inProposed`}
               textColor={color.red}
             />
           </Card>
@@ -55,7 +56,7 @@ const Overview = ({ incomplete, inDone, inPlanning, inProgress, inProposed }) =>
               title="Missions In Planning"
               data={inPlanning}
               linkLabel="View Missions In Planning"
-              link="/dashboard/missions?view=inPlanning"
+              link={`${routes.organizer.dashboard.missions}?view=inPlanning`}
               textColor={color.darkOrange}
             />
           </Card>
@@ -69,7 +70,7 @@ const Overview = ({ incomplete, inDone, inPlanning, inProgress, inProposed }) =>
               title="Missions In Progress"
               data={inProgress}
               linkLabel="View Missions In Progress"
-              link="/dashboard/missions?view=inProgress"
+              link={`${routes.organizer.dashboard.missions}?view=inProgress`}
               textColor={color.deepPurple}
             />
           </Card>
@@ -81,7 +82,7 @@ const Overview = ({ incomplete, inDone, inPlanning, inProgress, inProposed }) =>
               title="Completed Missions"
               data={inDone}
               linkLabel="View Completed Missions"
-              link="/dashboard/missions?view=inDone"
+              link={`${routes.organizer.dashboard.missions}?view=inDone`}
               textColor={color.green}
             />
           </Card>

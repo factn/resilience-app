@@ -10,6 +10,7 @@ import Popup from "../../component/Popup";
 import { Page } from "../../layout";
 import { firstTimeSignIn } from "./firebaseLogin";
 import { H6, TypographyWrapper } from "../../component";
+import { routes } from "../../routing";
 
 /**
  * Component for Login Page
@@ -29,7 +30,7 @@ const LoginPage = (props) => {
   };
   function handlePopupClose() {
     setPopupOpen(false);
-    history.push("/");
+    history.push(routes.home);
   }
 
   if (!isLoaded(auth)) {
@@ -51,7 +52,7 @@ const LoginPage = (props) => {
         </Page>
       );
     }
-    return <Redirect to="/" />;
+    return <Redirect to={routes.home} />;
   }
 };
 
