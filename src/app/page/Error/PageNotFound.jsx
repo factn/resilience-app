@@ -6,6 +6,7 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 import { Button } from "../../component";
 import { Body1, H1 } from "../../component/Typography";
 import pageNotFoundImg from "../../../img/app-illustrations/error_404.png";
+import { routes } from "../../routing";
 
 const pageNotFoundStyles = makeStyles((theme) => ({
   graphic: {
@@ -26,7 +27,9 @@ const pageNotFoundStyles = makeStyles((theme) => ({
 
 const PageNotFound = () => {
   const classes = pageNotFoundStyles();
-  const linkToHome = React.forwardRef((props, ref) => <RouterLink ref={ref} to="/" {...props} />);
+  const linkToHome = React.forwardRef((props, ref) => (
+    <RouterLink ref={ref} to={routes.home} {...props} />
+  ));
   return (
     <div className="page-not-found">
       <img

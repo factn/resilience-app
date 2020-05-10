@@ -6,6 +6,7 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 import { Button } from "../../component";
 import { Body1, H1 } from "../../component/Typography";
 import unauthorizedImg from "../../../img/app-illustrations/error_401.png";
+import { routes } from "../../routing";
 
 const unauthorizedStyles = makeStyles((theme) => ({
   graphic: {
@@ -26,7 +27,9 @@ const unauthorizedStyles = makeStyles((theme) => ({
 
 const Unauthorized = () => {
   const classes = unauthorizedStyles();
-  const linkToHome = React.forwardRef((props, ref) => <RouterLink ref={ref} to="/" {...props} />);
+  const linkToHome = React.forwardRef((props, ref) => (
+    <RouterLink ref={ref} to={routes.home} {...props} />
+  ));
 
   return (
     <div className="unauthorized">
