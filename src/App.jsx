@@ -73,6 +73,9 @@ function App() {
                   <AppRoute path={routes.missions.feedback} component={MissionFeedback} />
                   <AppRoute path={routes.missions.details} component={MissionDetails} />
                   <AppRoute path={routes.user.profile} component={UserProfile} />
+                  <AppRoute path={routes.unauthorized}>
+                    <ErrorLanding errorCode={401} />
+                  </AppRoute>
                   <Route path="*">
                     <ErrorLanding errorCode={404} />
                   </Route>

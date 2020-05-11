@@ -1,4 +1,3 @@
-import { Route } from "react-router-dom";
 import routes, { IRoute } from "./routes";
 import { PERMISSIONS } from "../model/permissions/Permissions";
 import { addPermissionToRoutes, IRoutePermission } from "./services/utils";

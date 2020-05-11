@@ -1,39 +1,37 @@
 import PropTypes from "prop-types";
 import React from "react";
 import { useSelector } from "react-redux";
-import { isEmpty, isLoaded } from "react-redux-firebase";
 import { Redirect, Route } from "react-router-dom";
 
-import routes from "../routes";
-import permissions from "../services/RoutingService";
+import RoutingService from "../services/RoutingService";
 
-function AppRoute({ children, ...rest }) {
+function AppRoute({ children, component, ...rest }) {
   const auth = useSelector((state) => state.firebase.auth);
-  return (
-    <Route
-      {...rest}
-      render={({ location }) =>
-        isLoaded(auth) && !isEmpty(auth) ? (
-          children
-        ) : (
-          <Redirect
-            to={{
-              pathname: routes.login,
-              state: {
-                from: location,
-                referrer: location,
-                warning: true,
-              },
-            }}
-          />
-        )
-      }
-    />
-  );
+  const handleRender = ({ location }) => {
+    const routeAccess = RoutingService.useAuth(auth).canAccessRoute(location.pathname);
+    if (routeAccess.permissionGranted) {
+      return component ? React.createElement(component, rest) : children;
+    } else {
+      return (
+        <Redirect
+          to={{
+            pathname: routeAccess.route,
+            state: {
+              from: location,
+              referrer: location,
+              warning: true,
+            },
+          }}
+        />
+      );
+    }
+  };
+  return <Route {...rest} render={handleRender} />;
 }
 
 AppRoute.propTypes = {
   children: PropTypes.element,
+  component: PropTypes.elementType,
 };
 
 export default AppRoute;

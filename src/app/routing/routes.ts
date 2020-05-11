@@ -5,6 +5,7 @@ const routes: IRoutes = {
   home: "/",
   about: "/about",
   login: "/login",
+  unauthorized: "/oops",
   request: {
     start: "/request",
     foodbox: "/request/foodbox",

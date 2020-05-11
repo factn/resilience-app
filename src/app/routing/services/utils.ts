@@ -1,4 +1,4 @@
-import routes, { IRoute } from "../routes";
+import { IRoute } from "../routes";
 import { PERMISSIONS } from "../../model";
 
 export interface IReplacementDefinition {
