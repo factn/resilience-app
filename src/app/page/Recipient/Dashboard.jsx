@@ -34,6 +34,8 @@ const stepMap = (path) =>
     [routes.recipient.dashboard.completed]: 1,
   }[path] || 0);
 
+const completedStatus = [MissionStatus.delivered, MissionStatus.succeeded];
+
 export default function () {
   const classes = useStyles();
   const location = useLocation();
@@ -41,13 +43,16 @@ export default function () {
   const [missions, setMissions] = useState({ submitted: [], completed: [] });
 
   useEffect(() => {
-    User.getAllRequstedMissions(auth.uid).then((missions) => {
-      const submitted = missions.filter(
-        ({ status }) => !(status === MissionStatus.delivered || status === MissionStatus.succeeded)
-      );
-      const completed = missions.filter(
-        ({ status }) => status === MissionStatus.delivered || status === MissionStatus.succeeded
-      );
+    User.getAllRequestedMissions(auth.uid).then((missions) => {
+      let submitted = [];
+      let completed = [];
+
+      missions.forEach((mission) => {
+        completedStatus.includes(mission.status)
+          ? completed.push(mission)
+          : submitted.push(mission);
+      });
+
       setMissions({ submitted, completed });
     });
   }, [auth.uid]);
@@ -85,7 +90,7 @@ export default function () {
           }
         ></Tab>
       </Tabs>
-      <Box margin="0 1rem">
+      <Box margin="0 1rem" height="100%">
         <Switch>
           <Route path={routes.recipient.dashboard.submitted}>
             <RequestsList missions={missions.submitted} />

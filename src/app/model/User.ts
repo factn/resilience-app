@@ -134,7 +134,7 @@ class User extends BaseModel {
       });
   }
 
-  getAllRequstedMissions(userUid: string) {
+  getAllRequestedMissions(userUid: string) {
     return this.getCollection("organizations")
       .doc(Organization.uid)
       .collection("missions")
