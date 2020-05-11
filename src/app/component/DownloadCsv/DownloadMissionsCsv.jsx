@@ -3,6 +3,7 @@ import dot from "dot-object";
 import PropTypes from "prop-types";
 import React from "react";
 import _ from "lodash";
+import ErrorBoundary from "../ErrorBoundary";
 import Grid from "@material-ui/core/Grid";
 
 const DownloadMissionsCsv = ({ data, filename, label }) => {
@@ -28,14 +29,16 @@ const DownloadMissionsCsv = ({ data, filename, label }) => {
   //const headers = {};
   return (
     <Grid item>
-      <CSVLink
-        data={flattened}
-        filename={fileNameWithTimestamp}
-        className="btn btn-primary"
-        target="_blank"
-      >
-        {label}
-      </CSVLink>
+      <ErrorBoundary>
+        <CSVLink
+          data={flattened}
+          filename={fileNameWithTimestamp}
+          className="btn btn-primary"
+          target="_blank"
+        >
+          {label}
+        </CSVLink>
+      </ErrorBoundary>
     </Grid>
   );
 };
