@@ -1,4 +1,3 @@
-import CircularProgress from "@material-ui/core/CircularProgress";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
 
@@ -134,8 +133,6 @@ function SignupScene(props) {
       Active = <SignupSuccessPage onClick={() => props.history.push(routes.missions.main)} />;
       break;
   }
-
-  if (loading) return <CircularProgress />;
 
   const showSuccessSnackbar = !errorSnackbarMessage && activeTab === 4;
   const snackbarOpen = errorSnackbarMessage || showSuccessSnackbar;

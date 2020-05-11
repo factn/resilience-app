@@ -5,7 +5,7 @@ import { createStore } from "redux";
 
 import ThemeProvider from "../ThemeProvider";
 import theme from "../../../theme";
-import MissionCard from "../MissionCard";
+import MissionCard from "../MissionComponent/MissionCard";
 
 const renderMissionCard = (props) => {
   const initialState = {

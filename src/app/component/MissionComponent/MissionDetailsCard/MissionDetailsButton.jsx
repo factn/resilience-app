@@ -3,8 +3,7 @@ import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
 
-import { color } from "../../../theme";
-import { Mission } from "../../model";
+import Mission from "../../../model/Mission";
 import UnassignMeButton from "../UnassignMeButton";
 
 const StyledButton = styled(Button)`

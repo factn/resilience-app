@@ -8,18 +8,24 @@ import MuiExpansionPanelActions from "@material-ui/core/ExpansionPanelActions";
 import MuiExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import MuiExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import MuiExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import MuiButton from "@material-ui/core/Button";
 import MuiGrid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
-import { ShowDeliveryRoute } from "../../component/";
+import ShowDeliveryRoute from "../../ShowDeliveryRoute";
 
-import { Button, MissionList } from "../index";
+import MissionList from "../MissionList";
 
 const missionGroupStyles = makeStyles((theme) => ({
   expansionPanelSummary: {
+    ...theme.typography.h6,
+    letterSpacing: "1px",
     background: theme.color.black,
     color: theme.color.white,
     paddingLeft: "0.75rem",
     paddingRight: "0.75rem",
+    textTransform: "uppercase",
+    border: "1px solid",
+    borderColor: theme.color.blue,
   },
   expandMoreIcon: {
     color: theme.color.white,
@@ -33,6 +39,16 @@ const missionGroupStyles = makeStyles((theme) => ({
   details: {
     padding: 0,
   },
+  action: {
+    position: "relative",
+  },
+  actionDisabledOver: {
+    background: "rgba(245, 245, 245, 0.9)",
+    height: "100%",
+    width: "100%",
+    zIndex: 1,
+    position: "absolute",
+  },
 }));
 
 /**
@@ -43,10 +59,15 @@ const missionGroupStyles = makeStyles((theme) => ({
 const MissionGroup = ({ callToAction, group, groupCallToAction, showViewRoute }) => {
   const { icon, onClick, text } = callToAction || {};
   const { actionIcon, actionText } = { actionText: text, actionIcon: icon };
-  const { groupActionIcon, showGroupAction } = groupCallToAction || {};
+
+  // default to false if not set
+  const { checkGroupActionDisabled, groupActionIcon, showGroupAction } = groupCallToAction || {};
   const classes = missionGroupStyles();
   const history = useHistory();
   const missions = group.missions;
+  missions.sort((m1, m2) => {
+    return Number(m2.readyToStart) - Number(m1.readyToStart);
+  });
   const numberOfMissions = missions.length;
   const onClickMissionGroupButton = (groupUid) => {
     missions.forEach((mission) => {
@@ -57,13 +78,13 @@ const MissionGroup = ({ callToAction, group, groupCallToAction, showViewRoute })
   const viewRoute = showViewRoute && <ShowDeliveryRoute missions={missions} />;
 
   const groupAction = showGroupAction && (
-    <Button
+    <MuiButton
       fullWidth={true}
       startIcon={groupActionIcon}
       onClick={() => onClickMissionGroupButton(group.groupUid)}
     >
       {actionText} ({numberOfMissions})
-    </Button>
+    </MuiButton>
   );
 
   return (
@@ -96,8 +117,13 @@ const MissionGroup = ({ callToAction, group, groupCallToAction, showViewRoute })
         />
       </MuiExpansionPanelDetails>
       <MuiExpansionPanelActions>
-        {viewRoute}
-        {groupAction}
+        <MuiGrid className={classes.action}>
+          {checkGroupActionDisabled && checkGroupActionDisabled(missions) && (
+            <MuiGrid className={classes.actionDisabledOver} />
+          )}
+          {viewRoute}
+          {groupAction}
+        </MuiGrid>
       </MuiExpansionPanelActions>
     </MuiExpansionPanel>
   );

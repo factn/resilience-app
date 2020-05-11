@@ -14,6 +14,7 @@ import MissionTypeHeading from "./MissionTypeHeading";
 import { volunteerDashboardEmptyTabMessage } from "../../../constants";
 import { FoodBoxIcon, UserPhoneUnverifiedPopup } from "../../component";
 import { H1, Div } from "../../component";
+import _ from "../../utils/lodash";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -154,6 +155,9 @@ export default function VolunteerHome({ currentUser }) {
             currentUser={currentUser}
             actionText="Start Mission"
             actionIcon={<MuiPlayCircleFilledIcon />}
+            checkGroupActionDisabled={(missions) =>
+              _.some(missions, (mission) => !mission.readyToStart)
+            }
             showGroupAction={true}
             groupActionIcon={<MuiPlayCircleFilledIcon />}
             isEmptyText={volunteerDashboardEmptyTabMessage.accepted}
