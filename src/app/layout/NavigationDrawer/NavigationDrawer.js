@@ -104,7 +104,7 @@ export default function TemporaryDrawer() {
           </Link>
         </PrivateComponent>
         <PrivateComponent>
-          <Link to={routes.missions.createdByUser} className={classes.link}>
+          <Link to={routes.recipient.dashboard.home} className={classes.link}>
             <ListItem button>
               <ListItemIcon>
                 <AssignmentIcon classes={{ root: classes.colorIcon }} fontSize="large" />
