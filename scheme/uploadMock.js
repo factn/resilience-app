@@ -1,11 +1,21 @@
 const admin = require("firebase-admin");
-
 const data = require("./data.json");
 let serviceAccount = process.env.FIREBASE_SECRET;
 
+const firebaseConfig = {
+  apiKey: "AIzaSyBnuxL3OFy6EbR5T7XlkehkyXbOxnswQtQ",
+  authDomain: "mutualaid-757f6.firebaseapp.com",
+  databaseURL: "https://mutualaid-757f6.firebaseio.com",
+  projectId: "mutualaid-757f6",
+  storageBucket: "mutualaid-757f6.appspot.com",
+  messagingSenderId: "57281805127",
+  appId: "1:57281805127:web:7c025105ef5fb5e5232a62",
+  measurementId: "G-7L9JFWQHS2",
+};
+
 if (process.env.NODE_ENV === "development") {
   require("dotenv").config();
-  admin.initializeApp();
+  admin.initializeApp(firebaseConfig);
   db = admin.firestore();
 } else {
   const credential = JSON.parse(serviceAccount);

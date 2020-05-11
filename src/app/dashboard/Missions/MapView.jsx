@@ -74,11 +74,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Overview = ({ currentMission, missions, setSelectedMission, volunteers }) => {
+const Overview = ({ org, currentMission, missions, setSelectedMission, volunteers }) => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
 
-  const position = { lat: 37.773972, lng: -122.431297 };
+  const position = { lat: org.location.lat, lng: org.location.lng };
+
   const [viewport, setViewport] = useState({
     center: position,
     zoom: 12,
