@@ -3,6 +3,9 @@ import routes, { IRoute, IRoutes } from "../routes";
 import ROUTE_PERMISSIONS from "../RoutePermissions";
 import { IPermissionSet, IRoutePermissions } from "./utils";
 import { PERMISSIONS } from "../../model";
+import userPermissionsService, {
+  UserPermissionsService,
+} from "../../model/permissions/UserPermissionsService";
 
 export class RoutingService {
   private _auth: AuthState = {};
@@ -46,7 +49,11 @@ export class RoutingService {
     return entitlements;
   }
 
-  constructor(private _routes: IRoutes, private _routePermissions: IRoutePermissions) {
+  constructor(
+    private _routes: IRoutes,
+    private _routePermissions: IRoutePermissions,
+    private _userPermissions: UserPermissionsService
+  ) {
     console.log("ROUTER PERMISSIONS", _routePermissions);
   }
 
@@ -79,4 +86,4 @@ export interface AuthState {
   isLoaded?: boolean;
   isEmpty?: boolean;
 }
-export default new RoutingService(routes, ROUTE_PERMISSIONS);
+export default new RoutingService(routes, ROUTE_PERMISSIONS, userPermissionsService);

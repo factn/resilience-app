@@ -38,7 +38,7 @@ const fsVolunteer = (orgUid: string) => ({
   storeAs: "volunteers",
 });
 
-class User extends BaseModel {
+export class User extends BaseModel {
   VolunteerStatus = VolunteerStatus;
 
   fsVolunteer = fsVolunteer;
