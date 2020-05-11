@@ -30,11 +30,6 @@ const useStyles = makeStyles((theme) => ({
     width: `calc(100% - ${theme.spacing(4)}px)`,
     marginBottom: theme.spacing(2),
   },
-  CheckCircleIcon: {
-    color: "#66D85D",
-    height: "48px",
-    width: "48px",
-  },
   Icon: {
     height: "48px",
     width: "48px",
@@ -117,7 +112,7 @@ const FeedbackWithSuccess = ({ deliveryImage, handleChange, handleSubmit, values
   const feedbackPlaceholder = "Leave some feedback if desired!";
   return (
     <Grid container direction="column" alignItems="center" className={classes.root}>
-      <CheckCircleIcon className={classes.CheckCircleIcon} fontSize="large"/>
+      <CheckCircleIcon color="success" className={classes.Icon} />
       <H1 className={classes.Heading}>Mission success!</H1>
       <img src={deliveryImage} alt="Delivery confirmation" className={classes.DeliveryImage} />
       <Body1 className={classes.Description}>
