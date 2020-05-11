@@ -119,7 +119,7 @@ const MissionsPage = () => {
       >
         <Switch>
           <AppRoute path={routes.organizer.dashboard.missions} component={DashboardMissions} />
-          <AppRoute path={routes.organizer.dashboard.home} component={() => <Overview />} />
+          <AppRoute path={routes.organizer.dashboard.home} component={Overview} />
         </Switch>
       </main>
     </div>

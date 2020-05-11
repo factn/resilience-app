@@ -1,4 +1,3 @@
-import { useSelector } from "react-redux";
 import { isEmpty, isLoaded } from "react-redux-firebase";
 import routes, { IRoute, IRoutes } from "../routes";
 import ROUTE_PERMISSIONS from "../RoutePermissionsList";
