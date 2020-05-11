@@ -46,7 +46,9 @@ export class RoutingService {
     return entitlements;
   }
 
-  constructor(private _routes: IRoutes, private _routePermissions: IRoutePermissions) {}
+  constructor(private _routes: IRoutes, private _routePermissions: IRoutePermissions) {
+    console.log("ROUTER PERMISSIONS", _routePermissions);
+  }
 
   public useAuth(auth: AuthState): RoutingService {
     this._auth = auth;
