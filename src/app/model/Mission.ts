@@ -360,7 +360,7 @@ class Mission extends BaseModel {
     //TODO: update firestore.rules to allow only if the mission is created by that user
     return this.update(missionUid, {
       feedbackNotes: feedback || "",
-    })
+    });
   }
 
   /**
@@ -373,7 +373,7 @@ class Mission extends BaseModel {
     return this.update(missionUid, {
       status: MissionStatus.succeeded,
       feedbackNotes: feedback || "",
-    })
+    });
   }
 
   filterByStatus = (missions: MissionInterface[], status: MissionStatus) =>
