@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 import React from "react";
 
-import { Body2 } from "../";
+import { Body2 } from "../../";
 
 const useStyles = makeStyles((theme) => ({
   avatar: {

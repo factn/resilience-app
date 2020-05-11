@@ -4,6 +4,7 @@ import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 
 import { H1, Body1 } from "../../../component";
+import { routes } from "../../../routing";
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -32,7 +33,7 @@ export default function SuccessPage() {
         variant="contained"
         color="primary"
         component={Link}
-        to="/"
+        to={routes.home}
       >
         Next
       </Button>

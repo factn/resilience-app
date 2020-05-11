@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 
 import Popup from "./Popup";
 import { H5 } from "./";
+import { routes } from "../routing";
 
 /**
  * Functional component used to encapsulate popup for when a user is unverified for their action
@@ -21,7 +22,7 @@ const UserPhoneUnverifiedPopup = ({ handleClose, open }) => (
         <H5>You need to add and verify your phone number to volunteer for a Mission.</H5>
       </Grid>
       <Grid item>
-        <Link to="/user/profile">Go to Profile Page to add Phone number</Link>
+        <Link to={routes.user.profile}>Go to Profile Page to add Phone number</Link>
       </Grid>
     </Grid>
   </Popup>

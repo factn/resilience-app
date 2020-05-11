@@ -6,15 +6,16 @@ import ErrorPage from "./foodbox/ErrorPage";
 import FoodboxFlow from "./foodbox/FoodboxFlow";
 import SuccessPage from "./foodbox/SuccessPage";
 import Start from "./Start";
+import { routes } from "../../routing";
 
 function RequestPage() {
   return (
     <Page>
       <Switch>
-        <Route exact path="/request" component={Start} />
-        <Route exact path="/request/foodbox" component={FoodboxFlow} />
-        <Route path="/request/foodbox/success/:type" component={SuccessPage} />
-        <Route path="/request/foodbox/error" component={ErrorPage} />
+        <Route exact path={routes.request.start} component={Start} />
+        <Route exact path={routes.request.foodbox} component={FoodboxFlow} />
+        <Route path={routes.request.success} component={SuccessPage} />
+        <Route path={routes.request.error} component={ErrorPage} />
       </Switch>
     </Page>
   );

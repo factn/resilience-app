@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
 
-import { color } from "../../../theme";
-import { Mission } from "../../model";
+import Mission from "../../../model/Mission";
+import UnassignMeButton from "../UnassignMeButton";
 
 const StyledButton = styled(Button)`
   flex-grow: 1;
@@ -72,13 +72,7 @@ const MissionDetailsUnassignMeButton = ({ status, unassignFromMission }) =>
   status === Mission.Status.tentative ||
   (status === Mission.Status.assigned && (
     <Grid container justify="center">
-      <StyledButton
-        style={{ color: color.red, textDecoration: "underline" }}
-        disableElevation
-        onClick={unassignFromMission}
-      >
-        Unassign Me
-      </StyledButton>
+      <UnassignMeButton unassignMission={unassignFromMission} />
     </Grid>
   ));
 

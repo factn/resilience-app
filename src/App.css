@@ -1,12 +1,11 @@
 .App {
-  text-align: center;
+  text-align: left;
   height: 100vh;
   display: flex;
   flex-direction: column;
   display: flex;
   align-items: center;
   text-align: center;
-  font-family: "Open Sans, sans-serif";
 }
 
 .App-logo {
@@ -51,4 +50,12 @@
 }
 .mission-group .mission-group-heading .MuiExpansionPanelSummary-content {
   margin: 0;
+}
+
+/* Typography */
+.body-small-bold {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 24px;
 }

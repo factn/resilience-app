@@ -5,9 +5,8 @@ import PropTypes from "prop-types";
 import React, { useState } from "react";
 import styled from "styled-components";
 
-import { H5 } from "../";
-import selectImage from "../../../img/selectImage.svg";
-import { color } from "../../../theme";
+import { H5 } from "../../";
+import selectImage from "../../../../img/selectImage.svg";
 import MissionDeliveredImagePicker from "./MissionDeliveredImagePicker";
 
 const StyledButton = styled(Button)`
@@ -19,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: theme.spacing(1),
     paddingRight: theme.spacing(1),
     fontSize: 48,
-    fill: color.deepPurple,
+    fill: theme.color.deepPurple,
     "&:hover": {
       cursor: "pointer",
     },

@@ -133,6 +133,19 @@ class User extends BaseModel {
         console.log(error);
       });
   }
+
+  getAllRequestedMissions(userUid: string) {
+    return this.getCollection("organizations")
+      .doc(Organization.uid)
+      .collection("missions")
+      .where("recipientUid", "==", userUid)
+      .get()
+      .then((snapshot) => snapshot.docs.map((doc) => doc.data()))
+      .catch((error) => {
+        console.error(error);
+        return [];
+      });
+  }
 }
 
 export default new User("users", defaultUserData);

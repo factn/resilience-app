@@ -11,6 +11,15 @@ export interface Location {
   label: string;
 }
 
+export interface DonationLog {
+  amount: string;
+  createdDate: string;
+  method: string;
+  recieptId: string;
+  donorName: string;
+  donorEmail: string;
+}
+
 export class Resource {
   uid!: string;
   name!: string;
@@ -37,6 +46,8 @@ export class OrganizationInterface {
   name!: string;
   /*The Location of the Organization*/
   location?: Location;
+  phoneNumber!: string;
+  EINNumber?: string;
   /**
    * There are subcollection, they are here for references
   resources?: Map<string, Resource>;
@@ -187,6 +198,7 @@ export interface MissionInterface {
 
   pickUpWindow: TimeWindow | null; // nb this can be an exact time or can be null
   pickUpLocation: Location;
+  pickUpNotes: string;
 
   deliveryWindow: TimeWindow | null;
   deliveryLocation: Location; // default to recipient location

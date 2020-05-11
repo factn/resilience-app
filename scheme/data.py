@@ -103,6 +103,8 @@ def organization():
     return dict(
         uid=genId(),
         name=f.name(),
+        phoneNumber=f.phone_number(),
+        EINNumber='12-3456789',
         location=location(),
         localTimeZone='',
         missions={},
@@ -192,7 +194,6 @@ def mission(orgId, volunteer, foodboxName):
         readyToStart=readyToStart,
 
         missionDetails=mission_details,
-        notes=f.text(),
 
         groupUid=groupUid,
         groupDisplayName=groupDisplayName,
@@ -211,12 +212,14 @@ def mission(orgId, volunteer, foodboxName):
 
         pickUpWindow=timeWindow(),
         pickUpLocation=location(),
+        pickUpNotes=f.text(),
+
         deliveryWindow=timeWindow(),
         deliveryLocation=location(),
-
         deliveryConfirmationImage='',
-        deliveryNotes='',
-        feedbackNotes='',
+        deliveryNotes=f.text(),
+
+        feedbackNotes=f.text(),
 
         createdDate='2020/05/02',
         fundedDate='2020/05/02'

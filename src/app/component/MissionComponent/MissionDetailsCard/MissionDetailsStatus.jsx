@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import React from "react";
 
-import { Mission } from "../../model";
+import Mission from "../../../model/Mission";
 
 const titleCase = (str) => ("" + str).charAt(0).toUpperCase() + ("" + str).substr(1);
 

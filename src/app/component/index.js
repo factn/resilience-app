@@ -2,9 +2,11 @@ import AddressInput from "./AddressInput";
 import Button from "./Button";
 import Chip from "./Chip";
 import { FoodBoxIcon } from "./icons";
-import MissionCard from "./MissionCard";
-import MissionGroup from "./MissionGroup";
-import MissionList from "./MissionList";
+
+import MissionCard from "./MissionComponent/MissionCard";
+import MissionGroup from "./MissionComponent/MissionGroup";
+import MissionList from "./MissionComponent/MissionList";
+
 import DownloadMissionsCsv from "./DownloadCsv";
 import Popup from "./Popup";
 import PrivateComponent from "./PrivateComponent";

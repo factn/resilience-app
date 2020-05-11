@@ -7,15 +7,11 @@ import { MissionList, MissionGroup, ShowDeliveryRoute } from "../../component";
 import { Map, Marker, TileLayer } from "react-leaflet";
 import Box from "@material-ui/core/Box";
 
-/**
- * Component for listing volunteered missions
- *
- * @component
- */
 const VolunteerHomeMissionList = ({
   action,
   actionIcon,
   actionText,
+  checkGroupActionDisabled,
   groupActionIcon,
   isEmptyText,
   missions,
@@ -33,6 +29,7 @@ const VolunteerHomeMissionList = ({
       groupCallToAction={{
         showGroupAction,
         groupActionIcon,
+        checkGroupActionDisabled,
       }}
       callToAction={{
         text: actionText,

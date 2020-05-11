@@ -55,8 +55,8 @@ KeyDatePickerContainer.propTypes = {
   id: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   margin: PropTypes.string.isRequired,
-  onChange: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+  value: PropTypes.object.isRequired,
 };
 
 export default KeyDatePickerContainer;

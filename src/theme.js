@@ -10,6 +10,7 @@ export const color = {
   pink: "#ffefef",
   blue: "#3739B5",
   red: "#DA0B46",
+  successGreen: "#66D85D",
   green: "#024b30",
   darkOrange: "#EC7016",
   darkBlue: "#110079",
@@ -38,24 +39,35 @@ export default {
       main: "#DFE3E8",
     },
     primary: {
+      light: color.secondaryBlue,
       main: color.vibrantPurple,
     },
     secondary: {
       main: color.secondaryBlue,
     },
+    success: {
+      main: color.successGreen,
+    },
   },
   typography: {
+    fontFamily: [
+      "-apple-system",
+      '"Open Sans"',
+      "sans-serif",
+      '"Segoe UI"',
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join(","),
     h1: {
       fontWeight: "bold",
       fontSize: "32px",
       lineHeight: "48px",
-      color: color.blue,
     },
     h2: {
       fontWeight: "semi-bold",
       fontSize: "24px",
       lineHeight: "36px",
-      color: color.blue,
     },
     h3: {
       fontWeight: "semi-bold",
@@ -66,47 +78,40 @@ export default {
       fontWeight: "semi-bold",
       fontSize: "16px",
       lineHeight: "24px",
-      color: color.blue,
     },
     h5: {
       // still available as some components/pages depend on this
       fontWeight: "semi-bold",
       fontSize: "16px",
       lineHeight: "24px",
-      color: color.blue,
     },
     body1: {
       fontWeight: "regular",
       fontSize: "16px",
       lineHeight: "24px",
-      color: color.black,
     },
     body2: {
       // same as for h5
       fontWeight: "regular",
-      fontSize: "16px",
+      fontSize: "14px",
       lineHeight: "24px",
-      color: color.black,
     },
     button: {
       fontWeight: "bold",
       fontSize: "16px",
       lineHeight: "24px",
       textTransfrom: "uppercase",
-      color: color.black,
     },
     caption: {
       fontWeight: "regular",
       fontSize: "12px",
       lineHeight: "18px",
-      color: color.black,
     },
     overline: {
       fontWeight: "regular",
       fontSize: "12px",
       lineHeight: "18px",
       textTransfrom: "uppercase",
-      color: color.black,
     },
   },
   overrides: {

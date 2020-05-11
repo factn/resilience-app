@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
 
-import { withLoading } from "../HOC";
-import { MissionCard } from "./index";
+import { withLoading } from "../../HOC";
+import MissionCard from "./MissionCard";
 
 /**
  * Component consolidates the listing of missions on `/missions` routes and `/missions/volunteered` routes
@@ -24,7 +24,6 @@ const StyledButtonWithLargeBorder = styled(StyledButton)`
 `;
 
 const MissionListContainer = styled.div`
-  margin-top: 15px;
   width: 100%;
 `;
 
