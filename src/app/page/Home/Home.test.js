@@ -9,6 +9,7 @@ import ThemeProvider from "../../component/ThemeProvider";
 import User from "../../model/User";
 import Mission from "../../model/Mission";
 import Home from "./Home";
+import { OrganizationContext } from "../../model";
 
 describe("Home page", () => {
   beforeAll(() => {
@@ -33,7 +34,9 @@ describe("Home page", () => {
       <Provider store={store}>
         <MemoryRouter>
           <ThemeProvider theme={theme}>
-            <Home />
+            <OrganizationContext.Provider value={{}}>
+              <Home />
+            </OrganizationContext.Provider>
           </ThemeProvider>
         </MemoryRouter>
       </Provider>

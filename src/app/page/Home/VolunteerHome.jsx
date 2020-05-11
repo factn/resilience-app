@@ -1,4 +1,4 @@
-import { Box, Paper, Tab, Tabs, Typography } from "@material-ui/core";
+import { Box, Paper, Tab, Tabs } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
@@ -13,6 +13,7 @@ import VolunteerHomeMissionList from "./VolunteerHomeMissionList";
 import MissionTypeHeading from "./MissionTypeHeading";
 import { volunteerDashboardEmptyTabMessage } from "../../../constants";
 import { FoodBoxIcon, UserPhoneUnverifiedPopup } from "../../component";
+import { H1, Div } from "../../component";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
 export default function VolunteerHome({ currentUser }) {
   const classes = useStyles();
   const [value, setValue] = useState(0);
-  const [popUpOpen, setPopUpOpen] = useState(false);
+  const [userPhoneUnverifiedPopupOpen, setUserPhoneUnverifiedPopupOpen] = useState(false);
   const [acceptedMissions, updateAssignedMissions] = useState([]);
   const [inProgressMissions, updateInProgressMissions] = useState([]);
   const [availableMissions, updateAvailableMissions] = useState([]);
@@ -60,7 +61,11 @@ export default function VolunteerHome({ currentUser }) {
   };
 
   const handleStartMission = (missionUid) => {
-    if (!currentUser.phoneNumber) setPopUpOpen(true);
+    //TODO this check should be make in Mission, or in backend
+    if (!currentUser.phoneNumber) {
+      setUserPhoneUnverifiedPopupOpen(true);
+      return;
+    }
 
     Mission.start(currentUser.uid, currentUser, missionUid);
 
@@ -71,7 +76,11 @@ export default function VolunteerHome({ currentUser }) {
   };
 
   const handleAcceptMission = (missionUid) => {
-    if (!currentUser.phoneNumber) setPopUpOpen(true);
+    //TODO this check should be make in Mission, or in backend
+    if (!currentUser.phoneNumber) {
+      setUserPhoneUnverifiedPopupOpen(true);
+      return;
+    }
 
     Mission.accept(currentUser.uid, currentUser, missionUid);
 
@@ -82,12 +91,13 @@ export default function VolunteerHome({ currentUser }) {
   };
 
   const handleDeliveringMissionsFromStarted = (missionUid) => {
+    //TODO this check should be make in Mission, or in backend
     if (!currentUser.phoneNumber) {
-      setPopUpOpen(true);
-    } else {
-      Mission.deliver(currentUser.uid, currentUser, missionUid);
-      updateInProgressMissions(inProgressMissions.filter((m) => m.uid !== missionUid));
+      setUserPhoneUnverifiedPopupOpen(true);
+      return;
     }
+    Mission.deliver(currentUser.uid, currentUser, missionUid);
+    updateInProgressMissions(inProgressMissions.filter((m) => m.uid !== missionUid));
   };
 
   const availableLabel = "Available (" + availableMissions.length + ")";
@@ -118,14 +128,9 @@ export default function VolunteerHome({ currentUser }) {
       <TabPanel value={value} index={0}>
         <MissionTypeHeading label={missionType.label} icon={missionType.icon}></MissionTypeHeading>
         <Box className={classes.tabSectionContainer}>
-          <Typography
-            component="h1"
-            variant="h1"
-            gutterBottom
-            className={classes.sectionHeadingStyles}
-          >
+          <H1 component="h1" gutterBottom className={classes.sectionHeadingStyles}>
             Available
-          </Typography>
+          </H1>
           <VolunteerHomeMissionList
             missions={availableMissions}
             currentUser={currentUser}
@@ -141,14 +146,9 @@ export default function VolunteerHome({ currentUser }) {
       <TabPanel value={value} index={1}>
         <MissionTypeHeading label={missionType.label} icon={missionType.icon}></MissionTypeHeading>
         <Box className={classes.tabSectionContainer}>
-          <Typography
-            component="h1"
-            variant="h1"
-            gutterBottom
-            className={classes.sectionHeadingStyles}
-          >
+          <H1 component="h1" gutterBottom className={classes.sectionHeadingStyles}>
             Scheduled
-          </Typography>
+          </H1>
           <VolunteerHomeMissionList
             missions={acceptedMissions}
             currentUser={currentUser}
@@ -164,14 +164,9 @@ export default function VolunteerHome({ currentUser }) {
       <TabPanel value={value} index={2}>
         <MissionTypeHeading label={missionType.label} icon={missionType.icon}></MissionTypeHeading>
         <Box className={classes.tabSectionContainer}>
-          <Typography
-            component="h1"
-            variant="h1"
-            gutterBottom
-            className={classes.sectionHeadingStyles}
-          >
+          <H1 component="h1" gutterBottom className={classes.sectionHeadingStyles}>
             In Progress
-          </Typography>
+          </H1>
           <VolunteerHomeMissionList
             missions={inProgressMissions}
             currentUser={currentUser}
@@ -182,7 +177,10 @@ export default function VolunteerHome({ currentUser }) {
           />
         </Box>
       </TabPanel>
-      <UserPhoneUnverifiedPopup open={popUpOpen} handleClose={() => setPopUpOpen(false)} />
+      <UserPhoneUnverifiedPopup
+        open={userPhoneUnverifiedPopupOpen}
+        handleClose={() => setUserPhoneUnverifiedPopupOpen(false)}
+      />
     </div>
   );
 }
@@ -191,8 +189,7 @@ function TabPanel(props) {
   const { children, index, value, ...other } = props;
 
   return (
-    <Typography
-      component="div"
+    <Div
       role="tabpanel"
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
@@ -200,7 +197,7 @@ function TabPanel(props) {
       {...other}
     >
       {value === index && children}
-    </Typography>
+    </Div>
   );
 }
 

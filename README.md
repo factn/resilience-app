@@ -1,10 +1,21 @@
-# MutualAid.World App
+<p align="center">
+    <img src="https://github.com/factn/resilience-app/blob/master/src/img/logo.png?raw=true" />
+    <h1 align="center">MutualAid.World App<h1>
+</p>
 
-See demo [here](https://resilience-app.herokuapp.com)!
+<p align="center">
+    <a href="https://github.com/factn/resilience-app/actions?query=workflow%3A%22resilience-app+CI%22">
+        <img alt="Github CI Status" src="https://github.com/factn/resilience-app/workflows/resilience-app%20CI/badge.svg" />
+    </a>
+    <a href="resilience-app.herokuapp.com">
+        <img alt="Heroku deploy status" src="https://heroku-badge.herokuapp.com/?app=resilience-app&style=" />
+    </a>
+    <a href="https://lgtm.com/projects/g/factn/resilience-app/alerts/"><img alt="Total alerts" src="https://img.shields.io/lgtm/alerts/g/factn/resilience-app.svg?logo=lgtm&logoWidth=18"/></a>
+</p>
 
-Please also check out [CONTRIBUTING.md](/CONTRIBUTING.md)
+<hr />
 
----
+Learn more about us at [MutualAid.world](https://mutualaid.world)
 
 ## Repo setup
 
@@ -52,6 +63,12 @@ When running the app locally, you can test the phone verification sign-up flow b
 | ------------ | ----------------- |
 | 7777777777   | 123456            |
 | 2223334444   | 123456            |
+
+For testing payments like donations or buying a foodbox you can use the following paypal credentials
+(alternativly if you need to see the invoices sent and recieved you can create your own sandbox account [here](https://developer.paypal.com/))
+| Email | Password |
+| ------------ | ----------------- |
+| sb-lo7o91424981@personal.example.com| 5XqcCb)u |
 
 Regarding the data schema and how to generate test data, go to [scheme/README.md](./scheme/README.md)
 
@@ -173,35 +190,3 @@ git push heroku master
 ```
 
 - This also runs all of the build and deployment commands, so it may take a moment, but once it's complete, the live link should be updated.
-
-## File structure
-
-| File                                                                                   |                                                                Description                                                                 | Edit? |
-| -------------------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------: | ----: |
-| [config/](<GIT REPOS URL>src/master/config/)                                           |    This is used to build out the webpack. In most cases, this won't need to be edited unless we decide to change our build in some way.    |     N |
-| [node_modules/](<GIT REPOS URL>src/master/node_modules/)                               |               The folder for all of the modules pulled in by Node. Good folder to see what FontAwesome icons are available.                |     N |
-| [public/](<GIT REPOS URL>src/master/public/)                                           | Don't edit this. Anything you put in here will get replaced as this folder is the output of the build and what is viewed by the front end. |     N |
-| [scripts/](<GIT REPOS URL>src/master/scripts/)                                         |              These are the node scripts. Again, unless we are changing the way the build works, this shouldn't need to change              |     N |
-| [src/](<GIT REPOS URL>src/master/src/)                                                 |                                                     This is where the editing happens.                                                     |     Y |
-| [src/fonts/](<GIT REPOS URL>src/master/src/fonts/)                                     |                                                                Local fonts.                                                                |     Y |
-| [src/img/](<GIT REPOS URL>src/master/src/img/)                                         |                                          Local image assets for things like the logo and map pins                                          |     Y |
-| [src/js/](<GIT REPOS URL>src/master/src/js/)                                           |                                                          All JavaScript and JSX.                                                           |     Y |
-| [src/js/components/](<GIT REPOS URL>src/master/src/js/components/)                     |                                              JSX components that are used on different pages                                               |     Y |
-| [src/js/components/inputs/](<GIT REPOS URL>src/master/src/js/components/inputs/)       |     JSX components that are also used as input, select, and textarea elements so that the HTML is standardized with much less typing.      |     Y |
-| [src/js/pages/](<GIT REPOS URL>src/master/src/js/pages/)                               |                    This folder is for all of the JSX components that wrap full pages and are used as Routes in `App.js`                    |     Y |
-| [src/js/resources/](<GIT REPOS URL>src/master/src/js/resources/)                       |                            This is general JavaScript that helps the rest of this code do what it needs to do.                             |     Y |
-| [src/scss/](<GIT REPOS URL>src/master/)                                                |                                                             All Sass partials                                                              |     Y |
-| [src/scss/global/](<GIT REPOS URL>src/master/src/scss/)                                |                                Initial tag settings, set globally before use. Similar to standardized CSS.                                 |     Y |
-| [src/scss/layout/](<GIT REPOS URL>src/master/src/scss/layout/)                         |         This puts the general block elements on the page where they belong and dictate the structure of pages in a general sense.          |     Y |
-| [src/scss/object/](<GIT REPOS URL>src/master/src/scss/object/)                         |                                This is for objects that are rendered on multiple pages in multiple contexts                                |     Y |
-| [src/scss/pages/](<GIT REPOS URL>src/master/src/scss/pages/)                           |                                          This is for the styles specific to one page on the site                                           |     Y |
-| [src/scss/presets/](<GIT REPOS URL>src/master/src/scss/presets/)                       |                  These have variables, mixins, and other presets for how the CSS is written so that it's faster to build.                  |     Y |
-| [src/App.js](<GIT REPOS URL>src/master/src/App.js)                                     |                       This is the base file that sets up the routes and holds the default state of the application.                        |     Y |
-| [src/App.scss](<GIT REPOS URL>src/master/src/App.scss)                                 |                                            This imports all of the style partials from `/scss`                                             |     Y |
-| [src/App.test.js](<GIT REPOS URL>src/master/src/App.test.js)                           |                                      This tests the current connection for `registerServiceWorker.js`                                      |     Y |
-| [src/index.js](<GIT REPOS URL>src/master/src/index.js)                                 |                            This is the true entry point for the application, but is also used to set up Redux.                             |     Y |
-| [src/registerServiceWorker.js](<GIT REPOS URL>src/master/src/registerServiceWorker.js) |                                   This informs how the server needs to build the page based on context.                                    |     N |
-| [.gitignore](<GIT REPOS URL>src/master/.gitignore)                                     |                                                 Git settings for what to ignore on commit                                                  |     Y |
-| [package-lock.json](<GIT REPOS URL>src/master/package-lock.json)                       |                                                         JSON file for NPM settings                                                         |     N |
-| [package.json](<GIT REPOS URL>src/master/package.json)                                 |                                                        JSON file for Yarn settings                                                         |     N |
-| [README.md](<GIT REPOS URL>src/master/README.md)                                       |                                                                 This file                                                                  |     Y |

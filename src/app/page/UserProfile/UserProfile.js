@@ -2,19 +2,18 @@ import { Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import _ from "lodash";
 import PropTypes from "prop-types";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useFirebase } from "react-redux-firebase";
 import { withRouter } from "react-router-dom";
 
 import User from "../../model/User";
 import { Button } from "../../component";
-import { ErrorSnackbar, SuccessSnackbar } from "../../component/Snackbars";
 import { Card, Page } from "../../layout";
-import addressLookUp from "../../utils/addressLookUp";
 import LinkGoogleAccount from "./LinkGoogleAccount";
 import LinkPhoneAccount from "./LinkPhoneAccount";
 import UserOverview from "./UserOverview";
+import { SnackbarContext } from "../../component/Snackbars/Context";
 
 const useStyles = makeStyles((theme) => ({
   spacing: {
@@ -58,6 +57,7 @@ const ProfileControlButtons = ({ cancelAction, editAction, isEdit, saveAction })
 const UserProfile = () => {
   const classes = useStyles();
   const firebase = useFirebase();
+  const snackbarContext = useContext(SnackbarContext);
 
   /*===SETUP Profile Control===*/
   const firebaseAuth = useSelector((state) => state.firebase.auth);
@@ -76,11 +76,18 @@ const UserProfile = () => {
   }
   async function saveProfileAction(e) {
     e.preventDefault();
+    try {
+      await User.update(firebaseAuth.uid, profile);
 
-    setSuccessSnackbarOpen(true);
-    User.update(firebaseAuth.uid, profile);
-
-    setView("view");
+      snackbarContext.show({ message: "Profile saved successfully" });
+    } catch (error) {
+      snackbarContext.show({
+        message: `Unable to save profile: ${error.message}`,
+        type: "error",
+      });
+    } finally {
+      setView("view");
+    }
   }
   /*
   Basically if this is a user that have signup using facebook or google, the auth in firebase would be populate with info to which-
@@ -119,20 +126,18 @@ const UserProfile = () => {
     return data.providerId === "phone";
   });
 
-  /*=== Snack Bar - Success Message ===*/
-  const [successSnackbarOpen, setSuccessSnackbarOpen] = useState(false);
-
-  // === Error Messages ==== //
-  const [notSupportedError, setNotSupportedError] = useState(false);
-
   // === Error handler ===
   // We use this in case the linking went wrong, possibly handle the..
   // error, for example, to merge data
-
   async function errorHandler(error) {
     if (["auth/credential-already-in-use", "auth/email-already-in-use"].indexOf(error.code) > -1) {
       // check for './utils.js' if you want to work on the merge problem
-      setNotSupportedError(true);
+
+      snackbarContext.show({
+        message:
+          "We do not support linking with an already existing account. You can sign in to the other account if needed.",
+        type: "error",
+      });
       return;
     }
     throw error;
@@ -144,22 +149,6 @@ const UserProfile = () => {
   //<UserStatus status={status} setStatus={setStatus} />
   return (
     <Page template="white" title="Profile" spacing={3} isLoading={isLoading}>
-      <ErrorSnackbar
-        open={notSupportedError}
-        errorMessage="We do not support linking with an already existed account. You can sigin to the other account if needed."
-        handleClose={() => {
-          setNotSupportedError(false);
-        }}
-        autoHideDuration={8000}
-      />
-      <SuccessSnackbar
-        open={successSnackbarOpen}
-        handleClose={() => {
-          setSuccessSnackbarOpen(false);
-        }}
-        successMessage="Profile saved successfully."
-        autoHideDuration={4000}
-      />
       <UserOverview profile={profile} view={view} setView={setView} setProfile={setProfile} />
       <Grid item className={classes.fullWidth}>
         <ProfileControlButtons

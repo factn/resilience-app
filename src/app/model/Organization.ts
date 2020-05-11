@@ -1,10 +1,13 @@
 import BaseModel from "./BaseModel";
-import { OrganizationInterface, PaymentSettings } from "./schema";
+import { OrganizationInterface, PaymentSettings, DonationLog } from "./schema";
 import { Resource } from "./schema";
+import { createContext, useContext } from "react";
 
 const defaultData: OrganizationInterface = {
   uid: "",
   name: "",
+  phoneNumber: "",
+  EINNumber: "",
   location: undefined,
 };
 /**
@@ -20,24 +23,20 @@ class Organization extends BaseModel {
     this.data = defaultData;
   }
 
-  init(uid: string) {
-    this.data.uid = uid;
+  async init(uid: string) {
+    try {
+      const org = await this.getCollection("organizations").doc(uid).get();
+      if (org.exists) {
+        const data = { ...org.data(), uid: uid } as OrganizationInterface;
+        this.data = data;
+        return data;
+      }
+    } catch (error) {
+      // log with sentry?
+      console.error(error);
+    }
+    throw new Error("This organization does not exist.");
   }
-
-  // if we wanted to fetch the entire org object on init we could do this
-  // not sure if good practice given we're already using redux?
-
-  // async init(organizationUid: string) {
-  //   try {
-  //     const ref = this.getCollection("organizations");
-  //     const doc = await ref.doc(organizationUid).get();
-  //     console.log("done calling org");
-  //     this.data = { ...this.defaultData, ...doc.data(), id: doc.id } as OrganizationInterface;
-  //   } catch (error) {
-  //     console.log(error);
-  //     throw new Error("This organization does not exist");
-  //   }
-  // }
 
   get uid() {
     return this.data.uid;
@@ -74,6 +73,23 @@ class Organization extends BaseModel {
       return { clientUid: "sb", email: "" };
     }
   }
+
+  logDonation(donation: DonationLog) {
+    if (donation.recieptId) {
+      return this.getCollection("organizations")
+        .doc(this.uid)
+        .collection("donations")
+        .doc(donation.recieptId)
+        .set(donation);
+    }
+  }
 }
+
+export const OrganizationContext = createContext<OrganizationInterface | null>(null);
+
+/**
+ * Read only hook for getting data about the organization
+ */
+export const useOrganization = () => useContext(OrganizationContext);
 
 export default new Organization("organizations", defaultData);

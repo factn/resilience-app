@@ -1,13 +1,13 @@
 import Select from "@material-ui/core/Select";
 import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { Typography } from "@material-ui/core";
 
 import { ReactComponent as HappyFace } from "../../../../img/happy-face.svg";
-import { Body1 } from "../../../component";
+import { H3, Body1 } from "../../../component";
 import { HappyBox, HR, TotalsContainer, useStyles } from "./foodboxSteps.style";
 import NavigationButtons from "./NavigationButtons";
 import Organization from "../../../model/Organization";
+import { routes } from "../../../routing";
 
 function FoodboxStep({ dispatch, state }) {
   const history = useHistory();
@@ -18,9 +18,16 @@ function FoodboxStep({ dispatch, state }) {
     // We only need to do this once to get the initial foodboxes
     if (Object.keys(cart).length < 1) {
       // only using first box for now
-      Organization.getFoodBoxes().then((boxes) =>
-        dispatch({ type: "UPDATE_CART", payload: { resource: boxes[0], quantity: 1 } })
-      );
+      Organization.getFoodBoxes().then((boxes) => {
+        if (boxes.length > 0) {
+          dispatch({ type: "UPDATE_CART", payload: { resource: boxes[0], quantity: 1 } });
+        } else {
+          dispatch({
+            type: "ERROR",
+            payload: "We're sorry, there are no foodboxes available at this time.",
+          });
+        }
+      });
     }
   }, [cart, dispatch]);
 
@@ -46,9 +53,9 @@ function FoodboxStep({ dispatch, state }) {
         const { quantity, resource: foodbox } = cart[key];
         return (
           <div key={key}>
-            <Typography align="left" variant="h3" color="textPrimary" gutterBottom>
+            <H3 align="left" color="textPrimary" gutterBottom>
               {foodbox.provider}
-            </Typography>
+            </H3>
             <Select
               style={{ width: "75%", borderRadius: "4px 0 0 4px" }}
               autoWidth
@@ -109,7 +116,7 @@ function FoodboxStep({ dispatch, state }) {
 
       <NavigationButtons
         backText="Cancel"
-        onBack={() => history.push("/request")}
+        onBack={() => history.push(routes.request.start)}
         onNext={() => dispatch({ type: "NEXT" })}
       />
     </>

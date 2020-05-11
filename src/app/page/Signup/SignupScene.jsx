@@ -4,7 +4,7 @@ import React, { useState } from "react";
 
 import Snackbar from "../../component/Snackbars/Snackbar";
 import useForm from "../../hooks/useForm";
-import { User, Organization } from "../../model";
+import { User, useOrganization } from "../../model";
 import { VolunteerStatus } from "../../model/schema";
 import addressLookup from "../../utils/addressLookUp";
 import CallToActionPage from "./CallToAction";
@@ -13,6 +13,7 @@ import PhoneAuthPage from "./PhoneAuth";
 import SignupSuccessPage from "./SignupSuccess";
 import UserProfilePage from "./UserProfile";
 import { withRouter } from "react-router-dom";
+import { routes } from "../../routing";
 
 const Tabs = {
   GET_STARTED: "volunteer call to action to sign up",
@@ -30,11 +31,12 @@ function SignupScene(props) {
   const [activeTab, setActiveTab] = useState(Tabs.GET_STARTED);
   const [errorSnackbarMessage, setErrorSnackbarMessage] = useState(false);
   const [loading, setLoading] = useState(false);
+  const org = useOrganization();
 
   function getPayload() {
     return {
       ...values,
-      organizationUid: Organization.uid,
+      organizationUid: org.uid,
       isVolunteer: true,
       volunteerDetails: {
         availability: values.availability || "",
@@ -129,7 +131,7 @@ function SignupScene(props) {
       break;
     case Tabs.SUCCESS:
     default:
-      Active = <SignupSuccessPage onClick={() => props.history.push("/missions")} />;
+      Active = <SignupSuccessPage onClick={() => props.history.push(routes.missions.main)} />;
       break;
   }
 

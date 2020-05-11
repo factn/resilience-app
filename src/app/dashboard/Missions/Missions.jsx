@@ -10,6 +10,8 @@ import _ from "../../utils";
 import ListView from "./ListView";
 import MapView from "./MapView";
 
+import clsx from "clsx";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     height: "100%",
@@ -21,6 +23,10 @@ const useStyles = makeStyles((theme) => ({
   side: {
     overflow: "hidden",
     height: "100%",
+    width: "450px",
+  },
+  largeList: {
+    width: "75%",
   },
 
   viewButtons: {
@@ -113,13 +119,19 @@ const DashboardMissions = ({ inDone, inPlanning, inProgress, inProposed, volunte
   const filtered = all[viewFromUrl] || inProposed;
 
   let currentMission = filtered.find((m) => m.id === selectedMission);
+
+  const listClassName = clsx(
+    classes.side,
+    ["inProgress", "inDone"].includes(viewFromUrl) && classes.largeList
+  );
+
   return (
     <>
       <Grid item container spacing={2} className={classes.viewButtons}>
         <ViewButtons missionsView={viewFromUrl} classes={classes} />
       </Grid>
       <Grid item container className={classes.main} xs>
-        <Grid item className={classes.side}>
+        <Grid item className={listClassName}>
           <ListView
             missions={filtered}
             volunteers={volunteers}
@@ -131,6 +143,7 @@ const DashboardMissions = ({ inDone, inPlanning, inProgress, inProposed, volunte
         </Grid>
         <Grid item xs className={classes.side}>
           <MapView
+            key={viewFromUrl}
             missions={filtered}
             volunteers={volunteers}
             currentMission={currentMission}

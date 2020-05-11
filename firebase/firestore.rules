@@ -19,6 +19,10 @@ service cloud.firestore {
       	allow read;
       	allow write: if isOrganizerOf(organizationId);
       }
+      match /donations/{recieptid} {
+        allow read: if isOrganizerOf(organizationId);
+        allow write;
+      }
     }
   
   	// User Settings

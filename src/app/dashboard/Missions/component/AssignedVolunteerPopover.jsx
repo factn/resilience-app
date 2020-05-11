@@ -28,7 +28,7 @@ const AssignedVolunteerPopover = ({ boxRef, handleConfirmButton, onClose, open, 
   return (
     <Popover
       id="assigned-volunteer-popover"
-      open={open}
+      open={open || false}
       anchorEl={boxRef?.current}
       onClose={onClose}
       anchorOrigin={{

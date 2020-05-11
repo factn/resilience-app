@@ -5,9 +5,10 @@ import MissionCreate from "./MissionCreate";
 import MissionDetails from "./MissionDetails";
 import MissionsCompleted from "./Missions";
 import MissionsCreated from "./MissionsCreated";
-import PostMission from "./PostMission";
+import MissionFeedback from "./MissionFeedback";
 import Signup from "./Signup";
 import UserProfile from "./UserProfile";
+import { ErrorLanding } from "./Error";
 
 export {
   Home,
@@ -19,5 +20,6 @@ export {
   MissionDetails,
   UserProfile,
   MissionCreate,
-  PostMission,
+  MissionFeedback,
+  ErrorLanding,
 };

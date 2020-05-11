@@ -1,7 +1,10 @@
-import { Box, Button, makeStyles, Typography } from "@material-ui/core";
+import { Box, Button, makeStyles } from "@material-ui/core";
 import React from "react";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
+
+import { H1, Body1 } from "../../../component";
+import { routes } from "../../../routing";
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -15,9 +18,9 @@ export default function SuccessPage() {
   const classes = useStyles();
   return (
     <Box margin="0rem 1rem" display="flex" flexDirection="column">
-      <Typography variant="h1" color="textPrimary" align="left" gutterBottom>
+      <H1 color="textPrimary" align="left" gutterBottom>
         Request Sent!
-      </Typography>
+      </H1>
 
       {type === "donation" ? (
         <ByDonationSuccess />
@@ -30,7 +33,7 @@ export default function SuccessPage() {
         variant="contained"
         color="primary"
         component={Link}
-        to="/"
+        to={routes.home}
       >
         Next
       </Button>
@@ -39,16 +42,16 @@ export default function SuccessPage() {
 }
 
 const ByDonationSuccess = () => (
-  <Typography variant="body1" color="textPrimary" align="left" gutterBottom>
+  <Body1 color="textPrimary" align="left" gutterBottom>
     Once we receive a donation and confirm with the farms, we will notify you prior to delivery.
-  </Typography>
+  </Body1>
 );
 
 const ByPaymentSuccess = () => (
-  <Typography variant="body1" color="textPrimary" align="left" gutterBottom>
+  <Body1 color="textPrimary" align="left" gutterBottom>
     Once we confirm with the farms, we will notify you prior to delivery.
     <br />
     <br />
     Thank you for your support of local farms!
-  </Typography>
+  </Body1>
 );

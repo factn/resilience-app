@@ -1,4 +1,4 @@
-import { CircularProgress, Typography } from "@material-ui/core";
+import { CircularProgress } from "@material-ui/core";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
@@ -9,6 +9,8 @@ import FirebaseAuthUi from "../../component/FirebaseAuthUi/FirebaseAuthUi";
 import Popup from "../../component/Popup";
 import { Page } from "../../layout";
 import { firstTimeSignIn } from "./firebaseLogin";
+import { H6, TypographyWrapper } from "../../component";
+import { routes } from "../../routing";
 
 /**
  * Component for Login Page
@@ -23,14 +25,12 @@ const LoginPage = (props) => {
   const DisplayLoginWarning = () => {
     if (props.location.state !== undefined)
       return props.location.state.warning === true ? (
-        <Typography variant="h6">
-          You are not logged in. Please sign in to view this page.
-        </Typography>
+        <H6>You are not logged in. Please sign in to view this page.</H6>
       ) : null;
   };
   function handlePopupClose() {
     setPopupOpen(false);
-    history.push("/");
+    history.push(routes.home);
   }
 
   if (!isLoaded(auth)) {
@@ -47,12 +47,12 @@ const LoginPage = (props) => {
       return (
         <Page>
           <Popup open={popupOpen} handleClose={handlePopupClose} btnText="Home Page">
-            <Typography>Your account has been created. Welcome!</Typography>
+            <TypographyWrapper>Your account has been created. Welcome!</TypographyWrapper>
           </Popup>
         </Page>
       );
     }
-    return <Redirect to="/" />;
+    return <Redirect to={routes.home} />;
   }
 };
 

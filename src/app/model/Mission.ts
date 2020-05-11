@@ -37,7 +37,7 @@ const defaultMissionData: MissionInterface = {
   createdDate: "",
   missionDetails: null,
   fundedStatus: MissionFundedStatus.notfunded,
-  fundedDate: null,
+  fundedDate: "",
   readyToStart: false,
   organizationUid: "",
 
@@ -282,9 +282,6 @@ class Mission extends BaseModel {
    * @param {string} missionUid : mission that user want to volunteer for
    */
   accept(userUid: string, user: UserInterface, missionUid: string) {
-    console.log(userUid);
-    console.log(missionUid);
-
     //TODO: rules in db for missions not accepting new volunteer if it already have one
     return this.update(missionUid, {
       uid: missionUid,
