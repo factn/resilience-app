@@ -92,7 +92,7 @@ function App() {
                   <Route path={routes.organizer.dashboard.home}>
                     <Dashboard />
                   </Route>
-                  <PrivateRoute path={routes.recipient.dashboard}>
+                  <PrivateRoute path={routes.recipient.dashboard.home}>
                     <RecipientDashboard />
                   </PrivateRoute>
                   <PrivateRoute path={routes.missions.createNew}>

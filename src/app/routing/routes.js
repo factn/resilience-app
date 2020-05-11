@@ -14,7 +14,11 @@ const routes = {
   donate: "/donate",
 
   recipient: {
-    dashboard: "/recipient",
+    dashboard: {
+      home: "/recipient",
+      submitted: "/recipient/submitted",
+      completed: "/recipient/completed",
+    },
   },
 
   missions: {
