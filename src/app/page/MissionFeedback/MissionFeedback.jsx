@@ -19,7 +19,7 @@ import {
  * Page component for submitting feedback after mission delivery
  *
  * @param {object} props.history - History object obtained from React Router
- * @param {object} props.match - Match object obtained from React Router
+ * @param {object} props.match - Match object obtained from React Router. Mission id should be passed as path variable in route.
  */
 const MissionFeedback = ({ history, match }) => {
   const [step, setStep] = useState(Step.CONFIRM_DELIVERY);
