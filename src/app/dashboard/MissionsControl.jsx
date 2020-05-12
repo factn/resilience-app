@@ -6,7 +6,7 @@ import PeopleIcon from "@material-ui/icons/People";
 import clsx from "clsx";
 import React from "react";
 import { useFirestoreConnect } from "react-redux-firebase";
-import { Route, Switch } from "react-router-dom";
+import { Switch } from "react-router-dom";
 
 import { Mission, User } from "../model";
 import Appbar from "./Appbar";
@@ -14,7 +14,7 @@ import Drawer from "./Drawer";
 import Overview from "./Home";
 import DashboardMissions from "./Missions";
 import { useOrganization } from "../model/Organization";
-import { routes } from "../routing";
+import { routes, AppRoute } from "../routing";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -118,8 +118,8 @@ const MissionsPage = () => {
         })}
       >
         <Switch>
-          <Route path={routes.organizer.dashboard.missions} component={DashboardMissions} />
-          <Route path={routes.organizer.dashboard.home} component={() => <Overview />} />
+          <AppRoute path={routes.organizer.dashboard.missions} component={DashboardMissions} />
+          <AppRoute path={routes.organizer.dashboard.home} component={Overview} />
         </Switch>
       </main>
     </div>

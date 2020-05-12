@@ -1,10 +1,11 @@
 /**
  * Define all routes in the app
  */
-const routes = {
+const routes: IRoutes = {
   home: "/",
   about: "/about",
   login: "/login",
+  unauthorized: "/oops",
   request: {
     start: "/request",
     foodbox: "/request/foodbox",
@@ -49,5 +50,8 @@ const routes = {
     status: "/status",
   },
 };
-
+export type IRoute = string;
+export interface IRoutes {
+  [key: string]: IRoute | IRoutes | any;
+}
 export default routes;
