@@ -130,8 +130,6 @@ const styles = (theme) => ({
  * @component
  */
 const MissionCard = withStyles(styles)(({ anchorEl, classes, handleUpdatedMissions, mission }) => {
-  console.log("handle updated missions ...");
-  console.log(handleUpdatedMissions);
   const location = mission.pickUpLocation?.address || "no data";
   const dropOffLocation = mission.deliveryLocation?.address || "no data";
   const startTime = mission.pickUpWindow?.startTime;

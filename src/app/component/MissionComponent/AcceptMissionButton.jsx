@@ -12,7 +12,6 @@ const AcceptMissionButton = ({ handleUpdatedMissions, mission, user }) => {
   function handleOnClick(e) {
     e.preventDefault();
     Mission.accept(user.uid, user, mission.uid).then((result) => {
-      console.log("inside accept button ...");
       handleUpdatedMissions();
     });
   }
