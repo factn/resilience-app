@@ -11,7 +11,7 @@ import { useSelector } from "react-redux";
 import { H2, Body1 } from "../../../component";
 import AddressAutocomplete from "../../../component/AddressAutocomplete";
 import { useFirebase } from "react-redux-firebase";
-import { useStyles } from "./foodboxSteps.style";
+import { useStyles, HR } from "./foodboxSteps.style";
 import NavigationButtons from "./NavigationButtons";
 import { User } from "../../../model";
 import { useForm } from "../../../hooks";
@@ -102,7 +102,11 @@ function DeliveryStep({ dispatch, state }) {
         },
       });
     } catch (error) {
-      dispatch({ type: "ERROR", payload: error.message });
+      const message =
+        error.message === "Invalid format."
+          ? 'Phone number provided is invalid format. Please use "+15555555555".'
+          : error.message;
+      dispatch({ type: "ERROR", payload: message });
     }
   }
 
@@ -222,18 +226,21 @@ function DeliveryStep({ dispatch, state }) {
             required
             error={values.phoneError}
           />
-          <FormControlLabel
-            className={classes.checkBox}
-            control={
-              <Checkbox
-                checked={!!values.cannotReceiveTexts}
-                onChange={handleCheckBoxChange}
-                name="cannotReceiveTexts"
-              />
-            }
-            label="I cannot receive SMS/texts"
-          />
-          <FormControl required error={values.tcError}>
+          <FormControl className={classes.formControl}>
+            <FormControlLabel
+              className={classes.checkBox}
+              control={
+                <Checkbox
+                  checked={!!values.cannotReceiveTexts}
+                  onChange={handleCheckBoxChange}
+                  name="cannotReceiveTexts"
+                />
+              }
+              label="I cannot receive SMS/texts"
+            />
+          </FormControl>
+          <HR />
+          <FormControl className={classes.formControl} required error={values.tcError}>
             {values.tcError && <FormHelperText>Below checkbox is required</FormHelperText>}
             <FormControlLabel
               className={classes.checkBox}

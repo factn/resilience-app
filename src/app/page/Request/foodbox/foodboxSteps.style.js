@@ -16,7 +16,7 @@ export const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(1.5),
   },
   formControl: {
-    flexDirection: "row",
+    display: "block",
   },
   textArea: {
     marginTop: theme.spacing(1.5),
@@ -40,6 +40,7 @@ export const useStyles = makeStyles((theme) => ({
 
 export const HR = styled.hr`
   margin-top: 1rem;
+  margin-bottom: 1rem;
   border-bottom: none;
 `;
 export const TotalsContainer = styled.div`
@@ -49,11 +50,14 @@ export const TotalsContainer = styled.div`
 `;
 
 export const HappyBox = styled.div`
-  border: 1px solid black;
+  border: 1px solid ${({ theme }) => theme.palette.secondary.main};
   height: auto;
   width: 100%;
   padding: 0.7rem;
   border-radius: 5px;
   box-sizing: border-box;
   text-align: center;
+  svg > path {
+    fill: ${({ theme }) => theme.palette.secondary.main};
+  }
 `;

@@ -2,22 +2,23 @@ import { Button } from "@material-ui/core";
 import React from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
+import { Paper } from "@material-ui/core";
+import { Phone } from "@material-ui/icons";
 
 import { ReactComponent as AppleIcon } from "../../../img/apple.svg";
 import { ReactComponent as ClipboardIcon } from "../../../img/clipboard.svg";
 import { ReactComponent as PharmacyIcon } from "../../../img/pharmacy.svg";
-import { ReactComponent as PhoneIcon } from "../../../img/phone.svg";
-import { H1 } from "./styles";
 import { useOrganization } from "../../model";
 import { routes } from "../../routing";
+import { H1, H3, Body1 } from "../../component";
 
 const iconStyle = { marginRight: "1rem", width: "1.5rem", height: "1.5rem" };
 
-const UnderText = styled.div`
+const UnderText = styled(Body1)`
   font-style: italic;
-  margin-top: 0;
-  margin-left: 3rem;
-  font-size: 0.8rem;
+  margin-top: -1.5rem;
+  margin-left: 4rem;
+  font-size: 1rem;
 `;
 
 const outerDivStyle = (disabled) => {
@@ -29,13 +30,15 @@ const outerDivStyle = (disabled) => {
 function ButtonWithIcon({ children, disabled, icon, to, ...rest }) {
   const history = useHistory();
   return (
-    <div style={outerDivStyle(disabled)}>
-      <Button {...rest} onClick={() => history.push(to)}>
-        {icon}
-        {children}
-      </Button>
-      {disabled && <UnderText>Coming Soon</UnderText>}
-    </div>
+    <>
+      <div style={outerDivStyle(disabled)}>
+        <Button {...rest} onClick={() => history.push(to)}>
+          {icon}
+          {children}
+        </Button>
+      </div>
+      {disabled && <UnderText color="primary">Coming Soon</UnderText>}
+    </>
   );
 }
 
@@ -49,25 +52,15 @@ const ButtonContainer = styled.div`
   margin: auto;
 `;
 
-const CallBoxText = styled.div`
-  width: 15rem;
-  margin: 0 auto;
-  text-align: left;
-  padding: 0.8rem;
-  box-shadow: 0px 7px 12px grey;
+const PaperStyled = styled(Paper)`
+  display: flex;
+  margin: 3rem;
+  padding: 1rem;
+  border: ${({ theme }) => theme.palette.secondary.main} solid 1px;
 `;
-
-const phoneIconStyle = {
-  marginRight: "1rem",
-  width: "2rem",
-  height: "2rem",
-  position: "relative",
-  top: "1rem",
-  right: "7rem",
-  background: "blue",
-  borderRadius: "24px",
-  padding: "8px",
-};
+const PhoneStyled = styled(Phone)`
+  margin-right: 0.5rem;
+`;
 
 function StartPage() {
   const org = useOrganization();
@@ -76,23 +69,23 @@ function StartPage() {
       <H1>What do you need help with?</H1>
       <ButtonContainer>
         <ButtonWithIcon to={routes.request.foodbox} icon={<AppleIcon style={iconStyle} />}>
-          Food Box Delivery
+          <H3 color="primary">Food Box Delivery</H3>
         </ButtonWithIcon>
         <ButtonWithIcon disabled icon={<ClipboardIcon style={iconStyle} />}>
-          General Errand
+          <H3 color="primary">General Errand</H3>
         </ButtonWithIcon>
         <ButtonWithIcon disabled icon={<PharmacyIcon style={iconStyle} />}>
-          Pharmacy Run
+          <H3 color="primary">Pharmacy Run</H3>
         </ButtonWithIcon>
       </ButtonContainer>
-      <div>
-        <PhoneIcon style={phoneIconStyle} />
-        <CallBoxText>
+      <PaperStyled variant="outlined">
+        <PhoneStyled color="primary" />
+        <Body1 align="left" gutterBottom={true}>
           To serve those without technology, call the number below to contact our volunteers to help
           you make a request by phone. Call:{" "}
           <a href={`tel:${org.phoneNumber}`}>{org.phoneNumber}</a>.
-        </CallBoxText>
-      </div>
+        </Body1>
+      </PaperStyled>
     </>
   );
 }
