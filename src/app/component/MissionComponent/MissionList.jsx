@@ -47,11 +47,16 @@ const MissionList = ({ callToAction, history, missions, ...rest }) => {
    */
   let { icon, onClick, text } = callToAction || {};
 
-  const handleUpdatedMissionFns = missions.map((mission) => (
-    () => { onClick(mission.uid); } 
-  ));  
+  const handleUpdatedMissionFns = missions.map((mission) => () => {
+    onClick(mission.uid);
+  });
   const missionListItems = missions.map((mission, index) => (
-    <MissionCard handleUpdatedMissions={handleUpdatedMissionFns[index]} mission={mission} key={`mission-card-${mission.uid}`} role="listitem">
+    <MissionCard
+      handleUpdatedMissions={handleUpdatedMissionFns[index]}
+      mission={mission}
+      key={`mission-card-${mission.uid}`}
+      role="listitem"
+    >
       {text && (
         <StyledButton
           color="primary"
