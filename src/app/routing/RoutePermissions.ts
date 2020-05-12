@@ -1,8 +1,8 @@
+import { PERMISSIONS } from "../model";
+import { addPermissionsToRoutes, IRoutePermissions } from "./services/utils";
 import routes, { IRoute } from "./routes";
-import { PERMISSIONS } from "../model/permissions/Permissions";
-import { addPermissionToRoutes, IRoutePermission } from "./services/utils";
 
-const RoutePermissionsList: IRoutePermission[] = [];
+const RoutePermissions: IRoutePermissions = {};
 
 const publicOnlyRoutes: IRoute[] = [
   routes.home,
@@ -11,7 +11,11 @@ const publicOnlyRoutes: IRoute[] = [
   routes.login,
   routes.organizer.signup,
   routes.request.start,
+  routes.request.foodbox,
+  routes.request.success,
+  routes.request.error,
   routes.user.signup,
+  routes.unauthorized,
 ];
 
 const authenticatedRoutes: IRoute[] = [
@@ -25,15 +29,12 @@ const authenticatedRoutes: IRoute[] = [
   routes.organizer.dashboard.home,
   routes.organizer.dashboard.missions,
   routes.organizer.dashboard.recipients,
-  routes.organizer.dashboard.volunteer,
-  routes.request.foodbox,
-  routes.request.success,
-  routes.request.error,
+  routes.organizer.dashboard.volunteers,
   routes.user.profile,
   routes.volunteer.status,
 ];
 
-addPermissionToRoutes(null, publicOnlyRoutes, RoutePermissionsList);
-addPermissionToRoutes(PERMISSIONS.AUTHENTICATED, authenticatedRoutes, RoutePermissionsList);
+addPermissionsToRoutes([PERMISSIONS.PUBLIC], publicOnlyRoutes, RoutePermissions);
+addPermissionsToRoutes([PERMISSIONS.AUTHENTICATED], authenticatedRoutes, RoutePermissions);
 
-export default RoutePermissionsList;
+export default RoutePermissions;

@@ -4,6 +4,7 @@ import { PERMISSIONS } from "../../model";
 export interface IReplacementDefinition {
   [key: string]: string | number;
 }
+
 /**
  * Returns a URL path with placeholders replaced with given values
  * @param {string} link The path containing query parameter values
@@ -18,70 +19,24 @@ export function getLinkWithQuery(link: string, replacement: IReplacementDefiniti
   return link;
 }
 
-export interface IRoutePermission {
-  route: IRoute;
-  requiredPermissions: PERMISSIONS[];
-}
 /**
- * Add the same permission to multiple routes.
+ * Add the same permission(s) to multiple routes.
  */
-export function addPermissionToRoutes(
-  permissionToAdd: PERMISSIONS | null | undefined,
+export function addPermissionsToRoutes(
+  permissionsToAdd: PERMISSIONS[],
   routesToUpdate: IRoute[],
-  currentRoutePermissions: IRoutePermission[]
+  currentRoutePermissions: IRoutePermissions
 ): void {
-  routesToUpdate.forEach((route: IRoute) => initRoutePermission(route, currentRoutePermissions));
-  currentRoutePermissions
-    .filter((routePermission: IRoutePermission) => routesToUpdate.includes(routePermission.route))
-    .forEach((routePermission: IRoutePermission) =>
-      addPermission(permissionToAdd as PERMISSIONS, routePermission)
-    );
-}
-
-/**
- * Add multiple permissions to a route.
- */
-export function addMultiplePermissionsToRoute(
-  permissions: PERMISSIONS[],
-  route: IRoute,
-  currentRoutePermissions: IRoutePermission[]
-): void {
-  initRoutePermission(route, currentRoutePermissions);
-  const routePermissionsToUpdate: IRoutePermission[] = currentRoutePermissions.filter(
-    (routePermission: IRoutePermission) => routePermission.route === route
-  );
-  permissions.forEach((permission: PERMISSIONS) => {
-    routePermissionsToUpdate.forEach((routePermission: IRoutePermission) =>
-      addPermission(permission, routePermission)
-    );
+  routesToUpdate.forEach((route: IRoute) => {
+    let routePermissions: IPermissionSet = currentRoutePermissions[route];
+    if (!routePermissions) {
+      routePermissions = currentRoutePermissions[route] = {};
+    }
+    permissionsToAdd.forEach((permission: PERMISSIONS) => {
+      routePermissions[permission] = permission;
+    });
   });
 }
 
-/**
- * Adds a PERMISSION into specified the RoutePermission.
- */
-export function addPermission(permission: PERMISSIONS, routePermission: IRoutePermission): void {
-  if (permission) {
-    if (!routePermission.requiredPermissions.includes(permission as any)) {
-      routePermission.requiredPermissions.push(permission);
-    }
-  }
-}
-
-/**
- * Initialize permission list if it hasn't been setup yet for this route.
- */
-export function initRoutePermission(
-  route: IRoute,
-  currentRoutePermissions: IRoutePermission[]
-): void {
-  const hasInitialized: boolean = currentRoutePermissions.some(
-    (routePermission: IRoutePermission) => routePermission.route === route
-  );
-  if (!hasInitialized) {
-    currentRoutePermissions.push({
-      route,
-      requiredPermissions: [],
-    });
-  }
-}
+export type IRoutePermissions = { [route: string]: IPermissionSet };
+export type IPermissionSet = { [permission: string]: PERMISSIONS };
