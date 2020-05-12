@@ -19,12 +19,12 @@ import {
   MissionDetails,
   MissionFeedback,
   MissionsCompleted,
-  MissionsCreated,
   OrganizerSignupPage,
   RequestPage,
   Signup,
   Status,
   UserProfile,
+  RecipientDashboard,
 } from "./app/page";
 import Snackbar from "./app/component/Snackbars";
 import theme from "./theme";
@@ -67,7 +67,7 @@ function App() {
                   <AppRoute path={routes.request.start} component={RequestPage} />
                   <AppRoute path={routes.donate} component={DonationPage} />
                   <AppRoute path={routes.organizer.dashboard.home} component={Dashboard} />
-                  <AppRoute path={routes.missions.createdByUser} component={MissionsCreated} />
+                  <AppRoute path={routes.recipient.dashboard.home} component={RecipientDashboard} />
                   <AppRoute path={routes.missions.createNew} component={MissionCreate} />
                   <AppRoute path={routes.missions.completed} component={MissionsCompleted} />
                   <AppRoute path={routes.missions.feedback} component={MissionFeedback} />

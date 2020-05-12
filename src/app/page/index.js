@@ -1,13 +1,13 @@
 import AboutPage from "./Aboutus";
 import Dashboard from "../dashboard";
 import DonationPage from "./Donate";
+import RecipientDashboard from "./Recipient";
 import Home from "./Home";
 import Login from "./Login";
 import OrganizerSignupPage from "./OrganizerSignup";
 import MissionCreate from "./MissionCreate";
 import MissionDetails from "./MissionDetails";
 import MissionsCompleted from "./Missions";
-import MissionsCreated from "./MissionsCreated";
 import MissionFeedback from "./MissionFeedback";
 import RequestPage from "./Request";
 import Signup from "./Signup";
@@ -26,8 +26,8 @@ export {
   MissionCreate,
   MissionFeedback,
   MissionsCompleted,
-  MissionsCreated,
   OrganizerSignupPage,
+  RecipientDashboard,
   RequestPage,
   Signup,
   Status,

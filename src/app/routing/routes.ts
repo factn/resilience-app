@@ -14,6 +14,14 @@ const routes: IRoutes = {
   },
   donate: "/donate",
 
+  recipient: {
+    dashboard: {
+      home: "/recipient",
+      submitted: "/recipient/submitted",
+      completed: "/recipient/completed",
+    },
+  },
+
   missions: {
     main: "/missions",
     details: "/missions/:id",

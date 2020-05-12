@@ -2,14 +2,13 @@ from faker import Faker
 from decimal import Decimal
 import random as r
 import json
-
+import csv
 
 f = Faker()
 Faker.seed(0)  # we are using the same data all the time here
 r.seed(0)
-lat = 37.773972
-lng = -122.431297
 
+global example_locs
 
 def genId():
     return f.md5()
@@ -91,18 +90,22 @@ def volunteer(organizationUid):
 
 
 def location():
+    row = r.choice(example_locs)
     return dict(
-        address=f.address(),
-        lat=lat + float(f.latitude())/1000,
-        lng=lng + float(f.longitude())/1000,
-        label=""
+        address=row['address'],
+        lat=float(row['lat']),
+        lng=float(row['lng']),
+        label=''
     )
 
+def deliveryNotes():
+    row = r.choice(example_locs)
+    return row['notes']
 
 def organization():
     return dict(
         uid=genId(),
-        name=f.name(),
+        name="FeedFolks",
         phoneNumber=f.phone_number(),
         EINNumber='12-3456789',
         location=location(),
@@ -116,8 +119,8 @@ def addGroup(shouldAdd):
     groupUid = ""
     groupDisplayName = ""
     if shouldAdd:
-        groupDisplayName = r.choice(["Union Square 2020/03/04",
-                                     "Daly City 2020/03/05", "San Mateo 2020/04/29"])
+        groupDisplayName = r.choice(["Union Square 2020/05/04",
+                                     "Daly City 2020/05/05", "San Mateo 2020/05/29"])
         groupUid = groupDisplayName
     return groupUid, groupDisplayName
 
@@ -212,12 +215,12 @@ def mission(orgId, volunteer, foodboxName):
 
         pickUpWindow=timeWindow(),
         pickUpLocation=location(),
-        pickUpNotes=f.text(),
+        pickUpNotes="",
 
         deliveryWindow=timeWindow(),
         deliveryLocation=location(),
         deliveryConfirmationImage='',
-        deliveryNotes=f.text(),
+        deliveryNotes=deliveryNotes(),
 
         feedbackNotes=f.text(),
 
@@ -231,6 +234,12 @@ def add_volunteer(orgId, data):
 
 
 if __name__ == "__main__":
+
+    global example_locs
+    with open('scheme/example_locations.csv', encoding='utf-8') as csvfile:
+        reader = csv.DictReader(csvfile, delimiter=',', quotechar='"')
+        example_locs = [row for row in reader]
+
     org = organization()
     orgId = "1"
 
