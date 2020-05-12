@@ -112,7 +112,7 @@ const MissionGroup = ({ callToAction, group, groupCallToAction, showViewRoute })
           callToAction={{
             text: actionText,
             icon: actionIcon,
-            onClick: (missionUid) => onClick(missionUid),
+            onClick: onClick,
           }}
         />
       </MuiExpansionPanelDetails>

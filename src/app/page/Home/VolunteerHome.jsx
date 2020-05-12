@@ -8,6 +8,7 @@ import MuiPlayCircleFilledIcon from "@material-ui/icons/PlayCircleFilled";
 
 import User from "../../model/User";
 import Mission from "../../model/Mission";
+import { MissionStatus } from "../../model/schema";
 import { getAllAssignedMissions, getAllInProgressMissions } from "./missionHelpers";
 import VolunteerHomeMissionList from "./VolunteerHomeMissionList";
 import MissionTypeHeading from "./MissionTypeHeading";
@@ -38,7 +39,7 @@ export default function VolunteerHome({ currentUser }) {
   const classes = useStyles();
   const [value, setValue] = useState(0);
   const [userPhoneUnverifiedPopupOpen, setUserPhoneUnverifiedPopupOpen] = useState(false);
-  const [acceptedMissions, updateAssignedMissions] = useState([]);
+  const [acceptedMissions, updateAcceptedMissions] = useState([]);
   const [inProgressMissions, updateInProgressMissions] = useState([]);
   const [availableMissions, updateAvailableMissions] = useState([]);
 
@@ -48,7 +49,7 @@ export default function VolunteerHome({ currentUser }) {
       const availableMissions = await Mission.getAllAvailable();
 
       updateAvailableMissions(availableMissions);
-      updateAssignedMissions(getAllAssignedMissions(missions, currentUser));
+      updateAcceptedMissions(getAllAssignedMissions(missions, currentUser));
       updateInProgressMissions(getAllInProgressMissions(missions, currentUser));
     };
 
@@ -72,7 +73,7 @@ export default function VolunteerHome({ currentUser }) {
 
     // Move from Assigned to Started
     const mission = acceptedMissions.filter((m) => m.uid === missionUid);
-    updateAssignedMissions(acceptedMissions.filter((m) => m.uid !== missionUid));
+    updateAcceptedMissions(acceptedMissions.filter((m) => m.uid !== missionUid));
     updateInProgressMissions(inProgressMissions.concat(mission));
   };
 
@@ -87,7 +88,7 @@ export default function VolunteerHome({ currentUser }) {
 
     // Move from Available to Accepted
     const mission = availableMissions.filter((m) => m.uid === missionUid);
-    updateAssignedMissions(acceptedMissions.concat(mission));
+    updateAcceptedMissions(acceptedMissions.concat(mission));
     updateAvailableMissions(availableMissions.filter((m) => m.uid !== missionUid));
   };
 
@@ -100,6 +101,17 @@ export default function VolunteerHome({ currentUser }) {
     Mission.deliver(currentUser.uid, currentUser, missionUid);
     updateInProgressMissions(inProgressMissions.filter((m) => m.uid !== missionUid));
   };
+
+  const handleUpdatedMissions = () => {
+    User.getAllAssociatedMissions(currentUser.uid).then( missions => { 
+      updateAcceptedMissions(getAllAssignedMissions(missions, currentUser));
+      updateInProgressMissions(getAllInProgressMissions(missions, currentUser));
+    }); 
+
+    Mission.getAllAvailable().then( missions => { 
+      updateAvailableMissions(availableMissions)
+    }); 
+  }
 
   const availableLabel = "Available (" + availableMissions.length + ")";
   const acceptedLabel = "Accepted (" + acceptedMissions.length + ")";
@@ -140,7 +152,8 @@ export default function VolunteerHome({ currentUser }) {
             showGroupAction={true}
             groupActionIcon={<MuiDoneAllIcon />}
             isEmptyText={volunteerDashboardEmptyTabMessage.available}
-            action={(missionUid) => handleAcceptMission(missionUid)}
+            newActionStatus={MissionStatus.accepted}
+            action={handleUpdatedMissions}
           />
         </Box>
       </TabPanel>
@@ -161,7 +174,8 @@ export default function VolunteerHome({ currentUser }) {
             showGroupAction={true}
             groupActionIcon={<MuiPlayCircleFilledIcon />}
             isEmptyText={volunteerDashboardEmptyTabMessage.accepted}
-            action={(missionUid) => handleStartMission(missionUid)}
+            newActionStatus={MissionStatus.started}
+            action={handleUpdatedMissions}
           />
         </Box>
       </TabPanel>
@@ -177,7 +191,8 @@ export default function VolunteerHome({ currentUser }) {
             actionText={"Mission Delivered"}
             showViewRoute={true}
             isEmptyText={volunteerDashboardEmptyTabMessage.started}
-            action={(missionUid) => handleDeliveringMissionsFromStarted(missionUid)}
+            newActionStatus={MissionStatus.delivered}
+            action={handleUpdatedMissions}
           />
         </Box>
       </TabPanel>
