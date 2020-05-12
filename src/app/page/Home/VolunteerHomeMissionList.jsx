@@ -29,34 +29,34 @@ const VolunteerHomeMissionList = ({
   const updateGroup = (group, status) => {
     // newActionStatus
     action();
-  }
+  };
 
   const updateSingleMissions = () => {
-    singleMissions.map(mission => {
+    singleMissions.map((mission) => {
       const missionId = mission.uid;
       updateSingleMission(missionId);
     });
-  }
+  };
 
   const updateSingleMission = (missionId) => {
     switch (newActionStatus) {
       case MissionStatus.accepted:
-        Mission.accept(user.uid, user, missionId).then(result => {
+        Mission.accept(user.uid, user, missionId).then((result) => {
           action();
         });
         break;
       case MissionStatus.started:
-        Mission.start(user.uid, user, missionId).then(result => {
+        Mission.start(user.uid, user, missionId).then((result) => {
           action();
         });
         break;
       case MissionStatus.delivered:
-        Mission.deliver(user.uid, user, missionId).then(result => {
+        Mission.deliver(user.uid, user, missionId).then((result) => {
           action();
         });
         break;
     }
-  }
+  };
 
   const missionGroups = groups.map((group) => (
     <MissionGroup

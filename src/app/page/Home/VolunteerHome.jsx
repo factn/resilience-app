@@ -103,15 +103,15 @@ export default function VolunteerHome({ currentUser }) {
   };
 
   const handleUpdatedMissions = () => {
-    User.getAllAssociatedMissions(currentUser.uid).then( missions => { 
+    User.getAllAssociatedMissions(currentUser.uid).then((missions) => {
       updateAcceptedMissions(getAllAssignedMissions(missions, currentUser));
       updateInProgressMissions(getAllInProgressMissions(missions, currentUser));
-    }); 
+    });
 
-    Mission.getAllAvailable().then( missions => { 
-      updateAvailableMissions(availableMissions)
-    }); 
-  }
+    Mission.getAllAvailable().then((missions) => {
+      updateAvailableMissions(availableMissions);
+    });
+  };
 
   const availableLabel = "Available (" + availableMissions.length + ")";
   const acceptedLabel = "Accepted (" + acceptedMissions.length + ")";

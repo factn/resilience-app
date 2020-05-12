@@ -11,7 +11,7 @@ import Mission from "../../model/Mission";
 const StartMissionButton = ({ handleUpdatedMissions, mission, user, ...rest }) => {
   function handleOnClick(e) {
     e.preventDefault();
-    Mission.start(user.uid, user, mission.uid).then(result => {
+    Mission.start(user.uid, user, mission.uid).then((result) => {
       handleUpdatedMissions();
     });
   }
