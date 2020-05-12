@@ -46,6 +46,13 @@ export class RoutingService {
         entitlements.push(entitlement);
       }
     }
+    if (entitlements.length === 0) {
+      // User is trying to access route we haven't set permissions for (=｀ω´=)
+      entitlements.push({
+        route: this._routes.pageNotFound,
+        permissionGranted: false,
+      });
+    }
     return entitlements;
   }
 

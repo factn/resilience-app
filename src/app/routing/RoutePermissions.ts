@@ -16,6 +16,7 @@ const publicOnlyRoutes: IRoute[] = [
   routes.request.error,
   routes.user.signup,
   routes.unauthorized,
+  routes.pageNotFound,
 ];
 
 const authenticatedRoutes: IRoute[] = [
@@ -44,29 +45,43 @@ addPermissionsToRoutes([PERMISSIONS.PUBLIC], publicOnlyRoutes, RoutePermissions)
 addPermissionsToRoutes([PERMISSIONS.AUTHENTICATED], authenticatedRoutes, RoutePermissions);
 
 // Mission-related routes
-addPermissionsToRoutes([PERMISSIONS.VIEW_MISSIONS], [
+addPermissionsToRoutes(
+  [PERMISSIONS.VIEW_MISSIONS],
+  [
     routes.missions.main,
     routes.missions.details,
     routes.missions.createdByUser,
     routes.missions.completed,
     routes.missions.feedback,
-  ], RoutePermissions);
-addPermissionsToRoutes([PERMISSIONS.CREATE_NEW_MISSIONS], [
-    routes.missions.createNew
-  ], RoutePermissions);
+  ],
+  RoutePermissions
+);
+addPermissionsToRoutes(
+  [PERMISSIONS.CREATE_NEW_MISSIONS],
+  [routes.missions.createNew],
+  RoutePermissions
+);
 
 // Organizers-related routes
-addPermissionsToRoutes([PERMISSIONS.VIEW_ORGANIZER_DASHBOARD], [
-    routes.organizer.dashboard.home
-  ], RoutePermissions);
-addPermissionsToRoutes([PERMISSIONS.VIEW_ALL_MISSIONS], [
-    routes.organizer.dashboard.missions
-  ], RoutePermissions);
-addPermissionsToRoutes([PERMISSIONS.VIEW_ALL_RECIPIENTS], [
-    routes.organizer.dashboard.recipients
-  ], RoutePermissions);
-addPermissionsToRoutes([PERMISSIONS.VIEW_ALL_VOLUNTEERS], [
-    routes.organizer.dashboard.volunteers
-  ], RoutePermissions);
+addPermissionsToRoutes(
+  [PERMISSIONS.VIEW_ORGANIZER_DASHBOARD],
+  [routes.organizer.dashboard.home],
+  RoutePermissions
+);
+addPermissionsToRoutes(
+  [PERMISSIONS.VIEW_ALL_MISSIONS],
+  [routes.organizer.dashboard.missions],
+  RoutePermissions
+);
+addPermissionsToRoutes(
+  [PERMISSIONS.VIEW_ALL_RECIPIENTS],
+  [routes.organizer.dashboard.recipients],
+  RoutePermissions
+);
+addPermissionsToRoutes(
+  [PERMISSIONS.VIEW_ALL_VOLUNTEERS],
+  [routes.organizer.dashboard.volunteers],
+  RoutePermissions
+);
 
 export default RoutePermissions;

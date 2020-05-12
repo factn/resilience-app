@@ -2,7 +2,7 @@ import "./App.css";
 
 import CssBaseline from "@material-ui/core/CssBaseline";
 import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Redirect, Switch } from "react-router-dom";
 import { OrganizationContext, Organization } from "./app/model";
 
 import { routes, AppRoute } from "./app/routing";
@@ -75,9 +75,12 @@ function App() {
                   <AppRoute path={routes.unauthorized}>
                     <ErrorLanding errorCode={401} />
                   </AppRoute>
-                  <Route path="*">
+                  <AppRoute path={routes.pageNotFound}>
                     <ErrorLanding errorCode={404} />
-                  </Route>
+                  </AppRoute>
+                  <AppRoute path="*">
+                    <ErrorLanding errorCode={404} />
+                  </AppRoute>
                 </Switch>
                 <Snackbar.Context.SnackbarConsumer>
                   {(value) => {
