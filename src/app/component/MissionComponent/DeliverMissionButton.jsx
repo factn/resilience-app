@@ -7,10 +7,12 @@ import Mission from "../../model/Mission";
  *
  * @component
  */
-const DeliverMissionButton = ({ mission, user }) => {
+const DeliverMissionButton = ({ handleUpdatedMissions, mission, user }) => {
   function handleOnClick(e) {
     e.preventDefault();
-    Mission.accept(user.uid, user, mission.uid);
+    Mission.accept(user.uid, user, mission.uid).then(result => {
+      handleUpdatedMissions();
+    });
   }
 
   return (

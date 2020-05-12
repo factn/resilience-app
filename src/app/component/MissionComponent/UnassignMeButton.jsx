@@ -13,12 +13,14 @@ const useStyles = makeStyles((theme) => ({
  *
  * @component
  */
-const UnassignMeButton = ({ mission, user }) => {
+const UnassignMeButton = ({ handleUpdatedMissions, mission, user }) => {
   const classes = useStyles();
 
   function handleOnClick(e) {
     e.preventDefault();
-    Mission.accept(user.uid, user, mission.uid);
+    Mission.unassigned(mission.uid).then(result => {
+      handleUpdatedMissions();
+    });
   }
 
   return (
