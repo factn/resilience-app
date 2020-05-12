@@ -74,7 +74,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Overview = ({ org, currentMission, missions, setSelectedMission, volunteers }) => {
+const Overview = ({ currentMission, missions, org, setSelectedMission, volunteers }) => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
 

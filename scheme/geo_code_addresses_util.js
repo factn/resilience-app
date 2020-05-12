@@ -14,22 +14,21 @@ async function map_lat_lng(row) {
 
     var address = row.address;
     const uri = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${key}`;
-    //const uri = "https://maps.googleapis.com/maps/api/geocode/json?address=2832+S+Mansfield+Ave+90016&key=AIzaSyBxzO6OeNATfnjFSCG3EZeX1XuKZGjPw3A"
     const response = await axios({
-      method: 'GET',
-      url: uri
-    });    
+        method: 'GET',
+        url: uri
+    });
 
     if (response.data && response.data.results.length > 0) {
-        const result =  response.data.results[0];
+        const result = response.data.results[0];
         const mapped = {
-            "address": row.address,
-            "notes": row.notes,
-            "formatted_address": result.formatted_address,
-            "lat": result.geometry.location.lat,
-            "lng": result.geometry.location.lng
-        }
-        //console.log(mapped);
+                "address": row.address,
+                "notes": row.notes,
+                "formatted_address": result.formatted_address,
+                "lat": result.geometry.location.lat,
+                "lng": result.geometry.location.lng
+            }
+            //console.log(mapped);
         return mapped
     }
     return row;
@@ -38,7 +37,7 @@ async function map_lat_lng(row) {
 
 
 async function get_mapped_addresses(start_addresses) {
-    const mapped =  _.flatten(_.map(start_addresses, (row) => {
+    const mapped = _.flatten(_.map(start_addresses, (row) => {
         return map_lat_lng(row);
     }));
     return mapped;
@@ -47,21 +46,21 @@ async function get_mapped_addresses(start_addresses) {
 
 // MAIN
 
-(async () => {
-    
+(async() => {
+
     const start_addresses = await csv()
         .fromFile("addresses.csv");
 
-    const mapped = await Promise.all(await get_mapped_addresses(start_addresses));  
+    const mapped = await Promise.all(await get_mapped_addresses(start_addresses));
 
     //console.log(mapped);
     //pipe stdout to a csv file
     try {
-      const parser = new Parser();
-      const csv = parser.parse(mapped);
-      console.log(csv);
+        const parser = new Parser();
+        const csv = parser.parse(mapped);
+        console.log(csv);
     } catch (err) {
-      console.error(err);
+        console.error(err);
     }
 
 
