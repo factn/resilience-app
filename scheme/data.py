@@ -95,7 +95,10 @@ def any_resource_details():
     return dict(
         resourceUid=row['uid'],
         displayName=row['displayName'],
-        quantity=r.choice([1, 2, 3])
+        quantity=r.choice([1, 2, 3]),
+        type=row['type'],
+        cost=row['cost'],
+        description=row['description']
     )
 
 

@@ -3,7 +3,6 @@ import React from "react";
 const ResourceDetails = ({ details, showType }) => {
   return (
     <>
-      {showType ? <b>Food Box</b> : null}
       {details?.map((resource, index) => {
         return (
           <div key={index}>
@@ -15,15 +14,13 @@ const ResourceDetails = ({ details, showType }) => {
   );
 };
 
-const DetailsText = ({ mission, showType }) => {
-  console.log(mission);
-
+const DetailsText = ({ mission }) => {
   const { details, type } = mission;
 
   let Details = null;
 
   if (type === "resource") {
-    Details = <ResourceDetails showType={showType} details={details} />;
+    Details = <ResourceDetails details={details} />;
   }
 
   return <div>{Details}</div>;
