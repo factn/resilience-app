@@ -138,6 +138,36 @@ const fsIncomplete = (orgId: string) => ({
   storeAs: "incompleteMissions",
 });
 
+const fsAvailableUserMissions = (orgId: string, userId: string) => ({
+  collection: "organizations",
+  doc: orgId,
+  subcollections: [
+    {
+      collection: "missions",
+      where: [
+        ["tentativeVolunteerUid", "==", userId],
+        ["status", "in", [MissionStatus.tentative]],
+      ],
+    },
+  ],
+  storeAs: "availableUserMissions",
+});
+
+const fsAssignedUserMissions = (orgId: string, userId: string) => ({
+  collection: "organizations",
+  doc: orgId,
+  subcollections: [
+    {
+      collection: "missions",
+      where: [
+        ["volunteerUid", "==", userId],
+        ["status", "in", [MissionStatus.assigned, MissionStatus.started, MissionStatus.delivered]],
+      ],
+    },
+  ],
+  storeAs: "assignedUserMissions",
+});
+
 const getAllGroups = (missions: MissionInterface[]) => {
   let groups: Group[] = [];
   let singleMissions: MissionInterface[] = [];
@@ -179,6 +209,10 @@ class Mission extends BaseModel {
   fsInDone = fsInDone;
   selectIncomplete = (state: any) => state.firestore.ordered.incompleteMissions || [];
   fsIncomplete = fsIncomplete;
+  selectAvailableUserMissions = (state: any) => state.firestore.ordered.availableUserMissions || [];
+  fsAvailableUserMissions = fsAvailableUserMissions;
+  selectAssignedUserMissions = (state: any) => state.firestore.ordered.assignedUserMissions || [];
+  fsAssignedUserMissions = fsAssignedUserMissions;
 
   getAllGroups = getAllGroups;
 
@@ -302,6 +336,9 @@ class Mission extends BaseModel {
    */
   start(userUid: string, user: UserInterface, missionUid: string) {
     //TODO: rules in db, only user that are correct assigned can start
+    console.log("start button =====");
+    console.log("user id:" + userUid + " user");
+    console.log(user);
     return this.update(missionUid, {
       uid: missionUid,
       tentativeVolunteerUid: "",

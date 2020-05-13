@@ -3,9 +3,11 @@ import React from "react";
 import { isEmpty, isLoaded } from "react-redux-firebase";
 import { useHistory } from "react-router-dom";
 import { Mission } from "../../model";
+import { MissionStatus } from "../../model/schema";
 import { MissionList, MissionGroup, ShowDeliveryRoute } from "../../component";
 import { Map, Marker, TileLayer } from "react-leaflet";
 import Box from "@material-ui/core/Box";
+import { useSelector } from "react-redux";
 
 const VolunteerHomeMissionList = ({
   action,
@@ -20,7 +22,13 @@ const VolunteerHomeMissionList = ({
 }) => {
   const history = useHistory();
 
+  const user = useSelector((state) => state.firebase.profile);
   const { groups, singleMissions } = Mission.getAllGroups(missions);
+
+  const updateGroup = (group, status) => {
+    // newActionStatus
+    action();
+  };
 
   const missionGroups = groups.map((group) => (
     <MissionGroup
@@ -34,7 +42,6 @@ const VolunteerHomeMissionList = ({
       callToAction={{
         text: actionText,
         icon: actionIcon,
-        onClick: (missionUid) => action(missionUid),
       }}
       history={history}
       isLoaded={isLoaded(group.missions)}
@@ -51,7 +58,6 @@ const VolunteerHomeMissionList = ({
       isEmptyText={isEmptyText}
       callToAction={{
         text: actionText,
-        onClick: action,
       }}
     />
   );

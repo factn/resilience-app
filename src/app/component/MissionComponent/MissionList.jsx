@@ -47,16 +47,10 @@ const MissionList = ({ callToAction, history, missions, ...rest }) => {
    */
   let { icon, onClick, text } = callToAction || {};
 
-  const missionListItems = missions.map((mission) => (
+  const missionListItems = missions.map((mission, index) => (
     <MissionCard mission={mission} key={`mission-card-${mission.uid}`} role="listitem">
       {text && (
-        <StyledButton
-          color="primary"
-          variant="contained"
-          startIcon={icon}
-          disableElevation
-          onClick={() => onClick(mission.uid)}
-        >
+        <StyledButton color="primary" variant="contained" startIcon={icon} disableElevation>
           {text}
         </StyledButton>
       )}

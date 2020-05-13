@@ -137,7 +137,9 @@ const MissionCard = withStyles(styles)(({ anchorEl, classes, mission }) => {
   const user = firebaseProfile;
   const fullScreen = useMediaQuery("(max-width:481px)");
   const [modalOpen, setModalOpen] = useState(false);
-  const handleOpenModal = () => setModalOpen(true);
+  const handleOpenModal = () => {
+    setModalOpen(true);
+  };
   const onCloseModal = () => setModalOpen(false);
 
   const ActionButtons = () => (
