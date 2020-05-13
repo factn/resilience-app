@@ -1,5 +1,3 @@
-import { number } from "@storybook/addon-knobs";
-
 export type ImageUrl = string;
 
 export interface Location {
