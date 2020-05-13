@@ -1,28 +1,19 @@
-const data = require("./data.json");
-// const functions = require("../functions/node_modules/firebase-functions");
 const admin = require("firebase-admin");
+const data = require("./data.json");
 let serviceAccount = process.env.FIREBASE_SECRET;
-// console.log(serviceAccount);
-require("dotenv").config();
-console.log(process.env);
 
-admin.initializeApp();
-
-const db = admin.firestore();
-
-// if (process.env.NODE_ENV === "development") {
-//   console.log("hello");
-//   require("dotenv").config();
-//   admin.initializeApp();
-//   db = admin.firestore();
-// } else {
-//   const credential = JSON.parse(serviceAccount);
-//   admin.initializeApp({
-//     credential: admin.credential.cert(credential),
-//     databaseURL: "https://mutualaid-757f6.firebaseio.com",
-//   });
-//   db = admin.firestore();
-// }
+if (process.env.NODE_ENV === "development") {
+  require("dotenv").config();
+  admin.initializeApp();
+  db = admin.firestore();
+} else {
+  const credential = JSON.parse(serviceAccount);
+  admin.initializeApp({
+    credential: admin.credential.cert(credential),
+    databaseURL: "https://mutualaid-757f6.firebaseio.com",
+  });
+  db = admin.firestore();
+}
 /**
  * Data is a collection if
  *  - it has a odd depth

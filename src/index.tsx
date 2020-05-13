@@ -10,7 +10,8 @@ import { store } from "./app/store";
 import * as serviceWorker from "./serviceWorker";
 
 const db = firebase.firestore();
-if (process.env.NODE_ENV === "development") {
+if (process.env.REACT_APP_USE_DB_EMULATORS === "true") {
+  console.log("USING FIRESTORE EMULATOR");
   db.settings({
     host: "localhost:8080",
     ssl: false,
