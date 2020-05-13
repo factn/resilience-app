@@ -7,7 +7,7 @@ import Mission from "../../model/Mission";
  * @param {user} the user that accept the mission
  * @param {mission} the mission to be accepted for
  */
-const AcceptMissionButton = ({ handleUpdatedMissions, mission, user }) => {
+const AcceptMissionButton = ({ mission, user }) => {
   function handleOnClick(e) {
     e.preventDefault();
     Mission.accept(user.uid, user, mission.uid);
