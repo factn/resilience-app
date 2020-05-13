@@ -17,7 +17,6 @@ const VolunteerHomeMissionList = ({
   groupActionIcon,
   isEmptyText,
   missions,
-  newActionStatus,
   showGroupAction,
   showViewRoute,
 }) => {
@@ -29,33 +28,6 @@ const VolunteerHomeMissionList = ({
   const updateGroup = (group, status) => {
     // newActionStatus
     action();
-  };
-
-  const updateSingleMissions = () => {
-    singleMissions.map((mission) => {
-      const missionId = mission.uid;
-      updateSingleMission(missionId);
-    });
-  };
-
-  const updateSingleMission = (missionId) => {
-    switch (newActionStatus) {
-      case MissionStatus.accepted:
-        Mission.accept(user.uid, user, missionId).then((result) => {
-          action();
-        });
-        break;
-      case MissionStatus.started:
-        Mission.start(user.uid, user, missionId).then((result) => {
-          action();
-        });
-        break;
-      case MissionStatus.delivered:
-        Mission.deliver(user.uid, user, missionId).then((result) => {
-          action();
-        });
-        break;
-    }
   };
 
   const missionGroups = groups.map((group) => (
@@ -70,7 +42,6 @@ const VolunteerHomeMissionList = ({
       callToAction={{
         text: actionText,
         icon: actionIcon,
-        onClick: updateSingleMission,
       }}
       history={history}
       isLoaded={isLoaded(group.missions)}
@@ -87,7 +58,6 @@ const VolunteerHomeMissionList = ({
       isEmptyText={isEmptyText}
       callToAction={{
         text: actionText,
-        onClick: updateSingleMissions,
       }}
     />
   );

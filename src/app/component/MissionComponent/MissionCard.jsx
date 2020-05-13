@@ -129,7 +129,7 @@ const styles = (theme) => ({
  *
  * @component
  */
-const MissionCard = withStyles(styles)(({ anchorEl, classes, handleUpdatedMissions, mission }) => {
+const MissionCard = withStyles(styles)(({ anchorEl, classes, mission }) => {
   const location = mission.pickUpLocation?.address || "no data";
   const dropOffLocation = mission.deliveryLocation?.address || "no data";
   const startTime = mission.pickUpWindow?.startTime;
@@ -139,7 +139,6 @@ const MissionCard = withStyles(styles)(({ anchorEl, classes, handleUpdatedMissio
   const [modalOpen, setModalOpen] = useState(false);
   const handleOpenModal = () => {
     setModalOpen(true);
-    handleUpdatedMissions();
   };
   const onCloseModal = () => setModalOpen(false);
 
@@ -147,40 +146,23 @@ const MissionCard = withStyles(styles)(({ anchorEl, classes, handleUpdatedMissio
     <Grid container direction="row-reverse" className={classes.actionButtons}>
       {mission.status === MissionStatus.tentative && (
         <Grid item xs={6}>
-          <AcceptMissionButton
-            handleUpdatedMissions={handleUpdatedMissions}
-            mission={mission}
-            user={user}
-          />
+          <AcceptMissionButton mission={mission} user={user} />
         </Grid>
       )}
       {mission.status === MissionStatus.assigned && (
         <Grid item xs={6}>
-          <StartMissionButton
-            handleUpdatedMissions={handleUpdatedMissions}
-            mission={mission}
-            user={user}
-            disabled={!mission.readyToStart}
-          />
+          <StartMissionButton mission={mission} user={user} disabled={!mission.readyToStart} />
         </Grid>
       )}
       {mission.status === MissionStatus.assigned && (
         <Grid item xs={6} className={classes.onTopOfNotReady}>
-          <UnassignMeButton
-            handleUpdatedMissions={handleUpdatedMissions}
-            mission={mission}
-            user={user}
-          />
+          <UnassignMeButton mission={mission} user={user} />
         </Grid>
       )}
       {mission.status === MissionStatus.started && (
         <Grid item xs={6}>
           {modalOpen ? (
-            <DeliverMissionButton
-              handleUpdatedMissions={handleUpdatedMissions}
-              mission={mission}
-              user={user}
-            />
+            <DeliverMissionButton mission={mission} user={user} />
           ) : (
             <Button onClick={handleOpenModal} variant="contained" color="primary">
               Confirm Delivery

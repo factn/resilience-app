@@ -6,15 +6,19 @@ import MuiCheckIcon from "@material-ui/icons/Check";
 import MuiDoneAllIcon from "@material-ui/icons/DoneAll";
 import MuiPlayCircleFilledIcon from "@material-ui/icons/PlayCircleFilled";
 
-import User from "../../model/User";
 import Mission from "../../model/Mission";
-import { MissionStatus } from "../../model/schema";
-import { getAllAssignedMissions, getAllInProgressMissions } from "./missionHelpers";
+import {
+  getAllAvailableMissions,
+  getAllAssignedMissions,
+  getAllInProgressMissions,
+} from "./missionHelpers";
 import VolunteerHomeMissionList from "./VolunteerHomeMissionList";
 import MissionTypeHeading from "./MissionTypeHeading";
 import { volunteerDashboardEmptyTabMessage } from "../../../constants";
 import { FoodBoxIcon, UserPhoneUnverifiedPopup } from "../../component";
 import { H1, Div } from "../../component";
+import { connect } from "react-redux";
+
 import _ from "../../utils/lodash";
 
 const useStyles = makeStyles((theme) => ({
@@ -35,15 +39,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function VolunteerHome({ currentUser }) {
+const VolunteerHome = ({ currentUser, missions }) => {
+  console.log("\n\n\n==== missions ====");
+  console.log(missions[0]);
+
   const classes = useStyles();
   const [value, setValue] = useState(0);
   const [userPhoneUnverifiedPopupOpen, setUserPhoneUnverifiedPopupOpen] = useState(false);
-  const [acceptedMissions, updateAcceptedMissions] = useState([]);
+  //const [acceptedMissions, updateAcceptedMissions] = useState([]);
   const [inProgressMissions, updateInProgressMissions] = useState([]);
-  const [availableMissions, updateAvailableMissions] = useState([]);
+  //const [availableMissions, updateAvailableMissions] = useState([]);
 
-  useEffect(() => {
+  const availableMissions = getAllAvailableMissions(missions);
+  const acceptedMissions = getAllAssignedMissions(missions);
+  //updateAvailableMissions(getAllAvailableMissions(missions));
+  //updateAcceptedMissions(getAllAssignedMissions(missions, currentUser));
+  //updateInProgressMissions(getAllInProgressMissions(missions, currentUser));
+
+  /* useEffect(() => {
     const fetchAllAssociatedMissions = async () => {
       const missions = await User.getAllAssociatedMissions(currentUser.uid);
       const availableMissions = await Mission.getAllAvailable();
@@ -56,61 +69,10 @@ export default function VolunteerHome({ currentUser }) {
     if (!!currentUser && !!currentUser.uid) {
       fetchAllAssociatedMissions();
     }
-  }, [currentUser]);
+  }, [currentUser]); */
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
-  };
-
-  const handleStartMission = (missionUid) => {
-    //TODO this check should be make in Mission, or in backend
-    if (!currentUser.phoneNumber) {
-      setUserPhoneUnverifiedPopupOpen(true);
-      return;
-    }
-
-    Mission.start(currentUser.uid, currentUser, missionUid);
-
-    // Move from Assigned to Started
-    const mission = acceptedMissions.filter((m) => m.uid === missionUid);
-    updateAcceptedMissions(acceptedMissions.filter((m) => m.uid !== missionUid));
-    updateInProgressMissions(inProgressMissions.concat(mission));
-  };
-
-  const handleAcceptMission = (missionUid) => {
-    //TODO this check should be make in Mission, or in backend
-    if (!currentUser.phoneNumber) {
-      setUserPhoneUnverifiedPopupOpen(true);
-      return;
-    }
-
-    Mission.accept(currentUser.uid, currentUser, missionUid);
-
-    // Move from Available to Accepted
-    const mission = availableMissions.filter((m) => m.uid === missionUid);
-    updateAcceptedMissions(acceptedMissions.concat(mission));
-    updateAvailableMissions(availableMissions.filter((m) => m.uid !== missionUid));
-  };
-
-  const handleDeliveringMissionsFromStarted = (missionUid) => {
-    //TODO this check should be make in Mission, or in backend
-    if (!currentUser.phoneNumber) {
-      setUserPhoneUnverifiedPopupOpen(true);
-      return;
-    }
-    Mission.deliver(currentUser.uid, currentUser, missionUid);
-    updateInProgressMissions(inProgressMissions.filter((m) => m.uid !== missionUid));
-  };
-
-  const handleUpdatedMissions = () => {
-    User.getAllAssociatedMissions(currentUser.uid).then((missions) => {
-      updateAcceptedMissions(getAllAssignedMissions(missions, currentUser));
-      updateInProgressMissions(getAllInProgressMissions(missions, currentUser));
-    });
-
-    Mission.getAllAvailable().then((missions) => {
-      updateAvailableMissions(availableMissions);
-    });
   };
 
   const availableLabel = "Available (" + availableMissions.length + ")";
@@ -152,8 +114,6 @@ export default function VolunteerHome({ currentUser }) {
             showGroupAction={true}
             groupActionIcon={<MuiDoneAllIcon />}
             isEmptyText={volunteerDashboardEmptyTabMessage.available}
-            newActionStatus={MissionStatus.accepted}
-            action={handleUpdatedMissions}
           />
         </Box>
       </TabPanel>
@@ -174,8 +134,6 @@ export default function VolunteerHome({ currentUser }) {
             showGroupAction={true}
             groupActionIcon={<MuiPlayCircleFilledIcon />}
             isEmptyText={volunteerDashboardEmptyTabMessage.accepted}
-            newActionStatus={MissionStatus.started}
-            action={handleUpdatedMissions}
           />
         </Box>
       </TabPanel>
@@ -191,8 +149,6 @@ export default function VolunteerHome({ currentUser }) {
             actionText={"Mission Delivered"}
             showViewRoute={true}
             isEmptyText={volunteerDashboardEmptyTabMessage.started}
-            newActionStatus={MissionStatus.delivered}
-            action={handleUpdatedMissions}
           />
         </Box>
       </TabPanel>
@@ -202,7 +158,18 @@ export default function VolunteerHome({ currentUser }) {
       />
     </div>
   );
-}
+};
+
+const mapStateToProps = (state) => {
+  return {
+    user: state.firebase.auth,
+    missions: Mission.selectAssignedUserMissions(state).concat(
+      Mission.selectAvailableUserMissions(state)
+    ),
+  };
+};
+
+export default connect(mapStateToProps)(VolunteerHome);
 
 function TabPanel(props) {
   const { children, index, value, ...other } = props;
