@@ -63,7 +63,7 @@ const defaultMissionData: MissionInterface = {
   deliveryWindow: defaultTimeWindow,
   deliveryLocation: defaultLocation, // default to recipient location
 
-  deliveryConfirmationImage: "",
+  deliveryConfirmationImage: {},
   deliveryNotes: "",
   feedbackNotes: "",
 };
