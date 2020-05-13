@@ -1,17 +1,16 @@
-import firebase from "firebase/app";
-import "firebase/auth";
-
 import PropTypes from "prop-types";
 import React from "react";
 
 import FirebaseAuthUi from "../../../component/FirebaseAuthUi/FirebaseAuthUi";
 import { Page } from "../../../layout";
+import { useFirebase } from "react-redux-firebase";
 
 /**
  * Phone auth page for use with Signup
  *
  */
 const PhoneAuth = ({ onSignupSuccess }) => {
+  const firebase = useFirebase();
   const firebaseUiConfig = {
     signInFlow: "popup",
     signInOptions: [firebase.auth.PhoneAuthProvider.PROVIDER_ID],
