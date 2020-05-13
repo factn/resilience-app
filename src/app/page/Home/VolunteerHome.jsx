@@ -9,7 +9,7 @@ import MuiPlayCircleFilledIcon from "@material-ui/icons/PlayCircleFilled";
 import Mission from "../../model/Mission";
 import {
   getAllAvailableMissions,
-  getAllAssignedMissions,
+  getAllAcceptedMissions,
   getAllInProgressMissions,
 } from "./missionHelpers";
 import VolunteerHomeMissionList from "./VolunteerHomeMissionList";
@@ -46,30 +46,10 @@ const VolunteerHome = ({ currentUser, missions }) => {
   const classes = useStyles();
   const [value, setValue] = useState(0);
   const [userPhoneUnverifiedPopupOpen, setUserPhoneUnverifiedPopupOpen] = useState(false);
-  //const [acceptedMissions, updateAcceptedMissions] = useState([]);
-  const [inProgressMissions, updateInProgressMissions] = useState([]);
-  //const [availableMissions, updateAvailableMissions] = useState([]);
 
   const availableMissions = getAllAvailableMissions(missions);
-  const acceptedMissions = getAllAssignedMissions(missions);
-  //updateAvailableMissions(getAllAvailableMissions(missions));
-  //updateAcceptedMissions(getAllAssignedMissions(missions, currentUser));
-  //updateInProgressMissions(getAllInProgressMissions(missions, currentUser));
-
-  /* useEffect(() => {
-    const fetchAllAssociatedMissions = async () => {
-      const missions = await User.getAllAssociatedMissions(currentUser.uid);
-      const availableMissions = await Mission.getAllAvailable();
-
-      updateAvailableMissions(availableMissions);
-      updateAcceptedMissions(getAllAssignedMissions(missions, currentUser));
-      updateInProgressMissions(getAllInProgressMissions(missions, currentUser));
-    };
-
-    if (!!currentUser && !!currentUser.uid) {
-      fetchAllAssociatedMissions();
-    }
-  }, [currentUser]); */
+  const acceptedMissions = getAllAcceptedMissions(missions);
+  const inProgressMissions = getAllInProgressMissions(missions);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);

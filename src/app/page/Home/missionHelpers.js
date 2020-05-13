@@ -6,7 +6,7 @@ export const getAllAvailableMissions = (missions) => {
   return volunteeredMissions;
 };
 
-export const getAllAssignedMissions = (missions) => {
+export const getAllAcceptedMissions = (missions) => {
   const volunteeredMissions =
     missions.length > 0 ? missions.filter((m) => m.status === MissionStatus.assigned) : [];
 
