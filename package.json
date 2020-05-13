@@ -69,7 +69,9 @@
     "dev:firestore": "firebase emulators:start --only firestore",
     "dev:firebase": "firebase serve",
     "dev:react": "react-scripts start",
-    "dev:upload": "wait-on http-get://localhost:8080/ && npm run upload"
+    "dev:upload": "wait-on http-get://localhost:8080/ && npm run upload",
+    "deploy:staging": "npm run build && firebase deploy -P default",
+    "deploy:production": "npm run build && firebase deploy -P production"
   },
   "eslintConfig": {
     "extends": [

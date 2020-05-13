@@ -168,25 +168,20 @@ git push -u origin [branch name]
 
 Using react-axe as a library to find accessibilty warnings and errors. Please check the console for warnings or errors from react-axe before committing.
 
-## Heroku Deployment
+## Deployment
 
-- Login into Heroku with Email and Password:
+For deployments we're using firebase hosting which allows us to deploy to multiple different environments.
 
-```
-heroku login
-```
+Each of the commands below will require access to the respective firebase project for an authorized deployment.
 
-- Add the Heroku branch to your local machine:
+For deploying to our staging environment:
 
-```
-heroku git:remote -a <heroku app name>
+```bash
+$ npm run deploy:staging
 ```
 
-- Develop as per normal, branching and merging to master.
-- Once you are happy with master, push the changes into the Heroku branch:
+and for production:
 
+```bash
+$ npm run deploy:production
 ```
-git push heroku master
-```
-
-- This also runs all of the build and deployment commands, so it may take a moment, but once it's complete, the live link should be updated.
