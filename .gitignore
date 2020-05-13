@@ -9,6 +9,7 @@
 /coverage
 
 #development
+*.pyc
 
 # firebase create debug.log
 *debug.log

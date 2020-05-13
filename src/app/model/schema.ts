@@ -1,3 +1,5 @@
+import { number } from "@storybook/addon-knobs";
+
 export type ImageUrl = string;
 
 export interface Location {
@@ -18,19 +20,6 @@ export interface DonationLog {
   recieptId: string;
   donorName: string;
   donorEmail: string;
-}
-
-export class Resource {
-  uid!: string;
-  name!: string;
-  cost!: number;
-  provider: string = "";
-  fundedByRecipient: number = 0;
-  fundedByDonation: number = 0;
-  notFunded: number = 3;
-  maxNumberRequestable: number = 50;
-  acceptOrder: boolean = false;
-  description: string = "";
 }
 
 export interface PaymentSettings {
@@ -126,12 +115,6 @@ export enum MissionFundedStatus {
   fundingnotneeded = "fundingnotneeded",
 }
 
-export enum MissionType {
-  foodbox = "foodbox",
-  pharmacy = "pharmacy",
-  errand = "errand",
-}
-
 export enum TimeWindowType {
   exact = "exact", //exact time specfied
   morning = "morning",
@@ -159,27 +142,39 @@ export interface MissionLogEvent {
   timestamp: string;
 }
 
-export interface Box {
-  name: string;
+export interface Resource {
+  uid: string;
+  displayName: string;
+  cost: number;
+  availableToOrder: boolean;
+  type: string; // foodbox, or anything, this is just so we can group things together for the organizer
+  description: string;
+}
+
+export interface ResourceMissionDetails {
+  resourceUid: string;
+  displayName: string;
   quantity: number;
 }
 
-export interface FoodBoxDetails {
-  needs: Array<Box>;
+export enum MissionType {
+  resource = "resource", //exact time specfied
+  errand = "errand",
 }
 
 export interface MissionInterface {
   uid: string;
+  organizationUid: string;
+  status: MissionStatus;
+
   type: MissionType;
+  missionDetails: Array<ResourceMissionDetails> | null;
 
   createdDate: string; // TODO should be a date?
-  missionDetails: FoodBoxDetails | null;
 
-  status: MissionStatus;
   fundedStatus: MissionFundedStatus;
   fundedDate: string | null;
   readyToStart: boolean;
-  organizationUid: string;
 
   groupUid: string;
   groupDisplayName: string;
