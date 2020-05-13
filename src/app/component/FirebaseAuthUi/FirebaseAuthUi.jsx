@@ -11,12 +11,15 @@ const defaultFirebaseUiConfig = (firebase) => ({
 });
 
 const UI_ID = "firebase-auth-ui";
+let ui;
 export default function FirebaseAuthUi(props) {
   const firebase = useFirebase();
   const firebaseUiConfig = props.firebaseUiConfig || defaultFirebaseUiConfig(firebase);
 
   useEffect(() => {
-    const ui = new window.firebaseui.auth.AuthUI(firebase.auth());
+    if (!ui) {
+      ui = new window.firebaseui.auth.AuthUI(firebase.auth());
+    }
     ui.start(`#${UI_ID}`, firebaseUiConfig);
   }, [firebase, firebaseUiConfig]);
 
