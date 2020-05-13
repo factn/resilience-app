@@ -4,6 +4,7 @@ import random as r
 import json
 import csv
 import time
+from datetime import datetime
 
 f = Faker()
 Faker.seed(0)  # we are using the same data all the time here
@@ -60,7 +61,7 @@ TimeWindowType = [
 
 
 def any_time():
-    return int(time.time())
+    return datetime.now().isoformat()
 
 
 def timeWindow():
