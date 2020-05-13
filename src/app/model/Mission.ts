@@ -145,7 +145,8 @@ const fsAvailableUserMissions = (orgId: string, userId: string) => ({
     {
       collection: "missions",
       where: [
-        ["tentativeVolunteerUid", "==", userId],
+        // right now as long as it is in tentative
+        //["tentativeVolunteerUid", "==", userId],
         ["status", "in", [MissionStatus.tentative]],
       ],
     },
