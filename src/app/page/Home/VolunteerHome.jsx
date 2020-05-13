@@ -40,9 +40,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const VolunteerHome = ({ currentUser, missions }) => {
-  console.log("\n\n\n==== missions ====");
-  console.log(missions[0]);
-
   const classes = useStyles();
   const [value, setValue] = useState(0);
   const [userPhoneUnverifiedPopupOpen, setUserPhoneUnverifiedPopupOpen] = useState(false);
