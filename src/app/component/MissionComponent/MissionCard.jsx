@@ -221,7 +221,7 @@ const MissionCard = withStyles(styles)(({ anchorEl, classes, mission }) => {
                 <Grid item>PICK UP</Grid>
               </Grid>
               <Grid item xs className={classes.addressLabel}>
-                {mission.pickUpLocation.label}
+                {mission.pickUpLocation?.label}
               </Grid>
               <Grid item xs zeroMinWidth>
                 <Typography noWrap>
