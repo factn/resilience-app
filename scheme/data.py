@@ -139,7 +139,7 @@ class Database:
 
 class Organization:
     def __init__(self, resources):
-        self.uid = genId()
+        self.uid = "1"
         self.displayName = "FeedFolks"
         self.location = any_location()
         self.phoneNumber = f.phone_number()
