@@ -43,8 +43,6 @@ function App() {
       });
   }, []);
 
-  console.log(org);
-
   if (org === undefined) {
     return <LinearProgress />;
   }

@@ -3,7 +3,6 @@ import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { ReactReduxFirebaseProvider } from "react-redux-firebase";
 import { createFirestoreInstance } from "redux-firestore"; // <- needed if using firestore
-import { rfConfig } from "./config/firebase";
 
 import App from "./App";
 import { store } from "./app/store";
@@ -17,6 +16,11 @@ if (process.env.REACT_APP_USE_DB_EMULATORS === "true") {
     ssl: false,
   });
 }
+
+const rfConfig = {
+  userProfile: "users",
+  useFirestoreForProfile: true,
+};
 
 ReactDOM.render(
   <Provider store={store}>
