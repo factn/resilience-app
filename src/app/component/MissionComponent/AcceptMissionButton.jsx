@@ -4,7 +4,6 @@ import CheckIcon from "@material-ui/icons/Check";
 import Mission from "../../model/Mission";
 
 /**
- * @param {handleUpdatedMissions} function that updates missions tied to a user.
  * @param {user} the user that accept the mission
  * @param {mission} the mission to be accepted for
  */
