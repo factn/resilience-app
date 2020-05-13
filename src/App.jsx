@@ -3,7 +3,6 @@ import "./App.css";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-dom";
-import "firebase/storage";
 import { OrganizationContext, Organization } from "./app/model";
 
 import { routes, AppRoute } from "./app/routing";
@@ -43,6 +42,8 @@ function App() {
         setOrg(null);
       });
   }, []);
+
+  console.log(org);
 
   if (org === undefined) {
     return <LinearProgress />;

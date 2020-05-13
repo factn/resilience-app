@@ -4,7 +4,7 @@ import { Resource } from "./schema";
 import { createContext, useContext } from "react";
 
 const defaultData: OrganizationInterface = {
-  uid: "",
+  uid: "-1",
   name: "",
   phoneNumber: "",
   EINNumber: "",

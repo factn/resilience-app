@@ -22,6 +22,7 @@
     "express": "^4.17.1",
     "firebase": "^7.14.0",
     "fireorm": "^0.13.3",
+    "http-proxy-middleware": "^1.0.3",
     "json2csv": "^5.0.1",
     "jsontocsv": "^0.3.0",
     "leaflet": "^1.6.0",
@@ -33,7 +34,6 @@
     "react-csv": "^2.0.3",
     "react-dom": "^16.13.1",
     "react-facebook-login": "^4.1.1",
-    "react-firebaseui": "^4.1.0",
     "react-flexbox-grid": "^2.1.2",
     "react-image-crop": "^8.6.2",
     "react-leaflet": "^2.6.3",
@@ -64,11 +64,14 @@
     "start": "cross-env REACT_APP_USE_DB_EMULATORS=false react-scripts start",
     "storybook": "start-storybook -p 9009 -s public",
     "test": "react-scripts test",
-    "upload": "cross-env NODE_ENV=development node scheme/uploadMock.js",
-    "dev": "cross-env REACT_APP_USE_DB_EMULATORS=true npm-run-all --sequential dev:functions_build  --parallel dev:firebase dev:react dev:upload",
+    "upload1": "cross-env NODE_ENV=development node scheme/uploadMock.js",
+    "dev1": "cross-env REACT_APP_USE_DB_EMULATORS=true npm-run-all --sequential dev:functions_build  --parallel dev:firebase dev:react dev:upload",
+    "upload": "NODE_ENV=development node scheme/uploadMock.js",
+    "dev": "run-p --race dev:firebase dev:firestore dev:react",
     "dev:functions_build": "cd functions && npm run build && cd ..",
-    "dev:firebase": "firebase emulators:start",
-    "dev:react": "react-scripts start",
+    "dev:firestore": "firebase emulators:start --only firestore",
+    "dev:firebase": "firebase serve",
+    "dev:react": "NODE_ENV=development react-scripts start",
     "dev:upload": "wait-on http-get://localhost:8080/ && npm run upload"
   },
   "eslintConfig": {
@@ -82,6 +85,9 @@
       "simple-import-sort",
       "sort-destructure-keys"
     ],
+    "globals": {
+      "firebase": "readonly"
+    },
     "rules": {
       "sort-destructure-keys/sort-destructure-keys": [
         2,

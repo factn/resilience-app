@@ -1,10 +1,3 @@
-// If you enabled Analytics in your project, add the Firebase SDK for Analytics
-import firebase from "firebase/app";
-import "firebase/analytics";
-import "firebase/auth";
-import "firebase/firestore";
-import "./index.css";
-
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
@@ -16,9 +9,13 @@ import App from "./App";
 import { store } from "./app/store";
 import * as serviceWorker from "./serviceWorker";
 
-import initFirebase from "./initFirebase";
-
-initFirebase();
+const db = firebase.firestore();
+if (process.env.NODE_ENV === "development") {
+  db.settings({
+    host: "localhost:8080",
+    ssl: false,
+  });
+}
 
 ReactDOM.render(
   <Provider store={store}>

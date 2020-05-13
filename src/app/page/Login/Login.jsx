@@ -21,6 +21,7 @@ const LoginPage = (props) => {
   const history = useHistory();
   const auth = useSelector((state) => state.firebase.auth);
   const [popupOpen, setPopupOpen] = useState(true);
+  console.log(auth);
 
   const DisplayLoginWarning = () => {
     if (props.location.state !== undefined)
