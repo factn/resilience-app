@@ -1,7 +1,5 @@
 import { Container } from "@material-ui/core";
 import { Button } from "@material-ui/core";
-import firebase from "firebase/app";
-import "firebase/auth";
 import PropTypes from "prop-types";
 import React from "react";
 
@@ -9,6 +7,7 @@ import { Body1 } from "../../../component";
 import FirebaseAuthUi from "../../../component/FirebaseAuthUi/FirebaseAuthUi";
 import { Page } from "../../../layout";
 import { StyledHeader, useStyles } from "./ConnectSocialMedia.style";
+import { useFirebase } from "react-redux-firebase";
 
 /**
  * Connect Social Media page for use with Signup
@@ -16,6 +15,7 @@ import { StyledHeader, useStyles } from "./ConnectSocialMedia.style";
  */
 const ConnectSocialMedia = ({ onConnectSuccess, onSkip }) => {
   const classes = useStyles();
+  const firebase = useFirebase();
 
   const firebaseUiConfig = {
     signInFlow: "popup",

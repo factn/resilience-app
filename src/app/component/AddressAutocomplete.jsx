@@ -83,7 +83,7 @@ function locationReducer(state, action) {
         address: action.address,
         input: action.address,
       };
-    case "reset":
+    case "clear":
       return initLocationState();
     default:
       throw new Error();
@@ -124,8 +124,9 @@ export default function AddressAutocomplete({
         type: "setInput",
         input: value,
       });
-    } else {
-      dispatchLocation({ type: "reset" });
+    } else if (reason === "clear") {
+      dispatchLocation({ type: "clear" });
+      onChangeLocation(null);
     }
   };
   const handleAutoChange = (request) => {
@@ -153,7 +154,7 @@ export default function AddressAutocomplete({
         }
       });
     } else {
-      dispatchLocation({ type: "reset" });
+      dispatchLocation({ type: "clear" });
       onChangeLocation({
         address,
         lat,
@@ -176,6 +177,12 @@ export default function AddressAutocomplete({
       }, 200),
     []
   );
+
+  useEffect(() => {
+    if (!defaultLocation) return;
+    const { address, lat, lng } = defaultLocation;
+    dispatchLocation({ type: "setLocation", address, lat, lng });
+  }, [defaultLocation]);
 
   useEffect(() => {
     let active = true;

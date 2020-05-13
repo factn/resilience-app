@@ -132,7 +132,7 @@ const styles = (theme) => ({
 const MissionCard = withStyles(styles)(({ anchorEl, classes, mission }) => {
   const location = mission.pickUpLocation?.address || "no data";
   const dropOffLocation = mission.deliveryLocation?.address || "no data";
-  const startTime = mission.pickUpWindow?.startTime;
+  const startTime = "" + (mission.pickUpWindow?.startTime || "");
   const firebaseProfile = useSelector((state) => state.firebase.profile);
   const user = firebaseProfile;
   const fullScreen = useMediaQuery("(max-width:481px)");
@@ -279,6 +279,10 @@ MissionCard.propTyes = {
   mission: PropTypes.shape({
     status: PropTypes.string,
     url: PropTypes.string,
+    pickUpWindow: PropTypes.shape({
+      timeWindowType: PropTypes.string,
+      startTime: PropTypes.string,
+    }),
     details: PropTypes.shape({
       title: PropTypes.string,
       description: PropTypes.string,

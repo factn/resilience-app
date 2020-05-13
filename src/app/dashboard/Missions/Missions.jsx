@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { useHistory } from "react-router";
 
 import { Button } from "../../component";
-import { Mission } from "../../model";
+import { Mission, useOrganization } from "../../model";
 import _ from "../../utils";
 import ListView from "./ListView";
 import MapView from "./MapView";
@@ -110,6 +110,7 @@ const ViewButtons = ({ classes, missionsView }) => {
 
 const DashboardMissions = ({ inDone, inPlanning, inProgress, inProposed, volunteers }) => {
   const classes = useStyles();
+  const org = useOrganization();
 
   const viewFromUrl = _.getQueryParam("view");
 
@@ -143,6 +144,7 @@ const DashboardMissions = ({ inDone, inPlanning, inProgress, inProposed, volunte
         </Grid>
         <Grid item xs className={classes.side}>
           <MapView
+            org={org}
             key={viewFromUrl}
             missions={filtered}
             volunteers={volunteers}
