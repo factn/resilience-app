@@ -27,15 +27,21 @@
             {
               "resourceUid": "1",
               "displayName": "Produce Box #1",
-              "quantity": 3
+              "quantity": 3,
+              "type": "foodbox",
+              "cost": "25",
+              "description": "Frisee and Head Lettuce box - one of every head of lettuce, 1/2 lb bag baby spinach, 1/4lb Italian parsley, 1/4lb cilantro"
             },
             {
               "resourceUid": "1",
               "displayName": "Produce Box #1",
-              "quantity": 3
+              "quantity": 3,
+              "type": "foodbox",
+              "cost": "25",
+              "description": "Frisee and Head Lettuce box - one of every head of lettuce, 1/2 lb bag baby spinach, 1/4lb Italian parsley, 1/4lb cilantro"
             }
           ],
-          "createdDate": "2020-05-13T18:02:56.396920",
+          "createdDate": "2020-05-13T18:21:22.239171",
           "fundedStatus": "notfunded",
           "fundedDate": "",
           "readyToStart": false,
@@ -55,7 +61,7 @@
           "pickUpNotes": "",
           "deliveryWindow": {
             "timeWindowType": "afternoon",
-            "startTime": "2020-05-13T18:02:56.397269"
+            "startTime": "2020-05-13T18:21:22.239194"
           },
           "deliveryLocation": {
             "address": "1012 N Mariposa Ave #911, Los Angeles, CA 90029, USA",
@@ -76,20 +82,29 @@
             {
               "resourceUid": "6",
               "displayName": "Produce Box #4: Fruit Box",
-              "quantity": 1
+              "quantity": 1,
+              "type": "foodbox",
+              "cost": "30",
+              "description": "Oranges, Mandarins, Grapefruits, Lemons, and Peaches"
             },
             {
               "resourceUid": "5",
               "displayName": "Produce Box #3 b (small)",
-              "quantity": 2
+              "quantity": 2,
+              "type": "foodbox",
+              "cost": "14",
+              "description": "8 or 9 types of produce, like broccoli, celery and kale, but smaller quantities than the large box."
             },
             {
               "resourceUid": "4",
               "displayName": "Produce Box #3 (large)",
-              "quantity": 3
+              "quantity": 3,
+              "type": "foodbox",
+              "cost": "8",
+              "description": "8 or 9 types, like broccoli, celery and kale."
             }
           ],
-          "createdDate": "2020-05-13T18:02:56.397302",
+          "createdDate": "2020-05-13T18:21:22.239243",
           "fundedStatus": "notfunded",
           "fundedDate": "",
           "readyToStart": false,
@@ -109,7 +124,7 @@
           "pickUpNotes": "",
           "deliveryWindow": {
             "timeWindowType": "afternoon",
-            "startTime": "2020-05-13T18:02:56.397306"
+            "startTime": "2020-05-13T18:21:22.239249"
           },
           "deliveryLocation": {
             "address": "48 St James Park W, Los Angeles, CA 90007, USA",
@@ -130,22 +145,31 @@
             {
               "resourceUid": "4",
               "displayName": "Produce Box #3 (large)",
-              "quantity": 2
+              "quantity": 2,
+              "type": "foodbox",
+              "cost": "8",
+              "description": "8 or 9 types, like broccoli, celery and kale."
             },
             {
               "resourceUid": "2",
               "displayName": "Produce Box #2 (large)",
-              "quantity": 3
+              "quantity": 3,
+              "type": "foodbox",
+              "cost": "25",
+              "description": "Loose-leaf box: 1/2 baby arugula, 1/2 baby spinach, 1/2 salad mix, 1/4lb Italian parsley, 1/4lb cilantro"
             },
             {
               "resourceUid": "3",
               "displayName": "Produce Box #2b (small)",
-              "quantity": 3
+              "quantity": 3,
+              "type": "foodbox",
+              "cost": "19",
+              "description": "A smaller loose leaf box baby arugula, baby spinach, salad mix, Italian parsley, cilantro"
             }
           ],
-          "createdDate": "2020-05-13T18:02:56.397326",
+          "createdDate": "2020-05-13T18:21:22.239289",
           "fundedStatus": "fundedbyrecipient",
-          "fundedDate": "2020-05-13T18:02:56.397338",
+          "fundedDate": "2020-05-13T18:21:22.239310",
           "readyToStart": false,
           "groupUid": null,
           "groupDisplayName": null,
@@ -163,7 +187,7 @@
           "pickUpNotes": "",
           "deliveryWindow": {
             "timeWindowType": "exact",
-            "startTime": "2020-05-13T18:02:56.397330"
+            "startTime": "2020-05-13T18:21:22.239295"
           },
           "deliveryLocation": {
             "address": "125 S Everett St #2, Glendale, CA 91205, USA",
@@ -184,10 +208,13 @@
             {
               "resourceUid": "1",
               "displayName": "Produce Box #1",
-              "quantity": 2
+              "quantity": 2,
+              "type": "foodbox",
+              "cost": "25",
+              "description": "Frisee and Head Lettuce box - one of every head of lettuce, 1/2 lb bag baby spinach, 1/4lb Italian parsley, 1/4lb cilantro"
             }
           ],
-          "createdDate": "2020-05-13T18:02:56.397361",
+          "createdDate": "2020-05-13T18:21:22.239348",
           "fundedStatus": "fundedbyrecipient",
           "fundedDate": "",
           "readyToStart": true,
@@ -207,7 +234,7 @@
           "pickUpNotes": "",
           "deliveryWindow": {
             "timeWindowType": "as soon as possible",
-            "startTime": "2020-05-13T18:02:56.397364"
+            "startTime": "2020-05-13T18:21:22.239354"
           },
           "deliveryLocation": {
             "address": "1014 N Mariposa Ave #110, Los Angeles, CA 90029, USA",
@@ -228,20 +255,29 @@
             {
               "resourceUid": "2",
               "displayName": "Produce Box #2 (large)",
-              "quantity": 3
+              "quantity": 3,
+              "type": "foodbox",
+              "cost": "25",
+              "description": "Loose-leaf box: 1/2 baby arugula, 1/2 baby spinach, 1/2 salad mix, 1/4lb Italian parsley, 1/4lb cilantro"
             },
             {
               "resourceUid": "5",
               "displayName": "Produce Box #3 b (small)",
-              "quantity": 3
+              "quantity": 3,
+              "type": "foodbox",
+              "cost": "14",
+              "description": "8 or 9 types of produce, like broccoli, celery and kale, but smaller quantities than the large box."
             },
             {
               "resourceUid": "3",
               "displayName": "Produce Box #2b (small)",
-              "quantity": 2
+              "quantity": 2,
+              "type": "foodbox",
+              "cost": "19",
+              "description": "A smaller loose leaf box baby arugula, baby spinach, salad mix, Italian parsley, cilantro"
             }
           ],
-          "createdDate": "2020-05-13T18:02:56.397386",
+          "createdDate": "2020-05-13T18:21:22.239396",
           "fundedStatus": "fundedbyrecipient",
           "fundedDate": "",
           "readyToStart": true,
@@ -261,7 +297,7 @@
           "pickUpNotes": "",
           "deliveryWindow": {
             "timeWindowType": "exact",
-            "startTime": "2020-05-13T18:02:56.397389"
+            "startTime": "2020-05-13T18:21:22.239401"
           },
           "deliveryLocation": {
             "address": "14123 Foothill Blvd #3, Sylmar, CA 91342, USA",
@@ -282,10 +318,13 @@
             {
               "resourceUid": "7",
               "displayName": "Produce Box # 5: Donation Box",
-              "quantity": 1
+              "quantity": 1,
+              "type": "donationbox",
+              "cost": "25",
+              "description": "Enter the number of donation produce boxes you want to donate, for none leave blank or put a 0. Donations are 100% tax-deductible."
             }
           ],
-          "createdDate": "2020-05-13T18:02:56.397405",
+          "createdDate": "2020-05-13T18:21:22.239430",
           "fundedStatus": "fundedbyrecipient",
           "fundedDate": "",
           "readyToStart": true,
@@ -305,7 +344,7 @@
           "pickUpNotes": "",
           "deliveryWindow": {
             "timeWindowType": "exact",
-            "startTime": "2020-05-13T18:02:56.397408"
+            "startTime": "2020-05-13T18:21:22.239435"
           },
           "deliveryLocation": {
             "address": "13321 Gladstone Ave, Sylmar, CA 91342, USA",
@@ -326,10 +365,13 @@
             {
               "resourceUid": "1",
               "displayName": "Produce Box #1",
-              "quantity": 1
+              "quantity": 1,
+              "type": "foodbox",
+              "cost": "25",
+              "description": "Frisee and Head Lettuce box - one of every head of lettuce, 1/2 lb bag baby spinach, 1/4lb Italian parsley, 1/4lb cilantro"
             }
           ],
-          "createdDate": "2020-05-13T18:02:56.397425",
+          "createdDate": "2020-05-13T18:21:22.239462",
           "fundedStatus": "notfunded",
           "fundedDate": "",
           "readyToStart": false,
@@ -349,7 +391,7 @@
           "pickUpNotes": "",
           "deliveryWindow": {
             "timeWindowType": "whenever possible",
-            "startTime": "2020-05-13T18:02:56.397428"
+            "startTime": "2020-05-13T18:21:22.239467"
           },
           "deliveryLocation": {
             "address": "12345 Pala Ave, Sylmar, CA 91342, USA",
@@ -370,10 +412,13 @@
             {
               "resourceUid": "6",
               "displayName": "Produce Box #4: Fruit Box",
-              "quantity": 3
+              "quantity": 3,
+              "type": "foodbox",
+              "cost": "30",
+              "description": "Oranges, Mandarins, Grapefruits, Lemons, and Peaches"
             }
           ],
-          "createdDate": "2020-05-13T18:02:56.397443",
+          "createdDate": "2020-05-13T18:21:22.239492",
           "fundedStatus": "notfunded",
           "fundedDate": "",
           "readyToStart": false,
@@ -393,7 +438,7 @@
           "pickUpNotes": "",
           "deliveryWindow": {
             "timeWindowType": "wholeday",
-            "startTime": "2020-05-13T18:02:56.397446"
+            "startTime": "2020-05-13T18:21:22.239498"
           },
           "deliveryLocation": {
             "address": "13123 Fellows Ave, Sylmar, CA 91342, USA",
@@ -414,17 +459,23 @@
             {
               "resourceUid": "5",
               "displayName": "Produce Box #3 b (small)",
-              "quantity": 1
+              "quantity": 1,
+              "type": "foodbox",
+              "cost": "14",
+              "description": "8 or 9 types of produce, like broccoli, celery and kale, but smaller quantities than the large box."
             },
             {
               "resourceUid": "4",
               "displayName": "Produce Box #3 (large)",
-              "quantity": 3
+              "quantity": 3,
+              "type": "foodbox",
+              "cost": "8",
+              "description": "8 or 9 types, like broccoli, celery and kale."
             }
           ],
-          "createdDate": "2020-05-13T18:02:56.397461",
+          "createdDate": "2020-05-13T18:21:22.239529",
           "fundedStatus": "fundedbyrecipient",
-          "fundedDate": "2020-05-13T18:02:56.397471",
+          "fundedDate": "2020-05-13T18:21:22.239548",
           "readyToStart": false,
           "groupUid": "San Mateo 2020/05/29",
           "groupDisplayName": "San Mateo 2020/05/29",
@@ -442,7 +493,7 @@
           "pickUpNotes": "",
           "deliveryWindow": {
             "timeWindowType": "whenever possible",
-            "startTime": "2020-05-13T18:02:56.397464"
+            "startTime": "2020-05-13T18:21:22.239535"
           },
           "deliveryLocation": {
             "address": "5322 Weaver St, Los Angeles, CA 90042, USA",
@@ -463,22 +514,31 @@
             {
               "resourceUid": "2",
               "displayName": "Produce Box #2 (large)",
-              "quantity": 2
+              "quantity": 2,
+              "type": "foodbox",
+              "cost": "25",
+              "description": "Loose-leaf box: 1/2 baby arugula, 1/2 baby spinach, 1/2 salad mix, 1/4lb Italian parsley, 1/4lb cilantro"
             },
             {
               "resourceUid": "7",
               "displayName": "Produce Box # 5: Donation Box",
-              "quantity": 1
+              "quantity": 1,
+              "type": "donationbox",
+              "cost": "25",
+              "description": "Enter the number of donation produce boxes you want to donate, for none leave blank or put a 0. Donations are 100% tax-deductible."
             },
             {
               "resourceUid": "3",
               "displayName": "Produce Box #2b (small)",
-              "quantity": 2
+              "quantity": 2,
+              "type": "foodbox",
+              "cost": "19",
+              "description": "A smaller loose leaf box baby arugula, baby spinach, salad mix, Italian parsley, cilantro"
             }
           ],
-          "createdDate": "2020-05-13T18:02:56.397495",
+          "createdDate": "2020-05-13T18:21:22.239602",
           "fundedStatus": "fundedbyrecipient",
-          "fundedDate": "2020-05-13T18:02:56.397504",
+          "fundedDate": "2020-05-13T18:21:22.239619",
           "readyToStart": true,
           "groupUid": "Union Square 2020/05/04",
           "groupDisplayName": "Union Square 2020/05/04",
@@ -496,7 +556,7 @@
           "pickUpNotes": "",
           "deliveryWindow": {
             "timeWindowType": "exact",
-            "startTime": "2020-05-13T18:02:56.397498"
+            "startTime": "2020-05-13T18:21:22.239608"
           },
           "deliveryLocation": {
             "address": "5123 W 20th St, Los Angeles, CA 90016, USA",
@@ -517,10 +577,13 @@
             {
               "resourceUid": "1",
               "displayName": "Produce Box #1",
-              "quantity": 3
+              "quantity": 3,
+              "type": "foodbox",
+              "cost": "25",
+              "description": "Frisee and Head Lettuce box - one of every head of lettuce, 1/2 lb bag baby spinach, 1/4lb Italian parsley, 1/4lb cilantro"
             }
           ],
-          "createdDate": "2020-05-13T18:02:56.397524",
+          "createdDate": "2020-05-13T18:21:22.239658",
           "fundedStatus": "notfunded",
           "fundedDate": "",
           "readyToStart": false,
@@ -540,7 +603,7 @@
           "pickUpNotes": "",
           "deliveryWindow": {
             "timeWindowType": "morning",
-            "startTime": "2020-05-13T18:02:56.397527"
+            "startTime": "2020-05-13T18:21:22.239664"
           },
           "deliveryLocation": {
             "address": "14123 Foothill Blvd #3, Sylmar, CA 91342, USA",
@@ -561,10 +624,13 @@
             {
               "resourceUid": "1",
               "displayName": "Produce Box #1",
-              "quantity": 3
+              "quantity": 3,
+              "type": "foodbox",
+              "cost": "25",
+              "description": "Frisee and Head Lettuce box - one of every head of lettuce, 1/2 lb bag baby spinach, 1/4lb Italian parsley, 1/4lb cilantro"
             }
           ],
-          "createdDate": "2020-05-13T18:02:56.397541",
+          "createdDate": "2020-05-13T18:21:22.239691",
           "fundedStatus": "notfunded",
           "fundedDate": "",
           "readyToStart": false,
@@ -584,7 +650,7 @@
           "pickUpNotes": "",
           "deliveryWindow": {
             "timeWindowType": "exact",
-            "startTime": "2020-05-13T18:02:56.397544"
+            "startTime": "2020-05-13T18:21:22.239697"
           },
           "deliveryLocation": {
             "address": "125 S Everett St #2, Glendale, CA 91205, USA",
@@ -605,20 +671,29 @@
             {
               "resourceUid": "1",
               "displayName": "Produce Box #1",
-              "quantity": 3
+              "quantity": 3,
+              "type": "foodbox",
+              "cost": "25",
+              "description": "Frisee and Head Lettuce box - one of every head of lettuce, 1/2 lb bag baby spinach, 1/4lb Italian parsley, 1/4lb cilantro"
             },
             {
               "resourceUid": "4",
               "displayName": "Produce Box #3 (large)",
-              "quantity": 3
+              "quantity": 3,
+              "type": "foodbox",
+              "cost": "8",
+              "description": "8 or 9 types, like broccoli, celery and kale."
             },
             {
               "resourceUid": "1",
               "displayName": "Produce Box #1",
-              "quantity": 2
+              "quantity": 2,
+              "type": "foodbox",
+              "cost": "25",
+              "description": "Frisee and Head Lettuce box - one of every head of lettuce, 1/2 lb bag baby spinach, 1/4lb Italian parsley, 1/4lb cilantro"
             }
           ],
-          "createdDate": "2020-05-13T18:02:56.397561",
+          "createdDate": "2020-05-13T18:21:22.239731",
           "fundedStatus": "fundedbyrecipient",
           "fundedDate": "",
           "readyToStart": true,
@@ -638,7 +713,7 @@
           "pickUpNotes": "",
           "deliveryWindow": {
             "timeWindowType": "exact",
-            "startTime": "2020-05-13T18:02:56.397564"
+            "startTime": "2020-05-13T18:21:22.239736"
           },
           "deliveryLocation": {
             "address": "891 Yoakum St, Los Angeles, CA 90032, USA",
@@ -659,20 +734,29 @@
             {
               "resourceUid": "4",
               "displayName": "Produce Box #3 (large)",
-              "quantity": 1
+              "quantity": 1,
+              "type": "foodbox",
+              "cost": "8",
+              "description": "8 or 9 types, like broccoli, celery and kale."
             },
             {
               "resourceUid": "5",
               "displayName": "Produce Box #3 b (small)",
-              "quantity": 1
+              "quantity": 1,
+              "type": "foodbox",
+              "cost": "14",
+              "description": "8 or 9 types of produce, like broccoli, celery and kale, but smaller quantities than the large box."
             },
             {
               "resourceUid": "6",
               "displayName": "Produce Box #4: Fruit Box",
-              "quantity": 2
+              "quantity": 2,
+              "type": "foodbox",
+              "cost": "30",
+              "description": "Oranges, Mandarins, Grapefruits, Lemons, and Peaches"
             }
           ],
-          "createdDate": "2020-05-13T18:02:56.397586",
+          "createdDate": "2020-05-13T18:21:22.239779",
           "fundedStatus": "notfunded",
           "fundedDate": "",
           "readyToStart": false,
@@ -692,7 +776,7 @@
           "pickUpNotes": "",
           "deliveryWindow": {
             "timeWindowType": "morning",
-            "startTime": "2020-05-13T18:02:56.397589"
+            "startTime": "2020-05-13T18:21:22.239785"
           },
           "deliveryLocation": {
             "address": "2323 Thelma Ave, Los Angeles, CA 90032, USA",
@@ -713,10 +797,13 @@
             {
               "resourceUid": "7",
               "displayName": "Produce Box # 5: Donation Box",
-              "quantity": 3
+              "quantity": 3,
+              "type": "donationbox",
+              "cost": "25",
+              "description": "Enter the number of donation produce boxes you want to donate, for none leave blank or put a 0. Donations are 100% tax-deductible."
             }
           ],
-          "createdDate": "2020-05-13T18:02:56.397603",
+          "createdDate": "2020-05-13T18:21:22.239816",
           "fundedStatus": "fundedbyrecipient",
           "fundedDate": "",
           "readyToStart": true,
@@ -736,7 +823,7 @@
           "pickUpNotes": "",
           "deliveryWindow": {
             "timeWindowType": "morning",
-            "startTime": "2020-05-13T18:02:56.397606"
+            "startTime": "2020-05-13T18:21:22.239822"
           },
           "deliveryLocation": {
             "address": "2393 Silver Ridge Ave, Los Angeles, CA 90039, USA",
@@ -757,10 +844,13 @@
             {
               "resourceUid": "4",
               "displayName": "Produce Box #3 (large)",
-              "quantity": 3
+              "quantity": 3,
+              "type": "foodbox",
+              "cost": "8",
+              "description": "8 or 9 types, like broccoli, celery and kale."
             }
           ],
-          "createdDate": "2020-05-13T18:02:56.397623",
+          "createdDate": "2020-05-13T18:21:22.239854",
           "fundedStatus": "fundedbyrecipient",
           "fundedDate": "",
           "readyToStart": true,
@@ -780,7 +870,7 @@
           "pickUpNotes": "",
           "deliveryWindow": {
             "timeWindowType": "wholeday",
-            "startTime": "2020-05-13T18:02:56.397626"
+            "startTime": "2020-05-13T18:21:22.239860"
           },
           "deliveryLocation": {
             "address": "13123 Pala Ave, Sylmar, CA 91342, USA",
@@ -801,20 +891,29 @@
             {
               "resourceUid": "6",
               "displayName": "Produce Box #4: Fruit Box",
-              "quantity": 1
+              "quantity": 1,
+              "type": "foodbox",
+              "cost": "30",
+              "description": "Oranges, Mandarins, Grapefruits, Lemons, and Peaches"
             },
             {
               "resourceUid": "4",
               "displayName": "Produce Box #3 (large)",
-              "quantity": 3
+              "quantity": 3,
+              "type": "foodbox",
+              "cost": "8",
+              "description": "8 or 9 types, like broccoli, celery and kale."
             },
             {
               "resourceUid": "1",
               "displayName": "Produce Box #1",
-              "quantity": 2
+              "quantity": 2,
+              "type": "foodbox",
+              "cost": "25",
+              "description": "Frisee and Head Lettuce box - one of every head of lettuce, 1/2 lb bag baby spinach, 1/4lb Italian parsley, 1/4lb cilantro"
             }
           ],
-          "createdDate": "2020-05-13T18:02:56.397644",
+          "createdDate": "2020-05-13T18:21:22.239904",
           "fundedStatus": "fundedbyrecipient",
           "fundedDate": "",
           "readyToStart": true,
@@ -834,7 +933,7 @@
           "pickUpNotes": "",
           "deliveryWindow": {
             "timeWindowType": "whenever possible",
-            "startTime": "2020-05-13T18:02:56.397646"
+            "startTime": "2020-05-13T18:21:22.239911"
           },
           "deliveryLocation": {
             "address": "3673 2nd Ave, Los Angeles, CA 90018, USA",
@@ -855,20 +954,29 @@
             {
               "resourceUid": "3",
               "displayName": "Produce Box #2b (small)",
-              "quantity": 3
+              "quantity": 3,
+              "type": "foodbox",
+              "cost": "19",
+              "description": "A smaller loose leaf box baby arugula, baby spinach, salad mix, Italian parsley, cilantro"
             },
             {
               "resourceUid": "3",
               "displayName": "Produce Box #2b (small)",
-              "quantity": 3
+              "quantity": 3,
+              "type": "foodbox",
+              "cost": "19",
+              "description": "A smaller loose leaf box baby arugula, baby spinach, salad mix, Italian parsley, cilantro"
             },
             {
               "resourceUid": "6",
               "displayName": "Produce Box #4: Fruit Box",
-              "quantity": 3
+              "quantity": 3,
+              "type": "foodbox",
+              "cost": "30",
+              "description": "Oranges, Mandarins, Grapefruits, Lemons, and Peaches"
             }
           ],
-          "createdDate": "2020-05-13T18:02:56.397665",
+          "createdDate": "2020-05-13T18:21:22.239950",
           "fundedStatus": "notfunded",
           "fundedDate": "",
           "readyToStart": false,
@@ -888,7 +996,7 @@
           "pickUpNotes": "",
           "deliveryWindow": {
             "timeWindowType": "morning",
-            "startTime": "2020-05-13T18:02:56.397667"
+            "startTime": "2020-05-13T18:21:22.239956"
           },
           "deliveryLocation": {
             "address": "12321 Gladstone Ave, Sylmar, CA 91342, USA",
@@ -909,20 +1017,29 @@
             {
               "resourceUid": "2",
               "displayName": "Produce Box #2 (large)",
-              "quantity": 3
+              "quantity": 3,
+              "type": "foodbox",
+              "cost": "25",
+              "description": "Loose-leaf box: 1/2 baby arugula, 1/2 baby spinach, 1/2 salad mix, 1/4lb Italian parsley, 1/4lb cilantro"
             },
             {
               "resourceUid": "3",
               "displayName": "Produce Box #2b (small)",
-              "quantity": 1
+              "quantity": 1,
+              "type": "foodbox",
+              "cost": "19",
+              "description": "A smaller loose leaf box baby arugula, baby spinach, salad mix, Italian parsley, cilantro"
             },
             {
               "resourceUid": "2",
               "displayName": "Produce Box #2 (large)",
-              "quantity": 1
+              "quantity": 1,
+              "type": "foodbox",
+              "cost": "25",
+              "description": "Loose-leaf box: 1/2 baby arugula, 1/2 baby spinach, 1/2 salad mix, 1/4lb Italian parsley, 1/4lb cilantro"
             }
           ],
-          "createdDate": "2020-05-13T18:02:56.397685",
+          "createdDate": "2020-05-13T18:21:22.239992",
           "fundedStatus": "notfunded",
           "fundedDate": "",
           "readyToStart": false,
@@ -942,7 +1059,7 @@
           "pickUpNotes": "",
           "deliveryWindow": {
             "timeWindowType": "whenever possible",
-            "startTime": "2020-05-13T18:02:56.397688"
+            "startTime": "2020-05-13T18:21:22.239999"
           },
           "deliveryLocation": {
             "address": "802 N Normandie Ave, Los Angeles, CA 90029, USA",
@@ -963,20 +1080,29 @@
             {
               "resourceUid": "6",
               "displayName": "Produce Box #4: Fruit Box",
-              "quantity": 1
+              "quantity": 1,
+              "type": "foodbox",
+              "cost": "30",
+              "description": "Oranges, Mandarins, Grapefruits, Lemons, and Peaches"
             },
             {
               "resourceUid": "2",
               "displayName": "Produce Box #2 (large)",
-              "quantity": 2
+              "quantity": 2,
+              "type": "foodbox",
+              "cost": "25",
+              "description": "Loose-leaf box: 1/2 baby arugula, 1/2 baby spinach, 1/2 salad mix, 1/4lb Italian parsley, 1/4lb cilantro"
             },
             {
               "resourceUid": "1",
               "displayName": "Produce Box #1",
-              "quantity": 2
+              "quantity": 2,
+              "type": "foodbox",
+              "cost": "25",
+              "description": "Frisee and Head Lettuce box - one of every head of lettuce, 1/2 lb bag baby spinach, 1/4lb Italian parsley, 1/4lb cilantro"
             }
           ],
-          "createdDate": "2020-05-13T18:02:56.397705",
+          "createdDate": "2020-05-13T18:21:22.240036",
           "fundedStatus": "notfunded",
           "fundedDate": "",
           "readyToStart": false,
@@ -996,7 +1122,7 @@
           "pickUpNotes": "",
           "deliveryWindow": {
             "timeWindowType": "whenever possible",
-            "startTime": "2020-05-13T18:02:56.397708"
+            "startTime": "2020-05-13T18:21:22.240042"
           },
           "deliveryLocation": {
             "address": "2393 Silver Ridge Ave, Los Angeles, CA 90039, USA",
@@ -1017,10 +1143,13 @@
             {
               "resourceUid": "4",
               "displayName": "Produce Box #3 (large)",
-              "quantity": 2
+              "quantity": 2,
+              "type": "foodbox",
+              "cost": "8",
+              "description": "8 or 9 types, like broccoli, celery and kale."
             }
           ],
-          "createdDate": "2020-05-13T18:02:56.397725",
+          "createdDate": "2020-05-13T18:21:22.240072",
           "fundedStatus": "notfunded",
           "fundedDate": "",
           "readyToStart": false,
@@ -1040,7 +1169,7 @@
           "pickUpNotes": "",
           "deliveryWindow": {
             "timeWindowType": "afternoon",
-            "startTime": "2020-05-13T18:02:56.397730"
+            "startTime": "2020-05-13T18:21:22.240078"
           },
           "deliveryLocation": {
             "address": "CA-2, California, USA",
@@ -1061,20 +1190,29 @@
             {
               "resourceUid": "2",
               "displayName": "Produce Box #2 (large)",
-              "quantity": 1
+              "quantity": 1,
+              "type": "foodbox",
+              "cost": "25",
+              "description": "Loose-leaf box: 1/2 baby arugula, 1/2 baby spinach, 1/2 salad mix, 1/4lb Italian parsley, 1/4lb cilantro"
             },
             {
               "resourceUid": "4",
               "displayName": "Produce Box #3 (large)",
-              "quantity": 3
+              "quantity": 3,
+              "type": "foodbox",
+              "cost": "8",
+              "description": "8 or 9 types, like broccoli, celery and kale."
             },
             {
               "resourceUid": "4",
               "displayName": "Produce Box #3 (large)",
-              "quantity": 2
+              "quantity": 2,
+              "type": "foodbox",
+              "cost": "8",
+              "description": "8 or 9 types, like broccoli, celery and kale."
             }
           ],
-          "createdDate": "2020-05-13T18:02:56.397757",
+          "createdDate": "2020-05-13T18:21:22.240204",
           "fundedStatus": "notfunded",
           "fundedDate": "",
           "readyToStart": false,
@@ -1094,7 +1232,7 @@
           "pickUpNotes": "",
           "deliveryWindow": {
             "timeWindowType": "exact",
-            "startTime": "2020-05-13T18:02:56.397762"
+            "startTime": "2020-05-13T18:21:22.240212"
           },
           "deliveryLocation": {
             "address": "1330 Lilac Terrace, Los Angeles, CA 90026, USA",
@@ -1115,10 +1253,13 @@
             {
               "resourceUid": "1",
               "displayName": "Produce Box #1",
-              "quantity": 3
+              "quantity": 3,
+              "type": "foodbox",
+              "cost": "25",
+              "description": "Frisee and Head Lettuce box - one of every head of lettuce, 1/2 lb bag baby spinach, 1/4lb Italian parsley, 1/4lb cilantro"
             }
           ],
-          "createdDate": "2020-05-13T18:02:56.397787",
+          "createdDate": "2020-05-13T18:21:22.240246",
           "fundedStatus": "fundedbyrecipient",
           "fundedDate": "",
           "readyToStart": true,
@@ -1138,7 +1279,7 @@
           "pickUpNotes": "",
           "deliveryWindow": {
             "timeWindowType": "whenever possible",
-            "startTime": "2020-05-13T18:02:56.397790"
+            "startTime": "2020-05-13T18:21:22.240252"
           },
           "deliveryLocation": {
             "address": "125 S Everett St #2, Glendale, CA 91205, USA",
@@ -1159,20 +1300,29 @@
             {
               "resourceUid": "1",
               "displayName": "Produce Box #1",
-              "quantity": 1
+              "quantity": 1,
+              "type": "foodbox",
+              "cost": "25",
+              "description": "Frisee and Head Lettuce box - one of every head of lettuce, 1/2 lb bag baby spinach, 1/4lb Italian parsley, 1/4lb cilantro"
             },
             {
               "resourceUid": "3",
               "displayName": "Produce Box #2b (small)",
-              "quantity": 2
+              "quantity": 2,
+              "type": "foodbox",
+              "cost": "19",
+              "description": "A smaller loose leaf box baby arugula, baby spinach, salad mix, Italian parsley, cilantro"
             },
             {
               "resourceUid": "7",
               "displayName": "Produce Box # 5: Donation Box",
-              "quantity": 1
+              "quantity": 1,
+              "type": "donationbox",
+              "cost": "25",
+              "description": "Enter the number of donation produce boxes you want to donate, for none leave blank or put a 0. Donations are 100% tax-deductible."
             }
           ],
-          "createdDate": "2020-05-13T18:02:56.397812",
+          "createdDate": "2020-05-13T18:21:22.240292",
           "fundedStatus": "fundedbyrecipient",
           "fundedDate": "",
           "readyToStart": true,
@@ -1192,7 +1342,7 @@
           "pickUpNotes": "",
           "deliveryWindow": {
             "timeWindowType": "afternoon",
-            "startTime": "2020-05-13T18:02:56.397815"
+            "startTime": "2020-05-13T18:21:22.240300"
           },
           "deliveryLocation": {
             "address": "3437 South La Brea Ave #120, Los Angeles, CA 90016, USA",
@@ -1213,10 +1363,13 @@
             {
               "resourceUid": "1",
               "displayName": "Produce Box #1",
-              "quantity": 1
+              "quantity": 1,
+              "type": "foodbox",
+              "cost": "25",
+              "description": "Frisee and Head Lettuce box - one of every head of lettuce, 1/2 lb bag baby spinach, 1/4lb Italian parsley, 1/4lb cilantro"
             }
           ],
-          "createdDate": "2020-05-13T18:02:56.397834",
+          "createdDate": "2020-05-13T18:21:22.240335",
           "fundedStatus": "fundedbyrecipient",
           "fundedDate": "",
           "readyToStart": true,
@@ -1236,7 +1389,7 @@
           "pickUpNotes": "",
           "deliveryWindow": {
             "timeWindowType": "whenever possible",
-            "startTime": "2020-05-13T18:02:56.397836"
+            "startTime": "2020-05-13T18:21:22.240341"
           },
           "deliveryLocation": {
             "address": "2323 Thelma Ave, Los Angeles, CA 90032, USA",
@@ -1257,20 +1410,29 @@
             {
               "resourceUid": "6",
               "displayName": "Produce Box #4: Fruit Box",
-              "quantity": 2
+              "quantity": 2,
+              "type": "foodbox",
+              "cost": "30",
+              "description": "Oranges, Mandarins, Grapefruits, Lemons, and Peaches"
             },
             {
               "resourceUid": "6",
               "displayName": "Produce Box #4: Fruit Box",
-              "quantity": 2
+              "quantity": 2,
+              "type": "foodbox",
+              "cost": "30",
+              "description": "Oranges, Mandarins, Grapefruits, Lemons, and Peaches"
             },
             {
               "resourceUid": "3",
               "displayName": "Produce Box #2b (small)",
-              "quantity": 3
+              "quantity": 3,
+              "type": "foodbox",
+              "cost": "19",
+              "description": "A smaller loose leaf box baby arugula, baby spinach, salad mix, Italian parsley, cilantro"
             }
           ],
-          "createdDate": "2020-05-13T18:02:56.397857",
+          "createdDate": "2020-05-13T18:21:22.240386",
           "fundedStatus": "fundedbyrecipient",
           "fundedDate": "",
           "readyToStart": true,
@@ -1290,7 +1452,7 @@
           "pickUpNotes": "",
           "deliveryWindow": {
             "timeWindowType": "morning",
-            "startTime": "2020-05-13T18:02:56.397859"
+            "startTime": "2020-05-13T18:21:22.240392"
           },
           "deliveryLocation": {
             "address": "1330 Lilac Terrace, Los Angeles, CA 90026, USA",
@@ -1311,15 +1473,21 @@
             {
               "resourceUid": "3",
               "displayName": "Produce Box #2b (small)",
-              "quantity": 2
+              "quantity": 2,
+              "type": "foodbox",
+              "cost": "19",
+              "description": "A smaller loose leaf box baby arugula, baby spinach, salad mix, Italian parsley, cilantro"
             },
             {
               "resourceUid": "6",
               "displayName": "Produce Box #4: Fruit Box",
-              "quantity": 1
+              "quantity": 1,
+              "type": "foodbox",
+              "cost": "30",
+              "description": "Oranges, Mandarins, Grapefruits, Lemons, and Peaches"
             }
           ],
-          "createdDate": "2020-05-13T18:02:56.397877",
+          "createdDate": "2020-05-13T18:21:22.240431",
           "fundedStatus": "notfunded",
           "fundedDate": "",
           "readyToStart": false,
@@ -1339,7 +1507,7 @@
           "pickUpNotes": "",
           "deliveryWindow": {
             "timeWindowType": "afternoon",
-            "startTime": "2020-05-13T18:02:56.397880"
+            "startTime": "2020-05-13T18:21:22.240437"
           },
           "deliveryLocation": {
             "address": "14321 Rinaldi St, San Fernando, CA 91340, USA",
@@ -1360,12 +1528,15 @@
             {
               "resourceUid": "5",
               "displayName": "Produce Box #3 b (small)",
-              "quantity": 2
+              "quantity": 2,
+              "type": "foodbox",
+              "cost": "14",
+              "description": "8 or 9 types of produce, like broccoli, celery and kale, but smaller quantities than the large box."
             }
           ],
-          "createdDate": "2020-05-13T18:02:56.397894",
+          "createdDate": "2020-05-13T18:21:22.240468",
           "fundedStatus": "fundedbyrecipient",
-          "fundedDate": "2020-05-13T18:02:56.397903",
+          "fundedDate": "2020-05-13T18:21:22.240487",
           "readyToStart": true,
           "groupUid": null,
           "groupDisplayName": null,
@@ -1383,7 +1554,7 @@
           "pickUpNotes": "",
           "deliveryWindow": {
             "timeWindowType": "afternoon",
-            "startTime": "2020-05-13T18:02:56.397897"
+            "startTime": "2020-05-13T18:21:22.240474"
           },
           "deliveryLocation": {
             "address": "1165 1/2 N Kingsley Dr #1190, Los Angeles, CA 90029, USA",
@@ -1404,10 +1575,13 @@
             {
               "resourceUid": "3",
               "displayName": "Produce Box #2b (small)",
-              "quantity": 1
+              "quantity": 1,
+              "type": "foodbox",
+              "cost": "19",
+              "description": "A smaller loose leaf box baby arugula, baby spinach, salad mix, Italian parsley, cilantro"
             }
           ],
-          "createdDate": "2020-05-13T18:02:56.397924",
+          "createdDate": "2020-05-13T18:21:22.240533",
           "fundedStatus": "fundedbyrecipient",
           "fundedDate": "",
           "readyToStart": true,
@@ -1427,7 +1601,7 @@
           "pickUpNotes": "",
           "deliveryWindow": {
             "timeWindowType": "as soon as possible",
-            "startTime": "2020-05-13T18:02:56.397927"
+            "startTime": "2020-05-13T18:21:22.240540"
           },
           "deliveryLocation": {
             "address": "13932 Hubbard St, Sylmar, CA 91342, USA",
@@ -1448,10 +1622,13 @@
             {
               "resourceUid": "1",
               "displayName": "Produce Box #1",
-              "quantity": 3
+              "quantity": 3,
+              "type": "foodbox",
+              "cost": "25",
+              "description": "Frisee and Head Lettuce box - one of every head of lettuce, 1/2 lb bag baby spinach, 1/4lb Italian parsley, 1/4lb cilantro"
             }
           ],
-          "createdDate": "2020-05-13T18:02:56.397942",
+          "createdDate": "2020-05-13T18:21:22.240576",
           "fundedStatus": "fundedbyrecipient",
           "fundedDate": "",
           "readyToStart": true,
@@ -1471,7 +1648,7 @@
           "pickUpNotes": "",
           "deliveryWindow": {
             "timeWindowType": "wholeday",
-            "startTime": "2020-05-13T18:02:56.397945"
+            "startTime": "2020-05-13T18:21:22.240583"
           },
           "deliveryLocation": {
             "address": "1012 N Mariposa Ave #911, Los Angeles, CA 90029, USA",
@@ -1492,15 +1669,21 @@
             {
               "resourceUid": "1",
               "displayName": "Produce Box #1",
-              "quantity": 2
+              "quantity": 2,
+              "type": "foodbox",
+              "cost": "25",
+              "description": "Frisee and Head Lettuce box - one of every head of lettuce, 1/2 lb bag baby spinach, 1/4lb Italian parsley, 1/4lb cilantro"
             },
             {
               "resourceUid": "3",
               "displayName": "Produce Box #2b (small)",
-              "quantity": 3
+              "quantity": 3,
+              "type": "foodbox",
+              "cost": "19",
+              "description": "A smaller loose leaf box baby arugula, baby spinach, salad mix, Italian parsley, cilantro"
             }
           ],
-          "createdDate": "2020-05-13T18:02:56.397961",
+          "createdDate": "2020-05-13T18:21:22.240619",
           "fundedStatus": "notfunded",
           "fundedDate": "",
           "readyToStart": false,
@@ -1520,7 +1703,7 @@
           "pickUpNotes": "",
           "deliveryWindow": {
             "timeWindowType": "whenever possible",
-            "startTime": "2020-05-13T18:02:56.397964"
+            "startTime": "2020-05-13T18:21:22.240625"
           },
           "deliveryLocation": {
             "address": "1579 Lucile Ave, Los Angeles, CA 90026, USA",
@@ -1541,10 +1724,13 @@
             {
               "resourceUid": "6",
               "displayName": "Produce Box #4: Fruit Box",
-              "quantity": 1
+              "quantity": 1,
+              "type": "foodbox",
+              "cost": "30",
+              "description": "Oranges, Mandarins, Grapefruits, Lemons, and Peaches"
             }
           ],
-          "createdDate": "2020-05-13T18:02:56.397981",
+          "createdDate": "2020-05-13T18:21:22.240655",
           "fundedStatus": "notfunded",
           "fundedDate": "",
           "readyToStart": false,
@@ -1564,7 +1750,7 @@
           "pickUpNotes": "",
           "deliveryWindow": {
             "timeWindowType": "exact",
-            "startTime": "2020-05-13T18:02:56.397983"
+            "startTime": "2020-05-13T18:21:22.240661"
           },
           "deliveryLocation": {
             "address": "784 N Alexandria Ave, Los Angeles, CA 90029, USA",
@@ -1585,15 +1771,21 @@
             {
               "resourceUid": "4",
               "displayName": "Produce Box #3 (large)",
-              "quantity": 3
+              "quantity": 3,
+              "type": "foodbox",
+              "cost": "8",
+              "description": "8 or 9 types, like broccoli, celery and kale."
             },
             {
               "resourceUid": "6",
               "displayName": "Produce Box #4: Fruit Box",
-              "quantity": 3
+              "quantity": 3,
+              "type": "foodbox",
+              "cost": "30",
+              "description": "Oranges, Mandarins, Grapefruits, Lemons, and Peaches"
             }
           ],
-          "createdDate": "2020-05-13T18:02:56.397999",
+          "createdDate": "2020-05-13T18:21:22.240696",
           "fundedStatus": "fundedbyrecipient",
           "fundedDate": "",
           "readyToStart": true,
@@ -1613,7 +1805,7 @@
           "pickUpNotes": "",
           "deliveryWindow": {
             "timeWindowType": "morning",
-            "startTime": "2020-05-13T18:02:56.398002"
+            "startTime": "2020-05-13T18:21:22.240702"
           },
           "deliveryLocation": {
             "address": "743 1/2 N Heliotrope Dr #1010, Los Angeles, CA 90029, USA",
@@ -1634,15 +1826,21 @@
             {
               "resourceUid": "2",
               "displayName": "Produce Box #2 (large)",
-              "quantity": 2
+              "quantity": 2,
+              "type": "foodbox",
+              "cost": "25",
+              "description": "Loose-leaf box: 1/2 baby arugula, 1/2 baby spinach, 1/2 salad mix, 1/4lb Italian parsley, 1/4lb cilantro"
             },
             {
               "resourceUid": "1",
               "displayName": "Produce Box #1",
-              "quantity": 1
+              "quantity": 1,
+              "type": "foodbox",
+              "cost": "25",
+              "description": "Frisee and Head Lettuce box - one of every head of lettuce, 1/2 lb bag baby spinach, 1/4lb Italian parsley, 1/4lb cilantro"
             }
           ],
-          "createdDate": "2020-05-13T18:02:56.398019",
+          "createdDate": "2020-05-13T18:21:22.240738",
           "fundedStatus": "notfunded",
           "fundedDate": "",
           "readyToStart": false,
@@ -1662,7 +1860,7 @@
           "pickUpNotes": "",
           "deliveryWindow": {
             "timeWindowType": "whenever possible",
-            "startTime": "2020-05-13T18:02:56.398022"
+            "startTime": "2020-05-13T18:21:22.240744"
           },
           "deliveryLocation": {
             "address": "2832 S Mansfield Ave, Los Angeles, CA 90016, USA",
@@ -1683,15 +1881,21 @@
             {
               "resourceUid": "3",
               "displayName": "Produce Box #2b (small)",
-              "quantity": 1
+              "quantity": 1,
+              "type": "foodbox",
+              "cost": "19",
+              "description": "A smaller loose leaf box baby arugula, baby spinach, salad mix, Italian parsley, cilantro"
             },
             {
               "resourceUid": "6",
               "displayName": "Produce Box #4: Fruit Box",
-              "quantity": 1
+              "quantity": 1,
+              "type": "foodbox",
+              "cost": "30",
+              "description": "Oranges, Mandarins, Grapefruits, Lemons, and Peaches"
             }
           ],
-          "createdDate": "2020-05-13T18:02:56.398037",
+          "createdDate": "2020-05-13T18:21:22.240778",
           "fundedStatus": "notfunded",
           "fundedDate": "",
           "readyToStart": false,
@@ -1711,7 +1915,7 @@
           "pickUpNotes": "",
           "deliveryWindow": {
             "timeWindowType": "morning",
-            "startTime": "2020-05-13T18:02:56.398040"
+            "startTime": "2020-05-13T18:21:22.240784"
           },
           "deliveryLocation": {
             "address": "13321 Gladstone Ave, Sylmar, CA 91342, USA",
@@ -1732,15 +1936,21 @@
             {
               "resourceUid": "5",
               "displayName": "Produce Box #3 b (small)",
-              "quantity": 1
+              "quantity": 1,
+              "type": "foodbox",
+              "cost": "14",
+              "description": "8 or 9 types of produce, like broccoli, celery and kale, but smaller quantities than the large box."
             },
             {
               "resourceUid": "1",
               "displayName": "Produce Box #1",
-              "quantity": 3
+              "quantity": 3,
+              "type": "foodbox",
+              "cost": "25",
+              "description": "Frisee and Head Lettuce box - one of every head of lettuce, 1/2 lb bag baby spinach, 1/4lb Italian parsley, 1/4lb cilantro"
             }
           ],
-          "createdDate": "2020-05-13T18:02:56.398054",
+          "createdDate": "2020-05-13T18:21:22.240817",
           "fundedStatus": "notfunded",
           "fundedDate": "",
           "readyToStart": false,
@@ -1760,7 +1970,7 @@
           "pickUpNotes": "",
           "deliveryWindow": {
             "timeWindowType": "wholeday",
-            "startTime": "2020-05-13T18:02:56.398057"
+            "startTime": "2020-05-13T18:21:22.240823"
           },
           "deliveryLocation": {
             "address": "1579 Lucile Ave, Los Angeles, CA 90026, USA",
@@ -1781,20 +1991,29 @@
             {
               "resourceUid": "3",
               "displayName": "Produce Box #2b (small)",
-              "quantity": 2
+              "quantity": 2,
+              "type": "foodbox",
+              "cost": "19",
+              "description": "A smaller loose leaf box baby arugula, baby spinach, salad mix, Italian parsley, cilantro"
             },
             {
               "resourceUid": "4",
               "displayName": "Produce Box #3 (large)",
-              "quantity": 3
+              "quantity": 3,
+              "type": "foodbox",
+              "cost": "8",
+              "description": "8 or 9 types, like broccoli, celery and kale."
             },
             {
               "resourceUid": "6",
               "displayName": "Produce Box #4: Fruit Box",
-              "quantity": 1
+              "quantity": 1,
+              "type": "foodbox",
+              "cost": "30",
+              "description": "Oranges, Mandarins, Grapefruits, Lemons, and Peaches"
             }
           ],
-          "createdDate": "2020-05-13T18:02:56.398074",
+          "createdDate": "2020-05-13T18:21:22.240864",
           "fundedStatus": "notfunded",
           "fundedDate": "",
           "readyToStart": false,
@@ -1814,7 +2033,7 @@
           "pickUpNotes": "",
           "deliveryWindow": {
             "timeWindowType": "as soon as possible",
-            "startTime": "2020-05-13T18:02:56.398077"
+            "startTime": "2020-05-13T18:21:22.240870"
           },
           "deliveryLocation": {
             "address": "13321 Gladstone Ave, Sylmar, CA 91342, USA",
@@ -1835,12 +2054,15 @@
             {
               "resourceUid": "5",
               "displayName": "Produce Box #3 b (small)",
-              "quantity": 1
+              "quantity": 1,
+              "type": "foodbox",
+              "cost": "14",
+              "description": "8 or 9 types of produce, like broccoli, celery and kale, but smaller quantities than the large box."
             }
           ],
-          "createdDate": "2020-05-13T18:02:56.398094",
+          "createdDate": "2020-05-13T18:21:22.240906",
           "fundedStatus": "fundedbyrecipient",
-          "fundedDate": "2020-05-13T18:02:56.398104",
+          "fundedDate": "2020-05-13T18:21:22.240926",
           "readyToStart": true,
           "groupUid": null,
           "groupDisplayName": null,
@@ -1858,7 +2080,7 @@
           "pickUpNotes": "",
           "deliveryWindow": {
             "timeWindowType": "afternoon",
-            "startTime": "2020-05-13T18:02:56.398097"
+            "startTime": "2020-05-13T18:21:22.240912"
           },
           "deliveryLocation": {
             "address": "14123 Foothill Blvd #3, Sylmar, CA 91342, USA",
@@ -1879,12 +2101,15 @@
             {
               "resourceUid": "7",
               "displayName": "Produce Box # 5: Donation Box",
-              "quantity": 1
+              "quantity": 1,
+              "type": "donationbox",
+              "cost": "25",
+              "description": "Enter the number of donation produce boxes you want to donate, for none leave blank or put a 0. Donations are 100% tax-deductible."
             }
           ],
-          "createdDate": "2020-05-13T18:02:56.398126",
+          "createdDate": "2020-05-13T18:21:22.240977",
           "fundedStatus": "fundedbyrecipient",
-          "fundedDate": "2020-05-13T18:02:56.398135",
+          "fundedDate": "2020-05-13T18:21:22.240996",
           "readyToStart": false,
           "groupUid": "Union Square 2020/05/04",
           "groupDisplayName": "Union Square 2020/05/04",
@@ -1902,7 +2127,7 @@
           "pickUpNotes": "",
           "deliveryWindow": {
             "timeWindowType": "as soon as possible",
-            "startTime": "2020-05-13T18:02:56.398129"
+            "startTime": "2020-05-13T18:21:22.240983"
           },
           "deliveryLocation": {
             "address": "3673 2nd Ave, Los Angeles, CA 90018, USA",
@@ -1923,15 +2148,21 @@
             {
               "resourceUid": "3",
               "displayName": "Produce Box #2b (small)",
-              "quantity": 1
+              "quantity": 1,
+              "type": "foodbox",
+              "cost": "19",
+              "description": "A smaller loose leaf box baby arugula, baby spinach, salad mix, Italian parsley, cilantro"
             },
             {
               "resourceUid": "7",
               "displayName": "Produce Box # 5: Donation Box",
-              "quantity": 1
+              "quantity": 1,
+              "type": "donationbox",
+              "cost": "25",
+              "description": "Enter the number of donation produce boxes you want to donate, for none leave blank or put a 0. Donations are 100% tax-deductible."
             }
           ],
-          "createdDate": "2020-05-13T18:02:56.398236",
+          "createdDate": "2020-05-13T18:21:22.241195",
           "fundedStatus": "notfunded",
           "fundedDate": "",
           "readyToStart": false,
@@ -1951,7 +2182,7 @@
           "pickUpNotes": "",
           "deliveryWindow": {
             "timeWindowType": "whenever possible",
-            "startTime": "2020-05-13T18:02:56.398240"
+            "startTime": "2020-05-13T18:21:22.241207"
           },
           "deliveryLocation": {
             "address": "CA-2, California, USA",
