@@ -47,7 +47,7 @@ export default function VolunteerHome({ currentUser }) {
       const missions = await User.getAllAssociatedMissions(currentUser.uid);
       const availableMissions = await Mission.getAllAvailable();
 
-      // updateAvailableMissions(availableMissions);
+      updateAvailableMissions(availableMissions);
       updateAssignedMissions(getAllAssignedMissions(missions, currentUser));
       updateInProgressMissions(getAllInProgressMissions(missions, currentUser));
     };
