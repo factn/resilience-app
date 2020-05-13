@@ -224,10 +224,11 @@ class Mission:
         self.organizationUid = creator.organizationUid
         self.status = "unassigned"
 
-        self.mission_type = r.choice(MissionType)
-        self.mission_details = None
-        if self.mission_type == "resource":
-            self.mission_details = any_resource_details()
+        self.type = r.choice(MissionType)
+        self.details = None
+        if self.type == "resource":
+            self.details = [any_resource_details()
+                            for i in range(r.choice([1, 2, 3]))]
 
         self.createdDate = any_time()
 

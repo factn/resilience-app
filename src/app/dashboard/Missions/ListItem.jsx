@@ -127,6 +127,7 @@ const MissionListItem = ({
   }, [isSelected]);
 
   const itemClass = clsx(["inProposed", "inPlanning"].includes(missionsView) && classes.item);
+  console.log(mission);
 
   return (
     <Card

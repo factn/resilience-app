@@ -1,13 +1,13 @@
 import React from "react";
 
-const FoodBoxDetails = ({ details, showType }) => {
+const ResourceDetails = ({ details, showType }) => {
   return (
     <>
       {showType ? <b>Food Box</b> : null}
-      {details?.needs?.map((box, index) => {
+      {details?.map((resource, index) => {
         return (
           <div key={index}>
-            {box?.quantity} x {box?.name}
+            {resource?.quantity} x {resource?.displayName}
           </div>
         );
       })}
@@ -16,13 +16,16 @@ const FoodBoxDetails = ({ details, showType }) => {
 };
 
 const DetailsText = ({ mission, showType }) => {
-  const { missionDetails, type } = mission;
+  console.log(mission);
 
-  let SpecificDetails = null;
-  if (type === "foodbox") {
-    SpecificDetails = <FoodBoxDetails showType={showType} type={type} details={missionDetails} />;
+  const { details, type } = mission;
+
+  let Details = null;
+
+  if (type === "resource") {
+    Details = <ResourceDetails showType={showType} details={details} />;
   }
 
-  return <div>{SpecificDetails}</div>;
+  return <div>{Details}</div>;
 };
 export default DetailsText;
