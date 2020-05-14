@@ -21,10 +21,6 @@ jobs:
 
     - name: Install firebase-admin
       run: npm i firebase-admin
-
-    - name: Create dataset for updating firebase
-      run: |
-        mv ./data.json ./scheme/data.json
     
     - name: Upload to firebase
       env:
