@@ -138,9 +138,9 @@ function ConfirmStep({ dispatch, state }) {
               key={resource.uid}
               quantity={quantity}
               subtotal={quantity * resource.cost}
-              secondary={resource.provider}
+              secondary={resource.description}
             >
-              {resource.name}
+              {resource.displayName}
             </CheckoutItem>
           );
         })}

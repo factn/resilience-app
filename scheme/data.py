@@ -168,7 +168,7 @@ class Organization:
                 "uid": row["uid"],
                 "displayName": row["displayName"],
                 "cost": row["cost"],
-                "availableToOrder": row["availableToOrder"],
+                "availableToOrder": True,
                 "type": row["type"],
                 "description": row["description"]
             })
