@@ -125,6 +125,11 @@ const MissionItemMenu = ({ boxRef, className, groups, mission, volunteers }) => 
     dispatch({ type: actions.CLOSE });
   };
 
+  // menu only show up on planning phase for now
+  if (![Mission.Status.tentative, Mission.Status.assigned].includes(mission.status)) {
+    return null;
+  }
+
   return (
     <>
       <Box
