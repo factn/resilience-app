@@ -120,7 +120,7 @@ const MissionItemMenu = ({ boxRef, className, groups, mission, volunteers }) => 
   };
   const handleConfirmVolunteer = (selected) => {
     if (selected) {
-      User.assignedMission(selected, mission.uid);
+      Mission.assign(selected.uid, selected, mission.uid);
     }
     dispatch({ type: actions.CLOSE });
   };
