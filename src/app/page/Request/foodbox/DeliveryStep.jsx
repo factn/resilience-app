@@ -155,11 +155,11 @@ function DeliveryStep({ dispatch, state }) {
   return (
     <div>
       <Body1 className={classes.body1}>
-        Our volunteers will carry out deliveries once a week on weekends. The organizer will contact
-        you to confirm date of delivery.
+        We offer curbside pick up on Sunday mornings. If you are unable to pick up, volunteers carry
+        out deliveries once a week on weekends.
       </Body1>
       <H2 align="left" color="textPrimary" gutterBottom>
-        Delivery Drop Off Details
+        Delivery / Pick Up Details
       </H2>
       <AddressAutocomplete
         label="Location"
