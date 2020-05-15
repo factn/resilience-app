@@ -82,10 +82,10 @@ const MissionDetailsCard = ({ mission, photoDisabled }) => {
     <>
       <Grid item>
         <H2>Food Box Delivery</H2>
-        {mission.missionDetails.needs.map((need) => {
+        {mission.details.map((resource) => {
           return (
-            <Row key={need.name} Icon={FoodBoxIcon}>
-              {need.quantity} X {need.name}
+            <Row key={resource.displayName} Icon={FoodBoxIcon}>
+              {resource.quantity} X {resource.displayName}
             </Row>
           );
         })}
