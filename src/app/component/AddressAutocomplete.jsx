@@ -219,7 +219,7 @@ export default function AddressAutocomplete({
       {showMap && (
         <>
           <Box className={classes.mapHelperTextWrapper}>
-            <small>Dragg the marker to correct address</small>
+            <small>Drag the marker to correct address</small>
           </Box>
           <Box className={classes.mapWrapper}>
             <Box className={disabled && classes.disabledMap}></Box>
