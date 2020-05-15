@@ -35,7 +35,7 @@
 - [Table of Contents](#table-of-contents)
 - [About the Project](#about-the-project)
   - [Built With](#built-with)
-- [Getting Started](#getting-started)
+- [Local Development](#local-development)
   - [Prerequisites](#prerequisites)
 - [Repo setup](#repo-setup)
 - [Formatting your code](#formatting-your-code)
@@ -56,15 +56,15 @@ MutualAid.world is a global community of contributors making small acts of kindn
 - [Typescript](https://www.typescriptlang.org/)
 - [Firebase](https://firebase.google.com/)
 
-## Getting Started
+## Local Development
 
-Here are a few steps to help get set up for local development.
+Here are a few geting started steps to help get set up for local development.
 
 ### Prerequisites
 
 - [Node.js](https://nodejs.org/en/download/)
 - [Npm](https://www.npmjs.com/get-npm) (Comes with Node.js)
-- [Java](https://www.oracle.com/java/technologies/javase-jdk8-downloads.html) (optional)
+- [Java](https://www.oracle.com/java/technologies/javase-jdk8-downloads.html)
 
 ## Repo setup
 
