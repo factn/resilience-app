@@ -64,10 +64,12 @@ const VolunteerHomeMissionList = ({
 
   const viewRouteAllMissions = <ShowDeliveryRoute missions={missions} />;
 
+  const validMissions = [];
   const positions = missions?.reduce((acc, mission) => {
     const { lat, lng } = mission?.deliveryLocation;
     if (lat && lng) {
       acc.push([lat, lng]);
+      validMissions.push(mission);
     }
     return acc;
   }, []);
@@ -78,8 +80,8 @@ const VolunteerHomeMissionList = ({
         <Box width="100%" height="200px">
           <Map bounds={positions} style={{ width: "100%", height: "100%" }}>
             <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-            {positions?.map((position) => {
-              return <Marker key={position} position={position} />;
+            {missions?.map((mission) => {
+              return <Marker key={mission.uid} position={mission.deliveryLocation} />;
             })}
           </Map>
         </Box>
