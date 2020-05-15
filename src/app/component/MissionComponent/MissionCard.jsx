@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader, Grid, Typography, Button } from "@material-ui/core";
+import { Card, Box, CardContent, CardHeader, Grid, Typography, Button } from "@material-ui/core";
 import { withStyles, createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import GetAppIcon from "@material-ui/icons/GetApp";
 import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
@@ -205,13 +205,15 @@ const MissionCard = withStyles(styles)(({ classes, mission }) => {
             </Grid>
           </Grid>
         )}
-        <CardHeader
-          className={classes.onTopOfNotReady}
-          action={<InfoOutlinedIcon onClick={handleOpenModal} />}
-          title={<DetailsText showType={false} mission={mission} />}
-          avatar={<img height="20" src={appleIcon} alt="" />}
-        />
         <CardContent className={classes.cardContent}>
+          <Box position="relative">
+            <Box position="absolute" right={0} top={0}>
+              <InfoOutlinedIcon onClick={handleOpenModal} />
+            </Box>
+          </Box>
+          <Box fontSize="12px" fontWeight="bold">
+            <DetailsText mission={mission} />
+          </Box>
           <Grid container direction="row">
             <Grid item xs={6} container direction="column" className={classes.column}>
               <Grid item xs container alignItems="center" className={classes.pickup}>
