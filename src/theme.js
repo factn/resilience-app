@@ -10,8 +10,10 @@ export const color = {
   pink: "#ffefef",
   blue: "#3739B5",
   red: "#DA0B46",
-  successGreen: "#66D85D",
+  redlines: "#E8178A",
   green: "#024b30",
+  greenSuccess: "#66D85D",
+  greenToast: "#4caf50",
   darkOrange: "#EC7016",
   darkBlue: "#110079",
   lightgrey: "#F2F2F2",
@@ -46,7 +48,7 @@ export default {
       main: color.secondaryBlue,
     },
     success: {
-      main: color.successGreen,
+      main: color.greenSuccess,
     },
   },
   typography: {
