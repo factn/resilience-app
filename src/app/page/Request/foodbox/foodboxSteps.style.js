@@ -1,4 +1,5 @@
 import { makeStyles } from "@material-ui/core/styles";
+import { ExpandMore } from "@material-ui/icons";
 import styled from "styled-components";
 
 export const useStyles = makeStyles((theme) => ({
@@ -9,6 +10,18 @@ export const useStyles = makeStyles((theme) => ({
   checkBox: {
     textAlign: "left",
     display: "flex",
+  },
+  select: {
+    marginRight: ".5rem",
+  },
+  listItem: {
+    display: "flex",
+    alignItems: "start",
+    justifyContent: "space-around",
+    paddingLeft: "0",
+  },
+  cost: {
+    flex: "none",
   },
   body1: {
     textAlign: "left",
@@ -60,4 +73,10 @@ export const HappyBox = styled.div`
   svg > path {
     fill: ${({ theme }) => theme.palette.secondary.main};
   }
+`;
+
+export const Expand = styled(ExpandMore)`
+  align-self: center;
+
+  ${(props) => props.open && `transform: rotate(180deg)`}
 `;
