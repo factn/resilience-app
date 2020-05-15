@@ -120,10 +120,15 @@ const MissionItemMenu = ({ boxRef, className, groups, mission, volunteers }) => 
   };
   const handleConfirmVolunteer = (selected) => {
     if (selected) {
-      User.assignedMission(selected, mission.uid);
+      Mission.assign(selected.uid, selected, mission.uid);
     }
     dispatch({ type: actions.CLOSE });
   };
+
+  // menu only show up on planning phase for now
+  if (![Mission.Status.tentative, Mission.Status.assigned].includes(mission.status)) {
+    return null;
+  }
 
   return (
     <>

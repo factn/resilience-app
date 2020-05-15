@@ -382,7 +382,11 @@ const SignInHeaderComponent = ({ history }) => {
  */
 const HomePage = ({ auth, history, profile }) => {
   const org = useOrganization();
+
   useFirestoreConnect(() => {
+    if (!auth.uid) {
+      return [];
+    }
     const id = org.uid;
     return [
       Mission.fsAvailableUserMissions(id, auth.uid),
@@ -395,7 +399,6 @@ const HomePage = ({ auth, history, profile }) => {
   useEffect(() => {
     User.createProfileIfNotExist(auth, profile);
   }, [auth, profile]);
-
   return (
     <Page isLoaded={isLoaded(auth)} LoadingComponent={LoadingComponent}>
       {isEmpty(auth) ? (

@@ -13,6 +13,7 @@
 
 # firebase create debug.log
 *debug.log
+*.pyc
 
 # production
 /build

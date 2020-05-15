@@ -28,7 +28,7 @@ const SignupPage = () => {
   return (
     <Page>
       <FormWrapper>
-        <HeaderText>Intereset in become an organizer</HeaderText>
+        <HeaderText>Interested in become an organizer?</HeaderText>
         <DescriptionText>
           Leave your info below and we will be in contact with you asap
         </DescriptionText>
