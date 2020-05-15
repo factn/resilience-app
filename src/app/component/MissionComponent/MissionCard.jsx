@@ -129,7 +129,7 @@ const styles = (theme) => ({
  *
  * @component
  */
-const MissionCard = withStyles(styles)(({ anchorEl, classes, mission }) => {
+const MissionCard = withStyles(styles)(({ classes, mission }) => {
   const location = mission.pickUpLocation?.address || "no data";
   const dropOffLocation = mission.deliveryLocation?.address || "no data";
   const startTime = "" + (mission.pickUpWindow?.startTime || "");
