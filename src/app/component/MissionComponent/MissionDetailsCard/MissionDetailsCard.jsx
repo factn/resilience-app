@@ -16,7 +16,6 @@ import FoodBoxIcon from "../../icons/FoodBoxIcon";
 import { H2 } from "../../Typography";
 import styled from "styled-components";
 import { useFirebase } from "react-redux-firebase";
-import { set } from "date-fns";
 import { Mission } from "../../../model";
 
 const useStyles = makeStyles((theme) => ({
@@ -77,7 +76,6 @@ const MissionDetailsCard = ({ mission, photoDisabled }) => {
   const firebase = useFirebase();
   const storage = firebase.storage();
   const classes = useStyles();
-  const [file, setFile] = useState(null);
 
   if (mission.status === "started") {
     photoDisabled = false;
@@ -175,7 +173,7 @@ const MissionDetailsCard = ({ mission, photoDisabled }) => {
               <ImageUpload
                 withoutTwoBtns
                 getFile={handleImageChosen}
-                dCI={mission.deliveryConfirmationImage}
+                confirmationImage={mission.deliveryConfirmationImage}
               />
             </Grid>
           </Grid>

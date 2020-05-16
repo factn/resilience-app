@@ -381,7 +381,7 @@ const HomePage = ({ auth, history, profile }) => {
     if (!auth.uid) {
       return [];
     }
-    const id = "1";
+    const id = org.uid;
     return [
       Mission.fsAvailableUserMissions(id, auth.uid),
       Mission.fsAssignedUserMissions(id, auth.uid),
