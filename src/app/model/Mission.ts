@@ -62,6 +62,7 @@ const defaultMissionData: MissionInterface = {
 
   deliveryWindow: defaultTimeWindow,
   deliveryLocation: defaultLocation, // default to recipient location
+  deliveryType: "curbside",
 
   deliveryConfirmationImage: "",
   deliveryNotes: "",
@@ -285,7 +286,7 @@ class Mission extends BaseModel {
     const newMission = this.load({
       ...mission,
       uid: newRef.id,
-      createdDate: Date.now().toString(),
+      createdDate: new Date().toISOString(),
     });
 
     return newRef.set(newMission).then(() => newMission);

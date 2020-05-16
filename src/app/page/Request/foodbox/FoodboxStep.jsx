@@ -1,17 +1,14 @@
-import Select from "@material-ui/core/Select";
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { Divider, ListItem, ListItemText, RootRef, Grid, Collapse, Box } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 
 import { ReactComponent as HappyFace } from "../../../../img/happy-face.svg";
-import { H4, Body1 } from "../../../component";
-import { HappyBox, HR, TotalsContainer, useStyles, Expand } from "./foodboxSteps.style";
+import { Body1 } from "../../../component";
+import { HappyBox, HR, TotalsContainer, useStyles } from "./foodboxSteps.style";
 import NavigationButtons from "./NavigationButtons";
 import Organization from "../../../model/Organization";
 import { routes } from "../../../routing";
-
-// maximum allowable orders of a single resource
-const MAX_ORDER = 5;
+import CheckoutItem from "./CheckoutItem";
 
 function FoodboxStep({ dispatch, state }) {
   const history = useHistory();
@@ -66,10 +63,9 @@ function FoodboxStep({ dispatch, state }) {
           quantity={cart[box.uid]?.quantity || 0}
           description={box.description}
           cost={box.cost}
+          name={box.displayName}
           onChange={(e) => updateOrder(box, parseInt(e.currentTarget.value))}
-        >
-          {box.displayName}
-        </CheckoutItem>
+        />
       ))}
       <Body1 className={classes.bodyItalicsMuted}>
         The farm supplies seasonal food to us based on availability. Our volunteers are unable to
@@ -96,61 +92,9 @@ function FoodboxStep({ dispatch, state }) {
       <NavigationButtons
         backText="Cancel"
         onBack={() => history.push(routes.request.start)}
+        nextText="Continue"
         onNext={onNext}
       />
-    </>
-  );
-}
-
-// The approximate width in the pixels of a single character
-const CHAR_WIDTH = 7;
-
-function CheckoutItem({ children, cost, description, onChange, quantity }) {
-  const classes = useStyles();
-  const [open, setOpen] = useState(false);
-
-  const [width, setWidth] = useState(0);
-  const ref = useCallback((node) => node && setWidth(node.offsetWidth), []);
-
-  const crop = width / CHAR_WIDTH;
-  const formatedDescription =
-    description.length > crop ? description.slice(0, crop) + "..." : description;
-
-  return (
-    <>
-      <Divider />
-      <ListItem className={classes.listItem}>
-        <Select
-          className={classes.select}
-          native
-          variant="outlined"
-          value={quantity}
-          onChange={onChange}
-          inputProps={{
-            name: "quantity",
-            id: "quantity",
-          }}
-        >
-          {[...Array(MAX_ORDER + 1)].map((e, i) => (
-            <option value={i} key={i}>
-              {i}
-            </option>
-          ))}
-        </Select>
-        <RootRef rootRef={ref}>
-          <Box onClick={() => setOpen(!open)} flex={1} display="flex" flexDirection="column">
-            <H4 color="textPrimary">{children}</H4>
-            {!open && formatedDescription}
-            <Collapse in={open} timeout="none">
-              {description}
-            </Collapse>
-            <Expand open={open} />
-          </Box>
-        </RootRef>
-        <ListItemText className={classes.cost}>
-          <H4 color="textPrimary">${parseFloat(cost).toFixed(2)}</H4>
-        </ListItemText>
-      </ListItem>
     </>
   );
 }

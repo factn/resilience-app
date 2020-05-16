@@ -26,8 +26,7 @@ export default function NavigationButtons({
       <Button
         onClick={onBack}
         className={classes.backButton}
-        variant="contained"
-        color="secondary"
+        color="primary"
         disableElevation
         fullWidth
       >
