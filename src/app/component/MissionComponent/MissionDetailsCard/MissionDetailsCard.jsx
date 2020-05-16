@@ -91,7 +91,7 @@ const MissionDetailsCard = ({ mission, photoDisabled }) => {
     img
       ? console.log(imgURL) && Mission.update(mission.uid, { deliveryConfirmationImage: imgURL })
       : snackbarContext.show({
-          message: `Unable to add image to Mission ${mission.uid}: ${error.message}`,
+          message: `Unable to add image to Mission ${mission.uid}`,
           type: "error",
         });
   }
