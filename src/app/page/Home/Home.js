@@ -73,7 +73,6 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "24px",
   },
   SignInHeaderContainer: {
-    height: "380px",
     position: "relative",
     overflow: "hidden",
     backgroundImage: `url(${SignInHeader1})`,
@@ -91,12 +90,12 @@ const useStyles = makeStyles((theme) => ({
     top: 0,
     bottom: 0,
     right: 0,
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    backgroundColor: "rgba(0, 0, 0, 0.1)",
     zIndex: 0,
   },
-  FactnLogo: {
-    height: "100px",
-    width: "100px",
+  OrgLogo: {
+    height: "150px",
+    width: "150px",
     backgroundColor: "#F1F1F1",
     borderRadius: "50%",
     zIndex: 1,
@@ -140,16 +139,16 @@ const useStyles = makeStyles((theme) => ({
     zIndex: 0,
   },
   GreetingCardHeaderContainer: {
-    height: "160px",
-    maxHeight: "160px",
+    height: "200px",
+    maxHeight: "200px",
     backgroundSize: "125%",
     position: "relative",
   },
   GreetingCardHeaderLabel: {
-    backgroundColor: "rgba(255, 255, 255, 0.9)",
+    backgroundColor: "rgba(255, 255, 255, 0.6)",
     padding: "8px 16px",
-    fontSize: "30px",
-    fontWeight: 400,
+    fontSize: "42px",
+    fontWeight: 600,
     color: theme.color.black,
     zIndex: 1,
   },
@@ -159,7 +158,8 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "18px",
   },
   GreetingCardActionButton: {
-    margin: "0 30px 16px 30px",
+    margin: "0 auto 50px auto",
+    padding: "10px 50px",
     height: "48px",
   },
   DonateCardContainer: {
@@ -277,10 +277,8 @@ const ContactAdBanner = () => {
       <Grid className={classes.ContactAdInfo}>
         <PhoneIcon data-testid="icon-contact" className={classes.ContactAdIcon} />
         <H3 data-testid="label-contact-mssg-1" className={classes.ContactAdLabel}>
-          To request food by phone,
-        </H3>
-        <H3 data-testid="label-contact-mssg-2" className={classes.ContactAdLabel}>
-          call {/* TODO: Turn it back to Link when correct phone number is populated */}
+          To request help by phone,please call{" "}
+          {/* TODO: Turn it back to Link when correct phone number is populated */}
           <a href={`tel:${org?.phoneNumber}`}>{org?.phoneNumber}</a>
         </H3>
       </Grid>
@@ -352,16 +350,12 @@ const SignInHeaderComponent = ({ history }) => {
   const org = useOrganization();
   return (
     <Grid container className={classes.SignInHeaderContainer}>
-      <img
-        src="https://avatars2.githubusercontent.com/u/46978689?s=200&v=4"
-        className={classes.FactnLogo}
-        alt="Faction Logo"
-      />
+      <img src={org?.logoURL} className={classes.OrgLogo} alt="Faction Logo" />
       <H1 data-testid="label-org-name" className={classes.OrgNameLabel}>
         {org?.name}
       </H1>
       <H3 data-testid="label-org-tagline" className={classes.TaglineLabel}>
-        Neighbors helping neighbors (optional org tagline)
+        {org?.tagline}
       </H3>
       <Button
         className={classes.SigninButton}
@@ -406,10 +400,7 @@ const HomePage = ({ auth, history, profile }) => {
           <SignInHeaderComponent history={history} />
           <PoweredByComponent />
           <Grid container>
-            <H4 className={classes.QuickInfoLabel}>
-              We're a grassroots team in Studio City, CA getting fresh farm produce to our neighbors
-              in need.
-            </H4>
+            <H4 className={classes.QuickInfoLabel}>{org?.quickInfo}</H4>
           </Grid>
           <GreetingCardComponent
             title="Need help?"

@@ -105,10 +105,19 @@ def deliveryNotes():
 def organization():
     return dict(
         uid=genId(),
-        name="FeedFolks",
-        phoneNumber=f.phone_number(),
+        name="Feed Folks",
+        chapterName="Feed Folks - Studio City",
+        tagline="Neighbors Helping Neighbors",
+        quickInfo="We're a grassroots team in Studio City, CA getting fresh farm produce to our neighbors in need.",
+        logoURL='https://firebasestorage.googleapis.com/v0/b/mutualaid-757f6.appspot.com/o/images%2Ffeedfolks__logo.png?alt=media&token=6b1e803d-9b19-4847-a849-4b4dbdde2395',
+        contactPhoneNumber="",
+        location= {
+            "address": "Studio City, CA",
+            "label": "",
+            "lat": 34.1483989,
+            "lng": -118.3961877
+        },      
         EINNumber='12-3456789',
-        location=location(),
         localTimeZone='',
         missions={},
         users={}
