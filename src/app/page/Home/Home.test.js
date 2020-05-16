@@ -70,7 +70,6 @@ describe("Home page", () => {
 
     expect(page.queryByTestId("icon-contact")).toBeInTheDocument();
     expect(page.queryByTestId("label-contact-mssg-1")).toBeInTheDocument();
-    expect(page.queryByTestId("label-contact-mssg-2")).toBeInTheDocument();
   });
 
   it("Renders the home layout with Request Help", () => {
