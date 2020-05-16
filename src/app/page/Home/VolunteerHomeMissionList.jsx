@@ -22,7 +22,6 @@ const VolunteerHomeMissionList = ({
 }) => {
   const history = useHistory();
 
-  const user = useSelector((state) => state.firebase.profile);
   const { groups, singleMissions } = Mission.getAllGroups(missions);
 
   const updateGroup = (group, status) => {

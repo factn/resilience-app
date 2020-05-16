@@ -14,7 +14,6 @@ import Mission from "../../../model/Mission";
 import PanToolIcon from "@material-ui/icons/PanTool";
 import { v4 as uuidV4 } from "uuid";
 import AssignedVolunteerPopover from "./AssignedVolunteerPopover";
-import User from "../../../model/User";
 
 const actions = {
   CLOSE: "close all popover",

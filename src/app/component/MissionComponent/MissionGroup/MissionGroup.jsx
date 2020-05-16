@@ -41,6 +41,7 @@ const missionGroupStyles = makeStyles((theme) => ({
   },
   action: {
     position: "relative",
+    width: "100%",
   },
   actionDisabledOver: {
     background: "rgba(245, 245, 245, 0.9)",
@@ -69,7 +70,7 @@ const MissionGroup = ({ callToAction, group, groupCallToAction, showViewRoute })
     return Number(m2.readyToStart) - Number(m1.readyToStart);
   });
   const numberOfMissions = missions.length;
-  const onClickMissionGroupButton = (groupUid) => {
+  const onClickMissionGroupButton = () => {
     missions.forEach((mission) => {
       onClick(mission.uid);
     });
@@ -80,8 +81,11 @@ const MissionGroup = ({ callToAction, group, groupCallToAction, showViewRoute })
   const groupAction = showGroupAction && (
     <MuiButton
       fullWidth={true}
+      variant="contained"
+      color="primary"
+      size="large"
       startIcon={groupActionIcon}
-      onClick={() => onClickMissionGroupButton(group.groupUid)}
+      onClick={onClickMissionGroupButton}
     >
       {actionText} ({numberOfMissions})
     </MuiButton>

@@ -41,45 +41,23 @@ const MissionListWithLoading = withLoading(({ children }) => (
  * @param {object} props.history - Object given from React Router
  * @param {function} props.handlerUserVolunteering - Function that, when given a user ID, handles assigning the user with that ID to "volunteer" for that mission
  */
-const MissionList = ({ callToAction, history, missions, ...rest }) => {
-  /**
-   * This should probably be turned into a Mission component
-   */
-  let { icon, onClick, text } = callToAction || {};
-
-  const missionListItems = missions.map((mission, index) => (
-    <MissionCard mission={mission} key={`mission-card-${mission.uid}`} role="listitem">
-      {text && (
-        <StyledButton color="primary" variant="contained" startIcon={icon} disableElevation>
-          {text}
-        </StyledButton>
-      )}
-      <StyledButtonWithLargeBorder
-        variant="outlined"
-        color="primary"
-        onClick={() => history.push(`/missions/${mission.uid}`)}
-      >
-        View Details
-      </StyledButtonWithLargeBorder>
-    </MissionCard>
-  ));
-
+const MissionList = ({ missions, ...rest }) => {
   return (
     <MissionListWithLoading LoadingComponent={CircularProgress} {...rest}>
-      {missionListItems}
+      {missions.map((mission) => (
+        <MissionCard mission={mission} key={`mission-card-${mission.uid}`} role="listitem" />
+      ))}
     </MissionListWithLoading>
   );
 };
 
 MissionList.defaultProps = {
   missions: [],
-  handlerUserVolunteering: () => null,
 };
 
 MissionList.propTypes = {
   missions: PropTypes.array,
   history: PropTypes.object,
-  handleUserVolunteering: PropTypes.func,
 };
 
 export default MissionList;
