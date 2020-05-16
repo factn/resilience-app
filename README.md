@@ -94,16 +94,17 @@ Here are a few geting started steps to help get set up for local development.
   ```sh
   npm install -g firebase-tools
   ```
-   This should install the latest version of firebase cli add `firebase` to your path.
+  
+  This should install the latest version of firebase cli add `firebase` to your path.
 
   ```sh
-firebase login
+  firebase login
   ```
   This will pop up your browser and allow you to login. Loging using a google handle.
  
   ```sh
-firebase use default
-   ```
+  firebase use default
+  ```
   This is needed to ensure that the project-id is set in your environment.
 
 
@@ -112,6 +113,10 @@ firebase use default
    ```sh
    npm run dev
    ```
+
+## Contributing your code, and getting involved
+
+See [CONTRIBUTING.md](https://github.com/factn/resilience-app/blob/master/CONTRIBUTING.md) for more details on how to get involved.
 
 ## Formatting your code
 
