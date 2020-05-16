@@ -1,17 +1,19 @@
 import { Box, Grid, Card } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
-import DetailsText from "./DetailsText";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import PanToolIcon from "@material-ui/icons/PanTool";
+import Chip from "@material-ui/core/Chip";
 import clsx from "clsx";
 import React, { useEffect } from "react";
+import DetailsText from "../../component/MissionComponent/DetailsText";
 
 import Mission from "../../model/Mission";
 import _ from "../../utils/lodash";
 import MissionItemMenu from "./component/MissionItemMenu";
 import NotFundedStatusAction from "./component/NotFundedStatusAction";
 import DeliveredAction from "./component/DeliveredAction";
+import styled from "styled-components";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -38,6 +40,25 @@ const useStyles = makeStyles((theme) => ({
     textDecoration: "underline",
     color: theme.color.black,
     cursor: "pointer",
+  },
+
+  chipsContainer: {
+    fontSize: "14px",
+  },
+  chipReady: {
+    color: theme.color.greenSuccess,
+  },
+  chipNotReady: {
+    color: "#ababab",
+  },
+  chipNeedsVolunteer: {
+    color: theme.color.redlines,
+  },
+  chipInProgress: {
+    color: theme.color.yellow,
+  },
+  chipFailed: {
+    color: theme.color.red,
   },
 }));
 
@@ -97,6 +118,12 @@ const VolunteerRow = ({ mission }) => {
   );
 };
 
+const StyledChip = styled(Chip)`
+  border: 2px solid;
+  bordercolor: inherit;
+  fontsize: 14px;
+  margin-right: 8px;
+`;
 const MissionListItem = ({
   groups,
   mission,
@@ -136,14 +163,46 @@ const MissionListItem = ({
       color="primary"
       elevation={isSelected ? 24 : 1}
     >
+      <MissionItemMenu
+        className={classes.MenuRightWrapper}
+        boxRef={boxRef}
+        groups={groups}
+        mission={mission}
+        volunteers={volunteers}
+      />
       <Grid container>
-        <MissionItemMenu
-          className={classes.MenuRightWrapper}
-          boxRef={boxRef}
-          groups={groups}
-          mission={mission}
-          volunteers={volunteers}
-        />
+        <Grid container className={classes.chipsContainer}>
+          {mission.status === Mission.Status.tentative && (
+            <StyledChip
+              label="Needs Volunteer"
+              variant="outlined"
+              className={classes.chipNeedsVolunteer}
+            />
+          )}
+          {mission.status === Mission.Status.started && (
+            <StyledChip label="Started" variant="outlined" className={classes.chipNeedsVolunteer} />
+          )}
+          {mission.status === Mission.Status.delivered && (
+            <StyledChip
+              label="Delivered"
+              variant="outlined"
+              className={classes.chipNeedsVolunteer}
+            />
+          )}
+          {mission.status === Mission.Status.succeded && (
+            <StyledChip label="Succeded" variant="outlined" className={classes.chipReady} />
+          )}
+          {mission.status === Mission.Status.failed && (
+            <StyledChip label="Failed" variant="outlined" className={classes.chipReady} />
+          )}
+
+          {mission.readyToStart ? (
+            <StyledChip label="Ready" className={classes.chipReady} variant="outlined" />
+          ) : (
+            <StyledChip label="Not Ready" className={classes.chipNotReady} variant="outlined" />
+          )}
+        </Grid>
+
         <Grid item xs className={itemClass}>
           <DetailsText showType={true} mission={mission} />
         </Grid>

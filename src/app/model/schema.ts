@@ -20,19 +20,6 @@ export interface DonationLog {
   donorEmail: string;
 }
 
-export class Resource {
-  uid!: string;
-  name!: string;
-  cost!: number;
-  provider: string = "";
-  fundedByRecipient: number = 0;
-  fundedByDonation: number = 0;
-  notFunded: number = 3;
-  maxNumberRequestable: number = 50;
-  acceptOrder: boolean = false;
-  description: string = "";
-}
-
 export interface PaymentSettings {
   clientUid: string;
   email: string;
@@ -42,11 +29,24 @@ export interface PaymentSettings {
 export class OrganizationInterface {
   /* Firebase Id, created automatically*/
   uid!: string;
-  /*Name of the organization */
+  /*Name of the organization - eg Feed Folks */
   name!: string;
+  /*Name of the organization chapter eg Feed Folks - Studio City
+    (make this the same as 'name' if org doesn't have chapters) */
+  chapterName?: string;
+  /*Tagline for the organization - eg "Neighbors helping neighbors"  */
+  tagline?: string;
+  /* Quick info - eg 'We're a grassroots team in Studio City, CA getting fresh farm produce to our neighbors
+  in need.' */
+  quickInfo?: string;
+  /* Email for infor - eg 'studiocity@feedfolks.store' */
+  contactEmail?: string;
+  /* Email for infor - eg 'studiocity@feedfolks.store' */
+  contactPhoneNumber?: string;
+  /* URL to download organisation image (from CDN, ideally) */
+  logoURL?: ImageUrl;
   /*The Location of the Organization*/
   location?: Location;
-  phoneNumber!: string;
   EINNumber?: string;
   /**
    * There are subcollection, they are here for references
@@ -126,12 +126,6 @@ export enum MissionFundedStatus {
   fundingnotneeded = "fundingnotneeded",
 }
 
-export enum MissionType {
-  foodbox = "foodbox",
-  pharmacy = "pharmacy",
-  errand = "errand",
-}
-
 export enum TimeWindowType {
   exact = "exact", //exact time specfied
   morning = "morning",
@@ -159,27 +153,39 @@ export interface MissionLogEvent {
   timestamp: string;
 }
 
-export interface Box {
-  name: string;
+export interface Resource {
+  uid: string;
+  displayName: string;
+  cost: number;
+  availableToOrder: boolean;
+  type: string; // foodbox, or anything, this is just so we can group things together for the organizer
+  description: string;
+}
+
+export interface ResourceMissionDetails {
+  resourceUid: string;
+  displayName: string;
   quantity: number;
 }
 
-export interface FoodBoxDetails {
-  needs: Array<Box>;
+export enum MissionType {
+  resource = "resource", //exact time specfied
+  errand = "errand",
 }
 
 export interface MissionInterface {
   uid: string;
+  organizationUid: string;
+  status: MissionStatus;
+
   type: MissionType;
+  missionDetails: Array<ResourceMissionDetails> | null;
 
   createdDate: string; // TODO should be a date?
-  missionDetails: FoodBoxDetails | null;
 
-  status: MissionStatus;
   fundedStatus: MissionFundedStatus;
   fundedDate: string | null;
   readyToStart: boolean;
-  organizationUid: string;
 
   groupUid: string;
   groupDisplayName: string;
@@ -203,6 +209,7 @@ export interface MissionInterface {
   deliveryWindow: TimeWindow | null;
   deliveryLocation: Location; // default to recipient location
   deliveryConfirmationImage: ImageUrl;
+  deliveryType: "curbside" | "delivery";
   deliveryNotes: string;
 
   feedbackNotes: string;

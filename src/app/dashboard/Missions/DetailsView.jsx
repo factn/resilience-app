@@ -1,4 +1,4 @@
-import { Box, Container, Grid, Paper, styled } from "@material-ui/core";
+import { Box, Container, Grid, Paper } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import AccessTimeIcon from "@material-ui/icons/AccessTime";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";

@@ -1,4 +1,4 @@
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, Paper, Grid } from "@material-ui/core";
 import styled from "styled-components";
 
 export const useStyles = makeStyles((theme) => ({
@@ -9,6 +9,18 @@ export const useStyles = makeStyles((theme) => ({
   checkBox: {
     textAlign: "left",
     display: "flex",
+  },
+  select: {
+    marginRight: ".5rem",
+  },
+  listItem: {
+    display: "flex",
+    alignItems: "start",
+    justifyContent: "space-around",
+    paddingLeft: "0",
+  },
+  cost: {
+    flex: "none",
   },
   body1: {
     textAlign: "left",
@@ -60,4 +72,20 @@ export const HappyBox = styled.div`
   svg > path {
     fill: ${({ theme }) => theme.palette.secondary.main};
   }
+`;
+
+export const CurbsideDetailsPaper = styled(Paper)`
+  display: flex;
+  flex-direction: column;
+  margin: 1rem 0;
+  padding: 1rem;
+  border: solid 1px ${({ theme }) => theme.palette.secondary.main};
+`;
+export const DeliveryCautionPaper = styled(Paper)`
+  margin: 1rem 0;
+  padding: 1rem;
+  background: rgba(242, 153, 74, 0.2);
+`;
+export const GridIconStyled = styled(Grid)`
+  color: ${({ theme }) => theme.palette.secondary.main};
 `;

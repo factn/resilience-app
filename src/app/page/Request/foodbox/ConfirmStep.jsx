@@ -3,13 +3,14 @@ import {
   Grid,
   List,
   ListItem,
-  ListItemIcon,
   ListItemSecondaryAction,
   ListItemText,
   makeStyles,
   Paper,
   Button,
+  Box,
 } from "@material-ui/core";
+import { Create } from "@material-ui/icons";
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 
@@ -18,6 +19,7 @@ import { TypographyWrapper, H3, H4, H5, Body1 } from "../../../component";
 import NavigationButtons from "./NavigationButtons";
 import Mission from "../../../model/Mission";
 import { MissionFundedStatus, MissionType, MissionStatus } from "../../../model/schema";
+import CheckoutItem from "./CheckoutItem";
 
 const useStyles = makeStyles((theme) => ({
   yMargin: {
@@ -56,24 +58,22 @@ function ConfirmStep({ dispatch, state }) {
     0
   );
 
-  // TODO we should try to create this mission before paying and if payment fails we delete it or something
   async function confirmRequest() {
-    const { cart, instructions, location, recipient } = state;
+    const { cart, details, recipient } = state;
     let mission = {
-      type: MissionType.foodbox,
+      type: MissionType.resource,
       status: MissionStatus.unassigned,
       recipientUid: recipient.uid,
       recipientDisplayName: recipient.displayName,
       recipientPhoneNumber: recipient.phoneNumber,
-      deliveryLocation: location,
-      deliveryNotes: instructions,
-      missionDetails: {
-        // TODO we should make use of the whole resource here instead of just the name
-        needs: Object.keys(cart).map((key) => ({
-          quantity: cart[key].quantity,
-          name: cart[key].resource.name,
-        })),
-      },
+      deliveryLocation: details.location,
+      deliveryNotes: details.instructions,
+      deliveryType: details.curbsidePickup ? "curbside" : "delivery",
+      missionDetails: Object.keys(cart).map((key) => ({
+        resourceUid: cart[key].resource.uid,
+        quantity: cart[key].quantity,
+        displayName: cart[key].resource.displayName,
+      })),
     };
 
     if (isDonationRequest) {
@@ -83,14 +83,11 @@ function ConfirmStep({ dispatch, state }) {
         ...mission,
         status: MissionStatus.tentative,
         fundedStatus: MissionFundedStatus.fundedbyrecipient,
-        // TODO change when dates are figured out
-        fundedDate: Date.now().toString(),
+        fundedDate: new Date().toISOString(),
       };
     }
-
     try {
       const createdMission = await Mission.create(mission);
-      console.log(createdMission);
       const redirect = isDonationRequest ? "donation" : "payment";
       history.push(`/request/foodbox/success/${redirect}`);
     } catch (error) {
@@ -100,6 +97,8 @@ function ConfirmStep({ dispatch, state }) {
       });
     }
   }
+
+  const paypalCart = transformForPaypal(cart);
 
   if (isDonationRequest) {
     return (
@@ -122,9 +121,15 @@ function ConfirmStep({ dispatch, state }) {
 
   return (
     <>
-      <H3 className={classes.yMargin} align="left" color="textPrimary">
-        Request Summary
-      </H3>
+      <Box display="flex" justifyContent="space-between" marginBottom="1rem">
+        <H3 align="left" color="textPrimary">
+          Request Summary
+        </H3>
+        <Button onClick={() => dispatch({ type: "UPDATE_STEP", payload: 0 })}>
+          <Create fontSize="small" color="primary" />
+          <H4 color="primary">Edit</H4>
+        </Button>
+      </Box>
 
       <Grid container direction="row" justify="space-between" alignItems="center">
         <Body1 color="textSecondary">QTY</Body1>
@@ -137,11 +142,10 @@ function ConfirmStep({ dispatch, state }) {
             <CheckoutItem
               key={resource.uid}
               quantity={quantity}
-              subtotal={quantity * resource.cost}
-              secondary={resource.provider}
-            >
-              {resource.name}
-            </CheckoutItem>
+              cost={quantity * resource.cost}
+              description={resource.description}
+              name={resource.displayName}
+            />
           );
         })}
         <Divider />
@@ -155,9 +159,9 @@ function ConfirmStep({ dispatch, state }) {
         </ListItem>
       </List>
       <PaypalCheckout
-        cart={transformForPaypal(cart)}
+        cart={paypalCart}
         onApprove={() => confirmRequest()}
-        onError={() =>
+        onError={(e) =>
           dispatch({ type: "ERROR", payload: "There was an error processing your payment" })
         }
       />
@@ -188,11 +192,11 @@ function ConfirmStep({ dispatch, state }) {
         </H5>
       </Paper>
       <Button
+        style={{ marginBottom: "1rem" }}
         fullWidth
         variant="contained"
         color="primary"
         onClick={() => dispatch({ type: "BACK" })}
-        gutterBottom
       >
         Back
       </Button>
@@ -200,41 +204,32 @@ function ConfirmStep({ dispatch, state }) {
   );
 }
 
-function CheckoutItem({ children, quantity, secondary, subtotal }) {
-  return (
-    <>
-      <Divider />
-      <ListItem>
-        <ListItemIcon>
-          <H4 color="textPrimary">{quantity}</H4>
-        </ListItemIcon>
-        <ListItemText secondary={secondary}>
-          <H4 color="textPrimary">{children}</H4>
-        </ListItemText>
-        <ListItemSecondaryAction>${parseFloat(subtotal).toFixed(2)}</ListItemSecondaryAction>
-      </ListItem>
-    </>
-  );
-}
+const currency_code = "USD";
 
 function transformForPaypal(cart) {
-  // only worry about one box for now
-  const key = Object.keys(cart)[0];
-  const { quantity, resource } = cart[key];
-  const currency_code = "USD";
+  const items = [];
+  let total = 0;
 
-  const item = {
-    sku: resource.uid,
-    quantity: quantity.toString(),
-    name: resource.name,
-    unit_amount: {
-      currency_code,
-      value: resource.cost.toString(),
-    },
-    description: resource.description,
-  };
+  Object.keys(cart).forEach((key) => {
+    const { quantity, resource } = cart[key];
+    if (quantity > 0) {
+      const description = resource.description.slice(0, 127);
 
-  const total = (quantity * resource.cost).toString();
+      const item = {
+        sku: resource.uid,
+        quantity: quantity.toString(),
+        name: resource.displayName,
+        description,
+        unit_amount: {
+          currency_code,
+          value: resource.cost.toString(),
+        },
+      };
+
+      total += quantity * resource.cost;
+      items.push(item);
+    }
+  });
 
   const amount = {
     value: total,
@@ -245,12 +240,10 @@ function transformForPaypal(cart) {
     },
   };
 
-  const newCart = {
+  return {
     amount,
-    items: [item],
+    items,
   };
-
-  return newCart;
 }
 
 export default ConfirmStep;

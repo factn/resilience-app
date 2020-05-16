@@ -62,6 +62,7 @@ const defaultMissionData: MissionInterface = {
 
   deliveryWindow: defaultTimeWindow,
   deliveryLocation: defaultLocation, // default to recipient location
+  deliveryType: "curbside",
 
   deliveryConfirmationImage: "",
   deliveryNotes: "",
@@ -144,7 +145,11 @@ const fsAvailableUserMissions = (orgId: string, userId: string) => ({
   subcollections: [
     {
       collection: "missions",
-      where: [["status", "in", [MissionStatus.tentative]]],
+      where: [
+        // right now as long as it is in tentative
+        //["tentativeVolunteerUid", "==", userId],
+        ["status", "in", [MissionStatus.tentative]],
+      ],
     },
   ],
   storeAs: "availableUserMissions",
@@ -285,7 +290,7 @@ class Mission extends BaseModel {
     const newMission = this.load({
       ...mission,
       uid: newRef.id,
-      createdDate: Date.now().toString(),
+      createdDate: new Date().toISOString(),
     });
 
     return newRef.set(newMission).then(() => newMission);
@@ -384,6 +389,21 @@ class Mission extends BaseModel {
       status: MissionStatus.tentative,
     });
   }
+
+  /**
+   * Submit feedback for mission
+   * @param {string} missionUid : mission for which feedback will be set
+   * @param {string} feedback: mission feedback
+   * @param {boolean} success: whether the the mission was a success.
+   */
+  submitFeedback(missionUid: string, feedback: string, success: boolean) {
+    //TODO: update firestore.rules to allow only if the mission is created by that user
+    return this.update(missionUid, {
+      feedbackNotes: feedback || "",
+      ...(success && { status: MissionStatus.succeeded }),
+    });
+  }
+
   filterByStatus = (missions: MissionInterface[], status: MissionStatus) =>
     missions.filter((mission) => mission.status === status);
 }
