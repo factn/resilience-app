@@ -34,6 +34,11 @@ const useStyles = makeStyles((theme) => ({
     height: "48px",
     width: "48px",
   },
+  IconSuccess: {
+    height: "48px",
+    width: "48px",
+    color: theme.palette.success.main,
+  },
 }));
 
 const Step = {
@@ -75,6 +80,7 @@ const FeedbackForm = ({
   placeholder,
   required,
   submitBtnText,
+  success,
   value,
 }) => {
   const classes = useStyles();
@@ -83,7 +89,7 @@ const FeedbackForm = ({
     if (required && !value) {
       setError(true);
     } else {
-      handleSubmit();
+      handleSubmit(success);
     }
   };
   return (
@@ -112,7 +118,7 @@ const FeedbackWithSuccess = ({ deliveryImage, handleChange, handleSubmit, values
   const feedbackPlaceholder = "Leave some feedback if desired!";
   return (
     <Grid container direction="column" alignItems="center" className={classes.root}>
-      <CheckCircleIcon color="success" className={classes.Icon} />
+      <CheckCircleIcon className={classes.IconSuccess} />
       <H1 className={classes.Heading}>Mission success!</H1>
       <img src={deliveryImage} alt="Delivery confirmation" className={classes.DeliveryImage} />
       <Body1 className={classes.Description}>
@@ -124,6 +130,7 @@ const FeedbackWithSuccess = ({ deliveryImage, handleChange, handleSubmit, values
         placeholder={feedbackPlaceholder}
         submitBtnText={"Submit & Close Mission"}
         value={values.feedback}
+        success={true}
       />
     </Grid>
   );
@@ -147,6 +154,7 @@ const Feedback = ({ deliveryImage, handleChange, handleSubmit, values }) => {
         submitBtnText="Submit"
         value={values.feedback}
         required
+        success={false}
       />
     </Grid>
   );

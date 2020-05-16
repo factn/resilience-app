@@ -389,24 +389,13 @@ class Mission extends BaseModel {
    * Submit feedback for mission
    * @param {string} missionUid : mission for which feedback will be set
    * @param {string} feedback: mission feedback
+   * @param {boolean} success: whether the the mission was a success.
    */
-  submitFeedback(missionUid: string, feedback: string) {
+  submitFeedback(missionUid: string, feedback: string, success: boolean) {
     //TODO: update firestore.rules to allow only if the mission is created by that user
     return this.update(missionUid, {
       feedbackNotes: feedback || "",
-    });
-  }
-
-  /**
-   * Submit feedback and mark mission as success
-   * @param {string} missionUid : mission to be marked as success and set feedback
-   * @param {string} feedback: mission feedback
-   */
-  submitFeedbackWithSuccess(missionUid: string, feedback: string) {
-    //TODO: update firestore.rules to allow only if the mission is created by that user
-    return this.update(missionUid, {
-      status: MissionStatus.succeeded,
-      feedbackNotes: feedback || "",
+      ...success && { status: MissionStatus.succeeded }
     });
   }
 

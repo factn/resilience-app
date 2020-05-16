@@ -38,32 +38,19 @@ const MissionFeedback = ({ history, match }) => {
   const goBack = () => {
     history.goBack();
   };
-  const submitFeedback = () => {
+  const submitFeedback = (success) => {
     setLoading(true);
-    Mission.submitFeedback(mission.uid, values.feedback)
+    Mission.submitFeedback(mission.uid, values.feedback, success)
       .then(() => {
         snackbarContext.show({
           message: "Successfully submitted feedback",
         });
-        setStep(Step.ACK);
-        setLoading(false);
-      })
-      .catch((e) => {
-        setLoading(false);
-        snackbarContext.show({
-          message: "Unable to submit feedback",
-          type: "error",
-        });
-      });
-  };
-  const submitFeedbackWithSuccess = () => {
-    setLoading(true);
-    Mission.submitFeedbackWithSuccess(mission.uid, values.feedback)
-      .then(() => {
-        snackbarContext.show({
-          message: "Successfully submitted feedback",
-        });
-        goBack();
+        if (!success) {
+          setStep(Step.ACK);
+          setLoading(false);
+        } else {
+          goBack();
+        }
       })
       .catch((e) => {
         setLoading(false);
@@ -88,7 +75,7 @@ const MissionFeedback = ({ history, match }) => {
       Content = <Feedback {...contentProps} handleSubmit={submitFeedback} />;
       break;
     case Step.FEEDBACK_WITH_SUCCESS:
-      Content = <FeedbackWithSuccess {...contentProps} handleSubmit={submitFeedbackWithSuccess} />;
+      Content = <FeedbackWithSuccess {...contentProps} handleSubmit={submitFeedback} />;
       break;
     case Step.ACK:
       Content = <Acknowledgement goBack={goBack} />;
@@ -98,7 +85,7 @@ const MissionFeedback = ({ history, match }) => {
   }
   return (
     <Page isLoaded={isLoaded(mission)} isEmpty={isEmpty(mission)}>
-      {loading ? <CircularProgress /> : Content}
+      {loading ? <CircularProgress style={{ alignSelf: "center" }} /> : Content}
     </Page>
   );
 };
