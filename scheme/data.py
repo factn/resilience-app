@@ -254,13 +254,14 @@ class Mission:
         self.recipientDisplayName = creator.displayName
         self.recipientPhoneNumber = creator.phoneNumber
 
-        self.pickUpWindow = None
-        self.pickUpLocation = None
+        self.pickUpWindow = timeWindow()
+        self.pickUpLocation = any_location()
         self.pickUpNotes = ""
 
         self.deliveryWindow = timeWindow()
         self.deliveryLocation = any_location()
         self.deliveryConfirmationImage = None
+        self.deliveryType = 'delivery'
         self.deliveryNotes = any_delivery_notes()
         self.feedbackNotes = 2
 

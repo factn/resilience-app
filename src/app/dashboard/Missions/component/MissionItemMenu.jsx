@@ -72,7 +72,6 @@ const MissionItemMenu = ({ boxRef, className, groups, mission, volunteers }) => 
   const handleReadyToStartButton = () => {
     Mission.update(mission.uid, {
       readyToStart: !mission.readyToStart,
-      status: "tentative",
     });
     dispatch({ type: actions.CLOSE });
   };

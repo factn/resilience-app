@@ -10,6 +10,18 @@ export const useStyles = makeStyles((theme) => ({
     textAlign: "left",
     display: "flex",
   },
+  select: {
+    marginRight: ".5rem",
+  },
+  listItem: {
+    display: "flex",
+    alignItems: "start",
+    justifyContent: "space-around",
+    paddingLeft: "0",
+  },
+  cost: {
+    flex: "none",
+  },
   body1: {
     textAlign: "left",
     marginBottom: theme.spacing(1.5),

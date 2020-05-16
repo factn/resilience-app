@@ -1,7 +1,7 @@
 import { Box, Paper, Tab, Tabs } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import MuiCheckIcon from "@material-ui/icons/Check";
 import MuiDoneAllIcon from "@material-ui/icons/DoneAll";
 import MuiPlayCircleFilledIcon from "@material-ui/icons/PlayCircleFilled";

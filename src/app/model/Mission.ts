@@ -145,7 +145,11 @@ const fsAvailableUserMissions = (orgId: string, userId: string) => ({
   subcollections: [
     {
       collection: "missions",
-      where: [["status", "in", [MissionStatus.tentative]]],
+      where: [
+        // right now as long as it is in tentative
+        //["tentativeVolunteerUid", "==", userId],
+        ["status", "in", [MissionStatus.tentative]],
+      ],
     },
   ],
   storeAs: "availableUserMissions",
