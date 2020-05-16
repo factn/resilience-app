@@ -6,8 +6,7 @@ import PublishIcon from "@material-ui/icons/Publish";
 import ScheduleIcon from "@material-ui/icons/Schedule";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
-import appleIcon from "../../../img/apple.svg";
-import DetailsText from "../../dashboard/Missions/DetailsText";
+import DetailsText from "./DetailsText";
 
 import AcceptMissionButton from "./AcceptMissionButton";
 import UnassignMeButton from "./UnassignMeButton";
@@ -284,10 +283,6 @@ MissionCard.propTyes = {
     pickUpWindow: PropTypes.shape({
       timeWindowType: PropTypes.string,
       startTime: PropTypes.string,
-    }),
-    details: PropTypes.shape({
-      title: PropTypes.string,
-      description: PropTypes.string,
     }),
     address: PropTypes.string,
     city: PropTypes.string,

@@ -39,15 +39,13 @@ describe("MissionCard", () => {
         pickUpWindow: {
           startTime: "06-06-2020",
         },
-        type: "foodbox",
-        missionDetails: {
-          needs: [
-            {
-              name: "Apple",
-              quantity: 2,
-            },
-          ],
-        },
+        type: "resource",
+        details: [
+          {
+            displayName: "Apple",
+            quantity: 2,
+          },
+        ],
       },
     };
 
