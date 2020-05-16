@@ -208,9 +208,9 @@ export interface MissionInterface {
 
   deliveryWindow: TimeWindow | null;
   deliveryLocation: Location; // default to recipient location
-  deliveryConfirmationImage: ImageUrl;
-  deliveryType: "curbside" | "delivery";
+  deliveryConfirmationImage: string;
   deliveryNotes: string;
+  deliveryType: string;
 
   feedbackNotes: string;
 
