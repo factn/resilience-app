@@ -1,4 +1,4 @@
-import { makeStyles, Paper } from "@material-ui/core";
+import { makeStyles, Paper, Grid } from "@material-ui/core";
 import styled from "styled-components";
 
 export const useStyles = makeStyles((theme) => ({
@@ -74,10 +74,13 @@ export const HappyBox = styled.div`
   }
 `;
 
-export const PaperStyled = styled(Paper)`
+export const CurbsideDetailsPaper = styled(Paper)`
   display: flex;
-  margin: 0 3rem;
-  margin-top: 1rem;
+  flex-direction: column;
+  margin: 1rem 0;
   padding: 1rem;
-  border: ${({ theme }) => theme.palette.secondary.main} solid 1px;
+  border: solid 1px ${({ theme }) => theme.palette.secondary.main};
+`;
+export const GridIconStyled = styled(Grid)`
+  color: ${({ theme }) => theme.palette.secondary.main};
 `;

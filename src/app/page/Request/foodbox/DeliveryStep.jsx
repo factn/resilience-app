@@ -1,14 +1,16 @@
-import { Checkbox, FormControlLabel, TextField, Box } from "@material-ui/core";
+import { Checkbox, FormControlLabel, TextField, Box, Grid } from "@material-ui/core";
 import { AccessTime } from "@material-ui/icons";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 
 import { H2, H4, Body1 } from "../../../component";
 import AddressAutocomplete from "../../../component/AddressAutocomplete";
-import { useStyles, PaperStyled } from "./foodboxSteps.style";
+import { useStyles, CurbsideDetailsPaper, GridIconStyled } from "./foodboxSteps.style";
 import NavigationButtons from "./NavigationButtons";
 import { useOrganization } from "../../../model";
 import SignupStep from "./SignUpStep";
+import LocationOnIcon from "@material-ui/icons/LocationOn";
+import { Map, Marker, TileLayer } from "react-leaflet";
 
 function DeliveryStep({ dispatch, state }) {
   const classes = useStyles();
@@ -68,41 +70,67 @@ function DeliveryStep({ dispatch, state }) {
         }
         label="I can pick up from curbside location"
       />
-      <AddressAutocomplete
-        label="Location"
-        disabled={state.details.curbsidePickup}
-        defaultLocation={state.details.curbsidePickup ? org.location : state.details.location}
-        onChangeLocation={(location) => dispatch({ type: "UPDATE_DETAILS", payload: { location } })}
-        showMap={true}
-        error={validate && !state.details.location}
-        required
-      />
-
       {state.details.curbsidePickup ? (
-        <PaperStyled>
-          <AccessTime />
-          <Box textAlign="left" marginLeft="1rem">
-            <H4>Pick Up Time:</H4>
-            <Body1>Sunday morning between</Body1>
-            <Body1>8:00am–11:00am</Body1>
+        <>
+          <CurbsideDetailsPaper elevation={0}>
+            <Grid container spacing={2} direction="column">
+              <Grid item container spacing={1} wrap="nowrap">
+                <GridIconStyled item>
+                  <LocationOnIcon />
+                </GridIconStyled>
+                <Grid item>
+                  <H4>Pick Up Location:</H4>
+                  <Body1>{org.location.label}</Body1>
+                  <Body1>{org.location.address}</Body1>
+                </Grid>
+              </Grid>
+
+              <Grid item container spacing={1} wrap="nowrap">
+                <GridIconStyled item>
+                  <AccessTime />
+                </GridIconStyled>
+                <Grid item>
+                  <H4>Pick Up Time:</H4>
+                  <Body1>Sunday morning between 8:00am–11:00am</Body1>
+                </Grid>
+              </Grid>
+            </Grid>
+          </CurbsideDetailsPaper>
+          <Box height="200px">
+            <Map center={org.location} zoom={16} style={{ width: "100%", height: "100%" }}>
+              <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+              <Marker position={org.location} />
+            </Map>
           </Box>
-        </PaperStyled>
+        </>
       ) : (
-        <TextField
-          className={classes.textArea}
-          fullWidth
-          helperText="By default we leave food boxes at your door"
-          label="Drop off Instructions / Comments"
-          multiline
-          name="instructions"
-          onChange={(e) =>
-            dispatch({ type: "UPDATE_DETAILS", payload: { instructions: e.target.value } })
-          }
-          placeholder="Knock loudly, leave in front, etc."
-          rows={5}
-          value={state.details.instructions}
-          variant="outlined"
-        />
+        <>
+          <AddressAutocomplete
+            label="Location"
+            defaultLocation={org.location ? org.location : state.details.location}
+            onChangeLocation={(location) =>
+              dispatch({ type: "UPDATE_DETAILS", payload: { location } })
+            }
+            showMap={true}
+            error={validate && !state.details.location}
+            required
+          />
+          <TextField
+            className={classes.textArea}
+            fullWidth
+            helperText="By default we leave food boxes at your door"
+            label="Drop off Instructions / Comments"
+            multiline
+            name="instructions"
+            onChange={(e) =>
+              dispatch({ type: "UPDATE_DETAILS", payload: { instructions: e.target.value } })
+            }
+            placeholder="Knock loudly, leave in front, etc."
+            rows={5}
+            value={state.details.instructions}
+            variant="outlined"
+          />
+        </>
       )}
 
       <NavigationButtons
