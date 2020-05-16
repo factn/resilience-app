@@ -208,7 +208,7 @@ export interface MissionInterface {
 
   deliveryWindow: TimeWindow | null;
   deliveryLocation: Location; // default to recipient location
-  deliveryConfirmationImage: any;
+  deliveryConfirmationImage: string;
   deliveryNotes: string;
   deliveryType: string;
 

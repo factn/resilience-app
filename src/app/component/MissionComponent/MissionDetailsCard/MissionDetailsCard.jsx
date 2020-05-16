@@ -78,45 +78,29 @@ const MissionDetailsCard = ({ mission, photoDisabled }) => {
   const storage = firebase.storage();
   const classes = useStyles();
   const [file, setFile] = useState(null);
-  const [image, setImage] = useState(null);
 
   if (mission.status === "started") {
     photoDisabled = false;
   } else {
     photoDisabled = true;
   }
-
-  function addImage(img) {
-    const imgURL = Object.values(img)[1];
-    img
-      ? console.log(imgURL) && Mission.update(mission.uid, { deliveryConfirmationImage: imgURL })
-      : snackbarContext.show({
-          message: `Unable to add image to Mission ${mission.uid}`,
+  async function handleImageChosen(file) {
+    const uploadTask = storage
+      .ref(`confirmed_delivery/${file.name}`)
+      .put(file)
+      .then((data) => {
+        return data.ref.getDownloadURL();
+      })
+      .then((imgURL) => {
+        Mission.update(mission.uid, { deliveryConfirmationImage: imgURL });
+      })
+      .catch((error) => {
+        snackbarContext.show({
+          message: `Unable to upload image: ${error.message}`,
           type: "error",
         });
-  }
-
-  async function handleImageChosen(file) {
-    setFile(file);
-    if (file) {
-      const uploadTask = storage
-        .ref(`confirmed_delivery/${file.name}`)
-        .put(file)
-        .then((data) => {
-          setImage(data.ref.getDownloadURL());
-          return data.ref.getDownloadURL();
-        })
-        .then(addImage(image))
-        .catch((error) => {
-          snackbarContext.show({
-            message: `Unable to upload image: ${error.message}`,
-            type: "error",
-          });
-        });
-      return await uploadTask;
-    } else {
-      return "";
-    }
+      });
+    return await uploadTask;
   }
 
   return (

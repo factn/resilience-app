@@ -64,7 +64,7 @@ const defaultMissionData: MissionInterface = {
   deliveryLocation: defaultLocation, // default to recipient location
   deliveryType: "curbside",
 
-  deliveryConfirmationImage: {},
+  deliveryConfirmationImage: "",
   deliveryNotes: "",
   feedbackNotes: "",
 };
