@@ -6,7 +6,7 @@ import { createContext, useContext } from "react";
 const defaultData: OrganizationInterface = {
   uid: "-1",
   name: "",
-  phoneNumber: "",
+  chapterName: "",
   EINNumber: "",
   location: undefined,
 };

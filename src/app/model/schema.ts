@@ -42,11 +42,24 @@ export interface PaymentSettings {
 export class OrganizationInterface {
   /* Firebase Id, created automatically*/
   uid!: string;
-  /*Name of the organization */
+  /*Name of the organization - eg Feed Folks */
   name!: string;
+  /*Name of the organization chapter eg Feed Folks - Studio City
+    (make this the same as 'name' if org doesn't have chapters) */
+  chapterName?: string;
+  /*Tagline for the organization - eg "Neighbors helping neighbors"  */
+  tagline?: string;
+  /* Quick info - eg 'We're a grassroots team in Studio City, CA getting fresh farm produce to our neighbors
+  in need.' */
+  quickInfo?: string;
+  /* Email for infor - eg 'studiocity@feedfolks.store' */
+  contactEmail?: string;
+  /* Email for infor - eg 'studiocity@feedfolks.store' */
+  contactPhoneNumber?: string;
+  /* URL to download organisation image (from CDN, ideally) */
+  logoURL?: ImageUrl;
   /*The Location of the Organization*/
   location?: Location;
-  phoneNumber!: string;
   EINNumber?: string;
   /**
    * There are subcollection, they are here for references

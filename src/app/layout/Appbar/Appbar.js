@@ -23,8 +23,8 @@ const Appbar = ({ children }) => {
           </Link>
         </LogoContainer>
         {children || (
-          <AboutLink to={routes.about} aria-label="About Resilience App">
-            About Resilience App
+          <AboutLink to={routes.about} aria-label="Feed Folks - Studio City">
+            Feed Folks - Studio City
           </AboutLink>
         )}
         <MenuContainer data-testid="MutualAidMenu">
