@@ -14,7 +14,6 @@ import Mission from "../../../model/Mission";
 import PanToolIcon from "@material-ui/icons/PanTool";
 import { v4 as uuidV4 } from "uuid";
 import AssignedVolunteerPopover from "./AssignedVolunteerPopover";
-import User from "../../../model/User";
 
 const actions = {
   CLOSE: "close all popover",
@@ -72,7 +71,6 @@ const MissionItemMenu = ({ boxRef, className, groups, mission, volunteers }) => 
   const handleReadyToStartButton = () => {
     Mission.update(mission.uid, {
       readyToStart: !mission.readyToStart,
-      status: "tentative",
     });
     dispatch({ type: actions.CLOSE });
   };
@@ -120,10 +118,15 @@ const MissionItemMenu = ({ boxRef, className, groups, mission, volunteers }) => 
   };
   const handleConfirmVolunteer = (selected) => {
     if (selected) {
-      User.assignedMission(selected, mission.uid);
+      Mission.assign(selected.uid, selected, mission.uid);
     }
     dispatch({ type: actions.CLOSE });
   };
+
+  // menu only show up on planning phase for now
+  if (![Mission.Status.tentative, Mission.Status.assigned].includes(mission.status)) {
+    return null;
+  }
 
   return (
     <>

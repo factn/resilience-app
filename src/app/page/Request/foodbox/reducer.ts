@@ -5,10 +5,15 @@ export type CartItem = {
   quantity: number;
 };
 
-export type State = {
-  cart: Record<string, CartItem>;
+type Details = {
   instructions: string;
   location: Location | null;
+  curbsidePickup: boolean;
+};
+
+export type State = {
+  cart: Record<string, CartItem>;
+  details: Details;
   recipient: {
     displayName: string;
     phoneNumber: string;
@@ -22,8 +27,11 @@ export type State = {
 
 export const initialState: State = {
   cart: {},
-  instructions: "",
-  location: null,
+  details: {
+    instructions: "",
+    location: null,
+    curbsidePickup: true,
+  },
   recipient: {
     displayName: "",
     phoneNumber: "",
@@ -40,19 +48,18 @@ type ActionUpdateCart = {
   payload: CartItem;
 };
 
-type Details = {
-  location: Location;
-  instructions: string;
-  recipient: {
+type ActionUpdateDetails = {
+  type: "UPDATE_DETAILS";
+  payload: Details;
+};
+
+type ActionUpdateUser = {
+  type: "UPDATE_USER";
+  payload: {
     displayName: string;
     phoneNumber: string;
     uid: string;
   };
-};
-
-type ActionUpdateDetails = {
-  type: "UPDATE_DETAILS";
-  payload: Details;
 };
 
 type ActionUpdateStep = {
@@ -83,6 +90,7 @@ type ActionUpdateError = {
 type Actions =
   | ActionUpdateCart
   | ActionUpdateDetails
+  | ActionUpdateUser
   | ActionUpdateStep
   | ActionBack
   | ActionNext
@@ -97,11 +105,12 @@ export function reducer(state: State, { payload, type }: Actions) {
       newCart[resource.uid] = { resource, quantity };
       return { ...state, cart: newCart };
     case "UPDATE_DETAILS":
-      const { instructions, location, recipient } = payload as Details;
-      return { ...state, instructions, location, recipient, step: 2, maxStep: 2 };
+      return { ...state, details: { ...state.details, ...(payload as Details) } };
+    case "UPDATE_USER":
+      return { ...state, recipient: { ...state.recipient, ...(payload as any) } };
     case "UPDATE_STEP":
       // make sure we're only going to a step less than or equal to the max step
-      return { ...state, step: payload && payload <= state.maxStep ? payload : state.step };
+      return { ...state, step: (payload as number) <= state.maxStep ? payload : state.step };
     case "NEXT":
       return {
         ...state,

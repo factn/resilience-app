@@ -14,7 +14,7 @@ import { Actions, Container, StyledIcon } from "./ImageUpload.style";
 export function ImageUpload({ styles, getFile = () => null, ...props }) {
   const fileUpload = useRef();
   const [file, setFile] = useState("");
-  const [preview, setPreview] = useState(null);
+  const [preview, setPreview] = useState(props.dCI);
 
   function handleFileChange({ target }) {
     target.files.length && setFile(target.files[0]);

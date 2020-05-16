@@ -216,37 +216,8 @@ export default function AddressAutocomplete({
 
   return (
     <>
-      {showMap && (
-        <>
-          <Box className={classes.mapHelperTextWrapper}>
-            <small>Dragg the marker to correct address</small>
-          </Box>
-          <Box className={classes.mapWrapper}>
-            <Box className={disabled && classes.disabledMap}></Box>
-            <Map
-              className={classes.map}
-              center={location.lat ? [location.lat, location.lng] : [0, 0]}
-              zoom={location.zoom}
-            >
-              <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-              {location.lat && (
-                <Marker
-                  position={location.lat ? [location.lat, location.lng] : [0, 0]}
-                  draggable={true}
-                  riseOnHover={true}
-                  onMoveend={(e) => {
-                    handleAutoChange({
-                      location: e.target._latlng,
-                    });
-                  }}
-                />
-              )}
-            </Map>
-          </Box>
-        </>
-      )}
       <Autocomplete
-        inputValue={location.input}
+        value={location.input}
         id="google-map-demo"
         style={{ width: "100%" }}
         getOptionLabel={(option) => (typeof option === "string" ? option : option.description)}
@@ -256,7 +227,7 @@ export default function AddressAutocomplete({
         disabled={disabled}
         includeInputInList
         getOptionSelected={(option, value) => {
-          return option.description === value.description;
+          return option.description === value;
         }}
         onChange={(_, place) => place?.place_id && handleAutoChange({ placeId: place.place_id })}
         onInputChange={handleInputChange}
@@ -296,6 +267,35 @@ export default function AddressAutocomplete({
           );
         }}
       />
+      {showMap && (
+        <>
+          <Box className={classes.mapHelperTextWrapper}>
+            <small>Drag the marker to correct address</small>
+          </Box>
+          <Box className={classes.mapWrapper}>
+            <Box className={disabled ? classes.disabledMap : ""}></Box>
+            <Map
+              className={classes.map}
+              center={location.lat ? [location.lat, location.lng] : [0, 0]}
+              zoom={location.zoom}
+            >
+              <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+              {location.lat && (
+                <Marker
+                  position={location.lat ? [location.lat, location.lng] : [0, 0]}
+                  draggable={true}
+                  riseOnHover={true}
+                  onMoveend={(e) => {
+                    handleAutoChange({
+                      location: e.target._latlng,
+                    });
+                  }}
+                />
+              )}
+            </Map>
+          </Box>
+        </>
+      )}
     </>
   );
 }

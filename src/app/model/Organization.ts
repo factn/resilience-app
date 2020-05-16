@@ -4,9 +4,9 @@ import { Resource } from "./schema";
 import { createContext, useContext } from "react";
 
 const defaultData: OrganizationInterface = {
-  uid: "",
+  uid: "-1",
   name: "",
-  phoneNumber: "",
+  chapterName: "",
   EINNumber: "",
   location: undefined,
 };
@@ -47,7 +47,7 @@ class Organization extends BaseModel {
       const resourcesRef = this.getCollection("organizations")
         .doc(this.uid)
         .collection("resources");
-      const docs = await resourcesRef.where("acceptOrder", "==", true).get();
+      const docs = await resourcesRef.where("availableToOrder", "==", true).get();
       const foodBoxes = docs.docs.map((d) => ({ ...d.data(), uid: d.id }));
 
       return foodBoxes as Resource[];

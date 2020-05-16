@@ -1,24 +1,26 @@
-// If you enabled Analytics in your project, add the Firebase SDK for Analytics
-import firebase from "firebase/app";
-import "firebase/analytics";
-import "firebase/auth";
-import "firebase/firestore";
-import "./index.css";
-
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { ReactReduxFirebaseProvider } from "react-redux-firebase";
 import { createFirestoreInstance } from "redux-firestore"; // <- needed if using firestore
-import { rfConfig } from "./config/firebase";
 
 import App from "./App";
 import { store } from "./app/store";
 import * as serviceWorker from "./serviceWorker";
 
-import initFirebase from "./initFirebase";
+const db = firebase.firestore();
+if (process.env.REACT_APP_USE_DB_EMULATORS === "true") {
+  console.log("USING FIRESTORE EMULATOR");
+  db.settings({
+    host: "localhost:8080",
+    ssl: false,
+  });
+}
 
-initFirebase();
+const rfConfig = {
+  userProfile: "users",
+  useFirestoreForProfile: true,
+};
 
 ReactDOM.render(
   <Provider store={store}>

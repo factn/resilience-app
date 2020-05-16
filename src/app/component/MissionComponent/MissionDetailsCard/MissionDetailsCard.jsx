@@ -15,7 +15,9 @@ import ImageUpload from "../../ImageUpload";
 import FoodBoxIcon from "../../icons/FoodBoxIcon";
 import { H2 } from "../../Typography";
 import styled from "styled-components";
-import { getFirebase } from "react-redux-firebase";
+import { useFirebase } from "react-redux-firebase";
+import { set } from "date-fns";
+import { Mission } from "../../../model";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -72,15 +74,26 @@ const Row = ({ children, Icon, label }) => {
  */
 const MissionDetailsCard = ({ mission, photoDisabled }) => {
   const snackbarContext = useContext(Snackbar.Context.SnackbarContext);
-  const firebase = getFirebase();
+  const firebase = useFirebase();
   const storage = firebase.storage();
   const classes = useStyles();
   const [file, setFile] = useState(null);
+  const [image, setImage] = useState(null);
 
   if (mission.status === "started") {
     photoDisabled = false;
   } else {
     photoDisabled = true;
+  }
+
+  function addImage(img) {
+    const imgURL = Object.values(img)[1];
+    img
+      ? console.log(imgURL) && Mission.update(mission.uid, { deliveryConfirmationImage: imgURL })
+      : snackbarContext.show({
+          message: `Unable to add image to Mission ${mission.uid}: ${error.message}`,
+          type: "error",
+        });
   }
 
   async function handleImageChosen(file) {
@@ -90,9 +103,10 @@ const MissionDetailsCard = ({ mission, photoDisabled }) => {
         .ref(`confirmed_delivery/${file.name}`)
         .put(file)
         .then((data) => {
-          console.log(data.ref.getDownloadURL());
+          setImage(data.ref.getDownloadURL());
           return data.ref.getDownloadURL();
         })
+        .then(addImage(image))
         .catch((error) => {
           snackbarContext.show({
             message: `Unable to upload image: ${error.message}`,
@@ -109,10 +123,10 @@ const MissionDetailsCard = ({ mission, photoDisabled }) => {
     <>
       <Grid item>
         <H2>Food Box Delivery</H2>
-        {mission.missionDetails.needs.map((need) => {
+        {mission.details.map((resource) => {
           return (
-            <Row key={need.name} Icon={FoodBoxIcon}>
-              {need.quantity} X {need.name}
+            <Row key={resource.displayName} Icon={FoodBoxIcon}>
+              {resource.quantity} X {resource.displayName}
             </Row>
           );
         })}
@@ -174,7 +188,11 @@ const MissionDetailsCard = ({ mission, photoDisabled }) => {
               it.
             </Row>
             <Grid item container justify="center">
-              <ImageUpload withoutTwoBtns getFile={handleImageChosen} />
+              <ImageUpload
+                withoutTwoBtns
+                getFile={handleImageChosen}
+                dCI={mission.deliveryConfirmationImage}
+              />
             </Grid>
           </Grid>
         </ExpansionPanelDetails>

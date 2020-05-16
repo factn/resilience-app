@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader, Grid, Typography, Button } from "@material-ui/core";
+import { Card, Box, CardContent, Grid, Typography, Button } from "@material-ui/core";
 import { withStyles, createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import GetAppIcon from "@material-ui/icons/GetApp";
 import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
@@ -6,8 +6,7 @@ import PublishIcon from "@material-ui/icons/Publish";
 import ScheduleIcon from "@material-ui/icons/Schedule";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
-import appleIcon from "../../../img/apple.svg";
-import DetailsText from "../../dashboard/Missions/DetailsText";
+import DetailsText from "./DetailsText";
 
 import AcceptMissionButton from "./AcceptMissionButton";
 import UnassignMeButton from "./UnassignMeButton";
@@ -129,15 +128,17 @@ const styles = (theme) => ({
  *
  * @component
  */
-const MissionCard = withStyles(styles)(({ anchorEl, classes, mission }) => {
+const MissionCard = withStyles(styles)(({ classes, mission }) => {
   const location = mission.pickUpLocation?.address || "no data";
   const dropOffLocation = mission.deliveryLocation?.address || "no data";
-  const startTime = mission.pickUpWindow?.startTime;
+  const startTime = "" + (mission.pickUpWindow?.startTime || "");
   const firebaseProfile = useSelector((state) => state.firebase.profile);
   const user = firebaseProfile;
   const fullScreen = useMediaQuery("(max-width:481px)");
   const [modalOpen, setModalOpen] = useState(false);
-  const handleOpenModal = () => setModalOpen(true);
+  const handleOpenModal = () => {
+    setModalOpen(true);
+  };
   const onCloseModal = () => setModalOpen(false);
 
   const ActionButtons = () => (
@@ -203,13 +204,15 @@ const MissionCard = withStyles(styles)(({ anchorEl, classes, mission }) => {
             </Grid>
           </Grid>
         )}
-        <CardHeader
-          className={classes.onTopOfNotReady}
-          action={<InfoOutlinedIcon onClick={handleOpenModal} />}
-          title={<DetailsText showType={false} mission={mission} />}
-          avatar={<img height="20" src={appleIcon} alt="" />}
-        />
         <CardContent className={classes.cardContent}>
+          <Box position="relative">
+            <Box position="absolute" right={0} top={0}>
+              <InfoOutlinedIcon onClick={handleOpenModal} />
+            </Box>
+          </Box>
+          <Box fontSize="12px" fontWeight="bold">
+            <DetailsText mission={mission} />
+          </Box>
           <Grid container direction="row">
             <Grid item xs={6} container direction="column" className={classes.column}>
               <Grid item xs container alignItems="center" className={classes.pickup}>
@@ -219,7 +222,7 @@ const MissionCard = withStyles(styles)(({ anchorEl, classes, mission }) => {
                 <Grid item>PICK UP</Grid>
               </Grid>
               <Grid item xs className={classes.addressLabel}>
-                {mission.pickUpLocation.label}
+                {mission.pickUpLocation?.label}
               </Grid>
               <Grid item xs zeroMinWidth>
                 <Typography noWrap>
@@ -277,9 +280,9 @@ MissionCard.propTyes = {
   mission: PropTypes.shape({
     status: PropTypes.string,
     url: PropTypes.string,
-    details: PropTypes.shape({
-      title: PropTypes.string,
-      description: PropTypes.string,
+    pickUpWindow: PropTypes.shape({
+      timeWindowType: PropTypes.string,
+      startTime: PropTypes.string,
     }),
     address: PropTypes.string,
     city: PropTypes.string,

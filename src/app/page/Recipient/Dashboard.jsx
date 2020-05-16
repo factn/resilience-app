@@ -5,7 +5,7 @@ import { Link, useLocation, Redirect, Switch, Route } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import { Page } from "../../layout";
-import { routes } from "../../routing";
+import { routes, AppRoute } from "../../routing";
 import { User } from "../../model";
 import { MissionStatus } from "../../model/schema";
 import RequestsList from "./RequestsList";
@@ -92,12 +92,12 @@ export default function () {
       </Tabs>
       <Box margin="0 1rem" height="100%">
         <Switch>
-          <Route path={routes.recipient.dashboard.submitted}>
+          <AppRoute path={routes.recipient.dashboard.submitted}>
             <RequestsList missions={missions.submitted} />
-          </Route>
-          <Route path={routes.recipient.dashboard.completed}>
+          </AppRoute>
+          <AppRoute path={routes.recipient.dashboard.completed}>
             <RequestsList missions={missions.completed} />
-          </Route>
+          </AppRoute>
         </Switch>
       </Box>
       <Button

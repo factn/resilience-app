@@ -30,6 +30,9 @@ function isCollection(data, path, depth) {
       return false;
     }
   }
+  if (Array.isArray(data)) {
+    return false;
+  }
 
   return true;
 }

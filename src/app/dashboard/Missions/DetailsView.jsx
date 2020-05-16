@@ -34,10 +34,7 @@ const useStyles = makeStyles((theme) => ({
   deliveryDetails: {
     marginTop: theme.spacing(0.5),
   },
-  rowBody: {
-    flexWrap: "nowrap",
-    alignItems: "center",
-  },
+
   missionImage: {
     margin: theme.spacing(1),
     width: "100%",
@@ -71,10 +68,10 @@ const Label = ({ children, classes }) => {
   );
 };
 
-const Row = ({ children, classes, Icon }) => {
+const Row = ({ children, Icon }) => {
   if (!children) return null;
   return (
-    <Grid container className={classes.rowBody}>
+    <Grid container wrap="nowrap" alignItems="center">
       <Box marginRight="5px" width="20px">
         {Icon && <Icon color="primary" />}
       </Box>
@@ -105,35 +102,17 @@ const MissionImage = ({ classes, mission }) => {
     </Container>
   );
 };
-const MissionTypeRow = ({ classes, mission }) => {
-  let missionType;
-  switch (mission?.type) {
-    case "foodbox":
-    default:
-      missionType = "Food Box";
+const VolunteerRow = ({ mission }) => {
+  const { tentativeVolunteerDisplayName, volunteerDisplayName } = mission;
+  let assigned = "";
+  if (volunteerDisplayName) {
+    assigned = volunteerDisplayName + " - accepted";
+  } else if (tentativeVolunteerDisplayName) {
+    assigned = tentativeVolunteerDisplayName + " - tentative";
+  } else {
+    assigned = "Looking for volunteer";
   }
-  return (
-    <Box marginTop="32px">
-      <H3>{missionType}</H3>
-    </Box>
-  );
-};
-const MissionStatusRow = ({ classes, mission }) => {
-  let status = mission?.status;
-  let missionStatusText;
-  switch (status) {
-    case Mission.Status.unassigned:
-      missionStatusText = "Looking for volunteer";
-      break;
-    default:
-      missionStatusText = status;
-      break;
-  }
-  return (
-    <Row Icon={PanToolIcon} classes={classes}>
-      {missionStatusText}
-    </Row>
-  );
+  return <Row Icon={PanToolIcon}>{assigned}</Row>;
 };
 
 const MissionFundedStatusRow = ({ classes, mission }) => {
@@ -145,9 +124,14 @@ const MissionFundedStatusRow = ({ classes, mission }) => {
     case Mission.FundedStatus.fundedbyrecipient:
       missionFundedStatusText = "Funded By Recipient";
       break;
+    case Mission.FundedStatus.fundingnotneeded:
+      missionFundedStatusText = "Funding Not Needed";
+      break;
     case Mission.FundedStatus.notfunded:
-    default:
       missionFundedStatusText = "Not Yet Funded";
+      break;
+    default:
+      throw Error("mission funded status not exist", mission.fundedStatus);
   }
   return (
     <Row Icon={AttachMoneyIcon} classes={classes}>
@@ -201,8 +185,11 @@ const MissionDetailsCard = ({ mission, toListView }) => {
         {isLoaded(mission) && !isEmpty(mission) && (
           <Box>
             <MissionImage {...props} />
-            <MissionTypeRow {...props} />
-            <MissionStatusRow {...props} />
+            <Box marginTop="32px">
+              <H3>{mission?.type}</H3>
+            </Box>
+
+            <VolunteerRow {...props} />
             <MissionFundedStatusRow {...props} />
             <MissionDetailsRow {...props} />
 

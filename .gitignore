@@ -9,9 +9,11 @@
 /coverage
 
 #development
+*.pyc
 
 # firebase create debug.log
 *debug.log
+*.pyc
 
 # production
 /build
@@ -31,7 +33,8 @@ yarn-error.log*
 
 .vscode/# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 .idea/
-
+env/
 .env
 .vscode
 
+.firebase

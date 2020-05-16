@@ -35,14 +35,24 @@
     <title>mutualaid.world</title>
   </head>
   <body>
-    <div id="fb-root"></div>
-    <script
-      async
-      defer
-      crossorigin="anonymous"
-      src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v6.0&appId=2470733643238869&autoLogAppEvents=1"
-    ></script>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="/__/firebase/7.14.3/firebase-app.js"></script>
 
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="/__/firebase/7.14.3/firebase-analytics.js"></script>
+    <script src="/__/firebase/7.14.3/firebase-auth.js"></script>
+    <script src="/__/firebase/7.14.3/firebase-firestore.js"></script>
+    <script src="/__/firebase/7.14.3/firebase-storage.js"></script>
+
+    <!-- Initialize Firebase -->
+    <script src="/__/firebase/init.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/ui/4.5.0/firebase-ui-auth.js"></script>
+    <link
+      type="text/css"
+      rel="stylesheet"
+      href="https://www.gstatic.com/firebasejs/ui/4.5.0/firebase-ui-auth.css"
+    />
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
   </body>
