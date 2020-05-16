@@ -5,27 +5,21 @@ agree to abide by the [code of conduct].
 
 [code of conduct]: /CODE_OF_CONDUCT.md
 
-## Feature Branch Workflow
+## Feature Branch aka Forking Workflow
 
-We follow the **feature branch workflow**
+We follow the **feature branch** workflow with a preference for the 'forking' workflow.
 
-The super short version is:
-
-- Clone this repo to your local machine
-
-```
-git clone git@github.com:factn/resilience-app.git
-```
+We suggest you use the forking workflow to start with but you may also submit feature branches once you have been given 'contributor' status/ 
 
 - Set up your dev environment as described on the [README](https://github.com/factn/resilience-app/blob/master/README.md)
 - Create your feature branch following our [branch naming conventions](#branch-naming-conventions)
 - Get your work done
-- Test and format your code. See [formating guidelines](#formatting-guidelines)
+- Test and format your code. 
+- See especially the [formating guidelines](#formatting-guidelines). (If code doesn't pass the formatting lint it cannot be merged.)
 - Commit your changes
-- [Join our slack], visit the #resilience-app channel and request to be given write access to this repo.
-- Push your changes to a branch on this repo and [submit a pull request](#submitting-a-pr).
+- Push your changes to a branch on this repo or to a branch on your own repo and [submit a pull request](#submitting-a-pr).
 
-At this point you're waiting on us to comment and approve your Pull Request (aka 'PR'). Things are moving pretty fast and we are working to get to all the PRs as fast as possible. We should get back to you in a couple of days but very often much sooner.
+At this point you're waiting on us to comment and approve your Pull Request (aka 'PR'). As I write this we're still working hard to get to all PRs as fast as possible. We should get back to you in a couple of days but very often sooner. To speed things along come join our slack and post a message. We'd love to hear from you anyway!
 
 Some things that will increase the chance that your pull request is accepted:
 
@@ -77,9 +71,6 @@ npm run format:check
 
 ## Submitting a PR
 
-If you don't want to wait for us to give you write access you are more than welcome to use the forking workflow for your first PR and just [fork this repo](https://guides.github.com/activities/forking/) and then create a PR that way.
-In fact we'd encourage it for the first PR.
-
 If the PR is for a feature please provide a link to that card in AirTable.
 
 For PRs that address github issues please use one of the following keywords followed by the issue `id` so that those can auto close when the PR has been merged.
@@ -101,6 +92,12 @@ example: `closes #123`
 For now, please [join our slack] to get a sense of where things are at. You can also [see our roadmap here](https://airtable.com/invite/l?inviteId=invAIFQQVcucfXfWx&inviteToken=a9ca21ad9b07a25b40d520f6c43855b006dd83b61cdccbb38799dcac551a4b0d).
 
 If you ask on slack, we can give you access to the group on airtable that will let you grab tasks off the backlog and start doing that, but we'd like to get you up to speed on how that works. We're working hard to capture needs directly from mutual aid groups on the ground so wnat to be sure that it works like that.
+
+## Becoming a contributor 
+
+If you don't want to wait for us to give you write access you are more than welcome to use the forking workflow and just [fork this repo](https://guides.github.com/activities/forking/), create a PR and go ahead. We'd encourage that.
+
+However, if you visit the #resilience-app channel and request to be given 'contributor' access to this repo it's a very easy process to give you that access. This will allow you to create branches *within* this repo and also grant you access to some of our project management tools..
 
 ## Who approves PRs?
 

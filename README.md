@@ -71,41 +71,41 @@ Here are a few geting started steps to help get set up for local development.
 1. [Fork](https://guides.github.com/activities/forking/) this repo
 2. Clone the repo
 
-   ```sh
-   git clone https://github.com/your_username_/resilience-app.git
-   ```
+    ```sh
+    git clone https://github.com/your_username_/resilience-app.git
+    ```
 
 3. Install NPM packages
 
-   ```sh
-   npm install
-   ```
+    ```sh
+    npm install
+    ```
 
 4. Create a local environment file from the sample `.env.sample` in the project root. From your project root run:
 
-   ```sh
-   cp .env.sample .env
-   ```
+    ```sh
+    cp .env.sample .env
+    ```
 
 5. Find the appropriate keys in in the `#resilience-app` channel under `Pinned Items` and fill in your `.env` file according to that.
 
 6. Install firebase-tools and set up your local environment 
 
-  ```sh
-  npm install -g firebase-tools
-  ```
-  
-  This should install the latest version of firebase cli add `firebase` to your path.
+    ```sh
+    npm install -g firebase-tools
+    ```
 
-  ```sh
-  firebase login
-  ```
-  This will pop up your browser and allow you to login. Loging using a google handle.
- 
-  ```sh
-  firebase use default
-  ```
-  This is needed to ensure that the project-id is set in your environment.
+    This should install the latest version of firebase cli add `firebase` to your path.
+
+    ```sh
+    firebase login
+    ```
+    This will pop up your browser and allow you to login. Loging using a google handle.
+
+    ```sh
+    firebase use default
+    ```
+    This is needed to ensure that the project-id is set in your environment.
 
 
 7. Start your local development server with
