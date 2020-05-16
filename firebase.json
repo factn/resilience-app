@@ -16,6 +16,20 @@
   "storage": {
     "rules": "./firebase/storage.rules"
   },
+  "hosting": {
+    "public": "build",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  },
   "emulators": {
     "functions": {
       "port": 5001
@@ -23,8 +37,8 @@
     "firestore": {
       "port": 8080
     },
-    "database": {
-      "port": 9000
+    "hosting": {
+      "port": 5000
     }
   }
 }

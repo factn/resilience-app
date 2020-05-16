@@ -135,7 +135,7 @@ function ConfirmStep({ dispatch, state }) {
           const { quantity, resource } = cart[key];
           return (
             <CheckoutItem
-              key={resource.id}
+              key={resource.uid}
               quantity={quantity}
               subtotal={quantity * resource.cost}
               secondary={resource.provider}
@@ -224,7 +224,7 @@ function transformForPaypal(cart) {
   const currency_code = "USD";
 
   const item = {
-    sku: resource.id,
+    sku: resource.uid,
     quantity: quantity.toString(),
     name: resource.name,
     unit_amount: {

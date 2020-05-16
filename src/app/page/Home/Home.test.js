@@ -28,6 +28,9 @@ describe("Home page", () => {
       ...state,
     };
 
+    jest.spyOn(Mission, "selectAssignedUserMissions").mockImplementation(() => []);
+    jest.spyOn(Mission, "selectAvailableUserMissions").mockImplementation(() => []);
+
     const store = createStore(() => initialState);
 
     return render(

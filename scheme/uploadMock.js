@@ -1,5 +1,4 @@
 const admin = require("firebase-admin");
-
 const data = require("./data.json");
 let serviceAccount = process.env.FIREBASE_SECRET;
 

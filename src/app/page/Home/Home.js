@@ -18,7 +18,9 @@ import { Page } from "../../layout";
 import VolunteerHome from "./VolunteerHome";
 import { isEmpty, isLoaded } from "react-redux-firebase";
 import { User, useOrganization } from "../../model";
+import Mission from "../../model/Mission";
 import { routes } from "../../routing";
+import { useFirestoreConnect } from "react-redux-firebase";
 
 const useStyles = makeStyles((theme) => ({
   HomeImage: {
@@ -379,11 +381,24 @@ const SignInHeaderComponent = ({ history }) => {
  * @component
  */
 const HomePage = ({ auth, history, profile }) => {
+  const org = useOrganization();
+
+  useFirestoreConnect(() => {
+    if (!auth.uid) {
+      return [];
+    }
+    const id = org.uid;
+    return [
+      Mission.fsAvailableUserMissions(id, auth.uid),
+      Mission.fsAssignedUserMissions(id, auth.uid),
+      { collection: "organizations", doc: id },
+    ];
+  });
+
   const classes = useStyles();
   useEffect(() => {
     User.createProfileIfNotExist(auth, profile);
   }, [auth, profile]);
-
   return (
     <Page isLoaded={isLoaded(auth)} LoadingComponent={LoadingComponent}>
       {isEmpty(auth) ? (
@@ -417,7 +432,7 @@ const HomePage = ({ auth, history, profile }) => {
         </Grid>
       ) : (
         <>
-          <VolunteerHome currentUser={auth} />
+          <VolunteerHome />
         </>
       )}
     </Page>

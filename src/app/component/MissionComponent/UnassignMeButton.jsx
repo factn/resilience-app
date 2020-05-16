@@ -18,7 +18,7 @@ const UnassignMeButton = ({ mission, user }) => {
 
   function handleOnClick(e) {
     e.preventDefault();
-    Mission.accept(user.uid, user, mission.uid);
+    Mission.unassigned(mission.uid);
   }
 
   return (

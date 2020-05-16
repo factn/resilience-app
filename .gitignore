@@ -12,6 +12,7 @@
 
 # firebase create debug.log
 *debug.log
+*.pyc
 
 # production
 /build
@@ -35,3 +36,4 @@ yarn-error.log*
 .env
 .vscode
 
+.firebase

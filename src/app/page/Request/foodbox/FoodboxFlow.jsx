@@ -3,7 +3,6 @@ import { makeStyles, withStyles } from "@material-ui/core/styles";
 import React, { useReducer } from "react";
 
 import { H4 } from "../../../component";
-import { H1 } from "../styles";
 import ConfirmStep from "./ConfirmStep";
 import DeliveryStep from "./DeliveryStep";
 import FoodboxStep from "./FoodboxStep";
@@ -33,7 +32,6 @@ export default function FoodboxFlow() {
 
   return (
     <div className={classes.root}>
-      <H1>Food Box Delivery</H1>
       <Paper className={classes.tabMargin} elevation={3} square>
         <Tabs value={state.step} indicatorColor="primary" textColor="primary" centered>
           {tabNames.map((tab, idx) => (
