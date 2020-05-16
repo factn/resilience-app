@@ -100,7 +100,7 @@ Here are a few geting started steps to help get set up for local development.
     ```sh
     firebase login
     ```
-    This will pop up your browser and allow you to login. Loging using a google handle.
+    This will pop up your browser and allow you to login. Login using a google handle.
 
     ```sh
     firebase use default
