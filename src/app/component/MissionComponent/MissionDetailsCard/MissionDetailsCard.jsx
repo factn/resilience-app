@@ -15,8 +15,7 @@ import ImageUpload from "../../ImageUpload";
 import FoodBoxIcon from "../../icons/FoodBoxIcon";
 import { H2 } from "../../Typography";
 import styled from "styled-components";
-import { getFirebase, withFirestore } from "react-redux-firebase";
-import { withRouter } from "react-router-dom";
+import { getFirebase } from "react-redux-firebase";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -91,6 +90,7 @@ const MissionDetailsCard = ({ mission, photoDisabled }) => {
         .ref(`confirmed_delivery/${file.name}`)
         .put(file)
         .then((data) => {
+          console.log(data.ref.getDownloadURL());
           return data.ref.getDownloadURL();
         })
         .catch((error) => {
@@ -187,4 +187,4 @@ MissionDetailsCard.propTypes = {
   mission: PropTypes.object.isRequired,
 };
 
-export default withRouter(withFirestore(MissionDetailsCard));
+export default MissionDetailsCard;
