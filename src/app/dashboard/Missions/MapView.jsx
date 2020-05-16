@@ -121,7 +121,8 @@ const Overview = ({ currentMission, missions, org, setSelectedMission, volunteer
       SpecificDetails = (
         <>
           <b>Food Box</b>
-          {_.get(mission.missionDetails, "needs")?.map((box, index) => {
+          {mission.missionDetails?.needs?.map((box, index) => {
+          //{_.get(mission.missionDetails, "needs")?.map((box, index) => {
             return (
               <div key={index}>
                 {_.get(box, "quantity")} x {_.get(box, "name")}
