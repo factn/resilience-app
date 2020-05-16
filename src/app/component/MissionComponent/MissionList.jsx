@@ -15,14 +15,6 @@ const StyledButton = styled(Button)`
   flex-grow: 1;
 `;
 
-const StyledButtonWithLargeBorder = styled(StyledButton)`
-  border: 2px solid;
-
-  &:hover {
-    border: 2px solid;
-  }
-`;
-
 const MissionListContainer = styled.div`
   width: 100%;
 `;

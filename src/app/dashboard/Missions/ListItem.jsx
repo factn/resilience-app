@@ -1,12 +1,12 @@
 import { Box, Grid, Card } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
-import DetailsText from "./DetailsText";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import PanToolIcon from "@material-ui/icons/PanTool";
 import Chip from "@material-ui/core/Chip";
 import clsx from "clsx";
 import React, { useEffect } from "react";
+import DetailsText from "../../component/MissionComponent/DetailsText";
 
 import Mission from "../../model/Mission";
 import _ from "../../utils/lodash";
