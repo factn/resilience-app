@@ -11,7 +11,6 @@ function Alert(props) {
  * @deprecated SuccessSnackbar has been combined with ErrorSnackbar in Snackbar
  */
 function ErrorSnackbar({ autoHideDuration, errorMessage, handleClose, open }) {
-  console.warn("Deprecation warning: ErrorSnackbar has been deprecated for Snackbar");
   return (
     <Snackbar open={open} autoHideDuration={autoHideDuration} onClose={handleClose}>
       <Alert onClose={handleClose} severity="error">

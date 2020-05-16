@@ -9,6 +9,7 @@ import ThemeProvider from "../../component/ThemeProvider";
 import User from "../../model/User";
 import Mission from "../../model/Mission";
 import Home from "./Home";
+import { OrganizationContext } from "../../model";
 
 describe("Home page", () => {
   beforeAll(() => {
@@ -27,13 +28,18 @@ describe("Home page", () => {
       ...state,
     };
 
+    jest.spyOn(Mission, "selectAssignedUserMissions").mockImplementation(() => []);
+    jest.spyOn(Mission, "selectAvailableUserMissions").mockImplementation(() => []);
+
     const store = createStore(() => initialState);
 
     return render(
       <Provider store={store}>
         <MemoryRouter>
           <ThemeProvider theme={theme}>
-            <Home />
+            <OrganizationContext.Provider value={{}}>
+              <Home />
+            </OrganizationContext.Provider>
           </ThemeProvider>
         </MemoryRouter>
       </Provider>
@@ -64,7 +70,6 @@ describe("Home page", () => {
 
     expect(page.queryByTestId("icon-contact")).toBeInTheDocument();
     expect(page.queryByTestId("label-contact-mssg-1")).toBeInTheDocument();
-    expect(page.queryByTestId("label-contact-mssg-2")).toBeInTheDocument();
   });
 
   it("Renders the home layout with Request Help", () => {

@@ -3,17 +3,15 @@ import React from "react";
 import { isEmpty, isLoaded } from "react-redux-firebase";
 import { useHistory } from "react-router-dom";
 import { Mission } from "../../model";
-import { MissionList, MissionGroup } from "../../component";
+import { MissionList, MissionGroup, ShowDeliveryRoute } from "../../component";
+import { Map, Marker, TileLayer } from "react-leaflet";
+import Box from "@material-ui/core/Box";
 
-/**
- * Component for listing volunteered missions
- *
- * @component
- */
 const VolunteerHomeMissionList = ({
   action,
   actionIcon,
   actionText,
+  checkGroupActionDisabled,
   groupActionIcon,
   isEmptyText,
   missions,
@@ -23,6 +21,7 @@ const VolunteerHomeMissionList = ({
   const history = useHistory();
 
   const { groups, singleMissions } = Mission.getAllGroups(missions);
+
   const missionGroups = groups.map((group) => (
     <MissionGroup
       key={group.groupUid}
@@ -30,11 +29,11 @@ const VolunteerHomeMissionList = ({
       groupCallToAction={{
         showGroupAction,
         groupActionIcon,
+        checkGroupActionDisabled,
       }}
       callToAction={{
         text: actionText,
         icon: actionIcon,
-        onClick: (missionUid) => action(missionUid),
       }}
       history={history}
       isLoaded={isLoaded(group.missions)}
@@ -51,15 +50,37 @@ const VolunteerHomeMissionList = ({
       isEmptyText={isEmptyText}
       callToAction={{
         text: actionText,
-        onClick: action,
       }}
     />
   );
 
+  const viewRouteAllMissions = <ShowDeliveryRoute missions={missions} />;
+
+  const validMissions = [];
+  const positions = missions?.reduce((acc, mission) => {
+    const { lat, lng } = mission?.deliveryLocation;
+    if (lat && lng) {
+      acc.push([lat, lng]);
+      validMissions.push(mission);
+    }
+    return acc;
+  }, []);
+
   return (
     <div className="volunteer-mission-list">
+      {positions.length !== 0 && (
+        <Box width="100%" height="200px">
+          <Map bounds={positions} style={{ width: "100%", height: "100%" }}>
+            <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+            {missions?.map((mission) => {
+              return <Marker key={mission.uid} position={mission.deliveryLocation} />;
+            })}
+          </Map>
+        </Box>
+      )}
       {missionGroups}
       {singleMissionList}
+      {showViewRoute && viewRouteAllMissions}
     </div>
   );
 };

@@ -2,8 +2,7 @@ import { Checkbox, Container, FormControlLabel, TextField } from "@material-ui/c
 import PropTypes from "prop-types";
 import React from "react";
 
-import { Body1 } from "../../../component";
-import { AddressInput, Button } from "../../../component";
+import { Body1, AddressInput, Button } from "../../../component";
 import { Page } from "../../../layout";
 import { StyledHeader, useStyles } from "./UserProfile.style";
 

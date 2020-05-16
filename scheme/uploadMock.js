@@ -1,5 +1,4 @@
 const admin = require("firebase-admin");
-
 const data = require("./data.json");
 let serviceAccount = process.env.FIREBASE_SECRET;
 
@@ -30,6 +29,9 @@ function isCollection(data, path, depth) {
       // If there is at least one non-object item in the data then it cannot be collection.
       return false;
     }
+  }
+  if (Array.isArray(data)) {
+    return false;
   }
 
   return true;

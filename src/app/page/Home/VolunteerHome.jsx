@@ -1,18 +1,25 @@
-import { Box, Paper, Tab, Tabs, Typography } from "@material-ui/core";
+import { Box, Paper, Tab, Tabs } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import MuiCheckIcon from "@material-ui/icons/Check";
 import MuiDoneAllIcon from "@material-ui/icons/DoneAll";
 import MuiPlayCircleFilledIcon from "@material-ui/icons/PlayCircleFilled";
 
-import User from "../../model/User";
 import Mission from "../../model/Mission";
-import { getAllAssignedMissions, getAllInProgressMissions } from "./missionHelpers";
+import {
+  getAllAvailableMissions,
+  getAllAcceptedMissions,
+  getAllInProgressMissions,
+} from "./missionHelpers";
 import VolunteerHomeMissionList from "./VolunteerHomeMissionList";
 import MissionTypeHeading from "./MissionTypeHeading";
 import { volunteerDashboardEmptyTabMessage } from "../../../constants";
 import { FoodBoxIcon, UserPhoneUnverifiedPopup } from "../../component";
+import { H1, Div } from "../../component";
+import { connect } from "react-redux";
+
+import _ from "../../utils/lodash";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,62 +39,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function VolunteerHome({ currentUser }) {
+const VolunteerHome = ({ currentUser, missions }) => {
   const classes = useStyles();
   const [value, setValue] = useState(0);
-  const [popUpOpen, setPopUpOpen] = useState(false);
-  const [acceptedMissions, updateAssignedMissions] = useState([]);
-  const [inProgressMissions, updateInProgressMissions] = useState([]);
-  const [availableMissions, updateAvailableMissions] = useState([]);
+  const [userPhoneUnverifiedPopupOpen, setUserPhoneUnverifiedPopupOpen] = useState(false);
 
-  useEffect(() => {
-    const fetchAllAssociatedMissions = async () => {
-      const missions = await User.getAllAssociatedMissions(currentUser.uid);
-      const availableMissions = await Mission.getAllAvailable();
-
-      updateAvailableMissions(availableMissions);
-      updateAssignedMissions(getAllAssignedMissions(missions, currentUser));
-      updateInProgressMissions(getAllInProgressMissions(missions, currentUser));
-    };
-
-    if (!!currentUser && !!currentUser.uid) {
-      fetchAllAssociatedMissions();
-    }
-  }, [currentUser]);
+  const availableMissions = getAllAvailableMissions(missions);
+  const acceptedMissions = getAllAcceptedMissions(missions);
+  const inProgressMissions = getAllInProgressMissions(missions);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
-  };
-
-  const handleStartMission = (missionUid) => {
-    if (!currentUser.phoneNumber) setPopUpOpen(true);
-
-    Mission.start(currentUser.uid, currentUser, missionUid);
-
-    // Move from Assigned to Started
-    const mission = acceptedMissions.filter((m) => m.uid === missionUid);
-    updateAssignedMissions(acceptedMissions.filter((m) => m.uid !== missionUid));
-    updateInProgressMissions(inProgressMissions.concat(mission));
-  };
-
-  const handleAcceptMission = (missionUid) => {
-    if (!currentUser.phoneNumber) setPopUpOpen(true);
-
-    Mission.accept(currentUser.uid, currentUser, missionUid);
-
-    // Move from Available to Accepted
-    const mission = availableMissions.filter((m) => m.uid === missionUid);
-    updateAssignedMissions(acceptedMissions.concat(mission));
-    updateAvailableMissions(availableMissions.filter((m) => m.uid !== missionUid));
-  };
-
-  const handleDeliveringMissionsFromStarted = (missionUid) => {
-    if (!currentUser.phoneNumber) {
-      setPopUpOpen(true);
-    } else {
-      Mission.deliver(currentUser.uid, currentUser, missionUid);
-      updateInProgressMissions(inProgressMissions.filter((m) => m.uid !== missionUid));
-    }
   };
 
   const availableLabel = "Available (" + availableMissions.length + ")";
@@ -118,14 +80,9 @@ export default function VolunteerHome({ currentUser }) {
       <TabPanel value={value} index={0}>
         <MissionTypeHeading label={missionType.label} icon={missionType.icon}></MissionTypeHeading>
         <Box className={classes.tabSectionContainer}>
-          <Typography
-            component="h1"
-            variant="h1"
-            gutterBottom
-            className={classes.sectionHeadingStyles}
-          >
+          <H1 component="h1" gutterBottom className={classes.sectionHeadingStyles}>
             Available
-          </Typography>
+          </H1>
           <VolunteerHomeMissionList
             missions={availableMissions}
             currentUser={currentUser}
@@ -134,65 +91,68 @@ export default function VolunteerHome({ currentUser }) {
             showGroupAction={true}
             groupActionIcon={<MuiDoneAllIcon />}
             isEmptyText={volunteerDashboardEmptyTabMessage.available}
-            action={(missionUid) => handleAcceptMission(missionUid)}
           />
         </Box>
       </TabPanel>
       <TabPanel value={value} index={1}>
         <MissionTypeHeading label={missionType.label} icon={missionType.icon}></MissionTypeHeading>
         <Box className={classes.tabSectionContainer}>
-          <Typography
-            component="h1"
-            variant="h1"
-            gutterBottom
-            className={classes.sectionHeadingStyles}
-          >
+          <H1 component="h1" gutterBottom className={classes.sectionHeadingStyles}>
             Scheduled
-          </Typography>
+          </H1>
           <VolunteerHomeMissionList
             missions={acceptedMissions}
             currentUser={currentUser}
             actionText="Start Mission"
             actionIcon={<MuiPlayCircleFilledIcon />}
+            checkGroupActionDisabled={(missions) =>
+              _.some(missions, (mission) => !mission.readyToStart)
+            }
             showGroupAction={true}
             groupActionIcon={<MuiPlayCircleFilledIcon />}
             isEmptyText={volunteerDashboardEmptyTabMessage.accepted}
-            action={(missionUid) => handleStartMission(missionUid)}
           />
         </Box>
       </TabPanel>
       <TabPanel value={value} index={2}>
         <MissionTypeHeading label={missionType.label} icon={missionType.icon}></MissionTypeHeading>
         <Box className={classes.tabSectionContainer}>
-          <Typography
-            component="h1"
-            variant="h1"
-            gutterBottom
-            className={classes.sectionHeadingStyles}
-          >
+          <H1 component="h1" gutterBottom className={classes.sectionHeadingStyles}>
             In Progress
-          </Typography>
+          </H1>
           <VolunteerHomeMissionList
             missions={inProgressMissions}
             currentUser={currentUser}
             actionText={"Mission Delivered"}
             showViewRoute={true}
             isEmptyText={volunteerDashboardEmptyTabMessage.started}
-            action={(missionUid) => handleDeliveringMissionsFromStarted(missionUid)}
           />
         </Box>
       </TabPanel>
-      <UserPhoneUnverifiedPopup open={popUpOpen} handleClose={() => setPopUpOpen(false)} />
+      <UserPhoneUnverifiedPopup
+        open={userPhoneUnverifiedPopupOpen}
+        handleClose={() => setUserPhoneUnverifiedPopupOpen(false)}
+      />
     </div>
   );
-}
+};
+
+const mapStateToProps = (state) => {
+  return {
+    user: state.firebase.auth,
+    missions: Mission.selectAssignedUserMissions(state).concat(
+      Mission.selectAvailableUserMissions(state)
+    ),
+  };
+};
+
+export default connect(mapStateToProps)(VolunteerHome);
 
 function TabPanel(props) {
   const { children, index, value, ...other } = props;
 
   return (
-    <Typography
-      component="div"
+    <Div
       role="tabpanel"
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
@@ -200,7 +160,7 @@ function TabPanel(props) {
       {...other}
     >
       {value === index && children}
-    </Typography>
+    </Div>
   );
 }
 

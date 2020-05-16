@@ -1,4 +1,4 @@
-import { Grid, Typography } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import { Container } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
@@ -6,6 +6,7 @@ import React from "react";
 
 import { withLoading } from "../../HOC";
 import Appbar from "../Appbar";
+import { H1 } from "../../component";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -34,7 +35,7 @@ const Page = ({ appbar, children, maxWidth, title }) => {
           <Appbar>{appbar}</Appbar>
         </Grid>
         <Grid container item role="main" direction="column">
-          {title && <Typography variant="h1">{title}</Typography>}
+          {title && <H1>{title}</H1>}
           {children}
         </Grid>
       </Grid>

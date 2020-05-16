@@ -19,16 +19,8 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
 
-    - name: Install python faker
-      run: pip3 install faker
-
     - name: Install firebase-admin
       run: npm i firebase-admin
-
-    - name: Create dataset for updating firebase
-      run: |
-        python3 ./scheme/data.py
-        mv ./data.json ./scheme/data.json
     
     - name: Upload to firebase
       env:

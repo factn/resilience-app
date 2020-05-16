@@ -1,39 +1,50 @@
-import Select from "@material-ui/core/Select";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { Typography } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 
 import { ReactComponent as HappyFace } from "../../../../img/happy-face.svg";
 import { Body1 } from "../../../component";
 import { HappyBox, HR, TotalsContainer, useStyles } from "./foodboxSteps.style";
 import NavigationButtons from "./NavigationButtons";
 import Organization from "../../../model/Organization";
+import { routes } from "../../../routing";
+import CheckoutItem from "./CheckoutItem";
 
 function FoodboxStep({ dispatch, state }) {
   const history = useHistory();
   const classes = useStyles();
+  const [boxes, setBoxes] = useState([]);
   const { cart } = state;
+  const totalPrice = Object.keys(cart).reduce(
+    (total, key) => cart[key].resource.cost * cart[key].quantity + total,
+    0
+  );
+
+  const totalBoxes = Object.keys(cart).reduce((total, key) => cart[key].quantity + total, 0);
 
   useEffect(() => {
     // We only need to do this once to get the initial foodboxes
-    if (Object.keys(cart).length < 1) {
-      // only using first box for now
-      Organization.getFoodBoxes().then((boxes) =>
-        dispatch({ type: "UPDATE_CART", payload: { resource: boxes[0], quantity: 1 } })
-      );
+    Organization.getFoodBoxes().then((boxes) => {
+      if (boxes.length > 0) {
+        setBoxes(boxes);
+      } else {
+        dispatch({
+          type: "ERROR",
+          payload: "We're sorry, there are no foodboxes available at this time.",
+        });
+      }
+    });
+  }, [dispatch]);
+
+  const updateOrder = (resource, quantity) =>
+    dispatch({ type: "UPDATE_CART", payload: { resource, quantity } });
+
+  const onNext = () => {
+    if (totalPrice === 0) {
+      dispatch({ type: "ERROR", payload: "Must select at least one box to continue." });
+      return;
     }
-  }, [cart, dispatch]);
-
-  const getTotalPrice = () => {
-    return Object.keys(cart).reduce(
-      (total, key) => cart[key].resource.cost * cart[key].quantity + total,
-      0
-    );
-  };
-
-  const getTotalBoxes = () => {
-    const total = Object.keys(cart).reduce((total, key) => cart[key].quantity + total, 0);
-    return `${total} box${total === 1 ? "" : "es"}`;
+    dispatch({ type: "NEXT" });
   };
 
   return (
@@ -42,52 +53,20 @@ function FoodboxStep({ dispatch, state }) {
         Help out local farms by ordering seasonal fresh food boxes from them so good food doesn’t go
         to waste.
       </Body1>
-      {Object.keys(cart).map((key) => {
-        const { quantity, resource: foodbox } = cart[key];
-        return (
-          <div key={key}>
-            <Typography align="left" variant="h3" color="textPrimary" gutterBottom>
-              {foodbox.provider}
-            </Typography>
-            <Select
-              style={{ width: "75%", borderRadius: "4px 0 0 4px" }}
-              autoWidth
-              native
-              variant="outlined"
-              inputProps={{
-                name: "basket",
-                id: "basket",
-              }}
-            >
-              <option key={foodbox.id} value={foodbox.name}>
-                {foodbox.name}
-              </option>
-            </Select>
-            <Select
-              style={{ width: "25%", borderRadius: "0 4px 4px 0" }}
-              native
-              variant="outlined"
-              value={quantity}
-              onChange={(e) =>
-                dispatch({
-                  type: "UPDATE_CART",
-                  payload: { quantity: parseInt(e.currentTarget.value), resource: foodbox },
-                })
-              }
-              inputProps={{
-                name: "quantity",
-                id: "quantity",
-              }}
-            >
-              {[...Array(foodbox.maxNumberRequestable)].map((e, i) => (
-                <option value={i + 1} key={i}>
-                  {i + 1}
-                </option>
-              ))}
-            </Select>
-          </div>
-        );
-      })}
+      <Grid container direction="row" justify="space-between" alignItems="center">
+        <Body1 color="textSecondary">QTY</Body1>
+        <Body1 color="textSecondary">$ PER BOX</Body1>
+      </Grid>
+      {boxes.map((box) => (
+        <CheckoutItem
+          key={box.uid}
+          quantity={cart[box.uid]?.quantity || 0}
+          description={box.description}
+          cost={box.cost}
+          name={box.displayName}
+          onChange={(e) => updateOrder(box, parseInt(e.currentTarget.value))}
+        />
+      ))}
       <Body1 className={classes.bodyItalicsMuted}>
         The farm supplies seasonal food to us based on availability. Our volunteers are unable to
         customize food boxes.
@@ -96,21 +75,25 @@ function FoodboxStep({ dispatch, state }) {
       <TotalsContainer>
         <span>Total Price:</span>
         <span>
-          <strong>${getTotalPrice()}</strong>
+          <strong>${totalPrice}</strong>
         </span>
-        <span>({getTotalBoxes()})</span>
+        <span>
+          {totalBoxes} box{totalBoxes > 1 && "es"}
+        </span>
       </TotalsContainer>
       <HappyBox>
         <HappyFace />
         <Body1 className={classes.bodyItalics}>
-          Would you be willing to order a box for your neighbour too?
+          Would you consider adding a box or two for your neighbour? You can also create an order
+          for them!
         </Body1>
       </HappyBox>
 
       <NavigationButtons
         backText="Cancel"
-        onBack={() => history.push("/request")}
-        onNext={() => dispatch({ type: "NEXT" })}
+        onBack={() => history.push(routes.request.start)}
+        nextText="Continue"
+        onNext={onNext}
       />
     </>
   );

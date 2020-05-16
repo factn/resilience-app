@@ -21,6 +21,7 @@ import { Link, useHistory } from "react-router-dom";
 import { PrivateComponent } from "../../component";
 import OrganizerComponent from "../../component/OrganizerComponent";
 import { useStyles } from "./NavigationDrawer.style";
+import { routes } from "../../routing";
 
 const PrivateDrawerButton = ({ children, classes, text, to }) => (
   <PrivateComponent>
@@ -52,7 +53,7 @@ export default function TemporaryDrawer() {
 
   const handleSignOut = () => {
     firebase.logout();
-    history.push("/");
+    history.push(routes.home);
   };
 
   const list = (anchor) => (
@@ -66,7 +67,7 @@ export default function TemporaryDrawer() {
     >
       <List>
         <OrganizerComponent>
-          <Link to="/dashboard" className={classes.link}>
+          <Link to={routes.organizer.dashboard} className={classes.link}>
             <ListItem button>
               <ListItemIcon>
                 <DashboardIcon classes={{ root: classes.colorIcon }} fontSize="large" />
@@ -76,7 +77,7 @@ export default function TemporaryDrawer() {
           </Link>
         </OrganizerComponent>
 
-        <Link to="/" className={classes.link}>
+        <Link to={routes.home} className={classes.link}>
           <ListItem button>
             <ListItemIcon>
               <HomeIcon classes={{ root: classes.colorIcon }} fontSize="large" />
@@ -84,7 +85,7 @@ export default function TemporaryDrawer() {
             <ListItemText primary="Home" />
           </ListItem>
         </Link>
-        <Link to="/missions/completed" className={classes.link}>
+        <Link to={routes.missions.completed} className={classes.link}>
           <ListItem button>
             <ListItemIcon>
               <AssignmentIcon classes={{ root: classes.colorIcon }} fontSize="large" />
@@ -93,7 +94,7 @@ export default function TemporaryDrawer() {
           </ListItem>
         </Link>
         <PrivateComponent>
-          <Link to="/missions/new" className={classes.link}>
+          <Link to={routes.missions.createNew} className={classes.link}>
             <ListItem button>
               <ListItemIcon>
                 <AddIcon classes={{ root: classes.colorIcon }} fontSize="large" />
@@ -103,7 +104,7 @@ export default function TemporaryDrawer() {
           </Link>
         </PrivateComponent>
         <PrivateComponent>
-          <Link to="/missions/created" className={classes.link}>
+          <Link to={routes.recipient.dashboard.home} className={classes.link}>
             <ListItem button>
               <ListItemIcon>
                 <AssignmentIcon classes={{ root: classes.colorIcon }} fontSize="large" />
@@ -113,7 +114,7 @@ export default function TemporaryDrawer() {
           </Link>
         </PrivateComponent>
         <PrivateComponent>
-          <Link to="/status" className={classes.link}>
+          <Link to={routes.volunteer.status} className={classes.link}>
             <ListItem button>
               <ListItemIcon>
                 <EmojiPeopleIcon classes={{ root: classes.colorIcon }} fontSize="large" />
@@ -122,7 +123,7 @@ export default function TemporaryDrawer() {
             </ListItem>
           </Link>
         </PrivateComponent>
-        <PrivateDrawerButton classes={classes} to="/user/profile" text="User Profile">
+        <PrivateDrawerButton classes={classes} to={routes.user.profile} text="User Profile">
           <AccountCircleIcon classes={{ root: classes.colorIcon }} fontSize="large" />
         </PrivateDrawerButton>
 
@@ -135,7 +136,7 @@ export default function TemporaryDrawer() {
           </ListItem>
         </PrivateComponent>
 
-        <Link to="/about" className={classes.link}>
+        <Link to={routes.about} className={classes.link}>
           <ListItem button>
             <ListItemIcon>
               <InfoIcon classes={{ root: classes.colorIcon }} fontSize="large" />

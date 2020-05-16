@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "mutualaid-757f6"
+    "default": "mutualaid-757f6",
+    "production": "resilienceapp-6a0dd"
   }
 }

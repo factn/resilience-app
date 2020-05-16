@@ -37,7 +37,7 @@ const defaultMissionData: MissionInterface = {
   createdDate: "",
   missionDetails: null,
   fundedStatus: MissionFundedStatus.notfunded,
-  fundedDate: null,
+  fundedDate: "",
   readyToStart: false,
   organizationUid: "",
 
@@ -58,9 +58,11 @@ const defaultMissionData: MissionInterface = {
 
   pickUpWindow: defaultTimeWindow, // nb this can be an exact time or can be null
   pickUpLocation: defaultLocation,
+  pickUpNotes: "",
 
   deliveryWindow: defaultTimeWindow,
   deliveryLocation: defaultLocation, // default to recipient location
+  deliveryType: "curbside",
 
   deliveryConfirmationImage: "",
   deliveryNotes: "",
@@ -137,6 +139,37 @@ const fsIncomplete = (orgId: string) => ({
   storeAs: "incompleteMissions",
 });
 
+const fsAvailableUserMissions = (orgId: string, userId: string) => ({
+  collection: "organizations",
+  doc: orgId,
+  subcollections: [
+    {
+      collection: "missions",
+      where: [
+        // right now as long as it is in tentative
+        //["tentativeVolunteerUid", "==", userId],
+        ["status", "in", [MissionStatus.tentative]],
+      ],
+    },
+  ],
+  storeAs: "availableUserMissions",
+});
+
+const fsAssignedUserMissions = (orgId: string, userId: string) => ({
+  collection: "organizations",
+  doc: orgId,
+  subcollections: [
+    {
+      collection: "missions",
+      where: [
+        ["volunteerUid", "==", userId],
+        ["status", "in", [MissionStatus.assigned, MissionStatus.started, MissionStatus.delivered]],
+      ],
+    },
+  ],
+  storeAs: "assignedUserMissions",
+});
+
 const getAllGroups = (missions: MissionInterface[]) => {
   let groups: Group[] = [];
   let singleMissions: MissionInterface[] = [];
@@ -178,6 +211,10 @@ class Mission extends BaseModel {
   fsInDone = fsInDone;
   selectIncomplete = (state: any) => state.firestore.ordered.incompleteMissions || [];
   fsIncomplete = fsIncomplete;
+  selectAvailableUserMissions = (state: any) => state.firestore.ordered.availableUserMissions || [];
+  fsAvailableUserMissions = fsAvailableUserMissions;
+  selectAssignedUserMissions = (state: any) => state.firestore.ordered.assignedUserMissions || [];
+  fsAssignedUserMissions = fsAssignedUserMissions;
 
   getAllGroups = getAllGroups;
 
@@ -253,7 +290,7 @@ class Mission extends BaseModel {
     const newMission = this.load({
       ...mission,
       uid: newRef.id,
-      createdDate: Date.now().toString(),
+      createdDate: new Date().toISOString(),
     });
 
     return newRef.set(newMission).then(() => newMission);
@@ -282,9 +319,6 @@ class Mission extends BaseModel {
    * @param {string} missionUid : mission that user want to volunteer for
    */
   accept(userUid: string, user: UserInterface, missionUid: string) {
-    console.log(userUid);
-    console.log(missionUid);
-
     //TODO: rules in db for missions not accepting new volunteer if it already have one
     return this.update(missionUid, {
       uid: missionUid,
@@ -304,6 +338,9 @@ class Mission extends BaseModel {
    */
   start(userUid: string, user: UserInterface, missionUid: string) {
     //TODO: rules in db, only user that are correct assigned can start
+    console.log("start button =====");
+    console.log("user id:" + userUid + " user");
+    console.log(user);
     return this.update(missionUid, {
       uid: missionUid,
       tentativeVolunteerUid: "",
@@ -352,6 +389,21 @@ class Mission extends BaseModel {
       status: MissionStatus.tentative,
     });
   }
+
+  /**
+   * Submit feedback for mission
+   * @param {string} missionUid : mission for which feedback will be set
+   * @param {string} feedback: mission feedback
+   * @param {boolean} success: whether the the mission was a success.
+   */
+  submitFeedback(missionUid: string, feedback: string, success: boolean) {
+    //TODO: update firestore.rules to allow only if the mission is created by that user
+    return this.update(missionUid, {
+      feedbackNotes: feedback || "",
+      ...(success && { status: MissionStatus.succeeded }),
+    });
+  }
+
   filterByStatus = (missions: MissionInterface[], status: MissionStatus) =>
     missions.filter((mission) => mission.status === status);
 }

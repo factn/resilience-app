@@ -27,28 +27,15 @@ const UserStatus = ({ profile, setProfile, view }) => {
     setProfile(_.cloneDeep({ ...profile, location }));
   }
 
-  function updateProfile(e) {
+  function handleChangeDisplayName(e) {
     e.preventDefault();
-    setProfile(_.cloneDeep(profile));
+    setProfile(_.cloneDeep({ ...profile, displayName: e.target.value }));
   }
 
   return (
     <Box margin="0 2rem">
       <Grid container direction="column" justify="center" className={classes.root} spacing={2}>
         <ProfileImage classes={classes} profile={profile} setProfile={setProfile} />
-        <Grid item container spacing={1} direction="column">
-          <Grid item container>
-            <H5>Address</H5>
-          </Grid>
-          <AddressInput
-            disabled={view === "view"}
-            key={view}
-            id="address"
-            placeholder="Location"
-            value={profile.location?.address}
-            setLocation={handleChangeLocation}
-          />
-        </Grid>
 
         <Grid item container spacing={1} direction="column">
           <Grid item container>
@@ -61,11 +48,25 @@ const UserStatus = ({ profile, setProfile, view }) => {
               value={displayName}
               placeholder="your name..."
               variant="outlined"
-              disabled={view === "view"}
-              onChange={updateProfile}
+              disabled={view !== "edit"}
+              onChange={handleChangeDisplayName}
               fullWidth
             />
           </Grid>
+        </Grid>
+
+        <Grid item container spacing={1} direction="column">
+          <Grid item container>
+            <H5>Address</H5>
+          </Grid>
+          <AddressInput
+            disabled={view !== "edit"}
+            key={view}
+            id="address"
+            placeholder="Location"
+            value={profile.location?.address}
+            setLocation={handleChangeLocation}
+          />
         </Grid>
       </Grid>
     </Box>
