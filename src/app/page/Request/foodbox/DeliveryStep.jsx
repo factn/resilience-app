@@ -5,7 +5,12 @@ import { useSelector } from "react-redux";
 
 import { H2, H4, Body1 } from "../../../component";
 import AddressAutocomplete from "../../../component/AddressAutocomplete";
-import { useStyles, CurbsideDetailsPaper, GridIconStyled } from "./foodboxSteps.style";
+import {
+  useStyles,
+  CurbsideDetailsPaper,
+  DeliveryCautionPaper,
+  GridIconStyled,
+} from "./foodboxSteps.style";
 import NavigationButtons from "./NavigationButtons";
 import { useOrganization } from "../../../model";
 import SignupStep from "./SignUpStep";
@@ -130,6 +135,31 @@ function DeliveryStep({ dispatch, state }) {
             value={state.details.instructions}
             variant="outlined"
           />
+          <DeliveryCautionPaper elevation={0}>
+            <Grid container spacing={2} direction="column">
+              <Grid item container spacing={1} wrap="nowrap">
+                <GridIconStyled item>
+                  <LocationOnIcon />
+                </GridIconStyled>
+                <Grid item>
+                  <Box paddingBottom="16px">
+                    <Body1>
+                      Please note that our delivery service is a pilot program and should only be
+                      used for <b>extreme cases</b>, such as for the immunocompromised, as our
+                      volunteer services are limited.
+                    </Body1>
+                  </Box>
+                  <Body1>
+                    <b>
+                      Delivery is currently only available to those in Studio City at this time.
+                    </b>
+                    This covers South of the 101 Freeway, West of Lankershim Blvd., East of Fulton
+                    Ave. and North of Mulholland.
+                  </Body1>
+                </Grid>
+              </Grid>
+            </Grid>
+          </DeliveryCautionPaper>
         </>
       )}
 

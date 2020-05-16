@@ -36,9 +36,6 @@ export default function SuccessPage() {
       >
         Continue
       </Button>
-      <Box display="flex" justifyContent="center" margin="2rem">
-        <RequestSentIllustration />
-      </Box>
     </Box>
   );
 }
@@ -59,11 +56,20 @@ const ByPaymentSuccess = () => (
     <H1 color="textPrimary" align="left" gutterBottom>
       Request Sent!
     </H1>
-    <Body1 color="textPrimary" align="left" gutterBottom>
-      Once we confirm with the farms, we will notify you prior to delivery.
-      <br />
-      <br />
-      Thank you for your support of local farms!
+    <Box display="flex" justifyContent="center" margin="2rem">
+      <RequestSentIllustration />
+    </Box>
+    <Body1 paragraph={true}>
+      <b>Thank you for supporting local farms!</b>
     </Body1>
+    <Body1 paragraph={true}>Curbside pick up is on Sunday morning between 8:00am-11:00am at:</Body1>
+    <Body1 paragraph={true}>
+      <i>Weddington Golf & Tennis</i> <br />
+      4141 Whitsett Ave.
+      <br />
+      Studio City, CA
+    </Body1>
+    <Body1 paragraph={true}>For deliveries, all you need to do is wait!</Body1>
+    <Body1 paragraph={true}>The organizer will contact you prior to pick up or delivery.</Body1>
   </>
 );

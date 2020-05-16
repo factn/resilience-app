@@ -81,6 +81,11 @@ export const CurbsideDetailsPaper = styled(Paper)`
   padding: 1rem;
   border: solid 1px ${({ theme }) => theme.palette.secondary.main};
 `;
+export const DeliveryCautionPaper = styled(Paper)`
+  margin: 1rem 0;
+  padding: 1rem;
+  background: rgba(242, 153, 74, 0.2);
+`;
 export const GridIconStyled = styled(Grid)`
   color: ${({ theme }) => theme.palette.secondary.main};
 `;
