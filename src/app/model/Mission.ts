@@ -62,6 +62,7 @@ const defaultMissionData: MissionInterface = {
 
   deliveryWindow: defaultTimeWindow,
   deliveryLocation: defaultLocation, // default to recipient location
+  deliveryType: "curbside",
 
   deliveryConfirmationImage: "",
   deliveryNotes: "",
@@ -144,7 +145,11 @@ const fsAvailableUserMissions = (orgId: string, userId: string) => ({
   subcollections: [
     {
       collection: "missions",
-      where: [["status", "in", [MissionStatus.tentative]]],
+      where: [
+        // right now as long as it is in tentative
+        //["tentativeVolunteerUid", "==", userId],
+        ["status", "in", [MissionStatus.tentative]],
+      ],
     },
   ],
   storeAs: "availableUserMissions",
@@ -285,7 +290,7 @@ class Mission extends BaseModel {
     const newMission = this.load({
       ...mission,
       uid: newRef.id,
-      createdDate: Date.now().toString(),
+      createdDate: new Date().toISOString(),
     });
 
     return newRef.set(newMission).then(() => newMission);

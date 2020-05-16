@@ -3,11 +3,9 @@ import React from "react";
 import { isEmpty, isLoaded } from "react-redux-firebase";
 import { useHistory } from "react-router-dom";
 import { Mission } from "../../model";
-import { MissionStatus } from "../../model/schema";
 import { MissionList, MissionGroup, ShowDeliveryRoute } from "../../component";
 import { Map, Marker, TileLayer } from "react-leaflet";
 import Box from "@material-ui/core/Box";
-import { useSelector } from "react-redux";
 
 const VolunteerHomeMissionList = ({
   action,
@@ -22,13 +20,7 @@ const VolunteerHomeMissionList = ({
 }) => {
   const history = useHistory();
 
-  const user = useSelector((state) => state.firebase.profile);
   const { groups, singleMissions } = Mission.getAllGroups(missions);
-
-  const updateGroup = (group, status) => {
-    // newActionStatus
-    action();
-  };
 
   const missionGroups = groups.map((group) => (
     <MissionGroup
@@ -64,10 +56,12 @@ const VolunteerHomeMissionList = ({
 
   const viewRouteAllMissions = <ShowDeliveryRoute missions={missions} />;
 
+  const validMissions = [];
   const positions = missions?.reduce((acc, mission) => {
     const { lat, lng } = mission?.deliveryLocation;
     if (lat && lng) {
       acc.push([lat, lng]);
+      validMissions.push(mission);
     }
     return acc;
   }, []);
@@ -78,8 +72,8 @@ const VolunteerHomeMissionList = ({
         <Box width="100%" height="200px">
           <Map bounds={positions} style={{ width: "100%", height: "100%" }}>
             <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-            {positions?.map((position) => {
-              return <Marker key={position} position={position} />;
+            {missions?.map((mission) => {
+              return <Marker key={mission.uid} position={mission.deliveryLocation} />;
             })}
           </Map>
         </Box>

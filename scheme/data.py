@@ -3,12 +3,13 @@ from decimal import Decimal
 import random as r
 import json
 import csv
+import time
+from datetime import datetime
 
 f = Faker()
 Faker.seed(0)  # we are using the same data all the time here
 r.seed(0)
 
-global example_locs
 
 def genId():
     return f.md5()
@@ -20,7 +21,6 @@ VolunteerPendingStatus = [
     "approved",
     "declined",
 ]
-
 
 MissionStatus = [
     "unassigned",
@@ -45,7 +45,7 @@ AnyIsFundedStatus = [
 ]
 
 MissionType = [
-    "foodbox",
+    "resource",
     # "pharmacy", # to be added
     # "errand", # to be added
 ]
@@ -60,37 +60,21 @@ TimeWindowType = [
 ]
 
 
+def any_time():
+    return datetime.now().isoformat()
+
+
 def timeWindow():
     return dict(
         timeWindowType=r.choice(TimeWindowType),
         # eh, this is gonna be a problem, datetime my gosh
-        startTime=f.future_datetime(
-            end_date='+30d').strftime("%m/%d/%Y, %H:%M:%S"),
-
+        startTime=any_time()
     )
 
 
-def volunteer(organizationUid):
-    return dict(
-        uid=genId(),
-        phoneNumber=f.phone_number(),
-        photoURL='https://via.placeholder.com/150.png?text=User%20Image',
-        displayName=f.name(),
-        location=location(),
-        organizationUid=organizationUid,
-        isVolunteer=True,
-        isOrganizer=f.boolean(chance_of_getting_true=25),
-        voluteerDetails=dict(
-            hasTransportation=f.boolean(chance_of_getting_true=75),
-            status=r.choice(VolunteerPendingStatus),
-            privateNotes=""),
-        organizerDetails={},
-
-    )
-
-
-def location():
-    row = r.choice(example_locs)
+def any_location():
+    global locations
+    row = r.choice(locations)
     return dict(
         address=row['address'],
         lat=float(row['lat']),
@@ -98,202 +82,258 @@ def location():
         label=''
     )
 
-def deliveryNotes():
-    row = r.choice(example_locs)
+
+def any_delivery_notes():
+    global locations
+    row = r.choice(locations)
     return row['notes']
 
-def organization():
+
+def any_resource_details():
+    global resources
+    row = r.choice(resources)
     return dict(
-        uid=genId(),
-        name="Feed Folks",
-        chapterName="Feed Folks - Studio City",
-        tagline="Neighbors Helping Neighbors",
-        quickInfo="We're a grassroots team in Studio City, CA getting fresh farm produce to our neighbors in need.",
-        logoURL='https://firebasestorage.googleapis.com/v0/b/mutualaid-757f6.appspot.com/o/images%2Ffeedfolks__logo.png?alt=media&token=6b1e803d-9b19-4847-a849-4b4dbdde2395',
-        contactPhoneNumber="",
-        location= {
+        resourceUid=row['uid'],
+        displayName=row['displayName'],
+        quantity=r.choice([1, 2, 3]),
+        type=row['type'],
+        cost=row['cost'],
+        description=row['description']
+    )
+
+
+class Group:
+    def __init__(self, displayName):
+        self.displayName = displayName
+        self.uid = displayName
+
+    @staticmethod
+    def any_group():
+        return Group(
+            r.choice(["Union Square 2020/05/04",
+                      "Daly City 2020/05/05",
+                      "San Mateo 2020/05/29"])
+        )
+
+
+class Database:
+    def __init__(self, resources):
+        self.ordered_organizations = []
+        self.ordered_users = []
+
+    def create_organization(self, resources):
+        org = Organization(resources)
+        for i in range(10):
+            vol = Volunteer(org.uid)
+            self.ordered_users.append(vol)
+            org.add_volunteers(vol)
+        self.ordered_organizations.append(org)
+        return org
+
+    def any_user(self):
+        return r.choice(self.ordered_users)
+
+    def to_dict(self):
+        return {
+            "organizations": {org.uid: org.to_dict() for org in self.ordered_organizations},
+            "users": {user.uid: user.to_dict() for user in self.ordered_users}
+        }
+
+
+class Organization:
+    def __init__(self, resources):
+        self.uid = "1"
+        self.displayName = "Feed Folks"
+        self.chapterName = "Feed Folks - Studio City"
+        self.tagline = "Neighbors Helping Neighbors"
+        self.quickInfo = "We're a grassroots team in Studio City, CA getting fresh farm produce to our neighbors in need.",
+        self.logoURL = 'https://firebasestorage.googleapis.com/v0/b/mutualaid-757f6.appspot.com/o/images%2Ffeedfolks__logo.png?alt=media&token=6b1e803d-9b19-4847-a849-4b4dbdde2395',
+        self.contactPhoneNumber = ""
+        self.location = {
             "address": "Studio City, CA",
             "label": "",
             "lat": 34.1483989,
             "lng": -118.3961877
-        },      
-        EINNumber='12-3456789',
-        localTimeZone='',
-        missions={},
-        users={}
-    )
-
-
-def addGroup(shouldAdd):
-    groupUid = ""
-    groupDisplayName = ""
-    if shouldAdd:
-        groupDisplayName = r.choice(["Union Square 2020/05/04",
-                                     "Daly City 2020/05/05", "San Mateo 2020/05/29"])
-        groupUid = groupDisplayName
-    return groupUid, groupDisplayName
-
-
-def mission(orgId, volunteer, foodboxName):
-    status = r.choice(MissionStatus)
-
-    pickUpWindow = ""
-    pickUpLocation = ""
-    deliveryWindow = ""
-    readyToStart = False
-    fundedStatus = r.choice(AnyIsFundedStatus)
-
-    volunteerUid = ""
-    volunteerDisplayName = ""
-    volunteerPhoneNumber = ""
-
-    tentativeVolunteerUid = ""
-    tentativeVolunteerDisplayName = ""
-    tentativeVolunteerPhoneNumber = ""
-
-    recipientUid = ""
-    recipientDisplayName = f.name()
-    recipientPhoneNumber = f.phone_number()
-
-    groupUid = ""
-    groupDisplayName = ""
-
-    if status == "unassigned":
-        fundedStatus = "notfunded"
-    elif status == "tentative":
-        readyToStart = r.choice([True, False])
-        if r.choice([True, False]):
-            tentativeVolunteerUid = volunteer["uid"]
-            tentativeVolunteerDisplayName = volunteer["displayName"]
-            tentativeVolunteerPhoneNumber = volunteer["phoneNumber"]
-        groupUid, groupDisplayName = addGroup(r.choice([True, False]))
-
-    elif status in ["assigned"]:
-        volunteerUid = volunteer["uid"]
-        volunteerDisplayName = volunteer["displayName"]
-        volunteerPhoneNumber = volunteer["phoneNumber"]
-        readyToStart = r.choice([True, False])
-        groupUid, groupDisplayName = addGroup(r.choice([True, False]))
-
-    else:
-        readyToStart = True
-        volunteerUid = volunteer["uid"]
-        volunteerDisplayName = volunteer["displayName"]
-        volunteerPhoneNumber = volunteer["phoneNumber"]
-        groupUid, groupDisplayName = addGroup(r.choice([True, False]))
-
-    mission_type = r.choice(MissionType)
-
-    if mission_type == "foodbox":
-        mission_details = {
-            "needs": [
-                {
-                    "name": foodboxName,
-                    "quantity": r.randint(1, 5),
-                }
-            ],
-            "dummy": "This is only here because upload modules did not understand that we want this to be a field"
+        },
+        self.localTimeZone = ''
+        self.phoneNumber = f.phone_number()
+        self.EINNumber = '12-3456789'
+        self.ordered_missions = []
+        self.ordered_resources = []
+        self._init_resources(resources)
+        self.paymentSettings = {
+            'paypal': {
+                'clientId': 'sb',
+                'email': 'testpaypalemail@testpaypalemail.com'
+            }
         }
-    else:
-        mission_details = ""
-    return dict(
-        uid=genId(),
-        organizationUid=orgId,
-        status=status,
+        # inner attributes for easy access
+        self.ordered_volunteers = []
 
-        type=mission_type,
-        fundedStatus=fundedStatus,
-        readyToStart=readyToStart,
+    def add_volunteers(self, vol):
+        self.ordered_volunteers.append(vol)
 
-        missionDetails=mission_details,
+    def _init_resources(self, resources):
+        for row in resources:
+            self.ordered_resources.append({
+                "uid": row["uid"],
+                "displayName": row["displayName"],
+                "cost": row["cost"],
+                "availableToOrder": True,
+                "type": row["type"],
+                "description": row["description"]
+            })
 
-        groupUid=groupUid,
-        groupDisplayName=groupDisplayName,
+    def create_random_mission(self, recipient):
+        mission = Mission(recipient)
+        phase = r.choice(["proposed", "planning", "progress", "done"])
+        volunteer = r.choice(self.ordered_volunteers)
+        if phase == "proposed":
+            pass
+        elif phase == "planning":
+            group = Group.any_group()
+            mission.is_in_planning(volunteer, group)
+        elif phase == "progress":
+            mission.is_in_progress(volunteer)
+        elif phase == "progress":
+            mission.is_in_done(volunteer)
+        self.ordered_missions.append(mission)
 
-        volunteerUid=volunteerUid,
-        volunteerDisplayName=volunteerDisplayName,
-        volunterPhoneNumber=volunteerPhoneNumber,
-
-        tentativeVolunteerUid=tentativeVolunteerUid,
-        tentativeVolunteerDisplayName=tentativeVolunteerDisplayName,
-        tentativeVolunterPhoneNumber=tentativeVolunteerPhoneNumber,
-
-        recipientDisplayName=recipientDisplayName,
-        recipientPhoneNumber=recipientPhoneNumber,
-        recipientUid='',
-
-        pickUpWindow=timeWindow(),
-        pickUpLocation=location(),
-        pickUpNotes="",
-
-        deliveryWindow=timeWindow(),
-        deliveryLocation=location(),
-        deliveryConfirmationImage='',
-        deliveryNotes=deliveryNotes(),
-
-        feedbackNotes=f.text(),
-
-        createdDate='2020/05/02',
-        fundedDate='2020/05/02'
-    )
+    def to_dict(self):
+        dct = vars(self)
+        dct["missions"] = {
+            mission.uid: mission.to_dict() for mission in self.ordered_missions}
+        dct["resources"] = {
+            resources["uid"]: resources for resources in self.ordered_resources}
+        # clean up
+        dct.pop("ordered_missions", None)
+        dct.pop("ordered_resources", None)
+        dct.pop("ordered_volunteers", None)
+        return dct
 
 
-def add_volunteer(orgId, data):
-    return data
+class Volunteer:
+    def __init__(self, orgUid):
+        self.uid = genId()
+        self.phoneNumber = f.phone_number()
+        self.photoURL = 'https://via.placeholder.com/150.png?text=User%20Image'
+        self.displayName = f.name()
+        self.location = any_location()
+        self.organizationUid = orgUid
+        self.isVolunteer = True
+        self.isOrganizer = f.boolean(chance_of_getting_true=25)
+        self.voluteerDetails = dict(
+            hasTransportation=f.boolean(chance_of_getting_true=75),
+            status=r.choice(VolunteerPendingStatus),
+            privateNotes=""
+        )
+
+    def to_dict(self):
+        return vars(self)
+
+
+class Mission:
+    def __init__(self, creator):
+        self.uid = genId()
+        self.organizationUid = creator.organizationUid
+        self.status = "unassigned"
+
+        self.type = r.choice(MissionType)
+        self.details = None
+        if self.type == "resource":
+            self.details = [any_resource_details()
+                            for i in range(r.choice([1, 2, 3]))]
+
+        self.createdDate = any_time()
+
+        self.fundedStatus = "notfunded"
+        self.fundedDate = ""
+        self.readyToStart = False
+
+        self.groupUid = None
+        self.groupDisplayName = None
+
+        self.tentativeVolunteerUid = ""
+        self.tentativeVolunteerDisplayName = ""
+        self.tentativeVolunteerPhoneNumber = ""
+
+        self.volunteerUid = ""
+        self.volunteerDisplayName = ""
+        self.volunteerPhoneNumber = ""
+
+        self.recipientUid = creator.uid
+        self.recipientDisplayName = creator.displayName
+        self.recipientPhoneNumber = creator.phoneNumber
+
+        self.pickUpWindow = timeWindow()
+        self.pickUpLocation = any_location()
+        self.pickUpNotes = ""
+
+        self.deliveryWindow = timeWindow()
+        self.deliveryLocation = any_location()
+        self.deliveryConfirmationImage = None
+        self.deliveryType = 'delivery'
+        self.deliveryNotes = any_delivery_notes()
+        self.feedbackNotes = 2
+
+    # in propose to in planning view progression
+
+    def is_in_planning(self, volunteer, group):
+        self.status = "tentative"
+        self.fundedStatus = "fundedbyrecipient"
+        self.fundedDate = any_time()
+        self.readyToStart = f.boolean(chance_of_getting_true=25)
+
+        if f.boolean(chance_of_getting_true=50):
+            self.tentativeVolunteerUid = volunteer.uid
+            self.tentativeVolunteerDisplayName = volunteer.displayName
+            self.tentativeVolunteerPhoneNumber = volunteer.phoneNumber
+        if f.boolean(chance_of_getting_true=50):
+            self.groupUid = group.uid
+            self.groupDisplayName = group.displayName
+
+    # misison is in progress view to in progress view
+    def is_in_progress(self, volunteer):
+        self.status = r.choice(["assigned", "started", "delivered"])
+        self.fundedStatus = "fundedbyrecipient"
+        self.readyToStart = True
+        self.tentativeVolunteerUid = ""
+        self.tentativeVolunteerDisplayName = ""
+        self.tentativeVolunteerPhoneNumber = ""
+        self.volunteerUid = volunteer.uid
+        self.volunteerDisplayName = volunteer.displayName
+        self.volunteerPhoneNumber = volunteer.phoneNumber
+
+    def is_done(self, volunteer):
+        self.status = r.chouce(["succeeded", "failed"])
+        self.readyToStart = True
+        self.fundedStatus = "fundedbyrecipient"
+        volunteerUid = volunteer.uid
+        volunteerDisplayName = volunteer.displayName
+        volunteerPhoneNumber = volunteer.phoneNumber
+
+    def to_dict(self):
+        return vars(self)
+
+
+def read_csv(path):
+    obj = []
+    with open(path, encoding='utf-8') as csvfile:
+        reader = csv.DictReader(csvfile, delimiter=',', quotechar='"')
+        obj = [row for row in reader]
+    return obj
 
 
 if __name__ == "__main__":
+    locations = read_csv("scheme/example_locations.csv")
+    resources = read_csv("scheme/resources.csv")
 
-    global example_locs
-    with open('scheme/example_locations.csv', encoding='utf-8') as csvfile:
-        reader = csv.DictReader(csvfile, delimiter=',', quotechar='"')
-        example_locs = [row for row in reader]
+    db = Database(resources)
+    organization = db.create_organization(resources)
 
-    org = organization()
-    orgId = "1"
+    for i in range(40):
+        organization.create_random_mission(db.any_user())
 
-    foodboxName = "Fruits & Veggies Medley"
-    org["resources"] = {
-        genId(): {
-            "name": "Fruits & Veggies Medley",
-            "cost": 30,
-            "provider": 'Happy Farms',
-            "fundedByRecipient": 8,
-            "fundedByDonation": 2,
-            "notFunded": 3,
-            "maxNumberRequestable": 50,
-            "acceptOrder": True
-        }
-    }
-
-    org['paymentSettings'] = {
-        'paypal': {
-            'clientId': 'sb',
-            'email': 'testpaypalemail@testpaypalemail.com'
-        }
-    }
-
-    data = {
-        "organizations": {
-            orgId: org
-        },
-        "users": {}
-    }
-
-    for i in range(10):
-        vol = volunteer(orgId)
-        data["users"][vol["uid"]] = vol
-
-    for i in range(60):
-        userUid, user = r.choice(
-            list(data["users"].items()))
-        mis = mission(orgId, user, foodboxName)
-        data["organizations"][orgId]['missions'][mis['uid']] = mis
-
-    data['organizations'] = {
-        orgId: org
-    }
-
-    json_data = json.dumps(data, indent=2)
+    json_data = json.dumps(db.to_dict(), indent=2)
     with open("scheme/data.json", "w") as outfile:
         outfile.write(json_data)
