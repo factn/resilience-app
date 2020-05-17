@@ -10,6 +10,7 @@ import React from "react";
 import { isEmpty, isLoaded } from "react-redux-firebase";
 import CancelIcon from "@material-ui/icons/Cancel";
 import EditIcon from "@material-ui/icons/Edit";
+import Button from "@material-ui/core/Button";
 
 import { Body2, H3 } from "../../component";
 import { Mission } from "../../model";
@@ -61,7 +62,6 @@ const useStyles = makeStyles((theme) => ({
     spacing: theme.spacing(1),
     display: "flex",
     justifyContent: "center",
-    cursor: "pointer", // TODO: We shouldn't have to do this, figure out why
   },
 }));
 
@@ -232,15 +232,15 @@ const MissionDetailsCard = ({ mission, toEditView, toListView }) => {
             <Box className={classes.buttonGroupBox}>
               <Grid container direction="row" spacing={2} alignItems="center">
                 <Grid item>
-                  <Box item className={classes.buttonBox} onClick={toEditView}>
+                  <Button disableElevation onClick={toEditView} className={classes.buttonBox} >
                     <EditIcon className={classes.icon} /> Edit
-                  </Box>
+                  </Button>
                 </Grid>
                 <Grid item>
-                  <Box item className={classes.buttonBox} onClick={() => console.log("cancel")}>
+                  <Button disableElevation onClick={toEditView} className={classes.buttonBox} >
                     <CancelIcon className={classes.icon} />
                     Cancel Mission
-                  </Box>
+                  </Button>
                 </Grid>
               </Grid>
             </Box>
