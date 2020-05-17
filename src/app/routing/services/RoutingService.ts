@@ -96,8 +96,4 @@ export interface IRouteEntitlement {
   route: IRoute;
   permissionGranted: boolean;
 }
-export interface AuthState {
-  isLoaded?: boolean;
-  isEmpty?: boolean;
-}
 export default new RoutingService(routes, ROUTE_PERMISSIONS, userPermissionsService);
