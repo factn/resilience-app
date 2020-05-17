@@ -1,12 +1,9 @@
 import { Box, Container, Grid, Paper, TextField } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import AccessTimeIcon from "@material-ui/icons/AccessTime";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import PanToolIcon from "@material-ui/icons/PanTool";
-import CancelIcon from "@material-ui/icons/Cancel";
-import EditIcon from "@material-ui/icons/Edit";
 import PersonIcon from "@material-ui/icons/Person";
 import React, { useState } from "react";
 import { isEmpty, isLoaded } from "react-redux-firebase";
@@ -15,8 +12,6 @@ import { Mission } from "../../model";
 import _ from "../../utils/lodash";
 import AddressInput from "../../component/AddressInput";
 import { useForm } from "../../hooks";
-import { KeyboardTimePicker } from "@material-ui/pickers";
-import KeyDatePickerContainer from "../../page/MissionCreate/KeyDatePickerContainer";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -42,6 +37,11 @@ const useStyles = makeStyles((theme) => ({
   rowBody: {
     flexWrap: "nowrap",
     alignItems: "center",
+    width: "100%",
+  },
+  textField: {
+    width: "100%",
+    backgroundColor: "black",
   },
   missionImage: {
     margin: theme.spacing(1),
@@ -63,6 +63,12 @@ const useStyles = makeStyles((theme) => ({
   foodBoxDetailName: {
     padding: theme.spacing(1),
   },
+  missionInput: {
+    width: "100%",
+  },
+  fullWidth: {
+    width: "100%",
+  },
 }));
 
 /**=====BASE COMPONENTs======**/
@@ -80,9 +86,11 @@ const Row = ({ children, classes, Icon }) => {
   if (!children) return null;
   return (
     <Grid container className={classes.rowBody}>
-      <Box marginRight="20px" width="20px">
-        {Icon && <Icon color="primary" />}
-      </Box>
+      {Icon && (
+        <Box marginRight="20px" width="20px">
+          <Icon color="primary" />
+        </Box>
+      )}
       {children}
     </Grid>
   );
@@ -191,15 +199,10 @@ const MissionDetailsRow = ({ classes, mission }) => {
  * Component for editing mission details
  * @component
  */
-const MissionEditView = ({ mission, toListView }) => {
+const MissionEditView = ({ mission, toDetailsView, toListView }) => {
   const classes = useStyles();
 
   const { handleChange, values } = useForm(mission);
-
-  const pickUpLocationLabel = mission?.pickUpLocation?.label;
-  const recipientDisplayName = _.get(mission, "recipientDisplayName");
-  const recipientPhoneNumber = _.get(mission, "recipientPhoneNumber");
-  const deliveryNotes = _.get(mission, "deliveryNotes");
 
   const props = { classes, mission };
 
@@ -241,7 +244,7 @@ const MissionEditView = ({ mission, toListView }) => {
       recipientPhoneNumber: values.recipientPhoneNumber,
       deliveryNotes: values.deliveryNotes,
     }).then((result) => {
-      mission = result;
+      toDetailsView();
     });
   }
 
@@ -258,13 +261,19 @@ const MissionEditView = ({ mission, toListView }) => {
             <MissionDetailsRow {...props} />
 
             <Card label="Pick Up Details" classes={classes}>
-              <Grid container direction="row" alignItems="top" spacing={1}>
+              <Grid
+                container
+                direction="row"
+                alignItems="top"
+                spacing={1}
+                className={classes.fullWidth}
+              >
                 <Grid item>
                   <LocationOnIcon />
                 </Grid>
-                <Grid item>
+                <Grid item style={{ width: "90%" }}>
                   <Grid container direction="column" alignItems="center">
-                    <Grid item>
+                    <Grid item className={classes.fullWidth}>
                       <TextField
                         className={`${classes.rootInput} ${classes.input}`}
                         id="pickupLocationLabel"
@@ -276,7 +285,7 @@ const MissionEditView = ({ mission, toListView }) => {
                         fullWidth
                       />
                     </Grid>
-                    <Grid item>
+                    <Grid item className={classes.fullWidth}>
                       <AddressInput
                         className={classes.textField}
                         placeholder={values.pickUpLocation?.address}
@@ -291,20 +300,26 @@ const MissionEditView = ({ mission, toListView }) => {
             </Card>
 
             <Card label="Delivery Details" classes={classes}>
-              <AddressInput
-                className={classes.textField}
-                placeholder={values.deliveryLocation?.address}
-                stage={values.deliveryLocation}
-                setStage={handleChangeLocation.bind(null, "deliveryLocation")}
-                setLocation={handleChangeLocation}
-              />
+              <Row Icon={LocationOnIcon} classes={classes}>
+                <Grid container direction="row">
+                  <Grid item className={classes.fullWidth}>
+                    <AddressInput
+                      className={classes.textField}
+                      placeholder={values.deliveryLocation?.address}
+                      stage={values.deliveryLocation}
+                      setStage={handleChangeLocation.bind(null, "deliveryLocation")}
+                      setLocation={handleChangeLocation}
+                    />
+                  </Grid>
+                </Grid>
+              </Row>
               <Grid container direction="row" alignItems="top" spacing={1}>
                 <Grid item>
                   <PersonIcon />
                 </Grid>
-                <Grid item>
+                <Grid item style={{ width: "90%" }}>
                   <Grid container direction="column" alignItems="center">
-                    <Grid item>
+                    <Grid item className={classes.fullWidth}>
                       <TextField
                         className={`${classes.rootInput} ${classes.input}`}
                         id="recipientDisplayName"
@@ -316,7 +331,7 @@ const MissionEditView = ({ mission, toListView }) => {
                         fullWidth
                       />
                     </Grid>
-                    <Grid item>
+                    <Grid item className={classes.fullWidth}>
                       <TextField
                         className={`${classes.rootInput} ${classes.input}`}
                         id="recipientPhoneNumber"
@@ -342,7 +357,7 @@ const MissionEditView = ({ mission, toListView }) => {
                 onChange={handleChangeDeliveryNotes}
                 placeholder="Notes"
                 multiline
-                className={classes.FeedbackInputFeild}
+                className={classes.fullWidth}
                 rows={4}
               />
             </Row>

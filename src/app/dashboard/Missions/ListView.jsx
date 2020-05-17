@@ -187,6 +187,7 @@ const MissionsListView = ({
             mission={currentMission}
             setSelectedMission={setSelectedMission}
             toListView={() => setView(Views.list)}
+            toDetailsView={toDetailsView}
           />
         )}
       </Box>

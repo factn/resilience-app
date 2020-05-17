@@ -57,6 +57,12 @@ const useStyles = makeStyles((theme) => ({
   foodBoxDetailName: {
     padding: theme.spacing(1),
   },
+  buttonBox: {
+    spacing: theme.spacing(1),
+    display: "flex",
+    justifyContent: "center",
+    cursor: "pointer", // TODO: We shouldn't have to do this, figure out why
+  },
 }));
 
 /**=====BASE COMPONENTs======**/
@@ -224,13 +230,19 @@ const MissionDetailsCard = ({ mission, toEditView, toListView }) => {
             <Label classes={classes}>Notes</Label>
             <Row classes={classes}>{mission?.deliveryNotes || "No additional informations"}</Row>
             <Box className={classes.buttonGroupBox}>
-              <Box className={classes.buttonBox} onClick={toEditView}>
-                <EditIcon className={classes.icon} /> Edit
-              </Box>
-              <Box className={classes.buttonBox} onClick={() => console.log("cancel")}>
-                <CancelIcon className={classes.icon} />
-                Cancel Mission
-              </Box>
+              <Grid container direction="row" spacing={2} alignItems="center">
+                <Grid item>
+                  <Box item className={classes.buttonBox} onClick={toEditView}>
+                    <EditIcon className={classes.icon} /> Edit
+                  </Box>
+                </Grid>
+                <Grid item>
+                  <Box item className={classes.buttonBox} onClick={() => console.log("cancel")}>
+                    <CancelIcon className={classes.icon} />
+                    Cancel Mission
+                  </Box>
+                </Grid>
+              </Grid>
             </Box>
           </Box>
         )}
