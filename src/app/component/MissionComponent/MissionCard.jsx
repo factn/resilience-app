@@ -127,6 +127,9 @@ const styles = (theme) => ({
     margin: "-12px -12px 6px -12px",
     padding: "12px",
   },
+  detailsText: {
+    fontSize: "16px",
+  },
 });
 
 /**
@@ -217,7 +220,7 @@ const MissionCard = withStyles(styles)(({ classes, mission }) => {
                 <InfoOutlinedIcon />
               </Box>
             </Box>
-            <Box fontSize="12px" fontWeight="bold">
+            <Box fontSize="12px" fontWeight="bold" className={classes.detailsText}>
               <DetailsText mission={mission} />
             </Box>
           </Box>

@@ -1,4 +1,5 @@
 import React from "react";
+import FoodBoxIcon from "../icons/FoodBoxIcon";
 
 const ResourceDetails = ({ details }) => {
   return (
@@ -6,6 +7,7 @@ const ResourceDetails = ({ details }) => {
       {details?.map((resource, index) => {
         return (
           <div key={index}>
+            <FoodBoxIcon style={{ marginRight: "2px", maxHeight: "18px" }} />
             {resource?.quantity} x {resource?.displayName}
           </div>
         );

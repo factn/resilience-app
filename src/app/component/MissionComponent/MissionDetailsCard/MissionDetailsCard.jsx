@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import ScheduleIcon from "@material-ui/icons/Schedule";
 import PropTypes from "prop-types";
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import Snackbar from "../../Snackbars";
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
