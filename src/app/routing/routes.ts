@@ -6,6 +6,7 @@ const routes: IRoutes = {
   about: "/about",
   login: "/login",
   unauthorized: "/oops",
+  pageNotFound: "/notfound",
   request: {
     start: "/request",
     foodbox: "/request/foodbox",

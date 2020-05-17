@@ -35,7 +35,7 @@ const defaultMissionData: MissionInterface = {
   type: MissionType.errand,
   status: MissionStatus.unassigned,
   createdDate: "",
-  missionDetails: null,
+  details: null,
   fundedStatus: MissionFundedStatus.notfunded,
   fundedDate: "",
   readyToStart: false,
@@ -198,6 +198,7 @@ const getAllGroups = (missions: MissionInterface[]) => {
 class Mission extends BaseModel {
   collectionName = "missions";
   Status = MissionStatus;
+  Type = MissionType;
   FundedStatus = MissionFundedStatus;
   TimeWindowType = TimeWindowType;
 

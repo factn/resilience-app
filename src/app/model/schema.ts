@@ -179,7 +179,7 @@ export interface MissionInterface {
   status: MissionStatus;
 
   type: MissionType;
-  missionDetails: Array<ResourceMissionDetails> | null;
+  details: Array<ResourceMissionDetails> | null;
 
   createdDate: string; // TODO should be a date?
 

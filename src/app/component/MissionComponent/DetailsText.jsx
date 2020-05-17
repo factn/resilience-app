@@ -19,8 +19,6 @@ const ResourceDetails = ({ details }) => {
 const DetailsText = ({ mission }) => {
   const { details, type } = mission;
 
-  let Details = null;
-
   if (type === "resource") {
     return <ResourceDetails details={details} />;
   }
