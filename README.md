@@ -115,7 +115,7 @@ Here are a few geting started steps to help get set up for local development.
    ```sh
    npm run dev
    ```
-
+_NOTE_: On local development environment, you are always an Organizer.
 
 ### Adding Routes to the App
 

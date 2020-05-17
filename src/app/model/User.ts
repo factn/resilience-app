@@ -1,6 +1,7 @@
 import BaseModel from "./BaseModel";
 import Organization from "./Organization";
 import { Location, MissionStatus, UserInterface, VolunteerStatus } from "./schema";
+import { env } from "../utils";
 
 const defaultLocation: Location = {
   address: "",
@@ -152,7 +153,12 @@ export class User extends BaseModel {
       .doc(userUid)
       .get()
       .then((snapshot) => {
-        return snapshot.data() as UserInterface;
+        const userProfile: UserInterface = snapshot.data() as UserInterface;
+        if (env.isDev()) {
+          console.log("On local dev, you are always an Organizer");
+          if (userProfile) userProfile.isOrganizer = true;
+        }
+        return userProfile;
       });
   }
 }
