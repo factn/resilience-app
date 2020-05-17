@@ -5,4 +5,4 @@ uid,displayName,cost,availableToOrder,type,description
 "4","Produce Box #3 (large)","8",true,"foodbox","8 or 9 types, like broccoli, celery and kale."
 "5","Produce Box #3 b (small)",14,true,"foodbox","8 or 9 types of produce, like broccoli, celery and kale, but smaller quantities than the large box."
 "6","Produce Box #4: Fruit Box",30,true,"foodbox","Oranges, Mandarins, Grapefruits, Lemons, and Peaches"
-"7","Produce Box # 5: Donation Box",25, true,"donationbox","Enter the number of donation produce boxes you want to donate, for none leave blank or put a 0. Donations are 100% tax-deductible."
+"7","Donate a box",25, true,"donationbox","Enter the number of donation produce boxes you want to donate, for none leave blank or put a 0. Donations are 100% tax-deductible."

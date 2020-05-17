@@ -125,7 +125,6 @@ const Overview = ({ currentMission, missions, org, setSelectedMission, volunteer
 };
 
 function MissionMarker({ currentUid, groups, mission, setSelectedMission, volunteers }) {
-  console.log(mission);
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   let html = `<div class='${clsx(
@@ -142,7 +141,6 @@ function MissionMarker({ currentUid, groups, mission, setSelectedMission, volunt
     );
     html += GroupIconHtml;
   }
-  console.log(mission);
 
   const FoodboxIconHtml = renderToString(<FoodBoxIcon className={classes.innerFoodBoxMarker} />);
   html += FoodboxIconHtml;
