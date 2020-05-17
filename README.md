@@ -103,6 +103,7 @@ Here are a few geting started steps to help get set up for local development.
     firebase login
     ```
     This will pop up your browser and allow you to login. Login using a google handle.
+    Ask on Slack (**#resilience-app** or **#resilience-dev** channel) for access to the firebase project before running the next command. Tag one of: Paul Mendoza, Tuan Nguyen, Miles Thompson if they don't pick it up.
 
     ```sh
     firebase use default
