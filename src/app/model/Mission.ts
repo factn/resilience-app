@@ -35,7 +35,7 @@ const defaultMissionData: MissionInterface = {
   type: MissionType.errand,
   status: MissionStatus.unassigned,
   createdDate: "",
-  missionDetails: null,
+  details: null,
   fundedStatus: MissionFundedStatus.notfunded,
   fundedDate: "",
   readyToStart: false,

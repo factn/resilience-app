@@ -34,11 +34,13 @@
 
 - [Table of Contents](#table-of-contents)
 - [About the Project](#about-the-project)
-  - [Built With](#built-with)
+	- [Built With](#built-with)
 - [Local Development](#local-development)
-  - [Prerequisites](#prerequisites)
-- [Repo setup](#repo-setup)
-- [Formatting your code](#formatting-your-code)
+	- [Prerequisites](#prerequisites)
+	- [Repo setup](#repo-setup)
+	- [Adding Routes to the App](#adding-routes-to-the-app)
+- [Contributing your code, and getting involved](#contributing-your-code-and-getting-involved)
+	- [Formatting your code](#formatting-your-code)
 - [Test Data](#test-data)
 - [Accessibility](#accessibility)
 - [Deployment](#deployment)
@@ -66,7 +68,7 @@ Here are a few geting started steps to help get set up for local development.
 - [Npm](https://www.npmjs.com/get-npm) (Comes with Node.js)
 - [Java](https://www.oracle.com/java/technologies/javase-jdk8-downloads.html)
 
-## Repo setup
+### Repo setup
 
 1. [Fork](https://guides.github.com/activities/forking/) this repo
 2. Clone the repo
@@ -113,12 +115,27 @@ Here are a few geting started steps to help get set up for local development.
    ```sh
    npm run dev
    ```
+_NOTE_: On local development environment, you are always an Organizer.
+
+### Adding Routes to the App
+
+1. Decide what URL the new app route is and put it in [src/app/routing/routes.ts](.src/app/routing/routes.ts). Please try to use meaningful variable names for the route, they don't need to be exactly the same as the URL.
+
+2. Define the React routes in [src/App.jsx](./src/App.jsx) using our `<AppRoute />` component. It's a wrapper for the React `<Route />` component, but it is aware of authentication and authorization concepts.
+
+3. Set appropriate permissions for that new route in [src/app/routing/RoutePermissions.ts](./src/app/routing/RoutePermissions.ts). The set of permissions we have defined so far are here: [src/app/model/permissions/Permissions.ts](./src/app/model/permissions/Permissions.ts). 
+
+If you're not sure or if you don't see something that matches your usecase of your new route, please bring it up for discussion in Slack (**#resilience-app** or **#resilience-dev** channel). It's not always clear what should be a permission and what should not be, however, the rule of thumb is that we focus on [CRUD operations](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete).
+
+_Note:_ A route will be **inaccessible** (404 Page Not Found) if you:
+- don't define the route in [src/app/routing/routes.ts](.src/app/routing/routes.ts)
+- don't define any permissions for the route in [src/app/routing/RoutePermissions.ts](./src/app/routing/RoutePermissions.ts). We consider the route as not ready because it hasn't been configured.
 
 ## Contributing your code, and getting involved
 
 See [CONTRIBUTING.md](https://github.com/factn/resilience-app/blob/master/CONTRIBUTING.md) for more details on how to get involved.
 
-## Formatting your code
+### Formatting your code
 
 This project uses [ESLint](https://eslint.org/) and [Prettier](https://prettier.io/) to handle all opinionated formatting. Install your favorite editor ESLint and Prettier plugin to set up any auto formatting in your own editor.
 
@@ -136,10 +153,10 @@ Our CI checks will not pass if any of our ESLint rules; formatting checks can be
 
 When running the app locally, you can test the phone verification sign-up flow by entering any of the phone number / verification code combinations listed below (the leading "1" should be filled in for you):
 
-| Phone Number | Verification Code |
-| ------------ | ----------------- |
-| 7777777777   | 123456            |
-| 2223334444   | 123456            |
+| Phone Number | Verification Code | User Role |
+| ------------ | ----------------- | --------- |
+| 7777777777   | 123456            | Organizer |
+| 2223334444   | 123456            | Volunteer |
 
 For testing payments like donations or buying a foodbox you can use the following paypal credentials
 (alternativly if you need to see the invoices sent and recieved you can create your own sandbox account [here](https://developer.paypal.com/))

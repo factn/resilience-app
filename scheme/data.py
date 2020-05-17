@@ -155,6 +155,8 @@ class Organization:
             "lat": 34.1483989,
             "lng": -118.3961877
         },
+        # i dont know why this is necessary but it works!
+        self.location = self.location[0]
         self.localTimeZone = ''
         self.phoneNumber = f.phone_number()
         self.EINNumber = '12-3456789'
@@ -330,7 +332,7 @@ if __name__ == "__main__":
 
     db = Database(resources)
     organization = db.create_organization(resources)
-
+    
     for i in range(40):
         organization.create_random_mission(db.any_user())
 

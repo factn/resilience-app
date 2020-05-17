@@ -1,14 +1,20 @@
-import { isEmpty, isLoaded } from "react-redux-firebase";
 import routes, { IRoute, IRoutes } from "../routes";
 import ROUTE_PERMISSIONS from "../RoutePermissions";
 import { IPermissionSet, IRoutePermissions } from "./utils";
 import { PERMISSIONS } from "../../model";
+import userPermissionsService, {
+  UserPermissionsService,
+} from "../../model/permissions/UserPermissionsService";
 
 export class RoutingService {
-  private _auth: AuthState = {};
-
-  private _isAuthenticated(): boolean {
-    return isLoaded(this._auth) && !isEmpty(this._auth);
+  private _determineEntitlement(
+    requiredPermission: PERMISSIONS,
+    happyPath: IRoute,
+    sadPath: IRoute
+  ): IRouteEntitlement {
+    const permissionGranted: boolean = this._userPermissions.hasPermission(requiredPermission);
+    const route: IRoute = permissionGranted ? happyPath : sadPath;
+    return { route, permissionGranted };
   }
 
   private _verifyPermissions(
@@ -28,13 +34,18 @@ export class RoutingService {
             };
             break;
           case PERMISSIONS.AUTHENTICATED:
-            const isAuthenticated: boolean = this._isAuthenticated();
-            entitlement = {
-              route: isAuthenticated ? route : this._routes.login,
-              permissionGranted: isAuthenticated,
-            };
+            entitlement = this._determineEntitlement(permission, route, this._routes.login);
+            break;
+          case PERMISSIONS.VIEW_MISSIONS:
+          case PERMISSIONS.CREATE_NEW_MISSIONS:
+          case PERMISSIONS.VIEW_ORGANIZER_DASHBOARD:
+          case PERMISSIONS.VIEW_ALL_MISSIONS:
+          case PERMISSIONS.VIEW_ALL_RECIPIENTS:
+          case PERMISSIONS.VIEW_ALL_VOLUNTEERS:
+            entitlement = this._determineEntitlement(permission, route, this._routes.unauthorized);
             break;
           default:
+            console.debug("UNCAUGHT PERMISSION", permission);
             entitlement = {
               route: this._routes.home,
               permissionGranted: false,
@@ -43,15 +54,21 @@ export class RoutingService {
         entitlements.push(entitlement);
       }
     }
+    if (entitlements.length === 0) {
+      // User is trying to access route we haven't set permissions for (=｀ω´=)
+      entitlements.push({
+        route: this._routes.pageNotFound,
+        permissionGranted: false,
+      });
+    }
     return entitlements;
   }
 
-  constructor(private _routes: IRoutes, private _routePermissions: IRoutePermissions) {}
-
-  public useAuth(auth: AuthState): RoutingService {
-    this._auth = auth;
-    return this;
-  }
+  constructor(
+    private _routes: IRoutes,
+    private _routePermissions: IRoutePermissions,
+    private _userPermissions: UserPermissionsService
+  ) {}
 
   public canAccessRoute(route: IRoute): IRouteEntitlement {
     const requiredPermissions: IPermissionSet = this._routePermissions[route] as IPermissionSet;
@@ -63,10 +80,16 @@ export class RoutingService {
       (routeEntitlement: IRouteEntitlement) => !routeEntitlement.permissionGranted
     );
     const permissionGranted: boolean = violation === undefined;
-    return {
+    const result: IRouteEntitlement = {
       route: permissionGranted ? route : (violation as IRouteEntitlement).route,
       permissionGranted,
     };
+    // console.debug("HAS PERMISSIONS", this._userPermissions.permissions);
+    // console.debug("REQUIRES", requiredPermissions);
+    // console.debug("VERIFY", verifyPermissions);
+    // console.debug("RESULT", result);
+    if (violation) console.debug("VIOLATION", violation);
+    return result;
   }
 }
 export interface IRouteEntitlement {
@@ -77,4 +100,4 @@ export interface AuthState {
   isLoaded?: boolean;
   isEmpty?: boolean;
 }
-export default new RoutingService(routes, ROUTE_PERMISSIONS);
+export default new RoutingService(routes, ROUTE_PERMISSIONS, userPermissionsService);

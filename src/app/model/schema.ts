@@ -179,7 +179,7 @@ export interface MissionInterface {
   status: MissionStatus;
 
   type: MissionType;
-  missionDetails: Array<ResourceMissionDetails> | null;
+  details: Array<ResourceMissionDetails> | null;
 
   createdDate: string; // TODO should be a date?
 
@@ -208,9 +208,9 @@ export interface MissionInterface {
 
   deliveryWindow: TimeWindow | null;
   deliveryLocation: Location; // default to recipient location
-  deliveryConfirmationImage: ImageUrl;
-  deliveryType: "curbside" | "delivery";
+  deliveryConfirmationImage: string;
   deliveryNotes: string;
+  deliveryType: string;
 
   feedbackNotes: string;
 

@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
   innerFoodBoxMarker: {
     width: "15px !important",
     height: "15px !important",
-    top: "14px",
+    transform: "translate(8px, 13px)",
     position: "relative",
   },
   markerPin: {
@@ -76,9 +76,8 @@ const useStyles = makeStyles((theme) => ({
 
 const Overview = ({ currentMission, missions, org, setSelectedMission, volunteers }) => {
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = React.useState(null);
 
-  const position = { lat: org.location.lat, lng: org.location.lng };
+  const position = { lat: org.location?.lat, lng: org.location?.lng };
 
   const [viewport, setViewport] = useState({
     center: position,
@@ -86,7 +85,7 @@ const Overview = ({ currentMission, missions, org, setSelectedMission, volunteer
   });
 
   let filtered = missions?.filter((mission) => {
-    return mission.deliveryLocation && mission.deliveryLocation.lat && mission.deliveryLocation.lng;
+    return mission?.deliveryLocation?.lat && mission?.deliveryLocation?.lng;
   });
 
   const { groups, singleMissions } = Mission.getAllGroups(filtered);
@@ -103,77 +102,6 @@ const Overview = ({ currentMission, missions, org, setSelectedMission, volunteer
     // eslint-disable-next-line
   }, [currentMission]);
 
-  const getMarker = (mission) => {
-    let html = `<div class='${clsx(
-      classes.markerPin,
-      currentMission && currentMission.uid === mission.uid && classes.currentMarker
-    )}'></div>`;
-    let color = "black";
-    if (mission.groupDisplayName) {
-      color = _.randomColor(mission.groupDisplayName);
-      const GroupIconHtml = renderToString(
-        <GroupWorkIcon className={classes.customGroupIcon} style={{ color: color }} />
-      );
-      html += GroupIconHtml;
-    }
-    let SpecificDetails = null;
-    if (mission.type === "foodbox") {
-      SpecificDetails = (
-        <>
-          <b>Food Box</b>
-          {_.get(mission.missionDetails, "needs")?.map((box, index) => {
-            return (
-              <div key={index}>
-                {_.get(box, "quantity")} x {_.get(box, "name")}
-              </div>
-            );
-          })}
-        </>
-      );
-
-      const FoodboxIconHtml = renderToString(
-        <FoodBoxIcon className={classes.innerFoodBoxMarker} />
-      );
-      html += FoodboxIconHtml;
-    }
-
-    const CustomIcon = new DivIcon({
-      className: clsx(classes.customDivIcon),
-      html: html,
-      iconSize: [30, 42],
-      iconAnchor: [15, 42], // half of width + height
-    });
-
-    return (
-      <Marker
-        icon={CustomIcon}
-        key={mission.uid}
-        position={mission.deliveryLocation}
-        onClick={(event) => {
-          setAnchorEl(event.target.getElement());
-          setSelectedMission(mission.uid);
-        }}
-      >
-        <Popup className={classes.popup} autoClose={true}>
-          <Grid container>
-            <Grid container item xs>
-              {mission.groupDisplayName && mission.groupDisplayName}
-              {SpecificDetails}
-            </Grid>
-            <Grid item>
-              <MissionItemMenu
-                groups={groups}
-                mission={mission}
-                volunteers={volunteers}
-                boxRef={{ current: anchorEl }}
-              />
-            </Grid>
-          </Grid>
-        </Popup>
-      </Marker>
-    );
-  };
-
   return (
     <Box height="100%">
       <Map
@@ -182,12 +110,82 @@ const Overview = ({ currentMission, missions, org, setSelectedMission, volunteer
         className={`${classes.map} data-test-leaftleft-map`}
       >
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-        {filtered?.map((mission) => {
-          return getMarker(mission);
-        })}
+        {filtered?.map((mission) => (
+          <MissionMarker
+            mission={mission}
+            currentUid={currentMission?.uid}
+            setSelectedMission={setSelectedMission}
+            groups={groups}
+            volunteers={volunteers}
+          />
+        ))}
       </Map>
     </Box>
   );
 };
+
+function MissionMarker({ currentUid, groups, mission, setSelectedMission, volunteers }) {
+  const classes = useStyles();
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  let html = `<div class='${clsx(
+    classes.markerPin,
+    currentUid === mission.uid && classes.currentMarker
+  )}'></div>`;
+
+  let color = "black";
+
+  if (mission.groupDisplayName) {
+    color = _.randomColor(mission.groupDisplayName);
+    const GroupIconHtml = renderToString(
+      <GroupWorkIcon className={classes.customGroupIcon} style={{ color: color }} />
+    );
+    html += GroupIconHtml;
+  }
+
+  const FoodboxIconHtml = renderToString(<FoodBoxIcon className={classes.innerFoodBoxMarker} />);
+  html += FoodboxIconHtml;
+
+  const CustomIcon = new DivIcon({
+    className: clsx(classes.customDivIcon),
+    html: html,
+    iconSize: [30, 42],
+    iconAnchor: [15, 42], // half of width + height
+  });
+
+  return (
+    <Marker
+      icon={CustomIcon}
+      key={mission.uid}
+      position={mission.deliveryLocation}
+      onClick={(event) => {
+        setAnchorEl(event.target.getElement());
+        setSelectedMission(mission.uid);
+      }}
+    >
+      <Popup className={classes.popup} autoClose={true}>
+        <Grid container>
+          <Grid container item xs>
+            {mission.groupDisplayName}
+            {mission.details?.map((box, index) => {
+              return (
+                <div key={index}>
+                  {box.quantity} x {box.displayName}
+                </div>
+              );
+            })}
+          </Grid>
+          <Grid item>
+            <MissionItemMenu
+              groups={groups}
+              mission={mission}
+              volunteers={volunteers}
+              boxRef={{ current: anchorEl }}
+            />
+          </Grid>
+        </Grid>
+      </Popup>
+    </Marker>
+  );
+}
 
 export default Overview;
