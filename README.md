@@ -153,10 +153,10 @@ Our CI checks will not pass if any of our ESLint rules; formatting checks can be
 
 When running the app locally, you can test the phone verification sign-up flow by entering any of the phone number / verification code combinations listed below (the leading "1" should be filled in for you):
 
-| Phone Number | Verification Code |
-| ------------ | ----------------- |
-| 7777777777   | 123456            |
-| 2223334444   | 123456            |
+| Phone Number | Verification Code | User Role |
+| ------------ | ----------------- | --------- |
+| 7777777777   | 123456            | Organizer |
+| 2223334444   | 123456            | Volunteer |
 
 For testing payments like donations or buying a foodbox you can use the following paypal credentials
 (alternativly if you need to see the invoices sent and recieved you can create your own sandbox account [here](https://developer.paypal.com/))
