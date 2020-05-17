@@ -102,6 +102,24 @@ const MissionImage = ({ classes, mission }) => {
     </Container>
   );
 };
+
+const MissionTypeRow = ({ classes, mission }) => {
+  let missionTypeText;
+  switch (mission?.type) {
+    case Mission.Type.resource:
+      missionTypeText = "Resource Delivery";
+      break;
+    // at some point we need to add other mission types
+    default:
+      missionTypeText = "Mission";
+  }
+  return (
+    <Box marginTop="32px">
+      <H3>{missionTypeText}</H3>
+    </Box>
+  );
+};
+
 const VolunteerRow = ({ mission }) => {
   const { tentativeVolunteerDisplayName, volunteerDisplayName } = mission;
   let assigned = "";
@@ -175,7 +193,6 @@ const MissionDetailsCard = ({ mission, toListView }) => {
   const recipientPhoneNumber = _.get(mission, "recipientPhoneNumber");
 
   const props = { classes: classes, mission: mission };
-
   return (
     <Box height="100%" width="100%">
       <Paper className={classes.root} elevation={0}>
@@ -185,10 +202,8 @@ const MissionDetailsCard = ({ mission, toListView }) => {
         {isLoaded(mission) && !isEmpty(mission) && (
           <Box>
             <MissionImage {...props} />
-            <Box marginTop="32px">
-              <H3>{mission?.type}</H3>
-            </Box>
 
+            <MissionTypeRow {...props} />
             <VolunteerRow {...props} />
             <MissionFundedStatusRow {...props} />
             <MissionDetailsRow {...props} />
