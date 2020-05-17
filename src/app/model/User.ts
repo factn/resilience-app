@@ -146,6 +146,15 @@ export class User extends BaseModel {
         return [];
       });
   }
+
+  getUserProfile(userUid: string): Promise<UserInterface> {
+    return this.getCollection("users")
+      .doc(userUid)
+      .get()
+      .then((snapshot) => {
+        return snapshot.data() as UserInterface;
+      });
+  }
 }
 
 export default new User("users", defaultUserData);
