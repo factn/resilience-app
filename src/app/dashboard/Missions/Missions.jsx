@@ -117,7 +117,7 @@ const DashboardMissions = ({ inDone, inPlanning, inProgress, inProposed, volunte
   const [selectedMission, setSelectedMission] = useState(null);
 
   const all = { inProposed, inPlanning, inProgress, inDone };
-  const filtered = all[viewFromUrl] || inProposed;
+  const filtered = all["inProposed"] || inProposed;
 
   let currentMission = filtered.find((m) => m.id === selectedMission);
 
@@ -163,6 +163,8 @@ const mapStateToProps = (state, ownProps) => {
   let inProgress = Mission.selectInProgress(state);
   let inDone = Mission.selectInDone(state);
   let volunteers = state.firestore.ordered.volunteers;
+  console.log("in props setting ...");
+  console.log(inProgress); 
 
   return {
     user: state.firebase.auth,

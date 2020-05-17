@@ -1,16 +1,16 @@
-import { Box, Container, Grid, Paper } from "@material-ui/core";
+import { Box, Container, Grid, Paper, TextField } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import AccessTimeIcon from "@material-ui/icons/AccessTime";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import PanToolIcon from "@material-ui/icons/PanTool";
-import PersonIcon from "@material-ui/icons/Person";
 import CancelIcon from "@material-ui/icons/Cancel";
 import EditIcon from "@material-ui/icons/Edit";
+import PersonIcon from "@material-ui/icons/Person";
 import React, { useState } from "react";
 import { isEmpty, isLoaded } from "react-redux-firebase";
-import { Body2, H3 } from "../../component";
+import { Button, Body2, H3 } from "../../component";
 import { Mission } from "../../model";
 import _ from "../../utils/lodash";
 import AddressInput from "../../component/AddressInput";
@@ -195,7 +195,11 @@ const MissionEditView = ({ mission, toListView }) => {
   const classes = useStyles();
 
   const { handleChange, values } = useForm(mission);
+  
+  const pickUpLocationLabel = mission?.pickUpLocation?.label
+  const recipientDisplayName = _.get(mission, "recipientDisplayName");
   const recipientPhoneNumber = _.get(mission, "recipientPhoneNumber");
+  const deliveryNotes = _.get(mission, "deliveryNotes");
 
   const props = { classes, mission };
 
@@ -206,6 +210,39 @@ const MissionEditView = ({ mission, toListView }) => {
   function handleChangeLocation(data) {
     const { location } = data;
     changeFormValue("location", location);
+  }
+
+  function handleChangePickUpLocationLabel(e) {
+    e.preventDefault();
+    changeFormValue("pickUpLocationLabel", e.target.value);
+  }
+
+  function handleChangeRecipientPhoneNumber(e) {
+    e.preventDefault();
+    changeFormValue("recipientPhoneNumber", e.target.value);
+  }
+
+  function handleChangeRecipientDisplayName(e) {
+    e.preventDefault();
+    changeFormValue("recipientDisplayName", e.target.value);
+  }
+
+  function handleChangeDeliveryNotes(e) {
+    e.preventDefault();
+    changeFormValue("deliveryNotes", e.target.value);
+  }
+
+  function handleSave(e) {
+    e.preventDefault();
+    Mission.update(mission.id, {
+      pickUpLocation: values.pickUpLocation,
+      deliveryLocation: values.deliveryLocation,
+      recipientDisplayName: values.recipientDisplayName,
+      recipientPhoneNumber: values.recipientPhoneNumber,
+      deliveryNotes: values.deliveryNotes
+    }).then(result => {
+      mission = result;
+    })
   }
 
   return (
@@ -221,17 +258,93 @@ const MissionEditView = ({ mission, toListView }) => {
             <MissionDetailsRow {...props} />
 
             <Card label="Pick Up Details" classes={classes}>
+              <Grid container direction="row" alignItems="top" spacing={1}>
+                <Grid item>
+                  <LocationOnIcon />
+                </Grid>
+                <Grid item>
+                  <Grid container direction="column" alignItems="center">
+                    <Grid item>
+                      <TextField
+                        className={`${classes.rootInput} ${classes.input}`}
+                        id="pickupLocationLabel"
+                        value={values.pickUpLocationLabel}
+                        placeholder="Label"
+                        variant="outlined"
+                        disabled={false}
+                        onChange={handleChangePickUpLocationLabel}
+                        fullWidth
+                      />
+                    </Grid>
+                    <Grid item>
+                      <AddressInput
+                        className={classes.textField}
+                        placeholder={values.pickUpLocation?.address}
+                        stage={values.pickUpLocation}
+                        setStage={handleChangeLocation.bind(null, "pickUpLocation")}
+                        setLocation={handleChangeLocation}
+                      />
+                    </Grid>
+                  </Grid>
+                </Grid>
+              </Grid> 
+            </Card>
+
+            <Card label="Delivery Details" classes={classes}>
               <AddressInput
                 className={classes.textField}
-                placeholder={values.pickUpLocation?.address}
-                stage={values.pickUpLocation}
-                setStage={handleChangeLocation.bind(null, "pickUpLocation")}
+                placeholder={values.deliveryLocation?.address}
+                stage={values.deliveryLocation}
+                setStage={handleChangeLocation.bind(null, "deliveryLocation")}
                 setLocation={handleChangeLocation}
               />
+              <Grid container direction="row" alignItems="top" spacing={1}>
+                <Grid item>
+                  <PersonIcon />
+                </Grid>
+                <Grid item>
+                  <Grid container direction="column" alignItems="center">
+                    <Grid item>
+                    <TextField
+                      className={`${classes.rootInput} ${classes.input}`}
+                      id="recipientDisplayName"
+                      value={values.recipientDisplayName}
+                      placeholder="Recipient"
+                      variant="outlined"
+                      disabled={false}
+                      onChange={handleChangeRecipientDisplayName}
+                      fullWidth
+                    />
+                    </Grid>
+                    <Grid item>
+                    <TextField
+                      className={`${classes.rootInput} ${classes.input}`}
+                      id="recipientPhoneNumber"
+                      value={values.recipientPhoneNumber}
+                      placeholder="Phone Number"
+                      variant="outlined"
+                      disabled={false}
+                      onChange={handleChangeRecipientPhoneNumber}
+                      fullWidth
+                    />
+                    </Grid>
+                  </Grid>
+                </Grid>
+              </Grid>
             </Card>
-            <Label classes={classes}>Notes</Label>
+            
+            <Label classes={classes}>Delivery Notes</Label>
             <Row classes={classes}>
-              {mission?.notes ? mission.notes : "No additional informations"}
+              <TextField
+                variant="outlined"
+                value={values.deliveryNotes}
+                name="notes"
+                onChange={handleChangeDeliveryNotes}
+                placeholder="Notes"
+                multiline
+                className={classes.FeedbackInputFeild}
+                rows={4}
+              />
             </Row>
             <Box
               style={{
@@ -241,7 +354,13 @@ const MissionEditView = ({ mission, toListView }) => {
                 justifyContent: "space-between",
               }}
             >
-              <button>Save</button>
+              <Button
+                onClick={handleSave}
+                variant="contained"
+                color="primary"
+              >
+                SAVE
+              </Button>
             </Box>
           </Box>
         )}
