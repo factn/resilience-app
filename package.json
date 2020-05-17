@@ -128,6 +128,7 @@
     "@types/react-dom": "16.9.7",
     "@types/react-redux": "^7.1.7",
     "@types/react-router-dom": "^5.1.4",
+    "@types/styled-components": "^5.1.0",
     "@types/uuid": "^7.0.2",
     "awesome-typescript-loader": "^5.2.1",
     "better-docs": "^1.4.7",
