@@ -188,7 +188,7 @@ const FoodBoxDetailsRow = ({ classes, details }) => {
 
 const MissionDetailsRow = ({ classes, mission }) => {
   let type = mission?.type;
-  let details = mission?.missionDetails;
+  let details = mission?.details;
   if (type === "foodbox") {
     return <FoodBoxDetailsRow details={details} classes={classes} />;
   }
@@ -204,6 +204,11 @@ const MissionEditView = ({ mission, toDetailsView, toListView }) => {
 
   const { handleChange, values } = useForm(mission);
 
+  console.log("values:");
+  console.log(values);
+  console.log(mission);
+  console.log(mission);
+
   const props = { classes, mission };
 
   function changeFormValue(name, value) {
@@ -213,26 +218,6 @@ const MissionEditView = ({ mission, toDetailsView, toListView }) => {
   function handleChangeLocation(data) {
     const { location } = data;
     changeFormValue("location", location);
-  }
-
-  function handleChangePickUpLocationLabel(e) {
-    e.preventDefault();
-    changeFormValue("pickUpLocationLabel", e.target.value);
-  }
-
-  function handleChangeRecipientPhoneNumber(e) {
-    e.preventDefault();
-    changeFormValue("recipientPhoneNumber", e.target.value);
-  }
-
-  function handleChangeRecipientDisplayName(e) {
-    e.preventDefault();
-    changeFormValue("recipientDisplayName", e.target.value);
-  }
-
-  function handleChangeDeliveryNotes(e) {
-    e.preventDefault();
-    changeFormValue("deliveryNotes", e.target.value);
   }
 
   function handleSave(e) {
@@ -276,12 +261,13 @@ const MissionEditView = ({ mission, toDetailsView, toListView }) => {
                     <Grid item className={classes.fullWidth}>
                       <TextField
                         className={`${classes.rootInput} ${classes.input}`}
-                        id="pickupLocationLabel"
+                        id="pickupLocation.label"
+                        name="pickupLocation.label"
                         value={values.pickUpLocationLabel}
                         placeholder="Label"
                         variant="outlined"
                         disabled={false}
-                        onChange={handleChangePickUpLocationLabel}
+                        onChange={handleChange}
                         fullWidth
                       />
                     </Grid>
@@ -323,11 +309,12 @@ const MissionEditView = ({ mission, toDetailsView, toListView }) => {
                       <TextField
                         className={`${classes.rootInput} ${classes.input}`}
                         id="recipientDisplayName"
+                        name="recipientDisplayName"
                         value={values.recipientDisplayName}
                         placeholder="Recipient"
                         variant="outlined"
                         disabled={false}
-                        onChange={handleChangeRecipientDisplayName}
+                        onChange={handleChange}
                         fullWidth
                       />
                     </Grid>
@@ -335,11 +322,12 @@ const MissionEditView = ({ mission, toDetailsView, toListView }) => {
                       <TextField
                         className={`${classes.rootInput} ${classes.input}`}
                         id="recipientPhoneNumber"
+                        name="recipientPhoneNumber"
                         value={values.recipientPhoneNumber}
                         placeholder="Phone Number"
                         variant="outlined"
                         disabled={false}
-                        onChange={handleChangeRecipientPhoneNumber}
+                        onChange={handleChange}
                         fullWidth
                       />
                     </Grid>
@@ -353,8 +341,8 @@ const MissionEditView = ({ mission, toDetailsView, toListView }) => {
               <TextField
                 variant="outlined"
                 value={values.deliveryNotes}
-                name="notes"
-                onChange={handleChangeDeliveryNotes}
+                name="deliveryNotes"
+                onChange={handleChange}
                 placeholder="Notes"
                 multiline
                 className={classes.fullWidth}
