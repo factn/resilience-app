@@ -164,7 +164,7 @@ const mapStateToProps = (state, ownProps) => {
   let inDone = Mission.selectInDone(state);
   let volunteers = state.firestore.ordered.volunteers;
   console.log("in props setting ...");
-  console.log(inProgress); 
+  console.log(inProgress);
 
   return {
     user: state.firebase.auth,

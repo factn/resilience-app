@@ -195,8 +195,8 @@ const MissionEditView = ({ mission, toListView }) => {
   const classes = useStyles();
 
   const { handleChange, values } = useForm(mission);
-  
-  const pickUpLocationLabel = mission?.pickUpLocation?.label
+
+  const pickUpLocationLabel = mission?.pickUpLocation?.label;
   const recipientDisplayName = _.get(mission, "recipientDisplayName");
   const recipientPhoneNumber = _.get(mission, "recipientPhoneNumber");
   const deliveryNotes = _.get(mission, "deliveryNotes");
@@ -239,10 +239,10 @@ const MissionEditView = ({ mission, toListView }) => {
       deliveryLocation: values.deliveryLocation,
       recipientDisplayName: values.recipientDisplayName,
       recipientPhoneNumber: values.recipientPhoneNumber,
-      deliveryNotes: values.deliveryNotes
-    }).then(result => {
+      deliveryNotes: values.deliveryNotes,
+    }).then((result) => {
       mission = result;
-    })
+    });
   }
 
   return (
@@ -287,7 +287,7 @@ const MissionEditView = ({ mission, toListView }) => {
                     </Grid>
                   </Grid>
                 </Grid>
-              </Grid> 
+              </Grid>
             </Card>
 
             <Card label="Delivery Details" classes={classes}>
@@ -305,34 +305,34 @@ const MissionEditView = ({ mission, toListView }) => {
                 <Grid item>
                   <Grid container direction="column" alignItems="center">
                     <Grid item>
-                    <TextField
-                      className={`${classes.rootInput} ${classes.input}`}
-                      id="recipientDisplayName"
-                      value={values.recipientDisplayName}
-                      placeholder="Recipient"
-                      variant="outlined"
-                      disabled={false}
-                      onChange={handleChangeRecipientDisplayName}
-                      fullWidth
-                    />
+                      <TextField
+                        className={`${classes.rootInput} ${classes.input}`}
+                        id="recipientDisplayName"
+                        value={values.recipientDisplayName}
+                        placeholder="Recipient"
+                        variant="outlined"
+                        disabled={false}
+                        onChange={handleChangeRecipientDisplayName}
+                        fullWidth
+                      />
                     </Grid>
                     <Grid item>
-                    <TextField
-                      className={`${classes.rootInput} ${classes.input}`}
-                      id="recipientPhoneNumber"
-                      value={values.recipientPhoneNumber}
-                      placeholder="Phone Number"
-                      variant="outlined"
-                      disabled={false}
-                      onChange={handleChangeRecipientPhoneNumber}
-                      fullWidth
-                    />
+                      <TextField
+                        className={`${classes.rootInput} ${classes.input}`}
+                        id="recipientPhoneNumber"
+                        value={values.recipientPhoneNumber}
+                        placeholder="Phone Number"
+                        variant="outlined"
+                        disabled={false}
+                        onChange={handleChangeRecipientPhoneNumber}
+                        fullWidth
+                      />
                     </Grid>
                   </Grid>
                 </Grid>
               </Grid>
             </Card>
-            
+
             <Label classes={classes}>Delivery Notes</Label>
             <Row classes={classes}>
               <TextField
@@ -354,11 +354,7 @@ const MissionEditView = ({ mission, toListView }) => {
                 justifyContent: "space-between",
               }}
             >
-              <Button
-                onClick={handleSave}
-                variant="contained"
-                color="primary"
-              >
+              <Button onClick={handleSave} variant="contained" color="primary">
                 SAVE
               </Button>
             </Box>
