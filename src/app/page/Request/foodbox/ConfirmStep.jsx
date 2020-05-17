@@ -69,7 +69,7 @@ function ConfirmStep({ dispatch, state }) {
       deliveryLocation: details.location,
       deliveryNotes: details.instructions,
       deliveryType: details.curbsidePickup ? "curbside" : "delivery",
-      missionDetails: Object.keys(cart).map((key) => ({
+      details: Object.keys(cart).map((key) => ({
         resourceUid: cart[key].resource.uid,
         quantity: cart[key].quantity,
         displayName: cart[key].resource.displayName,
