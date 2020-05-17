@@ -3,21 +3,29 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { Redirect, Route } from "react-router-dom";
 import { isLoaded } from "react-redux-firebase";
+import { makeStyles } from "@material-ui/core/styles";
+import LinearProgress from "@material-ui/core/LinearProgress";
 
 import RoutingService from "../services/RoutingService";
 import { UserPermissionsService } from "../../model/permissions";
 
+const loadingStyles = makeStyles((theme) => ({
+  root: {
+    width: "100%",
+  },
+}));
+
 function AppRoute({ children, component, ...rest }) {
+  const classes = loadingStyles();
   const auth = useSelector((state) => state.firebase.auth);
   const [userRole, setUserRole] = useState(null);
 
-  UserPermissionsService.getUserRole(auth).then((role) => {
-    setUserRole(role);
-  });
-
   const handleRender = ({ location }) => {
     let routeAccess;
-    if (isLoaded(auth) && userRole) {
+    UserPermissionsService.getUserRole(auth).then((role) => {
+      setUserRole(role);
+    });
+    if (isLoaded(auth) && userRole === UserPermissionsService.role) {
       routeAccess = RoutingService.canAccessRoute(location.pathname);
     }
     if (routeAccess) {
@@ -37,6 +45,12 @@ function AppRoute({ children, component, ...rest }) {
           />
         );
       }
+    } else {
+      return (
+        <div className={classes.root}>
+          <LinearProgress />
+        </div>
+      );
     }
   };
 
