@@ -107,11 +107,13 @@ const MissionTypeRow = ({ classes, mission }) => {
   let missionTypeText;
   switch (mission?.type) {
     case Mission.Type.resource:
-      missionTypeText = "Resource Delivery";
+      missionTypeText = "Foodbox";
       break;
-    // at some point we need to add other mission types
+    case Mission.Type.errand:
+      missionTypeText = "General Errand";
+      break;
     default:
-      missionTypeText = "Mission";
+      missionTypeText = "Mission Name";
   }
   return (
     <Box marginTop="32px">
