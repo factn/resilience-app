@@ -83,7 +83,7 @@ function StartPage() {
         <Body1 align="left" gutterBottom={true}>
           To serve those without technology, call the number below to contact our volunteers to help
           you make a request by phone. Call:{" "}
-          <a href={`tel:${org.phoneNumber}`}>{org.phoneNumber}</a>.
+          <a href={`tel:${org.contactPhoneNumber}`}>{org.contactPhoneNumber}</a>.
         </Body1>
       </PaperStyled>
     </>

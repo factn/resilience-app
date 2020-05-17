@@ -21,7 +21,7 @@ export interface DonationLog {
 }
 
 export interface PaymentSettings {
-  clientUid: string;
+  clientId: string;
   email: string;
 }
 
@@ -30,7 +30,7 @@ export class OrganizationInterface {
   /* Firebase Id, created automatically*/
   uid!: string;
   /*Name of the organization - eg Feed Folks */
-  name!: string;
+  displayName!: string;
   /*Name of the organization chapter eg Feed Folks - Studio City
     (make this the same as 'name' if org doesn't have chapters) */
   chapterName?: string;

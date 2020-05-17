@@ -148,7 +148,7 @@ class Organization:
         self.tagline = "Neighbors Helping Neighbors"
         self.quickInfo = "We're a grassroots team in Studio City, CA getting fresh farm produce to our neighbors in need.",
         self.logoURL = 'https://firebasestorage.googleapis.com/v0/b/mutualaid-757f6.appspot.com/o/images%2Ffeedfolks__logo.png?alt=media&token=6b1e803d-9b19-4847-a849-4b4dbdde2395',
-        self.contactPhoneNumber = ""
+        self.contactPhoneNumber = f.phone_number()
         self.location = {
             "address": "Studio City, CA",
             "label": "",
@@ -158,7 +158,6 @@ class Organization:
         # i dont know why this is necessary but it works!
         self.location = self.location[0]
         self.localTimeZone = ''
-        self.phoneNumber = f.phone_number()
         self.EINNumber = '12-3456789'
         self.ordered_missions = []
         self.ordered_resources = []
