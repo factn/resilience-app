@@ -1,6 +1,7 @@
 import BaseModel from "./BaseModel";
 import Organization from "./Organization";
 import { Location, MissionStatus, UserInterface, VolunteerStatus } from "./schema";
+import { env } from "../utils";
 
 const defaultLocation: Location = {
   address: "",
@@ -38,7 +39,7 @@ const fsVolunteer = (orgUid: string) => ({
   storeAs: "volunteers",
 });
 
-class User extends BaseModel {
+export class User extends BaseModel {
   VolunteerStatus = VolunteerStatus;
 
   fsVolunteer = fsVolunteer;
@@ -144,6 +145,20 @@ class User extends BaseModel {
       .catch((error) => {
         console.error(error);
         return [];
+      });
+  }
+
+  getUserProfile(userUid: string): Promise<UserInterface> {
+    return this.getCollection("users")
+      .doc(userUid)
+      .get()
+      .then((snapshot) => {
+        const userProfile: UserInterface = snapshot.data() as UserInterface;
+        if (env.isDev()) {
+          console.log("On local dev, you are always an Organizer");
+          if (userProfile) userProfile.isOrganizer = true;
+        }
+        return userProfile;
       });
   }
 }
