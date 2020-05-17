@@ -12,14 +12,12 @@
         "https://firebasestorage.googleapis.com/v0/b/mutualaid-757f6.appspot.com/o/images%2Ffeedfolks__logo.png?alt=media&token=6b1e803d-9b19-4847-a849-4b4dbdde2395"
       ],
       "contactPhoneNumber": "",
-      "location": [
-        {
-          "address": "Studio City, CA",
-          "label": "",
-          "lat": 34.1483989,
-          "lng": -118.3961877
-        }
-      ],
+      "location": {
+        "address": "Studio City, CA",
+        "label": "",
+        "lat": 34.1483989,
+        "lng": -118.3961877
+      },
       "localTimeZone": "",
       "phoneNumber": "+1-604-876-4759x38242",
       "EINNumber": "12-3456789",

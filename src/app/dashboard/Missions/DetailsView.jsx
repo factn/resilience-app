@@ -159,7 +159,7 @@ const FoodBoxDetailsRow = ({ classes, details }) => {
 
 const MissionDetailsRow = ({ classes, mission }) => {
   let type = mission?.type;
-  let details = mission?.missionDetails;
+  let details = mission?.details;
   if (type === "foodbox") {
     return <FoodBoxDetailsRow details={details} classes={classes} />;
   }
