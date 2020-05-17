@@ -277,9 +277,8 @@ const ContactAdBanner = () => {
       <Grid className={classes.ContactAdInfo}>
         <PhoneIcon data-testid="icon-contact" className={classes.ContactAdIcon} />
         <H3 data-testid="label-contact-mssg-1" className={classes.ContactAdLabel}>
-          To request help by phone,please call{" "}
-          {/* TODO: Turn it back to Link when correct phone number is populated */}
-          <a href={`tel:${org?.phoneNumber}`}>{org?.phoneNumber}</a>
+          To request help by phone, please call{" "}
+          <a href={`tel:${org?.contactPhoneNumber}`}>{org?.contactPhoneNumber}</a>
         </H3>
       </Grid>
     </Grid>
@@ -352,7 +351,7 @@ const SignInHeaderComponent = ({ history }) => {
     <Grid container className={classes.SignInHeaderContainer}>
       <img src={org?.logoURL} className={classes.OrgLogo} alt="Faction Logo" />
       <H1 data-testid="label-org-name" className={classes.OrgNameLabel}>
-        {org?.name}
+        {org?.displayName}
       </H1>
       <H3 data-testid="label-org-tagline" className={classes.TaglineLabel}>
         {org?.tagline}

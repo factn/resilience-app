@@ -109,7 +109,8 @@ function DonateState({ classes, setState }) {
       />
       <Typography align="left" variant="body1" gutterBottom>
         If you would like to donate using check or a different method, please reach out to our
-        volunteers at <a href={`tel:${org.phoneNumber}`}>{org.phoneNumber}</a> for further help.
+        volunteers at <a href={`tel:${org.contactPhoneNumber}`}>{org.contactPhoneNumber}</a> for
+        further help.
       </Typography>
     </>
   );
@@ -135,7 +136,7 @@ function SuccessState({ classes, state }) {
         Donation Summary
       </Typography>
       <Box className={classes.successDetails}>
-        <span>Organization: {org.name} </span>
+        <span>Organization: {org.displayName} </span>
         <span> Donor Name: {details.donorName} </span>
         <span>Amount: ${details.amount} </span>
         <span>Reciept #: {details.recieptId} </span>
@@ -147,9 +148,9 @@ function SuccessState({ classes, state }) {
           <Divider className={classes.marginVertical} />
           <Typography align="left" variant="subtitle2" gutterBottom>
             <em>
-              {org.name} is a registered 501(c)3 non-profit organization #{org.EINNumber}. Your
-              donation is tax deductible to the extent allowable by law. No goods or services were
-              provided by {org.name} in return for this contribution.
+              {org.displayName} is a registered 501(c)3 non-profit organization #{org.EINNumber}.
+              Your donation is tax deductible to the extent allowable by law. No goods or services
+              were provided by {org.displayName} in return for this contribution.
             </em>
           </Typography>
         </>
@@ -170,7 +171,8 @@ function ErrorState({ setState }) {
       </Typography>
       <Typography align="left" variant="body1" gutterBottom>
         Otherwise, our volunteers can help you donate through a different method, such as by check.
-        For more information please call: <a href={`tel:${org.phoneNumber}`}>{org.phoneNumber}</a>
+        For more information please call:{" "}
+        <a href={`tel:${org.contactPhoneNumber}`}>{org.contactPhoneNumber}</a>
       </Typography>
       <Box display="flex" alignItems="start">
         <Button
