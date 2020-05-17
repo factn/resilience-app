@@ -198,6 +198,7 @@ const getAllGroups = (missions: MissionInterface[]) => {
 class Mission extends BaseModel {
   collectionName = "missions";
   Status = MissionStatus;
+  Type = MissionType;
   FundedStatus = MissionFundedStatus;
   TimeWindowType = TimeWindowType;
 
