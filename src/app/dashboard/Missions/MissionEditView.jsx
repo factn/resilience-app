@@ -4,6 +4,7 @@ import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import PanToolIcon from "@material-ui/icons/PanTool";
+import CancelIcon from "@material-ui/icons/Cancel";
 import PersonIcon from "@material-ui/icons/Person";
 import React, { useState } from "react";
 import { isEmpty, isLoaded } from "react-redux-firebase";
@@ -354,11 +355,21 @@ const MissionEditView = ({ mission, toDetailsView, toListView }) => {
                 marginTop: "3rem",
                 marginLeft: "1rem",
                 display: "flex",
-                justifyContent: "space-between",
+                justifyContent: "center",
+                spacing: 1,
               }}
             >
               <Button onClick={handleSave} variant="contained" color="primary">
                 SAVE
+              </Button>
+
+              <Button
+                onClick={toDetailsView}
+                startIcon={<CancelIcon />}
+                variant="contained"
+                color="primary"
+              >
+                CANCEL
               </Button>
             </Box>
           </Box>

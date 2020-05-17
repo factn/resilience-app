@@ -8,7 +8,6 @@ import PanToolIcon from "@material-ui/icons/PanTool";
 import PersonIcon from "@material-ui/icons/Person";
 import React from "react";
 import { isEmpty, isLoaded } from "react-redux-firebase";
-import CancelIcon from "@material-ui/icons/Cancel";
 import EditIcon from "@material-ui/icons/Edit";
 import Button from "@material-ui/core/Button";
 
@@ -232,14 +231,8 @@ const MissionDetailsCard = ({ mission, toEditView, toListView }) => {
             <Box className={classes.buttonGroupBox}>
               <Grid container direction="row" spacing={2} alignItems="center">
                 <Grid item>
-                  <Button disableElevation onClick={toEditView} className={classes.buttonBox} >
+                  <Button disableElevation onClick={toEditView} className={classes.buttonBox}>
                     <EditIcon className={classes.icon} /> Edit
-                  </Button>
-                </Grid>
-                <Grid item>
-                  <Button disableElevation onClick={toEditView} className={classes.buttonBox} >
-                    <CancelIcon className={classes.icon} />
-                    Cancel Mission
                   </Button>
                 </Grid>
               </Grid>
