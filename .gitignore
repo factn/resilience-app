@@ -27,6 +27,7 @@
 .env.production.local
 
 firebase-debug.log*
+firepit-log.txt
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
