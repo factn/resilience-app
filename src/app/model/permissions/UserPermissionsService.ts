@@ -12,7 +12,6 @@ export enum USER_ROLES {
 }
 
 export class UserPermissionsService {
-  private _userInfo$: Promise<USER_ROLES> | undefined;
   private _auth: AuthState = null;
   private _role: USER_ROLES | undefined;
   private _userInfo: UserInterface | undefined;
@@ -44,15 +43,12 @@ export class UserPermissionsService {
   public getUserRole(auth: AuthState): Promise<USER_ROLES> {
     this._auth = auth;
     if (this._isAuthenticated()) {
-      if (!this._userInfo$) {
-        this._userInfo$ = this._user.getUserProfile(auth.uid).then((userProfile) => {
-          this._userInfo = userProfile;
-          this.setUserInfo(userProfile).setRole(userProfile);
-          // console.debug("ROLE", { role: this.userRole, profile: userProfile });
-          return this.userRole;
-        });
-      }
-      return this._userInfo$;
+      return this._user.getUserProfile(auth.uid).then((userProfile) => {
+        this._userInfo = userProfile;
+        this.setUserInfo(userProfile).setRole(userProfile);
+        console.debug("ROLE", { role: this.userRole, profile: userProfile });
+        return this.userRole;
+      });
     } else {
       return Promise.resolve(USER_ROLES.ANONYMOUS);
     }
