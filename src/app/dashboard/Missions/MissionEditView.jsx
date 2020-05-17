@@ -9,6 +9,8 @@ import PersonIcon from "@material-ui/icons/Person";
 import React, { useState } from "react";
 import { isEmpty, isLoaded } from "react-redux-firebase";
 import { Button, Body2, H3 } from "../../component";
+import DateTimeInput from "../../component/DateTimeInput";
+import ScheduleIcon from "@material-ui/icons/Schedule";
 import { Mission } from "../../model";
 import _ from "../../utils/lodash";
 import AddressInput from "../../component/AddressInput";
@@ -204,11 +206,16 @@ const MissionEditView = ({ mission, toDetailsView, toListView }) => {
   const classes = useStyles();
 
   const { handleChange, values } = useForm(mission);
-
-  console.log("values:");
-  console.log(values);
-  console.log(mission);
-  console.log(mission);
+  const [pickUp, setPickUp] = React.useState({
+    time: new Date(),
+    date: values.pickUpWindow.startTime,
+    location: "",
+  });
+  const [deliveryTime, setDeliveryTime] = React.useState({
+    time: new Date(),
+    date: values.deliveryWindow.startTime,
+    location: "",
+  });
 
   const props = { classes, mission };
 
@@ -223,12 +230,27 @@ const MissionEditView = ({ mission, toDetailsView, toListView }) => {
 
   function handleSave(e) {
     e.preventDefault();
+    const pickUpTime = new Date(pickUp.date);
+    pickUpTime.setHours(pickUp.time.getHours());
+    pickUpTime.setMinutes(pickUp.time.getMinutes());
+    pickUpTime.setSeconds(pickUp.time.getSeconds());
+
+    const delivery = new Date(deliveryTime.date);
+    delivery.setHours(deliveryTime.time.getHours());
+    delivery.setMinutes(deliveryTime.time.getMinutes());
+    delivery.setSeconds(deliveryTime.time.getSeconds());
     Mission.update(mission.id, {
       pickUpLocation: values.pickUpLocation,
       deliveryLocation: values.deliveryLocation,
       recipientDisplayName: values.recipientDisplayName,
       recipientPhoneNumber: values.recipientPhoneNumber,
       deliveryNotes: values.deliveryNotes,
+      pickUpWindow: {
+        startTime: pickUpTime.toString()
+      },
+      deliveryWindow: {
+        startTime: delivery.toString()
+      },
     }).then((result) => {
       toDetailsView();
     });
@@ -247,6 +269,21 @@ const MissionEditView = ({ mission, toDetailsView, toListView }) => {
             <MissionDetailsRow {...props} />
 
             <Card label="Pick Up Details" classes={classes}>
+              <Row Icon={ScheduleIcon} classes={classes}>  
+                <DateTimeInput
+                  dateInputProps={{
+                  id: "date-pickup",
+                  label: "Pickup Date",
+                }}
+                onChange={setPickUp}
+                required
+                timeInputProps={{
+                  id: "time-pickup",
+                  label: "Pickup Time",
+                }}
+                value={pickUp}
+              />
+              </Row>
               <Grid
                 container
                 direction="row"
@@ -265,7 +302,7 @@ const MissionEditView = ({ mission, toDetailsView, toListView }) => {
                         id="pickupLocation.label"
                         name="pickupLocation.label"
                         value={values.pickUpLocationLabel}
-                        placeholder="Label"
+                        placeholder="Location Name"
                         variant="outlined"
                         disabled={false}
                         onChange={handleChange}
@@ -287,6 +324,21 @@ const MissionEditView = ({ mission, toDetailsView, toListView }) => {
             </Card>
 
             <Card label="Delivery Details" classes={classes}>
+              <Row Icon={ScheduleIcon} classes={classes}>  
+                <DateTimeInput
+                  dateInputProps={{
+                  id: "date-delivery",
+                  label: "Delivery Date",
+                }}
+                onChange={setDeliveryTime}
+                required
+                timeInputProps={{
+                  id: "time-delivery",
+                  label: "Delivery Time",
+                }}
+                value={deliveryTime}
+              />
+              </Row>
               <Row Icon={LocationOnIcon} classes={classes}>
                 <Grid container direction="row">
                   <Grid item className={classes.fullWidth}>
@@ -359,7 +411,7 @@ const MissionEditView = ({ mission, toDetailsView, toListView }) => {
                 spacing: 1,
               }}
             >
-              <Button onClick={handleSave} variant="contained" color="primary">
+              <Button onClick={handleSave} variant="contained" color="primary" style={{ margin: ".5em"}}>
                 SAVE
               </Button>
 
@@ -368,6 +420,7 @@ const MissionEditView = ({ mission, toDetailsView, toListView }) => {
                 startIcon={<CancelIcon />}
                 variant="contained"
                 color="primary"
+                style={{ margin: ".5em"}}
               >
                 CANCEL
               </Button>
