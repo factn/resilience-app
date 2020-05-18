@@ -7,7 +7,7 @@ import { useOrganization } from "../model";
  */
 const ContactComponent = ({ prefix }) => {
   const org = useOrganization();
-  console.log(org);
+
   if (org?.contactPhoneNumber) {
     return (
       <span>
@@ -16,6 +16,7 @@ const ContactComponent = ({ prefix }) => {
       </span>
     );
   }
+
   if (org?.contactEmail) {
     return (
       <span>
@@ -24,6 +25,8 @@ const ContactComponent = ({ prefix }) => {
       </span>
     );
   }
+
+  return <span></span>;
 };
 
 ContactComponent.propTypes = {
