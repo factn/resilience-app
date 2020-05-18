@@ -54,6 +54,11 @@ const createCustomTheme = (theme) =>
           paddingBottom: 0,
         },
       },
+      MuiGrid: {
+        "grid-xs-true": {
+          flexBasis: "auto",
+        },
+      },
     },
   });
 const styles = (theme) => ({
