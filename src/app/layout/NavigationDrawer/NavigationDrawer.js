@@ -16,7 +16,6 @@ import MenuIcon from "@material-ui/icons/Menu";
 import clsx from "clsx";
 import React from "react";
 
-import OrganizerComponent from "../../component/OrganizerComponent";
 import { useStyles } from "./NavigationDrawer.style";
 import { AppLink, routes } from "../../routing";
 
@@ -54,14 +53,12 @@ export default function TemporaryDrawer() {
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <List>
-        <OrganizerComponent>
-          <MenuItem
-            text="Dashboard"
-            to={routes.organizer.dashboard.home}
-            icon={<DashboardIcon classes={{ root: classes.colorIcon }} fontSize="large" />}
-            classes={classes}
-          />
-        </OrganizerComponent>
+        <MenuItem
+          text="Dashboard"
+          to={routes.organizer.dashboard.home}
+          icon={<DashboardIcon classes={{ root: classes.colorIcon }} fontSize="large" />}
+          classes={classes}
+        />
 
         <MenuItem
           text="Home"
