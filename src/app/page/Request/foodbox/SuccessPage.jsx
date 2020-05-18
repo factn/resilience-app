@@ -1,6 +1,6 @@
 import { Box, Button, makeStyles } from "@material-ui/core";
 import React from "react";
-import { useParams } from "react-router";
+import { useLocation } from "react-router";
 import { Link } from "react-router-dom";
 
 import { H1, Body1 } from "../../../component";
@@ -16,13 +16,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SuccessPage() {
-  const { type } = useParams();
+  const { pathname } = useLocation();
   const classes = useStyles();
   return (
     <Box margin="0rem 1rem" display="flex" flexDirection="column">
-      {type === "donation" ? (
+      {pathname === routes.request.success.donation ? (
         <ByDonationSuccess />
-      ) : type === "payment" ? (
+      ) : pathname === routes.request.success.payment ? (
         <ByPaymentSuccess />
       ) : null}
 

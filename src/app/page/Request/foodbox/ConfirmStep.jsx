@@ -20,6 +20,7 @@ import NavigationButtons from "./NavigationButtons";
 import Mission from "../../../model/Mission";
 import { MissionFundedStatus, MissionType, MissionStatus } from "../../../model/schema";
 import CheckoutItem from "./CheckoutItem";
+import { routes } from "../../../routing";
 
 const useStyles = makeStyles((theme) => ({
   yMargin: {
@@ -88,8 +89,10 @@ function ConfirmStep({ dispatch, state }) {
     }
     try {
       const createdMission = await Mission.create(mission);
-      const redirect = isDonationRequest ? "donation" : "payment";
-      history.push(`/request/foodbox/success/${redirect}`);
+      const redirect = isDonationRequest
+        ? routes.request.success.donation
+        : routes.request.success.payment;
+      history.push(redirect);
     } catch (error) {
       dispatch({
         type: "ERROR",

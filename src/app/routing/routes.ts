@@ -10,7 +10,10 @@ const routes: IRoutes = {
   request: {
     start: "/request",
     foodbox: "/request/foodbox",
-    success: "/request/foodbox/success/:type",
+    success: {
+      donation: "/request/foodbox/success/donation",
+      payment: "/request/foodbox/success/payment",
+    },
     error: "/request/foodbox/error",
   },
   donate: "/donate",
