@@ -16,22 +16,20 @@ import MenuIcon from "@material-ui/icons/Menu";
 import clsx from "clsx";
 import React from "react";
 import { useFirebase } from "react-redux-firebase";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 import { PrivateComponent } from "../../component";
 import OrganizerComponent from "../../component/OrganizerComponent";
 import { useStyles } from "./NavigationDrawer.style";
-import { routes } from "../../routing";
+import { AppLink, routes } from "../../routing";
 
-const PrivateDrawerButton = ({ children, classes, text, to }) => (
-  <PrivateComponent>
-    <Link to={to} className={classes.link}>
-      <ListItem button>
-        <ListItemIcon>{children}</ListItemIcon>
-        <ListItemText primary={text} />
-      </ListItem>
-    </Link>
-  </PrivateComponent>
+const MenuItem = ({ classes, icon, text, to }) => (
+  <AppLink to={to} className={classes.link}>
+    <ListItem button>
+      <ListItemIcon>{icon}</ListItemIcon>
+      <ListItemText primary={text} />
+    </ListItem>
+  </AppLink>
 );
 
 export default function TemporaryDrawer() {
@@ -67,65 +65,55 @@ export default function TemporaryDrawer() {
     >
       <List>
         <OrganizerComponent>
-          <Link to={routes.organizer.dashboard} className={classes.link}>
-            <ListItem button>
-              <ListItemIcon>
-                <DashboardIcon classes={{ root: classes.colorIcon }} fontSize="large" />
-              </ListItemIcon>
-              <ListItemText primary="Dashboard" />
-            </ListItem>
-          </Link>
+          <MenuItem
+            text="Dashboard"
+            to={routes.organizer.dashboard.home}
+            icon={<DashboardIcon classes={{ root: classes.colorIcon }} fontSize="large" />}
+            classes={classes}
+          />
         </OrganizerComponent>
 
-        <Link to={routes.home} className={classes.link}>
-          <ListItem button>
-            <ListItemIcon>
-              <HomeIcon classes={{ root: classes.colorIcon }} fontSize="large" />
-            </ListItemIcon>
-            <ListItemText primary="Home" />
-          </ListItem>
-        </Link>
-        <Link to={routes.missions.completed} className={classes.link}>
-          <ListItem button>
-            <ListItemIcon>
-              <AssignmentIcon classes={{ root: classes.colorIcon }} fontSize="large" />
-            </ListItemIcon>
-            <ListItemText primary="Missions Completed" />
-          </ListItem>
-        </Link>
-        <PrivateComponent>
-          <Link to={routes.missions.createNew} className={classes.link}>
-            <ListItem button>
-              <ListItemIcon>
-                <AddIcon classes={{ root: classes.colorIcon }} fontSize="large" />
-              </ListItemIcon>
-              <ListItemText primary="Create Mission" />
-            </ListItem>
-          </Link>
-        </PrivateComponent>
-        <PrivateComponent>
-          <Link to={routes.recipient.dashboard.home} className={classes.link}>
-            <ListItem button>
-              <ListItemIcon>
-                <AssignmentIcon classes={{ root: classes.colorIcon }} fontSize="large" />
-              </ListItemIcon>
-              <ListItemText primary="My Requests" />
-            </ListItem>
-          </Link>
-        </PrivateComponent>
-        <PrivateComponent>
-          <Link to={routes.volunteer.status} className={classes.link}>
-            <ListItem button>
-              <ListItemIcon>
-                <EmojiPeopleIcon classes={{ root: classes.colorIcon }} fontSize="large" />
-              </ListItemIcon>
-              <ListItemText primary="My Status" />
-            </ListItem>
-          </Link>
-        </PrivateComponent>
-        <PrivateDrawerButton classes={classes} to={routes.user.profile} text="User Profile">
-          <AccountCircleIcon classes={{ root: classes.colorIcon }} fontSize="large" />
-        </PrivateDrawerButton>
+        <MenuItem
+          text="Home"
+          to={routes.home}
+          icon={<HomeIcon classes={{ root: classes.colorIcon }} fontSize="large" />}
+          classes={classes}
+        />
+
+        <MenuItem
+          text="Missions Completed"
+          to={routes.missions.completed}
+          icon={<AssignmentIcon classes={{ root: classes.colorIcon }} fontSize="large" />}
+          classes={classes}
+        />
+
+        <MenuItem
+          text="Create Mission"
+          to={routes.missions.createNew}
+          icon={<AddIcon classes={{ root: classes.colorIcon }} fontSize="large" />}
+          classes={classes}
+        />
+
+        <MenuItem
+          text="My Requests"
+          to={routes.recipient.dashboard.home}
+          icon={<AssignmentIcon classes={{ root: classes.colorIcon }} fontSize="large" />}
+          classes={classes}
+        />
+
+        <MenuItem
+          text="My Status"
+          to={routes.volunteer.status}
+          icon={<EmojiPeopleIcon classes={{ root: classes.colorIcon }} fontSize="large" />}
+          classes={classes}
+        />
+
+        <MenuItem
+          text="User Profile"
+          to={routes.user.profile}
+          icon={<AccountCircleIcon classes={{ root: classes.colorIcon }} fontSize="large" />}
+          classes={classes}
+        />
 
         <PrivateComponent>
           <ListItem button onClick={handleSignOut}>
@@ -136,14 +124,12 @@ export default function TemporaryDrawer() {
           </ListItem>
         </PrivateComponent>
 
-        <Link to={routes.about} className={classes.link}>
-          <ListItem button>
-            <ListItemIcon>
-              <InfoIcon classes={{ root: classes.colorIcon }} fontSize="large" />
-            </ListItemIcon>
-            <ListItemText primary="About Us" />
-          </ListItem>
-        </Link>
+        <MenuItem
+          text="About Us"
+          to={routes.about}
+          icon={<InfoIcon classes={{ root: classes.colorIcon }} fontSize="large" />}
+          classes={classes}
+        />
       </List>
     </div>
   );
