@@ -15,10 +15,7 @@ import InfoIcon from "@material-ui/icons/Info";
 import MenuIcon from "@material-ui/icons/Menu";
 import clsx from "clsx";
 import React from "react";
-import { useFirebase } from "react-redux-firebase";
-import { useHistory } from "react-router-dom";
 
-import { PrivateComponent } from "../../component";
 import OrganizerComponent from "../../component/OrganizerComponent";
 import { useStyles } from "./NavigationDrawer.style";
 import { AppLink, routes } from "../../routing";
@@ -33,8 +30,6 @@ const MenuItem = ({ classes, icon, text, to }) => (
 );
 
 export default function TemporaryDrawer() {
-  const firebase = useFirebase();
-  const history = useHistory();
   const classes = useStyles();
 
   const [state, setState] = React.useState({
@@ -47,11 +42,6 @@ export default function TemporaryDrawer() {
     }
 
     setState({ ...state, [anchor]: open });
-  };
-
-  const handleSignOut = () => {
-    firebase.logout();
-    history.push(routes.home);
   };
 
   const list = (anchor) => (
@@ -115,14 +105,12 @@ export default function TemporaryDrawer() {
           classes={classes}
         />
 
-        <PrivateComponent>
-          <ListItem button onClick={handleSignOut}>
-            <ListItemIcon>
-              <ExitToApp classes={{ root: classes.colorIcon }} fontSize="large" />
-            </ListItemIcon>
-            <ListItemText primary="Signout" />
-          </ListItem>
-        </PrivateComponent>
+        <MenuItem
+          text="Signout"
+          to={routes.logout}
+          icon={<ExitToApp classes={{ root: classes.colorIcon }} fontSize="large" />}
+          classes={classes}
+        />
 
         <MenuItem
           text="About Us"

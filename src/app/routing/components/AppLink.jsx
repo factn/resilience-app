@@ -13,7 +13,7 @@ function AppLink({ children, to, ...rest }) {
 
 AppLink.propTypes = {
   to: PropTypes.string,
-  children: PropTypes.node,
+  children: PropTypes.element,
 };
 
 export default AppLink;

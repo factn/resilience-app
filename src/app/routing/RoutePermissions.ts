@@ -21,6 +21,7 @@ const publicOnlyRoutes: IRoute[] = [
 ];
 
 const authenticatedRoutes: IRoute[] = [
+  routes.logout,
   routes.organizer.dashboard.home,
   routes.missions.createdByUser,
   routes.missions.createNew,
