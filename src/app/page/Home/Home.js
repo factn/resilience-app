@@ -1,7 +1,7 @@
 import { Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import InsertEmoticonIcon from "@material-ui/icons/InsertEmoticon";
-import MailOutline from "@material-ui/icons/MailOutline";
+import Person from "@material-ui/icons/Person";
 import PropTypes from "prop-types";
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
@@ -274,10 +274,10 @@ const ContactAdBanner = () => {
       className={classes.ContactAdContainer}
     >
       <Grid className={classes.ContactAdInfo}>
-        <MailOutline data-testid="icon-contact" className={classes.ContactAdIcon} />
+        <Person data-testid="icon-contact" className={classes.ContactAdIcon} />
         <H3 data-testid="label-contact-mssg-1" className={classes.ContactAdLabel}>
-          For any other inquiries please contact us
-          <ContactComponent prefix=" at " />.
+          {" "}
+          Any questions? Please contact us <ContactComponent prefix=" at " />.
         </H3>
       </Grid>
     </Grid>
