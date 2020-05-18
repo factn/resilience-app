@@ -8,6 +8,8 @@ import PanToolIcon from "@material-ui/icons/PanTool";
 import PersonIcon from "@material-ui/icons/Person";
 import React from "react";
 import { isEmpty, isLoaded } from "react-redux-firebase";
+import EditIcon from "@material-ui/icons/Edit";
+import Button from "@material-ui/core/Button";
 
 import { Body2, H3 } from "../../component";
 import { Mission } from "../../model";
@@ -54,6 +56,11 @@ const useStyles = makeStyles((theme) => ({
   },
   foodBoxDetailName: {
     padding: theme.spacing(1),
+  },
+  buttonBox: {
+    spacing: theme.spacing(1),
+    display: "flex",
+    justifyContent: "center",
   },
 }));
 
@@ -190,7 +197,7 @@ const MissionDetailsRow = ({ classes, mission }) => {
  * Component for displaying mission details as a card
  * @component
  */
-const MissionDetailsCard = ({ mission, toListView }) => {
+const MissionDetailsCard = ({ mission, toEditView, toListView }) => {
   const classes = useStyles();
   const recipientPhoneNumber = _.get(mission, "recipientPhoneNumber");
 
@@ -238,6 +245,15 @@ const MissionDetailsCard = ({ mission, toListView }) => {
 
             <Label classes={classes}>Notes</Label>
             <Row classes={classes}>{mission?.deliveryNotes || "No additional informations"}</Row>
+            <Box className={classes.buttonGroupBox}>
+              <Grid container direction="row" spacing={2} alignItems="center">
+                <Grid item>
+                  <Button disableElevation onClick={toEditView} className={classes.buttonBox}>
+                    <EditIcon className={classes.icon} /> Edit
+                  </Button>
+                </Grid>
+              </Grid>
+            </Box>
           </Box>
         )}
       </Paper>
