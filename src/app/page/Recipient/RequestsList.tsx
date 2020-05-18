@@ -33,10 +33,10 @@ export default function ({ missions }: Props) {
 
 const useStyles = makeStyles((theme) => ({
   card: {
-    marginTop: "1rem",
+    margin: "1rem 0",
   },
   appleIcon: {
-    marginTop: ".rem",
+    marginTop: ".5rem",
     height: "1.5rem",
     width: "1.5rem",
   },
