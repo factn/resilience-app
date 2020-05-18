@@ -1,23 +1,26 @@
 import { ListItemIcon } from "@material-ui/core";
+import CloseIcon from "@material-ui/icons/Close";
 import Drawer from "@material-ui/core/Drawer";
+import Grid from "@material-ui/core/Grid";
 import IconButton from "@material-ui/core/IconButton";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-import AddIcon from "@material-ui/icons/Add";
 import AssignmentIcon from "@material-ui/icons/Assignment";
 import DashboardIcon from "@material-ui/icons/Dashboard";
-import EmojiPeopleIcon from "@material-ui/icons/EmojiPeople";
+import DoubleArrowIcon from "@material-ui/icons/DoubleArrow";
 import ExitToApp from "@material-ui/icons/ExitToApp";
-import HomeIcon from "@material-ui/icons/Home";
-import InfoIcon from "@material-ui/icons/Info";
 import MenuIcon from "@material-ui/icons/Menu";
+import MoveToInboxIcon from "@material-ui/icons/MoveToInbox";
+import FavoriteIcon from "@material-ui/icons/Favorite";
+import PeopleIcon from "@material-ui/icons/People";
 import clsx from "clsx";
 import React from "react";
 
 import { useStyles } from "./NavigationDrawer.style";
 import { AppLink, routes } from "../../routing";
+import { PERMISSIONS, UserPermissionsService } from "../../model/permissions";
 
 const MenuItem = ({ classes, icon, text, to }) => (
   <AppLink to={to} className={classes.link}>
@@ -53,66 +56,75 @@ export default function TemporaryDrawer() {
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <List>
+        {UserPermissionsService.hasPermission(PERMISSIONS.AUTHENTICATED) === false && (
+          <MenuItem
+            text="Sign In"
+            to={routes.login}
+            icon={<DoubleArrowIcon classes={{ root: classes.colorIcon }} />}
+            classes={classes}
+          />
+        )}
+
+        <MenuItem
+          text="I Need Help"
+          to={routes.request.start}
+          icon={<FavoriteIcon classes={{ root: classes.colorIcon }} />}
+          classes={classes}
+        />
+
+        {UserPermissionsService.hasPermission(PERMISSIONS.BECOME_VOLUNTEER) && (
+          <MenuItem
+            text="Help Volunteer"
+            to={routes.user.signup}
+            icon={<PeopleIcon classes={{ root: classes.colorIcon }} />}
+            classes={classes}
+          />
+        )}
+
         <MenuItem
           text="Dashboard"
           to={routes.organizer.dashboard.home}
-          icon={<DashboardIcon classes={{ root: classes.colorIcon }} fontSize="large" />}
+          icon={<DashboardIcon classes={{ root: classes.colorIcon }} />}
           classes={classes}
         />
 
-        <MenuItem
-          text="Home"
-          to={routes.home}
-          icon={<HomeIcon classes={{ root: classes.colorIcon }} fontSize="large" />}
-          classes={classes}
-        />
+        {/*
+          Hiding for
+          <MenuItem
+            text="My Requests"
+            to={routes.recipient.dashboard.home}
+            icon={<MoveToInboxIcon classes={{ root: classes.colorIcon }} fontSize="large"/>}
+            classes={classes}
+          />
+          */}
+
+        {UserPermissionsService.hasPermission(PERMISSIONS.VIEW_MISSIONS) && (
+          <MenuItem
+            text="Volunteer Dashboard"
+            to={routes.volunteer.dashboard.home}
+            icon={<PeopleIcon classes={{ root: classes.colorIcon }} />}
+            classes={classes}
+          />
+        )}
 
         <MenuItem
-          text="Missions Completed"
+          text="Done"
           to={routes.missions.completed}
-          icon={<AssignmentIcon classes={{ root: classes.colorIcon }} fontSize="large" />}
+          icon={<AssignmentIcon classes={{ root: classes.colorIcon }} />}
           classes={classes}
         />
 
         <MenuItem
-          text="Create Mission"
-          to={routes.missions.createNew}
-          icon={<AddIcon classes={{ root: classes.colorIcon }} fontSize="large" />}
-          classes={classes}
-        />
-
-        <MenuItem
-          text="My Requests"
-          to={routes.recipient.dashboard.home}
-          icon={<AssignmentIcon classes={{ root: classes.colorIcon }} fontSize="large" />}
-          classes={classes}
-        />
-
-        <MenuItem
-          text="My Status"
-          to={routes.volunteer.status}
-          icon={<EmojiPeopleIcon classes={{ root: classes.colorIcon }} fontSize="large" />}
-          classes={classes}
-        />
-
-        <MenuItem
-          text="User Profile"
+          text="Profile"
           to={routes.user.profile}
-          icon={<AccountCircleIcon classes={{ root: classes.colorIcon }} fontSize="large" />}
+          icon={<AccountCircleIcon classes={{ root: classes.colorIcon }} />}
           classes={classes}
         />
 
         <MenuItem
-          text="Signout"
+          text="Logout"
           to={routes.logout}
-          icon={<ExitToApp classes={{ root: classes.colorIcon }} fontSize="large" />}
-          classes={classes}
-        />
-
-        <MenuItem
-          text="About Us"
-          to={routes.about}
-          icon={<InfoIcon classes={{ root: classes.colorIcon }} fontSize="large" />}
+          icon={<ExitToApp classes={{ root: classes.colorIcon }} />}
           classes={classes}
         />
       </List>
@@ -130,7 +142,32 @@ export default function TemporaryDrawer() {
         <MenuIcon fontSize="large" />
       </IconButton>
       <Drawer anchor={anchor} open={state[anchor]} onClose={toggleDrawer(anchor, false)}>
-        {list(anchor)}
+        <div className={clsx("drawer", classes.drawer)}>
+          <Grid container direction="column" classes={{ root: classes.root }}>
+            <Grid item classes={{ root: classes.menu }}>
+              <ListItem
+                button
+                classes={{ root: classes.close }}
+                onClick={toggleDrawer(anchor, false)}
+              >
+                <ListItemIcon classes={{ root: classes.close }}>
+                  <CloseIcon classes={{ root: classes.closeIcon }} />
+                </ListItemIcon>
+              </ListItem>
+              {list(anchor)}
+            </Grid>
+            <Grid item className={clsx("menu-footer", classes.menuFooter)}>
+              <AppLink
+                to={routes.about}
+                className={clsx("powered-by", classes.bottomBar, classes.poweredBy)}
+              >
+                <span>
+                  Powered by <strong>Resilience</strong>
+                </span>
+              </AppLink>
+            </Grid>
+          </Grid>
+        </div>
       </Drawer>
     </React.Fragment>
   );

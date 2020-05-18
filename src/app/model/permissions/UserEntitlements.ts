@@ -1,10 +1,13 @@
 import { PERMISSIONS } from "./Permissions";
 
-const userEntitlements: PERMISSIONS[] = [PERMISSIONS.PUBLIC, PERMISSIONS.AUTHENTICATED];
+const anonymousEntitlements: PERMISSIONS[] = [PERMISSIONS.PUBLIC, PERMISSIONS.BECOME_VOLUNTEER];
+
+const userEntitlements: PERMISSIONS[] = [...anonymousEntitlements, PERMISSIONS.AUTHENTICATED];
 
 // Volunteers are granted these permissions:
 const volunteerEntitlements: PERMISSIONS[] = [
-  ...userEntitlements,
+  PERMISSIONS.PUBLIC,
+  PERMISSIONS.AUTHENTICATED,
   PERMISSIONS.VIEW_MISSIONS,
   PERMISSIONS.CREATE_NEW_MISSIONS,
 ];
@@ -18,4 +21,4 @@ const organizerEntitlements: PERMISSIONS[] = [
   PERMISSIONS.VIEW_ALL_VOLUNTEERS,
 ];
 
-export { userEntitlements, volunteerEntitlements, organizerEntitlements };
+export { anonymousEntitlements, userEntitlements, volunteerEntitlements, organizerEntitlements };

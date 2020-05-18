@@ -1,7 +1,12 @@
 import user, { User } from "../User";
 import { PERMISSIONS } from ".";
 import { UserInterface } from "../schema";
-import { organizerEntitlements, userEntitlements, volunteerEntitlements } from "./UserEntitlements";
+import {
+  anonymousEntitlements,
+  organizerEntitlements,
+  userEntitlements,
+  volunteerEntitlements,
+} from "./UserEntitlements";
 import { FirebaseReducer, isEmpty, isLoaded } from "react-redux-firebase";
 
 export enum USER_ROLES {
@@ -65,7 +70,7 @@ export class UserPermissionsService {
         return userEntitlements;
       case USER_ROLES.ANONYMOUS:
       default:
-        return [PERMISSIONS.PUBLIC];
+        return anonymousEntitlements;
     }
   }
 }
