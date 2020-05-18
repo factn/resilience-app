@@ -36,6 +36,9 @@ export class RoutingService {
           case PERMISSIONS.AUTHENTICATED:
             entitlement = this._determineEntitlement(permission, route, this._routes.login);
             break;
+          case PERMISSIONS.BECOME_VOLUNTEER:
+            entitlement = this._determineEntitlement(permission, route, this._routes.pageNotFound);
+            break;
           case PERMISSIONS.VIEW_MISSIONS:
           case PERMISSIONS.CREATE_NEW_MISSIONS:
           case PERMISSIONS.VIEW_ORGANIZER_DASHBOARD:
@@ -88,7 +91,7 @@ export class RoutingService {
     // console.debug("REQUIRES", requiredPermissions);
     // console.debug("VERIFY", verifyPermissions);
     // console.debug("RESULT", result);
-    if (violation) console.debug("VIOLATION", violation);
+    // if (violation) console.debug("VIOLATION", violation);
     return result;
   }
 }

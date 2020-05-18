@@ -42,7 +42,7 @@ function Logout() {
   return (
     <div className={classes.root}>
       <LinearProgress />
-      <h1 className={classes.text}>Signing out…</h1>
+      <h1 className={classes.text}>Logging out…</h1>
     </div>
   );
 }
