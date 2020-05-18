@@ -114,6 +114,7 @@ Here are a few geting started steps to help get set up for local development.
 7. Start your local development server with
 
    ```sh
+   npm run build
    npm run dev
    ```
 _NOTE_: On local development environment, you are always an Organizer.
