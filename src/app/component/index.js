@@ -13,11 +13,13 @@ import ShowDeliveryRoute from "./ShowDeliveryRoute";
 import UserPhoneUnverifiedPopup from "./UserPhoneUnverifiedPopup";
 import ContactComponent from "./ContactComponent";
 import { Body1, Body2, H1, H2, H3, H4, H5, H6, Div, TypographyWrapper } from "./Typography";
+import ComingSoon from "./ComingSoon/ComingSoon";
 
 export {
   AddressInput,
   Button,
   Chip,
+  ComingSoon,
   FoodBoxIcon,
   MissionCard,
   MissionGroup,
