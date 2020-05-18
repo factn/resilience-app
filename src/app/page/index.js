@@ -4,6 +4,7 @@ import DonationPage from "./Donate";
 import RecipientDashboard from "./Recipient";
 import Home from "./Home";
 import Login from "./Login";
+import Logout from "./Logout";
 import OrganizerSignupPage from "./OrganizerSignup";
 import MissionCreate from "./MissionCreate";
 import MissionDetails from "./MissionDetails";
@@ -22,6 +23,7 @@ export {
   ErrorLanding,
   Home,
   Login,
+  Logout,
   MissionDetails,
   MissionCreate,
   MissionFeedback,

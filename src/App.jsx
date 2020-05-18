@@ -14,6 +14,7 @@ import {
   ErrorLanding,
   Home,
   Login,
+  Logout,
   MissionCreate,
   MissionDetails,
   MissionFeedback,
@@ -60,6 +61,7 @@ function App() {
                   <AppRoute exact path={routes.home} component={Home} />
                   <AppRoute path={routes.about} component={AboutPage} />
                   <AppRoute path={routes.login} component={Login} />
+                  <AppRoute path={routes.logout} component={Logout} />
                   <AppRoute path={routes.organizer.signup} component={OrganizerSignupPage} />
                   <AppRoute path={routes.volunteer.status} component={Status} />
                   <AppRoute path={routes.user.signup} component={Signup} />
