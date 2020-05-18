@@ -8,9 +8,8 @@ import { Phone } from "@material-ui/icons";
 import { ReactComponent as AppleIcon } from "../../../img/apple.svg";
 import { ReactComponent as ClipboardIcon } from "../../../img/clipboard.svg";
 import { ReactComponent as PharmacyIcon } from "../../../img/pharmacy.svg";
-import { useOrganization } from "../../model";
 import { routes } from "../../routing";
-import { H1, H3, Body1 } from "../../component";
+import { H1, H3, Body1, ContactComponent } from "../../component";
 
 const iconStyle = { marginRight: "1rem", width: "1.5rem", height: "1.5rem" };
 
@@ -63,7 +62,6 @@ const PhoneStyled = styled(Phone)`
 `;
 
 function StartPage() {
-  const org = useOrganization();
   return (
     <>
       <H1>What do you need help with?</H1>
@@ -81,9 +79,9 @@ function StartPage() {
       <PaperStyled variant="outlined">
         <PhoneStyled color="primary" />
         <Body1 align="left" gutterBottom={true}>
-          To serve those without technology, call the number below to contact our volunteers to help
-          you make a request by phone. Call:{" "}
-          <a href={`tel:${org.contactPhoneNumber}`}>{org.contactPhoneNumber}</a>.
+          If you would like to make a request by another method please get in touch with our
+          volunteers
+          <ContactComponent prefix=" at " />.
         </Body1>
       </PaperStyled>
     </>

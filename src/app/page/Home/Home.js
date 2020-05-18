@@ -1,7 +1,7 @@
 import { Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import InsertEmoticonIcon from "@material-ui/icons/InsertEmoticon";
-import PhoneIcon from "@material-ui/icons/Phone";
+import MailOutline from "@material-ui/icons/MailOutline";
 import PropTypes from "prop-types";
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
@@ -13,7 +13,7 @@ import HeaderImage2 from "../../../img/HeaderImage2.webp";
 import ShopperImage1 from "../../../img/ShopperImage1.webp";
 import SignInHeader1 from "../../../img/SignInHeader1.webp";
 import SplashImage1 from "../../../img/SplashImage1.png";
-import { Body1, Button, H1, H2, H3, H4 } from "../../component";
+import { Body1, Button, H1, H2, H3, H4, ContactComponent } from "../../component";
 import { Page } from "../../layout";
 import VolunteerHome from "./VolunteerHome";
 import { isEmpty, isLoaded } from "react-redux-firebase";
@@ -265,7 +265,6 @@ const DonateCardComponent = () => {
 
 const ContactAdBanner = () => {
   const classes = useStyles();
-  const org = useOrganization();
   return (
     <Grid
       container
@@ -275,10 +274,10 @@ const ContactAdBanner = () => {
       className={classes.ContactAdContainer}
     >
       <Grid className={classes.ContactAdInfo}>
-        <PhoneIcon data-testid="icon-contact" className={classes.ContactAdIcon} />
+        <MailOutline data-testid="icon-contact" className={classes.ContactAdIcon} />
         <H3 data-testid="label-contact-mssg-1" className={classes.ContactAdLabel}>
-          To request help by phone, please call{" "}
-          <a href={`tel:${org?.contactPhoneNumber}`}>{org?.contactPhoneNumber}</a>
+          For any other inquiries please contact us
+          <ContactComponent prefix=" at " />.
         </H3>
       </Grid>
     </Grid>
