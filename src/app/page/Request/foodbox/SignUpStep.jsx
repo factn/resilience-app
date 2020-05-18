@@ -17,7 +17,7 @@ export default function SignUpStep({ dispatch, onBack }) {
 
   async function verifyPhone() {
     let userUid;
-    const { cannotReceiveTexts, displayName, phoneNumber } = values;
+    const { cannotReceiveTexts, displayName, phoneNumber, emailAddress } = values;
 
     try {
       if (cannotReceiveTexts) {
@@ -25,6 +25,7 @@ export default function SignUpStep({ dispatch, onBack }) {
         userUid = await User.createProfile(null, {
           displayName,
           phoneNumber,
+          emailAddress,
           cannotReceiveTexts: true,
         });
       } else {
@@ -59,13 +60,14 @@ export default function SignUpStep({ dispatch, onBack }) {
         await User.createProfile(userUid, {
           displayName,
           phoneNumber,
+          emailAddress,
           cannotReceiveTexts,
         });
       }
 
       dispatch({
         type: "UPDATE_USER",
-        payload: { uid: userUid, phoneNumber, displayName },
+        payload: { uid: userUid, displayName, phoneNumber, emailAddress },
       });
       dispatch({ type: "NEXT" });
     } catch (error) {
@@ -81,6 +83,7 @@ export default function SignUpStep({ dispatch, onBack }) {
     let hasError = false;
     hasError = !values.displayName;
     hasError = !values.phoneNumber;
+    hasError = !values.emailAddress;
 
     handleChange({ target: { name: "validate", value: true } });
     return hasError;
@@ -96,7 +99,7 @@ export default function SignUpStep({ dispatch, onBack }) {
 
   return (
     <>
-      <Body1>Please add your name and phone number to create an account.</Body1>
+      <Body1>Please add a name, phone number and email address to create an account.</Body1>
       <H2 align="left" color="textPrimary" gutterBottom>
         Your Account
       </H2>
@@ -112,9 +115,23 @@ export default function SignUpStep({ dispatch, onBack }) {
       />
       <TextField
         className={classes.textField}
+        placeholder="you@email.com"
+        fullWidth
+        helperText="We need this to send you information about curbside pickup. We won't share this with anyone."
+        label="Email Address"
+        name="emailAddress"
+        id="email-address"
+        onChange={handleChange}
+        value={values.emailAddress || ""}
+        variant="outlined"
+        required
+        error={values.validate && !values.emailAddress}
+      />
+      <TextField
+        className={classes.textField}
         placeholder="+15555555555"
         fullWidth
-        helperText="Used for receiving updates (SMS/texts)"
+        helperText="Used for receiving updates via text (SMS)"
         label="Mobile Number"
         name="phoneNumber"
         id="phone-number"
