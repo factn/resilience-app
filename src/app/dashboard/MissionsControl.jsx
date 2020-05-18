@@ -3,6 +3,7 @@ import AnnouncementIcon from "@material-ui/icons/Announcement";
 import HomeIcon from "@material-ui/icons/Home";
 import PanToolIcon from "@material-ui/icons/PanTool";
 import PeopleIcon from "@material-ui/icons/People";
+import ExitToApp from "@material-ui/icons/ExitToApp";
 import clsx from "clsx";
 import React from "react";
 import { useFirestoreConnect } from "react-redux-firebase";
@@ -100,6 +101,12 @@ const MissionsPage = () => {
       id: routes.organizer.dashboard.volunteers,
       route: routes.organizer.dashboard.volunteers,
       icon: <PanToolIcon />,
+    },
+    {
+      text: "Logout",
+      id: routes.logout,
+      route: routes.logout,
+      icon: <ExitToApp />,
     },
   ];
 
