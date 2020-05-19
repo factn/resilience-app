@@ -17,7 +17,7 @@ export default function SignUpStep({ dispatch, onBack }) {
 
   async function verifyPhone() {
     let userUid;
-    const { cannotReceiveTexts, displayName, recipientEmailAddress, phoneNumber } = values;
+    const { cannotReceiveTexts, displayName, phoneNumber, recipientEmailAddress } = values;
 
     try {
       if (cannotReceiveTexts) {
