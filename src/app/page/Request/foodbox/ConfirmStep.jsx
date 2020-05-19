@@ -50,17 +50,18 @@ function ConfirmStep({ dispatch, state }) {
   const history = useHistory();
   const classes = useStyles();
 
-  const { cart } = state;
+  // convert cart object to an array of items and filter out any items with a quantity of 0
+  const cart = Object.keys(state.cart).reduce((items, key) => {
+    state.cart[key].quantity > 0 && items.push(state.cart[key]);
+    return items;
+  }, []);
 
   const [isDonationRequest, setIsDonationRequest] = useState(false);
 
-  const total = Object.keys(cart).reduce(
-    (total, key) => cart[key].resource.cost * cart[key].quantity + total,
-    0
-  );
+  const total = cart.reduce((total, item) => item.resource.cost * item.quantity + total, 0);
 
   async function confirmRequest() {
-    const { cart, details, recipient } = state;
+    const { details, recipient } = state;
     let mission = {
       type: MissionType.resource,
       status: MissionStatus.unassigned,
@@ -70,10 +71,10 @@ function ConfirmStep({ dispatch, state }) {
       deliveryLocation: details.location,
       deliveryNotes: details.instructions,
       deliveryType: details.curbsidePickup ? "curbside" : "delivery",
-      details: Object.keys(cart).map((key) => ({
-        resourceUid: cart[key].resource.uid,
-        quantity: cart[key].quantity,
-        displayName: cart[key].resource.displayName,
+      details: cart.map((item) => ({
+        resourceUid: item.resource.uid,
+        quantity: item.quantity,
+        displayName: item.resource.displayName,
       })),
     };
 
@@ -213,8 +214,8 @@ function transformForPaypal(cart) {
   const items = [];
   let total = 0;
 
-  Object.keys(cart).forEach((key) => {
-    const { quantity, resource } = cart[key];
+  cart.forEach((cartItem) => {
+    const { quantity, resource } = cartItem;
     if (quantity > 0) {
       const description = resource.description.slice(0, 127);
 
