@@ -6,9 +6,9 @@ import MuiCheckIcon from "@material-ui/icons/Check";
 import MuiDoneAllIcon from "@material-ui/icons/DoneAll";
 import MuiPlayCircleFilledIcon from "@material-ui/icons/PlayCircleFilled";
 
+import { useOrganization } from "../../model";
 import Mission from "../../model/Mission";
 import User from "../../model/User";
-import { useOrganization } from "../../model";
 
 import {
   getAllAvailableMissions,
@@ -44,17 +44,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const VolunteerHome = ({ user, availableMissions, volunteeredMissions }) => {
+const VolunteerHome = ({ currentUser, missions }) => {
   const classes = useStyles();
   const [value, setValue] = useState(0);
   const [userPhoneUnverifiedPopupOpen, setUserPhoneUnverifiedPopupOpen] = useState(false);
   const org = useOrganization();
-
   useFirestoreConnect(() => {
-    return [User.fsAvailableMissions(org.uid), User.fsVolunteeredMissions(org.uid, user.uid)];
+    return [
+      Mission.fsAvailableUserMissions(org.uid, currentUser.uid),
+      Mission.fsAssignedUserMissions(org.uid, currentUser.uid),
+    ];
   });
-  const acceptedMissions = getAllAcceptedMissions(volunteeredMissions);
-  const inProgressMissions = getAllInProgressMissions(volunteeredMissions);
+
+  const availableMissions = getAllAvailableMissions(missions);
+  const acceptedMissions = getAllAcceptedMissions(missions);
+  const inProgressMissions = getAllInProgressMissions(missions);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -97,7 +101,7 @@ const VolunteerHome = ({ user, availableMissions, volunteeredMissions }) => {
             </H1>
             <VolunteerHomeMissionList
               missions={availableMissions}
-              currentUser={user}
+              currentUser={currentUser}
               actionText="Accept Mission"
               actionIcon={<MuiCheckIcon />}
               showGroupAction={true}
@@ -117,7 +121,7 @@ const VolunteerHome = ({ user, availableMissions, volunteeredMissions }) => {
             </H1>
             <VolunteerHomeMissionList
               missions={acceptedMissions}
-              currentUser={user}
+              currentUser={currentUser}
               actionText="Start Mission"
               actionIcon={<MuiPlayCircleFilledIcon />}
               checkGroupActionDisabled={(missions) =>
@@ -140,7 +144,7 @@ const VolunteerHome = ({ user, availableMissions, volunteeredMissions }) => {
             </H1>
             <VolunteerHomeMissionList
               missions={inProgressMissions}
-              currentUser={user}
+              currentUser={currentUser}
               actionText={"Mission Delivered"}
               showViewRoute={true}
               isEmptyText={volunteerDashboardEmptyTabMessage.started}
@@ -158,9 +162,10 @@ const VolunteerHome = ({ user, availableMissions, volunteeredMissions }) => {
 
 const mapStateToProps = (state) => {
   return {
-    user: state.firebase.auth,
-    availableMissions: state.firestore.ordered.availableMissions || [],
-    volunteeredMissions: state.firestore.ordered.volunteeredMissions || [],
+    currentUser: state.firebase.auth,
+    missions: Mission.selectAssignedUserMissions(state).concat(
+      Mission.selectAvailableUserMissions(state)
+    ),
   };
 };
 

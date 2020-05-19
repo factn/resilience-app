@@ -39,36 +39,10 @@ const fsVolunteer = (orgUid: string) => ({
   storeAs: "volunteers",
 });
 
-const fsVolunteeredMissions = (orgUid: string, userUid: string) => ({
-  collection: "organizations",
-  doc: orgUid,
-  subcollections: [
-    {
-      collection: "missions",
-      where: ["volunteerUid", "==", userUid],
-    },
-  ],
-  storeAs: "acceptedMissions",
-});
-
-const fsAvailableMissions = (orgUid: string) => ({
-  collection: "organizations",
-  doc: orgUid,
-  subcollections: [
-    {
-      collection: "missions",
-      where: ["status", "==", MissionStatus.tentative],
-    },
-  ],
-  storeAs: "availableMissions",
-});
-
 export class User extends BaseModel {
   VolunteerStatus = VolunteerStatus;
 
   fsVolunteer = fsVolunteer;
-  fsAvailableMissions = fsAvailableMissions;
-  fsVolunteeredMissions = fsVolunteeredMissions;
 
   /**
    * Update an user
