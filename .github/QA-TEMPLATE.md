@@ -26,6 +26,8 @@ _Insert Z screenshot that covers X Component_
 
 ## Meta information
 
+[//]: <> (Pipeline needs additional discussion, as does much of the meta information, could be helpful to address how 'previously discussed' would happen if that is the route we want to take)
+
 - **Pipeline** /
 - **Labels** / Unless previously discussed, leave Labels blank
 - **Assignees** / Can assign yourself if you know you want to work on addressing the issue
