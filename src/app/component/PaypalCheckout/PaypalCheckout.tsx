@@ -33,7 +33,7 @@ export default function PaypalCheckout({
       purchase_units: Array.isArray(cart) ? cart : [cart],
       application_context: {
         shipping_preference: "NO_SHIPPING",
-        brand_name: org?.name,
+        brand_name: org?.displayName,
       },
     } as Order);
   }

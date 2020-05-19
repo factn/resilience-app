@@ -3,14 +3,12 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { Paper } from "@material-ui/core";
-import { Phone } from "@material-ui/icons";
-
+import { Person } from "@material-ui/icons";
 import { ReactComponent as AppleIcon } from "../../../img/apple.svg";
 import { ReactComponent as ClipboardIcon } from "../../../img/clipboard.svg";
 import { ReactComponent as PharmacyIcon } from "../../../img/pharmacy.svg";
-import { useOrganization } from "../../model";
 import { routes } from "../../routing";
-import { H1, H3, Body1 } from "../../component";
+import { H1, H3, Body1, ContactComponent } from "../../component";
 
 const iconStyle = { marginRight: "1rem", width: "1.5rem", height: "1.5rem" };
 
@@ -58,12 +56,11 @@ const PaperStyled = styled(Paper)`
   padding: 1rem;
   border: ${({ theme }) => theme.palette.secondary.main} solid 1px;
 `;
-const PhoneStyled = styled(Phone)`
+const PersonStyled = styled(Person)`
   margin-right: 0.5rem;
 `;
 
 function StartPage() {
-  const org = useOrganization();
   return (
     <>
       <H1>What do you need help with?</H1>
@@ -79,11 +76,11 @@ function StartPage() {
         </ButtonWithIcon>
       </ButtonContainer>
       <PaperStyled variant="outlined">
-        <PhoneStyled color="primary" />
+        <PersonStyled color="primary" />
         <Body1 align="left" gutterBottom={true}>
-          To serve those without technology, call the number below to contact our volunteers to help
-          you make a request by phone. Call:{" "}
-          <a href={`tel:${org.phoneNumber}`}>{org.phoneNumber}</a>.
+          If you would like to make a request by another method please get in touch with our
+          volunteers
+          <ContactComponent prefix=" at " />.
         </Body1>
       </PaperStyled>
     </>

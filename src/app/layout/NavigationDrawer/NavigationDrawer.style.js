@@ -1,16 +1,35 @@
 import { makeStyles } from "@material-ui/core/styles";
 
-export const useStyles = makeStyles({
+export const useStyles = makeStyles((theme) => ({
+  close: {
+    flexDirection: "row-reverse",
+  },
+  closeIcon: {
+    color: theme.color.white,
+    fontSize: "3rem",
+  },
+  drawer: {
+    backgroundColor: theme.color.darkBlue,
+    height: "100vh",
+  },
+  menu: {
+    flexGrow: 1,
+  },
+  menuFooter: {
+    flexGrow: 0,
+  },
   list: {
-    width: 250,
+    width: 315,
   },
   fullList: {
     width: "auto",
   },
   link: {
+    fontWeight: "bold",
     textDecoration: "none",
+    textTransform: "uppercase",
     display: "inline",
-    color: "#150E60",
+    color: theme.color.white,
   },
   root: {
     width: "100%",
@@ -26,6 +45,17 @@ export const useStyles = makeStyles({
     color: "#150E60",
   },
   colorIcon: {
-    color: "#000",
+    color: theme.color.white,
   },
-});
+  bottomBar: {
+    backgroundColor: theme.color.black,
+    display: "block",
+    textAlign: "center",
+    paddingBottom: "0.5rem",
+    paddingTop: "0.5rem",
+  },
+  poweredBy: {
+    color: theme.color.white,
+    textDecoration: "none",
+  },
+}));

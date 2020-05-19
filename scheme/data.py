@@ -126,7 +126,7 @@ class Database:
         for i in range(10):
             vol = Volunteer(org.uid)
             self.ordered_users.append(vol)
-            org.add_volunteers(vol)
+            org.add_volunteer(vol)
         self.ordered_organizations.append(org)
         return org
 
@@ -146,33 +146,31 @@ class Organization:
         self.displayName = "Feed Folks"
         self.chapterName = "Feed Folks - Studio City"
         self.tagline = "Neighbors Helping Neighbors"
-        self.quickInfo = "We're a grassroots team in Studio City, CA getting fresh farm produce to our neighbors in need.",
-        self.logoURL = 'https://firebasestorage.googleapis.com/v0/b/mutualaid-757f6.appspot.com/o/images%2Ffeedfolks__logo.png?alt=media&token=6b1e803d-9b19-4847-a849-4b4dbdde2395',
+        self.quickInfo = "We're a grassroots team in Studio City, CA getting fresh farm produce to our neighbors in need."
+        self.logoURL = 'https://firebasestorage.googleapis.com/v0/b/mutualaid-757f6.appspot.com/o/images%2Ffeedfolks__logo.png?alt=media&token=6b1e803d-9b19-4847-a849-4b4dbdde2395'
+        self.contactEmail = "help@studiocitync.org"
         self.contactPhoneNumber = ""
         self.location = {
             "address": "Studio City, CA",
             "label": "",
             "lat": 34.1483989,
             "lng": -118.3961877
-        },
-        # i dont know why this is necessary but it works!
-        self.location = self.location[0]
+        }
         self.localTimeZone = ''
-        self.phoneNumber = f.phone_number()
-        self.EINNumber = '12-3456789'
+        self.EINNumber = ''
         self.ordered_missions = []
         self.ordered_resources = []
         self._init_resources(resources)
         self.paymentSettings = {
             'paypal': {
-                'clientId': 'sb',
-                'email': 'testpaypalemail@testpaypalemail.com'
+                'clientId': 'MAMWDVN7WLFMS',
+                'email': 'help@studiocitync.org'
             }
         }
         # inner attributes for easy access
         self.ordered_volunteers = []
 
-    def add_volunteers(self, vol):
+    def add_volunteer(self, vol):
         self.ordered_volunteers.append(vol)
 
     def _init_resources(self, resources):
@@ -220,6 +218,7 @@ class Volunteer:
         self.phoneNumber = f.phone_number()
         self.photoURL = 'https://via.placeholder.com/150.png?text=User%20Image'
         self.displayName = f.name()
+        self.recipientEmailAddress = f.free_email()
         self.location = any_location()
         self.organizationUid = orgUid
         self.isVolunteer = True
@@ -263,9 +262,11 @@ class Mission:
         self.volunteerDisplayName = ""
         self.volunteerPhoneNumber = ""
 
-        self.recipientUid = creator.uid
+        non_account = f.boolean(chance_of_getting_true=25)
+        self.recipientUid = None if non_account else creator.uid
         self.recipientDisplayName = creator.displayName
         self.recipientPhoneNumber = creator.phoneNumber
+        self.recipientEmailAddress = creator.recipientEmailAddress
 
         self.pickUpWindow = timeWindow()
         self.pickUpLocation = any_location()

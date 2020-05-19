@@ -1,3 +1,4 @@
+import { matchPath } from "react-router";
 import routes, { IRoute, IRoutes } from "../routes";
 import ROUTE_PERMISSIONS from "../RoutePermissions";
 import { IPermissionSet, IRoutePermissions } from "./utils";
@@ -36,6 +37,9 @@ export class RoutingService {
           case PERMISSIONS.AUTHENTICATED:
             entitlement = this._determineEntitlement(permission, route, this._routes.login);
             break;
+          case PERMISSIONS.BECOME_VOLUNTEER:
+            entitlement = this._determineEntitlement(permission, route, this._routes.pageNotFound);
+            break;
           case PERMISSIONS.VIEW_MISSIONS:
           case PERMISSIONS.CREATE_NEW_MISSIONS:
           case PERMISSIONS.VIEW_ORGANIZER_DASHBOARD:
@@ -64,6 +68,22 @@ export class RoutingService {
     return entitlements;
   }
 
+  private _getPermissionsRequiredByRoute(route: IRoute): IPermissionSet {
+    for (let r in this._routePermissions) {
+      if (this._routePermissions.hasOwnProperty(r)) {
+        const permission: IPermissionSet = this._routePermissions[r];
+        const match: any = matchPath(route, {
+          path: r,
+          exact: true,
+        });
+        if (match) {
+          return permission;
+        }
+      }
+    }
+    return (null as unknown) as IPermissionSet;
+  }
+
   constructor(
     private _routes: IRoutes,
     private _routePermissions: IRoutePermissions,
@@ -71,7 +91,7 @@ export class RoutingService {
   ) {}
 
   public canAccessRoute(route: IRoute): IRouteEntitlement {
-    const requiredPermissions: IPermissionSet = this._routePermissions[route] as IPermissionSet;
+    const requiredPermissions: IPermissionSet = this._getPermissionsRequiredByRoute(route);
     const verifyPermissions: IRouteEntitlement[] = this._verifyPermissions(
       requiredPermissions,
       route
@@ -88,16 +108,12 @@ export class RoutingService {
     // console.debug("REQUIRES", requiredPermissions);
     // console.debug("VERIFY", verifyPermissions);
     // console.debug("RESULT", result);
-    if (violation) console.debug("VIOLATION", violation);
+    // if (violation) console.debug("VIOLATION", violation);
     return result;
   }
 }
 export interface IRouteEntitlement {
   route: IRoute;
   permissionGranted: boolean;
-}
-export interface AuthState {
-  isLoaded?: boolean;
-  isEmpty?: boolean;
 }
 export default new RoutingService(routes, ROUTE_PERMISSIONS, userPermissionsService);

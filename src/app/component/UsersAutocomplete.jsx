@@ -23,7 +23,7 @@ const SearchUsers = ({ handleChange, users }) => {
   const classes = useStyles();
 
   const reducer = (options, user) => {
-    if (!user.displayName) return options;
+    if (!user.displayName && !user.phoneNumber) return options;
     let searchString = user.displayName + user.phoneNumber;
     options.push({ ...user, searchString });
     return options;
