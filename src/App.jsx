@@ -25,6 +25,7 @@ import {
   Status,
   UserProfile,
   RecipientDashboard,
+  VolunteerHome,
 } from "./app/page";
 import Snackbar from "./app/component/Snackbars";
 import theme from "./theme";
@@ -67,13 +68,15 @@ function App() {
                   <AppRoute path={routes.user.signup} component={Signup} />
                   <AppRoute path={routes.request.start} component={RequestPage} />
                   <AppRoute path={routes.donate} component={DonationPage} />
-                  <AppRoute path={routes.organizer.dashboard.home} component={Dashboard} />
-                  <AppRoute path={routes.recipient.dashboard.home} component={RecipientDashboard} />
                   <AppRoute path={routes.missions.createNew} component={MissionCreate} />
                   <AppRoute path={routes.missions.completed} component={MissionsCompleted} />
                   <AppRoute path={routes.missions.feedback} component={MissionFeedback} />
                   <AppRoute path={routes.missions.details} component={MissionDetails} />
                   <AppRoute path={routes.user.profile} component={UserProfile} />
+                  {/* ⬇ BASE routes below ⬇ */}
+                  <AppRoute path={routes.organizer.dashboard.home} component={Dashboard} />
+                  <AppRoute path={routes.recipient.dashboard.home} component={RecipientDashboard} />
+                  <AppRoute path={routes.volunteer.dashboard.home} component={VolunteerHome} />
                   <AppRoute path={routes.unauthorized}>
                     <ErrorLanding errorCode={401} />
                   </AppRoute>

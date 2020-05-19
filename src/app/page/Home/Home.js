@@ -15,7 +15,7 @@ import SignInHeader1 from "../../../img/SignInHeader1.webp";
 import SplashImage1 from "../../../img/SplashImage1.png";
 import { Body1, Button, H1, H2, H3, H4, ContactComponent } from "../../component";
 import { Page } from "../../layout";
-import VolunteerHome from "./VolunteerHome";
+import AuthenticatedHome from "./AuthenticatedHome";
 import { isEmpty, isLoaded } from "react-redux-firebase";
 import { User, useOrganization } from "../../model";
 import Mission from "../../model/Mission";
@@ -393,7 +393,9 @@ const HomePage = ({ auth, history, profile }) => {
   }, [auth, profile]);
   return (
     <Page isLoaded={isLoaded(auth)} LoadingComponent={LoadingComponent}>
-      {isEmpty(auth) ? (
+      {isLoaded(auth) && !isEmpty(auth) ? (
+        <AuthenticatedHome />
+      ) : (
         <Grid container>
           <SignInHeaderComponent history={history} />
           <PoweredByComponent />
@@ -419,10 +421,6 @@ const HomePage = ({ auth, history, profile }) => {
           <DonateCardComponent />
           <ContactAdBanner />
         </Grid>
-      ) : (
-        <>
-          <VolunteerHome />
-        </>
       )}
     </Page>
   );

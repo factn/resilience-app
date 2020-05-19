@@ -14,6 +14,7 @@ import RequestPage from "./Request";
 import Signup from "./Signup";
 import Status from "./Status";
 import UserProfile from "./UserProfile";
+import VolunteerHome from "./Home/VolunteerHome";
 import { ErrorLanding } from "./Error";
 
 export {
@@ -34,4 +35,5 @@ export {
   Signup,
   Status,
   UserProfile,
+  VolunteerHome,
 };

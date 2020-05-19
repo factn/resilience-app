@@ -130,7 +130,7 @@ function SignupScene(props) {
       break;
     case Tabs.SUCCESS:
     default:
-      Active = <SignupSuccessPage onClick={() => props.history.push(routes.missions.main)} />;
+      Active = <SignupSuccessPage onClick={() => props.history.push(routes.home)} />;
       break;
   }
 
