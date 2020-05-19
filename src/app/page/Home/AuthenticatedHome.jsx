@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Redirect, useLocation } from "react-router-dom";
+import PropTypes from "prop-types";
 import { ComingSoon } from "../../component";
 import { USER_ROLES } from "../../model/permissions/UserPermissionsService";
 import { routes } from "../../routing";
 import { makeStyles } from "@material-ui/core/styles";
-import { useSelector } from "react-redux";
 import { isLoaded } from "react-redux-firebase";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { UserPermissionsService } from "../../model/permissions";
@@ -14,10 +14,9 @@ const useStyles = makeStyles((theme) => ({
     margin: "50% auto",
   },
 }));
-const AuthenticatedHome = () => {
+const AuthenticatedHome = ({ auth }) => {
   const classes = useStyles();
   const location = useLocation();
-  const auth = useSelector((state) => state.firebase.auth);
   const [role, setRole] = useState(null);
 
   useEffect(() => {
@@ -52,6 +51,10 @@ const AuthenticatedHome = () => {
       },
     };
   }
+};
+
+AuthenticatedHome.propTypes = {
+  auth: PropTypes.object.isRequired,
 };
 
 export default AuthenticatedHome;

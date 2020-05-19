@@ -395,7 +395,7 @@ const HomePage = ({ auth, history, profile }) => {
   return (
     <Page isLoaded={isLoaded(auth)} LoadingComponent={LoadingComponent}>
       {isLoaded(auth) && !isEmpty(auth) ? (
-        <AuthenticatedHome />
+        <AuthenticatedHome auth={auth} />
       ) : (
         <Grid container>
           <SignInHeaderComponent history={history} />
