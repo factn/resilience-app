@@ -36,6 +36,8 @@ function DeliveryStep({ dispatch, state }) {
       }
     }
 
+    console.log(profile);
+
     if (profile.isEmpty || !profile.phoneNumber) {
       setShowSignup(true);
       return;

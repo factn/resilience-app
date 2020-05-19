@@ -1,6 +1,12 @@
 import BaseModel from "./BaseModel";
 import Organization from "./Organization";
-import { Location, MissionStatus, UserInterface, VolunteerStatus } from "./schema";
+import {
+  Location,
+  MissionStatus,
+  UserInterface,
+  VolunteerStatus,
+  MissionInterface,
+} from "./schema";
 import { env } from "../utils";
 
 const defaultLocation: Location = {
@@ -135,13 +141,13 @@ export class User extends BaseModel {
       });
   }
 
-  getAllRequestedMissions(userUid: string) {
+  getAllRequestedMissions(userUid: string): Promise<MissionInterface[]> {
     return this.getCollection("organizations")
       .doc(Organization.uid)
       .collection("missions")
       .where("recipientUid", "==", userUid)
       .get()
-      .then((snapshot) => snapshot.docs.map((doc) => doc.data()))
+      .then((snapshot) => snapshot.docs.map((doc) => doc.data()) as MissionInterface[])
       .catch((error) => {
         console.error(error);
         return [];
