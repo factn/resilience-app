@@ -82,7 +82,7 @@ export default function TemporaryDrawer() {
         )}
 
         <MenuItem
-          text="Dashboard"
+          text="Organizer Dashboard"
           to={routes.organizer.dashboard.home}
           icon={<DashboardIcon classes={{ root: classes.colorIcon }} />}
           classes={classes}
