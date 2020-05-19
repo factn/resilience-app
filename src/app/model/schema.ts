@@ -72,13 +72,16 @@ export enum VolunteerStatus {
 
 export class UserInterface {
   uid!: string;
+  /* validated phone number (validated by phone verification challenge) */
   phoneNumber?: string;
+  /* validated email address (validated by google oAuth, currently) */
   email?: string;
-  /* user's selected profile image url
-   */
+  /* user's selected profile image url */
   photoURL?: ImageUrl;
   /* user profile name, this populate from either user, or his provider*/
   displayName?: string;
+  /* email address user typed in -  not validated, can be anything really */
+  recipientEmailAddress?: string;
   /* from the 'Tell us about yourself' form field */
   description?: string;
   /* user location, we use this to show user on a map */
@@ -99,6 +102,7 @@ export class UserInterface {
     hasTransportation: boolean;
     /*user volunteering to an organization have a pending status*/
     status: VolunteerStatus;
+    /* notes on the volunteer, by the organizer(s) */
     privateNotes: string;
   };
   /* specific details for the organizer*/
@@ -201,6 +205,7 @@ export interface MissionInterface {
   recipientUid: string; // reference?
   recipientDisplayName: string;
   recipientPhoneNumber: string;
+  recipientEmailAddress: string;
 
   pickUpWindow: TimeWindow | null; // nb this can be an exact time or can be null
   pickUpLocation: Location;

@@ -54,6 +54,7 @@ const defaultMissionData: MissionInterface = {
 
   recipientDisplayName: "No Recipient Name",
   recipientPhoneNumber: "",
+  recipientEmailAddress: "",
   recipientUid: "No Recipient Id", // reference?
 
   pickUpWindow: defaultTimeWindow, // nb this can be an exact time or can be null

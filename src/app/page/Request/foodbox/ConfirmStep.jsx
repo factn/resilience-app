@@ -68,6 +68,7 @@ function ConfirmStep({ dispatch, state }) {
       recipientUid: recipient.uid,
       recipientDisplayName: recipient.displayName,
       recipientPhoneNumber: recipient.phoneNumber,
+      recipientEmailAddress: recipient.recipientEmailAddress,
       deliveryLocation: details.location,
       deliveryNotes: details.instructions,
       deliveryType: details.curbsidePickup ? "curbside" : "delivery",

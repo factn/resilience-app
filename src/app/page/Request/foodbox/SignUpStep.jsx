@@ -17,7 +17,7 @@ export default function SignUpStep({ dispatch, onBack }) {
 
   async function verifyPhone() {
     let userUid;
-    const { cannotReceiveTexts, displayName, emailAddress, phoneNumber } = values;
+    const { cannotReceiveTexts, displayName, recipientEmailAddress, phoneNumber } = values;
 
     try {
       if (cannotReceiveTexts) {
@@ -25,7 +25,7 @@ export default function SignUpStep({ dispatch, onBack }) {
         userUid = await User.createProfile(null, {
           displayName,
           phoneNumber,
-          emailAddress,
+          recipientEmailAddress,
           cannotReceiveTexts: true,
         });
       } else {
@@ -60,14 +60,14 @@ export default function SignUpStep({ dispatch, onBack }) {
         await User.createProfile(userUid, {
           displayName,
           phoneNumber,
-          emailAddress,
+          recipientEmailAddress,
           cannotReceiveTexts,
         });
       }
 
       dispatch({
         type: "UPDATE_USER",
-        payload: { uid: userUid, displayName, phoneNumber, emailAddress },
+        payload: { uid: userUid, displayName, phoneNumber, recipientEmailAddress },
       });
       dispatch({ type: "NEXT" });
     } catch (error) {
@@ -83,7 +83,7 @@ export default function SignUpStep({ dispatch, onBack }) {
     let hasError = false;
     hasError = !values.displayName;
     hasError = !values.phoneNumber;
-    hasError = !values.emailAddress;
+    hasError = !values.recipientEmailAddress;
 
     handleChange({ target: { name: "validate", value: true } });
     return hasError;
@@ -119,13 +119,13 @@ export default function SignUpStep({ dispatch, onBack }) {
         fullWidth
         helperText="We need this to send you information about curbside pickup. We won't share this with anyone."
         label="Email Address"
-        name="emailAddress"
+        name="recipientEmailAddress"
         id="email-address"
         onChange={handleChange}
-        value={values.emailAddress || ""}
+        value={values.recipientEmailAddress || ""}
         variant="outlined"
         required
-        error={values.validate && !values.emailAddress}
+        error={values.validate && !values.recipientEmailAddress}
       />
       <TextField
         className={classes.textField}
