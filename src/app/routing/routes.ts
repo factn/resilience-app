@@ -5,6 +5,7 @@ const routes: IRoutes = {
   home: "/",
   about: "/about",
   login: "/login",
+  logout: "/logout",
   unauthorized: "/oops",
   pageNotFound: "/notfound",
   request: {
@@ -52,8 +53,14 @@ const routes: IRoutes = {
 
   volunteer: {
     status: "/status",
+    dashboard: {
+      home: null,
+    },
   },
 };
+// TODO - currently volunteer's home is same as home-home
+routes.volunteer.dashboard.home = routes.home;
+
 export type IRoute = string;
 export interface IRoutes {
   [key: string]: IRoute | IRoutes | any;

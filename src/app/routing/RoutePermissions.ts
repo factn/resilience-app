@@ -21,6 +21,7 @@ const publicOnlyRoutes: IRoute[] = [
 ];
 
 const authenticatedRoutes: IRoute[] = [
+  routes.logout,
   routes.organizer.dashboard.home,
   routes.missions.createdByUser,
   routes.missions.createNew,
@@ -41,6 +42,7 @@ const authenticatedRoutes: IRoute[] = [
 
 // Public routes
 addPermissionsToRoutes([PERMISSIONS.PUBLIC], publicOnlyRoutes, RoutePermissions);
+addPermissionsToRoutes([PERMISSIONS.BECOME_VOLUNTEER], [routes.user.signup], RoutePermissions);
 
 // Authenticated routes
 addPermissionsToRoutes([PERMISSIONS.AUTHENTICATED], authenticatedRoutes, RoutePermissions);

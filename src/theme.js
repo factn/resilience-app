@@ -53,8 +53,8 @@ export default {
   },
   typography: {
     fontFamily: [
-      "-apple-system",
       '"Open Sans"',
+      "-apple-system",
       "sans-serif",
       '"Segoe UI"',
       '"Apple Color Emoji"',
