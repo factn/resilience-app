@@ -1,3 +1,4 @@
+import { matchPath } from "react-router";
 import routes, { IRoute, IRoutes } from "../routes";
 import ROUTE_PERMISSIONS from "../RoutePermissions";
 import { IPermissionSet, IRoutePermissions } from "./utils";
@@ -67,6 +68,22 @@ export class RoutingService {
     return entitlements;
   }
 
+  private _getPermissionsRequiredByRoute(route: IRoute): IPermissionSet {
+    for (let r in this._routePermissions) {
+      if (this._routePermissions.hasOwnProperty(r)) {
+        const permission: IPermissionSet = this._routePermissions[r];
+        const match: any = matchPath(route, {
+          path: r,
+          exact: true,
+        });
+        if (match) {
+          return permission;
+        }
+      }
+    }
+    return (null as unknown) as IPermissionSet;
+  }
+
   constructor(
     private _routes: IRoutes,
     private _routePermissions: IRoutePermissions,
@@ -74,7 +91,7 @@ export class RoutingService {
   ) {}
 
   public canAccessRoute(route: IRoute): IRouteEntitlement {
-    const requiredPermissions: IPermissionSet = this._routePermissions[route] as IPermissionSet;
+    const requiredPermissions: IPermissionSet = this._getPermissionsRequiredByRoute(route);
     const verifyPermissions: IRouteEntitlement[] = this._verifyPermissions(
       requiredPermissions,
       route
