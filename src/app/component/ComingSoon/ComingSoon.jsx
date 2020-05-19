@@ -10,7 +10,17 @@ const ComingSoon = () => {
           <h1>Coming soon</h1>
         </Grid>
         <Grid item>
+          <p>
+            <i>A list of your food boxes and their status will appear here.</i>
+          </p>
+        </Grid>
+        <Grid item>
           <img src={ComingSoonImage} alt="Coming soon" />
+        </Grid>
+        <Grid item>
+          <p>
+            <i>Please contact our volunteers if you would like more information.</i>
+          </p>
         </Grid>
       </Grid>
     </div>

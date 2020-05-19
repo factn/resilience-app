@@ -28,9 +28,7 @@ const AuthenticatedHome = ({ auth }) => {
   }, [auth]);
 
   if (role) {
-    if (role === USER_ROLES.ORGANIZER) {
-      return <Redirect to={redirect(routes.organizer.dashboard.home)} />;
-    } else if (role === USER_ROLES.VOLUNTEER) {
+    if (role === USER_ROLES.ORGANIZER || role === USER_ROLES.VOLUNTEER) {
       return <Redirect to={redirect(routes.volunteer.dashboard.home)} />;
     } else if (role === USER_ROLES.USER) {
       return <ComingSoon />;
