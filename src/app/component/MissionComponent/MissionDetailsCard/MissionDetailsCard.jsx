@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
 const RowIcon = styled(Grid)`
   padding: 2px 4px 0px 0px;
 `;
-const Row = ({ children, label, Icon }) => {
+const Row = ({ children, Icon, label }) => {
   return (
     <>
       <Grid container alignItems="center" className="body-small-bold">
