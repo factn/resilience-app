@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import CurrencyTextField from "@unicef/material-ui-currency-textfield";
 import { Typography, Box, makeStyles, Divider, Button } from "@material-ui/core";
-
 import { Page } from "../../layout";
 import PaypalCheckout from "../../component/PaypalCheckout/PaypalCheckout";
+import ContactComponent from "../../component/ContactComponent";
 import { Organization, useOrganization } from "../../model";
 import DonateIllustration from "./DonateIllustration";
 
@@ -73,8 +73,6 @@ function formatPaypalDetails(details) {
 
 function DonateState({ classes, setState }) {
   const [amount, setAmount] = useState();
-  const org = useOrganization();
-
   return (
     <>
       <DonateIllustration />
@@ -108,9 +106,8 @@ function DonateState({ classes, setState }) {
         }
       />
       <Typography align="left" variant="body1" gutterBottom>
-        If you would like to donate using check or a different method, please reach out to our
-        volunteers at <a href={`tel:${org.contactPhoneNumber}`}>{org.contactPhoneNumber}</a> for
-        further help.
+        If you would like to donate via a different method, please reach out to our volunteers
+        <ContactComponent prefix=" at " />.
       </Typography>
     </>
   );
@@ -160,7 +157,6 @@ function SuccessState({ classes, state }) {
 }
 
 function ErrorState({ setState }) {
-  const org = useOrganization();
   return (
     <>
       <Typography align="left" variant="body1" gutterBottom>
@@ -171,8 +167,8 @@ function ErrorState({ setState }) {
       </Typography>
       <Typography align="left" variant="body1" gutterBottom>
         Otherwise, our volunteers can help you donate through a different method, such as by check.
-        For more information please call:{" "}
-        <a href={`tel:${org.contactPhoneNumber}`}>{org.contactPhoneNumber}</a>
+        For more information please contact us
+        <ContactComponent prefix=" at " />.
       </Typography>
       <Box display="flex" alignItems="start">
         <Button

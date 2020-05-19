@@ -1,6 +1,7 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
 import ComingSoonImage from "../../../img/HomeImage1.png";
+import { ContactComponent } from "../../component";
 
 const ComingSoon = () => {
   return (
@@ -19,7 +20,8 @@ const ComingSoon = () => {
         </Grid>
         <Grid item>
           <p>
-            <i>Please contact our volunteers if you would like more information.</i>
+            Any questions? Please contact us
+            <ContactComponent prefix=" at " />.
           </p>
         </Grid>
       </Grid>
