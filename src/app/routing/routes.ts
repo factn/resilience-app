@@ -28,7 +28,6 @@ const routes: IRoutes = {
   },
 
   missions: {
-    main: "/missions",
     details: "/missions/:id",
     createdByUser: "/missions/created",
     createNew: "/missions/new",
@@ -54,12 +53,10 @@ const routes: IRoutes = {
   volunteer: {
     status: "/status",
     dashboard: {
-      home: null,
+      home: "/missions",
     },
   },
 };
-// TODO - currently volunteer's home is same as home-home
-routes.volunteer.dashboard.home = routes.home;
 
 export type IRoute = string;
 export interface IRoutes {
