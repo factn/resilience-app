@@ -150,7 +150,6 @@ const CreateMission = () => {
   const [foodBoxArray, setFoodBoxArray] = useState([]);
   // master mission object
   const [newMissionObject, setNewMissionObject] = useState({});
-
   // master submit
   async function submitMission(e) {
     e.preventDefault();

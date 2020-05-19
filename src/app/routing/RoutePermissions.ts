@@ -32,6 +32,7 @@ const authenticatedRoutes: IRoute[] = [
   routes.organizer.dashboard.missions,
   routes.organizer.dashboard.recipients,
   routes.organizer.dashboard.volunteers,
+  routes.organizer.dashboard.create,
   routes.user.profile,
   routes.volunteer.status,
   routes.volunteer.dashboard.home,
@@ -84,6 +85,11 @@ addPermissionsToRoutes(
 addPermissionsToRoutes(
   [PERMISSIONS.VIEW_ALL_VOLUNTEERS],
   [routes.organizer.dashboard.volunteers],
+  RoutePermissions
+);
+addPermissionsToRoutes(
+  [PERMISSIONS.VIEW_ORGANIZER_DASHBOARD],
+  [routes.organizer.dashboard.create],
   RoutePermissions
 );
 

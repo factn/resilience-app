@@ -114,8 +114,8 @@ const MissionsPage = () => {
     },
     {
       text: "New Mission",
-      id: "/dashboard/missions/create",
-      route: "/dashboard/missions/create",
+      id: routes.organizer.dashboard.create,
+      route: routes.organizer.dashboard.create,
       icon: <AddCircleIcon />,
     },
   ];
@@ -136,8 +136,8 @@ const MissionsPage = () => {
       >
         <Switch>
           <AppRoute path={routes.organizer.dashboard.missions} component={DashboardMissions} />
+          <AppRoute path={routes.organizer.dashboard.create} component={CreateMission} />
           <AppRoute path={routes.organizer.dashboard.home} component={Overview} />
-          <AppRoute path={routes.organizer.create} component={CreateMission} />
         </Switch>
       </main>
     </div>
