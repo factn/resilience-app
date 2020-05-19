@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import React from "react";
 import { Link } from "react-router-dom";
 
-import AboutImage1 from "../../../img/AboutImage1.webp";
+import AboutImage1 from "../../../img/AboutImage1.jpg";
 import { ReactComponent as Logo } from "../../../img/logo.svg";
 import { Body1, H1, H4 } from "../../component";
 import { Page } from "../../layout";
