@@ -155,8 +155,9 @@ export class User extends BaseModel {
       .then((snapshot) => {
         const userProfile: UserInterface = snapshot.data() as UserInterface;
         if (env.isDev()) {
-          console.log("On local dev, you are always an Organizer");
+          console.log("On local dev, you are always an Organizer and a Volunteer");
           if (userProfile) userProfile.isOrganizer = true;
+          if (userProfile) userProfile.isVolunteer = true;
         }
         return userProfile;
       });

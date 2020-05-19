@@ -30,7 +30,7 @@ const AuthenticatedHome = ({ auth }) => {
   if (role) {
     if (role === USER_ROLES.ORGANIZER || role === USER_ROLES.VOLUNTEER) {
       return <Redirect to={redirect(routes.volunteer.dashboard.home)} />;
-    } else if (role === USER_ROLES.USER) {
+    } else {
       return <ComingSoon />;
     }
   } else {
