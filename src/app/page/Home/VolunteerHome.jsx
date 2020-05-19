@@ -2,18 +2,20 @@ import { Box, Paper, Tab, Tabs } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
-import { useFirestoreConnect, useFirebase } from "react-redux-firebase";
 import MuiCheckIcon from "@material-ui/icons/Check";
 import MuiDoneAllIcon from "@material-ui/icons/DoneAll";
 import MuiPlayCircleFilledIcon from "@material-ui/icons/PlayCircleFilled";
 
 import { useOrganization } from "../../model";
 import Mission from "../../model/Mission";
+import User from "../../model/User";
+
 import {
   getAllAvailableMissions,
   getAllAcceptedMissions,
   getAllInProgressMissions,
 } from "./missionHelpers";
+import { useFirestoreConnect } from "react-redux-firebase";
 import VolunteerHomeMissionList from "./VolunteerHomeMissionList";
 import MissionTypeHeading from "./MissionTypeHeading";
 import { volunteerDashboardEmptyTabMessage } from "../../../constants";
@@ -46,7 +48,6 @@ const VolunteerHome = ({ currentUser, missions }) => {
   const classes = useStyles();
   const [value, setValue] = useState(0);
   const [userPhoneUnverifiedPopupOpen, setUserPhoneUnverifiedPopupOpen] = useState(false);
-
   const org = useOrganization();
   useFirestoreConnect(() => {
     return [

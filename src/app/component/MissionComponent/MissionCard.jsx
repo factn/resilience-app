@@ -1,4 +1,4 @@
-import { Card, Box, CardContent, Grid, Typography, Button } from "@material-ui/core";
+import { Card, Box, CardContent, Grid, Typography, Button, Avatar } from "@material-ui/core";
 import { withStyles, createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import GetAppIcon from "@material-ui/icons/GetApp";
 import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
@@ -8,8 +8,8 @@ import PropTypes from "prop-types";
 import React, { useState } from "react";
 import DetailsText from "./DetailsText";
 
-import AcceptMissionButton from "./AcceptMissionButton";
 import UnassignMeButton from "./UnassignMeButton";
+import CheckIcon from "@material-ui/icons/Check";
 
 import StartMissionButton from "./StartMissionButton";
 import DeliverMissionButton from "./DeliverMissionButton";
@@ -51,7 +51,7 @@ const createCustomTheme = (theme) =>
       MuiCardContent: {
         root: {
           padding: theme.spacing(1),
-          paddingBottom: 0,
+          paddingBottom: "0 !important",
         },
       },
       MuiGrid: {
@@ -125,7 +125,33 @@ const styles = (theme) => ({
     color: theme.color.blue,
     zIndex: 1,
   },
-  actionButtons: {},
+  preferedVolunteer: {
+    fontSize: "12px",
+    fontStyle: "italic",
+    color: theme.color.gray3,
+    lineHeight: "18px",
+    "& a": {
+      fontSize: "12px",
+      color: "red",
+      textDecoration: "underline",
+      cursor: "pointer",
+    },
+  },
+  volunteerAvatar: {
+    height: "28px",
+    width: "28px",
+    backgroundColor: theme.color.orange,
+    color: theme.color.darkOrange,
+  },
+  currentUserAvatar: {
+    height: "28px",
+    width: "28px",
+  },
+  actionButtons: {
+    borderTop: "1px solid",
+    borderColor: theme.color.lightgrey,
+    padding: theme.spacing(1),
+  },
 });
 
 /**
@@ -141,16 +167,40 @@ const MissionCard = withStyles(styles)(({ classes, mission }) => {
   const user = firebaseProfile;
   const fullScreen = useMediaQuery("(max-width:481px)");
   const [modalOpen, setModalOpen] = useState(false);
+
+  const unassignMeFromMission = () => {
+    Mission.unassigned(mission.uid);
+  };
+  const AcceptMission = () => {
+    Mission.accept(user.uid, user, mission.uid);
+  };
   const handleOpenModal = () => {
     setModalOpen(true);
   };
   const onCloseModal = () => setModalOpen(false);
 
+  const primaryButtonProps = { variant: "contained", color: "primary", fullWidth: true };
+  const secondaryButtonProps = { color: "secondary", fullWidth: true };
+
   const ActionButtons = () => (
     <Grid container direction="row-reverse" className={classes.actionButtons}>
       {mission.status === MissionStatus.tentative && (
         <Grid item xs={6}>
-          <AcceptMissionButton mission={mission} user={user} />
+          {(!mission.tentativeVolunteerUid || mission.tentativeVolunteerUid === user.uid) && (
+            <Button {...primaryButtonProps} onClick={AcceptMission} startIcon={<CheckIcon />}>
+              Accept
+            </Button>
+          )}
+          {mission.tentativeVolunteerUid && mission.tentativeVolunteerUid !== user.uid && (
+            <Button
+              {...primaryButtonProps}
+              variant="text"
+              onClick={AcceptMission}
+              startIcon={<CheckIcon />}
+            >
+              Accept Anyway
+            </Button>
+          )}
         </Grid>
       )}
       {mission.status === MissionStatus.assigned && (
@@ -172,6 +222,32 @@ const MissionCard = withStyles(styles)(({ classes, mission }) => {
               Confirm Delivery
             </Button>
           )}
+        </Grid>
+      )}
+      {mission.tentativeVolunteerUid === user.uid && (
+        <Grid item xs={6} wrap="nowrap" container className={classes.preferedVolunteer}>
+          <Box display="flex" alignItems="center" paddingRight="8px">
+            <Avatar size="small" className={classes.currentUserAvatar} />
+          </Box>
+          <Box display="flex" alignItems="center">
+            <Box>
+              You are the prefer volunteer!
+              <a onClick={unassignMeFromMission}>No Thanks</a>
+            </Box>
+          </Box>
+        </Grid>
+      )}
+      {mission.tentativeVolunteerUid && mission.tentativeVolunteerUid !== user.uid && (
+        <Grid item xs={6} wrap="nowrap" container className={classes.preferedVolunteer}>
+          <Box display="flex" alignItems="center" paddingRight="8px">
+            <Avatar size="small" className={classes.volunteerAvatar} />
+          </Box>
+          <Box display="flex" alignItems="center">
+            <Box>
+              Prefered volunteer: <br />
+              <b>{mission.tentativeVolunteerDisplayName}</b>
+            </Box>
+          </Box>
         </Grid>
       )}
     </Grid>
