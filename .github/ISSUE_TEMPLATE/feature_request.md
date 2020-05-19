@@ -18,3 +18,12 @@ A clear and concise description of any alternative solutions or features you've 
 
 **Additional context**
 Add any other context or screenshots about the feature request here.
+
+**Other meta information**
+ - Pipeline: 
+ - Labels: Unless previously discussed, leave section blank
+ - Assignees: Can self assign if you have desire to attempt to fix bug
+ - Milestones: Unless previously discussed, leave section blank
+ - Estimate: If self assigned, can value based on difficulty of bug
+ - Epics: Check list of Epics, if current issue falls within parameters of Epic, can add it within that Epic
+ - Release : Unless previously discussed, leave section blank
