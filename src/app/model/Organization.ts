@@ -5,7 +5,7 @@ import { createContext, useContext } from "react";
 
 const defaultData: OrganizationInterface = {
   uid: "-1",
-  name: "",
+  displayName: "",
   chapterName: "",
   EINNumber: "",
   location: undefined,
@@ -65,12 +65,10 @@ class Organization extends BaseModel {
         .doc("paypal")
         .get();
 
-      return settings.exists
-        ? (settings.data() as PaymentSettings)
-        : { clientUid: "sb", email: "" };
+      return settings.exists ? (settings.data() as PaymentSettings) : { clientId: "sb", email: "" };
     } catch (error) {
       console.error("Error retrieving paymentSettings", error);
-      return { clientUid: "sb", email: "" };
+      return { clientId: "sb", email: "" };
     }
   }
 

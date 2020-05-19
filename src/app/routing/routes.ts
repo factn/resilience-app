@@ -5,11 +5,16 @@ const routes: IRoutes = {
   home: "/",
   about: "/about",
   login: "/login",
+  logout: "/logout",
   unauthorized: "/oops",
+  pageNotFound: "/notfound",
   request: {
     start: "/request",
     foodbox: "/request/foodbox",
-    success: "/request/foodbox/success/:type",
+    success: {
+      donation: "/request/foodbox/success/donation",
+      payment: "/request/foodbox/success/payment",
+    },
     error: "/request/foodbox/error",
   },
   donate: "/donate",
@@ -23,7 +28,6 @@ const routes: IRoutes = {
   },
 
   missions: {
-    main: "/missions",
     details: "/missions/:id",
     createdByUser: "/missions/created",
     createNew: "/missions/new",
@@ -49,8 +53,12 @@ const routes: IRoutes = {
 
   volunteer: {
     status: "/status",
+    dashboard: {
+      home: "/missions",
+    },
   },
 };
+
 export type IRoute = string;
 export interface IRoutes {
   [key: string]: IRoute | IRoutes | any;

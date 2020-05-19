@@ -2,7 +2,7 @@ import "./App.css";
 
 import CssBaseline from "@material-ui/core/CssBaseline";
 import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Redirect, Switch } from "react-router-dom";
 import { OrganizationContext, Organization } from "./app/model";
 
 import { routes, AppRoute } from "./app/routing";
@@ -14,6 +14,7 @@ import {
   ErrorLanding,
   Home,
   Login,
+  Logout,
   MissionCreate,
   MissionDetails,
   MissionFeedback,
@@ -24,6 +25,7 @@ import {
   Status,
   UserProfile,
   RecipientDashboard,
+  VolunteerHome,
 } from "./app/page";
 import Snackbar from "./app/component/Snackbars";
 import theme from "./theme";
@@ -60,24 +62,30 @@ function App() {
                   <AppRoute exact path={routes.home} component={Home} />
                   <AppRoute path={routes.about} component={AboutPage} />
                   <AppRoute path={routes.login} component={Login} />
+                  <AppRoute path={routes.logout} component={Logout} />
                   <AppRoute path={routes.organizer.signup} component={OrganizerSignupPage} />
                   <AppRoute path={routes.volunteer.status} component={Status} />
                   <AppRoute path={routes.user.signup} component={Signup} />
                   <AppRoute path={routes.request.start} component={RequestPage} />
                   <AppRoute path={routes.donate} component={DonationPage} />
-                  <AppRoute path={routes.organizer.dashboard.home} component={Dashboard} />
-                  <AppRoute path={routes.recipient.dashboard.home} component={RecipientDashboard} />
                   <AppRoute path={routes.missions.createNew} component={MissionCreate} />
                   <AppRoute path={routes.missions.completed} component={MissionsCompleted} />
                   <AppRoute path={routes.missions.feedback} component={MissionFeedback} />
                   <AppRoute path={routes.missions.details} component={MissionDetails} />
                   <AppRoute path={routes.user.profile} component={UserProfile} />
+                  {/* ⬇ BASE routes below ⬇ */}
+                  <AppRoute path={routes.organizer.dashboard.home} component={Dashboard} />
+                  <AppRoute path={routes.recipient.dashboard.home} component={RecipientDashboard} />
+                  <AppRoute path={routes.volunteer.dashboard.home} component={VolunteerHome} />
                   <AppRoute path={routes.unauthorized}>
                     <ErrorLanding errorCode={401} />
                   </AppRoute>
-                  <Route path="*">
+                  <AppRoute path={routes.pageNotFound}>
                     <ErrorLanding errorCode={404} />
-                  </Route>
+                  </AppRoute>
+                  <AppRoute path="*">
+                    <ErrorLanding errorCode={404} />
+                  </AppRoute>
                 </Switch>
                 <Snackbar.Context.SnackbarConsumer>
                   {(value) => {

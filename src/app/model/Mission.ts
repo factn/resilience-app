@@ -35,7 +35,7 @@ const defaultMissionData: MissionInterface = {
   type: MissionType.errand,
   status: MissionStatus.unassigned,
   createdDate: "",
-  missionDetails: null,
+  details: null,
   fundedStatus: MissionFundedStatus.notfunded,
   fundedDate: "",
   readyToStart: false,
@@ -54,6 +54,7 @@ const defaultMissionData: MissionInterface = {
 
   recipientDisplayName: "No Recipient Name",
   recipientPhoneNumber: "",
+  recipientEmailAddress: "",
   recipientUid: "No Recipient Id", // reference?
 
   pickUpWindow: defaultTimeWindow, // nb this can be an exact time or can be null
@@ -198,6 +199,7 @@ const getAllGroups = (missions: MissionInterface[]) => {
 class Mission extends BaseModel {
   collectionName = "missions";
   Status = MissionStatus;
+  Type = MissionType;
   FundedStatus = MissionFundedStatus;
   TimeWindowType = TimeWindowType;
 
@@ -337,10 +339,6 @@ class Mission extends BaseModel {
    * @param {string} missionUid - mission that user want to start
    */
   start(userUid: string, user: UserInterface, missionUid: string) {
-    //TODO: rules in db, only user that are correct assigned can start
-    console.log("start button =====");
-    console.log("user id:" + userUid + " user");
-    console.log(user);
     return this.update(missionUid, {
       uid: missionUid,
       tentativeVolunteerUid: "",

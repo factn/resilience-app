@@ -14,6 +14,9 @@ const renderMissionCard = (props) => {
         isLoaded: true,
         isEmpty: true,
       },
+      profile: {
+        uid: "1",
+      },
     },
   };
   const store = createStore(() => initialState);

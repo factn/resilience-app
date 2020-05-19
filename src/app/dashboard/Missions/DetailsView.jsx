@@ -8,6 +8,8 @@ import PanToolIcon from "@material-ui/icons/PanTool";
 import PersonIcon from "@material-ui/icons/Person";
 import React from "react";
 import { isEmpty, isLoaded } from "react-redux-firebase";
+import EditIcon from "@material-ui/icons/Edit";
+import Button from "@material-ui/core/Button";
 
 import { Body2, H3 } from "../../component";
 import { Mission } from "../../model";
@@ -54,6 +56,11 @@ const useStyles = makeStyles((theme) => ({
   },
   foodBoxDetailName: {
     padding: theme.spacing(1),
+  },
+  buttonBox: {
+    spacing: theme.spacing(1),
+    display: "flex",
+    justifyContent: "center",
   },
 }));
 
@@ -102,6 +109,26 @@ const MissionImage = ({ classes, mission }) => {
     </Container>
   );
 };
+
+const MissionTypeRow = ({ classes, mission }) => {
+  let missionTypeText;
+  switch (mission?.type) {
+    case Mission.Type.resource:
+      missionTypeText = "Foodbox";
+      break;
+    case Mission.Type.errand:
+      missionTypeText = "General Errand";
+      break;
+    default:
+      missionTypeText = "Mission Name";
+  }
+  return (
+    <Box marginTop="32px">
+      <H3>{missionTypeText}</H3>
+    </Box>
+  );
+};
+
 const VolunteerRow = ({ mission }) => {
   const { tentativeVolunteerDisplayName, volunteerDisplayName } = mission;
   let assigned = "";
@@ -159,8 +186,8 @@ const FoodBoxDetailsRow = ({ classes, details }) => {
 
 const MissionDetailsRow = ({ classes, mission }) => {
   let type = mission?.type;
-  let details = mission?.missionDetails;
-  if (type === "foodbox") {
+  let details = mission?.details;
+  if (type === "resource") {
     return <FoodBoxDetailsRow details={details} classes={classes} />;
   }
   return null;
@@ -170,12 +197,11 @@ const MissionDetailsRow = ({ classes, mission }) => {
  * Component for displaying mission details as a card
  * @component
  */
-const MissionDetailsCard = ({ mission, toListView }) => {
+const MissionDetailsCard = ({ mission, toEditView, toListView }) => {
   const classes = useStyles();
   const recipientPhoneNumber = _.get(mission, "recipientPhoneNumber");
 
   const props = { classes: classes, mission: mission };
-
   return (
     <Box height="100%" width="100%">
       <Paper className={classes.root} elevation={0}>
@@ -185,10 +211,8 @@ const MissionDetailsCard = ({ mission, toListView }) => {
         {isLoaded(mission) && !isEmpty(mission) && (
           <Box>
             <MissionImage {...props} />
-            <Box marginTop="32px">
-              <H3>{mission?.type}</H3>
-            </Box>
 
+            <MissionTypeRow {...props} />
             <VolunteerRow {...props} />
             <MissionFundedStatusRow {...props} />
             <MissionDetailsRow {...props} />
@@ -221,6 +245,15 @@ const MissionDetailsCard = ({ mission, toListView }) => {
 
             <Label classes={classes}>Notes</Label>
             <Row classes={classes}>{mission?.deliveryNotes || "No additional informations"}</Row>
+            <Box className={classes.buttonGroupBox}>
+              <Grid container direction="row" spacing={2} alignItems="center">
+                <Grid item>
+                  <Button disableElevation onClick={toEditView} className={classes.buttonBox}>
+                    <EditIcon className={classes.icon} /> Edit
+                  </Button>
+                </Grid>
+              </Grid>
+            </Box>
           </Box>
         )}
       </Paper>

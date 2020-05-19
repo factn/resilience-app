@@ -14,9 +14,11 @@ export const color = {
   green: "#024b30",
   greenSuccess: "#66D85D",
   greenToast: "#4caf50",
-  darkOrange: "#EC7016",
+  darkOrange: "#f2994a",
+  orange: "#fce1c9",
   darkBlue: "#110079",
   lightgrey: "#F2F2F2",
+  gray3: "#828282",
 };
 
 // utils to extract style
@@ -53,8 +55,8 @@ export default {
   },
   typography: {
     fontFamily: [
-      "-apple-system",
       '"Open Sans"',
+      "-apple-system",
       "sans-serif",
       '"Segoe UI"',
       '"Apple Color Emoji"',

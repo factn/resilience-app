@@ -27,6 +27,7 @@
 .env.production.local
 
 firebase-debug.log*
+firepit-log.txt
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
@@ -36,5 +37,6 @@ yarn-error.log*
 env/
 .env
 .vscode
-
 .firebase
+
+scheme/serviceAccount.json

@@ -1,3 +1,4 @@
 import { PERMISSIONS } from "./Permissions";
+import UserPermissionsService from "./UserPermissionsService";
 
-export { PERMISSIONS };
+export { PERMISSIONS, UserPermissionsService };

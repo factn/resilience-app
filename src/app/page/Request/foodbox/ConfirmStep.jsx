@@ -20,6 +20,7 @@ import NavigationButtons from "./NavigationButtons";
 import Mission from "../../../model/Mission";
 import { MissionFundedStatus, MissionType, MissionStatus } from "../../../model/schema";
 import CheckoutItem from "./CheckoutItem";
+import { routes } from "../../../routing";
 
 const useStyles = makeStyles((theme) => ({
   yMargin: {
@@ -49,30 +50,32 @@ function ConfirmStep({ dispatch, state }) {
   const history = useHistory();
   const classes = useStyles();
 
-  const { cart } = state;
+  // convert cart object to an array of items and filter out any items with a quantity of 0
+  const cart = Object.keys(state.cart).reduce((items, key) => {
+    state.cart[key].quantity > 0 && items.push(state.cart[key]);
+    return items;
+  }, []);
 
   const [isDonationRequest, setIsDonationRequest] = useState(false);
 
-  const total = Object.keys(cart).reduce(
-    (total, key) => cart[key].resource.cost * cart[key].quantity + total,
-    0
-  );
+  const total = cart.reduce((total, item) => item.resource.cost * item.quantity + total, 0);
 
   async function confirmRequest() {
-    const { cart, details, recipient } = state;
+    const { details, recipient } = state;
     let mission = {
       type: MissionType.resource,
       status: MissionStatus.unassigned,
       recipientUid: recipient.uid,
       recipientDisplayName: recipient.displayName,
       recipientPhoneNumber: recipient.phoneNumber,
+      recipientEmailAddress: recipient.recipientEmailAddress,
       deliveryLocation: details.location,
       deliveryNotes: details.instructions,
       deliveryType: details.curbsidePickup ? "curbside" : "delivery",
-      missionDetails: Object.keys(cart).map((key) => ({
-        resourceUid: cart[key].resource.uid,
-        quantity: cart[key].quantity,
-        displayName: cart[key].resource.displayName,
+      details: cart.map((item) => ({
+        resourceUid: item.resource.uid,
+        quantity: item.quantity,
+        displayName: item.resource.displayName,
       })),
     };
 
@@ -88,8 +91,10 @@ function ConfirmStep({ dispatch, state }) {
     }
     try {
       const createdMission = await Mission.create(mission);
-      const redirect = isDonationRequest ? "donation" : "payment";
-      history.push(`/request/foodbox/success/${redirect}`);
+      const redirect = isDonationRequest
+        ? routes.request.success.donation
+        : routes.request.success.payment;
+      history.push(redirect);
     } catch (error) {
       dispatch({
         type: "ERROR",
@@ -210,8 +215,8 @@ function transformForPaypal(cart) {
   const items = [];
   let total = 0;
 
-  Object.keys(cart).forEach((key) => {
-    const { quantity, resource } = cart[key];
+  cart.forEach((cartItem) => {
+    const { quantity, resource } = cartItem;
     if (quantity > 0) {
       const description = resource.description.slice(0, 127);
 

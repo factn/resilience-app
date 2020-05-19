@@ -1,21 +1,21 @@
 import { Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import InsertEmoticonIcon from "@material-ui/icons/InsertEmoticon";
-import PhoneIcon from "@material-ui/icons/Phone";
+import Person from "@material-ui/icons/Person";
 import PropTypes from "prop-types";
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { withRouter, Link } from "react-router-dom";
 import { compose } from "redux";
 
-import HeaderImage1 from "../../../img/HeaderImage1.webp";
-import HeaderImage2 from "../../../img/HeaderImage2.webp";
-import ShopperImage1 from "../../../img/ShopperImage1.webp";
-import SignInHeader1 from "../../../img/SignInHeader1.webp";
+import HeaderImage1 from "../../../img/HeaderImage1.jpg";
+import HeaderImage2 from "../../../img/HeaderImage2.jpg";
+import ShopperImage1 from "../../../img/ShopperImage1.jpg";
+import SignInHeader1 from "../../../img/SignInHeader1.jpg";
 import SplashImage1 from "../../../img/SplashImage1.png";
-import { Body1, Button, H1, H2, H3, H4 } from "../../component";
+import { Body1, Button, H1, H2, H3, H4, ContactComponent } from "../../component";
 import { Page } from "../../layout";
-import VolunteerHome from "./VolunteerHome";
+import AuthenticatedHome from "./AuthenticatedHome";
 import { isEmpty, isLoaded } from "react-redux-firebase";
 import { User, useOrganization } from "../../model";
 import Mission from "../../model/Mission";
@@ -265,7 +265,6 @@ const DonateCardComponent = () => {
 
 const ContactAdBanner = () => {
   const classes = useStyles();
-  const org = useOrganization();
   return (
     <Grid
       container
@@ -275,11 +274,9 @@ const ContactAdBanner = () => {
       className={classes.ContactAdContainer}
     >
       <Grid className={classes.ContactAdInfo}>
-        <PhoneIcon data-testid="icon-contact" className={classes.ContactAdIcon} />
+        <Person data-testid="icon-contact" className={classes.ContactAdIcon} />
         <H3 data-testid="label-contact-mssg-1" className={classes.ContactAdLabel}>
-          To request help by phone,please call{" "}
-          {/* TODO: Turn it back to Link when correct phone number is populated */}
-          <a href={`tel:${org?.phoneNumber}`}>{org?.phoneNumber}</a>
+          Any questions? Please contact us <ContactComponent prefix=" at " />.
         </H3>
       </Grid>
     </Grid>
@@ -352,7 +349,7 @@ const SignInHeaderComponent = ({ history }) => {
     <Grid container className={classes.SignInHeaderContainer}>
       <img src={org?.logoURL} className={classes.OrgLogo} alt="Faction Logo" />
       <H1 data-testid="label-org-name" className={classes.OrgNameLabel}>
-        {org?.name}
+        {org?.displayName}
       </H1>
       <H3 data-testid="label-org-tagline" className={classes.TaglineLabel}>
         {org?.tagline}
@@ -395,7 +392,9 @@ const HomePage = ({ auth, history, profile }) => {
   }, [auth, profile]);
   return (
     <Page isLoaded={isLoaded(auth)} LoadingComponent={LoadingComponent}>
-      {isEmpty(auth) ? (
+      {isLoaded(auth) && !isEmpty(auth) ? (
+        <AuthenticatedHome auth={auth} />
+      ) : (
         <Grid container>
           <SignInHeaderComponent history={history} />
           <PoweredByComponent />
@@ -421,10 +420,6 @@ const HomePage = ({ auth, history, profile }) => {
           <DonateCardComponent />
           <ContactAdBanner />
         </Grid>
-      ) : (
-        <>
-          <VolunteerHome />
-        </>
       )}
     </Page>
   );
