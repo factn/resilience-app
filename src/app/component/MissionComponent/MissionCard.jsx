@@ -148,6 +148,17 @@ const MissionCard = withStyles(styles)(({ classes, mission }) => {
 
   const ActionButtons = () => (
     <Grid container direction="row-reverse" className={classes.actionButtons}>
+      {mission.tentativeVolunteerUid === user.uid && (
+        <Grid item xs={6}>
+          You are the prefer volunteer
+        </Grid>
+      )}
+      {mission.tentativeVolunteerUid && mission.tentativeVolunteerUid !== user.uid && (
+        <Grid item xs={6}>
+          {mission.tentativeVolunteerDisplayName} is the prefered volunteer
+        </Grid>
+      )}
+
       {mission.status === MissionStatus.tentative && (
         <Grid item xs={6}>
           <AcceptMissionButton mission={mission} user={user} />

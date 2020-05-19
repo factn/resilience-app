@@ -10,7 +10,7 @@ import Mission from "../../model/Mission";
 const DeliverMissionButton = ({ mission, user }) => {
   function handleOnClick(e) {
     e.preventDefault();
-    Mission.accept(user.uid, user, mission.uid);
+    Mission.deliver(user.uid, user, mission.uid);
   }
 
   return (

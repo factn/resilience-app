@@ -338,10 +338,6 @@ class Mission extends BaseModel {
    * @param {string} missionUid - mission that user want to start
    */
   start(userUid: string, user: UserInterface, missionUid: string) {
-    //TODO: rules in db, only user that are correct assigned can start
-    console.log("start button =====");
-    console.log("user id:" + userUid + " user");
-    console.log(user);
     return this.update(missionUid, {
       uid: missionUid,
       tentativeVolunteerUid: "",

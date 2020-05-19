@@ -7,11 +7,15 @@ import MuiDoneAllIcon from "@material-ui/icons/DoneAll";
 import MuiPlayCircleFilledIcon from "@material-ui/icons/PlayCircleFilled";
 
 import Mission from "../../model/Mission";
+import User from "../../model/User";
+import { useOrganization } from "../../model";
+
 import {
   getAllAvailableMissions,
   getAllAcceptedMissions,
   getAllInProgressMissions,
 } from "./missionHelpers";
+import { useFirestoreConnect } from "react-redux-firebase";
 import VolunteerHomeMissionList from "./VolunteerHomeMissionList";
 import MissionTypeHeading from "./MissionTypeHeading";
 import { volunteerDashboardEmptyTabMessage } from "../../../constants";
@@ -40,14 +44,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const VolunteerHome = ({ currentUser, missions }) => {
+const VolunteerHome = ({ user, availableMissions, volunteeredMissions }) => {
   const classes = useStyles();
   const [value, setValue] = useState(0);
   const [userPhoneUnverifiedPopupOpen, setUserPhoneUnverifiedPopupOpen] = useState(false);
+  const org = useOrganization();
 
-  const availableMissions = getAllAvailableMissions(missions);
-  const acceptedMissions = getAllAcceptedMissions(missions);
-  const inProgressMissions = getAllInProgressMissions(missions);
+  useFirestoreConnect(() => {
+    return [User.fsAvailableMissions(org.uid), User.fsVolunteeredMissions(org.uid, user.uid)];
+  });
+  const acceptedMissions = getAllAcceptedMissions(volunteeredMissions);
+  const inProgressMissions = getAllInProgressMissions(volunteeredMissions);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -90,7 +97,7 @@ const VolunteerHome = ({ currentUser, missions }) => {
             </H1>
             <VolunteerHomeMissionList
               missions={availableMissions}
-              currentUser={currentUser}
+              currentUser={user}
               actionText="Accept Mission"
               actionIcon={<MuiCheckIcon />}
               showGroupAction={true}
@@ -110,7 +117,7 @@ const VolunteerHome = ({ currentUser, missions }) => {
             </H1>
             <VolunteerHomeMissionList
               missions={acceptedMissions}
-              currentUser={currentUser}
+              currentUser={user}
               actionText="Start Mission"
               actionIcon={<MuiPlayCircleFilledIcon />}
               checkGroupActionDisabled={(missions) =>
@@ -133,7 +140,7 @@ const VolunteerHome = ({ currentUser, missions }) => {
             </H1>
             <VolunteerHomeMissionList
               missions={inProgressMissions}
-              currentUser={currentUser}
+              currentUser={user}
               actionText={"Mission Delivered"}
               showViewRoute={true}
               isEmptyText={volunteerDashboardEmptyTabMessage.started}
@@ -152,9 +159,8 @@ const VolunteerHome = ({ currentUser, missions }) => {
 const mapStateToProps = (state) => {
   return {
     user: state.firebase.auth,
-    missions: Mission.selectAssignedUserMissions(state).concat(
-      Mission.selectAvailableUserMissions(state)
-    ),
+    availableMissions: state.firestore.ordered.availableMissions || [],
+    volunteeredMissions: state.firestore.ordered.volunteeredMissions || [],
   };
 };
 
