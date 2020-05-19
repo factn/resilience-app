@@ -276,7 +276,6 @@ const ContactAdBanner = () => {
       <Grid className={classes.ContactAdInfo}>
         <Person data-testid="icon-contact" className={classes.ContactAdIcon} />
         <H3 data-testid="label-contact-mssg-1" className={classes.ContactAdLabel}>
-          {" "}
           Any questions? Please contact us <ContactComponent prefix=" at " />.
         </H3>
       </Grid>
