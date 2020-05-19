@@ -28,13 +28,13 @@ const authenticatedRoutes: IRoute[] = [
   routes.missions.completed,
   routes.missions.feedback,
   routes.missions.details,
-  routes.missions.main,
   routes.organizer.dashboard.home,
   routes.organizer.dashboard.missions,
   routes.organizer.dashboard.recipients,
   routes.organizer.dashboard.volunteers,
   routes.user.profile,
   routes.volunteer.status,
+  routes.volunteer.dashboard.home,
   routes.recipient.dashboard.home,
   routes.recipient.dashboard.submitted,
   routes.recipient.dashboard.completed,
@@ -51,7 +51,7 @@ addPermissionsToRoutes([PERMISSIONS.AUTHENTICATED], authenticatedRoutes, RoutePe
 addPermissionsToRoutes(
   [PERMISSIONS.VIEW_MISSIONS],
   [
-    routes.missions.main,
+    routes.volunteer.dashboard.home,
     routes.missions.details,
     routes.missions.createdByUser,
     routes.missions.completed,
