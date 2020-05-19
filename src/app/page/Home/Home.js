@@ -8,10 +8,10 @@ import { connect } from "react-redux";
 import { withRouter, Link } from "react-router-dom";
 import { compose } from "redux";
 
-import HeaderImage1 from "../../../img/HeaderImage1.webp";
-import HeaderImage2 from "../../../img/HeaderImage2.webp";
-import ShopperImage1 from "../../../img/ShopperImage1.webp";
-import SignInHeader1 from "../../../img/SignInHeader1.webp";
+import HeaderImage1 from "../../../img/HeaderImage1.jpg";
+import HeaderImage2 from "../../../img/HeaderImage2.jpg";
+import ShopperImage1 from "../../../img/ShopperImage1.jpg";
+import SignInHeader1 from "../../../img/SignInHeader1.jpg";
 import SplashImage1 from "../../../img/SplashImage1.png";
 import { Body1, Button, H1, H2, H3, H4, ContactComponent } from "../../component";
 import { Page } from "../../layout";
