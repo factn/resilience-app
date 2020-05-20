@@ -57,7 +57,7 @@ const MissionsPage = () => {
   const org = useOrganization();
 
   useFirestoreConnect(() => {
-    const id = org.uid;
+    const id = org?.uid;
     return [
       Mission.fsInProposed(id),
       Mission.fsInPlanning(id),

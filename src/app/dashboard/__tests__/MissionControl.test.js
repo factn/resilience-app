@@ -32,7 +32,7 @@ const renderWithStoreAndRouter = (
 
 describe("MissionControl", () => {
   it("should render", async () => {
-    renderWithStoreAndRouter(<MissionControl />, { route: "/dashboard" });
+    renderWithStoreAndRouter(<MissionControl />);
 
     // header
     expect(screen.getByText("Missions Control"));
@@ -40,18 +40,7 @@ describe("MissionControl", () => {
     // navbar
     expect(screen.getByText("Home")).toBeInTheDocument();
     expect(screen.getByText("Missions")).toBeInTheDocument();
-    expect(screen.getByText("Recipients")).toBeInTheDocument();
-    expect(screen.getByText("Volunteers")).toBeInTheDocument();
+    expect(screen.getByText("Volunteer Home")).toBeInTheDocument();
     expect(screen.getByText("Resilience App")).toBeInTheDocument();
-
-    // main
-    expect(screen.getByText(/view proposed missions/i)).toBeInTheDocument();
-    expect(screen.getByText(/view missions in planning/i)).toBeInTheDocument();
-    expect(screen.getByText(/view missions in progress/i)).toBeInTheDocument();
-    expect(screen.getByText(/view completed Missions/i)).toBeInTheDocument();
-
-    // links for downloads
-    expect(screen.getByText("Download all incomplete missions")).toBeInTheDocument();
-    expect(screen.getByText("Download all completed missions")).toBeInTheDocument();
   });
 });
