@@ -4,19 +4,15 @@ import { Provider } from "react-redux";
 import { MemoryRouter } from "react-router-dom";
 import { createStore } from "redux";
 
-import { rootReducer, initialState as reducerInitialState } from "../../store";
 import ThemeProvider from "../../component/ThemeProvider";
 import theme from "../../../theme";
 import MissionControl from "../";
 
+const initState = {};
+
 const renderWithStoreAndRouter = (
   ui,
-  {
-    initialState = reducerInitialState,
-    store = createStore(rootReducer, initialState),
-    route,
-    ...renderOptions
-  } = {}
+  { initialState = initState, store = createStore(() => initState), route, ...renderOptions } = {}
 ) => {
   function Wrapper({ children }) {
     return (
@@ -40,6 +36,7 @@ describe("MissionControl", () => {
     // navbar
     expect(screen.getByText("Home")).toBeInTheDocument();
     expect(screen.getByText("Missions")).toBeInTheDocument();
+    expect(screen.getByText("Logout")).toBeInTheDocument();
     expect(screen.getByText("Volunteer Home")).toBeInTheDocument();
     expect(screen.getByText("Resilience App")).toBeInTheDocument();
   });
