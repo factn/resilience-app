@@ -33,7 +33,7 @@
       "source": "/",
       "headers": [ {
         "key": "Cache-Control",
-        "value": "max-age=300"
+        "value": "no-cache"
       } ]
     } ]
   },
