@@ -87,7 +87,7 @@ export class UserInterface {
   /* user location, we use this to show user on a map */
   location?: Location;
   /* the organization that user belong to*/
-  organizationUid!: number;
+  organizationUid!: string;
   /* if user is a volunteer */
   isVolunteer!: boolean;
   /* if user is an organizer */
