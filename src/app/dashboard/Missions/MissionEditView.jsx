@@ -172,28 +172,23 @@ const MissionFundedStatusRow = ({ classes, mission }) => {
   );
 };
 
-const FoodBoxDetailsRow = ({ classes, details }) => {
+const FoodBoxDetailsRow = ({ details }) => {
   return (
     <Box>
-      {details?.needs?.map((box, index) => (
-        <Grid key={index} container className={classes.foodBoxDetailContainer}>
-          <Grid className={classes.foodBoxDetailQuantity}>
-            <b>{box?.quantity}</b>
-          </Grid>
-          <Grid className={classes.foodBoxDetailName}>
-            <b>{box?.name}</b>
-          </Grid>
-        </Grid>
+      {details?.map((box) => (
+        <Body2 key={box.resourceUid}>
+          {box?.quantity} x {box?.displayName}
+        </Body2>
       ))}
     </Box>
   );
 };
 
-const MissionDetailsRow = ({ classes, mission }) => {
+const MissionDetailsRow = ({ mission }) => {
   let type = mission?.type;
   let details = mission?.details;
-  if (type === "foodbox") {
-    return <FoodBoxDetailsRow details={details} classes={classes} />;
+  if (type === "resource") {
+    return <FoodBoxDetailsRow details={details} />;
   }
   return null;
 };
@@ -322,7 +317,6 @@ const MissionEditView = ({ mission, toDetailsView, toListView }) => {
                 </Grid>
               </Grid>
             </Card>
-
             <Card label="Delivery Details" classes={classes}>
               <Row Icon={ScheduleIcon} classes={classes}>
                                    
@@ -390,7 +384,6 @@ const MissionEditView = ({ mission, toDetailsView, toListView }) => {
                 </Grid>
               </Grid>
             </Card>
-
             <Label classes={classes}>Delivery Notes</Label>
             <Row classes={classes}>
               <TextField
