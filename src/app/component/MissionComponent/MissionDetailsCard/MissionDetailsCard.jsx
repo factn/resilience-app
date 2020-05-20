@@ -57,8 +57,8 @@ const Row = ({ children, Icon, label }) => {
       <Grid container alignItems="center" className="body-small-bold">
         {label}
       </Grid>
-      <Grid container>
-        <RowIcon item>{Icon && <Icon color="primary" />}</RowIcon>
+      <Grid container wrap="nowrap">
+        <RowIcon item>{Icon}</RowIcon>
         <Grid item xs container alignItems="center">
           {children}
         </Grid>
@@ -107,7 +107,7 @@ const MissionDetailsCard = ({ mission, photoDisabled }) => {
         <H2>Food Box Delivery</H2>
         {mission.details.map((resource) => {
           return (
-            <Row key={resource.displayName} Icon={FoodBoxIcon}>
+            <Row key={resource.displayName} Icon={<FoodBoxIcon />}>
               {resource.quantity} X {resource.displayName}
             </Row>
           );
@@ -132,8 +132,8 @@ const MissionDetailsCard = ({ mission, photoDisabled }) => {
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>
           <Grid container spacing={1}>
-            <Row Icon={ScheduleIcon}>{mission.pickUpWindow.timeWindowType}</Row>
-            <Row Icon={LocationOnIcon}>{mission.pickUpLocation.address}</Row>
+            <Row Icon={<ScheduleIcon color="primary" />}>{mission.pickUpWindow.timeWindowType}</Row>
+            <Row Icon={<LocationOnIcon color="primary" />}>{mission.pickUpLocation.address}</Row>
             <Row label="Pick Up Instructions">{mission.pickUpNotes}</Row>
           </Grid>
         </ExpansionPanelDetails>
@@ -146,8 +146,10 @@ const MissionDetailsCard = ({ mission, photoDisabled }) => {
 
         <ExpansionPanelDetails className={classes.card} variant="outlined">
           <Grid container spacing={1}>
-            <Row Icon={ScheduleIcon}>{mission.deliveryWindow.timeWindowType}</Row>
-            <Row Icon={LocationOnIcon}>{mission.deliveryLocation.address}</Row>
+            <Row Icon={<ScheduleIcon color="primary" />}>
+              {mission.deliveryWindow.timeWindowType}
+            </Row>
+            <Row Icon={<LocationOnIcon color="primary" />}>{mission.deliveryLocation.address}</Row>
             <Row label="Delivery Instructions">{mission.deliveryNotes}</Row>
           </Grid>
         </ExpansionPanelDetails>

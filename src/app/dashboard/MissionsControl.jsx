@@ -1,8 +1,9 @@
 import { makeStyles } from "@material-ui/core/styles";
 import AnnouncementIcon from "@material-ui/icons/Announcement";
 import HomeIcon from "@material-ui/icons/Home";
-import PanToolIcon from "@material-ui/icons/PanTool";
 import PeopleIcon from "@material-ui/icons/People";
+import ExitToApp from "@material-ui/icons/ExitToApp";
+
 import clsx from "clsx";
 import React from "react";
 import { useFirestoreConnect } from "react-redux-firebase";
@@ -90,16 +91,22 @@ const MissionsPage = () => {
       icon: <AnnouncementIcon />,
     },
     {
-      text: "Recipients",
-      id: routes.organizer.dashboard.recipients,
-      route: routes.organizer.dashboard.recipients,
+      text: "Volunteer Home",
+      id: routes.volunteer.dashboard.home,
+      route: routes.volunteer.dashboard.home,
       icon: <PeopleIcon />,
     },
+    // {
+    //   text: "Volunteers",
+    //   id: routes.organizer.dashboard.volunteers,
+    //   route: routes.organizer.dashboard.volunteers,
+    //   icon: <PanToolIcon />,
+    // },
     {
-      text: "Volunteers",
-      id: routes.organizer.dashboard.volunteers,
-      route: routes.organizer.dashboard.volunteers,
-      icon: <PanToolIcon />,
+      text: "Logout",
+      id: routes.logout,
+      route: routes.logout,
+      icon: <ExitToApp />,
     },
   ];
 

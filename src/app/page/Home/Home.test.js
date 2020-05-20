@@ -2,6 +2,7 @@ import { render } from "@testing-library/react";
 import React from "react";
 import { Provider } from "react-redux";
 import { MemoryRouter } from "react-router-dom";
+import { act } from "react-dom/test-utils";
 import { createStore } from "redux";
 
 import theme from "../../../theme";
@@ -10,10 +11,13 @@ import User from "../../model/User";
 import Mission from "../../model/Mission";
 import Home from "./Home";
 import { OrganizationContext } from "../../model";
+import { UserPermissionsService } from "../../model/permissions";
 
 describe("Home page", () => {
+  let page;
   beforeAll(() => {
     jest.spyOn(User, "getAllAssociatedMissions").mockImplementation(() => []);
+    jest.spyOn(UserPermissionsService, "getUserRole").mockResolvedValue("USER");
     jest.spyOn(Mission, "getAllAvailable").mockImplementation(() => []);
   });
 
@@ -72,17 +76,20 @@ describe("Home page", () => {
     expect(page.queryByTestId("label-contact-mssg-1")).toBeInTheDocument();
   });
 
-  it("Renders the home layout with Request Help", () => {
+  it("Renders the Authenticated Home page", () => {
     const state = {
       firebase: {
         auth: {
-          isLoaded: true,
+          isLoaded: false,
           isEmpty: false,
         },
       },
     };
 
-    const page = renderComponent({ state });
+    act(() => {
+      page = renderComponent({ state });
+      state.firebase.auth.isLoaded = true;
+    });
 
     expect(page.getByRole("navigation")).toBeInTheDocument();
     expect(page.getByRole("main")).toBeInTheDocument();

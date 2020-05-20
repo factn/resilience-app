@@ -22,7 +22,8 @@ function RequestPage() {
       <Switch>
         <AppRoute exact path={routes.request.start} component={Start} />
         <AppRoute exact path={routes.request.foodbox} component={FoodboxFlow} />
-        <AppRoute path={routes.request.success} component={SuccessPage} />
+        <AppRoute path={routes.request.success.donation} component={SuccessPage} />
+        <AppRoute path={routes.request.success.payment} component={SuccessPage} />
         <AppRoute path={routes.request.error} component={ErrorPage} />
       </Switch>
     </Page>

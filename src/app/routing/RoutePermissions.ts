@@ -12,7 +12,8 @@ const publicOnlyRoutes: IRoute[] = [
   routes.organizer.signup,
   routes.request.start,
   routes.request.foodbox,
-  routes.request.success,
+  routes.request.success.donation,
+  routes.request.success.payment,
   routes.request.error,
   routes.user.signup,
   routes.unauthorized,
@@ -20,19 +21,20 @@ const publicOnlyRoutes: IRoute[] = [
 ];
 
 const authenticatedRoutes: IRoute[] = [
+  routes.logout,
   routes.organizer.dashboard.home,
   routes.missions.createdByUser,
   routes.missions.createNew,
   routes.missions.completed,
   routes.missions.feedback,
   routes.missions.details,
-  routes.missions.main,
   routes.organizer.dashboard.home,
   routes.organizer.dashboard.missions,
   routes.organizer.dashboard.recipients,
   routes.organizer.dashboard.volunteers,
   routes.user.profile,
   routes.volunteer.status,
+  routes.volunteer.dashboard.home,
   routes.recipient.dashboard.home,
   routes.recipient.dashboard.submitted,
   routes.recipient.dashboard.completed,
@@ -40,6 +42,7 @@ const authenticatedRoutes: IRoute[] = [
 
 // Public routes
 addPermissionsToRoutes([PERMISSIONS.PUBLIC], publicOnlyRoutes, RoutePermissions);
+addPermissionsToRoutes([PERMISSIONS.BECOME_VOLUNTEER], [routes.user.signup], RoutePermissions);
 
 // Authenticated routes
 addPermissionsToRoutes([PERMISSIONS.AUTHENTICATED], authenticatedRoutes, RoutePermissions);
@@ -48,7 +51,7 @@ addPermissionsToRoutes([PERMISSIONS.AUTHENTICATED], authenticatedRoutes, RoutePe
 addPermissionsToRoutes(
   [PERMISSIONS.VIEW_MISSIONS],
   [
-    routes.missions.main,
+    routes.volunteer.dashboard.home,
     routes.missions.details,
     routes.missions.createdByUser,
     routes.missions.completed,

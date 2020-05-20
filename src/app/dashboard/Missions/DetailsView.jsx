@@ -8,6 +8,8 @@ import PanToolIcon from "@material-ui/icons/PanTool";
 import PersonIcon from "@material-ui/icons/Person";
 import React from "react";
 import { isEmpty, isLoaded } from "react-redux-firebase";
+import EditIcon from "@material-ui/icons/Edit";
+import Button from "@material-ui/core/Button";
 
 import { Body2, H3 } from "../../component";
 import { Mission } from "../../model";
@@ -54,6 +56,11 @@ const useStyles = makeStyles((theme) => ({
   },
   foodBoxDetailName: {
     padding: theme.spacing(1),
+  },
+  buttonBox: {
+    spacing: theme.spacing(1),
+    display: "flex",
+    justifyContent: "center",
   },
 }));
 
@@ -160,28 +167,23 @@ const MissionFundedStatusRow = ({ classes, mission }) => {
   );
 };
 
-const FoodBoxDetailsRow = ({ classes, details }) => {
+const FoodBoxDetailsRow = ({ details }) => {
   return (
     <Box>
-      {details?.needs?.map((box, index) => (
-        <Grid key={index} container className={classes.foodBoxDetailContainer}>
-          <Grid className={classes.foodBoxDetailQuantity}>
-            <b>{box?.quantity}</b>
-          </Grid>
-          <Grid className={classes.foodBoxDetailName}>
-            <b>{box?.name}</b>
-          </Grid>
-        </Grid>
+      {details?.map((box) => (
+        <Body2 key={box.resourceUid}>
+          {box?.quantity} x {box?.displayName}
+        </Body2>
       ))}
     </Box>
   );
 };
 
-const MissionDetailsRow = ({ classes, mission }) => {
+const MissionDetailsRow = ({ mission }) => {
   let type = mission?.type;
   let details = mission?.details;
   if (type === "resource") {
-    return <FoodBoxDetailsRow details={details} classes={classes} />;
+    return <FoodBoxDetailsRow details={details} />;
   }
   return null;
 };
@@ -190,7 +192,7 @@ const MissionDetailsRow = ({ classes, mission }) => {
  * Component for displaying mission details as a card
  * @component
  */
-const MissionDetailsCard = ({ mission, toListView }) => {
+const MissionDetailsCard = ({ mission, toEditView, toListView }) => {
   const classes = useStyles();
   const recipientPhoneNumber = _.get(mission, "recipientPhoneNumber");
 
@@ -238,6 +240,15 @@ const MissionDetailsCard = ({ mission, toListView }) => {
 
             <Label classes={classes}>Notes</Label>
             <Row classes={classes}>{mission?.deliveryNotes || "No additional informations"}</Row>
+            <Box className={classes.buttonGroupBox}>
+              <Grid container direction="row" spacing={2} alignItems="center">
+                <Grid item>
+                  <Button disableElevation onClick={toEditView} className={classes.buttonBox}>
+                    <EditIcon className={classes.icon} /> Edit
+                  </Button>
+                </Grid>
+              </Grid>
+            </Box>
           </Box>
         )}
       </Paper>

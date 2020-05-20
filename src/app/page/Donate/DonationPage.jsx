@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import CurrencyTextField from "@unicef/material-ui-currency-textfield";
 import { Typography, Box, makeStyles, Divider, Button } from "@material-ui/core";
-
 import { Page } from "../../layout";
 import PaypalCheckout from "../../component/PaypalCheckout/PaypalCheckout";
+import ContactComponent from "../../component/ContactComponent";
 import { Organization, useOrganization } from "../../model";
 import DonateIllustration from "./DonateIllustration";
 
@@ -73,8 +73,6 @@ function formatPaypalDetails(details) {
 
 function DonateState({ classes, setState }) {
   const [amount, setAmount] = useState();
-  const org = useOrganization();
-
   return (
     <>
       <DonateIllustration />
@@ -108,8 +106,8 @@ function DonateState({ classes, setState }) {
         }
       />
       <Typography align="left" variant="body1" gutterBottom>
-        If you would like to donate using check or a different method, please reach out to our
-        volunteers at <a href={`tel:${org.phoneNumber}`}>{org.phoneNumber}</a> for further help.
+        If you would like to donate via a different method, please reach out to our volunteers
+        <ContactComponent prefix=" at " />.
       </Typography>
     </>
   );
@@ -135,7 +133,7 @@ function SuccessState({ classes, state }) {
         Donation Summary
       </Typography>
       <Box className={classes.successDetails}>
-        <span>Organization: {org.name} </span>
+        <span>Organization: {org.displayName} </span>
         <span> Donor Name: {details.donorName} </span>
         <span>Amount: ${details.amount} </span>
         <span>Reciept #: {details.recieptId} </span>
@@ -147,9 +145,9 @@ function SuccessState({ classes, state }) {
           <Divider className={classes.marginVertical} />
           <Typography align="left" variant="subtitle2" gutterBottom>
             <em>
-              {org.name} is a registered 501(c)3 non-profit organization #{org.EINNumber}. Your
-              donation is tax deductible to the extent allowable by law. No goods or services were
-              provided by {org.name} in return for this contribution.
+              {org.displayName} is a registered 501(c)3 non-profit organization #{org.EINNumber}.
+              Your donation is tax deductible to the extent allowable by law. No goods or services
+              were provided by {org.displayName} in return for this contribution.
             </em>
           </Typography>
         </>
@@ -159,7 +157,6 @@ function SuccessState({ classes, state }) {
 }
 
 function ErrorState({ setState }) {
-  const org = useOrganization();
   return (
     <>
       <Typography align="left" variant="body1" gutterBottom>
@@ -170,7 +167,8 @@ function ErrorState({ setState }) {
       </Typography>
       <Typography align="left" variant="body1" gutterBottom>
         Otherwise, our volunteers can help you donate through a different method, such as by check.
-        For more information please call: <a href={`tel:${org.phoneNumber}`}>{org.phoneNumber}</a>
+        For more information please contact us
+        <ContactComponent prefix=" at " />.
       </Typography>
       <Box display="flex" alignItems="start">
         <Button

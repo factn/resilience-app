@@ -45,12 +45,13 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "left",
     height: theme.spacing(5),
     paddingLeft: theme.spacing(2),
+    width: "100%",
   },
   startIcon: {
     paddingRight: theme.spacing(2),
   },
   link: {
-    width: 0,
+    textDecoration: "none",
   },
 }));
 
