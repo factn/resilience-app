@@ -18,7 +18,7 @@ const defaultUserData: UserInterface = {
   phoneNumber: "",
   email: "",
   location: defaultLocation,
-  organizationUid: 0,
+  organizationUid: "",
   isVolunteer: false,
   isOrganizer: false,
   volunteerDetails: {

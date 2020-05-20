@@ -57,8 +57,8 @@ const ConnectSocialMedia = ({ onConnectSuccess, onSkip }) => {
 };
 
 ConnectSocialMedia.propTypes = {
-  handleButtonClick: PropTypes.func.isRequired,
-  signInSuccess: PropTypes.func.isRequired,
+  onConnectSuccess: PropTypes.func.isRequired,
+  onSkip: PropTypes.func.isRequired,
 };
 
 export default ConnectSocialMedia;

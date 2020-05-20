@@ -17,6 +17,7 @@ const PhoneAuth = ({ onSignupSuccess }) => {
     callbacks: {
       signInSuccessWithAuthResult: function (authResult) {
         var user = authResult.user;
+        console.log({ user });
         /** 
          * TODO we are suppose to do with new user, do not rember what it was
         var credential = authResult.credential;
@@ -37,7 +38,7 @@ const PhoneAuth = ({ onSignupSuccess }) => {
 };
 
 PhoneAuth.propTypes = {
-  signInSuccess: PropTypes.func.isRequired,
+  onSignupSuccess: PropTypes.func.isRequired,
 };
 
 export default PhoneAuth;

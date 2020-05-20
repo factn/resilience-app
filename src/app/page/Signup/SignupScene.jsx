@@ -29,7 +29,6 @@ function SignupScene(props) {
   const { handleChange, setValues, values } = useForm(User.defaultData);
   const [activeTab, setActiveTab] = useState(Tabs.GET_STARTED);
   const [errorSnackbarMessage, setErrorSnackbarMessage] = useState(false);
-  const [loading, setLoading] = useState(false);
   const org = useOrganization();
 
   function getPayload() {
@@ -46,59 +45,65 @@ function SignupScene(props) {
     };
   }
 
-  function handleSignupSuccess(user) {
-    setValues({
-      ...values,
+  async function handleSignupSuccess(user) {
+    let data = {
+      ...getPayload(),
       phoneNumber: user.phoneNumber,
       displayName: user.displayName,
       email: user.email,
       photoURL: user.photoURL,
-    });
-    updateUser();
-    setActiveTab(Tabs.CONNECT);
+      uid: user.uid,
+    };
+    await updateUser(data, () => setActiveTab(Tabs.CONNECT));
     return false;
   }
-  function handleConnectSuccess(user) {
-    setValues({
-      ...values,
+
+  async function handleConnectSuccess(user) {
+    let data = {
+      ...getPayload(),
       displayName: user.displayName,
       email: user.email,
       photoURL: user.photoURL,
-    });
-    updateUser();
-    setActiveTab(Tabs.PROFILE);
+      uid: user.uid,
+    };
+    await updateUser(data, () => setActiveTab(Tabs.PROFILE));
     return false;
   }
-  async function updateUser() {
-    const payload = getPayload();
 
+  async function handleProfileSuccess() {
+    await updateUser({ ...getPayload() }, () => setActiveTab(Tabs.SUCCESS));
+  }
+
+  async function updateUser(payload, callback) {
+    payload = getPayloadWithAddress(payload);
+    try {
+      User.update(payload.uid, payload).then(() => {
+        setValues({ ...payload });
+        callback();
+      });
+    } catch (error) {
+      setErrorSnackbarMessage(error);
+      setValues({ ...payload });
+      callback();
+    }
+  }
+
+  async function getPayloadWithAddress(payload) {
     let location = payload?.location;
     try {
       if (location.address) {
         const data = await addressLookup(location.address);
         location = { ...location, lat: data.lat, lng: data.long };
+        payload = { ...payload, location: location };
       }
     } catch (error) {
-      console.log("ERROR WHEN GETTiNG LOCATION", error);
+      console.log("ERROR WHEN GETTING LOCATION", error);
       console.log("address: ", location.address);
     }
-
-    /*
-    try {
-      setLoading(true);
-      User.update(payload.id, payload).then(() => {
-        setLoading(false);
-        setActiveTab(Tabs.SUCCESS);
-      });
-    } catch (error) {
-      setLoading(false);
-      setErrorSnackbarMessage(error);
-      setActiveTab(Tabs.SUCCESS);
-    }
-    */
+    return payload;
   }
 
-  let Active = null;
+  let Active;
   switch (activeTab) {
     case Tabs.GET_STARTED:
       Active = (
@@ -125,12 +130,16 @@ function SignupScene(props) {
       break;
     case Tabs.PROFILE:
       Active = (
-        <UserProfilePage handleChange={handleChange} onSubmit={updateUser} values={values} />
+        <UserProfilePage
+          handleChange={handleChange}
+          onSubmit={handleProfileSuccess}
+          values={values}
+        />
       );
       break;
     case Tabs.SUCCESS:
     default:
-      Active = <SignupSuccessPage onClick={() => props.history.push(routes.home)} />;
+      Active = <SignupSuccessPage handleButtonClick={() => props.history.push(routes.home)} />;
       break;
   }
 
