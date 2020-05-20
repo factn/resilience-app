@@ -11,6 +11,7 @@ import MuiExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import Card from "@material-ui/core/Card";
 import Paper from "@material-ui/core/Paper";
 
+import EditView from "./MissionEditView";
 import DetailsView from "./DetailsView";
 import ListItem from "./ListItem";
 import { Mission } from "../../model";
@@ -142,7 +143,7 @@ const MissionsListView = ({
             className={classes.expansionSummary}
           >
             <Grid container wrap="nowrap">
-              <Grid item alignItem="center" className={classes.expansionHeader} xs>
+              <Grid item className={classes.expansionHeader} xs>
                 {group.groupDisplayName}
               </Grid>
               <Grid item>{group.groupUid && <GroupWorkIcon style={{ color: color }} />}</Grid>
@@ -176,8 +177,19 @@ const MissionsListView = ({
         <DetailsView
           mission={currentMission}
           setSelectedMission={setSelectedMission}
+          toEditView={() => setView(Views.edit)}
           toListView={() => setView(Views.list)}
         />
+      </Box>
+      <Box hidden={view !== Views.edit}>
+        {currentMission && (
+          <EditView
+            mission={currentMission}
+            setSelectedMission={setSelectedMission}
+            toListView={() => setView(Views.list)}
+            toDetailsView={toDetailsView}
+          />
+        )}
       </Box>
       <Box hidden={view !== Views.list} width="100%">
         <Grid container direction="column">

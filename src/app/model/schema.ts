@@ -11,21 +11,17 @@ export interface Location {
   label: string;
 }
 
-export class Resource {
-  uid!: string;
-  name!: string;
-  cost!: number;
-  provider: string = "";
-  fundedByRecipient: number = 0;
-  fundedByDonation: number = 0;
-  notFunded: number = 3;
-  maxNumberRequestable: number = 50;
-  acceptOrder: boolean = false;
-  description: string = "";
+export interface DonationLog {
+  amount: string;
+  createdDate: string;
+  method: string;
+  recieptId: string;
+  donorName: string;
+  donorEmail: string;
 }
 
 export interface PaymentSettings {
-  clientUid: string;
+  clientId: string;
   email: string;
 }
 
@@ -33,10 +29,25 @@ export interface PaymentSettings {
 export class OrganizationInterface {
   /* Firebase Id, created automatically*/
   uid!: string;
-  /*Name of the organization */
-  name!: string;
+  /*Name of the organization - eg Feed Folks */
+  displayName!: string;
+  /*Name of the organization chapter eg Feed Folks - Studio City
+    (make this the same as 'name' if org doesn't have chapters) */
+  chapterName?: string;
+  /*Tagline for the organization - eg "Neighbors helping neighbors"  */
+  tagline?: string;
+  /* Quick info - eg 'We're a grassroots team in Studio City, CA getting fresh farm produce to our neighbors
+  in need.' */
+  quickInfo?: string;
+  /* Email for infor - eg 'studiocity@feedfolks.store' */
+  contactEmail?: string;
+  /* Email for infor - eg 'studiocity@feedfolks.store' */
+  contactPhoneNumber?: string;
+  /* URL to download organisation image (from CDN, ideally) */
+  logoURL?: ImageUrl;
   /*The Location of the Organization*/
   location?: Location;
+  EINNumber?: string;
   /**
    * There are subcollection, they are here for references
   resources?: Map<string, Resource>;
@@ -61,13 +72,16 @@ export enum VolunteerStatus {
 
 export class UserInterface {
   uid!: string;
+  /* validated phone number (validated by phone verification challenge) */
   phoneNumber?: string;
+  /* validated email address (validated by google oAuth, currently) */
   email?: string;
-  /* user's selected profile image url
-   */
+  /* user's selected profile image url */
   photoURL?: ImageUrl;
   /* user profile name, this populate from either user, or his provider*/
   displayName?: string;
+  /* email address user typed in -  not validated, can be anything really */
+  recipientEmailAddress?: string;
   /* from the 'Tell us about yourself' form field */
   description?: string;
   /* user location, we use this to show user on a map */
@@ -88,6 +102,7 @@ export class UserInterface {
     hasTransportation: boolean;
     /*user volunteering to an organization have a pending status*/
     status: VolunteerStatus;
+    /* notes on the volunteer, by the organizer(s) */
     privateNotes: string;
   };
   /* specific details for the organizer*/
@@ -113,12 +128,6 @@ export enum MissionFundedStatus {
   fundedbyrecipient = "fundedbyrecipient",
   fundedbydonation = "fundedbydonation",
   fundingnotneeded = "fundingnotneeded",
-}
-
-export enum MissionType {
-  foodbox = "foodbox",
-  pharmacy = "pharmacy",
-  errand = "errand",
 }
 
 export enum TimeWindowType {
@@ -148,27 +157,39 @@ export interface MissionLogEvent {
   timestamp: string;
 }
 
-export interface Box {
-  name: string;
+export interface Resource {
+  uid: string;
+  displayName: string;
+  cost: number;
+  availableToOrder: boolean;
+  type: string; // foodbox, or anything, this is just so we can group things together for the organizer
+  description: string;
+}
+
+export interface ResourceMissionDetails {
+  resourceUid: string;
+  displayName: string;
   quantity: number;
 }
 
-export interface FoodBoxDetails {
-  needs: Array<Box>;
+export enum MissionType {
+  resource = "resource", //exact time specfied
+  errand = "errand",
 }
 
 export interface MissionInterface {
   uid: string;
+  organizationUid: string;
+  status: MissionStatus;
+
   type: MissionType;
+  details: Array<ResourceMissionDetails> | null;
 
   createdDate: string; // TODO should be a date?
-  missionDetails: FoodBoxDetails | null;
 
-  status: MissionStatus;
   fundedStatus: MissionFundedStatus;
   fundedDate: string | null;
   readyToStart: boolean;
-  organizationUid: string;
 
   groupUid: string;
   groupDisplayName: string;
@@ -184,14 +205,17 @@ export interface MissionInterface {
   recipientUid: string; // reference?
   recipientDisplayName: string;
   recipientPhoneNumber: string;
+  recipientEmailAddress: string;
 
   pickUpWindow: TimeWindow | null; // nb this can be an exact time or can be null
   pickUpLocation: Location;
+  pickUpNotes: string;
 
   deliveryWindow: TimeWindow | null;
   deliveryLocation: Location; // default to recipient location
-  deliveryConfirmationImage: ImageUrl;
+  deliveryConfirmationImage: string;
   deliveryNotes: string;
+  deliveryType: string;
 
   feedbackNotes: string;
 

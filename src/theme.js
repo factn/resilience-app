@@ -10,10 +10,15 @@ export const color = {
   pink: "#ffefef",
   blue: "#3739B5",
   red: "#DA0B46",
+  redlines: "#E8178A",
   green: "#024b30",
-  darkOrange: "#EC7016",
+  greenSuccess: "#66D85D",
+  greenToast: "#4caf50",
+  darkOrange: "#f2994a",
+  orange: "#fce1c9",
   darkBlue: "#110079",
   lightgrey: "#F2F2F2",
+  gray3: "#828282",
 };
 
 // utils to extract style
@@ -38,85 +43,79 @@ export default {
       main: "#DFE3E8",
     },
     primary: {
+      light: color.secondaryBlue,
       main: color.vibrantPurple,
     },
     secondary: {
       main: color.secondaryBlue,
     },
+    success: {
+      main: color.greenSuccess,
+    },
   },
   typography: {
+    fontFamily: [
+      '"Open Sans"',
+      "-apple-system",
+      "sans-serif",
+      '"Segoe UI"',
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join(","),
     h1: {
-      fontFamily: "Open Sans, sans-serif",
       fontWeight: "bold",
       fontSize: "32px",
       lineHeight: "48px",
-      color: color.blue,
     },
     h2: {
-      fontFamily: "Open Sans, sans-serif",
       fontWeight: "semi-bold",
       fontSize: "24px",
       lineHeight: "36px",
-      color: color.blue,
     },
     h3: {
-      fontFamily: "Open Sans, sans-serif",
       fontWeight: "semi-bold",
       fontSize: "20px",
       lineHeight: "30px",
     },
     h4: {
-      fontFamily: "Open Sans, sans-serif",
       fontWeight: "semi-bold",
       fontSize: "16px",
       lineHeight: "24px",
-      color: color.blue,
     },
     h5: {
       // still available as some components/pages depend on this
-      fontFamily: "Open Sans, sans-serif",
       fontWeight: "semi-bold",
       fontSize: "16px",
       lineHeight: "24px",
-      color: color.blue,
     },
     body1: {
-      fontFamily: "Open Sans, sans-serif",
       fontWeight: "regular",
       fontSize: "16px",
       lineHeight: "24px",
-      color: color.black,
     },
     body2: {
       // same as for h5
-      fontFamily: "Open Sans, sans-serif",
       fontWeight: "regular",
-      fontSize: "16px",
+      fontSize: "14px",
       lineHeight: "24px",
-      color: color.black,
     },
     button: {
-      fontFamily: "Open Sans, sans-serif",
       fontWeight: "bold",
       fontSize: "16px",
       lineHeight: "24px",
       textTransfrom: "uppercase",
-      color: color.black,
     },
     caption: {
-      fontFamily: "Open Sans, sans-serif",
       fontWeight: "regular",
       fontSize: "12px",
       lineHeight: "18px",
-      color: color.black,
     },
     overline: {
-      fontFamily: "Open Sans, sans-serif",
       fontWeight: "regular",
       fontSize: "12px",
       lineHeight: "18px",
       textTransfrom: "uppercase",
-      color: color.black,
     },
   },
   overrides: {

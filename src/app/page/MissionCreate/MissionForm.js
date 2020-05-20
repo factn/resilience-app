@@ -1,13 +1,13 @@
 import MomentUtils from "@date-io/date-fns";
-import { Container, TextField, Typography, withStyles } from "@material-ui/core";
-import { KeyboardTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+import { Container, TextField, withStyles } from "@material-ui/core";
+import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import AlgoliaPlaces from "algolia-places-react";
 import PropTypes from "prop-types";
 import React from "react";
 
-import Button from "../../component/Button";
+import DateTimeInput from "../../component/DateTimeInput";
+import { Button, TypographyWrapper } from "../../component";
 import { Page } from "../../layout";
-import KeyDatePickerContainer from "./KeyDatePickerContainer";
 import { Upload, useStyles } from "./Request.style";
 
 const { ALGOLIA_API_KEY, ALGOLIA_APP_ID } = process.env;
@@ -22,9 +22,9 @@ const StyledHeader = withStyles({
 })(({ children, classes, ...rest }) => {
   const { main, ...allowedMuiProps } = rest; // filter `main` from other props. This prevents Typography to throw an error
   return (
-    <Typography className={classes.root} {...allowedMuiProps}>
+    <TypographyWrapper className={classes.root} {...allowedMuiProps}>
       {children}
-    </Typography>
+    </TypographyWrapper>
   );
 });
 
@@ -40,12 +40,6 @@ function MissionForm({ getFile, handleChange, onSubmit, values /*, assignHelper,
     date: new Date(),
     location: "",
   });
-  const [pickUpDateLabel, setPickUpDateLabel] = React.useState(
-    pickUp.date.toString().substr(0, 15)
-  );
-  const [dropOffDateLabel, setDropOffDateLabel] = React.useState(
-    dropOff.date.toString().substr(0, 15)
-  );
 
   const handleSubmit = () => {
     const valuesWithDates = {
@@ -76,28 +70,6 @@ function MissionForm({ getFile, handleChange, onSubmit, values /*, assignHelper,
           countryCode,
         },
       });
-    }
-  };
-
-  const handleDate = (date, stage) => {
-    if (!date) {
-      return;
-    }
-    if (stage === "pickUp") {
-      setPickUpDateLabel(date ? date.toString().substr(0, 15) : "Select a date");
-      if (typeof date !== "string") {
-        setPickUp({ ...pickUp, date: date.toString().substr(0, 15) });
-      } else {
-        setPickUp({ ...dropOff, date: date || null });
-      }
-    }
-    if (stage === "dropOff") {
-      setDropOffDateLabel(date ? date.toString().substr(0, 15) : "Select a date");
-      if (typeof date !== "string") {
-        setDropOff({ ...dropOff, date: date.toString().substr(0, 15) });
-      } else {
-        setDropOff({ ...dropOff, date: date || null });
-      }
     }
   };
 
@@ -181,31 +153,18 @@ function MissionForm({ getFile, handleChange, onSubmit, values /*, assignHelper,
             onChange={(query) => handleLocation(query, "pickUp")}
             onLimit={({ message }) => message && console.log(message)}
           />
-
-          <KeyDatePickerContainer
-            margin="normal"
-            id="date-pickUp"
-            label="Select Date"
-            format="MM/dd/yyyy"
-            value={pickUpDateLabel}
-            required={true}
-            onChange={(date) => handleDate(date, "pickUp")}
-            KeyboardButtonProps={{
-              "aria-label": "change date",
+          <DateTimeInput
+            dateInputProps={{
+              id: "date-pickup",
+              label: "Pickup Date",
             }}
-          />
-          <KeyboardTimePicker
-            margin="normal"
-            id="time-pickUp"
-            label="Pickup time"
-            value={pickUp.timeProtoType}
-            required={true}
-            onChange={(time) =>
-              time && setPickUp({ ...pickUp, time: time.toTimeString(), timeProtoType: time })
-            }
-            KeyboardButtonProps={{
-              "aria-label": "change time",
+            onChange={setPickUp}
+            required
+            timeInputProps={{
+              id: "time-pickup",
+              label: "Pickup Time",
             }}
+            value={pickUp}
           />
           <StyledHeader align="left" variant="h2">
             Drop-off
@@ -224,27 +183,18 @@ function MissionForm({ getFile, handleChange, onSubmit, values /*, assignHelper,
               console.log("Fired when you reached your current rate limit.")
             }
           />
-          <KeyDatePickerContainer
-            margin="normal"
-            id="date-dropOff"
-            label="Select Date"
-            format="MM/dd/yyyy"
-            value={dropOffDateLabel}
-            required={true}
-            onChange={(date) => handleDate(date, "dropOff")}
-          />
-          <KeyboardTimePicker
-            margin="normal"
-            id="time-dropOff"
-            label="Drop-off time"
-            value={dropOff.timeProtoType}
-            required={true}
-            onChange={(time) =>
-              time && setDropOff({ ...dropOff, time: time.toTimeString(), timeProtoType: time })
-            }
-            KeyboardButtonProps={{
-              "aria-label": "change time",
+          <DateTimeInput
+            dateInputProps={{
+              id: "date-dropoff",
+              label: "Drop off Date",
             }}
+            onChange={setDropOff}
+            required
+            timeInputProps={{
+              id: "time-dropoff",
+              label: "Drop off Time",
+            }}
+            value={dropOff}
           />
         </MuiPickersUtilsProvider>
         <Button

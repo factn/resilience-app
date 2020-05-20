@@ -1,17 +1,19 @@
 import { Box, Grid, Card } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
-import FormControl from "@material-ui/core/FormControl";
-
-import Select from "@material-ui/core/Select";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import PanToolIcon from "@material-ui/icons/PanTool";
+import Chip from "@material-ui/core/Chip";
 import clsx from "clsx";
 import React, { useEffect } from "react";
+import DetailsText from "../../component/MissionComponent/DetailsText";
 
 import Mission from "../../model/Mission";
 import _ from "../../utils/lodash";
 import MissionItemMenu from "./component/MissionItemMenu";
+import NotFundedStatusAction from "./component/NotFundedStatusAction";
+import DeliveredAction from "./component/DeliveredAction";
+import styled from "styled-components";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "white",
     padding: theme.spacing(1),
     marginBottom: theme.spacing(1),
+    minHeight: "100px",
   },
   item: {
     flexBasis: "100%",
@@ -28,8 +31,8 @@ const useStyles = makeStyles((theme) => ({
     borderColor: theme.palette.primary.main,
   },
   MenuRightWrapper: {
-    top: theme.spacing(1),
-    right: theme.spacing(1),
+    top: "4px",
+    right: "0px",
     cursor: "pointer",
     position: "absolute",
   },
@@ -38,64 +41,37 @@ const useStyles = makeStyles((theme) => ({
     color: theme.color.black,
     cursor: "pointer",
   },
+
+  chipsContainer: {
+    fontSize: "14px",
+  },
+  chipReady: {
+    color: theme.color.greenSuccess,
+  },
+  chipNotReady: {
+    color: "#ababab",
+  },
+  chipNeedsVolunteer: {
+    color: theme.color.redlines,
+  },
+  chipInProgress: {
+    color: theme.color.yellow,
+  },
+  chipFailed: {
+    color: theme.color.red,
+  },
 }));
 
 /** BEGIN ACTION*/
-const unassignedOptions = [
-  {
-    value: Mission.FundedStatus.fundedbyrecipient,
-    text: "Funded By Recipient",
-  },
-  {
-    value: Mission.FundedStatus.fundedbydonation,
-    text: "Funded By Donation",
-  },
-  {
-    value: Mission.FundedStatus.fundingnotneeded,
-    text: "Funding Not Needed",
-  },
-];
-const NotFundedStatus = ({ classes, mission }) => {
-  const handleChange = (event) => {
-    event.preventDefault();
-    //TODO move this to mission model as
-    // Mission.setFunded()
-    Mission.update(mission.uid, {
-      fundedStatus: event.target.value,
-      fundedDate: Date.now().toString(),
-      status: Mission.Status.tentative,
-    });
-  };
-  return (
-    <FormControl className={classes.formControl}>
-      <Select
-        native
-        onChange={handleChange}
-        variant="outlined"
-        value="Not Yet Funded"
-        inputProps={{
-          name: "funded",
-          id: "select-funded",
-        }}
-      >
-        <option value="none" hidden aria-label="None">
-          Not Yet Funded
-        </option>
-        {unassignedOptions.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.text}
-          </option>
-        ))}
-      </Select>
-    </FormControl>
-  );
-};
 
-const Action = ({ classes, mission }) => {
+const Action = ({ mission }) => {
   let { status } = mission;
 
   if (status === Mission.Status.unassigned) {
-    return <NotFundedStatus mission={mission} classes={classes} />;
+    return <NotFundedStatusAction mission={mission} />;
+  }
+  if ([Mission.Status.delivered, Mission.Status.started].includes(mission.status)) {
+    return <DeliveredAction mission={mission} />;
   }
 
   return null;
@@ -142,21 +118,12 @@ const VolunteerRow = ({ mission }) => {
   );
 };
 
-const FoodBoxDetails = ({ details }) => {
-  return (
-    <>
-      <b>Food Box</b>
-      {_.get(details, "needs")?.map((box, index) => {
-        return (
-          <div key={index}>
-            {_.get(box, "quantity")} x {_.get(box, "name")}
-          </div>
-        );
-      })}
-    </>
-  );
-};
-
+const StyledChip = styled(Chip)`
+  border: 2px solid;
+  bordercolor: inherit;
+  fontsize: 14px;
+  margin-right: 8px;
+`;
 const MissionListItem = ({
   groups,
   mission,
@@ -167,16 +134,11 @@ const MissionListItem = ({
   volunteers,
 }) => {
   const classes = useStyles();
-  const { missionDetails, type } = mission;
 
   const boxRef = React.useRef(null);
 
   function onClick() {
     setSelectedMission(mission.uid);
-  }
-  let SpecificDetails = null;
-  if (type === "foodbox") {
-    SpecificDetails = <FoodBoxDetails type={type} details={missionDetails} />;
   }
 
   const isSelected = selectedMission === mission.uid;
@@ -201,16 +163,48 @@ const MissionListItem = ({
       color="primary"
       elevation={isSelected ? 24 : 1}
     >
+      <MissionItemMenu
+        className={classes.MenuRightWrapper}
+        boxRef={boxRef}
+        groups={groups}
+        mission={mission}
+        volunteers={volunteers}
+      />
       <Grid container>
-        <MissionItemMenu
-          className={classes.MenuRightWrapper}
-          boxRef={boxRef}
-          groups={groups}
-          mission={mission}
-          volunteers={volunteers}
-        />
+        <Grid container className={classes.chipsContainer}>
+          {mission.status === Mission.Status.tentative && (
+            <StyledChip
+              label="Needs Volunteer"
+              variant="outlined"
+              className={classes.chipNeedsVolunteer}
+            />
+          )}
+          {mission.status === Mission.Status.started && (
+            <StyledChip label="Started" variant="outlined" className={classes.chipNeedsVolunteer} />
+          )}
+          {mission.status === Mission.Status.delivered && (
+            <StyledChip
+              label="Delivered"
+              variant="outlined"
+              className={classes.chipNeedsVolunteer}
+            />
+          )}
+          {mission.status === Mission.Status.succeded && (
+            <StyledChip label="Succeded" variant="outlined" className={classes.chipReady} />
+          )}
+          {mission.status === Mission.Status.failed && (
+            <StyledChip label="Failed" variant="outlined" className={classes.chipReady} />
+          )}
+
+          {mission.readyToStart ? (
+            <StyledChip label="Ready" className={classes.chipReady} variant="outlined" />
+          ) : (
+            <StyledChip label="Not Ready" className={classes.chipNotReady} variant="outlined" />
+          )}
+        </Grid>
+
         <Grid item xs className={itemClass}>
-          {SpecificDetails}
+          <DetailsText showType={true} mission={mission} />
         </Grid>
         <Grid item xs className={itemClass}>
           <LocationRow label="Pick Up" location={mission.pickUpLocation} />

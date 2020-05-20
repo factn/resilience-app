@@ -7,6 +7,7 @@ import MuiMapIcon from "@material-ui/icons/Map";
 import { Button, Link } from "@material-ui/core";
 import axios from "axios";
 import _ from "lodash";
+import ErrorBoundary from "../ErrorBoundary";
 import { tspSolverConfig } from "../../../config/tspApi";
 
 const useStyles = makeStyles((theme) => ({
@@ -89,11 +90,13 @@ const ShowDeliveryRoute = ({ missions }) => {
   }
 
   return (
-    <Link href={googleMapsUrl} target="_blank">
-      <Button fullWidth={true} variant="text" startIcon={<MuiMapIcon />}>
-        View Route
-      </Button>
-    </Link>
+    <ErrorBoundary>
+      <Link href={googleMapsUrl} target="_blank">
+        <Button fullWidth={true} variant="text" startIcon={<MuiMapIcon />}>
+          View Route
+        </Button>
+      </Link>
+    </ErrorBoundary>
   );
 };
 

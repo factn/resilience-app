@@ -55,7 +55,7 @@ const useStyles = makeStyles((theme) => {
     },
     link: {
       textDecoration: "none",
-      width: 0,
+      // width: 0,
     },
   };
 });

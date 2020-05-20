@@ -3,10 +3,11 @@ import { makeStyles } from "@material-ui/core/styles";
 import React from "react";
 import { Link } from "react-router-dom";
 
-import AboutImage1 from "../../../img/AboutImage1.webp";
+import AboutImage1 from "../../../img/AboutImage1.jpg";
 import { ReactComponent as Logo } from "../../../img/logo.svg";
 import { Body1, H1, H4 } from "../../component";
 import { Page } from "../../layout";
+import { routes } from "../../routing";
 
 const useStyles = makeStyles((theme) => ({
   AboutUsContainer: {
@@ -54,8 +55,8 @@ const AboutPage = () => {
         <H1 className={classes.TitleLabel}>About Us</H1>
         <Body1 className={classes.ContentLabel}>
           The Resilience app was created to help people coordinate the distribution of food and aid.
-          It’s a tool to manage the needs of the community and connect with volunteers who can help
-          fulfill those needs.
+          It’s an open source tool to manage the needs of the community and connect with volunteers
+          who can help fulfill those needs.
         </Body1>
         <Grid
           container
@@ -68,7 +69,7 @@ const AboutPage = () => {
           <H1 className={classes.MutualAidLogoLabel}>MutualAid.World</H1>
         </Grid>
         <Grid>
-          <Link to="/">
+          <Link to={routes.home}>
             <H4 className={classes.LearnMoreLinkLabel}>Learn more</H4>
           </Link>
         </Grid>

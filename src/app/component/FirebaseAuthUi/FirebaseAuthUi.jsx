@@ -1,18 +1,27 @@
-import firebase from "firebase/app";
-import "firebase/auth";
-import React from "react";
-import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
+import React, { useEffect } from "react";
+import { useFirebase } from "react-redux-firebase";
 
-const defaultFirebaseUiConfig = {
+const defaultFirebaseUiConfig = (firebase) => ({
   signInFlow: "popup",
   signInOptions: [
     firebase.auth.GoogleAuthProvider.PROVIDER_ID,
     firebase.auth.FacebookAuthProvider.PROVIDER_ID,
     firebase.auth.PhoneAuthProvider.PROVIDER_ID,
   ],
-};
+});
 
+const UI_ID = "firebase-auth-ui";
+let ui;
 export default function FirebaseAuthUi(props) {
-  const firebaseUiConfig = props.firebaseUiConfig || defaultFirebaseUiConfig;
-  return <StyledFirebaseAuth uiConfig={firebaseUiConfig} firebaseAuth={firebase.auth()} />;
+  const firebase = useFirebase();
+  const firebaseUiConfig = props.firebaseUiConfig || defaultFirebaseUiConfig(firebase);
+
+  useEffect(() => {
+    if (!ui) {
+      ui = new window.firebaseui.auth.AuthUI(firebase.auth());
+    }
+    ui.start(`#${UI_ID}`, firebaseUiConfig);
+  }, [firebase, firebaseUiConfig]);
+
+  return <div id={UI_ID}></div>;
 }

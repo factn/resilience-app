@@ -1,23 +1,26 @@
 import { Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import InsertEmoticonIcon from "@material-ui/icons/InsertEmoticon";
-import PhoneIcon from "@material-ui/icons/Phone";
+import Person from "@material-ui/icons/Person";
 import PropTypes from "prop-types";
-import React from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 import { compose } from "redux";
 
-import HeaderImage1 from "../../../img/HeaderImage1.webp";
-import HeaderImage2 from "../../../img/HeaderImage2.webp";
-import ShopperImage1 from "../../../img/ShopperImage1.webp";
-import SignInHeader1 from "../../../img/SignInHeader1.webp";
+import HeaderImage1 from "../../../img/HeaderImage1.jpg";
+import HeaderImage2 from "../../../img/HeaderImage2.jpg";
+import ShopperImage1 from "../../../img/ShopperImage1.jpg";
+import SignInHeader1 from "../../../img/SignInHeader1.jpg";
 import SplashImage1 from "../../../img/SplashImage1.png";
-import { Body1, Button, H1, H2, H3, H4 } from "../../component";
+import { Body1, Button, H1, H2, H3, H4, ContactComponent } from "../../component";
 import { Page } from "../../layout";
-import VolunteerHome from "./VolunteerHome";
+import AuthenticatedHome from "./AuthenticatedHome";
 import { isEmpty, isLoaded } from "react-redux-firebase";
-import User from "../../model/User";
+import { User, useOrganization } from "../../model";
+import Mission from "../../model/Mission";
+import { routes } from "../../routing";
+import { useFirestoreConnect } from "react-redux-firebase";
 
 const useStyles = makeStyles((theme) => ({
   HomeImage: {
@@ -70,7 +73,6 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "24px",
   },
   SignInHeaderContainer: {
-    height: "380px",
     position: "relative",
     overflow: "hidden",
     backgroundImage: `url(${SignInHeader1})`,
@@ -88,12 +90,12 @@ const useStyles = makeStyles((theme) => ({
     top: 0,
     bottom: 0,
     right: 0,
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    backgroundColor: "rgba(0, 0, 0, 0.1)",
     zIndex: 0,
   },
-  FactnLogo: {
-    height: "100px",
-    width: "100px",
+  OrgLogo: {
+    height: "150px",
+    width: "150px",
     backgroundColor: "#F1F1F1",
     borderRadius: "50%",
     zIndex: 1,
@@ -137,16 +139,16 @@ const useStyles = makeStyles((theme) => ({
     zIndex: 0,
   },
   GreetingCardHeaderContainer: {
-    height: "160px",
-    maxHeight: "160px",
+    height: "200px",
+    maxHeight: "200px",
     backgroundSize: "125%",
     position: "relative",
   },
   GreetingCardHeaderLabel: {
-    backgroundColor: "rgba(255, 255, 255, 0.9)",
+    backgroundColor: "rgba(255, 255, 255, 0.6)",
     padding: "8px 16px",
-    fontSize: "30px",
-    fontWeight: 400,
+    fontSize: "42px",
+    fontWeight: 600,
     color: theme.color.black,
     zIndex: 1,
   },
@@ -156,7 +158,8 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "18px",
   },
   GreetingCardActionButton: {
-    margin: "0 30px 16px 30px",
+    margin: "0 auto 50px auto",
+    padding: "10px 50px",
     height: "48px",
   },
   DonateCardContainer: {
@@ -251,7 +254,8 @@ const DonateCardComponent = () => {
       <Button
         data-testid="btn-donate-action"
         className={classes.DonateCardAction}
-        onClick={() => null}
+        component={Link}
+        to={routes.donate}
       >
         Donate Funds
       </Button>
@@ -270,13 +274,9 @@ const ContactAdBanner = () => {
       className={classes.ContactAdContainer}
     >
       <Grid className={classes.ContactAdInfo}>
-        <PhoneIcon data-testid="icon-contact" className={classes.ContactAdIcon} />
+        <Person data-testid="icon-contact" className={classes.ContactAdIcon} />
         <H3 data-testid="label-contact-mssg-1" className={classes.ContactAdLabel}>
-          To request food by phone,
-        </H3>
-        <H3 data-testid="label-contact-mssg-2" className={classes.ContactAdLabel}>
-          call {/* TODO: Turn it back to Link when correct phone number is populated */}
-          <span className={classes.ContactAdLink}>555-555-555</span>
+          Any questions? Please contact us <ContactComponent prefix=" at " />.
         </H3>
       </Grid>
     </Grid>
@@ -344,22 +344,19 @@ const GreetingCardComponent = ({
 
 const SignInHeaderComponent = ({ history }) => {
   const classes = useStyles();
+  const org = useOrganization();
   return (
     <Grid container className={classes.SignInHeaderContainer}>
-      <img
-        src="https://avatars2.githubusercontent.com/u/46978689?s=200&v=4"
-        className={classes.FactnLogo}
-        alt="Faction Logo"
-      />
+      <img src={org?.logoURL} className={classes.OrgLogo} alt="Faction Logo" />
       <H1 data-testid="label-org-name" className={classes.OrgNameLabel}>
-        Organisation Name
+        {org?.displayName}
       </H1>
       <H3 data-testid="label-org-tagline" className={classes.TaglineLabel}>
-        Neighbors helping neighbors (optional org tagline)
+        {org?.tagline}
       </H3>
       <Button
         className={classes.SigninButton}
-        onClick={() => history.push("/login")}
+        onClick={() => history.push(routes.login)}
         data-testid="btn-login"
       >
         Sign In
@@ -375,34 +372,40 @@ const SignInHeaderComponent = ({ history }) => {
  * @component
  */
 const HomePage = ({ auth, history, profile }) => {
-  const classes = useStyles();
-  /**
-   * In case an user have logged in but his user profile is empty
-   * This can only happens if user decided to login without
-   * going the proper signup channel as firebase allow singup
-   * by login as a default
-   */
-  if (isLoaded(auth) && !isEmpty(auth) && !isEmpty(auth) && isLoaded(profile)) {
-    User.createProfile(auth.uid, auth);
-  }
+  const org = useOrganization();
 
+  useFirestoreConnect(() => {
+    if (!auth.uid) {
+      return [];
+    }
+    const id = org.uid;
+    return [
+      Mission.fsAvailableUserMissions(id, auth.uid),
+      Mission.fsAssignedUserMissions(id, auth.uid),
+      { collection: "organizations", doc: id },
+    ];
+  });
+
+  const classes = useStyles();
+  useEffect(() => {
+    User.createProfileIfNotExist(auth, profile);
+  }, [auth, profile]);
   return (
     <Page isLoaded={isLoaded(auth)} LoadingComponent={LoadingComponent}>
-      {isEmpty(auth) ? (
+      {isLoaded(auth) && !isEmpty(auth) ? (
+        <AuthenticatedHome auth={auth} />
+      ) : (
         <Grid container>
           <SignInHeaderComponent history={history} />
           <PoweredByComponent />
           <Grid container>
-            <H4 className={classes.QuickInfoLabel}>
-              We're a grassroots team in Studio City, CA getting fresh farm produce to our neighbors
-              in need.
-            </H4>
+            <H4 className={classes.QuickInfoLabel}>{org?.quickInfo}</H4>
           </Grid>
           <GreetingCardComponent
             title="Need help?"
             message="Sign up to request a food box, small errand, or a pharmacy pickup. You'll be matched with a volunteer who will take care of you ASAP."
             actionLabel="I Need Help"
-            actionPress={() => history.push("/request")}
+            actionPress={() => history.push(routes.request.start)}
             backgroundImage={`url(${HeaderImage1})`}
             backgroundPosition={`10% 55%`}
           />
@@ -410,17 +413,13 @@ const HomePage = ({ auth, history, profile }) => {
             title="Want to help?"
             message="Sign up to join your local network helping neighbors through this crisis. Deliver food, medicine, and supplies to the most vulnerable."
             actionLabel="Volunteer"
-            actionPress={() => history.push("/signup")}
+            actionPress={() => history.push(routes.user.signup)}
             backgroundImage={`url(${HeaderImage2})`}
             backgroundPosition={`50% 10%`}
           />
           <DonateCardComponent />
           <ContactAdBanner />
         </Grid>
-      ) : (
-        <>
-          <VolunteerHome currentUser={auth} />
-        </>
       )}
     </Page>
   );

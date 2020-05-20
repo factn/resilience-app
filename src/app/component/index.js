@@ -2,36 +2,41 @@ import AddressInput from "./AddressInput";
 import Button from "./Button";
 import Chip from "./Chip";
 import { FoodBoxIcon } from "./icons";
-import MissionCard from "./MissionCard";
-import MissionGroup from "./MissionGroup";
-import MissionList from "./MissionList";
+
+import MissionCard from "./MissionComponent/MissionCard";
+import MissionGroup from "./MissionComponent/MissionGroup";
+import MissionList from "./MissionComponent/MissionList";
+
 import DownloadMissionsCsv from "./DownloadCsv";
 import Popup from "./Popup";
-import PrivateComponent from "./PrivateComponent";
-import ProtectedRoute from "./PrivateComponent";
 import ShowDeliveryRoute from "./ShowDeliveryRoute";
 import UserPhoneUnverifiedPopup from "./UserPhoneUnverifiedPopup";
-import { Body1, Body2, H1, H2, H3, H4, H5 } from "./Typography";
+import ContactComponent from "./ContactComponent";
+import { Body1, Body2, H1, H2, H3, H4, H5, H6, Div, TypographyWrapper } from "./Typography";
+import ComingSoon from "./ComingSoon/ComingSoon";
 
 export {
   AddressInput,
   Button,
   Chip,
+  ComingSoon,
   FoodBoxIcon,
   MissionCard,
   MissionGroup,
   MissionList,
   DownloadMissionsCsv,
-  PrivateComponent,
-  ProtectedRoute,
   ShowDeliveryRoute,
   Popup,
   UserPhoneUnverifiedPopup,
+  ContactComponent,
   H1,
   H2,
   H3,
   H4,
   H5,
+  H6,
   Body1,
   Body2,
+  Div,
+  TypographyWrapper,
 };

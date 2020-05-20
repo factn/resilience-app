@@ -1,16 +1,26 @@
 const admin = require("firebase-admin");
-
 const data = require("./data.json");
-let serviceAccount = process.env.FIREBASE_SECRET;
+
 
 if (process.env.NODE_ENV === "development") {
+  // this is how it runs in local dev
   require("dotenv").config();
   admin.initializeApp();
   db = admin.firestore();
 } else {
-  const credential = JSON.parse(serviceAccount);
+
+  var serviceAccount = null; 
+  if (process.env.FIREBASE_SECRET) {
+    // this is how github actions deploys data to staging
+    serviceAccount = JSON.parse(process.env.FIREBASE_SECRET)
+  }
+  else {
+    // this is how to deploy data from local to staging 
+    // (but you need to get ./serviceAccount.json first)
+    serviceAccount = require("./serviceAccount.json"); 
+  }
   admin.initializeApp({
-    credential: admin.credential.cert(credential),
+    credential: admin.credential.cert(serviceAccount),
     databaseURL: "https://mutualaid-757f6.firebaseio.com",
   });
   db = admin.firestore();
@@ -30,6 +40,9 @@ function isCollection(data, path, depth) {
       // If there is at least one non-object item in the data then it cannot be collection.
       return false;
     }
+  }
+  if (Array.isArray(data)) {
+    return false;
   }
 
   return true;

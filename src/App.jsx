@@ -1,82 +1,99 @@
 import "./App.css";
 
 import CssBaseline from "@material-ui/core/CssBaseline";
-import React from "react";
-import { useSelector } from "react-redux";
-import { isEmpty, isLoaded } from "react-redux-firebase";
-import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-dom";
-import "firebase/storage";
+import React, { useEffect, useState } from "react";
+import { BrowserRouter as Router, Redirect, Switch } from "react-router-dom";
+import { OrganizationContext, Organization } from "./app/model";
 
+import { routes, AppRoute } from "./app/routing";
 import ThemeProvider from "./app/component/ThemeProvider";
-import { Dashboard } from "./app/page";
-import { MissionCreate, MissionsCompleted, MissionsCreated, MissionFeedback } from "./app/page";
-import AboutPage from "./app/page/Aboutus";
-import HomePage from "./app/page/Home";
-import LoginPage from "./app/page/Login";
-import MissionDetails from "./app/page/MissionDetails";
-import OrganizerSignupPage from "./app/page/OrganizerSignup";
-import RequestPage from "./app/page/Request";
-import SignupScene from "./app/page/Signup";
-import Status from "./app/page/Status";
-import UserProfile from "./app/page/UserProfile";
+import {
+  AboutPage,
+  Dashboard,
+  DonationPage,
+  ErrorLanding,
+  Home,
+  Login,
+  Logout,
+  MissionCreate,
+  MissionDetails,
+  MissionFeedback,
+  MissionsCompleted,
+  OrganizerSignupPage,
+  RequestPage,
+  Signup,
+  Status,
+  UserProfile,
+  RecipientDashboard,
+  VolunteerHome,
+} from "./app/page";
+import Snackbar from "./app/component/Snackbars";
 import theme from "./theme";
+import { LinearProgress } from "@material-ui/core";
 
-function PrivateRoute({ children, ...rest }) {
-  const auth = useSelector((state) => state.firebase.auth);
-  return (
-    <Route
-      {...rest}
-      render={({ location }) =>
-        isLoaded(auth) && !isEmpty(auth) ? (
-          children
-        ) : (
-          <Redirect
-            to={{
-              pathname: "/login",
-              state: { referrer: location, warning: true },
-            }}
-          />
-        )
-      }
-    />
-  );
-}
+// grab from domain or some service
+const ORGANIZATION_ID = "1";
 
 function App() {
+  const [org, setOrg] = useState();
+  useEffect(() => {
+    Organization.init(ORGANIZATION_ID)
+      .then((org) => setOrg(org))
+      .catch((error) => {
+        console.error(error);
+        setOrg(null);
+      });
+  }, []);
+
+  if (org === undefined) {
+    return <LinearProgress />;
+  }
+
   return (
     <>
-      <CssBaseline />
       <ThemeProvider theme={theme}>
+        <CssBaseline />
         <Router>
           <div className="App">
-            <Switch>
-              <Route exact path="/" component={HomePage} />
-              <Route path="/about" component={AboutPage} />
-              <Route path="/login" component={LoginPage} />
-              <Route path="/organizer/signup" component={OrganizerSignupPage} />
-              <Route path="/status" component={Status} />
-              <Route path="/signup" component={SignupScene} />
-              <Route path="/request" component={RequestPage} />
-              <Route path="/dashboard">
-                <Dashboard />
-              </Route>
-              <PrivateRoute path="/missions/created">
-                <MissionsCreated />
-              </PrivateRoute>
-              <PrivateRoute path="/missions/new">
-                <MissionCreate />
-              </PrivateRoute>
-              <PrivateRoute path="/missions/completed">
-                <MissionsCompleted />
-              </PrivateRoute>
-              <PrivateRoute path="/missions/feedback/:id">
-                <MissionFeedback />
-              </PrivateRoute>
-              <Route path="/missions/:id" component={MissionDetails} />
-              <PrivateRoute path="/user/profile">
-                <UserProfile />
-              </PrivateRoute>
-            </Switch>
+            <OrganizationContext.Provider value={org}>
+              <Snackbar.Context.SnackbarProvider>
+                {org === null && <Redirect to={routes.organizer.signup} />}
+                <Switch>
+                  <AppRoute exact path={routes.home} component={Home} />
+                  <AppRoute path={routes.about} component={AboutPage} />
+                  <AppRoute path={routes.login} component={Login} />
+                  <AppRoute path={routes.logout} component={Logout} />
+                  <AppRoute path={routes.organizer.signup} component={OrganizerSignupPage} />
+                  <AppRoute path={routes.volunteer.status} component={Status} />
+                  <AppRoute path={routes.user.signup} component={Signup} />
+                  <AppRoute path={routes.request.start} component={RequestPage} />
+                  <AppRoute path={routes.donate} component={DonationPage} />
+                  <AppRoute path={routes.missions.createNew} component={MissionCreate} />
+                  <AppRoute path={routes.missions.completed} component={MissionsCompleted} />
+                  <AppRoute path={routes.missions.feedback} component={MissionFeedback} />
+                  <AppRoute path={routes.missions.details} component={MissionDetails} />
+                  <AppRoute path={routes.user.profile} component={UserProfile} />
+                  {/* ⬇ BASE routes below ⬇ */}
+                  <AppRoute path={routes.organizer.dashboard.home} component={Dashboard} />
+                  <AppRoute path={routes.recipient.dashboard.home} component={RecipientDashboard} />
+                  <AppRoute path={routes.volunteer.dashboard.home} component={VolunteerHome} />
+                  <AppRoute path={routes.unauthorized}>
+                    <ErrorLanding errorCode={401} />
+                  </AppRoute>
+                  <AppRoute path={routes.pageNotFound}>
+                    <ErrorLanding errorCode={404} />
+                  </AppRoute>
+                  <AppRoute path="*">
+                    <ErrorLanding errorCode={404} />
+                  </AppRoute>
+                </Switch>
+                <Snackbar.Context.SnackbarConsumer>
+                  {(value) => {
+                    return <Snackbar handleClose={value.closeSnackbar} {...value.snackbar} />;
+                  }}
+                </Snackbar.Context.SnackbarConsumer>
+              </Snackbar.Context.SnackbarProvider>
+            </OrganizationContext.Provider>
           </div>
         </Router>
       </ThemeProvider>

@@ -1,6 +1,7 @@
 import BaseModel from "./BaseModel";
 import Organization from "./Organization";
 import { Location, MissionStatus, UserInterface, VolunteerStatus } from "./schema";
+import { env } from "../utils";
 
 const defaultLocation: Location = {
   address: "",
@@ -38,7 +39,7 @@ const fsVolunteer = (orgUid: string) => ({
   storeAs: "volunteers",
 });
 
-class User extends BaseModel {
+export class User extends BaseModel {
   VolunteerStatus = VolunteerStatus;
 
   fsVolunteer = fsVolunteer;
@@ -57,11 +58,23 @@ class User extends BaseModel {
       });
   }
   /**
+   * In case an user have logged in but his user profile is empty
+   * This can only happens if user decided to login without
+   * going the proper signup channel as firebase allow singup
+   * by login as a default
+   *
    * create a user
    * @param {string | null} userUid - user
    * @param {object} data- updated data
    * @returns {string} userUid - return back given uid or the generated new one
    */
+  createProfileIfNotExist(auth: any, profile: any) {
+    if (!auth || !profile) return;
+    if (auth.isLoaded && !auth.isEmpty && profile.isEmpty && profile.isLoaded) {
+      return this.getCollection("users").doc(auth.uid).set(this.load(auth));
+    }
+  }
+
   createProfile(userUid: string | null, data: object) {
     if (userUid) {
       return this.getCollection("users")
@@ -119,6 +132,34 @@ class User extends BaseModel {
       })
       .catch((error) => {
         console.log(error);
+      });
+  }
+
+  getAllRequestedMissions(userUid: string) {
+    return this.getCollection("organizations")
+      .doc(Organization.uid)
+      .collection("missions")
+      .where("recipientUid", "==", userUid)
+      .get()
+      .then((snapshot) => snapshot.docs.map((doc) => doc.data()))
+      .catch((error) => {
+        console.error(error);
+        return [];
+      });
+  }
+
+  getUserProfile(userUid: string): Promise<UserInterface> {
+    return this.getCollection("users")
+      .doc(userUid)
+      .get()
+      .then((snapshot) => {
+        const userProfile: UserInterface = snapshot.data() as UserInterface;
+        if (env.isDev()) {
+          console.log("On local dev, you are always an Organizer and a Volunteer");
+          if (userProfile) userProfile.isOrganizer = true;
+          if (userProfile) userProfile.isVolunteer = true;
+        }
+        return userProfile;
       });
   }
 }
