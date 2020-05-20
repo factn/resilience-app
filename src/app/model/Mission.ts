@@ -51,6 +51,7 @@ const defaultMissionData: MissionInterface = {
   volunteerUid: "",
   volunteerDisplayName: "",
   volunteerPhoneNumber: "",
+  volunteerPhotoUrl: "",
 
   recipientDisplayName: "No Recipient Name",
   recipientPhoneNumber: "",
@@ -330,6 +331,7 @@ class Mission extends BaseModel {
       volunteerUid: userUid,
       volunteerDisplayName: user.displayName,
       volunteerPhoneNumber: user.phoneNumber,
+      volunteerPhotoUrl: user.photoURL,
       status: MissionStatus.assigned,
     });
   }
