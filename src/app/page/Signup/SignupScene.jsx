@@ -75,7 +75,7 @@ function SignupScene(props) {
   }
 
   async function updateUser(payload, callback) {
-    payload = getPayloadWithAddress(payload);
+    payload = await getPayloadWithAddress(payload);
     try {
       User.update(payload.uid, payload).then(() => {
         setValues({ ...payload });
@@ -97,8 +97,7 @@ function SignupScene(props) {
         payload = { ...payload, location: location };
       }
     } catch (error) {
-      console.log("ERROR WHEN GETTING LOCATION", error);
-      console.log("address: ", location.address);
+      setErrorSnackbarMessage(error);
     }
     return payload;
   }
