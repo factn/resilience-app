@@ -1,7 +1,6 @@
 import { makeStyles } from "@material-ui/core/styles";
 import AnnouncementIcon from "@material-ui/icons/Announcement";
 import HomeIcon from "@material-ui/icons/Home";
-import PanToolIcon from "@material-ui/icons/PanTool";
 import PeopleIcon from "@material-ui/icons/People";
 import ExitToApp from "@material-ui/icons/ExitToApp";
 
