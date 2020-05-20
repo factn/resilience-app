@@ -164,11 +164,39 @@ const fsAssignedUserMissions = (orgId: string, userId: string) => ({
       collection: "missions",
       where: [
         ["volunteerUid", "==", userId],
-        ["status", "in", [MissionStatus.assigned, MissionStatus.started, MissionStatus.delivered]],
+        ["status", "in", [MissionStatus.assigned, MissionStatus.started]],
       ],
     },
   ],
   storeAs: "assignedUserMissions",
+});
+const fsDeliveredUserMissions = (orgId: string, userId: string) => ({
+  collection: "organizations",
+  doc: orgId,
+  subcollections: [
+    {
+      collection: "missions",
+      where: [
+        ["volunteerUid", "==", userId],
+        ["status", "==", MissionStatus.delivered],
+      ],
+    },
+  ],
+  storeAs: "deliveredUserMissions",
+});
+const fsCompletedUserMissions = (orgId: string, userId: string) => ({
+  collection: "organizations",
+  doc: orgId,
+  subcollections: [
+    {
+      collection: "missions",
+      where: [
+        ["volunteerUid", "==", userId],
+        ["status", "in", [MissionStatus.succeeded, MissionStatus.failed]],
+      ],
+    },
+  ],
+  storeAs: "completedUserMissions",
 });
 
 const getAllGroups = (missions: MissionInterface[]) => {
@@ -217,6 +245,8 @@ class Mission extends BaseModel {
   fsAvailableUserMissions = fsAvailableUserMissions;
   selectAssignedUserMissions = (state: any) => state.firestore.ordered.assignedUserMissions || [];
   fsAssignedUserMissions = fsAssignedUserMissions;
+  fsDeliveredUserMissions = fsDeliveredUserMissions;
+  fsCompletedUserMissions = fsCompletedUserMissions;
 
   getAllGroups = getAllGroups;
 

@@ -152,6 +152,14 @@ const styles = (theme) => ({
     borderColor: theme.color.lightgrey,
     padding: theme.spacing(1),
   },
+  missionAwaitingVolunteerButton: {
+    display: "flex",
+    alignItems: "center",
+    textAlign: "center",
+    justifyContent: "center",
+    width: "100%",
+    color: theme.color.gray3,
+  },
 });
 
 /**
@@ -202,6 +210,11 @@ const MissionCard = withStyles(styles)(({ classes, mission }) => {
             </Button>
           )}
         </Grid>
+      )}
+      {mission.status === MissionStatus.delivered && (
+        <Box className={classes.missionAwaitingVolunteerButton}>
+          Mission awaiting confirmation from recipient
+        </Box>
       )}
       {mission.status === MissionStatus.assigned && (
         <Grid item xs={6}>

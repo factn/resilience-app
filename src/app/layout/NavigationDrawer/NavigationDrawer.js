@@ -7,12 +7,10 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-import AssignmentIcon from "@material-ui/icons/Assignment";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import DoubleArrowIcon from "@material-ui/icons/DoubleArrow";
 import ExitToApp from "@material-ui/icons/ExitToApp";
 import MenuIcon from "@material-ui/icons/Menu";
-import MoveToInboxIcon from "@material-ui/icons/MoveToInbox";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import PeopleIcon from "@material-ui/icons/People";
 import clsx from "clsx";
@@ -22,10 +20,11 @@ import { useStyles } from "./NavigationDrawer.style";
 import { AppLink, routes } from "../../routing";
 import { PERMISSIONS, UserPermissionsService } from "../../model/permissions";
 
+//Note: ListItemIcon always require a child
 const MenuItem = ({ classes, icon, text, to }) => (
   <AppLink to={to} className={classes.link}>
     <ListItem button>
-      <ListItemIcon>{icon}</ListItemIcon>
+      <ListItemIcon>{icon ? icon : <div />}</ListItemIcon>
       <ListItemText primary={text} />
     </ListItem>
   </AppLink>
@@ -99,20 +98,22 @@ export default function TemporaryDrawer() {
           */}
 
         {UserPermissionsService.hasPermission(PERMISSIONS.VIEW_MISSIONS) && (
-          <MenuItem
-            text="Volunteer Dashboard"
-            to={routes.volunteer.dashboard.home}
-            icon={<PeopleIcon classes={{ root: classes.colorIcon }} />}
-            classes={classes}
-          />
-        )}
+          <>
+            <MenuItem
+              text="Volunteer Dashboard"
+              to={routes.volunteer.dashboard.home}
+              icon={<PeopleIcon classes={{ root: classes.colorIcon }} />}
+              classes={classes}
+            />
+            <MenuItem
+              text="Awaiting Confirmation"
+              to={routes.missions.delivered}
+              classes={classes}
+            />
 
-        <MenuItem
-          text="Done"
-          to={routes.missions.completed}
-          icon={<AssignmentIcon classes={{ root: classes.colorIcon }} />}
-          classes={classes}
-        />
+            <MenuItem text="Done" to={routes.missions.completed} classes={classes} />
+          </>
+        )}
 
         <MenuItem
           text="Profile"
