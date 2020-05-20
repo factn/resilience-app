@@ -433,10 +433,9 @@ const HomePage = ({ auth, history, profile }) => {
             title="Need help?"
             message="Sign up to request a food box, small errand, or a pharmacy pickup. You'll be matched with a volunteer who will take care of you ASAP."
             actionLabel="Food Box Delivery"
-            actionPress={() => history.push(routes.request.start)}
+            actionPress={() => history.push(routes.request.foodbox)}
             backgroundImage={`url(${HeaderImage1})`}
             backgroundPosition={`10% 55%`}
-            icon={<FoodBoxDeliveryIcon />}
           />
           <Grid className={classes.ComingSoon} container>
             <H4>
