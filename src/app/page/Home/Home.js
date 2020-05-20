@@ -21,6 +21,9 @@ import { User, useOrganization } from "../../model";
 import Mission from "../../model/Mission";
 import { routes } from "../../routing";
 import { useFirestoreConnect } from "react-redux-firebase";
+import FoodBoxDeliveryIcon from "../../component/icons/FoodBoxDeliveryIcon";
+import EventNoteIcon from "@material-ui/icons/EventNote";
+import LocalPharmacyIcon from "@material-ui/icons/LocalPharmacy";
 
 const useStyles = makeStyles((theme) => ({
   HomeImage: {
@@ -103,12 +106,14 @@ const useStyles = makeStyles((theme) => ({
   OrgNameLabel: {
     color: theme.color.white,
     zIndex: 1,
+    userSelect: "none",
   },
   TaglineLabel: {
     color: theme.color.white,
     fontWeight: 300,
     fontSize: "18px",
     zIndex: 1,
+    userSelect: "none",
   },
   PoweredByContainer: {
     height: "48px",
@@ -151,6 +156,7 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 600,
     color: theme.color.black,
     zIndex: 1,
+    userSelect: "none",
   },
   GreetingCardMessageLabel: {
     margin: "30px",
@@ -161,6 +167,10 @@ const useStyles = makeStyles((theme) => ({
     margin: "0 auto 50px auto",
     padding: "10px 50px",
     height: "48px",
+  },
+  actionLabelIcon: {
+    fill: "white",
+    fontSize: "18px",
   },
   DonateCardContainer: {
     backgroundColor: "#150E60",
@@ -224,6 +234,23 @@ const useStyles = makeStyles((theme) => ({
   ContactAdLink: {
     color: theme.color.darkBlue,
     fontWeight: 500,
+  },
+  ComingSoon: {
+    display: "flex",
+    flexDirection: "column",
+    textAlign: "center",
+    marginBottom: "20px",
+  },
+  ComingSoonText: {
+    fontWeight: "200",
+    color: "#B4B6F1",
+    lineHeight: "1.5",
+    occupancy: "75%",
+  },
+  SoonIcon: {
+    paddingTop: "24px",
+    width: "46px",
+    height: "46px",
   },
 }));
 
@@ -311,6 +338,7 @@ const GreetingCardComponent = ({
   title,
   actionLabel,
   actionPress,
+  icon,
 }) => {
   const classes = useStyles();
   return (
@@ -336,7 +364,7 @@ const GreetingCardComponent = ({
         onClick={actionPress}
         data-testid="btn-greeting-action"
       >
-        {actionLabel}
+        {icon} {actionLabel}
       </Button>
     </Grid>
   );
@@ -404,11 +432,23 @@ const HomePage = ({ auth, history, profile }) => {
           <GreetingCardComponent
             title="Need help?"
             message="Sign up to request a food box, small errand, or a pharmacy pickup. You'll be matched with a volunteer who will take care of you ASAP."
-            actionLabel="I Need Help"
+            actionLabel="Food Box Delivery"
             actionPress={() => history.push(routes.request.start)}
             backgroundImage={`url(${HeaderImage1})`}
             backgroundPosition={`10% 55%`}
+            icon={<FoodBoxDeliveryIcon />}
           />
+          <Grid className={classes.ComingSoon} container>
+            <H4>
+              <i>Coming soon:</i>
+            </H4>
+            <H3 className={classes.ComingSoonText}>
+              <EventNoteIcon className={classes.SoonIcon} /> General Errand
+            </H3>
+            <H3 className={classes.ComingSoonText}>
+              <LocalPharmacyIcon className={classes.SoonIcon} /> Pharmacy Run
+            </H3>
+          </Grid>
           <GreetingCardComponent
             title="Want to help?"
             message="Sign up to join your local network helping neighbors through this crisis. Deliver food, medicine, and supplies to the most vulnerable."
