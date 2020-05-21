@@ -401,7 +401,6 @@ const SignInHeaderComponent = ({ history }) => {
  */
 const HomePage = ({ auth, history, profile }) => {
   const org = useOrganization();
-  console.log(profile);
 
   useFirestoreConnect(() => {
     if (!auth.uid) {
