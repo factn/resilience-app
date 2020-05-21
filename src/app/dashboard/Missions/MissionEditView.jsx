@@ -9,12 +9,15 @@ import PersonIcon from "@material-ui/icons/Person";
 import React, { useState } from "react";
 import { isEmpty, isLoaded } from "react-redux-firebase";
 import { Button, Body2, H3 } from "../../component";
+import Switch from "@material-ui/core/Switch";
 import DateTimeInput from "../../component/DateTimeInput";
 import ScheduleIcon from "@material-ui/icons/Schedule";
 import { Mission } from "../../model";
 import _ from "../../utils/lodash";
 import AddressInput from "../../component/AddressInput";
+import UsersAutocomplete from "../../component/UsersAutocomplete";
 import { useForm } from "../../hooks";
+import { MissionStatus } from "../../model/schema";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,6 +32,9 @@ const useStyles = makeStyles((theme) => ({
   },
   missionTypeText: {
     paddingTop: theme.spacing(0.5),
+  },
+  label: {
+    fontWeight: 600,
   },
   rowLabel: {
     fontWeight: 600,
@@ -197,7 +203,7 @@ const MissionDetailsRow = ({ mission }) => {
  * Component for editing mission details
  * @component
  */
-const MissionEditView = ({ mission, toDetailsView, toListView }) => {
+const MissionEditView = ({ mission, toDetailsView, toListView, volunteers }) => {
   const classes = useStyles();
 
   const { handleChange, values } = useForm(mission);
@@ -211,8 +217,16 @@ const MissionEditView = ({ mission, toDetailsView, toListView }) => {
     date: values.deliveryWindow.startTime,
     location: "",
   });
+  const [selectedVolunteer, setSelectedVolunteer] = useState(
+    volunteers.find((el) => el.id === mission.volunteerUid)
+  );
 
   const props = { classes, mission };
+
+  const volunteerEditable =
+    mission.status === MissionStatus.unassigned ||
+    mission.status === MissionStatus.tentative ||
+    mission.status === MissionStatus.assigned;
 
   function changeFormValue(name, value) {
     handleChange({ target: { name, value } });
@@ -221,6 +235,10 @@ const MissionEditView = ({ mission, toDetailsView, toListView }) => {
   function handleChangeLocation(data) {
     const { location } = data;
     changeFormValue("location", location);
+  }
+
+  function handleChangeReadyToStart(e) {
+    changeFormValue("readyToStart", e.target.checked);
   }
 
   function handleSave(e) {
@@ -246,6 +264,31 @@ const MissionEditView = ({ mission, toDetailsView, toListView }) => {
       deliveryWindow: {
         startTime: delivery.toString(),
       },
+      volunteerUid:
+        selectedVolunteer && values.status !== MissionStatus.tentative
+          ? selectedVolunteer.volunteerUid
+          : "",
+      volunteerDisplayname:
+        selectedVolunteer && values.status !== MissionStatus.tentative
+          ? selectedVolunteer.volunteerDisplayName
+          : "",
+      volunteerPhoneNumber:
+        selectedVolunteer && values.status !== MissionStatus.tentative
+          ? selectedVolunteer.volunteerPhoneNumber
+          : "",
+      tentativeVolunteerUid:
+        selectedVolunteer && values.status === MissionStatus.tentative
+          ? selectedVolunteer.volunteerUid
+          : "",
+      tentativeVolunteerDisplayName:
+        selectedVolunteer && values.status === MissionStatus.tentative
+          ? selectedVolunteer.volunteerDisplayName
+          : "",
+      tentativeVolunteerPhoneNumber:
+        selectedVolunteer && values.status === MissionStatus.tentative
+          ? selectedVolunteer.volunteerPhoneNumber
+          : "",
+      readyToStart: values.readyToStart,
     }).then((result) => {
       toDetailsView();
     });
@@ -384,6 +427,33 @@ const MissionEditView = ({ mission, toDetailsView, toListView }) => {
                 </Grid>
               </Grid>
             </Card>
+
+            <Card label="Volunteer Information" classes={classes}>
+              <UsersAutocomplete
+                editable={volunteerEditable}
+                handleChange={setSelectedVolunteer}
+                users={volunteers}
+                selected={selectedVolunteer}
+              />
+            </Card>
+
+            <Row classes={classes}>
+                                 
+              <Grid container direction="row" spacing={1} className={classes.rowBody}>
+                <Grid item>
+                  <Switch
+                    size="normal"
+                    name="readyToStart"
+                    checked={values.readyToStart}
+                    onChange={handleChangeReadyToStart}
+                  />
+                </Grid>
+                <Grid item className={classes.label}>
+                  Ready To Start?
+                </Grid>
+              </Grid>
+            </Row>
+
             <Label classes={classes}>Delivery Notes</Label>
             <Row classes={classes}>
               <TextField

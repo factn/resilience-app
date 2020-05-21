@@ -4,6 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import React, { useEffect, useState } from "react";
 import GroupWorkIcon from "@material-ui/icons/GroupWork";
 import Divider from "@material-ui/core/Divider";
+import EditView from "./MissionEditView";
 
 import MuiExpansionPanel from "@material-ui/core/ExpansionPanel";
 import MuiExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
@@ -11,7 +12,6 @@ import MuiExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import Card from "@material-ui/core/Card";
 import Paper from "@material-ui/core/Paper";
 
-import EditView from "./MissionEditView";
 import DetailsView from "./DetailsView";
 import ListItem from "./ListItem";
 import { Mission } from "../../model";
@@ -188,6 +188,7 @@ const MissionsListView = ({
             setSelectedMission={setSelectedMission}
             toListView={() => setView(Views.list)}
             toDetailsView={toDetailsView}
+            volunteers={volunteers}
           />
         )}
       </Box>
