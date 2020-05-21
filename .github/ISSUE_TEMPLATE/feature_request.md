@@ -6,9 +6,8 @@ labels: "enhancement"
 assignees: ""
 ---
 
-**READ BEFORE USING TEMPLATE!**
-
-<!-- You do NOT need to remove the texts that is commented out when viewing the 'Write' portion of this template, select 'Preview' to see how your issue will look and notice that any commented text in 'Write' does not carry over, simply add content to the under the commented portions between each section. -->
+<!-- **READ BEFORE USING TEMPLATE!**
+You do NOT need to remove the texts that is commented out when viewing the 'Write' portion of this template, select 'Preview' to see how your issue will look and notice that any commented text in 'Write' does not carry over, simply add content to the under the commented portions between each section. -->
 
 **Is the feature request already logged?**
 
