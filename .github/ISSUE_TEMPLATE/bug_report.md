@@ -6,11 +6,11 @@ labels: ""
 assignees: ""
 ---
 
-**Is the bug already logged?**
+## Is the bug already logged?
 
 Double check to make sure that this particular bug does not already exist within issues.
 
-[ ] I have confirmed that this bug does not already exist within GitHub issues.
+- [] I have confirmed that this bug does not already exist within GitHub issues.
 
 **Describe the bug**
 
