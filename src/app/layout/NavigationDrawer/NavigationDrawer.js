@@ -17,7 +17,6 @@ import PeopleIcon from "@material-ui/icons/People";
 import clsx from "clsx";
 import React, { useEffect } from "react";
 
-import clsx from "clsx";
 import { useStyles } from "./NavigationDrawer.style";
 import { AppLink, routes } from "../../routing";
 import { PERMISSIONS, UserPermissionsService } from "../../model/permissions";
