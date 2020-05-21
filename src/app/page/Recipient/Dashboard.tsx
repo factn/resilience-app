@@ -54,14 +54,11 @@ export default function () {
       let submitted: MissionInterface[] = [];
       let completed: MissionInterface[] = [];
 
-      missions.forEach((mission) => {
+      missions.sort(sortByDate).forEach((mission) => {
         completedStatus.includes(mission.status)
           ? completed.push(mission)
           : submitted.push(mission);
       });
-
-      submitted.sort(sortByDate);
-      completed.sort(sortByDate);
 
       setMissions({ submitted, completed });
     });
@@ -100,7 +97,7 @@ export default function () {
           }
         ></Tab>
       </Tabs>
-      <Box margin="0 1rem" height="100%">
+      <Box margin="0 1rem 3rem 1rem" height="100%">
         <Switch>
           <AppRoute path={routes.recipient.dashboard.submitted}>
             <RequestsList

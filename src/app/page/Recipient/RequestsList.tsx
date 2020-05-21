@@ -54,6 +54,20 @@ const useStyles = makeStyles((theme) => ({
   fallback: {
     marginTop: "2rem",
   },
+  confirmationImage: {
+    width: "calc(100% - 4rem)",
+    margin: "1rem 2rem",
+  },
+  volunteerName: {
+    display: "flex",
+    margin: "auto",
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    "& .MuiAvatar-root": {
+      margin: "0 .5rem",
+    },
+  },
 }));
 
 type Props = {
@@ -188,15 +202,21 @@ const TopBar = styled(_TopBar)`
 `;
 
 function ConfirmDelivery({ mission }: { mission: MissionInterface }) {
+  const classes = useStyles();
   return (
     <>
       <Divider />
       <Box margin="1rem" textAlign="center">
         <Typography variant="h5">Your request has been delivered!</Typography>
-        <img src={mission.deliveryConfirmationImage} alt="Confirmation" />
-        {/* 
-        TODO we should probably include the volunteer avatar with the mission */}
-        <Typography>By {mission.volunteerDisplayName}</Typography>
+        <img
+          className={classes.confirmationImage}
+          src={mission.deliveryConfirmationImage}
+          alt="Confirmation"
+        />
+        <Typography className={classes.volunteerName}>
+          By <Avatar alt="volunteer avatar" src={mission.volunteerPhotoUrl} />{" "}
+          {mission.volunteerDisplayName}
+        </Typography>
         {/* 
          TODO need a delivered date/ date updated */}
         {/* <Typography> on {_some_date_here}</Typography> */}
