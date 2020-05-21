@@ -66,6 +66,13 @@ export default function TemporaryDrawer() {
         )}
 
         <MenuItem
+          text="Requests"
+          to={routes.recipient.dashboard.home}
+          icon={<MoveToInboxIcon classes={{ root: classes.colorIcon }} />}
+          classes={classes}
+        />
+
+        <MenuItem
           text="I Need Help"
           to={routes.request.start}
           icon={<FavoriteIcon classes={{ root: classes.colorIcon }} />}
@@ -87,16 +94,6 @@ export default function TemporaryDrawer() {
           icon={<DashboardIcon classes={{ root: classes.colorIcon }} />}
           classes={classes}
         />
-
-        {/*
-          Hiding for
-          <MenuItem
-            text="My Requests"
-            to={routes.recipient.dashboard.home}
-            icon={<MoveToInboxIcon classes={{ root: classes.colorIcon }} fontSize="large"/>}
-            classes={classes}
-          />
-          */}
 
         {UserPermissionsService.hasPermission(PERMISSIONS.VIEW_MISSIONS) && (
           <MenuItem

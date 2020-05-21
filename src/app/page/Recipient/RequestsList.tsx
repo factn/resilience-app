@@ -1,4 +1,4 @@
-import React, { useState, ReactNode } from "react";
+import React, { useState } from "react";
 import {
   Card,
   CardHeader,
@@ -25,15 +25,15 @@ import {
   MissionStatus as Status,
   MissionFundedStatus as FundedStatus,
 } from "../../model/schema";
-import { useOrganization } from "../../model";
 import { ReactComponent as AppleIcon } from "../../../img/apple.svg";
+
+import Details from "./Details";
 
 type Props = {
   missions: MissionInterface[];
 };
 
 export default function ({ missions }: Props) {
-  console.log(missions);
   return (
     <>
       {missions.map((mission) => (
@@ -175,100 +175,6 @@ const TopBar = styled(_TopBar)`
   }
 `;
 
-const EditLink = styled(Button)`
-  background: none;
-  border: none;
-  padding: 0;
-  color: ${({ theme }) => theme.palette.primary.main};
-  text-decoration: underline;
-  font-weight: 300;
-`;
-
-function Details({ mission }: { mission: MissionInterface }) {
-  const org = useOrganization();
-  return (
-    <>
-      <Divider />
-      <Box margin="1rem">
-        {mission.deliveryType === "delivery" ? (
-          <>
-            <DetailSection
-              header="Address"
-              content={
-                <Typography variant="body1" gutterBottom>
-                  {mission.deliveryLocation.address}
-                </Typography>
-              }
-            />
-
-            <DetailSection
-              header={
-                <Box display="flex">
-                  <Typography variant="h5" color="textPrimary">
-                    Drop-off instructions
-                  </Typography>
-                  {![Status.delivered, Status.succeeded].includes(mission.status) && (
-                    <EditLink onClick={() => {}}>Edit</EditLink>
-                  )}
-                </Box>
-              }
-              content={
-                mission.deliveryNotes ? (
-                  <Typography variant="body1">{mission.deliveryNotes}</Typography>
-                ) : (
-                  <em>
-                    <Typography variant="subtitle1" color="textSecondary">
-                      No instructions specified
-                    </Typography>
-                  </em>
-                )
-              }
-            />
-          </>
-        ) : (
-          <>
-            <DetailSection
-              header="Pick Up Location"
-              content={
-                <>
-                  <Typography variant="body1">{org?.location?.label}</Typography>
-                  <Typography variant="body1">{org?.location?.address}</Typography>
-                </>
-              }
-            />
-            <DetailSection
-              header="Pick Up Time"
-              content={
-                <Typography variant="body1">Sunday morning between 8:00am–11:00am</Typography>
-              }
-            />
-          </>
-        )}
-        {org?.contactPhoneNumber && (
-          <DetailSection
-            header="Need Help?"
-            content={
-              <Typography variant="body1" gutterBottom>
-                Contact your organizer at{" "}
-                <a href={`tel:${org?.contactPhoneNumber}`}>{org?.contactPhoneNumber}</a>
-              </Typography>
-            }
-          />
-        )}
-      </Box>
-    </>
-  );
-}
-
-function DetailSection({ content, header }: { content: ReactNode; header: ReactNode }) {
-  return (
-    <Box marginBottom="1rem">
-      {React.isValidElement(header) ? header : <Typography variant="h5">{header}</Typography>}
-      <Box>{content}</Box>
-    </Box>
-  );
-}
-
 function ConfirmDelivery({ mission }: { mission: MissionInterface }) {
   return (
     <>
@@ -280,8 +186,8 @@ function ConfirmDelivery({ mission }: { mission: MissionInterface }) {
         TODO we should probably include the volunteer avatar with the mission */}
         <Typography>By {mission.volunteerDisplayName}</Typography>
         {/* 
-         need a delivered date */}
-        <Typography> on _some_date_here</Typography>
+         TODO need a delivered date/ date updated */}
+        {/* <Typography> on {_some_date_here}</Typography> */}
 
         <Button
           style={{ marginTop: "1rem" }}

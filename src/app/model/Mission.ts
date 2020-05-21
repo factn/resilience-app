@@ -266,7 +266,7 @@ class Mission extends BaseModel {
    * @param {string} missionUid - mission
    * @param {object} data- updated data
    */
-  update(missionUid: string, data: object) {
+  update(missionUid: string, data: Partial<MissionInterface>) {
     let sanitized = this.sanitize(data);
     return this.getCollection("organizations")
       .doc(Organization.uid)
