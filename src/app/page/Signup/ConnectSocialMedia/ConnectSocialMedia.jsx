@@ -19,10 +19,7 @@ const ConnectSocialMedia = ({ onConnectSuccess, onSkip }) => {
 
   const firebaseUiConfig = {
     signInFlow: "popup",
-    signInOptions: [
-      firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-      firebase.auth.FacebookAuthProvider.PROVIDER_ID,
-    ],
+    signInOptions: [firebase.auth.GoogleAuthProvider.PROVIDER_ID],
     callBacks: {
       signInSuccessWithAuthResult: function (authResult) {
         var user = authResult.user;
