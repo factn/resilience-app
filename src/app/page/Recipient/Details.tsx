@@ -43,13 +43,13 @@ export default function Details({ mission }: { mission: MissionInterface }) {
             />
           </>
         )}
-        {org?.contactPhoneNumber && (
+        {org?.contactEmail && (
           <DetailSection
             header="Need Help?"
             content={
               <Typography variant="body1" gutterBottom>
                 Contact your organizer at{" "}
-                <a href={`tel:${org?.contactPhoneNumber}`}>{org?.contactPhoneNumber}</a>
+                <a href={`mailto:${org?.contactEmail}`}>{org?.contactEmail}</a>
               </Typography>
             }
           />

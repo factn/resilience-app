@@ -103,22 +103,16 @@ export default function () {
       <Box margin="0 1rem" height="100%">
         <Switch>
           <AppRoute path={routes.recipient.dashboard.submitted}>
-            {missions.submitted.length ? (
-              <RequestsList missions={missions.submitted} />
-            ) : (
-              <Typography align="center" variant="body1" color="textSecondary">
-                You have not submitted any requests
-              </Typography>
-            )}
+            <RequestsList
+              missions={missions.submitted}
+              fallback="You have not submitted any requests"
+            />
           </AppRoute>
           <AppRoute path={routes.recipient.dashboard.completed}>
-            {missions.completed.length ? (
-              <RequestsList missions={missions.completed} />
-            ) : (
-              <Typography align="center" variant="body1" color="textSecondary">
-                No requests have been completed
-              </Typography>
-            )}
+            <RequestsList
+              missions={missions.completed}
+              fallback="No requests have been completed"
+            />
           </AppRoute>
         </Switch>
       </Box>

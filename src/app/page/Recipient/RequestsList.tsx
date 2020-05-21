@@ -29,20 +29,6 @@ import { ReactComponent as AppleIcon } from "../../../img/apple.svg";
 
 import Details from "./Details";
 
-type Props = {
-  missions: MissionInterface[];
-};
-
-export default function ({ missions }: Props) {
-  return (
-    <>
-      {missions.map((mission) => (
-        <RecipientMissionCard key={mission.uid} mission={mission} />
-      ))}
-    </>
-  );
-}
-
 const useStyles = makeStyles((theme) => ({
   card: {
     margin: "1rem 0",
@@ -65,7 +51,35 @@ const useStyles = makeStyles((theme) => ({
       fontSize: ".8rem",
     },
   },
+  fallback: {
+    marginTop: "2rem",
+  },
 }));
+
+type Props = {
+  missions: MissionInterface[];
+  fallback: string;
+};
+
+export default function ({ fallback, missions }: Props) {
+  const classes = useStyles();
+
+  if (missions.length < 1) {
+    return (
+      <Typography className={classes.fallback} align="center" variant="body1" color="textSecondary">
+        {fallback}
+      </Typography>
+    );
+  }
+
+  return (
+    <>
+      {missions.map((mission) => (
+        <RecipientMissionCard key={mission.uid} mission={mission} />
+      ))}
+    </>
+  );
+}
 
 function RecipientMissionCard({ mission }: { mission: MissionInterface }) {
   const classes = useStyles();
@@ -73,36 +87,34 @@ function RecipientMissionCard({ mission }: { mission: MissionInterface }) {
   const toggle = () => setOpen(!open);
 
   return (
-    <>
-      <Card className={classes.card}>
-        <TopBar
-          status={mission.status}
-          fundedStatus={mission.fundedStatus}
-          createdDate={mission.createdDate}
-        ></TopBar>
-        <CardActionArea onClick={toggle}>
-          <CardHeader
-            className={classes.cardHeader}
-            avatar={<AppleIcon className={classes.appleIcon} />}
-            title={<Typography variant="h4">FOOD BOX DELIVERY</Typography>}
-            subheader={mission.details?.map((r) => (
-              <Typography key={r.resourceUid} variant="subtitle2">
-                {r.quantity} x {r.displayName}
-              </Typography>
-            ))}
-          />
-        </CardActionArea>
-        <Collapse in={open}>
-          <Details mission={mission} />
-          {mission.status === Status.delivered && <ConfirmDelivery mission={mission} />}
-        </Collapse>
-        <CardActionArea onClick={toggle} className={classes.cardBottomToggle}>
-          <Typography align="center" color="primary">
-            {open ? "HIDE DETAILS" : "MORE DETAILS"}
-          </Typography>
-        </CardActionArea>
-      </Card>
-    </>
+    <Card className={classes.card}>
+      <TopBar
+        status={mission.status}
+        fundedStatus={mission.fundedStatus}
+        createdDate={mission.createdDate}
+      ></TopBar>
+      <CardActionArea onClick={toggle}>
+        <CardHeader
+          className={classes.cardHeader}
+          avatar={<AppleIcon className={classes.appleIcon} />}
+          title={<Typography variant="h4">FOOD BOX DELIVERY</Typography>}
+          subheader={mission.details?.map((r) => (
+            <Typography key={r.resourceUid} variant="subtitle2">
+              {r.quantity} x {r.displayName}
+            </Typography>
+          ))}
+        />
+      </CardActionArea>
+      <Collapse in={open}>
+        <Details mission={mission} />
+        {mission.status === Status.delivered && <ConfirmDelivery mission={mission} />}
+      </Collapse>
+      <CardActionArea onClick={toggle} className={classes.cardBottomToggle}>
+        <Typography align="center" color="primary">
+          {open ? "HIDE DETAILS" : "MORE DETAILS"}
+        </Typography>
+      </CardActionArea>
+    </Card>
   );
 }
 
@@ -120,7 +132,7 @@ function Icon({ fundedStatus, status, ...rest }: any) {
     <NotificationImportant {...rest} />
   ) : status === Status.succeeded ? (
     <CheckCircle {...rest} />
-  ) : fundedStatus === FundedStatus.fundedbydonation ? (
+  ) : fundedStatus === FundedStatus.notfunded ? (
     <HourglassFull {...rest} />
   ) : (
     <FiberNew {...rest} />
@@ -141,8 +153,8 @@ function _TopBar({ className, createdDate, fundedStatus, status }: TopBarProps) 
           <>It's here! Confirm delivery below</>
         ) : status === Status.succeeded ? (
           <>Delivery Confirmed</>
-        ) : fundedStatus === FundedStatus.fundedbydonation ? (
-          <>Awating donation | Submitted {date}</>
+        ) : fundedStatus === FundedStatus.notfunded ? (
+          <>Awaiting donation | Submitted {date}</>
         ) : (
           <>Submitted {date}</>
         )}

@@ -80,7 +80,7 @@ function ConfirmStep({ dispatch, state }) {
     };
 
     if (isDonationRequest) {
-      mission = { ...mission, fundedStatus: MissionFundedStatus.fundedbydonation };
+      mission = { ...mission, fundedStatus: MissionFundedStatus.notfunded };
     } else {
       mission = {
         ...mission,
