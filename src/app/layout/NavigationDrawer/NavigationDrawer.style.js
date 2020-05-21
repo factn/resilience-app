@@ -10,7 +10,7 @@ export const useStyles = makeStyles((theme) => ({
   },
   drawer: {
     backgroundColor: theme.color.darkBlue,
-    height: "100vh",
+    height: "100%",
   },
   menu: {
     flexGrow: 1,
