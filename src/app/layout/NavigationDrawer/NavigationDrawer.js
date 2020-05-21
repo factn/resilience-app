@@ -1,10 +1,11 @@
-import { ListItemIcon } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import Drawer from "@material-ui/core/Drawer";
 import Grid from "@material-ui/core/Grid";
 import IconButton from "@material-ui/core/IconButton";
+import LinearProgress from "@material-ui/core/LinearProgress";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import AssignmentIcon from "@material-ui/icons/Assignment";
@@ -16,11 +17,13 @@ import MoveToInboxIcon from "@material-ui/icons/MoveToInbox";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import PeopleIcon from "@material-ui/icons/People";
 import clsx from "clsx";
-import React from "react";
+import React, { useEffect } from "react";
 
 import { useStyles } from "./NavigationDrawer.style";
 import { AppLink, routes } from "../../routing";
 import { PERMISSIONS, UserPermissionsService } from "../../model/permissions";
+import { isLoaded } from "react-redux-firebase";
+import { useSelector } from "react-redux";
 
 const MenuItem = ({ classes, icon, text, to }) => (
   <AppLink to={to} className={classes.link}>
@@ -33,10 +36,18 @@ const MenuItem = ({ classes, icon, text, to }) => (
 
 export default function TemporaryDrawer() {
   const classes = useStyles();
+  const auth = useSelector((state) => state.firebase.auth);
 
   const [state, setState] = React.useState({
     right: false,
   });
+  const [isLoading, setIsLoading] = React.useState(true);
+
+  useEffect(() => {
+    if (isLoaded(auth)) {
+      UserPermissionsService.getUserRole(auth).then(() => setIsLoading(false));
+    }
+  }, [auth, isLoading]);
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (event.type === "keydown" && (event.key === "Tab" || event.key === "Shift")) {
@@ -145,6 +156,7 @@ export default function TemporaryDrawer() {
         <div className={clsx("drawer", classes.drawer)}>
           <Grid container direction="column" classes={{ root: classes.root }}>
             <Grid item classes={{ root: classes.menu }}>
+              {isLoading && <LinearProgress className={classes.loading} />}
               <ListItem
                 button
                 classes={{ root: classes.close }}
@@ -154,7 +166,7 @@ export default function TemporaryDrawer() {
                   <CloseIcon classes={{ root: classes.closeIcon }} />
                 </ListItemIcon>
               </ListItem>
-              {list(anchor)}
+              {!isLoading && list(anchor)}
             </Grid>
             <Grid item className={clsx("menu-footer", classes.menuFooter)}>
               <AppLink

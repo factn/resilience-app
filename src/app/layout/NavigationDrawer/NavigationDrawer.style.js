@@ -14,12 +14,10 @@ export const useStyles = makeStyles((theme) => ({
   },
   menu: {
     flexGrow: 1,
+    width: "315px",
   },
   menuFooter: {
     flexGrow: 0,
-  },
-  list: {
-    width: 315,
   },
   fullList: {
     width: "auto",
@@ -57,5 +55,8 @@ export const useStyles = makeStyles((theme) => ({
   poweredBy: {
     color: theme.color.white,
     textDecoration: "none",
+  },
+  loading: {
+    width: "100%",
   },
 }));
