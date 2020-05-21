@@ -7,11 +7,11 @@ assignees: ""
 ---
 
 <!-- **READ BEFORE USING TEMPLATE!**
-You do NOT need to remove the texts that is commented out when viewing the 'Write' portion of this template, select 'Preview' to see how your issue will look and notice that any commented text in 'Write' does not carry over, simply add content to the under the commented portions between each section. -->
+You do NOT need to remove the texts that is commented out when viewing the 'Write' portion of this template, select 'Preview' to see how your issue will look and notice that any commented text in 'Write' does not carry over, simply add content to the under the commented portions between each section before final submission. -->
 
 **Is the feature request already logged?**
 
-<!-- Double check to make sure that this particular feature request does not already exist within issues. -->
+<!-- Double check to make sure that this particular feature request does not already exist within issues. Place an 'x' within the brackets below to confirm check. -->
 
 - [ ] I have confirmed that this feature request does not already exist within GitHub issues.
 
