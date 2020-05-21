@@ -35,7 +35,7 @@ const Page = ({ appbar, children, maxWidth, title }) => {
           <Appbar>{appbar}</Appbar>
         </Grid>
         <Grid container item role="main" direction="column">
-          {title && <H1>{title}</H1>}
+          {title && <H1 align="center">{title}</H1>}
           {children}
         </Grid>
       </Grid>

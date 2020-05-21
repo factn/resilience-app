@@ -63,7 +63,7 @@ const PersonStyled = styled(Person)`
 function StartPage() {
   return (
     <>
-      <H1>What do you need help with?</H1>
+      <H1 align="center">What do you need help with?</H1>
       <ButtonContainer>
         <ButtonWithIcon to={routes.request.foodbox} icon={<AppleIcon style={iconStyle} />}>
           <H3 color="primary">Food Box Delivery</H3>

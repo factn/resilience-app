@@ -42,9 +42,11 @@ const ProfileControlButtons = ({ cancelAction, editAction, isEdit, saveAction })
       </Grid>
     </Grid>
   ) : (
-    <Button size="large" onClick={editAction}>
-      Edit Profile
-    </Button>
+    <Grid justify="center" container>
+      <Button size="large" onClick={editAction}>
+        Edit Profile
+      </Button>
+    </Grid>
   );
 };
 
