@@ -10,16 +10,14 @@ export const useStyles = makeStyles((theme) => ({
   },
   drawer: {
     backgroundColor: theme.color.darkBlue,
-    height: "100vh",
+    height: "100%",
   },
   menu: {
     flexGrow: 1,
+    width: "315px",
   },
   menuFooter: {
     flexGrow: 0,
-  },
-  list: {
-    width: 315,
   },
   fullList: {
     width: "auto",
@@ -60,5 +58,8 @@ export const useStyles = makeStyles((theme) => ({
   },
   listItemTextWithoutIcon: {
     marginLeft: "56px",
+  },
+  loading: {
+    width: "100%",
   },
 }));

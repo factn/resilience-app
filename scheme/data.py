@@ -163,8 +163,8 @@ class Organization:
         self._init_resources(resources)
         self.paymentSettings = {
             'paypal': {
-                'clientId': 'MAMWDVN7WLFMS',
-                'email': 'help@studiocitync.org'
+                'clientId': 'sb',
+                'email': 'test@email.com'
             }
         }
         # inner attributes for easy access

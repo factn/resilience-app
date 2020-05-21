@@ -16,7 +16,7 @@ const ComingSoon = () => {
           </p>
         </Grid>
         <Grid item>
-          <img src={ComingSoonImage} alt="Coming soon" />
+          <img src={ComingSoonImage} alt="Coming soon" style={{ width: "100%" }} />
         </Grid>
         <Grid item>
           <p>
