@@ -29,6 +29,7 @@
     "leaflet": "^1.6.0",
     "leaflet-routing-machine": "^3.2.12",
     "lodash": "^4.17.15",
+    "material-ui-phone-number": "^2.2.6",
     "path": "^0.12.7",
     "querystring-browser": "^1.0.4",
     "react": "^16.13.1",
