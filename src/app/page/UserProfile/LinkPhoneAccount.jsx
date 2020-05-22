@@ -1,10 +1,14 @@
-import { Grid, TextField } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import React, { useState } from "react";
 
 import { Button, H5 } from "../../component";
 import SuccessSnackbar from "../../component/Snackbars/SuccessSnackbar";
 import { Card } from "../../layout";
+import { Body2 } from "../../component/Typography";
+import MuiPhoneNumber from "material-ui-phone-number";
+
+const MIN_PHONE_NUMBER_LENGTH = 8;
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -63,11 +67,9 @@ function LinkPhoneAccount({ auth, data, errorHandler, firebase }) {
         successCallback();
       }
     } catch (error) {
-      if (error.code === "auth/argument-error" && error.message.includes("verificationCode")) {
-        setPhoneNumber(currentUserPhoneNumber);
-        return;
-      }
+      setPhoneNumber(currentUserPhoneNumber);
       errorHandler(error);
+      return;
     }
   }
 
@@ -81,12 +83,13 @@ function LinkPhoneAccount({ auth, data, errorHandler, firebase }) {
         <Grid container>
           <Grid item xs={6}>
             <Grid item container>
-              <TextField
-                id="phone-number"
+              <MuiPhoneNumber
+                defaultCountry={"us"}
+                disableAreaCodes={true}
                 value={phoneNumber}
-                helperText="+1 7777777777"
-                onChange={(e) => setPhoneNumber(e.target.value)}
+                onChange={(value) => setPhoneNumber(value)}
               />
+              <Body2>{!currentUserPhoneNumber && "No phone number defined yet"}</Body2>
             </Grid>
           </Grid>
 
@@ -94,10 +97,11 @@ function LinkPhoneAccount({ auth, data, errorHandler, firebase }) {
             id="phone-number-link"
             onClick={onPhoneClick}
             color="secondary"
+            disabled={phoneNumber.length < MIN_PHONE_NUMBER_LENGTH ? true : false}
             variant="contained"
             className={classes.button}
           >
-            {data ? "Change" : "Connect"}
+            {currentUserPhoneNumber ? "Change" : "Connect"}
           </Button>
         </Grid>
       </Grid>

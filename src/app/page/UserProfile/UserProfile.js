@@ -14,6 +14,7 @@ import LinkGoogleAccount from "./LinkGoogleAccount";
 import LinkPhoneAccount from "./LinkPhoneAccount";
 import UserOverview from "./UserOverview";
 import { SnackbarContext } from "../../component/Snackbars/Context";
+import ErrorBoundary from "../../component/ErrorBoundary";
 
 const useStyles = makeStyles((theme) => ({
   spacing: {
@@ -139,10 +140,17 @@ const UserProfile = () => {
         message:
           "We do not support linking with an already existing account. You can sign in to the other account if needed.",
         type: "error",
+        autoHideDuration: null,
+      });
+      return;
+    } else {
+      snackbarContext.show({
+        message: error.message,
+        type: "error",
+        autoHideDuration: null,
       });
       return;
     }
-    throw error;
   }
   /*===END Linking Control===*/
 
@@ -150,33 +158,35 @@ const UserProfile = () => {
   // not used yet
   //<UserStatus status={status} setStatus={setStatus} />
   return (
-    <Page template="white" title="Profile" spacing={3} isLoading={isLoading}>
+    <Page template="white" title="Profile" titleAlign="center" spacing={3} isLoading={isLoading}>
       <UserOverview profile={profile} view={view} setView={setView} setProfile={setProfile} />
-      <Grid item className={classes.fullWidth}>
-        <ProfileControlButtons
-          isEdit={isEdit}
-          saveAction={saveProfileAction}
-          cancelAction={cancelProfileAction}
-          editAction={editProfileAction}
-        />
-      </Grid>
-      <Card>
-        <Grid container className={classes.linkedAccountContainer} spacing={3} direction="column">
-          <LinkPhoneAccount
-            firebase={firebase}
-            data={phoneProviderData}
-            auth={auth}
-            errorHandler={errorHandler}
-            captchaVerifier={captchaVerifier}
-          />
-          <LinkGoogleAccount
-            data={googleProviderData}
-            provider={googleProvider}
-            auth={auth}
-            errorHandler={errorHandler}
+      <ErrorBoundary>
+        <Grid item className={classes.fullWidth}>
+          <ProfileControlButtons
+            isEdit={isEdit}
+            saveAction={saveProfileAction}
+            cancelAction={cancelProfileAction}
+            editAction={editProfileAction}
           />
         </Grid>
-      </Card>
+        <Card>
+          <Grid container className={classes.linkedAccountContainer} spacing={3} direction="column">
+            <LinkPhoneAccount
+              firebase={firebase}
+              data={phoneProviderData}
+              auth={auth}
+              errorHandler={errorHandler}
+              captchaVerifier={captchaVerifier}
+            />
+            <LinkGoogleAccount
+              data={googleProviderData}
+              provider={googleProvider}
+              auth={auth}
+              errorHandler={errorHandler}
+            />
+          </Grid>
+        </Card>
+      </ErrorBoundary>
     </Page>
   );
 };
