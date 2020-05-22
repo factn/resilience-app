@@ -224,11 +224,6 @@ const MissionEditView = ({ groups, mission, toDetailsView, toListView, volunteer
 
   const volunteerEditable = volunteerStatus.includes(mission.status);
 
-  useEffect(() => {
-    document.getElementById("pickup-address-id").value = values.pickUpLocation?.address;
-    document.getElementById("delivery-address-id").value = values.deliveryLocation?.address;
-  }, []);
-
   function changeFormValue(name, value) {
     handleChange({ target: { name, value } });
   }
@@ -366,6 +361,7 @@ const MissionEditView = ({ groups, mission, toDetailsView, toListView, volunteer
                         stage={values.pickUpLocation}
                         setStage={handleChangeLocation.bind(null, "pickUpLocation")}
                         setLocation={handleChangeLocation}
+                        value={values.pickUpLocation?.address}
                       />
                     </Grid>
                   </Grid>
@@ -401,6 +397,7 @@ const MissionEditView = ({ groups, mission, toDetailsView, toListView, volunteer
                       stage={values.deliveryLocation}
                       setStage={handleChangeLocation.bind(null, "deliveryLocation")}
                       setLocation={handleChangeLocation}
+                      value={values.deliveryLocation?.address}
                     />
                   </Grid>
                 </Grid>
