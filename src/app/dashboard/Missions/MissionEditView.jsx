@@ -207,15 +207,11 @@ const MissionEditView = ({ groups, mission, toDetailsView, toListView, volunteer
     date: values.deliveryWindow.startTime,
     location: "",
   });
-  console.log("mission tentative:" + mission.tentativeVolunteerUid);
-  console.log(mission);
   const [selectedVolunteer, setSelectedVolunteer] = useState(
     volunteers.find(
       (el) => el.id === mission.volunteerUid || el.id === mission.tentativeVolunteerUid
     )
   );
-  console.log("selected is ...");
-  console.log(selectedVolunteer);
   const [selectedGroup, setSelectedGroup] = useState(
     groups.find((el) => el.id === mission.groupUid)
   );
