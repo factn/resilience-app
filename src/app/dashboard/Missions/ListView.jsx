@@ -184,6 +184,7 @@ const MissionsListView = ({
       <Box hidden={view !== Views.edit}>
         {currentMission && (
           <EditView
+            groups={groups}
             mission={currentMission}
             setSelectedMission={setSelectedMission}
             toListView={() => setView(Views.list)}

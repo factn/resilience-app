@@ -2,7 +2,6 @@ import { Box, Container, Grid, Paper } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import AccessTimeIcon from "@material-ui/icons/AccessTime";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
-import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import PanToolIcon from "@material-ui/icons/PanTool";
 import PersonIcon from "@material-ui/icons/Person";
@@ -10,6 +9,7 @@ import React from "react";
 import { isEmpty, isLoaded } from "react-redux-firebase";
 import EditIcon from "@material-ui/icons/Edit";
 import Button from "@material-ui/core/Button";
+import MissionFundedStatusRow from "./MissionFundedStatusRow";
 
 import { Body2, H3 } from "../../component";
 import { Mission } from "../../model";
@@ -140,31 +140,6 @@ const VolunteerRow = ({ mission }) => {
     assigned = "Looking for volunteer";
   }
   return <Row Icon={PanToolIcon}>{assigned}</Row>;
-};
-
-const MissionFundedStatusRow = ({ classes, mission }) => {
-  let missionFundedStatusText;
-  switch (mission?.fundedStatus) {
-    case Mission.FundedStatus.fundedbydonation:
-      missionFundedStatusText = "Funded By Donation";
-      break;
-    case Mission.FundedStatus.fundedbyrecipient:
-      missionFundedStatusText = "Funded By Recipient";
-      break;
-    case Mission.FundedStatus.fundingnotneeded:
-      missionFundedStatusText = "Funding Not Needed";
-      break;
-    case Mission.FundedStatus.notfunded:
-      missionFundedStatusText = "Not Yet Funded";
-      break;
-    default:
-      throw Error("mission funded status not exist", mission.fundedStatus);
-  }
-  return (
-    <Row Icon={AttachMoneyIcon} classes={classes}>
-      {missionFundedStatusText}
-    </Row>
-  );
 };
 
 const FoodBoxDetailsRow = ({ details }) => {
