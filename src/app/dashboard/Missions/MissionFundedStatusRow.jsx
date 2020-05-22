@@ -20,10 +20,10 @@ const MissionFundedStatusRow = ({ classes, mission }) => {
   let fundedDateText = mission.fundedDate ? " on " + mission.fundedDate : "";
   switch (mission?.fundedStatus) {
     case Mission.FundedStatus.fundedbydonation:
-      missionFundedStatusText = "Funded By Donation" + fundedDateText;
+      missionFundedStatusText = "Funded By Donation ${fundedDateText}";
       break;
     case Mission.FundedStatus.fundedbyrecipient:
-      missionFundedStatusText = "Funded By Recipient" + fundedDateText;
+      missionFundedStatusText = "Funded By Recipient ${fundedDateText}";
       break;
     case Mission.FundedStatus.fundingnotneeded:
       missionFundedStatusText = "Funding Not Needed";
