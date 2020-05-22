@@ -77,7 +77,9 @@ export class User extends BaseModel {
   createProfileIfNotExist(auth: any, profile: any) {
     if (!auth || !profile) return;
     if (auth.isLoaded && !auth.isEmpty && profile.isEmpty && profile.isLoaded) {
-      return this.getCollection("users").doc(auth.uid).set(this.load(auth));
+      return this.getCollection("users")
+        .doc(auth.uid)
+        .set({ ...this.load(auth), organizationUid: Organization.uid });
     }
   }
 
@@ -85,7 +87,7 @@ export class User extends BaseModel {
     if (userUid) {
       return this.getCollection("users")
         .doc(userUid)
-        .set(this.load({ ...data, uid: userUid }))
+        .set(this.load({ ...data, uid: userUid, organizationUid: Organization.uid }))
         .then(() => userUid);
     }
 

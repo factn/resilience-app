@@ -1,13 +1,21 @@
 import React, { useEffect } from "react";
 import { useFirebase } from "react-redux-firebase";
 
+import { User } from "../../model";
+
 const defaultFirebaseUiConfig = (firebase) => ({
   signInFlow: "popup",
   signInOptions: [
     firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-    firebase.auth.FacebookAuthProvider.PROVIDER_ID,
     firebase.auth.PhoneAuthProvider.PROVIDER_ID,
   ],
+  callbacks: {
+    signInSuccessWithAuthResult: function (authResult) {
+      const { user } = authResult;
+
+      User.update(user.uid, user);
+    },
+  },
 });
 
 const UI_ID = "firebase-auth-ui";

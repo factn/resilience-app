@@ -1,4 +1,4 @@
-import { Container } from "@material-ui/core";
+import { Container, Grid } from "@material-ui/core";
 import PropTypes from "prop-types";
 import React from "react";
 
@@ -27,15 +27,17 @@ function CallToAction({ onClick }) {
         <StyledHeader main align="center" variant="h3">
           Get Started
         </StyledHeader>
-        <Button
-          className={classes.button}
-          id="sms-sign-in"
-          onClick={onClick}
-          color="secondary"
-          variant="contained"
-        >
-          Sign up with phone
-        </Button>
+        <Grid justify="center" container>
+          <Button
+            className={classes.button}
+            id="sms-sign-in"
+            onClick={onClick}
+            color="secondary"
+            variant="contained"
+          >
+            Sign up with phone
+          </Button>
+        </Grid>
       </Container>
     </Page>
   );

@@ -125,6 +125,16 @@ const styles = (theme) => ({
     color: theme.color.blue,
     zIndex: 1,
   },
+  actionButtons: {},
+  greyBox: {
+    background: "#F5F5F5",
+    cursor: "pointer",
+    margin: "-12px -12px 6px -12px",
+    padding: "12px",
+  },
+  detailsText: {
+    fontSize: "16px",
+  },
   preferedVolunteer: {
     fontSize: "12px",
     fontStyle: "italic",
@@ -151,6 +161,14 @@ const styles = (theme) => ({
     borderTop: "1px solid",
     borderColor: theme.color.lightgrey,
     padding: theme.spacing(1),
+  },
+  missionAwaitingVolunteerButton: {
+    display: "flex",
+    alignItems: "center",
+    textAlign: "center",
+    justifyContent: "center",
+    width: "100%",
+    color: theme.color.gray3,
   },
 });
 
@@ -202,6 +220,11 @@ const MissionCard = withStyles(styles)(({ classes, mission }) => {
             </Button>
           )}
         </Grid>
+      )}
+      {mission.status === MissionStatus.delivered && (
+        <Box className={classes.missionAwaitingVolunteerButton}>
+          Mission awaiting confirmation from recipient
+        </Box>
       )}
       {mission.status === MissionStatus.assigned && (
         <Grid item xs={6}>
@@ -286,13 +309,15 @@ const MissionCard = withStyles(styles)(({ classes, mission }) => {
           </Grid>
         )}
         <CardContent className={classes.cardContent}>
-          <Box position="relative">
-            <Box position="absolute" right={0} top={0}>
-              <InfoOutlinedIcon onClick={handleOpenModal} />
+          <Box onClick={handleOpenModal} className={classes.greyBox}>
+            <Box position="relative">
+              <Box position="absolute" right={0} top={0}>
+                <InfoOutlinedIcon />
+              </Box>
             </Box>
-          </Box>
-          <Box fontSize="12px" fontWeight="bold">
-            <DetailsText mission={mission} />
+            <Box fontSize="12px" fontWeight="bold" className={classes.detailsText}>
+              <DetailsText mission={mission} />
+            </Box>
           </Box>
           <Grid container direction="row">
             <Grid item xs={6} container direction="column" className={classes.column}>

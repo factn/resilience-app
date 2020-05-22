@@ -8,13 +8,16 @@ import { withLoading } from "../../HOC";
 import Appbar from "../Appbar";
 import { H1 } from "../../component";
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: "white",
     flexDirection: "column",
     flexWrap: "nowrap",
     minHeight: "100%",
     padding: 0,
+  },
+  title: {
+    padding: theme.spacing(2),
   },
 }));
 
@@ -35,7 +38,7 @@ const Page = ({ appbar, children, maxWidth, title }) => {
           <Appbar>{appbar}</Appbar>
         </Grid>
         <Grid container item role="main" direction="column">
-          {title && <H1>{title}</H1>}
+          {title && <H1 className={classes.title}>{title}</H1>}
           {children}
         </Grid>
       </Grid>
