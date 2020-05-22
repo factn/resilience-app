@@ -15,20 +15,24 @@ const useStyles = makeStyles((theme) => ({
     paddingRight: theme.spacing(1),
   },
 }));
+
 /**
  * This version get values from outside, this mean we already
  * load in all relevant users from somewhere else
  */
-const SearchUsers = ({ handleChange, users }) => {
+const SearchUsers = ({ editable, handleChange, selected, users }) => {
   const classes = useStyles();
 
   const reducer = (options, user) => {
     if (!user.displayName && !user.phoneNumber) return options;
-    let searchString = user.displayName + user.phoneNumber;
+    let searchString = user.displayName + " " + user.phoneNumber;
     options.push({ ...user, searchString });
     return options;
   };
   const options = users?.reduce(reducer, []) || [];
+  const optionSelected = options.find((option) => option && selected && option.id === selected.id);
+  const defaultValue = editable ? optionSelected : "";
+  const value = !editable ? optionSelected : "";
 
   return (
     <Autocomplete
@@ -38,6 +42,8 @@ const SearchUsers = ({ handleChange, users }) => {
       classes={{ root: classes.root }}
       getOptionLabel={(user) => user.searchString}
       onChange={(event, newValue) => handleChange(newValue)}
+      value={value}
+      defaultValue={defaultValue}
       renderInput={(params) => (
         <TextField
           {...params}

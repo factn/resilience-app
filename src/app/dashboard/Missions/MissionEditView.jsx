@@ -9,12 +9,15 @@ import PersonIcon from "@material-ui/icons/Person";
 import React, { useState } from "react";
 import { isEmpty, isLoaded } from "react-redux-firebase";
 import { Button, Body2, H3 } from "../../component";
+import Switch from "@material-ui/core/Switch";
 import DateTimeInput from "../../component/DateTimeInput";
 import ScheduleIcon from "@material-ui/icons/Schedule";
 import { Mission } from "../../model";
 import _ from "../../utils/lodash";
 import AddressInput from "../../component/AddressInput";
+import UsersAutocomplete from "../../component/UsersAutocomplete";
 import { useForm } from "../../hooks";
+import { MissionStatus } from "../../model/schema";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,6 +32,9 @@ const useStyles = makeStyles((theme) => ({
   },
   missionTypeText: {
     paddingTop: theme.spacing(0.5),
+  },
+  label: {
+    fontWeight: 600,
   },
   rowLabel: {
     fontWeight: 600,
@@ -193,11 +199,20 @@ const MissionDetailsRow = ({ mission }) => {
   return null;
 };
 
+const volunteerStatus = [MissionStatus.unassigned, MissionStatus.tentative, MissionStatus.assigned];
+
+const getVolunteerAttribute = (selectedVolunteer, status, attr, tentativeClause) => {
+  if (selectedVolunteer && tentativeClause) {
+    return selectedVolunteer[attr];
+  }
+  return "";
+};
+
 /**
  * Component for editing mission details
  * @component
  */
-const MissionEditView = ({ mission, toDetailsView, toListView }) => {
+const MissionEditView = ({ mission, toDetailsView, toListView, volunteers }) => {
   const classes = useStyles();
 
   const { handleChange, values } = useForm(mission);
@@ -211,8 +226,13 @@ const MissionEditView = ({ mission, toDetailsView, toListView }) => {
     date: values.deliveryWindow.startTime,
     location: "",
   });
+  const [selectedVolunteer, setSelectedVolunteer] = useState(
+    volunteers.find((el) => el.id === mission.volunteerUid)
+  );
 
   const props = { classes, mission };
+
+  const volunteerEditable = volunteerStatus.includes(mission.status);
 
   function changeFormValue(name, value) {
     handleChange({ target: { name, value } });
@@ -221,6 +241,10 @@ const MissionEditView = ({ mission, toDetailsView, toListView }) => {
   function handleChangeLocation(data) {
     const { location } = data;
     changeFormValue("location", location);
+  }
+
+  function handleChangeReadyToStart(e) {
+    changeFormValue("readyToStart", e.target.checked);
   }
 
   function handleSave(e) {
@@ -246,6 +270,43 @@ const MissionEditView = ({ mission, toDetailsView, toListView }) => {
       deliveryWindow: {
         startTime: delivery.toString(),
       },
+      volunteerUid: getVolunteerAttribute(
+        selectedVolunteer,
+        values.status,
+        "volunteerUid",
+        values.status !== MissionStatus.tentative
+      ),
+      volunteerDisplayname: getVolunteerAttribute(
+        selectedVolunteer,
+        values.status,
+        "volunteerDisplayName",
+        values.status !== MissionStatus.tentative
+      ),
+      volunteerPhoneNumber: getVolunteerAttribute(
+        selectedVolunteer,
+        values.status,
+        "volunteerPhoneNumber",
+        values.status !== MissionStatus.tentative
+      ),
+      tentativeVolunteerUid: getVolunteerAttribute(
+        selectedVolunteer,
+        values.status,
+        "volunteerUid",
+        values.status === MissionStatus.tentative
+      ),
+      tentativeVolunteerDisplayName: getVolunteerAttribute(
+        selectedVolunteer,
+        values.status,
+        "volunteerDisplayName",
+        values.status === MissionStatus.tentative
+      ),
+      tentativeVolunteerPhoneNumber: getVolunteerAttribute(
+        selectedVolunteer,
+        values.status,
+        "volunteerPhoneNumber",
+        values.status === MissionStatus.tentative
+      ),
+      readyToStart: values.readyToStart,
     }).then((result) => {
       toDetailsView();
     });
@@ -384,6 +445,33 @@ const MissionEditView = ({ mission, toDetailsView, toListView }) => {
                 </Grid>
               </Grid>
             </Card>
+
+            <Card label="Volunteer Information" classes={classes}>
+              <UsersAutocomplete
+                editable={volunteerEditable}
+                handleChange={setSelectedVolunteer}
+                users={volunteers}
+                selected={selectedVolunteer}
+              />
+            </Card>
+
+            <Row classes={classes}>
+                                 
+              <Grid container direction="row" spacing={1} className={classes.rowBody}>
+                <Grid item>
+                  <Switch
+                    size="normal"
+                    name="readyToStart"
+                    checked={values.readyToStart}
+                    onChange={handleChangeReadyToStart}
+                  />
+                </Grid>
+                <Grid item className={classes.label}>
+                  Ready To Start?
+                </Grid>
+              </Grid>
+            </Row>
+
             <Label classes={classes}>Delivery Notes</Label>
             <Row classes={classes}>
               <TextField
