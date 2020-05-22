@@ -21,7 +21,7 @@ import { User, useOrganization } from "../../model";
 import Mission from "../../model/Mission";
 import { routes } from "../../routing";
 import { useFirestoreConnect } from "react-redux-firebase";
-import FoodBoxDeliveryIcon from "../../component/icons/FoodBoxDeliveryIcon";
+//import FoodBoxDeliveryIcon from "../../component/icons/FoodBoxDeliveryIcon";
 import EventNoteIcon from "@material-ui/icons/EventNote";
 import LocalPharmacyIcon from "@material-ui/icons/LocalPharmacy";
 

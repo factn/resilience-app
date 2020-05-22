@@ -1,9 +1,7 @@
 import { Box, Container, Grid, Paper, TextField } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
-import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
-import PanToolIcon from "@material-ui/icons/PanTool";
 import CancelIcon from "@material-ui/icons/Cancel";
 import PersonIcon from "@material-ui/icons/Person";
 import React, { useState } from "react";
@@ -12,7 +10,6 @@ import { Button, Body2, H3 } from "../../component";
 import DateTimeInput from "../../component/DateTimeInput";
 import ScheduleIcon from "@material-ui/icons/Schedule";
 import { Mission } from "../../model";
-import _ from "../../utils/lodash";
 import AddressInput from "../../component/AddressInput";
 import { useForm } from "../../hooks";
 
@@ -134,43 +131,44 @@ const MissionTypeRow = ({ classes, mission }) => {
     </Box>
   );
 };
-const MissionStatusRow = ({ classes, mission }) => {
-  let status = mission?.status;
-  let missionStatusText;
-  switch (status) {
-    case Mission.Status.unassigned:
-      missionStatusText = "Looking for volunteer";
-      break;
-    default:
-      missionStatusText = status;
-      break;
-  }
-  return (
-    <Row Icon={PanToolIcon} classes={classes}>
-      {missionStatusText}
-    </Row>
-  );
-};
 
-const MissionFundedStatusRow = ({ classes, mission }) => {
-  let missionFundedStatusText;
-  switch (mission?.fundedStatus) {
-    case Mission.FundedStatus.fundedbydonation:
-      missionFundedStatusText = "Funded By Donation";
-      break;
-    case Mission.FundedStatus.fundedbyrecipient:
-      missionFundedStatusText = "Funded By Recipient";
-      break;
-    case Mission.FundedStatus.notfunded:
-    default:
-      missionFundedStatusText = "Not Yet Funded";
-  }
-  return (
-    <Row Icon={AttachMoneyIcon} classes={classes}>
-      {missionFundedStatusText}
-    </Row>
-  );
-};
+// const MissionStatusRow = ({ classes, mission }) => {
+//   let status = mission?.status;
+//   let missionStatusText;
+//   switch (status) {
+//     case Mission.Status.unassigned:
+//       missionStatusText = "Looking for volunteer";
+//       break;
+//     default:
+//       missionStatusText = status;
+//       break;
+//   }
+//   return (
+//     <Row Icon={PanToolIcon} classes={classes}>
+//       {missionStatusText}
+//     </Row>
+//   );
+// };
+
+// const MissionFundedStatusRow = ({ classes, mission }) => {
+//   let missionFundedStatusText;
+//   switch (mission?.fundedStatus) {
+//     case Mission.FundedStatus.fundedbydonation:
+//       missionFundedStatusText = "Funded By Donation";
+//       break;
+//     case Mission.FundedStatus.fundedbyrecipient:
+//       missionFundedStatusText = "Funded By Recipient";
+//       break;
+//     case Mission.FundedStatus.notfunded:
+//     default:
+//       missionFundedStatusText = "Not Yet Funded";
+//   }
+//   return (
+//     <Row Icon={AttachMoneyIcon} classes={classes}>
+//       {missionFundedStatusText}
+//     </Row>
+//   );
+// };
 
 const FoodBoxDetailsRow = ({ details }) => {
   return (
@@ -201,12 +199,12 @@ const MissionEditView = ({ mission, toDetailsView, toListView }) => {
   const classes = useStyles();
 
   const { handleChange, values } = useForm(mission);
-  const [pickUp, setPickUp] = React.useState({
+  const [pickUp, setPickUp] = useState({
     time: new Date(),
     date: values.pickUpWindow.startTime,
     location: "",
   });
-  const [deliveryTime, setDeliveryTime] = React.useState({
+  const [deliveryTime, setDeliveryTime] = useState({
     time: new Date(),
     date: values.deliveryWindow.startTime,
     location: "",

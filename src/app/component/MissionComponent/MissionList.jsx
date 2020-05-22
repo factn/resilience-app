@@ -1,4 +1,4 @@
-import { Button, CircularProgress } from "@material-ui/core";
+import { CircularProgress } from "@material-ui/core";
 import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
@@ -11,10 +11,6 @@ import MissionCard from "./MissionCard";
  * @param {array} missions - Mission objects to display
  *
  */
-const StyledButton = styled(Button)`
-  flex-grow: 1;
-`;
-
 const MissionListContainer = styled.div`
   width: 100%;
 `;

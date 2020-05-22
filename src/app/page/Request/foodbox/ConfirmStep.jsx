@@ -90,7 +90,7 @@ function ConfirmStep({ dispatch, state }) {
       };
     }
     try {
-      const createdMission = await Mission.create(mission);
+      await Mission.create(mission);
       const redirect = isDonationRequest
         ? routes.request.success.donation
         : routes.request.success.payment;

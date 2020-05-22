@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Typography, Box, Button, makeStyles, Tabs, Tab } from "@material-ui/core";
 import { Add } from "@material-ui/icons";
-import { Link, useLocation, Redirect, Switch, Route } from "react-router-dom";
+import { Link, useLocation, Redirect, Switch } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import { Page } from "../../layout";

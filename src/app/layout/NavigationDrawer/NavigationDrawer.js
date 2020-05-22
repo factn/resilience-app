@@ -13,7 +13,6 @@ import DashboardIcon from "@material-ui/icons/Dashboard";
 import DoubleArrowIcon from "@material-ui/icons/DoubleArrow";
 import ExitToApp from "@material-ui/icons/ExitToApp";
 import MenuIcon from "@material-ui/icons/Menu";
-import MoveToInboxIcon from "@material-ui/icons/MoveToInbox";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import PeopleIcon from "@material-ui/icons/People";
 import clsx from "clsx";

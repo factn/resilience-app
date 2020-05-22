@@ -8,7 +8,6 @@ import MuiPlayCircleFilledIcon from "@material-ui/icons/PlayCircleFilled";
 
 import { useOrganization } from "../../model";
 import Mission from "../../model/Mission";
-import User from "../../model/User";
 
 import {
   getAllAvailableMissions,

@@ -152,6 +152,14 @@ const styles = (theme) => ({
     borderColor: theme.color.lightgrey,
     padding: theme.spacing(1),
   },
+  secondaryButton: {
+    color: "red",
+    fontWeight: "normal",
+    fontStyle: "italic",
+    fontSize: "0.6rem",
+    padding: "0",
+    textDecoration: "underline",
+  },
 });
 
 /**
@@ -180,7 +188,6 @@ const MissionCard = withStyles(styles)(({ classes, mission }) => {
   const onCloseModal = () => setModalOpen(false);
 
   const primaryButtonProps = { variant: "contained", color: "primary", fullWidth: true };
-  const secondaryButtonProps = { color: "secondary", fullWidth: true };
 
   const ActionButtons = () => (
     <Grid container direction="row-reverse" className={classes.actionButtons}>
@@ -232,7 +239,9 @@ const MissionCard = withStyles(styles)(({ classes, mission }) => {
           <Box display="flex" alignItems="center">
             <Box>
               You are the suggested volunteer!
-              <a onClick={unassignMeFromMission}>No Thanks</a>
+              <Button className={classes.secondaryButton} onClick={unassignMeFromMission}>
+                No Thanks
+              </Button>
             </Box>
           </Box>
         </Grid>
