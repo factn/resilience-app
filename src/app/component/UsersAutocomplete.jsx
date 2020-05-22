@@ -2,7 +2,7 @@ import { Avatar, Box, TextField } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import React, { Fragment } from "react";
-import { H6, TypographyWrapper } from "./";
+import { H6 } from "./";
 
 const useStyles = makeStyles((theme) => ({
   root: {

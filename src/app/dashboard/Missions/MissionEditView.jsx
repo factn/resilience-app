@@ -5,7 +5,7 @@ import LocationOnIcon from "@material-ui/icons/LocationOn";
 import PanToolIcon from "@material-ui/icons/PanTool";
 import CancelIcon from "@material-ui/icons/Cancel";
 import PersonIcon from "@material-ui/icons/Person";
-import React, { useRef, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { isEmpty, isLoaded } from "react-redux-firebase";
 import { Button, Body2, H3 } from "../../component";
 import Switch from "@material-ui/core/Switch";

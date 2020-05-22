@@ -1,7 +1,7 @@
 import React from "react";
 import { Mission } from "../../model";
 import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
-import { Box, Container, Grid, Paper } from "@material-ui/core";
+import { Box, Grid } from "@material-ui/core";
 
 const Row = ({ children, Icon }) => {
   if (!children) return null;

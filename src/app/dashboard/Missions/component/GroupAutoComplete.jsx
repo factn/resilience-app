@@ -1,7 +1,7 @@
 import GroupWorkIcon from "@material-ui/icons/GroupWork";
 import Autocomplete, { createFilterOptions } from "@material-ui/lab/Autocomplete";
 import { Box, TextField } from "@material-ui/core";
-import React, { useState } from "react";
+import React from "react";
 import _ from "../../../utils/lodash";
 
 const GroupAutoComplete = ({ classes, groups, handleChange, selected }) => {

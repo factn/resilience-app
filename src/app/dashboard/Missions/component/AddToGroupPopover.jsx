@@ -1,4 +1,4 @@
-import { Box, TextField } from "@material-ui/core";
+import { Box } from "@material-ui/core";
 import Popover from "@material-ui/core/Popover";
 import React, { useState } from "react";
 import GroupAutoComplete from "./GroupAutoComplete";
