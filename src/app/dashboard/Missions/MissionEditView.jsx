@@ -199,6 +199,15 @@ const MissionDetailsRow = ({ mission }) => {
   return null;
 };
 
+const volunteerStatus = [MissionStatus.unassigned, MissionStatus.tentative, MissionStatus.assigned];
+
+const getVolunteerAttribute = (selectedVolunteer, status, attr, tentativeClause) => {
+  if (selectedVolunteer && tentativeClause) {
+    return selectedVolunteer[attr];
+  }
+  return "";
+};
+
 /**
  * Component for editing mission details
  * @component
@@ -223,10 +232,7 @@ const MissionEditView = ({ mission, toDetailsView, toListView, volunteers }) => 
 
   const props = { classes, mission };
 
-  const volunteerEditable =
-    mission.status === MissionStatus.unassigned ||
-    mission.status === MissionStatus.tentative ||
-    mission.status === MissionStatus.assigned;
+  const volunteerEditable = volunteerStatus.includes(mission.status);
 
   function changeFormValue(name, value) {
     handleChange({ target: { name, value } });
@@ -264,30 +270,42 @@ const MissionEditView = ({ mission, toDetailsView, toListView, volunteers }) => 
       deliveryWindow: {
         startTime: delivery.toString(),
       },
-      volunteerUid:
-        selectedVolunteer && values.status !== MissionStatus.tentative
-          ? selectedVolunteer.volunteerUid
-          : "",
-      volunteerDisplayname:
-        selectedVolunteer && values.status !== MissionStatus.tentative
-          ? selectedVolunteer.volunteerDisplayName
-          : "",
-      volunteerPhoneNumber:
-        selectedVolunteer && values.status !== MissionStatus.tentative
-          ? selectedVolunteer.volunteerPhoneNumber
-          : "",
-      tentativeVolunteerUid:
-        selectedVolunteer && values.status === MissionStatus.tentative
-          ? selectedVolunteer.volunteerUid
-          : "",
-      tentativeVolunteerDisplayName:
-        selectedVolunteer && values.status === MissionStatus.tentative
-          ? selectedVolunteer.volunteerDisplayName
-          : "",
-      tentativeVolunteerPhoneNumber:
-        selectedVolunteer && values.status === MissionStatus.tentative
-          ? selectedVolunteer.volunteerPhoneNumber
-          : "",
+      volunteerUid: getVolunteerAttribute(
+        selectedVolunteer,
+        values.status,
+        "volunteerUid",
+        values.status !== MissionStatus.tentative
+      ),
+      volunteerDisplayname: getVolunteerAttribute(
+        selectedVolunteer,
+        values.status,
+        "volunteerDisplayName",
+        values.status !== MissionStatus.tentative
+      ),
+      volunteerPhoneNumber: getVolunteerAttribute(
+        selectedVolunteer,
+        values.status,
+        "volunteerPhoneNumber",
+        values.status !== MissionStatus.tentative
+      ),
+      tentativeVolunteerUid: getVolunteerAttribute(
+        selectedVolunteer,
+        values.status,
+        "volunteerUid",
+        values.status === MissionStatus.tentative
+      ),
+      tentativeVolunteerDisplayName: getVolunteerAttribute(
+        selectedVolunteer,
+        values.status,
+        "volunteerDisplayName",
+        values.status === MissionStatus.tentative
+      ),
+      tentativeVolunteerPhoneNumber: getVolunteerAttribute(
+        selectedVolunteer,
+        values.status,
+        "volunteerPhoneNumber",
+        values.status === MissionStatus.tentative
+      ),
       readyToStart: values.readyToStart,
     }).then((result) => {
       toDetailsView();
