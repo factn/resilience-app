@@ -231,7 +231,7 @@ const MissionCard = withStyles(styles)(({ classes, mission }) => {
           </Box>
           <Box display="flex" alignItems="center">
             <Box>
-              You are the prefer volunteer!
+              You are the suggested volunteer!
               <a onClick={unassignMeFromMission}>No Thanks</a>
             </Box>
           </Box>
@@ -244,7 +244,7 @@ const MissionCard = withStyles(styles)(({ classes, mission }) => {
           </Box>
           <Box display="flex" alignItems="center">
             <Box>
-              Prefered volunteer: <br />
+              Suggested volunteer: <br />
               <b>{mission.tentativeVolunteerDisplayName}</b>
             </Box>
           </Box>
