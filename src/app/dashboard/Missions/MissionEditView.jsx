@@ -366,8 +366,6 @@ const MissionEditView = ({ groups, mission, toDetailsView, toListView, volunteer
             </Card>
             <Card label="Delivery Details" classes={classes}>
               <Row Icon={ScheduleIcon} classes={classes}>
-                {" "}
-                                   
                 <DateTimeInput
                   dateInputProps={{
                     id: "date-delivery",
@@ -380,8 +378,7 @@ const MissionEditView = ({ groups, mission, toDetailsView, toListView, volunteer
                     label: "Delivery Time",
                   }}
                   value={deliveryTime}
-                />{" "}
-                              
+                />
               </Row>
               <Row Icon={LocationOnIcon} classes={classes}>
                 <Grid container direction="row">
@@ -445,8 +442,6 @@ const MissionEditView = ({ groups, mission, toDetailsView, toListView, volunteer
             </Card>
 
             <Row classes={classes}>
-              {" "}
-                                 
               <Grid container direction="row" spacing={1} className={classes.rowBody}>
                 <Grid item>
                   <Switch
