@@ -79,11 +79,10 @@ function SignupScene(props) {
         location = { ...location, lat: data.lat, lng: data.long };
       }
     } catch (error) {
-      console.log("ERROR WHEN GETTiNG LOCATION", error);
-      console.log("address: ", location.address);
+      console.error("ERROR WHEN GETTiNG LOCATION", error);
+      console.error("address: ", location.address);
     }
 
-    /*
     try {
       setLoading(true);
       User.update(payload.id, payload).then(() => {
@@ -95,7 +94,6 @@ function SignupScene(props) {
       setErrorSnackbarMessage(error);
       setActiveTab(Tabs.SUCCESS);
     }
-    */
   }
 
   let Active = null;
