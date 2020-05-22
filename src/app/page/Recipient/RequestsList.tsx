@@ -206,7 +206,7 @@ function ConfirmDelivery({ mission }: { mission: MissionInterface }) {
           alt="Confirmation"
         />
         <Typography className={classes.volunteerName}>
-          By <Avatar alt="volunteer avatar" src={mission.volunteerPhotoUrl} />{" "}
+          By <Avatar alt="volunteer avatar" src={mission.volunteerPhotoURL} />{" "}
           {mission.volunteerDisplayName}
         </Typography>
         {/* 

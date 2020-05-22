@@ -206,7 +206,7 @@ export interface MissionInterface {
   volunteerUid: string;
   volunteerDisplayName: string;
   volunteerPhoneNumber: string;
-  volunteerPhotoUrl: string;
+  volunteerPhotoURL: string;
 
   recipientUid: string; // reference?
   recipientDisplayName: string;
