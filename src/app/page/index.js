@@ -8,7 +8,8 @@ import Logout from "./Logout";
 import OrganizerSignupPage from "./OrganizerSignup";
 import MissionCreate from "./MissionCreate";
 import MissionDetails from "./MissionDetails";
-import MissionsCompleted from "./Missions";
+import MissionsCompleted from "./MissionsCompleted";
+import MissionsDelivered from "./MissionsDelivered";
 import MissionFeedback from "./MissionFeedback";
 import RequestPage from "./Request";
 import Signup from "./Signup";
@@ -29,6 +30,7 @@ export {
   MissionCreate,
   MissionFeedback,
   MissionsCompleted,
+  MissionsDelivered,
   OrganizerSignupPage,
   RecipientDashboard,
   RequestPage,

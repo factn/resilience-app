@@ -30,7 +30,6 @@ const MissionListWithLoading = withLoading(({ children }) => (
  * This component outputs a list of given missions.
  * Will output a loading
  * @param {array} props.missions - Missions to list
- * @param {object} props.history - Object given from React Router
  * @param {function} props.handlerUserVolunteering - Function that, when given a user ID, handles assigning the user with that ID to "volunteer" for that mission
  */
 const MissionList = ({ missions, ...rest }) => {
@@ -49,7 +48,6 @@ MissionList.defaultProps = {
 
 MissionList.propTypes = {
   missions: PropTypes.array,
-  history: PropTypes.object,
 };
 
 export default MissionList;

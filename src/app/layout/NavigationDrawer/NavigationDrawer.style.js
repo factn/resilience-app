@@ -56,6 +56,9 @@ export const useStyles = makeStyles((theme) => ({
     color: theme.color.white,
     textDecoration: "none",
   },
+  listItemTextWithoutIcon: {
+    marginLeft: "56px",
+  },
   loading: {
     width: "100%",
   },

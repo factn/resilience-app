@@ -32,6 +32,7 @@ const routes: IRoutes = {
     createdByUser: "/missions/created",
     createNew: "/missions/new",
     completed: "/missions/completed",
+    delivered: "/missions/delivered",
     feedback: "/missions/feedback/:id",
   },
 
