@@ -106,7 +106,7 @@ function RecipientMissionCard({ mission }: { mission: MissionInterface }) {
         status={mission.status}
         fundedStatus={mission.fundedStatus}
         createdDate={mission.createdDate}
-      ></TopBar>
+      />
       <CardActionArea onClick={toggle}>
         <CardHeader
           className={classes.cardHeader}
@@ -140,38 +140,30 @@ type TopBarProps = {
 };
 
 function Icon({ fundedStatus, status, ...rest }: any) {
-  return status === Status.started ? (
-    <PlayCircleFilled {...rest} />
-  ) : status === Status.delivered ? (
-    <NotificationImportant {...rest} />
-  ) : status === Status.succeeded ? (
-    <CheckCircle {...rest} />
-  ) : fundedStatus === FundedStatus.notfunded ? (
-    <HourglassFull {...rest} />
-  ) : (
-    <FiberNew {...rest} />
-  );
+  if (status === Status.started) return <PlayCircleFilled {...rest} />;
+  if (status === Status.delivered) return <NotificationImportant {...rest} />;
+  if (status === Status.succeeded) return <CheckCircle {...rest} />;
+  if (fundedStatus === FundedStatus.notfunded) return <HourglassFull {...rest} />;
+  return <FiberNew {...rest} />;
 }
 
-function _TopBar({ className, createdDate, fundedStatus, status }: TopBarProps) {
+function TopBarText({ createdDate, fundedStatus, status }: any) {
   const date = new Date(createdDate).toLocaleDateString();
 
+  if (status === Status.started) return <>In progress | Accepted</>;
+  if (status === Status.delivered) return <>It's here! Confirm delivery below</>;
+  if (status === Status.succeeded) return <>Delivery Confirmed</>;
+  if (fundedStatus === FundedStatus.notfunded) return <>Awaiting donation | Submitted {date}</>;
+  return <>Submitted {date}</>;
+}
+
+function _TopBar({ className, ...rest }: TopBarProps) {
   // TODO we need a `lastUpdated` date to use for the other statuses
   return (
     <div className={className}>
       <Typography color="primary" variant="h5">
-        <Icon status={status} fundedStatus={fundedStatus} color="primary" />
-        {status === Status.started ? (
-          <>In progress | Accepted</>
-        ) : status === Status.delivered ? (
-          <>It's here! Confirm delivery below</>
-        ) : status === Status.succeeded ? (
-          <>Delivery Confirmed</>
-        ) : fundedStatus === FundedStatus.notfunded ? (
-          <>Awaiting donation | Submitted {date}</>
-        ) : (
-          <>Submitted {date}</>
-        )}
+        <Icon {...rest} color="primary" />
+        <TopBarText {...rest} />
       </Typography>
     </div>
   );

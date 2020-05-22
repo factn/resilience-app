@@ -18,7 +18,12 @@ import PaypalCheckout from "../../../component/PaypalCheckout/PaypalCheckout";
 import { TypographyWrapper, H3, H4, H5, Body1 } from "../../../component";
 import NavigationButtons from "./NavigationButtons";
 import Mission from "../../../model/Mission";
-import { MissionFundedStatus, MissionType, MissionStatus } from "../../../model/schema";
+import {
+  MissionFundedStatus,
+  MissionType,
+  MissionStatus,
+  DeliveryType,
+} from "../../../model/schema";
 import CheckoutItem from "./CheckoutItem";
 import { routes } from "../../../routing";
 
@@ -71,7 +76,7 @@ function ConfirmStep({ dispatch, state }) {
       recipientEmailAddress: recipient.recipientEmailAddress,
       deliveryLocation: details.location,
       deliveryNotes: details.instructions,
-      deliveryType: details.curbsidePickup ? "curbside" : "delivery",
+      deliveryType: details.curbsidePickup ? DeliveryType.curbside : DeliveryType.delivery,
       details: cart.map((item) => ({
         resourceUid: item.resource.uid,
         quantity: item.quantity,

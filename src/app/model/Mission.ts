@@ -8,6 +8,7 @@ import {
   MissionType,
   TimeWindow,
   TimeWindowType,
+  DeliveryType,
 } from "./schema";
 import _ from "lodash";
 import Organization from "./Organization";
@@ -64,7 +65,7 @@ const defaultMissionData: MissionInterface = {
 
   deliveryWindow: defaultTimeWindow,
   deliveryLocation: defaultLocation, // default to recipient location
-  deliveryType: "curbside",
+  deliveryType: DeliveryType.delivery,
 
   deliveryConfirmationImage: "",
   deliveryNotes: "",

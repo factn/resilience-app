@@ -3,7 +3,7 @@ import { Typography, Button, Box, Divider, TextField } from "@material-ui/core";
 import styled from "styled-components";
 
 import Snackbar from "../../component/Snackbars";
-import { MissionInterface, MissionStatus as Status } from "../../model/schema";
+import { MissionInterface, MissionStatus as Status, DeliveryType } from "../../model/schema";
 import { Mission, useOrganization } from "../../model";
 
 export default function Details({ mission }: { mission: MissionInterface }) {
@@ -12,7 +12,7 @@ export default function Details({ mission }: { mission: MissionInterface }) {
     <>
       <Divider />
       <Box margin="1rem">
-        {mission.deliveryType === "delivery" ? (
+        {mission.deliveryType === DeliveryType.delivery ? (
           <>
             <DetailSection
               header="Address"
@@ -85,6 +85,7 @@ function DropOffInstructions({ mission }: { mission: MissionInterface }) {
         setIsEditing(false);
       })
       .catch((e) => {
+        console.error(e);
         snackbar.show({
           message: `Unable to update instructions. Please contact organizer.`,
           type: "error",
