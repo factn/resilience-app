@@ -34,41 +34,39 @@ const SearchUsers = ({ editable, handleChange, selected, users }) => {
   const optionSelected = options.find((option) => option && selected && option.id === selected.id);
   const defaultValue = editable ? optionSelected : null;
 
+  if (!editable) {
+    return <H6>{selected.displayName + " " + selected.phoneNumber}</H6>;
+  }
+
   return (
-    <>
-      {editable ? (
-        <Autocomplete
-          id="user-search"
-          noOptionsText="No users found"
-          options={options}
-          classes={{ root: classes.root }}
-          getOptionLabel={(user) => user.searchString}
-          onChange={(event, newValue) => handleChange(newValue)}
-          defaultValue={defaultValue}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              className={classes.textField}
-              label="Search a user..."
-              placeholder="search user with either name or phone number"
-              variant="outlined"
-              InputProps={{ ...params.InputProps, type: "search" }}
-            />
-          )}
-          renderOption={(user) => (
-            <Fragment>
-              <Avatar className={classes.avatar} src={user.photoURL ? user.photoURL : null} />
-              <Box display="flex" flexDirection="column">
-                <span>{user.displayName}</span>
-                <small>{user.phoneNumber}</small>
-              </Box>
-            </Fragment>
-          )}
+    <Autocomplete
+      id="user-search"
+      noOptionsText="No users found"
+      options={options}
+      classes={{ root: classes.root }}
+      getOptionLabel={(user) => user.searchString}
+      onChange={(event, newValue) => handleChange(newValue)}
+      defaultValue={defaultValue}
+      renderInput={(params) => (
+        <TextField
+          {...params}
+          className={classes.textField}
+          label="Search a user..."
+          placeholder="search user with either name or phone number"
+          variant="outlined"
+          InputProps={{ ...params.InputProps, type: "search" }}
         />
-      ) : (
-        <H6>{selected.displayName + " " + selected.phoneNumber}</H6>
       )}
-    </>
+      renderOption={(user) => (
+        <Fragment>
+          <Avatar className={classes.avatar} src={user.photoURL ? user.photoURL : null} />
+          <Box display="flex" flexDirection="column">
+            <span>{user.displayName}</span>
+            <small>{user.phoneNumber}</small>
+          </Box>
+        </Fragment>
+      )}
+    />
   );
 };
 
