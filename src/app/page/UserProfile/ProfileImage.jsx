@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 
 import { Button } from "../../component";
 import PhotoSelection from "./photoselection.jsx";
+import { H4 } from "../../component/Typography";
 
 /**
  * Return the component displaying the profile image and enabling the ability to
@@ -70,7 +71,7 @@ const ProfileImage = ({ classes, profile, setProfile }) => {
     <Grid item>
       <Avatar className={classes.profileImage} src={profilePhoto} alt={displayName} />
       <Link style={{ textDecoration: "none" }} onClick={setEdit}>
-        <h4>Change Picture</h4>
+        <H4 align="center">Change Picture</H4>
       </Link>
     </Grid>
   );
