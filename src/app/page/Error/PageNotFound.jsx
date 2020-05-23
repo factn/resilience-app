@@ -2,6 +2,7 @@ import React from "react";
 import { Link as RouterLink } from "react-router-dom";
 import clsx from "clsx";
 import makeStyles from "@material-ui/core/styles/makeStyles";
+import { Grid } from "@material-ui/core";
 
 import { Button } from "../../component";
 import { Body1, H1 } from "../../component/Typography";
@@ -16,6 +17,7 @@ const pageNotFoundStyles = makeStyles((theme) => ({
   heading: { ...theme.typography.h1, textAlign: "center", marginBottom: "1rem" },
   body: {
     marginBottom: "1.5rem",
+    textAlign: "center",
   },
   cta: {
     textAlign: "center",
@@ -38,9 +40,11 @@ const PageNotFound = () => {
       <Body1 className={clsx("body", classes.body)}>
         The page you are looking for cannot be found. Try refreshing the page to find it.
       </Body1>
-      <Button className={clsx("cta", classes.cta)} component={linkToHome}>
-        Return Home
-      </Button>
+      <Grid container justify="center">
+        <Button className={clsx("cta", classes.cta)} component={linkToHome}>
+          Return Home
+        </Button>
+      </Grid>
     </div>
   );
 };
