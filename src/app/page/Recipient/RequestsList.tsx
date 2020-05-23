@@ -147,14 +147,14 @@ function Icon({ fundedStatus, status, ...rest }: any) {
   return <FiberNew {...rest} />;
 }
 
-function TopBarText({ createdDate, fundedStatus, status }: any) {
+function TopBarText({ createdDate, fundedStatus, status }: any): any {
   const date = new Date(createdDate).toLocaleDateString();
 
-  if (status === Status.started) return <>In progress | Accepted</>;
-  if (status === Status.delivered) return <>It's here! Confirm delivery below</>;
-  if (status === Status.succeeded) return <>Delivery Confirmed</>;
-  if (fundedStatus === FundedStatus.notfunded) return <>Awaiting donation | Submitted {date}</>;
-  return <>Submitted {date}</>;
+  if (status === Status.started) return `In progress | Accepted`;
+  if (status === Status.delivered) return `It's here! Confirm delivery below`;
+  if (status === Status.succeeded) return `Delivery Confirmed`;
+  if (fundedStatus === FundedStatus.notfunded) return `Awaiting donation | Submitted ${date}`;
+  return `Submitted ${date}`;
 }
 
 function _TopBar({ className, ...rest }: TopBarProps) {
