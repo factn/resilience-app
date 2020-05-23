@@ -9,6 +9,7 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import DashboardIcon from "@material-ui/icons/Dashboard";
+import MoveToInboxIcon from "@material-ui/icons/MoveToInbox";
 import DoubleArrowIcon from "@material-ui/icons/DoubleArrow";
 import ExitToApp from "@material-ui/icons/ExitToApp";
 import MenuIcon from "@material-ui/icons/Menu";
@@ -76,6 +77,13 @@ export default function TemporaryDrawer() {
         )}
 
         <MenuItem
+          text="Requests"
+          to={routes.recipient.dashboard.home}
+          icon={<MoveToInboxIcon classes={{ root: classes.colorIcon }} />}
+          classes={classes}
+        />
+
+        <MenuItem
           text="I Need Help"
           to={routes.request.start}
           icon={<FavoriteIcon classes={{ root: classes.colorIcon }} />}
@@ -97,16 +105,6 @@ export default function TemporaryDrawer() {
           icon={<DashboardIcon classes={{ root: classes.colorIcon }} />}
           classes={classes}
         />
-
-        {/*
-          Hiding for
-          <MenuItem
-            text="My Requests"
-            to={routes.recipient.dashboard.home}
-            icon={<MoveToInboxIcon classes={{ root: classes.colorIcon }} fontSize="large"/>}
-            classes={classes}
-          />
-          */}
 
         {UserPermissionsService.hasPermission(PERMISSIONS.VIEW_MISSIONS) && (
           <>

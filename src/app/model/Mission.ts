@@ -8,6 +8,7 @@ import {
   MissionType,
   TimeWindow,
   TimeWindowType,
+  DeliveryType,
 } from "./schema";
 import _ from "lodash";
 import Organization from "./Organization";
@@ -51,6 +52,7 @@ const defaultMissionData: MissionInterface = {
   volunteerUid: "",
   volunteerDisplayName: "",
   volunteerPhoneNumber: "",
+  volunteerPhotoURL: "",
 
   recipientDisplayName: "No Recipient Name",
   recipientPhoneNumber: "",
@@ -63,7 +65,7 @@ const defaultMissionData: MissionInterface = {
 
   deliveryWindow: defaultTimeWindow,
   deliveryLocation: defaultLocation, // default to recipient location
-  deliveryType: "curbside",
+  deliveryType: DeliveryType.delivery,
 
   deliveryConfirmationImage: "",
   deliveryNotes: "",
@@ -295,7 +297,7 @@ class Mission extends BaseModel {
    * @param {string} missionUid - mission
    * @param {object} data- updated data
    */
-  update(missionUid: string, data: object) {
+  update(missionUid: string, data: Partial<MissionInterface>) {
     let sanitized = this.sanitize(data);
     return this.getCollection("organizations")
       .doc(Organization.uid)
@@ -360,6 +362,7 @@ class Mission extends BaseModel {
       volunteerUid: userUid,
       volunteerDisplayName: user.displayName,
       volunteerPhoneNumber: user.phoneNumber,
+      volunteerPhotoURL: user.photoURL,
       status: MissionStatus.assigned,
     });
   }

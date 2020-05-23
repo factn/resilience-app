@@ -177,6 +177,11 @@ export enum MissionType {
   errand = "errand",
 }
 
+export enum DeliveryType {
+  delivery = "delivery",
+  curbside = "curbside",
+}
+
 export interface MissionInterface {
   uid: string;
   organizationUid: string;
@@ -201,6 +206,7 @@ export interface MissionInterface {
   volunteerUid: string;
   volunteerDisplayName: string;
   volunteerPhoneNumber: string;
+  volunteerPhotoURL: string;
 
   recipientUid: string; // reference?
   recipientDisplayName: string;
@@ -215,7 +221,7 @@ export interface MissionInterface {
   deliveryLocation: Location; // default to recipient location
   deliveryConfirmationImage: string;
   deliveryNotes: string;
-  deliveryType: string;
+  deliveryType: DeliveryType;
 
   feedbackNotes: string;
 

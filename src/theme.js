@@ -13,6 +13,7 @@ export const color = {
   redlines: "#E8178A",
   green: "#024b30",
   greenSuccess: "#66D85D",
+  greenLight: "#D2F4CF",
   greenToast: "#4caf50",
   darkOrange: "#f2994a",
   orange: "#fce1c9",
