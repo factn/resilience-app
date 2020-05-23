@@ -1,5 +1,5 @@
 // styles
-import { Button, Typography } from "@material-ui/core";
+import { Button, Typography, Grid } from "@material-ui/core";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
@@ -15,6 +15,7 @@ const StyledHeader = styled(Typography)`
 `;
 
 const StyledCopy = styled(Typography)`
+  text-align: center;
   margin-top: 3vh;
 `;
 
@@ -25,7 +26,7 @@ const StyledP = styled(Typography)`
 const StyledButton = styled(Button)`
   margin-top: 24px;
   flex-grow: 1;
-  width: 20vw;
+  width: 20rem;
 `;
 
 const ButtonHolder = styled.div``;
@@ -67,43 +68,45 @@ const Status = ({ firestore }) => {
   return (
     <Page>
       <StyledHeader variant="h1">
-        {" "}
-        Manually set your status so others know what you are doing.{" "}
+        Manually set your status so others know what you are doing.
       </StyledHeader>
+
       <StyledCopy variant="h2"> I am... </StyledCopy>
-      <ButtonHolder>
-        <StyledButton
-          color="primary"
-          size="large"
-          variant="contained"
-          onClick={(event) => handelStatusOnCall(event)}
-          disableElevation
-        >
-          On Call
-        </StyledButton>
-        <br />
-        <StyledButton
-          color="primary"
-          size="large"
-          variant="contained"
-          onClick={(event) => handelStatusAvail(event)}
-          disableElevation
-        >
-          Available
-        </StyledButton>
-        <br />
-        <StyledButton
-          color="primary"
-          size="large"
-          variant="contained"
-          onClick={(event) => handelStatusOff(event)}
-          disableElevation
-        >
-          Offline
-        </StyledButton>
-        <br />
-      </ButtonHolder>
-      <StyledP>{thank}</StyledP>
+      <Grid container justify="center">
+        <ButtonHolder>
+          <StyledButton
+            color="primary"
+            size="large"
+            variant="contained"
+            onClick={(event) => handelStatusOnCall(event)}
+            disableElevation
+          >
+            On Call
+          </StyledButton>
+          <br />
+          <StyledButton
+            color="primary"
+            size="large"
+            variant="contained"
+            onClick={(event) => handelStatusAvail(event)}
+            disableElevation
+          >
+            Available
+          </StyledButton>
+          <br />
+          <StyledButton
+            color="primary"
+            size="large"
+            variant="contained"
+            onClick={(event) => handelStatusOff(event)}
+            disableElevation
+          >
+            Offline
+          </StyledButton>
+          <br />
+        </ButtonHolder>
+        <StyledP>{thank}</StyledP>
+      </Grid>
     </Page>
   );
 };

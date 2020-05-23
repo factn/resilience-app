@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import CurrencyTextField from "@unicef/material-ui-currency-textfield";
-import { Typography, Box, makeStyles, Divider, Button } from "@material-ui/core";
+import { Typography, Box, makeStyles, Divider, Button, Grid } from "@material-ui/core";
 import { Page } from "../../layout";
 import PaypalCheckout from "../../component/PaypalCheckout/PaypalCheckout";
 import ContactComponent from "../../component/ContactComponent";
@@ -48,7 +48,7 @@ export default function DonationPage() {
   return (
     <Page>
       <Box margin="0 1rem">
-        <Typography variant="h1" align="left" color="textPrimary">
+        <Typography variant="h1" align="center" color="textPrimary">
           {state.title}
         </Typography>
         <ActiveState classes={classes} setState={setState} state={state} />
@@ -75,8 +75,9 @@ function DonateState({ classes, setState }) {
   const [amount, setAmount] = useState();
   return (
     <>
-      <DonateIllustration />
-
+      <Grid container justify="center" className={classes.marginVertical}>
+        <DonateIllustration />
+      </Grid>
       <Typography align="left" variant="body1" gutterBottom>
         Help your neighbors by donating money to help cover the cost of food boxes.
       </Typography>
