@@ -9,9 +9,8 @@ assignees: ""
 <!-- **READ BEFORE USING TEMPLATE!**
 Use this template as a guide to providing enough information for an effective bug report . You can press PREVIEW at any time to view the issue content without comments. -->
 
-# STOP
-
-<!-- Before submitting, be sure to search through our [issues](https://github.com/factn/resilience-app/issues) to see if your bug has already been reported -->
+<!-- **STOP!**
+Before submitting, be sure to search through our [issues](https://github.com/factn/resilience-app/issues) to see if your bug has already been reported(copy url into browser). -->
 
 **Describe the bug**
 
