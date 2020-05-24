@@ -9,11 +9,13 @@ assignees: ""
 <!-- **READ BEFORE USING TEMPLATE!**
 You do NOT need to remove the texts that is commented out when viewing the 'Write' portion of this template, select 'Preview' to see how your issue will look and notice that any commented text in 'Write' does not carry over, simply add content to the under the commented portions between each section before final submission. -->
 
-**Is the bug already logged?**
+<!--
 
-<!-- Double check to make sure that this particular bug does not already exist within issues. Place an 'x' within the brackets below to confirm check. -->
+# STOP
 
-- [ ] I have confirmed that this bug does not already exist within GitHub issues.
+Before submitting, be sure to search through our [issues](https://github.com/factn/resilience-app/issues) to see if your bug has already been reported
+
+-->
 
 **Describe the bug**
 
@@ -35,19 +37,12 @@ You do NOT need to remove the texts that is commented out when viewing the 'Writ
 
 <!-- If applicable, add screenshots to help explain your problem. -->
 
-**Desktop (please complete the following information):**
+**Device (please complete the following information):**
 
- <!-- - OS: [e.g. iOS]
+ <!-- - OS: [e.g. iOS] / Device if on mobile
  - Browser [e.g. chrome, safari]
  - Version [e.g. 22]
  - Code Environment [e.g. local machine, heroku] -->
-
-**Smartphone (please complete the following information):**
-
- <!-- - Device: [e.g. iPhone6]
- - OS: [e.g. iOS8.1]
- - Browser [e.g. stock browser, safari]
- - Version [e.g. 22] -->
 
 **Additional context**
 

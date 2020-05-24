@@ -7,7 +7,7 @@ assignees: ""
 ---
 
 <!-- **READ BEFORE USING TEMPLATE!**
-You do NOT need to remove the texts that is commented out when viewing the 'Write' portion of this template, select 'Preview' to see how your issue will look and notice that any commented text in 'Write' does not carry over, simply add content to the under the commented portions between each section before final submission. -->
+Use this template as a guide to providing enough information for an effective bug report. You can press PREVIEW at any time to view the issue content without comments. -->
 
 **Is the feature request already logged?**
 
@@ -19,11 +19,11 @@ You do NOT need to remove the texts that is commented out when viewing the 'Writ
 
 <!-- A clear and concise description of what the problem is. Ex. I'm always frustrated when... -->
 
-**Describe the solution you'd like**
+**Describe the solution you would like to see**
 
 <!-- A clear and concise description of what you want to happen. -->
 
-**Describe alternatives you've considered**
+**Describe alternatives you have considered**
 
 <!-- A clear and concise description of any alternative solutions or features you've considered. Ex. As an X, I would like to be able to do Y, so that Z... -->
 
