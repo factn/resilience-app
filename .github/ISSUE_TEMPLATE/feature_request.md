@@ -7,7 +7,7 @@ assignees: ""
 ---
 
 <!-- **READ BEFORE USING TEMPLATE!**
-Use this template as a guide to providing enough information for an effective bug report. You can press PREVIEW at any time to view the issue content without comments. -->
+Use this template as a guide to providing enough information for an effective feature request. You can press PREVIEW at any time to view the issue content without comments. -->
 
 **Is the feature request already logged?**
 

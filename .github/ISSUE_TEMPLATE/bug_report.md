@@ -7,15 +7,11 @@ assignees: ""
 ---
 
 <!-- **READ BEFORE USING TEMPLATE!**
-You do NOT need to remove the texts that is commented out when viewing the 'Write' portion of this template, select 'Preview' to see how your issue will look and notice that any commented text in 'Write' does not carry over, simply add content to the under the commented portions between each section before final submission. -->
-
-<!--
+Use this template as a guide to providing enough information for an effective bug report . You can press PREVIEW at any time to view the issue content without comments. -->
 
 # STOP
 
-Before submitting, be sure to search through our [issues](https://github.com/factn/resilience-app/issues) to see if your bug has already been reported
-
--->
+<!-- Before submitting, be sure to search through our [issues](https://github.com/factn/resilience-app/issues) to see if your bug has already been reported -->
 
 **Describe the bug**
 
