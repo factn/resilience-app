@@ -24,6 +24,7 @@ const KeyDatePickerContainer = ({ id, label, margin, onChange, value, ...rest })
       value={value}
       label={label}
       format="MM/dd/yyyy"
+      disablePast={true}
       onChange={(newDate) => {
         onChange(newDate);
         setIsOpen(false);
