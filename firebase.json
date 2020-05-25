@@ -1,6 +1,9 @@
 {
   "functions": {
-    "predeploy": ["npm --prefix ./functions run build"],
+    "predeploy": [
+      "npm --prefix \"$RESOURCE_DIR\" run lint",
+      "npm --prefix \"$RESOURCE_DIR\" run build"
+    ],
     "source": "functions"
   },
   "database": {
