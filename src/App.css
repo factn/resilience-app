@@ -3,7 +3,6 @@
   height: 100vh;
   display: flex;
   flex-direction: column;
-  display: flex;
   align-items: center;
 }
 
@@ -57,4 +56,11 @@
   font-weight: 600;
   font-size: 14px;
   line-height: 24px;
+}
+
+/* Overrides Algolia style.
+ * Button asks for location but doesn't do anything with info, so we don't need to show click ability
+ */
+.ap-input-icon.ap-icon-pin {
+  cursor: default;
 }
