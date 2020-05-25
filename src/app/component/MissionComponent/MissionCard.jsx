@@ -330,7 +330,12 @@ const MissionCard = withStyles(styles)(({ classes, mission }) => {
               </Grid>
               <Grid item xs zeroMinWidth>
                 <Typography noWrap>
-                  <a title={location} href={`https://www.google.com/maps/dir/"${location}"`}>
+                  <a
+                    title={location}
+                    href={`https://www.google.com/maps/dir/"${location}"`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     {location}
                   </a>
                 </Typography>
@@ -363,6 +368,8 @@ const MissionCard = withStyles(styles)(({ classes, mission }) => {
                   <a
                     title={dropOffLocation}
                     href={`https://www.google.com/maps/dir/"${dropOffLocation}"`}
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
                     {dropOffLocation}
                   </a>
