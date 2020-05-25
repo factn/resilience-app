@@ -1,5 +1,5 @@
-import { Card, Box, CardContent, Grid, Typography, Button, Avatar } from "@material-ui/core";
-import { withStyles, createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import { Avatar, Box, Button, Card, CardContent, Grid, Typography } from "@material-ui/core";
+import { createMuiTheme, ThemeProvider, withStyles } from "@material-ui/core/styles";
 import GetAppIcon from "@material-ui/icons/GetApp";
 import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
 import PublishIcon from "@material-ui/icons/Publish";
@@ -125,7 +125,6 @@ const styles = (theme) => ({
     color: theme.color.blue,
     zIndex: 1,
   },
-  actionButtons: {},
   greyBox: {
     background: "#F5F5F5",
     cursor: "pointer",
@@ -181,8 +180,7 @@ const MissionCard = withStyles(styles)(({ classes, mission }) => {
   const location = mission.pickUpLocation?.address || "no data";
   const dropOffLocation = mission.deliveryLocation?.address || "no data";
   const startTime = "" + (mission.pickUpWindow?.startTime || "");
-  const firebaseProfile = useSelector((state) => state.firebase.profile);
-  const user = firebaseProfile;
+  const user = useSelector((state) => state.firebase.profile);
   const fullScreen = useMediaQuery("(max-width:481px)");
   const [modalOpen, setModalOpen] = useState(false);
 

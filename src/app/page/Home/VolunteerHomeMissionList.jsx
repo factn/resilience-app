@@ -6,6 +6,7 @@ import { Mission } from "../../model";
 import { MissionList, MissionGroup, ShowDeliveryRoute } from "../../component";
 import { Map, Marker, TileLayer } from "react-leaflet";
 import Box from "@material-ui/core/Box";
+import { useSelector } from "react-redux";
 
 const VolunteerHomeMissionList = ({
   action,
@@ -21,6 +22,7 @@ const VolunteerHomeMissionList = ({
   const history = useHistory();
 
   const { groups, singleMissions } = Mission.getAllGroups(missions);
+  const user = useSelector((state) => state.firebase.profile);
 
   const missionGroups = groups.map((group) => (
     <MissionGroup
@@ -34,6 +36,9 @@ const VolunteerHomeMissionList = ({
       callToAction={{
         text: actionText,
         icon: actionIcon,
+        onClick: (missionUid) => {
+          Mission.accept(user.uid, user, missionUid);
+        },
       }}
       history={history}
       isLoaded={isLoaded(group.missions)}
