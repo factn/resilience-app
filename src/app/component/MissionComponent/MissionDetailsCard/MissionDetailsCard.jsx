@@ -83,16 +83,12 @@ const TextRowEditable = ({ disabled, label, onClick, text }) => {
   function handleChange(event) {
     setValue(event.target.value);
   }
-  //disabled have higher priority
-  let isEditable = isEdit;
-  if (disabled) {
-    isEditable = false;
-  }
+
   return (
     <>
       <Grid container alignItems="center" className="body-small-bold">
         {label}
-        {!isEditable && !disabled && (
+        {!isEdit && !disabled && (
           <Button startIcon={<EditIcon />} color="primary" onClick={() => setIsEdit(true)}>
             Edit
           </Button>
@@ -100,7 +96,7 @@ const TextRowEditable = ({ disabled, label, onClick, text }) => {
       </Grid>
       <Grid container wrap="nowrap">
         <Box width="100%" position="relative">
-          {isEditable ? (
+          {isEdit && !disabled ? (
             <>
               <TextField
                 value={value}
@@ -141,16 +137,10 @@ const MissionDetailsCard = ({ mission, photoDisabled }) => {
   const storage = firebase.storage();
   const classes = useStyles();
 
-  if (mission.status === Mission.Status.started) {
-    photoDisabled = false;
-  } else {
-    photoDisabled = true;
-  }
-
-  let notesEditDisabled = false;
-  if ([Mission.Status.unassigned, Mission.Status.tentative].includes(mission.status)) {
-    notesEditDisabled = true;
-  }
+  const photoDisabled = mission.status !== Mission.Status.started;
+  const notesEditDisabled = [Mission.Status.unassigned, Mission.Status.tentative].includes(
+    mission.status
+  );
 
   async function handleImageChosen(file) {
     const uploadTask = storage
