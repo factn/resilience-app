@@ -131,7 +131,7 @@ const TextRowEditable = ({ disabled, label, onClick, text }) => {
  *
  * @component
  */
-const MissionDetailsCard = ({ mission, photoDisabled }) => {
+const MissionDetailsCard = ({ mission }) => {
   const snackbarContext = useContext(Snackbar.Context.SnackbarContext);
   const firebase = useFirebase();
   const storage = firebase.storage();
