@@ -1,15 +1,19 @@
 import Grid from "@material-ui/core/Grid";
+import Box from "@material-ui/core/Box";
 import { makeStyles } from "@material-ui/core/styles";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import ScheduleIcon from "@material-ui/icons/Schedule";
 import PropTypes from "prop-types";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import Snackbar from "../../Snackbars";
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
+import Button from "@material-ui/core/Button";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ClearIcon from "@material-ui/icons/Clear";
+import TextField from "@material-ui/core/TextField";
+import EditIcon from "@material-ui/icons/Edit";
 import ErrorOutlineIcon from "@material-ui/icons/ErrorOutline";
 import ImageUpload from "../../ImageUpload";
 import FoodBoxIcon from "../../icons/FoodBoxIcon";
@@ -66,6 +70,66 @@ const Row = ({ children, Icon, label }) => {
     </>
   );
 };
+
+const DoneButton = styled(Button)`
+  position: absolute;
+  bottom: 0;
+  right: 0;
+`;
+const TextRowEditable = ({ text, label, onClick, disabled }) => {
+  const [value, setValue] = useState(text);
+  const [isEdit, setIsEdit] = useState(false);
+
+  function handleChange(event) {
+    setValue(event.target.value);
+  }
+  //disabled have higher priority
+  let isEditable = isEdit;
+  if (disabled) {
+    isEditable = false;
+  }
+  return (
+    <>
+      <Grid container alignItems="center" className="body-small-bold">
+        {label}
+        {!isEditable && !disabled && (
+          <Button startIcon={<EditIcon />} color="primary" onClick={() => setIsEdit(true)}>
+            Edit
+          </Button>
+        )}
+      </Grid>
+      <Grid container wrap="nowrap">
+        <Box width="100%" position="relative">
+          {isEditable ? (
+            <>
+              <TextField
+                value={value}
+                id="pickup-notes"
+                multiline
+                variant="outlined"
+                rows={4}
+                fullWidth
+                autoFocus
+                onChange={handleChange}
+              />
+              <DoneButton
+                color="primary"
+                onClick={() => {
+                  setIsEdit(false);
+                  onClick(value);
+                }}
+              >
+                done
+              </DoneButton>
+            </>
+          ) : (
+            text
+          )}
+        </Box>
+      </Grid>
+    </>
+  );
+};
 /**
  * Component for displaying mission details as a card
  *
@@ -77,11 +141,17 @@ const MissionDetailsCard = ({ mission, photoDisabled }) => {
   const storage = firebase.storage();
   const classes = useStyles();
 
-  if (mission.status === "started") {
+  if (mission.status === Mission.Status.started) {
     photoDisabled = false;
   } else {
     photoDisabled = true;
   }
+
+  let notesEditDisabled = false;
+  if ([Mission.Status.unassigned, Mission.Status.tentative].includes(mission.status)) {
+    notesEditDisabled = true;
+  }
+
   async function handleImageChosen(file) {
     const uploadTask = storage
       .ref(`confirmed_delivery/${file.name}`)
@@ -99,6 +169,12 @@ const MissionDetailsCard = ({ mission, photoDisabled }) => {
         });
       });
     return await uploadTask;
+  }
+  function updateDeliveryNotes(value) {
+    Mission.update(mission.uid, { deliveryNotes: value });
+  }
+  function updatePickUpNotes(value) {
+    Mission.update(mission.uid, { pickUpNotes: value });
   }
 
   return (
@@ -134,7 +210,12 @@ const MissionDetailsCard = ({ mission, photoDisabled }) => {
           <Grid container spacing={1}>
             <Row Icon={<ScheduleIcon color="primary" />}>{mission.pickUpWindow.timeWindowType}</Row>
             <Row Icon={<LocationOnIcon color="primary" />}>{mission.pickUpLocation.address}</Row>
-            <Row label="Pick Up Instructions">{mission.pickUpNotes}</Row>
+            <TextRowEditable
+              text={mission.pickUpNotes}
+              label="Pick Up Instructions"
+              onClick={updatePickUpNotes}
+              disabled={notesEditDisabled}
+            />
           </Grid>
         </ExpansionPanelDetails>
       </ExpansionPanel>
@@ -150,7 +231,12 @@ const MissionDetailsCard = ({ mission, photoDisabled }) => {
               {mission.deliveryWindow.timeWindowType}
             </Row>
             <Row Icon={<LocationOnIcon color="primary" />}>{mission.deliveryLocation.address}</Row>
-            <Row label="Delivery Instructions">{mission.deliveryNotes}</Row>
+            <TextRowEditable
+              text={mission.deliveryNotes}
+              onClick={updateDeliveryNotes}
+              label="Delivery Instructions"
+              disabled={notesEditDisabled}
+            />
           </Grid>
         </ExpansionPanelDetails>
       </ExpansionPanel>
