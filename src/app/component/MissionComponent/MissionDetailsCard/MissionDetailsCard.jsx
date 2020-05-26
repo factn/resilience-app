@@ -76,7 +76,7 @@ const DoneButton = styled(Button)`
   bottom: 0;
   right: 0;
 `;
-const TextRowEditable = ({ text, label, onClick, disabled }) => {
+const TextRowEditable = ({ disabled, label, onClick, text }) => {
   const [value, setValue] = useState(text);
   const [isEdit, setIsEdit] = useState(false);
 
