@@ -10,7 +10,6 @@ import MissionCreate from "./MissionCreate";
 import MissionDetails from "./MissionDetails";
 import MissionsCompleted from "./MissionsCompleted";
 import MissionsDelivered from "./MissionsDelivered";
-import MissionFeedback from "./MissionFeedback";
 import RequestPage from "./Request";
 import Signup from "./Signup";
 import Status from "./Status";
@@ -28,7 +27,6 @@ export {
   Logout,
   MissionDetails,
   MissionCreate,
-  MissionFeedback,
   MissionsCompleted,
   MissionsDelivered,
   OrganizerSignupPage,

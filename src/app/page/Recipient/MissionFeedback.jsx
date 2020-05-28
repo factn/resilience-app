@@ -1,11 +1,6 @@
-import React, { useState, useEffect, useContext } from "react";
-import { withRouter } from "react-router-dom";
-import Page from "../../layout/Page";
-import { isEmpty, isLoaded } from "react-redux-firebase";
-import useForm from "../../hooks/useForm";
-import PropTypes from "prop-types";
+import React, { useState, useContext, useEffect } from "react";
 import { Mission } from "../../model";
-import { CircularProgress } from "@material-ui/core";
+import { MissionStatus } from "../../model/schema";
 import Snackbar from "../../component/Snackbars";
 import {
   DeliveryConfirmation,
@@ -14,59 +9,93 @@ import {
   Acknowledgement,
   Step,
 } from "./Steps";
+import { makeStyles, Slide, Modal, Backdrop, Paper, IconButton } from "@material-ui/core";
+import { Close } from "@material-ui/icons";
 
-/**
- * Page component for submitting feedback after mission delivery
- *
- * @param {object} props.history - History object obtained from React Router
- * @param {object} props.match - Match object obtained from React Router. Mission id should be passed as path variable in route.
- */
-const MissionFeedback = ({ history, match }) => {
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    overflow: "auto",
+    paddingTop: "5rem",
+    paddingBottom: "2rem",
+    width: "100%",
+    maxWidth: theme.breakpoints.width("sm"),
+    position: "relative",
+    height: "100%",
+  },
+  modal: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    height: "100vh",
+  },
+  close: {
+    position: "absolute",
+    top: "0",
+    right: "0",
+    "& svg": {
+      width: "2.5rem",
+      height: "2.5rem",
+    },
+  },
+}));
+
+const MissionFeedback = ({ deliveryImage, missionUid, setShow, show }) => {
+  const classes = useStyles();
   const [step, setStep] = useState(Step.CONFIRM_DELIVERY);
-  const { handleChange, values } = useForm({ feedback: "" });
-  const [mission, setMission] = useState({});
-  const [loading, setLoading] = useState(false);
+  const [feedback, setFeedback] = useState("");
   const snackbarContext = useContext(Snackbar.Context.SnackbarContext);
+
+  // clears feedback when closed
   useEffect(() => {
-    const missionUid = match.params.id;
-    const fetchMissionById = async () => {
-      const mission = await Mission.getByUid(missionUid);
-      setMission(mission);
-    };
-    fetchMissionById();
-  }, [match.params.id]);
+    if (!show) {
+      setFeedback("");
+    }
+  }, [show]);
+
   const goBack = () => {
-    history.goBack();
+    setShow(false);
   };
+
+  const handleChange = ({ target }) => {
+    setFeedback(target.value);
+  };
+
   const submitFeedback = (success) => {
-    setLoading(true);
-    Mission.submitFeedback(mission.uid, values.feedback, success)
+    Mission.update(missionUid, {
+      feedbackNotes: feedback,
+      status: success ? MissionStatus.succeeded : MissionStatus.delivered,
+    })
       .then(() => {
         snackbarContext.show({
           message: "Successfully submitted feedback",
         });
         if (!success) {
           setStep(Step.ACK);
-          setLoading(false);
         } else {
           goBack();
         }
       })
       .catch((e) => {
-        setLoading(false);
         snackbarContext.show({
           message: "Unable to submit feedback",
           type: "error",
         });
       });
   };
+
   let Content;
+
   const contentProps = {
     setStep,
     handleChange,
-    values,
-    deliveryImage: mission.deliveryConfirmationImage,
+    values: { feedback },
+    deliveryImage,
+    goBack,
   };
+
   switch (step) {
     case Step.CONFIRM_DELIVERY:
       Content = <DeliveryConfirmation {...contentProps} />;
@@ -78,25 +107,23 @@ const MissionFeedback = ({ history, match }) => {
       Content = <FeedbackWithSuccess {...contentProps} handleSubmit={submitFeedback} />;
       break;
     case Step.ACK:
-      Content = <Acknowledgement goBack={goBack} />;
+      Content = <Acknowledgement {...contentProps} />;
       break;
     default:
       Content = <DeliveryConfirmation {...contentProps} />;
   }
   return (
-    <Page isLoaded={isLoaded(mission)} isEmpty={isEmpty(mission)}>
-      {loading ? <CircularProgress style={{ alignSelf: "center" }} /> : Content}
-    </Page>
+    <Modal className={classes.modal} open={show} BackdropComponent={Backdrop}>
+      <Slide direction="up" in={show} mountOnEnter unmountOnExit>
+        <Paper square={true} className={classes.root}>
+          <IconButton className={classes.close} onClick={() => setShow(false)}>
+            <Close />
+          </IconButton>
+          {Content}
+        </Paper>
+      </Slide>
+    </Modal>
   );
 };
 
-export default withRouter(MissionFeedback);
-
-MissionFeedback.propTypes = {
-  /**
-   * Navigation history provided by React Router
-   */
-  history: PropTypes.object,
-
-  match: PropTypes.object,
-};
+export default MissionFeedback;
