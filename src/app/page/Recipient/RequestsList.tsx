@@ -28,6 +28,7 @@ import {
 import { ReactComponent as AppleIcon } from "../../../img/apple.svg";
 
 import Details from "./Details";
+import Feedback from "./MissionFeedback";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -106,6 +107,7 @@ function RecipientMissionCard({ mission }: { mission: MissionInterface }) {
         status={mission.status}
         fundedStatus={mission.fundedStatus}
         createdDate={mission.createdDate}
+        feedback={mission.feedbackNotes}
       />
       <CardActionArea onClick={toggle}>
         <CardHeader
@@ -121,7 +123,9 @@ function RecipientMissionCard({ mission }: { mission: MissionInterface }) {
       </CardActionArea>
       <Collapse in={open}>
         <Details mission={mission} />
-        {mission.status === Status.delivered && <ConfirmDelivery mission={mission} />}
+        {mission.status === Status.delivered && mission.feedbackNotes === "" && (
+          <ConfirmDelivery mission={mission} />
+        )}
       </Collapse>
       <CardActionArea onClick={toggle} className={classes.cardBottomToggle}>
         <Typography align="center" color="primary">
@@ -136,6 +140,7 @@ type TopBarProps = {
   status: Status;
   fundedStatus: FundedStatus;
   createdDate: string;
+  feedback: string;
   className?: string;
 };
 
@@ -147,12 +152,13 @@ function Icon({ fundedStatus, status, ...rest }: any) {
   return <FiberNew {...rest} />;
 }
 
-function TopBarText({ createdDate, fundedStatus, status }: any): any {
+function TopBarText({ createdDate, feedback, fundedStatus, status }: any): any {
   const date = new Date(createdDate).toLocaleDateString();
 
   if (status === Status.started) return `In progress | Accepted`;
-  if (status === Status.delivered) return `It's here! Confirm delivery below`;
   if (status === Status.succeeded) return `Delivery Confirmed`;
+  if (feedback) return `Feedback Submitted`;
+  if (status === Status.delivered) return `It's here! Confirm delivery below`;
   if (fundedStatus === FundedStatus.notfunded) return `Awaiting donation | Submitted ${date}`;
   return `Submitted ${date}`;
 }
@@ -195,6 +201,7 @@ const TopBar = styled(_TopBar)`
 
 function ConfirmDelivery({ mission }: { mission: MissionInterface }) {
   const classes = useStyles();
+  const [showFeedback, setShowFeedback] = useState(false);
   return (
     <>
       <Divider />
@@ -218,10 +225,17 @@ function ConfirmDelivery({ mission }: { mission: MissionInterface }) {
           variant="contained"
           startIcon={<CheckCircle />}
           color="primary"
+          onClick={() => setShowFeedback(true)}
         >
           Confirm Delivery
         </Button>
       </Box>
+      <Feedback
+        missionUid={mission.uid}
+        deliveryImage={mission.deliveryConfirmationImage}
+        show={showFeedback}
+        setShow={setShowFeedback}
+      />
     </>
   );
 }
