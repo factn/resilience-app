@@ -9,41 +9,10 @@ import {
   Acknowledgement,
   Step,
 } from "./Steps";
-import { makeStyles, Slide, Modal, Backdrop, Paper, IconButton } from "@material-ui/core";
-import { Close } from "@material-ui/icons";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    overflow: "auto",
-    paddingTop: "5rem",
-    paddingBottom: "2rem",
-    width: "100%",
-    maxWidth: theme.breakpoints.width("sm"),
-    position: "relative",
-    height: "100%",
-  },
-  modal: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    height: "100vh",
-  },
-  close: {
-    position: "absolute",
-    top: "0",
-    right: "0",
-    "& svg": {
-      width: "2.5rem",
-      height: "2.5rem",
-    },
-  },
-}));
+import { SlideUpContainer } from "../../component";
 
 const MissionFeedback = ({ deliveryImage, missionUid, setShow, show }) => {
-  const classes = useStyles();
   const [step, setStep] = useState(Step.CONFIRM_DELIVERY);
   const [feedback, setFeedback] = useState("");
   const snackbarContext = useContext(Snackbar.Context.SnackbarContext);
@@ -113,16 +82,9 @@ const MissionFeedback = ({ deliveryImage, missionUid, setShow, show }) => {
       Content = <DeliveryConfirmation {...contentProps} />;
   }
   return (
-    <Modal className={classes.modal} open={show} BackdropComponent={Backdrop}>
-      <Slide direction="up" in={show} mountOnEnter unmountOnExit>
-        <Paper square={true} className={classes.root}>
-          <IconButton className={classes.close} onClick={() => setShow(false)}>
-            <Close />
-          </IconButton>
-          {Content}
-        </Paper>
-      </Slide>
-    </Modal>
+    <SlideUpContainer show={show} onClose={goBack}>
+      {Content}
+    </SlideUpContainer>
   );
 };
 
