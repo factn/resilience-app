@@ -42,6 +42,7 @@ const routes: IRoutes = {
       missions: "/dashboard/missions",
       recipients: "/dashboard/recipients",
       volunteers: "/dashboard/volunteers",
+      create: "/dashboard/create",
     },
   },
 

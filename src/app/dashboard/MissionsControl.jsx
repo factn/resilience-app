@@ -1,6 +1,9 @@
 import { makeStyles } from "@material-ui/core/styles";
 import AnnouncementIcon from "@material-ui/icons/Announcement";
 import HomeIcon from "@material-ui/icons/Home";
+
+import AddCircleIcon from "@material-ui/icons/AddCircle";
+import PanToolIcon from "@material-ui/icons/PanTool";
 import PeopleIcon from "@material-ui/icons/People";
 import ExitToApp from "@material-ui/icons/ExitToApp";
 
@@ -9,6 +12,7 @@ import React from "react";
 import { useFirestoreConnect } from "react-redux-firebase";
 import { Switch } from "react-router-dom";
 
+import CreateMission from "./Missions/CreateMission";
 import { Mission, User } from "../model";
 import Appbar from "./Appbar";
 import Drawer from "./Drawer";
@@ -108,6 +112,12 @@ const MissionsPage = () => {
       route: routes.logout,
       icon: <ExitToApp />,
     },
+    {
+      text: "New Mission",
+      id: routes.organizer.dashboard.create,
+      route: routes.organizer.dashboard.create,
+      icon: <AddCircleIcon />,
+    },
   ];
 
   return (
@@ -126,6 +136,7 @@ const MissionsPage = () => {
       >
         <Switch>
           <AppRoute path={routes.organizer.dashboard.missions} component={DashboardMissions} />
+          <AppRoute path={routes.organizer.dashboard.create} component={CreateMission} />
           <AppRoute path={routes.organizer.dashboard.home} component={Overview} />
         </Switch>
       </main>
