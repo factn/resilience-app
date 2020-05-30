@@ -28,7 +28,7 @@ const GroupAutoComplete = ({ classes, groups, handleChange, selected }) => {
               type: "search",
             }}
             label="Search/Create a group"
-            placeholder="search group by name"
+            placeholder="Search group by name"
             variant="outlined"
           />
         )}
