@@ -19,10 +19,10 @@ const MissionFundedStatusRow = ({ classes, mission }) => {
   let missionFundedStatusText;
   switch (mission?.fundedStatus) {
     case Mission.FundedStatus.fundedbydonation:
-      missionFundedStatusText = `Funded By Donation ${fundedDateText}`;
+      missionFundedStatusText = `Funded By Donation ${mission.fundedDateText}`;
       break;
     case Mission.FundedStatus.fundedbyrecipient:
-      missionFundedStatusText = `Funded By Recipient ${fundedDateText}`;
+      missionFundedStatusText = `Funded By Recipient ${mission.fundedDateText}`;
       break;
     case Mission.FundedStatus.fundingnotneeded:
       missionFundedStatusText = "Funding Not Needed";
@@ -31,7 +31,7 @@ const MissionFundedStatusRow = ({ classes, mission }) => {
       missionFundedStatusText = "Not Yet Funded";
       break;
     default:
-      throw Error("mission funded status not exist", mission.fundedStatus);
+      missionFundedStatusText = "No Funded Status";
   }
   return (
     <Row Icon={AttachMoneyIcon} classes={classes}>
