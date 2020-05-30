@@ -4,7 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import React, { useEffect, useState } from "react";
 import GroupWorkIcon from "@material-ui/icons/GroupWork";
 import Divider from "@material-ui/core/Divider";
-import EditView from "./MissionEditView";
+import EditView from "./MissionDetailsEdit";
 
 import MuiExpansionPanel from "@material-ui/core/ExpansionPanel";
 import MuiExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
@@ -170,13 +170,15 @@ const MissionsListView = ({
   return (
     <Paper className={classes.root}>
       <Box hidden={view !== Views.details} width="100%">
-        <EditView
-          groups={groups}
-          mission={currentMission}
-          setSelectedMission={setSelectedMission}
-          toListView={() => setView(Views.list)}
-          volunteers={volunteers}
-        />
+        {currentMission && (
+          <EditView
+            groups={groups}
+            mission={currentMission}
+            setSelectedMission={setSelectedMission}
+            toListView={() => setView(Views.list)}
+            volunteers={volunteers}
+          />
+        )}
       </Box>
       <Box hidden={view !== Views.list} width="100%">
         <Grid container direction="column">
