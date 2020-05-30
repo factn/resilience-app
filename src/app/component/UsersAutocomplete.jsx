@@ -2,6 +2,7 @@ import { Avatar, Box, TextField } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import React, { Fragment } from "react";
+import { H6 } from "./";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,8 +32,11 @@ const SearchUsers = ({ editable, handleChange, selected, users }) => {
   };
   const options = users?.reduce(reducer, []) || [];
   const optionSelected = options.find((option) => option && selected && option.id === selected.id);
-  const defaultValue = editable ? optionSelected : "";
-  const value = !editable ? optionSelected : "";
+  const defaultValue = editable ? optionSelected : null;
+
+  if (!editable) {
+    return <H6>{selected.displayName + " " + selected.phoneNumber}</H6>;
+  }
 
   return (
     <Autocomplete
@@ -42,7 +46,6 @@ const SearchUsers = ({ editable, handleChange, selected, users }) => {
       classes={{ root: classes.root }}
       getOptionLabel={(user) => user.searchString}
       onChange={(event, newValue) => handleChange(newValue)}
-      value={value}
       defaultValue={defaultValue}
       renderInput={(params) => (
         <TextField

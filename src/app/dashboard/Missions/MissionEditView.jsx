@@ -1,12 +1,11 @@
 import { Box, Container, Grid, Paper, TextField } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
-import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import PanToolIcon from "@material-ui/icons/PanTool";
 import CancelIcon from "@material-ui/icons/Cancel";
 import PersonIcon from "@material-ui/icons/Person";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { isEmpty, isLoaded } from "react-redux-firebase";
 import { Button, Body2, H3 } from "../../component";
 import Switch from "@material-ui/core/Switch";
@@ -16,8 +15,10 @@ import { Mission } from "../../model";
 import _ from "../../utils/lodash";
 import AddressInput from "../../component/AddressInput";
 import UsersAutocomplete from "../../component/UsersAutocomplete";
+import GroupAutoComplete from "./component/GroupAutoComplete";
 import { useForm } from "../../hooks";
 import { MissionStatus } from "../../model/schema";
+import MissionFundedStatusRow from "./MissionFundedStatusRow";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -158,26 +159,6 @@ const MissionStatusRow = ({ classes, mission }) => {
   );
 };
 
-const MissionFundedStatusRow = ({ classes, mission }) => {
-  let missionFundedStatusText;
-  switch (mission?.fundedStatus) {
-    case Mission.FundedStatus.fundedbydonation:
-      missionFundedStatusText = "Funded By Donation";
-      break;
-    case Mission.FundedStatus.fundedbyrecipient:
-      missionFundedStatusText = "Funded By Recipient";
-      break;
-    case Mission.FundedStatus.notfunded:
-    default:
-      missionFundedStatusText = "Not Yet Funded";
-  }
-  return (
-    <Row Icon={AttachMoneyIcon} classes={classes}>
-      {missionFundedStatusText}
-    </Row>
-  );
-};
-
 const FoodBoxDetailsRow = ({ details }) => {
   return (
     <Box>
@@ -201,7 +182,7 @@ const MissionDetailsRow = ({ mission }) => {
 
 const volunteerStatus = [MissionStatus.unassigned, MissionStatus.tentative, MissionStatus.assigned];
 
-const getVolunteerAttribute = (selectedVolunteer, status, attr, tentativeClause) => {
+const getVolunteerAttribute = (selectedVolunteer, attr, tentativeClause) => {
   if (selectedVolunteer && tentativeClause) {
     return selectedVolunteer[attr];
   }
@@ -212,7 +193,7 @@ const getVolunteerAttribute = (selectedVolunteer, status, attr, tentativeClause)
  * Component for editing mission details
  * @component
  */
-const MissionEditView = ({ mission, toDetailsView, toListView, volunteers }) => {
+const MissionEditView = ({ groups, mission, toDetailsView, toListView, volunteers }) => {
   const classes = useStyles();
 
   const { handleChange, values } = useForm(mission);
@@ -227,7 +208,12 @@ const MissionEditView = ({ mission, toDetailsView, toListView, volunteers }) => 
     location: "",
   });
   const [selectedVolunteer, setSelectedVolunteer] = useState(
-    volunteers.find((el) => el.id === mission.volunteerUid)
+    volunteers.find(
+      (el) => el.id === mission.volunteerUid || el.id === mission.tentativeVolunteerUid
+    )
+  );
+  const [selectedGroup, setSelectedGroup] = useState(
+    groups.find((el) => el.id === mission.groupUid)
   );
 
   const props = { classes, mission };
@@ -270,40 +256,36 @@ const MissionEditView = ({ mission, toDetailsView, toListView, volunteers }) => 
       deliveryWindow: {
         startTime: delivery.toString(),
       },
+      groupUid: selectedGroup ? selectedGroup.id : "",
+      groupDisplayName: selectedGroup ? selectedGroup.displayName : "",
       volunteerUid: getVolunteerAttribute(
         selectedVolunteer,
-        values.status,
-        "volunteerUid",
+        "id",
         values.status !== MissionStatus.tentative
       ),
       volunteerDisplayname: getVolunteerAttribute(
         selectedVolunteer,
-        values.status,
-        "volunteerDisplayName",
+        "displayName",
         values.status !== MissionStatus.tentative
       ),
       volunteerPhoneNumber: getVolunteerAttribute(
         selectedVolunteer,
-        values.status,
-        "volunteerPhoneNumber",
+        "phoneNumber",
         values.status !== MissionStatus.tentative
       ),
       tentativeVolunteerUid: getVolunteerAttribute(
         selectedVolunteer,
-        values.status,
-        "volunteerUid",
+        "id",
         values.status === MissionStatus.tentative
       ),
       tentativeVolunteerDisplayName: getVolunteerAttribute(
         selectedVolunteer,
-        values.status,
-        "volunteerDisplayName",
+        "displayName",
         values.status === MissionStatus.tentative
       ),
       tentativeVolunteerPhoneNumber: getVolunteerAttribute(
         selectedVolunteer,
-        values.status,
-        "volunteerPhoneNumber",
+        "phoneNumber",
         values.status === MissionStatus.tentative
       ),
       readyToStart: values.readyToStart,
@@ -323,6 +305,8 @@ const MissionEditView = ({ mission, toDetailsView, toListView, volunteers }) => 
             <MissionImage {...props} />
             <MissionTypeRow {...props} />
             <MissionDetailsRow {...props} />
+            <MissionFundedStatusRow {...props} />
+            <MissionStatusRow {...props} />
 
             <Card label="Pick Up Details" classes={classes}>
               <Row Icon={ScheduleIcon} classes={classes}>
@@ -368,10 +352,12 @@ const MissionEditView = ({ mission, toDetailsView, toListView, volunteers }) => 
                     <Grid item className={classes.fullWidth}>
                       <AddressInput
                         className={classes.textField}
+                        id="pickup-address-id"
                         placeholder={values.pickUpLocation?.address}
                         stage={values.pickUpLocation}
                         setStage={handleChangeLocation.bind(null, "pickUpLocation")}
                         setLocation={handleChangeLocation}
+                        value={values.pickUpLocation?.address}
                       />
                     </Grid>
                   </Grid>
@@ -380,7 +366,6 @@ const MissionEditView = ({ mission, toDetailsView, toListView, volunteers }) => 
             </Card>
             <Card label="Delivery Details" classes={classes}>
               <Row Icon={ScheduleIcon} classes={classes}>
-                                   
                 <DateTimeInput
                   dateInputProps={{
                     id: "date-delivery",
@@ -394,17 +379,18 @@ const MissionEditView = ({ mission, toDetailsView, toListView, volunteers }) => 
                   }}
                   value={deliveryTime}
                 />
-                              
               </Row>
               <Row Icon={LocationOnIcon} classes={classes}>
                 <Grid container direction="row">
                   <Grid item className={classes.fullWidth}>
                     <AddressInput
                       className={classes.textField}
+                      id="delivery-address-id"
                       placeholder={values.deliveryLocation?.address}
                       stage={values.deliveryLocation}
                       setStage={handleChangeLocation.bind(null, "deliveryLocation")}
                       setLocation={handleChangeLocation}
+                      value={values.deliveryLocation?.address}
                     />
                   </Grid>
                 </Grid>
@@ -456,7 +442,6 @@ const MissionEditView = ({ mission, toDetailsView, toListView, volunteers }) => 
             </Card>
 
             <Row classes={classes}>
-                                 
               <Grid container direction="row" spacing={1} className={classes.rowBody}>
                 <Grid item>
                   <Switch
@@ -471,6 +456,15 @@ const MissionEditView = ({ mission, toDetailsView, toListView, volunteers }) => 
                 </Grid>
               </Grid>
             </Row>
+
+            <Card label="Group" classes={classes}>
+              <GroupAutoComplete
+                classes={classes}
+                groups={groups}
+                handleChange={setSelectedGroup}
+                selected={selectedGroup}
+              />
+            </Card>
 
             <Label classes={classes}>Delivery Notes</Label>
             <Row classes={classes}>
