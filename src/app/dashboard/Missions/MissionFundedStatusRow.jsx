@@ -17,7 +17,6 @@ const Row = ({ children, Icon }) => {
 
 const MissionFundedStatusRow = ({ classes, mission }) => {
   let missionFundedStatusText;
-  let fundedDateText = mission.fundedDate ? " on " + mission.fundedDate : "";
   switch (mission?.fundedStatus) {
     case Mission.FundedStatus.fundedbydonation:
       missionFundedStatusText = "Funded By Donation ${fundedDateText}";
@@ -42,3 +41,4 @@ const MissionFundedStatusRow = ({ classes, mission }) => {
 };
 
 export default MissionFundedStatusRow;
+
