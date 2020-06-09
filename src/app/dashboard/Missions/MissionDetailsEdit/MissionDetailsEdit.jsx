@@ -1,15 +1,12 @@
 import { Box, Container, Grid, Paper, TextField } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import MissionDetailsRow from "./MissionDetailsRow";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import PanToolIcon from "@material-ui/icons/PanTool";
-import CancelIcon from "@material-ui/icons/Cancel";
 import PersonIcon from "@material-ui/icons/Person";
 import React, { useState } from "react";
-import { Button, Body2, H3, H2 } from "../../../component";
+import { Button, Body2, H2 } from "../../../component";
 import Switch from "@material-ui/core/Switch";
-import DateTimeInput from "../../../component/DateTimeInput";
 import ScheduleIcon from "@material-ui/icons/Schedule";
 import { Mission } from "../../../model";
 import _ from "../../../utils/lodash";
@@ -18,7 +15,9 @@ import UsersAutocomplete from "../../../component/UsersAutocomplete";
 import GroupAutoComplete from "../component/GroupAutoComplete";
 import { useForm } from "../../../hooks";
 import { MissionStatus } from "../../../model/schema";
-import MissionFundedStatusRow from "../MissionFundedStatusRow";
+import MissionDetailsRow from "./MissionDetailsRow";
+import RecipientInformation from "./RecipientInformation";
+import PickupInformation from "./PickupInformation";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -264,7 +263,7 @@ const MissionEditView = ({ groups, mission, toListView, volunteers }) => {
       <Paper className={classes.root} elevation={0}>
         <Box position="relative" textAlign="center" paddingTop="2rem">
           <Box onClick={toListView} position="absolute">
-            <CancelIcon />
+            <ArrowBackIcon />
           </Box>
           <H2>Mission Details</H2>
         </Box>
@@ -272,25 +271,13 @@ const MissionEditView = ({ groups, mission, toListView, volunteers }) => {
         <Box>
           <MissionImage {...props} />
           <MissionDetailsRow {...props} />
-          <MissionFundedStatusRow {...props} />
-          <MissionStatusRow {...props} />
+          <Box>
+            <RecipientInformation {...props} />
+            <PickupInformation {...props} />
+          </Box>
 
           <Card label="Pick Up Details" classes={classes}>
-            <Row Icon={ScheduleIcon} classes={classes}>
-              <DateTimeInput
-                dateInputProps={{
-                  id: "date-pickup",
-                  label: "Pickup Date",
-                }}
-                onChange={setPickUp}
-                required
-                timeInputProps={{
-                  id: "time-pickup",
-                  label: "Pickup Time",
-                }}
-                value={pickUp}
-              />
-            </Row>
+            <Row Icon={ScheduleIcon} classes={classes}></Row>
             <Grid
               container
               direction="row"
@@ -333,19 +320,7 @@ const MissionEditView = ({ groups, mission, toListView, volunteers }) => {
           </Card>
           <Card label="Delivery Details" classes={classes}>
             <Row Icon={ScheduleIcon} classes={classes}>
-              <DateTimeInput
-                dateInputProps={{
-                  id: "date-delivery",
-                  label: "Delivery Date",
-                }}
-                onChange={setDeliveryTime}
-                required
-                timeInputProps={{
-                  id: "time-delivery",
-                  label: "Delivery Time",
-                }}
-                value={deliveryTime}
-              />
+              >
             </Row>
             <Row Icon={LocationOnIcon} classes={classes}>
               <Grid container direction="row">

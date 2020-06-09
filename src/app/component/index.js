@@ -3,6 +3,8 @@ import Button from "./Button";
 import Chip from "./Chip";
 import { FoodBoxIcon } from "./icons";
 
+import DateTimeInput from "./DateTimeInput";
+
 import MissionCard from "./MissionComponent/MissionCard";
 import MissionGroup from "./MissionComponent/MissionGroup";
 import MissionList from "./MissionComponent/MissionList";
@@ -41,4 +43,5 @@ export {
   Body2,
   Div,
   TypographyWrapper,
+  DateTimeInput,
 };
