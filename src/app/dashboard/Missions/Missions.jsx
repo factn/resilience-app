@@ -130,7 +130,14 @@ const DashboardMissions = ({ inDone, inPlanning, inProgress, inProposed, volunte
   return (
     <>
       <Grid item container spacing={2} className={classes.viewButtons}>
-        <ViewButtons inDone={inDone} inPlanning={inPlanning} inProgress={inProgress} inProposed={inProposed} missionsView={viewFromUrl} classes={classes} />
+        <ViewButtons
+          inDone={inDone}
+          inPlanning={inPlanning}
+          inProgress={inProgress}
+          inProposed={inProposed}
+          missionsView={viewFromUrl}
+          classes={classes}
+        />
       </Grid>
       <Grid item container className={classes.main} xs>
         <Grid item className={listClassName}>
