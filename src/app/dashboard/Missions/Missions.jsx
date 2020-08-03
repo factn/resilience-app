@@ -162,7 +162,7 @@ const mapStateToProps = (state, ownProps) => {
   let inPlanning = Mission.selectInPlanning(state);
   let inProgress = Mission.selectInProgress(state);
   let inDone = Mission.selectInDone(state);
-  let volunteers = state.firestore.ordered.volunteers;
+  let volunteers = Mission.selectVolunteers(state);
 
   return {
     user: state.firebase.auth,

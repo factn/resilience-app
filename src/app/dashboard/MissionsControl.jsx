@@ -2,6 +2,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import AnnouncementIcon from "@material-ui/icons/Announcement";
 import HomeIcon from "@material-ui/icons/Home";
 import PeopleIcon from "@material-ui/icons/People";
+import AssignmentIcon from "@material-ui/icons/Assignment";
 import ExitToApp from "@material-ui/icons/ExitToApp";
 
 import clsx from "clsx";
@@ -56,7 +57,7 @@ const MissionsPage = () => {
   const org = useOrganization();
 
   useFirestoreConnect(() => {
-    const id = org.uid;
+    const id = org?.uid;
     return [
       Mission.fsInProposed(id),
       Mission.fsInPlanning(id),
@@ -107,6 +108,12 @@ const MissionsPage = () => {
       id: routes.logout,
       route: routes.logout,
       icon: <ExitToApp />,
+    },
+    {
+      text: "Resilience App",
+      id: "/",
+      route: "/",
+      icon: <AssignmentIcon />,
     },
   ];
 
