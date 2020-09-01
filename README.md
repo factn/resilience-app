@@ -133,9 +133,9 @@ _Note:_ A route will be **inaccessible** (404 Page Not Found) if you:
 - don't define the route in [src/app/routing/routes.ts](.src/app/routing/routes.ts)
 - don't define any permissions for the route in [src/app/routing/RoutePermissions.ts](./src/app/routing/RoutePermissions.ts). We consider the route as not ready because it hasn't been configured.
 
-## Contributing your code, and getting involved
+## Contributing your code, documentation or design, and getting involved!
 
-See [CONTRIBUTING.md](https://github.com/factn/resilience-app/blob/master/CONTRIBUTING.md) for more details on how to get involved.
+See [CONTRIBUTING.md](https://github.com/factn/resilience-app/blob/master/CONTRIBUTING.md) for more details on how to get involved as a developer writing code and squashing bugs, a documentarian writing and improving our documentation or a designer looking to offer everything from design research/insight to graphics, User interface and visuals.
 
 ### Formatting your code
 
