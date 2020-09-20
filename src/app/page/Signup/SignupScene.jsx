@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 import Snackbar from "../../component/Snackbars/Snackbar";
 import useForm from "../../hooks/useForm";
@@ -13,6 +13,7 @@ import SignupSuccessPage from "./SignupSuccess";
 import UserProfilePage from "./UserProfile";
 import { withRouter } from "react-router-dom";
 import { routes } from "../../routing";
+import { SnackbarContext } from "../../component/Snackbars/Context";
 
 const Tabs = {
   GET_STARTED: "volunteer call to action to sign up",
@@ -28,8 +29,7 @@ const Tabs = {
 function SignupScene(props) {
   const { handleChange, setValues, values } = useForm(User.defaultData);
   const [activeTab, setActiveTab] = useState(Tabs.GET_STARTED);
-  const [errorSnackbarMessage, setErrorSnackbarMessage] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const snackbarContext = useContext(SnackbarContext);
   const org = useOrganization();
 
   function getPayload() {
@@ -46,59 +46,54 @@ function SignupScene(props) {
     };
   }
 
-  function handleSignupSuccess(user) {
-    setValues({
-      ...values,
+  async function handleSignupSuccess(user) {
+    let data = {
+      ...getPayload(),
       phoneNumber: user.phoneNumber,
       displayName: user.displayName,
       email: user.email,
       photoURL: user.photoURL,
-    });
-    updateUser();
-    setActiveTab(Tabs.CONNECT);
-    return false;
+      uid: user.uid,
+    };
+    await updateUser(data, () => setActiveTab(Tabs.CONNECT));
   }
-  function handleConnectSuccess(user) {
-    setValues({
-      ...values,
+
+  async function handleConnectSuccess(user) {
+    let data = {
+      ...getPayload(),
       displayName: user.displayName,
       email: user.email,
       photoURL: user.photoURL,
-    });
-    updateUser();
-    setActiveTab(Tabs.PROFILE);
-    return false;
+      uid: user.uid,
+    };
+    await updateUser(data, () => setActiveTab(Tabs.PROFILE));
   }
-  async function updateUser() {
-    const payload = getPayload();
 
-    let location = payload?.location;
-    try {
-      if (location.address) {
-        const data = await addressLookup(location.address);
-        location = { ...location, lat: data.lat, lng: data.long };
-      }
-    } catch (error) {
-      console.log("ERROR WHEN GETTiNG LOCATION", error);
-      console.log("address: ", location.address);
-    }
-
-    /*
-    try {
-      setLoading(true);
-      User.update(payload.id, payload).then(() => {
-        setLoading(false);
-        setActiveTab(Tabs.SUCCESS);
-      });
-    } catch (error) {
-      setLoading(false);
-      setErrorSnackbarMessage(error);
+  async function handleProfileUpdate() {
+    await updateUser({ ...getPayload() }, () => {
       setActiveTab(Tabs.SUCCESS);
-    }
-    */
+      snackbarContext.show({
+        message: "Congratulations, your volunteer account has been created!",
+        type: "success",
+      });
+    });
   }
 
-  let Active = null;
+  async function updateUser(payload, callback) {
+    try {
+      await User.update(payload.uid, payload);
+      setValues({ ...payload });
+      callback();
+    } catch (error) {
+      snackbarContext.show({
+        message: `Error while submitting request. Please try again: ${error.message}`,
+        type: "error",
+      });
+      setValues({ ...payload });
+    }
+  }
+
+  let Active;
   switch (activeTab) {
     case Tabs.GET_STARTED:
       Active = (
@@ -125,33 +120,20 @@ function SignupScene(props) {
       break;
     case Tabs.PROFILE:
       Active = (
-        <UserProfilePage handleChange={handleChange} onSubmit={updateUser} values={values} />
+        <UserProfilePage
+          handleChange={handleChange}
+          onSubmit={handleProfileUpdate}
+          values={values}
+        />
       );
       break;
     case Tabs.SUCCESS:
     default:
-      Active = <SignupSuccessPage onClick={() => props.history.push(routes.home)} />;
+      Active = <SignupSuccessPage handleButtonClick={() => props.history.push(routes.home)} />;
       break;
   }
 
-  const showSuccessSnackbar = !errorSnackbarMessage && activeTab === 4;
-  const snackbarOpen = errorSnackbarMessage || showSuccessSnackbar;
-  const snackbarType = showSuccessSnackbar ? "success" : "error";
-  const snackbarMessage = showSuccessSnackbar
-    ? "Your account request has been successfully submitted and is pending approval"
-    : `Error while submitting request. Please try again. ${errorSnackbarMessage}`;
-  return (
-    <>
-      {Active}
-      <Snackbar
-        open={snackbarOpen}
-        handleClose={() => setErrorSnackbarMessage(false)}
-        type={snackbarType}
-        message={snackbarMessage}
-        autoHideDuration={4000}
-      />
-    </>
-  );
+  return <>{Active}</>;
 }
 
 SignupScene.propTypes = {

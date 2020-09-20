@@ -40,7 +40,7 @@ function SignupSuccess({ handleButtonClick }) {
 }
 
 SignupSuccess.propTypes = {
-  handleButtonClick: PropTypes.func,
+  handleButtonClick: PropTypes.func.isRequired,
 };
 
 export default SignupSuccess;
