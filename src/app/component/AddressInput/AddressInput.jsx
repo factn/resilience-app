@@ -22,7 +22,17 @@ const useStyles = makeStyles((theme) => ({
 
 const AddressInput = (props) => {
   const classes = useStyles();
-  const { disabled, error, location, onClear, placeholder, setLocation, showMap, value } = props;
+  const {
+    disabled,
+    error,
+    id,
+    location,
+    onClear,
+    placeholder,
+    setLocation,
+    showMap,
+    value,
+  } = props;
 
   const [zoom, setZoom] = useState(0);
   const [position, setPosition] = useState([0, 0]);
@@ -107,6 +117,7 @@ const AddressInput = (props) => {
         ) : (
           <AlgoliaPlaces
             placeholder={placeholder || "Search address"}
+            id={id}
             name={location}
             options={{
               appId: ALGOLIA_APP_ID,
