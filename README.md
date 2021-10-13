@@ -21,7 +21,7 @@
     <br />
     Learn more about us at <a href="https://mutualaid.world">MutualAid.world</a>
     <br />
-    <a href="https://app.gitbook.com/@mutualaidworld/s/docs/"><strong>Explore the docs »</strong></a>
+    <a href="https://mutualaidworld.gitbook.io/docs/"><strong>Explore the docs »</strong></a>
     <br />
     <br />
     <a href="https://github.com/factn/resilience-app/issues">Report Bug</a>
