@@ -11,6 +11,7 @@ import ListView from "./ListView";
 import MapView from "./MapView";
 
 import clsx from "clsx";
+import { isDoExpression } from "babel-types";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -52,12 +53,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ViewButtons = ({ classes, missionsView }) => {
+const ViewButtons = ({ classes, inDone, inPlanning, inProgress, inProposed, missionsView }) => {
   const history = useHistory();
   const ordered = [
     {
       view: "inProposed",
-      text: "Proposed",
+      text: "Proposed (" + inProposed.length + ")",
       onClick: () =>
         history.replace({
           search: _.setQueryParam("view", "inProposed"),
@@ -65,7 +66,7 @@ const ViewButtons = ({ classes, missionsView }) => {
     },
     {
       view: "inPlanning",
-      text: "Planning",
+      text: "Planning (" + inPlanning.length + ")",
       onClick: () =>
         history.replace({
           search: _.setQueryParam("view", "inPlanning"),
@@ -73,7 +74,7 @@ const ViewButtons = ({ classes, missionsView }) => {
     },
     {
       view: "inProgress",
-      text: "In Progress",
+      text: "In Progress (" + inProgress.length + ")",
       onClick: () =>
         history.replace({
           search: _.setQueryParam("view", "inProgress"),
@@ -81,7 +82,7 @@ const ViewButtons = ({ classes, missionsView }) => {
     },
     {
       view: "inDone",
-      text: "Done",
+      text: "Done (" + inDone.length + ")",
       onClick: () =>
         history.replace({
           search: _.setQueryParam("view", "inDone"),
@@ -129,7 +130,14 @@ const DashboardMissions = ({ inDone, inPlanning, inProgress, inProposed, volunte
   return (
     <>
       <Grid item container spacing={2} className={classes.viewButtons}>
-        <ViewButtons missionsView={viewFromUrl} classes={classes} />
+        <ViewButtons
+          inDone={inDone}
+          inPlanning={inPlanning}
+          inProgress={inProgress}
+          inProposed={inProposed}
+          missionsView={viewFromUrl}
+          classes={classes}
+        />
       </Grid>
       <Grid item container className={classes.main} xs>
         <Grid item className={listClassName}>
